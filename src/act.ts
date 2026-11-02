@@ -47,6 +47,12 @@ export function buildActMap(graph: SiteGraph, seed: number): MapNode[] {
     nodes.push({ id: `f${floor}x${x}`, floor, x, kind, label: page.title, sourcePath: page.path,
       next: [floor === 14 ? 'boss' : `f${floor + 1}x${x}`], easy: floor < 3 && kind === 'fight' });
   }
+  // Cross-links between neighboring lanes, one direction per gap so paths never cross.
+  for (let floor = 0; floor < 14; floor++) for (let x = 0; x < 2; x++) {
+    const roll = random();
+    if (roll < 0.35) nodes[floor * 3 + x].next.push(`f${floor + 1}x${x + 1}`);
+    else if (roll < 0.7) nodes[floor * 3 + x + 1].next.push(`f${floor + 1}x${x}`);
+  }
   const home = graph.pages.find(page => page.path === '/');
   const bossPage = home || [...graph.pages].sort((a, b) =>
     b.path.split('/').filter(Boolean).length - a.path.split('/').filter(Boolean).length ||

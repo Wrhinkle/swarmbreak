@@ -54,14 +54,14 @@ export const ROLE_STATS: Record<Role, { hp: number; power: number; speed: number
   mirror: { hp: 26, power: 4, speed: 8 },
 };
 export const TIER_SCALE: Record<Tier, { hp: number; power: number }> = {
-  easy: { hp: 0.7, power: 0.7 },
-  regular: { hp: 1, power: 1 },
-  elite: { hp: 2, power: 1.4 },
-  boss: { hp: 5, power: 1.6 },
+  easy: { hp: 0.91, power: 0.91 },
+  regular: { hp: 1.6, power: 1.6 },
+  elite: { hp: 2.8, power: 1.96 },
+  boss: { hp: 7.5, power: 2.4 },
   ally: { hp: 1.4, power: 1 },
 };
 
 export const SLOTS_START = 3;
 export const SLOTS_MAX = 8;
 export const CREW_MAX = 4;
-export const OVERRIDE_COOLDOWN_TICKS = 60;
+export const OVERRIDE_COOLDOWN_TICKS = 20;

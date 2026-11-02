@@ -86,8 +86,9 @@ function nextRandom(s: CombatState): number {
   value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
   return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
 }
-export function step(state: CombatState): CombatState {
-  const s = structuredClone(state); if (s.result) return s; s.t++; nextRandom(s); s.cooldown = Math.max(0, s.cooldown - 1);
+export function step(state: CombatState): CombatState { return advance(structuredClone(state)); }
+function advance(s: CombatState): CombatState {
+  if (s.result) return s; s.t++; nextRandom(s); s.cooldown = Math.max(0, s.cooldown - 1);
   for (const f of [...s.fighters]) {
     if (f.hp <= 0) continue;
     if (f.corrupted > 0) { if (f.corrupted % 4 === 0) { f.hp = Math.max(0, f.hp - 1); emit(s, 'damage', f, f, 1, 'corrupt'); if (!f.hp) emit(s, 'death', f, f, 0, 'corrupt'); } f.corrupted--; if (f.hp <= 0) continue; }
@@ -102,4 +103,4 @@ export function step(state: CombatState): CombatState {
   if (!living(s, 'crew').length) s.result = 'loss'; else if (!living(s, 'enemy').length) s.result = 'win'; else if (s.t >= 3000) s.result = 'loss';
   return s;
 }
-export function simulate(state: CombatState, ticks: number): CombatState { let s = state; for (let i = 0; i < ticks && !s.result; i++) s = step(s); return s; }
+export function simulate(state: CombatState, ticks: number): CombatState { const s = structuredClone(state); for (let i = 0; i < ticks && !s.result; i++) advance(s); return s; }

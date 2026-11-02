@@ -1,7 +1,7 @@
 {
-  "runId": "dev",
-  "opensAt": "2026-01-01T00:00:00Z",
-  "nextOpensAt": "2099-01-01T00:00:00Z",
-  "runUrl": "/runs/dev/run.json",
+  "runId": "2026-11-02",
+  "opensAt": "2026-11-02T13:00:00Z",
+  "nextOpensAt": "2026-11-03T13:00:00Z",
+  "runUrl": "/runs/2026-11-02/run.json",
   "voided": []
 }
