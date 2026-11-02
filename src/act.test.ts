@@ -18,6 +18,9 @@ describe('parsePage', () => {
     expect(page.title).toBe('Example');
     expect(page.headings).toEqual(['Welcome']);
     expect(page.excerpt.length).toBeLessThanOrEqual(200);
+    const chrome = parsePage('<body><header><h2>Menu</h2>Skip to main content</header><main><h1>Real</h1><p>This paragraph is the real content of the page and belongs in the excerpt.</p></main></body>', '/x');
+    expect(chrome.excerpt).toMatch(/^This paragraph/);
+    expect(chrome.headings).toEqual(['Real']);
     expect(page.excerpt).not.toMatch(/Hidden|compromised|footer|css|Navigate/);
     expect(page.links).toEqual(['/nav', '/inside', '/other']);
     expect((globalThis as typeof globalThis & { compromised?: boolean }).compromised).toBeUndefined();

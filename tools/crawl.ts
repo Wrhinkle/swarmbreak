@@ -7,7 +7,7 @@ import type { SiteGraph, SitePage } from '../src/types';
 
 type Node = DefaultTreeAdapterMap['node'];
 type Element = DefaultTreeAdapterMap['element'];
-const ignored = new Set(['script', 'style', 'nav', 'footer', 'noscript', 'template']);
+const ignored = new Set(['script', 'style', 'nav', 'footer', 'header', 'aside', 'noscript', 'template']);
 const clean = (s: string) => s.replace(/\s+/g, ' ').trim();
 
 function children(node: Node): Node[] {
@@ -23,6 +23,13 @@ function eligible(url: URL): boolean {
   const path = url.pathname.toLowerCase();
   if (/(?:^|\/)(?:log-?in|sign-?in|search|cart|account)(?:\/|$|[.;])/.test(path)) return false;
   return !/\.[a-z0-9]{1,10}$/i.test(path) || /\.html?$/i.test(path);
+}
+
+const attr = (n: Element, name: string) => n.attrs.find(a => a.name === name)?.value;
+function find(node: Node, test: (n: Element) => boolean): Element | undefined {
+  if ('tagName' in node && test(node as Element)) return node as Element;
+  for (const child of children(node)) { const hit = find(child, test); if (hit) return hit; }
+  return undefined;
 }
 
 /** Parse with an absolute page URL when available; a path accepts relative links only. */
@@ -58,6 +65,19 @@ export function parsePage(html: string, path: string): SitePage {
     for (const child of children(node)) walk(child, hidden);
   }
   walk(document);
+  // Prefer the page's main content, so menus and site chrome stay out of the excerpt and headings.
+  const main = find(document, n => (n.tagName === 'main' || n.tagName === 'article' || attr(n, 'role') === 'main' || attr(n, 'id') === 'main-content') && clean(content(n)).length > 40); // skip-link anchors share these ids
+  const root = main ?? body;
+  if (root) {
+    const inMain = (function collect(node: Node): Element[] {
+      if ('tagName' in node && (ignored.has(node.tagName) || /banner|menu|breadcrumb/i.test(attr(node as Element, 'class') ?? ''))) return [];
+      return [...('tagName' in node ? [node as Element] : []), ...children(node).flatMap(collect)];
+    })(root);
+    const mainHeadings = !main ? [] : inMain.filter(n => /^h[1-6]$/.test(n.tagName)).map(n => clean(content(n))).filter(Boolean);
+    if (mainHeadings.length) headings.splice(0, headings.length, ...mainHeadings);
+    const prose = inMain.filter(n => n.tagName === 'p').map(n => clean(content(n))).filter(t => t.length > 40).join(' ');
+    body = prose ? { nodeName: '#text', value: prose } as unknown as Node : root;
+  }
   const pathname = base.pathname;
   return { path: pathname, title: title || headings[0] || pathname, section: pathname.split('/').filter(Boolean)[0] || 'home', excerpt: clean(body ? content(body) : content(document)).slice(0, 200), headings, links };
 }
