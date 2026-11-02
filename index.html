@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Swarmbreak — Volcano</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #10151d; color: #e9eef4; font: 16px/1.5 system-ui, sans-serif; }
+    main { max-width: 1280px; padding: 24px; margin: auto; min-width: 0; }
+    h1 { margin: 0; font-size: 2rem; }
+    p { color: #b9c7d5; }
+    a { color: #8cd6f5; }
+    #map { overflow: auto; max-width: 100%; height: min(65vh, 600px); border: 1px solid #415365; border-radius: 8px; background: #18232e; }
+    canvas { display: block; }
+    @media (max-width: 600px) { main { padding: 16px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 id="title">Loading map…</h1>
+    <p id="status" aria-live="polite"></p>
+    <div id="map" tabindex="0" aria-label="Scrollable dungeon map"><canvas id="canvas"></canvas></div>
+    <p>Source: <a href="https://en.wikipedia.org/wiki/Volcano">Volcano</a> by Wikipedia contributors, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
