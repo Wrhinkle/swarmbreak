@@ -4,6 +4,18 @@ import html from '../snapshots/wikipedia-volcano.html?raw';
 const act = generateAct(html, 'https://en.wikipedia.org/wiki/Volcano');
 document.querySelector('#title')!.textContent = act.title;
 document.querySelector('#status')!.textContent = `${act.rooms.length} rooms · Exit reachable: ${exitReachable(act) ? 'yes' : 'no'}`;
+const roomList = document.querySelector('#room-list')!;
+for (const room of act.rooms) {
+  const connectedIds = new Set<number>();
+  for (const path of act.paths) {
+    if (path.from === room.id) connectedIds.add(path.to);
+    if (path.to === room.id) connectedIds.add(path.from);
+  }
+  const connections = act.rooms.filter(other => connectedIds.has(other.id)).map(other => other.name);
+  const item = document.createElement('li');
+  item.textContent = `${room.name} (${room.kind}). Connects to: ${connections.join(', ') || 'none'}.`;
+  roomList.appendChild(item);
+}
 const canvas = document.querySelector('canvas')!;
 const padding = 40;
 canvas.width = Math.max(...act.rooms.map(r => r.x + r.width)) + padding * 2;

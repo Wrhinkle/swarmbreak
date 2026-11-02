@@ -20,7 +20,11 @@
   <main>
     <h1 id="title">Loading map…</h1>
     <p id="status" aria-live="polite"></p>
-    <div id="map" tabindex="0" aria-label="Scrollable dungeon map"><canvas id="canvas"></canvas></div>
+    <div id="map" tabindex="0" aria-label="Scrollable dungeon map; see the room list below"><canvas id="canvas" aria-hidden="true"></canvas></div>
+    <details>
+      <summary>Room list</summary>
+      <ul id="room-list"></ul>
+    </details>
     <p>Source: <a href="https://en.wikipedia.org/wiki/Volcano">Volcano</a> by Wikipedia contributors, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
   </main>
   <script type="module" src="/src/main.ts"></script>
