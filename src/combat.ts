@@ -18,7 +18,7 @@ export function fighter(creature: Creature, side: Fighter['side'], id: string, h
 export function createCombat(crew: { creature: Creature; hp?: number }[], enemies: Creature[], seed: number): CombatState {
   return { t: 0, seed: seed >>> 0, fighters: [...crew.map((c, i) => fighter(c.creature, 'crew', `c${i}`, c.hp)), ...enemies.map((c, i) => fighter(c, 'enemy', `e${i}`))], events: [], result: null, goldStolen: 0, cooldown: 0, queued: null, serial: 0 };
 }
-const CORRUPT_DAMAGE = 6;
+const CORRUPT_DAMAGE = 1;
 const living = (s: CombatState, side: Fighter['side']) => s.fighters.filter(f => f.side === side && f.hp > 0);
 const lowest = (fs: Fighter[]) => fs.reduce<Fighter | undefined>((a, b) => !a || b.hp < a.hp ? b : a, undefined);
 const neediest = (fs: Fighter[]) => fs.reduce<Fighter | undefined>((a, b) => !a || b.hp / b.maxHp < a.hp / a.maxHp ? b : a, undefined);

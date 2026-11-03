@@ -1,0 +1,44 @@
+{
+ "crew": [
+  {
+   "id": "wren",
+   "name": "Wren",
+   "blurb": "Field medic. Keeps the crew running with thread and solder.",
+   "bodyPlan": "humanoid",
+   "role": "healer",
+   "routines": [
+    "patch",
+    "strike"
+   ],
+   "source": "/",
+   "look": "a small field medic in a patched canvas coat, carrying a satchel and a large needle and thread"
+  },
+  {
+   "id": "ox",
+   "name": "Ox",
+   "blurb": "Shield bearer. Has walked out of worse.",
+   "bodyPlan": "humanoid",
+   "role": "shielder",
+   "routines": [
+    "cover",
+    "brace",
+    "strike"
+   ],
+   "source": "/",
+   "look": "a broad shield bearer in riveted scrap armor with a huge round shield made from a hatch door"
+  },
+  {
+   "id": "kestrel",
+   "name": "Kestrel",
+   "blurb": "Breaker. Finds the seam in anything and pulls.",
+   "bodyPlan": "humanoid",
+   "role": "bruiser",
+   "routines": [
+    "finish",
+    "strike"
+   ],
+   "source": "/",
+   "look": "a lean scout in a hooded jacket wielding a long crowbar"
+  }
+ ]
+}

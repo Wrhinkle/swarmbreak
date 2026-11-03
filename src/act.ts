@@ -50,8 +50,8 @@ export function buildActMap(graph: SiteGraph, seed: number): MapNode[] {
   // Cross-links between neighboring lanes, one direction per gap so paths never cross.
   for (let floor = 0; floor < 14; floor++) for (let x = 0; x < 2; x++) {
     const roll = random();
-    if (roll < 0.35) nodes[floor * 3 + x].next.push(`f${floor + 1}x${x + 1}`);
-    else if (roll < 0.7) nodes[floor * 3 + x + 1].next.push(`f${floor + 1}x${x}`);
+    if (roll < 0.45) nodes[floor * 3 + x].next.push(`f${floor + 1}x${x + 1}`);
+    else if (roll < 0.9) nodes[floor * 3 + x + 1].next.push(`f${floor + 1}x${x}`);
   }
   const home = graph.pages.find(page => page.path === '/');
   const bossPage = home || [...graph.pages].sort((a, b) =>
