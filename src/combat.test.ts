@@ -15,7 +15,7 @@ describe('combat',()=>{
  });
  it('handles shield breaking, corruption, stun, and a charged hit',()=>{
   const s=createCombat([{creature:c('a',['breach'])}],[c('e')],1);s.fighters[0].nextAction=1;s.fighters[1].nextAction=100;s.fighters[1].shield=20;const breach=step(s);expect(breach.fighters[1].shield).toBe(0);expect(breach.fighters[1].hp).toBe(s.fighters[1].hp-11);
-  const afflicted=createCombat([{creature:c('a')}],[c('e')],1);afflicted.fighters[0].corrupted=24;afflicted.fighters[0].shield=10;afflicted.fighters[0].stunned=true;afflicted.fighters[0].nextAction=1;const tick=step(afflicted);expect(tick.fighters[0].hp).toBe(afflicted.fighters[0].hp-1);expect(tick.fighters[0].shield).toBe(10);expect(tick.events.some(e=>e.kind==='stunned')).toBe(true);
+  const afflicted=createCombat([{creature:c('a')}],[c('e')],1);afflicted.fighters[0].corrupted=24;afflicted.fighters[0].shield=10;afflicted.fighters[0].stunned=true;afflicted.fighters[0].nextAction=1;const tick=step(afflicted);expect(tick.fighters[0].hp).toBe(afflicted.fighters[0].hp-6);expect(tick.fighters[0].shield).toBe(10);expect(tick.events.some(e=>e.kind==='stunned')).toBe(true);
   const charging=createCombat([{creature:c('a',['charge'])}],[c('e')],1);charging.fighters[0].nextAction=1;charging.fighters[1].nextAction=100;const charged=simulate(charging,9);expect(charged.events.some(e=>e.kind==='charge')).toBe(true);expect(charged.fighters[1].hp).toBe(charging.fighters[1].hp-21);
  });
  it('absorbs damage with shield before HP',()=>{const s=createCombat([{creature:c('a')}],[c('e')],1);s.fighters[1].shield=10;s.fighters[1].nextAction=99;const out=simulate(s,8);expect(out.fighters[1].hp).toBe(s.fighters[1].hp);expect(out.fighters[1].shield).toBe(3);});
@@ -23,4 +23,10 @@ describe('combat',()=>{
  it('times out at 3000 ticks as a loss',()=>{const s=createCombat([{creature:c('a',['brace'])}],[c('e',['brace'])],1);s.fighters.forEach(f=>f.power=0);const out=simulate(s,3100);expect(out.t).toBe(3000);expect(out.result).toBe('loss');});
  it('queues an order and starts a shared cooldown',()=>{let s=createCombat([{creature:c('a',['strike'])}],[c('e')],1);s=order(s,'c0','strike');expect(s.queued).not.toBeNull();s=simulate(s,8);expect(s.queued).toBeNull();expect(s.cooldown).toBe(20);expect(order(s,'c0','strike').queued).toBeNull();});
  it('does not mutate input on a step',()=>{const s=createCombat([{creature:c('a')}],[c('b')],1), before=structuredClone(s);step(s);expect(s).toEqual(before);expect(fighter(c('a'),'crew','x').hp).toBeGreaterThan(0);});
+});
+describe('review findings',()=>{
+ it('a boss with jam first still deals damage',()=>{const s=createCombat([{creature:c('a',['brace'])}],[c('e',['jam','strike'])],1);const out=simulate(s,60);expect(out.fighters[0].hp).toBeLessThan(s.fighters[0].hp);});
+ it('clears an order when its actor dies',()=>{let s=createCombat([{creature:c('a')},{creature:c('b')}],[c('e')],1);s=order(s,'c0','strike');s.fighters[0].hp=0;s=step(s);expect(s.queued).toBeNull();});
+ it('heals the most wounded ally by fraction',()=>{const s=createCombat([{creature:{...c('a',['patch']),role:'healer'}},{creature:c('b')}],[c('e')],1);s.fighters[0].hp=30;s.fighters[0].maxHp=30;s.fighters[1].hp=35;s.fighters[1].maxHp=48;s.fighters[0].nextAction=1;s.fighters[2].nextAction=99;ROUTINES.patch.arg=.8;const out=step(s);ROUTINES.patch.arg=.5;expect(out.fighters[1].hp).toBeGreaterThan(35);});
+ it('a stun breaks a charge',()=>{const s=createCombat([{creature:c('a')}],[c('e')],1);s.fighters[1].charging=true;s.fighters[1].stunned=true;s.fighters[1].nextAction=1;s.fighters[0].nextAction=99;expect(step(s).fighters[1].charging).toBe(false);});
 });

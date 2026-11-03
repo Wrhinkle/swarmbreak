@@ -5,7 +5,7 @@ import { ROUTINES, ROLE_STATS, TIER_SCALE } from './library';
 export interface CrewMember { creature: Creature; hp: number; routines: string[]; slots: number; recruited: boolean; active: boolean }
 export interface CampEntry { ally: Creature; runId: string; wonAt: string; sites: string[] }
 export interface Today { runId: string; node: string | null; cleared: string[]; crew: CrewMember[]; deck: string[]; gold: number; seed: number; result: 'win' | 'loss' | null; act?: number; pending?: string | null; combat?: CombatState }
-export interface Save { version: 1; camp: CampEntry[]; today: Today | null; results: Record<string, 'win' | 'loss'> }
+export interface Save { version: 1; camp: CampEntry[]; today: Today | null; results: Record<string, 'win' | 'loss'>; restored?: string[] }
 const KEY = 'swarmbreak-save-v1';
 export const newSave = (): Save => ({ version: 1, camp: [], today: null, results: {} });
 const obj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x);
@@ -39,6 +39,10 @@ export function exportSave(save: Save): string { return JSON.stringify(save, nul
 export function importSave(text: string): Save { const save = parseSave(text); writeSave(save); return save; }
 export function rollover(save: Save, manifest: Manifest): Save {
   const s = structuredClone(save);
+  // A voided run gives a losing player one more attempt, once.
+  if (manifest.voided.includes(manifest.runId) && !s.restored?.includes(manifest.runId) && (s.results[manifest.runId] === 'loss' || (s.today?.runId === manifest.runId && s.today.result === 'loss'))) {
+    delete s.results[manifest.runId]; if (s.today?.runId === manifest.runId) s.today = null; s.restored = [...(s.restored ?? []), manifest.runId];
+  }
   if (s.today && s.today.runId !== manifest.runId) { if (!s.results[s.today.runId]) s.results[s.today.runId] = s.today.result ?? 'loss'; s.today = null; }
   return s;
 }

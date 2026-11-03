@@ -23,6 +23,8 @@ export interface Creature {
   tier: Tier;
   routines: string[]; // ROUTINES ids, in priority order
   source: string; // path on the site this creature came from
+  scale?: number; // enemy HP and power multiplier, set by the balance tool within ENEMY_SCALE limits
+  puppet?: boolean; // sprite is one large image animated in code, used for bosses
 }
 
 export interface MapNode {
@@ -37,12 +39,14 @@ export interface MapNode {
   encounter?: string[]; // creature ids for fight, elite, and boss
   eventId?: string;
   reward?: string; // ally id recruited by clearing this node
+  hidden?: boolean; // a mystery room: the map shows ? until the player enters
 }
 
 export interface GameEvent {
   id: string;
   title: string;
   text: string; // written from the site's content
+  art?: string; // path to this event's illustration
   options: { label: string; effect: EventEffect; result: string }[];
 }
 
@@ -60,6 +64,16 @@ export interface RunAct {
   creatures: Creature[];
   events: GameEvent[];
   shop: string[]; // ROUTINES ids offered at shops in this act
+  story?: ActStory;
+  art?: { map: string; backdrops: string[] }; // tall map background; one fight backdrop per chapter
+}
+
+// Told by floor, not by room, so every path through the act gets the same story.
+export interface ActStory {
+  intro: string; // shown when the act opens
+  chapters: { title: string; text: string }[]; // three: floors 1-5, 6-10, 11-15
+  bossIntro: string;
+  outro: string; // shown when the boss falls
 }
 
 export interface Run {

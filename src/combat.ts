@@ -4,7 +4,7 @@ import type { Creature } from './types';
 
 export interface Fighter {
   id: string; creature: Creature; side: 'crew' | 'enemy'; hp: number; maxHp: number; power: number; speed: number; shield: number;
-  corrupted: number; stunned: boolean; routines: string[]; nextAction: number; summons: number; splitDone: boolean;
+  corrupted: number; stunned: boolean; routines: string[]; nextAction: number; summons: number; splitDone: boolean; acted?: number;
   lastAction?: ActionId; charging: boolean; summonedBy?: string;
 }
 export interface CombatEvent { t: number; kind: string; actor: string; target: string; amount: number; routine: string }
@@ -12,14 +12,16 @@ export interface CombatState { t: number; seed: number; fighters: Fighter[]; eve
 
 export function fighter(creature: Creature, side: Fighter['side'], id: string, hp?: number): Fighter {
   const base = ROLE_STATS[creature.role], scale = TIER_SCALE[creature.tier];
-  const maxHp = Math.round(base.hp * scale.hp);
-  return { id, creature, side, hp: Math.max(0, Math.min(hp ?? maxHp, maxHp)), maxHp, power: base.power * scale.power, speed: base.speed, shield: 0, corrupted: 0, stunned: false, routines: [...creature.routines], nextAction: base.speed, summons: 0, splitDone: false, charging: false };
+  const k = creature.scale ?? 1, maxHp = Math.round(base.hp * scale.hp * k);
+  return { id, creature, side, hp: Math.max(0, Math.min(hp ?? maxHp, maxHp)), maxHp, power: base.power * scale.power * k, speed: base.speed, shield: 0, corrupted: 0, stunned: false, routines: [...creature.routines], nextAction: base.speed, summons: 0, splitDone: false, charging: false };
 }
 export function createCombat(crew: { creature: Creature; hp?: number }[], enemies: Creature[], seed: number): CombatState {
   return { t: 0, seed: seed >>> 0, fighters: [...crew.map((c, i) => fighter(c.creature, 'crew', `c${i}`, c.hp)), ...enemies.map((c, i) => fighter(c, 'enemy', `e${i}`))], events: [], result: null, goldStolen: 0, cooldown: 0, queued: null, serial: 0 };
 }
+const CORRUPT_DAMAGE = 6;
 const living = (s: CombatState, side: Fighter['side']) => s.fighters.filter(f => f.side === side && f.hp > 0);
 const lowest = (fs: Fighter[]) => fs.reduce<Fighter | undefined>((a, b) => !a || b.hp < a.hp ? b : a, undefined);
+const neediest = (fs: Fighter[]) => fs.reduce<Fighter | undefined>((a, b) => !a || b.hp / b.maxHp < a.hp / a.maxHp ? b : a, undefined);
 export function condition(s: CombatState, f: Fighter, r: Routine): boolean {
   const allies = living(s, f.side), foes = living(s, f.side === 'crew' ? 'enemy' : 'crew'), n = r.arg ?? 0;
   switch (r.condition) {
@@ -32,6 +34,8 @@ export function condition(s: CombatState, f: Fighter, r: Routine): boolean {
     case 'foe_hp_below': return foes.some(a => a.hp / a.maxHp < n);
     case 'foes_at_least': return foes.length >= n;
     case 'self_corrupted': return f.corrupted > 0;
+    case 'every_third': return (f.acted ?? 0) % 3 === 2;
+    case 'foe_uncorrupted': return foes.some(a => a.corrupted <= 0);
   }
 }
 function emit(s: CombatState, kind: string, actor: Fighter, target: Fighter, amount: number, routine: string) { s.events.push({ t: s.t, kind, actor: actor.id, target: target.id, amount, routine }); }
@@ -44,7 +48,7 @@ function damage(s: CombatState, actor: Fighter, target: Fighter, amount: number,
 }
 function act(s: CombatState, f: Fighter, r: Routine, action: ActionId = r.action) {
   const allies = living(s, f.side), foes = living(s, f.side === 'crew' ? 'enemy' : 'crew');
-  const foe = lowest(foes), ally = lowest(allies); if (!foe || !ally) return;
+  const foe = lowest(foes), ally = neediest(allies); if (!foe || !ally) return;
   const hit = (target: Fighter, multiplier: number, overflow = false) => damage(s, f, target, Math.round(f.power * multiplier), r.id, action, overflow);
   const heal = (target: Fighter, multiplier: number) => { const amount = Math.min(target.maxHp - target.hp, Math.round(f.power * multiplier)); target.hp += amount; target.lastAction = action; emit(s, 'heal', f, target, amount, r.id); };
   const guard = (target: Fighter) => { const amount = Math.max(0, Math.min(target.maxHp * .5 - target.shield, Math.round(f.power * 1.5))); target.shield += amount; target.lastAction = action; emit(s, 'shield', f, target, amount, r.id); };
@@ -58,7 +62,7 @@ function act(s: CombatState, f: Fighter, r: Routine, action: ActionId = r.action
     case 'mend_all': allies.forEach(a => heal(a, .8)); break;
     case 'guard_self': guard(f); break;
     case 'guard_ally': guard(ally); break;
-    case 'corrupt': foe.corrupted = 24; foe.lastAction = action; emit(s, 'corrupt', f, foe, 24, r.id); break;
+    case 'corrupt': { const victim = foes.find(a => a.corrupted <= 0) ?? foe; victim.corrupted = 24; victim.lastAction = action; emit(s, 'corrupt', f, victim, 24, r.id); break; }
     case 'purge': f.corrupted = 0; emit(s, 'purge', f, f, 0, r.id); break;
     case 'stun': foe.stunned = true; foe.lastAction = action; emit(s, 'stun', f, foe, 0, r.id); break;
     case 'summon': case 'split': {
@@ -75,6 +79,7 @@ function act(s: CombatState, f: Fighter, r: Routine, action: ActionId = r.action
 }
 export function order(state: CombatState, actorId: string, routineId: string): CombatState {
   const s = structuredClone(state); const f = s.fighters.find(a => a.id === actorId && a.side === 'crew' && a.hp > 0);
+  if (s.queued && !s.fighters.some(a => a.id === s.queued!.actorId && a.hp > 0)) s.queued = null;
   if (!s.result && s.cooldown <= 0 && !s.queued && f && f.routines.includes(routineId) && ROUTINES[routineId]) s.queued = { actorId, routineId };
   return s;
 }
@@ -89,15 +94,17 @@ function nextRandom(s: CombatState): number {
 export function step(state: CombatState): CombatState { return advance(structuredClone(state)); }
 function advance(s: CombatState): CombatState {
   if (s.result) return s; s.t++; nextRandom(s); s.cooldown = Math.max(0, s.cooldown - 1);
+  if (s.queued && !s.fighters.some(f => f.id === s.queued!.actorId && f.hp > 0)) s.queued = null;
   for (const f of [...s.fighters]) {
     if (f.hp <= 0) continue;
-    if (f.corrupted > 0) { if (f.corrupted % 4 === 0) { f.hp = Math.max(0, f.hp - 1); emit(s, 'damage', f, f, 1, 'corrupt'); if (!f.hp) emit(s, 'death', f, f, 0, 'corrupt'); } f.corrupted--; if (f.hp <= 0) continue; }
+    if (f.corrupted > 0) { if (f.corrupted % 4 === 0) { f.hp = Math.max(0, f.hp - CORRUPT_DAMAGE); emit(s, 'damage', f, f, CORRUPT_DAMAGE, 'corrupt'); if (!f.hp) emit(s, 'death', f, f, 0, 'corrupt'); } f.corrupted--; if (f.hp <= 0) continue; }
     if (s.t < f.nextAction) continue; f.nextAction = s.t + f.speed;
-    if (f.stunned) { f.stunned = false; emit(s, 'stunned', f, f, 0, ''); continue; }
+    if (f.stunned) { f.stunned = false; f.charging = false; emit(s, 'stunned', f, f, 0, ''); continue; }
     let r: Routine | undefined;
     if (s.queued?.actorId === f.id) { r = ROUTINES[s.queued.routineId]; s.queued = null; s.cooldown = OVERRIDE_COOLDOWN_TICKS; }
     if (f.charging) r = ROUTINES.charge;
     r ??= f.routines.map(id => ROUTINES[id]).find(routine => routine && condition(s, f, routine)) ?? ROUTINES.strike;
+    f.acted = (f.acted ?? 0) + 1;
     act(s, f, r);
   }
   if (!living(s, 'crew').length) s.result = 'loss'; else if (!living(s, 'enemy').length) s.result = 'win'; else if (s.t >= 3000) s.result = 'loss';

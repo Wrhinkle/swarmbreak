@@ -82,9 +82,10 @@ export function parsePage(html: string, path: string): SitePage {
   return { path: pathname, title: title || headings[0] || pathname, section: pathname.split('/').filter(Boolean)[0] || 'home', excerpt: clean(body ? content(body) : content(document)).slice(0, 200), headings, links };
 }
 
+const MAX_PAGE_BYTES = 3_000_000;
 type Rule = { allow: boolean; pattern: string };
 type Robots = { rules: Rule[]; delay: number };
-function parseRobots(text: string): Robots {
+export function parseRobots(text: string): Robots {
   const groups: { agents: string[]; rules: Rule[]; delays: number[] }[] = [];
   let group: typeof groups[number] | undefined;
   let seenDirective = false;
@@ -101,10 +102,12 @@ function parseRobots(text: string): Robots {
       if (key === 'crawl-delay' && /^\d+(?:\.\d+)?$/.test(value)) group.delays.push(Number(value));
     }
   }
-  const wildcard = groups.filter(g => g.agents.includes('*'));
-  return { rules: wildcard.flatMap(g => g.rules), delay: Math.max(1, ...wildcard.flatMap(g => g.delays)) * 1000 };
+  // A group naming this bot replaces the wildcard group, as robots.txt specifies.
+  const named = groups.filter(g => g.agents.includes('swarmbreakbot'));
+  const applied = named.length ? named : groups.filter(g => g.agents.includes('*'));
+  return { rules: applied.flatMap(g => g.rules), delay: Math.max(1, ...applied.flatMap(g => g.delays)) * 1000 };
 }
-function allowed(path: string, rules: Rule[]): boolean {
+export function allowed(path: string, rules: Rule[]): boolean {
   let best = -1, result = true;
   for (const rule of rules) {
     const anchored = rule.pattern.endsWith('$');
@@ -114,6 +117,17 @@ function allowed(path: string, rules: Rule[]): boolean {
     if (regex.test(path) && (length > best || (length === best && rule.allow))) { best = length; result = rule.allow; }
   }
   return result;
+}
+
+// Stops reading at the limit, so one huge page can't exhaust memory.
+export async function readLimited(response: Response, limit = MAX_PAGE_BYTES): Promise<string> {
+  const chunks: Uint8Array[] = []; let size = 0;
+  for await (const chunk of response.body as unknown as AsyncIterable<Uint8Array>) {
+    size += chunk.length;
+    if (size > limit) throw new Error(`Page is larger than ${limit} bytes`);
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks).toString('utf8');
 }
 
 async function crawl(start: string): Promise<SiteGraph> {
@@ -155,7 +169,7 @@ async function crawl(start: string): Promise<SiteGraph> {
       if (!response?.ok || !/^\s*(?:text\/html|application\/xhtml\+xml)(?:\s*;|\s*$)/i.test(response.headers.get('content-type') || '')) throw new Error(`Not an HTML response (HTTP ${response?.status ?? 'redirect'})`);
       const finalSection = url.pathname.split('/').filter(Boolean)[0] || 'home';
       if ((sections.get(finalSection) || 0) >= 8 || pages.some(p => p.path === url.pathname)) continue;
-      const page = parsePage(await response.text(), url.href);
+      const page = parsePage(await readLimited(response), url.href);
       pages.push(page);
       sections.set(finalSection, (sections.get(finalSection) || 0) + 1);
       for (const link of page.links) if (!seen.has(link)) { seen.add(link); queue.push(link); }

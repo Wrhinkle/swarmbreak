@@ -13,3 +13,8 @@ describe('save',()=>{
  it('rejects malformed imports',()=>{for(const s of ['no','{}','{"version":1,"camp":[],"results":{},"today":{}}'])expect(()=>importSave(s)).toThrow();});
  it('survives throwing storage',()=>{vi.stubGlobal('localStorage',{getItem(){throw Error('no');},setItem(){throw Error('no');}});const s=playing();expect(()=>writeSave(s)).not.toThrow();expect(loadSave()).toEqual(s);vi.unstubAllGlobals();});
 });
+describe('voided runs',()=>{
+ const manifest={runId:'r',opensAt:'',nextOpensAt:'',runUrl:'',voided:['r']};
+ it('returns a lost attempt once',()=>{const s=newSave();s.results.r='loss';const a=rollover(s,manifest);expect(a.results.r).toBeUndefined();a.results.r='loss';expect(rollover(a,manifest).results.r).toBe('loss');});
+ it('leaves a win alone',()=>{const s=newSave();s.results.r='win';expect(rollover(s,manifest).results.r).toBe('win');});
+});
