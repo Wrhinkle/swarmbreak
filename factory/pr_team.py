@@ -52,6 +52,8 @@ def wait_for_review(url, sha):
         s = findings(url).get('review_session') or {}
         if s.get('commit_sha') == sha and s.get('review_complete'):
             return
+        if s.get('commit_sha') == sha and s.get('status') == 'failed':
+            sys.exit(f'Qodo\'s review of {sha[:7]} failed. A PR of tens of thousands of lines can do this, so split it. Not merging.')
         time.sleep(30)
     sys.exit(f'Qodo hasn\'t reviewed {sha[:7]} after {QODO_WAIT // 60} minutes. Not merging.')
 

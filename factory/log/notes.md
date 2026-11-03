@@ -10,3 +10,4 @@ Only write here what the repo or a log can back up.
 - The gameplay rerun then failed with a 3-point route gain against the required 8. Only 14-18 of 45 rooms per act offered a choice, and the gameplay agent can't edit the map. The threshold stayed at 8 and the map generator was changed to offer more choices.
 - Rule applies to anything that changes a run or `src/combat.ts`.
 - At 800 games the route gain was 3-6 points. A test showed the typical bot chose rooms by looking one room ahead, while a player sees the whole map. Planning two rooms past the next one raised the gain to 8. `tools/balance.ts` stayed at 8, but this changed the bot that the check measures, and the result sits close to the limit with about 2.5 points of noise.
+- Qodo's review of PR 4 (124 files, 25,000 lines) ended with status `failed`. The PR team waited 25 minutes before giving up, then was changed to stop at once. The PR was split.
