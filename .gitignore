@@ -2,3 +2,7 @@ node_modules/
 dist/
 .DS_Store
 .firebase/
+factory/.venv/
+runs/.art/
+__pycache__/
+factory/log/.lock

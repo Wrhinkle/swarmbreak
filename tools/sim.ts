@@ -8,11 +8,12 @@ export interface Policy {
   name: string;
   route: 'smart' | 'random'; // how it picks rooms and event options
   build: 'search' | 'heuristic' | 'none'; // search tries loadouts against the coming fight; none never edits routines
+  care?: number; // chance a searching player bothers to set up for a given fight, default 1
   noise: number; // chance any one decision is made at random
   start?: number; // force this column on the first floor
 }
 export const NOVICE: Policy = { name: 'novice', route: 'random', build: 'none', noise: 0 };
-export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'heuristic', noise: 0.2 };
+export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'search', care: 0.5, noise: 0.2 }; // reads the enemy and sets up for about half the fights
 export const EXPERT: Policy = { name: 'expert', route: 'smart', build: 'search', noise: 0 };
 export const NO_ROUTE: Policy = { ...TYPICAL, name: 'typical, random route', route: 'random' };
 export const NO_BUILD: Policy = { ...TYPICAL, name: 'typical, no routine edits', build: 'none' };
@@ -76,7 +77,7 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
         swapReserves();
-        if (editing) { equip(); if (policy.build === 'search') search(n, creature); }
+        if (editing) { equip(); if (policy.build === 'search' && random() < (policy.care ?? 1)) search(n, creature); }
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };
@@ -95,7 +96,8 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       if (n.kind === 'event') {
         const e = act.events.find(e => e.id === n.eventId) as GameEvent;
         const worth = (fx: GameEvent['options'][number]['effect']) => fx.type === 'heal' ? fx.amount * (1 - health()) * 4 : fx.type === 'damage' ? -fx.amount * 3 / Math.max(.2, health()) : fx.type === 'gold' ? fx.amount / 60 : fx.type === 'routine' ? (editing ? 1 : 0) : 0;
-        const o = smart() ? [...e.options].sort((a, b) => worth(b.effect) - worth(a.effect))[0] : e.options[Math.floor(random() * e.options.length)];
+        const open = e.options.filter(o => o.effect.type !== 'gold' || gold + o.effect.amount >= 0); // same rule as the event buttons
+        const o = smart() ? [...open].sort((a, b) => worth(b.effect) - worth(a.effect))[0] : open[Math.floor(random() * open.length)];
         const fx = o.effect;
         if (fx.type === 'gold') gold = Math.max(0, gold + fx.amount);
         if (fx.type === 'routine') pool.push(fx.id);

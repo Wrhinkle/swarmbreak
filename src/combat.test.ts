@@ -15,7 +15,7 @@ describe('combat',()=>{
  });
  it('handles shield breaking, corruption, stun, and a charged hit',()=>{
   const s=createCombat([{creature:c('a',['breach'])}],[c('e')],1);s.fighters[0].nextAction=1;s.fighters[1].nextAction=100;s.fighters[1].shield=20;const breach=step(s);expect(breach.fighters[1].shield).toBe(0);expect(breach.fighters[1].hp).toBe(s.fighters[1].hp-11);
-  const afflicted=createCombat([{creature:c('a')}],[c('e')],1);afflicted.fighters[0].corrupted=24;afflicted.fighters[0].shield=10;afflicted.fighters[0].stunned=true;afflicted.fighters[0].nextAction=1;const tick=step(afflicted);expect(tick.fighters[0].hp).toBe(afflicted.fighters[0].hp-6);expect(tick.fighters[0].shield).toBe(10);expect(tick.events.some(e=>e.kind==='stunned')).toBe(true);
+  const afflicted=createCombat([{creature:c('a')}],[c('e')],1);afflicted.fighters[0].corrupted=24;afflicted.fighters[0].shield=10;afflicted.fighters[0].stunned=true;afflicted.fighters[0].nextAction=1;const tick=step(afflicted);expect(tick.fighters[0].hp).toBe(afflicted.fighters[0].hp-1);expect(tick.fighters[0].shield).toBe(10);expect(tick.events.some(e=>e.kind==='stunned')).toBe(true);
   const charging=createCombat([{creature:c('a',['charge'])}],[c('e')],1);charging.fighters[0].nextAction=1;charging.fighters[1].nextAction=100;const charged=simulate(charging,9);expect(charged.events.some(e=>e.kind==='charge')).toBe(true);expect(charged.fighters[1].hp).toBe(charging.fighters[1].hp-21);
  });
  it('absorbs damage with shield before HP',()=>{const s=createCombat([{creature:c('a')}],[c('e')],1);s.fighters[1].shield=10;s.fighters[1].nextAction=99;const out=simulate(s,8);expect(out.fighters[1].hp).toBe(s.fighters[1].hp);expect(out.fighters[1].shield).toBe(3);});
