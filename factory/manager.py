@@ -5,7 +5,7 @@ Usage: python3 factory/manager.py [--dry-run] [--task "note for the manager"]
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
-import fcntl, json, re, subprocess, sys, tempfile, time, urllib.request
+import fcntl, json, os, re, subprocess, sys, tempfile, time, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -225,6 +225,26 @@ def open_run(run_id, dry):
     return f'{run_id} is in {url}. It goes live after merge_pr and deploy.'
 
 
+def sync():
+    """Moves the checkout to main once all its commits are merged, so a merged change takes effect on the next pass."""
+    head = lambda: sh('git', 'rev-parse', 'HEAD').stdout.strip()
+    sh('git', 'fetch', '-q', 'origin')
+    before = head()
+    if sh('git', 'merge-base', '--is-ancestor', before, 'origin/main', check=False).returncode:
+        return
+    kept = LOG.read_text().splitlines() if LOG.exists() else []  # this file changes on every pass and would block the switch
+    sh('git', 'checkout', '--', str(LOG.relative_to(ROOT)))
+    moved = sh('git', 'switch', '-q', 'main', check=False)
+    if not moved.returncode:
+        moved = sh('git', 'merge', '-q', '--ff-only', 'origin/main', check=False)
+    if moved.returncode:
+        print(f'Could not move to main: {moved.stderr[-300:]}', flush=True)
+    now = LOG.read_text().splitlines() if LOG.exists() else []
+    LOG.write_text('\n'.join(now + [x for x in kept if x not in now]) + '\n')
+    if head() != before:
+        os.execv(sys.executable, [sys.executable, *sys.argv])
+
+
 def keep_run(run_id, message):
     """Commits and pushes one run's files and the decision log, and nothing else in the checkout."""
     paths = [p for p in (f'runs/{run_id}', f'public/runs/{run_id}', f'public/art/{run_id}', 'public/manifest.json', 'factory/log') if (ROOT / p).exists()]
@@ -375,6 +395,8 @@ def main():
     if args and args[0] == '--comms':
         print(comms(int(args[1]), args[2], dry))
         return
+    if not dry:
+        sync()
     note = args[args.index('--task') + 1] if '--task' in args else ''
     s = state()
     with tempfile.TemporaryDirectory() as work:
