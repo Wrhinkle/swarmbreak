@@ -212,6 +212,8 @@ def open_run(run_id, dry):
     current = json.loads(manifest.read_text())
     manifest.write_text(json.dumps({'runId': run_id, 'opensAt': opens.strftime(fmt), 'nextOpensAt': (opens + timedelta(days=1)).strftime(fmt), 'runUrl': f'/runs/{run_id}/run.json', 'voided': current.get('voided', [])}, indent=2) + '\n')
     branch = sh('git', 'branch', '--show-current').stdout.strip()
+    if branch in ('', 'main'):
+        return f'Not opening {run_id}: the checkout is on {branch or "no branch"}, and main only changes through a reviewed PR.'
     sh('git', 'add', 'public/manifest.json')
     sh('git', 'commit', '-m', f'Open run {run_id}', '--', 'public/manifest.json')
     sh('git', 'push', 'origin', branch)
@@ -258,8 +260,12 @@ def deploy(dry):
             sh('git', 'worktree', 'remove', '--force', tree, check=False)
 
 
+def open_prs():
+    return gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,headRefName,baseRefName,headRefOid,mergeable,url')
+
+
 def state():
-    prs = gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,headRefName,baseRefName,headRefOid,mergeable,url')
+    prs = open_prs()
     issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
     found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
     threads = []
@@ -332,6 +338,7 @@ def main():
             else:
                 sh('gh', 'issue', 'comment', q['id'].split('-')[1], '--repo', REPO, '--body', reply + FOOTER)
     for a in d.get('actions', []):
+        s['prs'] = open_prs()  # open_run can add one earlier in the same pass
         result = act(a, s, dry)
         print(f'{a.get("type")}: {result}', flush=True)
         record({'kind': 'action', 'action': a, 'result': result[:500], 'dry': dry})

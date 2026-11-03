@@ -25,6 +25,9 @@ Pick from these only. Anything else is ignored.
 
 There's no action for changing code yet, so a request that needs a code change is `defer`, waiting on a builder.
 
+## When you run
+A pass runs at 16:00 and at 06:00 Central, and runs open at 13:00 UTC, which is 07:00 Central. Use the afternoon pass to merge PRs, answer threads, and build tomorrow's run if it doesn't exist. Use the morning pass to `open_run`, `merge_pr`, and `deploy`, in that order, in one file. A failed build isn't retried until something has changed.
+
 ## What you escalate
 Only these go to William. Use `escalate` and say what you need from him:
 - Spending money or adding a paid service.
