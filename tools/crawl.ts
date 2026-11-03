@@ -105,7 +105,9 @@ export function parseRobots(text: string): Robots {
   // A group naming this bot replaces the wildcard group, as robots.txt specifies.
   const named = groups.filter(g => g.agents.includes('swarmbreakbot'));
   const applied = named.length ? named : groups.filter(g => g.agents.includes('*'));
-  return { rules: applied.flatMap(g => g.rules), delay: Math.max(1, ...applied.flatMap(g => g.delays)) * 1000 };
+  const delay = Math.max(1, ...applied.flatMap(g => g.delays)) * 1000;
+  if (!Number.isFinite(delay) || delay > 2_147_483_647) throw new Error('Crawl delay exceeds the supported timer range');
+  return { rules: applied.flatMap(g => g.rules), delay };
 }
 export function allowed(path: string, rules: Rule[]): boolean {
   let best = -1, result = true;

@@ -30,7 +30,18 @@ function validateRun(value: unknown): string[] {
       if (n.kind === 'event' && (!n.eventId || !events.has(n.eventId))) errors.push(`Missing event: ${n.id}`);
     }
     if (!act.nodes.some(n => n.floor === 0) || !act.nodes.some(n => n.kind === 'boss')) errors.push(`Act ${i + 1} needs a first floor and boss`);
+    const bosses = act.nodes.filter(n => n.kind === 'boss');
+    if (bosses.length !== 1 || bosses[0].floor !== 15 || bosses[0].next.length || act.nodes.some(n => n.floor < 0 || n.floor > 15 || (n.floor === 15 && n.kind !== 'boss'))) errors.push(`Act ${i + 1} needs one final-floor boss with no outgoing paths`);
     for (const n of act.nodes) if (n && n.kind !== 'boss' && !n.next?.length) errors.push(`Dead end: ${n.id}`);
+    const reachable = new Set<string>(), pending = act.nodes.filter(n => n.floor === 0).map(n => n.id);
+    while (pending.length) {
+      const id = pending.pop()!;
+      if (reachable.has(id)) continue;
+      reachable.add(id);
+      const node = nodes.get(id);
+      if (node) for (const next of node.next) if (nodes.get(next)?.floor === node.floor + 1) pending.push(next);
+    }
+    for (const n of act.nodes) if (!reachable.has(n.id)) errors.push(`Unreachable node: ${n.id}`);
   }
   return errors;
 }
