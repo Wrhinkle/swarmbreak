@@ -14,6 +14,7 @@ REPO = 'Wrhinkle/swarmbreak'
 ROUNDS, QODO_WAIT = 2, 1500
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
 PROTECTED = ('AGENTS.md', 'factory/', 'firebase.json', 'public/manifest.json', '.github/')
+GATES = ('AGENTS.md', '.github/', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
 
 
 def sh(*cmd, cwd=ROOT, check=True):
@@ -27,7 +28,7 @@ def bot(name, workdir, extra, effort='medium'):
     env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
     prompt = (AGENTS / f'{name}.md').read_text() + '\n\n' + extra
     print(f'[{name}] running', flush=True)
-    subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800)
+    return subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800).returncode
 
 
 def findings(url):
@@ -36,6 +37,35 @@ def findings(url):
 
 def is_open(f):
     return f.get('attribution_status') in OPEN
+
+
+def changed_paths(base, sha, cwd=ROOT):
+    # --no-renames lists a renamed file's old path too, so moving a limit file away still counts as touching it.
+    out = sh('git', 'diff', '--name-only', '--no-renames', '-z', f'{base}...{sha}', cwd=cwd).stdout
+    return [p for p in out.split('\0') if p]
+
+
+def touches_gates(files):
+    """Files that hold the factory's limits. Changes to them need the gate reviewer as well as Qodo."""
+    paths = [f['path'] for f in files]
+    return [p for p in paths if p.startswith(GATES) or (p.startswith('factory/') and not p.startswith('factory/log/'))]
+
+
+def gate_verdict(path):
+    """Only an explicit approve counts, so a missing or broken verdict blocks the merge."""
+    try:
+        v = json.loads(Path(path).read_text())
+    except (OSError, ValueError):
+        return False, 'The gate reviewer wrote no readable verdict.'
+    return (v.get('approve') is True, str(v.get('why', ''))) if isinstance(v, dict) else (False, 'The verdict is not an object.')
+
+
+def gate_review(diff):
+    with tempfile.TemporaryDirectory() as work:
+        Path(work, 'diff.patch').write_text(diff)
+        if bot('gate-reviewer', work, f'The repo is at {ROOT}. Don\'t change it. Write verdict.json in the current folder.', effort='high'):
+            return False, 'The gate reviewer exited with an error.'
+        return gate_verdict(Path(work, 'verdict.json'))
 
 
 def verified(tree):
@@ -170,6 +200,7 @@ def main():
     # The merge decision. Only evidence tied to the exact head commit counts.
     sh('git', 'fetch', '-q', 'origin')
     data, sha = findings(url), sh('git', 'rev-parse', f'origin/{head}').stdout.strip()
+    base_sha = sh('git', 'rev-parse', f'origin/{base}').stdout.strip()
     session = data.get('review_session') or {}
     still = [f for f in data['findings'] if is_open(f)]
     sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
@@ -191,6 +222,16 @@ def main():
     if not merge:
         print(f'PR {number} passes every check at {sha[:7]}. Run with --merge to merge it.')
         return
+    # Reviewed last and merged by commit, so the reviewer's approval covers exactly what lands.
+    gates = touches_gates([{'path': n} for n in changed_paths(f'origin/{base}', sha)])
+    if gates:
+        approved, why = gate_review(sh('git', 'diff', '--no-renames', f'origin/{base}...{sha}').stdout)
+        print(f'Gate review of {sha[:7]}: {"approved" if approved else "rejected"}. {why[:400]}', flush=True)
+        if not approved:
+            sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Gate reviewer rejected {sha[:7]}:\n\n{why[:3000]}')
+            sys.exit(f'Gate reviewer rejected PR {number}. Not merging.')
+        if sh('git', 'ls-remote', 'origin', f'refs/heads/{base}').stdout.split()[:1] != [base_sha]:
+            sys.exit(f'{base} moved during the gate review. Not merging; rerun to check against the new {base}.')
     sh('gh', 'pr', 'merge', number, '--repo', REPO, '--merge', '--match-head-commit', sha)
     print(f'Merged PR {number} at {sha[:7]}.')
 

@@ -4,7 +4,7 @@ import os, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
-from manager import SITE, act, unfilled_links, check_post, deploy_problems, post_problems, template_headings
+from manager import SITE, act, gate_verdict, unfilled_links, check_post, deploy_problems, post_problems, template_headings
 
 good = f'## My rule\nSee {SITE} for it.'
 assert post_problems(good, ['## My rule']) == []
@@ -33,7 +33,7 @@ assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
 from builder import blocked_paths, only_wording
 from manager import touches_gates
 assert touches_gates([{'path': 'factory/manager.py'}]) and touches_gates([{'path': 'tools/sim.ts'}]) and touches_gates([{'path': 'factory/agents/comms.md'}])
-assert touches_gates([{'path': 'src/act.ts'}, {'path': 'factory/agents/new-role.md'}, {'path': 'public/manifest.json'}]) == []
+assert touches_gates([{'path': 'src/act.ts'}, {'path': 'factory/log/notes.md'}, {'path': 'public/manifest.json'}]) == []
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
 assert 'Bad' in act({'type': 'delegate', 'agent': 'manager', 'task': 'x'}, {}, True)
 assert blocked_paths(['factory/agents/new-role.md'], 'z') == [] and blocked_paths(['factory/agents/comms.md'], 'z') and blocked_paths(['tools/sim.ts'], 'z')
@@ -73,3 +73,32 @@ with tempfile.TemporaryDirectory() as d:
     Path(d, 'a').write_text('3')
     git('add', '.'); git('commit', '-qm', 'conflict')
     assert not merges_cleanly(d, 'main') and Path(d, 'a').read_text() == '3'
+
+# Only an explicit approve passes the gate review.
+with tempfile.TemporaryDirectory() as d:
+    v = Path(d, 'v.json')
+    assert not gate_verdict(v)[0]
+    for text, ok in (('{"approve": true, "why": "x"}', True), ('{"approve": "true"}', False), ('{"approve": false}', False), ('[]', False), ('nope', False)):
+        v.write_text(text)
+        assert gate_verdict(v)[0] is ok, text
+
+# New agent prompts, saves and the verify scripts all count as limits; the log and ordinary source don't.
+from pr_team import touches_gates
+for path in ('factory/agents/brand-new.md', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'package.json', 'tools/build-run.ts', 'factory/art.py'):
+    assert touches_gates([{'path': path}]), path
+for path in ('factory/log/notes.md', 'src/main.ts', 'runs/2026-11-05/content.json'):
+    assert not touches_gates([{'path': path}]), path
+
+# Renaming a limit file to an ordinary path still counts as touching it.
+import tempfile
+from pr_team import changed_paths, sh
+with tempfile.TemporaryDirectory() as d:
+    git = ('git', '-c', 'user.name=t', '-c', 'user.email=t@example.com')
+    sh('git', 'init', '-q', '-b', 'main', d, cwd=d)
+    Path(d, 'AGENTS.md').write_text('rules\n' * 20)
+    sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'a', cwd=d)
+    sh('git', 'checkout', '-qb', 'moved', cwd=d)
+    sh(*git, 'mv', 'AGENTS.md', 'notes with space.md', cwd=d); sh(*git, 'commit', '-qm', 'b', cwd=d)
+    moved = changed_paths('main', 'moved', cwd=d)
+    assert 'notes with space.md' in moved and touches_gates([{'path': p} for p in moved]) == ['AGENTS.md'], moved
+

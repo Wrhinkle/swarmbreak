@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import REPO, bot, sh  # noqa: E402
+from pr_team import REPO, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
 
 OWNER, CONTEST = 'Wrhinkle', ('qodo-hackathon', 'software-factory-hackathon')
 SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.com/{REPO}'
@@ -19,8 +19,6 @@ LOG = ROOT / 'factory' / 'log' / 'decisions.jsonl'
 NOTES = ROOT / 'factory' / 'log' / 'notes.md'
 MAX_POST, MAX_REPLIES_PER_DAY = 6000, 3
 HUMAN = 'needs-william'
-GATES = ('AGENTS.md', '.github/', 'firebase.json', 'tools/balance.ts', 'tools/checks.ts', 'tools/sim.ts')
-GATE_PROMPTS = tuple(f'factory/agents/{n}.md' for n in ('manager', 'comms', 'builder', 'pr-triage', 'pr-fixer'))
 LINKS = (f'https://github.com/{REPO}', RAW, SITE, f'https://github.com/{CONTEST[0]}', 'https://hackathon.qodo.ai')
 FOOTER = '\n\n<sub>Written by this factory\'s comms agent and posted from the owner\'s account. [How it works](https://github.com/%s/blob/main/AGENTS.md).</sub>' % REPO
 SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{12,}|AIza[\w-]{20,}|-----BEGIN', re.I)
@@ -254,12 +252,6 @@ def keep_run(run_id, message):
     sh('git', 'push', '-q', '-u', 'origin', sh('git', 'branch', '--show-current').stdout.strip())
 
 
-def touches_gates(files):
-    """Files that hold the factory's limits. A model doesn't get to merge changes to what limits it."""
-    paths = [f['path'] for f in files]
-    return [p for p in paths if p.startswith(GATES) or (p.startswith('factory/') and p.endswith(('.py', '.plist'))) or p in GATE_PROMPTS]
-
-
 def deploy_problems(manifest, live, has_live_run, now):
     """Why main can't go live. Players lose a run if it disappears or its replacement isn't open yet."""
     problems = []
@@ -325,11 +317,6 @@ def act(a, s, dry):
             return f'PR {a.get("pr")} is not open.'
         if pr['author']['login'] != OWNER:
             return f'PR {pr["number"]} is from {pr["author"]["login"]}, not the owner. Not merging.'
-        gates = touches_gates(gh('pr', 'view', str(pr['number']), '--repo', REPO, '--json', 'files')['files'])
-        if gates:
-            if not dry:
-                sh('gh', 'pr', 'edit', str(pr['number']), '--repo', REPO, '--add-label', HUMAN)
-            return f'PR {pr["number"]} changes the factory\'s own limits ({gates[:3]}), so it waits for William\'s review.'
         if dry:
             return f'Would run the PR team on {pr["number"]} with merging on.'
         r = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', str(pr['number']), '--merge'], cwd=ROOT)
