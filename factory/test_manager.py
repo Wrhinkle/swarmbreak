@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Run: python3 factory/test_manager.py. The gates on public posts and on what the manager can do."""
-import sys
+import os, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
@@ -48,3 +48,28 @@ for change in [('id', 'z'), ('scale', 2), ('routines', ['finish'])]:
     assert not only_wording(run, other), change
 assert not only_wording({'a': 1}, {'a': 1, 'b': 2})
 print('ok')
+
+# A PR behind main is checked on a local merge; a conflict is reported and leaves the tree clean.
+import subprocess, tempfile
+from pr_team import merges_cleanly
+with tempfile.TemporaryDirectory() as d:
+    def git(*a):
+        subprocess.run(['git', '-c', 'user.name=t', '-c', 'user.email=t@t', *a], cwd=d, check=True, capture_output=True)
+    git('init', '-q', '-b', 'main')
+    Path(d, 'a').write_text('1')
+    git('add', '.'); git('commit', '-qm', 'base')
+    git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    git('checkout', '-qb', 'pr')
+    Path(d, 'b').write_text('pr')
+    git('add', '.'); git('commit', '-qm', 'pr')
+    git('checkout', '-q', 'main')
+    Path(d, 'a').write_text('2')
+    git('add', '.'); git('commit', '-qm', 'main moved')
+    git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    git('checkout', '-q', 'pr')
+    os.environ.update(GIT_AUTHOR_NAME='t', GIT_AUTHOR_EMAIL='t@t', GIT_COMMITTER_NAME='t', GIT_COMMITTER_EMAIL='t@t')
+    assert merges_cleanly(d, 'main') and Path(d, 'a').read_text() == '2'
+    git('reset', '-q', '--hard', 'HEAD~1')
+    Path(d, 'a').write_text('3')
+    git('add', '.'); git('commit', '-qm', 'conflict')
+    assert not merges_cleanly(d, 'main') and Path(d, 'a').read_text() == '3'
