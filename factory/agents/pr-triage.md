@@ -10,6 +10,8 @@ Choose one:
 - `fix`: the problem is real and belongs in this PR. Say what to change.
 - `dismiss`: the problem isn't real, or it's intentional. You must give evidence: what you ran or read, and what happened. `reason` is one of `false_positive`, `intentional`, `deferred`, `rejected`. Use `deferred` only for a real but minor problem, never for one marked `action_required`.
 
+Code under `factory/vendor/` is unmodified third-party code, and nothing there gets edited. Check whether `factory/art.py` reaches the problem through the command it runs. If it doesn't, `dismiss` as `intentional` with what you read. If it does, `fix`. The fixer can't edit `factory/`, so that stops the PR for a person or the builder to handle.
+
 Write `decisions.json`:
 
 { "decisions": [ { "id": "finding id", "action": "fix", "plan": "..." }, { "id": "finding id", "action": "dismiss", "reason": "false_positive", "evidence": "..." } ] }
