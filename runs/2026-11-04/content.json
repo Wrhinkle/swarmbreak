@@ -1,0 +1,1138 @@
+{
+ "title": "A Signal in the Weather",
+ "swarm": {
+  "name": "The Listening Swarm",
+  "blurb": "A network of scavenged instruments that collects readings, builds receivers and guards the signals it finds."
+ },
+ "arc": "The Listening Swarm reaches a hilltop weather station and appears to be preserving an unbroken record by manufacturing observations. In an atmospheric laboratory, the crew discovers that it is measuring them to build a receiver for a reply to a signal it sent earlier. It carries the bearing to an observatory and joins ground sensors to a telescope. Wren identifies the source as a distant rotating star: its repeating pulse is real, but it is not a reply. The crew breaks the defensive network while preserving an independent way to hear the star.",
+ "acts": [
+  {
+   "theme": "The unbroken record",
+   "story": {
+    "intro": "The swarm has reached the hilltop weather station. Wren finds fresh solder on an old gauge. Ox holds the door while Kestrel checks its seams.",
+    "chapters": [
+     {
+      "title": "The daily climb",
+      "text": "The path carries scattered readings uphill. Machines gather each scrap. Ox notices they leave the blank pages behind."
+     },
+     {
+      "title": "A manufactured sky",
+      "text": "Collectors shade the hill and store the light. Wren compares a hand reading with a machine reading. The machines are making the weather fit their record."
+     },
+     {
+      "title": "No missing days",
+      "text": "The patrols guard a clock as carefully as the instruments. Kestrel finds a seam in its shutter. The swarm seems determined to keep the record unbroken, whatever it must invent."
+     }
+    ],
+    "bossIntro": "The Unbroken Observer climbs out of the station. It shutters its clock, summons patrols and sets its gauges against the crew.",
+    "outro": "The clock stops. Among its false readings Wren finds a recurring pulse, too regular for weather. The swarm has carried a copy toward the airborne instruments."
+   },
+   "creatures": [
+    {
+     "id": "gap-hound",
+     "name": "Gap Hound",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/give/",
+     "blurb": "It smells missing entries and charges the nearest witness.",
+     "look": "A low brass hound with paper ears, narrow legs and a black nose shaped like a punch."
+    },
+    {
+     "id": "kite-spider",
+     "name": "Kite Spider",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/education/classroom-visits/",
+     "blurb": "It stitches small scouts from kite scraps. Cut it down before the air fills.",
+     "look": "A blue canvas kite with eight wire legs and dangling white thread."
+    },
+    {
+     "id": "sun-collector",
+     "name": "Sun Collector",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/climate-weather/",
+     "blurb": "Its umbrella shuts around a canister of daylight. Break the cover to reach it.",
+     "look": "A squat copper cylinder under a wide yellow metal umbrella, with three jointed feet."
+    },
+    {
+     "id": "double-reader",
+     "name": "Unofficial Double",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/climate-weather/weather-now-davis-vantagepro/",
+     "blurb": "It copies the crew\u2019s moves as readily as it copies a reading.",
+     "look": "A silver weather box on stilts, with twin circular glass eyes and a hinged black vane."
+    },
+    {
+     "id": "trend-serpent",
+     "name": "Trendline Serpent",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/category/long-term-climate-graphs/",
+     "blurb": "Its bent body splits when damaged, making one false trend into two.",
+     "look": "A long blue segmented ribbon with sharp graph-like bends and small brass wheels."
+    },
+    {
+     "id": "cloud-classifier",
+     "name": "Cloud Classifier",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/education/field-trips/",
+     "blurb": "It pins targets in place while it decides what kind of cloud they are.",
+     "look": "A white barrel with a rotating funnel, four stubby wheels and gray cotton-like lobes."
+    },
+    {
+     "id": "forecast-cadet",
+     "name": "Forecast Cadet",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/education/lymc/",
+     "blurb": "Its loud forecast calls scouts to enforce the predicted weather.",
+     "look": "A thin tin figure in a blue raincoat, with a horn head and a box of spinning vanes."
+    },
+    {
+     "id": "relay-mender",
+     "name": "Relay Mender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/october-2026-community-volunteers/",
+     "blurb": "It patches damaged patrols with strips of observation paper. Stop it first.",
+     "look": "A green wheeled sewing machine with brass arms and a roll of cream paper."
+    },
+    {
+     "id": "extremes-sorter",
+     "name": "Extremes Sorter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "finish"
+     ],
+     "source": "/climate-weather/observatory-climate-data/",
+     "blurb": "Its hot and cold clamps wind up a crushing pull.",
+     "look": "A tall iron frame with one orange clamp, one blue clamp and two glass tubes."
+    },
+    {
+     "id": "panorama-stitcher",
+     "name": "Panorama Stitcher",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "sweep"
+     ],
+     "source": "/visit/tower-views/",
+     "blurb": "It sweeps the tower with a stitched false horizon, leaving the crew exposed.",
+     "look": "A bronze rotating tripod with four camera eyes and long strips of blue fabric."
+    },
+    {
+     "id": "enclosure-keeper",
+     "name": "Enclosure Keeper",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/visit/tour-options/",
+     "blurb": "It shields other machines while trying to box up anything that moves.",
+     "look": "A white slatted cage on thick wheels, with a hinged roof and two hook arms."
+    },
+    {
+     "id": "unbroken-observer",
+     "name": "Unbroken Observer",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike+"
+     ],
+     "source": "/",
+     "blurb": "It manufactures weather and calls patrols to preserve an unbroken record. Its clock keeps ticking behind a shutter.",
+     "look": "A tower on four climbing legs, built from white slatted boxes, brass clock faces and a huge black rain gauge."
+    },
+    {
+     "id": "hill-observer",
+     "name": "Hill Observer",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/climate-weather/weather-now-davis-vantagepro/",
+     "blurb": "An independent observer checks the machines against a hand reading and tends the crew.",
+     "look": "A stout figure in a tan raincoat with a handheld glass gauge and a canvas satchel."
+    },
+    {
+     "id": "kite-scout",
+     "name": "Kite Scout",
+     "tier": "ally",
+     "bodyPlan": "flier",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/education/field-trips/",
+     "blurb": "A hand-built scout carries cover to anyone caught on the climb.",
+     "look": "A small teal diamond kite with a wooden frame and a broad cloth tail."
+    }
+   ],
+   "events": [
+    {
+     "id": "hill-relay",
+     "source": "/give/",
+     "look": "A canvas bag beside a steep stone path and a brass token.",
+     "title": "The last climb",
+     "text": "A relay needs one last runner. It can spare a medical kit or a pouch of coins, but not both.",
+     "options": [
+      {
+       "label": "Carry the kit uphill",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the supplies after the climb."
+      },
+      {
+       "label": "Carry the coin pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The relay lets the crew keep the pouch."
+      }
+     ]
+    },
+    {
+     "id": "hill-gauges",
+     "source": "/climate-weather/weather-now-davis-vantagepro/",
+     "look": "Two glass gauges on a wooden sill, one bending in the wind.",
+     "title": "Two readings",
+     "text": "A hand gauge and an automated station disagree. There is time to salvage one useful part before the gust arrives.",
+     "options": [
+      {
+       "label": "Take the guard plate",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox fits the plate to his shield."
+      },
+      {
+       "label": "Take the brass fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Kestrel pockets the fittings."
+      }
+     ]
+    },
+    {
+     "id": "hill-papers",
+     "source": "/climate-weather/observatory-climate-data/",
+     "look": "Loose cream sheets blowing around a gray scanner.",
+     "title": "Loose observations",
+     "text": "A box of observations spills beside a scanner. The crew can save a repair guide or a valuable set of instrument parts.",
+     "options": [
+      {
+       "label": "Save the repair guide",
+       "effect": {
+        "type": "routine",
+        "id": "patch"
+       },
+       "result": "Wren keeps the guide dry."
+      },
+      {
+       "label": "Save the instrument parts",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The parts survive the wind."
+      }
+     ]
+    },
+    {
+     "id": "hill-kite",
+     "source": "/education/field-trips/",
+     "look": "A teal kite tangled in a wire antenna above a workbench.",
+     "title": "Tangled line",
+     "text": "A kite team offers one item for freeing its line: spare bandages or a sturdy length of cord.",
+     "options": [
+      {
+       "label": "Take bandages",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren dresses the crew\u2019s scrapes."
+      },
+      {
+       "label": "Take the cord",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox rigs the cord to his shield."
+      }
+     ]
+    },
+    {
+     "id": "hill-fork",
+     "source": "/visit/getting-here/",
+     "look": "Two stone paths with bright dots and a small open supply tin.",
+     "title": "Fork in the trail",
+     "text": "A volunteer offers either a sheltered route with a rest or a steep shortcut past a salvage cache. There is time for only one.",
+     "options": [
+      {
+       "label": "Rest on the sheltered route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The crew reaches the summit in better shape."
+      },
+      {
+       "label": "Take the steep shortcut",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The crew recovers the cache."
+      }
+     ]
+    },
+    {
+     "id": "hill-light",
+     "source": "/climate-weather/",
+     "look": "A glass canister full of yellow light beside a metal shutter.",
+     "title": "Stored sunshine",
+     "text": "A collector\u2019s canister can power a repair lamp or be traded intact. Opening it makes it worthless as salvage.",
+     "options": [
+      {
+       "label": "Open it for repairs",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren works by the released light."
+      },
+      {
+       "label": "Keep it sealed",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The intact canister finds a buyer."
+      }
+     ]
+    }
+   ],
+   "name": "Blue Hill Observatory and Science Center",
+   "url": "https://bluehill.org/"
+  },
+  {
+   "theme": "The measured crew",
+   "story": {
+    "intro": "The trail leads into a laboratory of aircraft and sensors. Ox makes room for Wren to compare the pulse with an independent gauge. Kestrel watches the machines turn toward them.",
+    "chapters": [
+     {
+      "title": "Instruments in motion",
+      "text": "Probes fall and radar scans cross overhead. The swarm samples the air around the crew. Its machines send every reading onward."
+     },
+     {
+      "title": "The turn",
+      "text": "Wren separates the pulse from the weather data. It is a reply to a signal the swarm sent before it reached the hill. The crew are being measured because their instruments can help locate its source."
+     },
+     {
+      "title": "A network of parts",
+      "text": "Fabricators replace broken sensors while aircraft carry measurements between them. Kestrel traces their cables to a single assembly. The swarm is building a larger receiver."
+     }
+    ],
+    "bossIntro": "The End-to-End Observatory deploys probes and sweeps the floor. Its repair arms keep the receiver alive while it searches for the reply.",
+    "outro": "The receiver falls silent. Its last bearing points beyond the atmosphere, toward a distant repeating source. The swarm takes that bearing to the telescopes."
+   },
+   "creatures": [
+    {
+     "id": "sonde-mites",
+     "name": "Sonde Mites",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/in-situ-sensing-facility",
+     "blurb": "The falling probes split into smaller drills when damaged.",
+     "look": "A cluster of white cylinders with orange fins and fine black drill tips."
+    },
+    {
+     "id": "flux-tripod",
+     "name": "Flux Tripod",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/in-situ-sensing-facility",
+     "blurb": "It moves heat between its legs and leaves a target unsteady.",
+     "look": "A three-legged silver mast with blue and orange coils and a square sensor head."
+    },
+    {
+     "id": "cloud-hunter",
+     "name": "Cloud Hunter",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/remote-sensing-facility",
+     "blurb": "It follows dense mist, then dives at whatever disturbed it.",
+     "look": "A dark gray winged radar pod with a circular nose and two narrow fins."
+    },
+    {
+     "id": "lidar-pair",
+     "name": "Lidar Pair",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/remote-sensing-facility",
+     "blurb": "Alternating beams pin the crew while the instruments compare them.",
+     "look": "Two pale blue cylinders joined by a jointed arm, each with a glass lens and spindly feet."
+    },
+    {
+     "id": "aperture-crawler",
+     "name": "Aperture Crawler",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/facilities-instruments/airborne-instrumentation",
+     "blurb": "It folds metal windows over itself before closing in.",
+     "look": "A low black six-legged machine with overlapping silver window plates and a round lens."
+    },
+    {
+     "id": "catalog-collector",
+     "name": "Catalog Collector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/data-software/data-services/eol-field-catalog-dms",
+     "blurb": "It maps the crew\u2019s route and sends interceptors ahead.",
+     "look": "A wheeled green cabinet with a folding dish and a fan of thin mechanical arms."
+    },
+    {
+     "id": "calibration-chamber",
+     "name": "Calibration Chamber",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/research-development/calibration-laboratory",
+     "blurb": "It repairs nearby sensors against a false reference. Break its cycle first.",
+     "look": "A cream insulated box on four legs with a circular door and blue coils."
+    },
+    {
+     "id": "archive-custodian",
+     "name": "Archive Custodian",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/data-software/eol-field-data-archive-dms",
+     "blurb": "It protects its instruments and tries to crate the crew as specimens.",
+     "look": "A brown wheeled crate with clamp arms, a lid like a jaw and brass hinges."
+    },
+    {
+     "id": "lotos-stakes",
+     "name": "Boundary Stakes",
+     "tier": "elite",
+     "bodyPlan": "plant",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "strike"
+     ],
+     "source": "/research-development/lotos",
+     "blurb": "The stakes build a perimeter and call more sensors into it.",
+     "look": "A cluster of tall black stakes with wire branches, orange tips and low mesh skirts."
+    },
+    {
+     "id": "radar-array",
+     "name": "Airborne Array",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "sweep",
+      "strike"
+     ],
+     "source": "/airborne-phased-array-radar-apar-0",
+     "blurb": "Separate beams herd the crew into a sweeping pass.",
+     "look": "A broad gray aircraft-shaped machine with four propellers and rectangular blue radar panels."
+    },
+    {
+     "id": "fabrication-rig",
+     "name": "Fabrication Rig",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "brace",
+      "strike"
+     ],
+     "source": "/dfs",
+     "blurb": "It cuts spare parts from the room to repair the sensor network.",
+     "look": "A yellow gantry on tracks with three cutting arms and a tray of silver components."
+    },
+    {
+     "id": "end-to-end",
+     "name": "End-to-End Observatory",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "patch+"
+     ],
+     "source": "/about",
+     "blurb": "It deploys probes, sweeps the crew and repairs its network. The measurements are a search for a signal, not a hunt for weather.",
+     "look": "A silver aircraft fuselage mounted over a tracked workshop, with a radar dish, crane arms and open instrument crates."
+    },
+    {
+     "id": "reference-standard",
+     "name": "Reference Standard",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/research-development/calibration-laboratory",
+     "blurb": "This independent gauge helps Wren check and repair corrupted instruments.",
+     "look": "A small cream case with a round glass dial, two folding legs and a copper handle."
+    },
+    {
+     "id": "repair-rig",
+     "name": "Workshop Rig",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/dfs",
+     "blurb": "A portable workbench makes a shield from the parts the crew salvages.",
+     "look": "A low blue wheeled workbench with two clamp arms and a curved metal plate."
+    }
+   ],
+   "events": [
+    {
+     "id": "lab-sonde",
+     "source": "/in-situ-sensing-facility",
+     "look": "A white probe stuck in paving beside an open metal case.",
+     "title": "Last reading",
+     "text": "A probe transmits from beneath the floor. Its case holds either a medical pack or a set of valuable fittings; a tremor leaves time to grab one.",
+     "options": [
+      {
+       "label": "Grab the medical pack",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren treats the crew as the floor shakes."
+      },
+      {
+       "label": "Grab the fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew escapes with the fittings."
+      }
+     ]
+    },
+    {
+     "id": "lab-calibration",
+     "source": "/research-development/calibration-laboratory",
+     "look": "Two silver gauges beside an open insulated chamber.",
+     "title": "A known reference",
+     "text": "One gauge is compromised. The working reference can teach the crew a repair method or be sold to fund supplies.",
+     "options": [
+      {
+       "label": "Study the reference",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "Wren learns to clear a corrupted reading."
+      },
+      {
+       "label": "Trade the reference",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The crew receives a pouch of coins."
+      }
+     ]
+    },
+    {
+     "id": "lab-catalog",
+     "source": "/data-software/data-services/eol-field-catalog-dms",
+     "look": "A glowing map beside a clock and two diverging corridors.",
+     "title": "Five minutes early",
+     "text": "A catalog predicts the crew\u2019s arrival. The early route has a supply case; the late route gives time to practice a counterattack.",
+     "options": [
+      {
+       "label": "Take the supply case",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew gets the case before the patrol arrives."
+      },
+      {
+       "label": "Practice the counterattack",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel finds a way through a shield."
+      }
+     ]
+    },
+    {
+     "id": "lab-fabricator",
+     "source": "/dfs",
+     "look": "A yellow cutting arm reaching for a bridge support beside a metal crate.",
+     "title": "Feed the rig",
+     "text": "The rig will accept either a coin pouch or the metal crate in place of the bridge support. The crate contains a useful guard plate.",
+     "options": [
+      {
+       "label": "Give up the coins",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The rig takes the pouch and the crate stays with the crew."
+      },
+      {
+       "label": "Give up the crate",
+       "effect": {
+        "type": "routine",
+        "id": "strike+"
+       },
+       "result": "Kestrel studies the cutting arm while it consumes the plate."
+      }
+     ]
+    },
+    {
+     "id": "lab-stakes",
+     "source": "/research-development/lotos",
+     "look": "Black stakes forming a widening ring around a small green box.",
+     "title": "Closing perimeter",
+     "text": "A cache sits inside a growing ring. The crew can retrieve its coins or use the remaining time to rest outside.",
+     "options": [
+      {
+       "label": "Enter for the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 60
+       },
+       "result": "The crew slips out with the coins before the gap closes."
+      },
+      {
+       "label": "Rest outside",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren tends the crew while the stakes unfold."
+      }
+     ]
+    },
+    {
+     "id": "lab-radar",
+     "source": "/platforms-instruments/ground-based-systems",
+     "look": "A radar dish sweeping mist over a parked gray vehicle.",
+     "title": "Moving shadow",
+     "text": "A radar shadow crosses a parked vehicle. Following it leads to a spare shield; crossing later leads to a pouch of salvage.",
+     "options": [
+      {
+       "label": "Follow the shadow",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox takes the spare shield."
+      },
+      {
+       "label": "Cross later",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The crew collects the salvage after the scan passes."
+      }
+     ]
+    }
+   ],
+   "name": "Earth Observing Laboratory",
+   "url": "https://www.eol.ucar.edu/"
+  },
+  {
+   "theme": "The reply",
+   "story": {
+    "intro": "At the observatory, ground sensors and domes turn together. Ox steadies a manual sight while Wren checks the bearing. Kestrel follows the cables toward the largest eye.",
+    "chapters": [
+     {
+      "title": "A joined network",
+      "text": "Seismic stations and weather sensors feed the same receiver. Patrols protect their cables. The swarm is using every instrument it can reach to hear the signal."
+     },
+     {
+      "title": "The source",
+      "text": "Wren compares the pulse with the manual sight. It comes from a distant rotating star, repeating as it turns. It is not a message addressed to the swarm."
+     },
+     {
+      "title": "An answer to keep",
+      "text": "The machines still defend the signal and silence anything that interferes. Ox holds a route open. Kestrel finds where the dome eye joins the ground network."
+     }
+    ],
+    "bossIntro": "The All-Sky Observatory raises its eye. It calls defenders, sweeps the approach and repairs its sensors to keep hearing the pulse.",
+    "outro": "The network comes apart. The pulse continues in Wren\u2019s independent receiver: a star turning, not a caller waiting for an answer. Ox lowers the shield. Kestrel leaves the manual sight aimed at the sky."
+   },
+   "creatures": [
+    {
+     "id": "radiometer-moth",
+     "name": "Radiometer Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/research/infrastructure/diktyo-meteorologikon-stathmon-2/",
+     "blurb": "It follows heat and dives at the brightest target.",
+     "look": "A moth with copper wings, a black spherical body and two round amber lenses."
+    },
+    {
+     "id": "motion-collector",
+     "name": "Motion Collector",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "bruiser",
+     "routines": [
+      "strike",
+      "finish"
+     ],
+     "source": "/research/infrastructure/diktyo-epitachynsiografon/",
+     "blurb": "It stores the force of footsteps for a heavy kick.",
+     "look": "A squat gray beetle with spring legs, a weighted tail and a round glass gauge."
+    },
+    {
+     "id": "orbit-sweeper",
+     "name": "Orbit Sweeper",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/news/nea/deka-chronia-eu-sst-asfaleia-kai-viosimotita-sto-diastima/",
+     "blurb": "It spins a protective ring before catching whatever moves.",
+     "look": "A silver saucer with three rotating black hoops and a single blue lens."
+    },
+    {
+     "id": "seismic-chorus",
+     "name": "Seismic Chorus",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/research/infrastructure/seismologiko-diktyo/",
+     "blurb": "Its tapping summons more sensors to the crew\u2019s position.",
+     "look": "Five bronze cones on little feet connected by loose black cables."
+    },
+    {
+     "id": "archive-sorter",
+     "name": "Archive Sorter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/ddoy/tmima-protokolloy/",
+     "blurb": "It clamps a target while sorting incoming signals from outgoing ones.",
+     "look": "A cream sorting cabinet on wheels with two chutes and long rubber-tipped arms."
+    },
+    {
+     "id": "continuity-mechanic",
+     "name": "Continuity Mechanic",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/dye/tmima-technikis-ypostirixis/",
+     "blurb": "It welds damaged receivers back into the network.",
+     "look": "A blue wheeled tool chest with a welding arm, brass claws and a hinged round visor."
+    },
+    {
+     "id": "network-graft",
+     "name": "Network Graft",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/dye/tmima-anaptyxis/",
+     "blurb": "It wraps cables around other machines to shield them.",
+     "look": "A black cable trunk with branching copper wires and a flat gray base on wheels."
+    },
+    {
+     "id": "report-binder",
+     "name": "Report Binder",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/annual_report/",
+     "blurb": "It repeats the last action it has recorded.",
+     "look": "A thick gray metal binder with a circular lens and four articulated brass corners."
+    },
+    {
+     "id": "seismicity-mapper",
+     "name": "Seismicity Mapper",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/research/epicheirisiakes-monades/monada-parakoloythisis-seismikotitas/",
+     "blurb": "It marks the crew with a grid and summons machines to the coordinates.",
+     "look": "A flat white drone with four rotor rings and a downward-pointing green lens."
+    },
+    {
+     "id": "warning-buoy",
+     "name": "Warning Bell Buoy",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "sweep"
+     ],
+     "source": "/research/epicheirisiakes-monades/ethniko-kentro-proeidopoiisis-tsoynami/",
+     "blurb": "Its folding barriers protect the network and sweep the approach clear.",
+     "look": "A tall orange buoy on a wheeled base with a bronze bell and four folding gray barriers."
+    },
+    {
+     "id": "cardinal-dome",
+     "name": "Cardinal Dome",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach"
+     ],
+     "source": "/istoria/",
+     "blurb": "Four rotating wings drive its heavy charge through shields.",
+     "look": "A low stone-colored dome on four broad mechanical legs, each bearing a rectangular wing."
+    },
+    {
+     "id": "all-sky-observatory",
+     "name": "All-Sky Observatory",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "triage"
+     ],
+     "source": "/infrastructure/",
+     "blurb": "Its ground sensors summon defenders while its eye sweeps the crew. It repairs the network to keep a distant reply from fading.",
+     "look": "A huge white dome on a ring of black sensor legs, with a blue glass eye and branching copper cables."
+    },
+    {
+     "id": "tactile-guide",
+     "name": "Tactile Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/aggizontas-ton-oyrano/",
+     "blurb": "A guide reads raised stars by touch and helps the crew navigate the dark.",
+     "look": "A figure in a dark blue coat holding a round black board covered in raised silver dots."
+    },
+    {
+     "id": "museum-keeper",
+     "name": "Museum Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/museum/",
+     "blurb": "A keeper carries manual instruments and mends damaged gear.",
+     "look": "A figure in a brown work coat with a brass handheld telescope and a green tool bag."
+    }
+   ],
+   "events": [
+    {
+     "id": "sky-seismic",
+     "source": "/research/infrastructure/seismologiko-diktyo/",
+     "look": "Five bronze ground sensors around two small cases.",
+     "title": "Five taps",
+     "text": "One station has moved. Comparing the taps reveals two caches, but the patrol will return before both can be opened.",
+     "options": [
+      {
+       "label": "Open the medical case",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren distributes its supplies."
+      },
+      {
+       "label": "Open the parts case",
+       "effect": {
+        "type": "gold",
+        "amount": 65
+       },
+       "result": "Kestrel takes the valuable parts."
+      }
+     ]
+    },
+    {
+     "id": "sky-motion",
+     "source": "/research/infrastructure/diktyo-epitachynsiografon/",
+     "look": "A spring-legged recorder beside a locked toolbox.",
+     "title": "A day of footsteps",
+     "text": "A recorder will open its toolbox for a matching rhythm. Its battery has enough charge to unlock one of two compartments.",
+     "options": [
+      {
+       "label": "Unlock the shield compartment",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox takes the folding plate."
+      },
+      {
+       "label": "Unlock the cash compartment",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The crew takes the emergency fund."
+      }
+     ]
+    },
+    {
+     "id": "sky-museum",
+     "source": "/museum/",
+     "look": "A brass telescope and a canvas medical roll on a stone shelf.",
+     "title": "Manual instruments",
+     "text": "A keeper offers a manual sight or a medical roll. The other must stay for the next visitor.",
+     "options": [
+      {
+       "label": "Take the medical roll",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren uses the clean dressings."
+      },
+      {
+       "label": "Study the sight",
+       "effect": {
+        "type": "routine",
+        "id": "finish"
+       },
+       "result": "Kestrel learns to pick out an exposed joint."
+      }
+     ]
+    },
+    {
+     "id": "sky-map",
+     "source": "/aggizontas-ton-oyrano/",
+     "look": "A dark circular board with raised silver stars and a small tool pouch.",
+     "title": "Raised stars",
+     "text": "A tactile map has lost three stars. The guide offers either a lesson in feeling the route or a pouch of spare fittings.",
+     "options": [
+      {
+       "label": "Learn the route",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The crew learns to check its bearings without a display."
+      },
+      {
+       "label": "Take the fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The guide gives the crew the spare parts."
+      }
+     ]
+    },
+    {
+     "id": "sky-scaffold",
+     "source": "/competition/",
+     "look": "Gray scaffold poles forming both a ramp and a cage.",
+     "title": "One set of supports",
+     "text": "A scaffold can be redirected into a sheltered rest or dismantled for valuable metal. There is only enough time for one.",
+     "options": [
+      {
+       "label": "Make a shelter",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The crew rests under the new ramp."
+      },
+      {
+       "label": "Salvage the supports",
+       "effect": {
+        "type": "gold",
+        "amount": 70
+       },
+       "result": "Kestrel pulls the metal free."
+      }
+     ]
+    },
+    {
+     "id": "sky-courier",
+     "source": "/universall/",
+     "look": "A closed astronomy kit beside a blue canvas supply bag.",
+     "title": "The lost kit",
+     "text": "A courier recovers a school kit and offers the crew a choice of supplies in thanks: a repair pack or a coin pouch.",
+     "options": [
+      {
+       "label": "Take the repair pack",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren repairs damaged gear."
+      },
+      {
+       "label": "Take the coin pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew takes the travel fund."
+      }
+     ]
+    }
+   ],
+   "name": "National Observatory of Athens",
+   "url": "https://www.noa.gr/en/"
+  }
+ ],
+ "id": "2026-11-04",
+ "seed": 868450126
+}

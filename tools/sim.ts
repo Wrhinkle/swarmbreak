@@ -72,8 +72,10 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
     if (policy.start !== undefined && actIndex === 0) legal = legal.filter(n => n.x === policy.start);
     while (legal.length) {
       const score = (n: MapNode) => { if (n.hidden) return random() + .4; return random() + (n.kind === 'rest' ? (health() < .6 ? 3 : 0) : n.kind === 'elite' ? (health() > .8 ? 1.5 : -2) : n.kind === 'shop' ? (gold >= 60 ? 1.5 : 0) : n.kind === 'treasure' ? 1 : n.kind === 'event' ? .5 : 0); };
+      // The whole map is on screen, so a player plans two rooms past the next one.
+      const look = (n: MapNode, depth = 2): number => score(n) + (depth ? .6 * Math.max(0, ...act.nodes.filter(x => n.next.includes(x.id)).map(x => look(x, depth - 1))) : 0);
       const useScore = smart();
-      const n = useScore ? [...legal].sort((a, b) => score(b) - score(a))[0] : legal[Math.floor(random() * legal.length)];
+      const n = useScore ? [...legal].map(x => [look(x), x] as const).sort((a, b) => b[0] - a[0])[0][1] : legal[Math.floor(random() * legal.length)];
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
         swapReserves();

@@ -1,0 +1,196 @@
+{
+  "reading": "The National Observatory of Athens is a public research institution tracing its work to 1842. Its institutes study the sky, Earth and environment; observation networks and operational units monitor seismicity, weather and other hazards. It also teaches, preserves instruments and a historical library, and brings astronomy to visitors and underserved learners. Its vocabulary moves between observatories, stations, networks, monitoring, research support and public service. Its distinctive character is the overlap of old domes and telescopes, modern distributed sensors, disaster warning, space surveillance and the everyday administration needed to keep research running.",
+  "enemies": [
+    {
+      "idea": "Cardinal Dome: the cross-shaped first observatory rotates its four wings to trap intruders in corridors that always point north, south, east and west.",
+      "source": "/istoria/",
+      "why": "Its orientation becomes a navigable clockwork puzzle."
+    },
+    {
+      "idea": "Meridian Stalker: a stolen meridian telescope tracks anything that crosses its line and pins it in a narrow beam until it moves out of alignment.",
+      "source": "/istoria/",
+      "why": "Crossing the sightline becomes a timed maneuver."
+    },
+    {
+      "idea": "Five-Station Chorus: descendants of the original seismic network tap on floors to triangulate footsteps, then converge from five directions.",
+      "source": "/research/infrastructure/seismologiko-diktyo/",
+      "why": "A historic network makes sound and formation matter."
+    },
+    {
+      "idea": "Strong-Motion Collector: an accelerograph scuttles through streets provoking jolts, storing their force and releasing it as a measured kick.",
+      "source": "/research/infrastructure/diktyo-epitachynsiografon/",
+      "why": "The crew can deny it energy by moving gently."
+    },
+    {
+      "idea": "Radiometer Moth: weather-station machines chase heat and light, shading lamps with metal wings before homing in on the warmest silhouette.",
+      "source": "/research/infrastructure/diktyo-meteorologikon-stathmon-2/",
+      "why": "Light and warmth become useful decoys."
+    },
+    {
+      "idea": "Climate Ledger: a PANGAEA sensor raft on Antikythera classifies every traveler as a changing atmospheric condition and seals them in sampling chambers.",
+      "source": "/research/infrastructure/paggaia/",
+      "why": "A climate observatory mistakes people for specimens."
+    },
+    {
+      "idea": "Archive Sorter: a mail-processing machine stamps living things incoming or outgoing and shunts them into matching physical and electronic records.",
+      "source": "/ddoy/tmima-protokolloy/",
+      "why": "Switching a stamp can redirect the machine itself."
+    },
+    {
+      "idea": "Budget Executor: it assigns a spending limit to every movement in a room, then confiscates tools when the imaginary allocation runs out.",
+      "source": "/ddoy/tmima-proypologismoy-oikonomikis-diacheirisis/",
+      "why": "A predatory accounting rule creates a resource puzzle."
+    },
+    {
+      "idea": "Payment Warrant: a many-jointed cashier demands an expense be cleared before any door opens, accepting only parts stripped from other machines.",
+      "source": "/ddoy/tmima-pliromon-loipon-oikonomikon-thematon/",
+      "why": "Salvage becomes both payment and a tactical sacrifice."
+    },
+    {
+      "idea": "Continuity Mechanic: a technical-support machine keeps equipment running by welding foreign parts onto anything that slows down, including crew gear.",
+      "source": "/dye/tmima-technikis-ypostirixis/",
+      "why": "Its helpful repairs can immobilize or unexpectedly upgrade equipment."
+    },
+    {
+      "idea": "Network Graft: infrastructure builders connect nearby machines with cables; severing one cable makes the others reroute around the crew.",
+      "source": "/dye/tmima-anaptyxis/",
+      "why": "The battlefield changes as the network repairs itself."
+    },
+    {
+      "idea": "Seismicity Mapper: a monitoring drone draws an expanding coordinate grid around footsteps and calls other machines to the calculated location.",
+      "source": "/research/epicheirisiakes-monades/monada-parakoloythisis-seismikotitas/",
+      "why": "A visible grid lets players mislead a triangulation."
+    },
+    {
+      "idea": "Warning Bell Buoy: a corrupted warning unit mistakes any ripple for a threat and deploys folding barriers that pen boats and pedestrians in.",
+      "source": "/research/epicheirisiakes-monades/ethniko-kentro-proeidopoiisis-tsoynami/",
+      "why": "The threat is an overzealous response, with barriers to reconfigure."
+    },
+    {
+      "idea": "Orbit Sweeper: a space-tracking drone labels moving tools as dangerous debris and tries to catch them in rotating capture rings.",
+      "source": "/news/nea/deka-chronia-eu-sst-asfaleia-kai-viosimotita-sto-diastima/",
+      "why": "Thrown objects can lure it into tangling its own rings."
+    },
+    {
+      "idea": "Balance-Sheet Crab: the research-funds account machine must balance both claws, so it steals an object of equal weight whenever one is removed.",
+      "source": "/financial-data/oikonomika-stoicheia-elke/",
+      "why": "Players can trick it with counterweights."
+    },
+    {
+      "idea": "Restoration Scaffold: a maintenance swarm encases the old building in self-extending supports, treating movement as structural damage to be braced.",
+      "source": "/competition/",
+      "why": "Its braces can form bridges as well as cages."
+    },
+    {
+      "idea": "Annual Report Binder: it captures each encounter as a numbered yearly volume and repeats the previous volume’s attack on the next pass.",
+      "source": "/annual_report/",
+      "why": "The crew can exploit its predictable memory."
+    },
+    {
+      "idea": "Geophysical Walkers: museum specimens and instrument mounts march the geophysical walk, rearranging it into a loop to keep visitors on tour.",
+      "source": "/museum/",
+      "why": "A familiar educational route becomes a spatial puzzle."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Touching the Sky guides retain tactile star maps; they teach crews to navigate by raised constellations when visual instruments are blinded.",
+      "source": "/aggizontas-ton-oyrano/",
+      "why": "An accessible way of learning becomes a practical countermeasure."
+    },
+    {
+      "idea": "UniversALL couriers carry astronomy lessons to remote communities and know routes between isolated listening posts.",
+      "source": "/universall/",
+      "why": "Their outreach network can reconnect scattered survivors."
+    },
+    {
+      "idea": "The independent research ethics committee keeps a protected review room where machines must pause for scrutiny before an experiment proceeds.",
+      "source": "/ehde/",
+      "why": "A research safeguard gives the crew a place to negotiate and interrupt tests."
+    },
+    {
+      "idea": "Museum keepers shelter old instruments and teach crews to use a manual sight when networked sensors are compromised.",
+      "source": "/museum/",
+      "why": "Historic equipment offers a hands-on route through the blackout."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The All-Sky Observatory: the swarm joins telescope, seismic and weather networks into a single rotating eye that mistakes every movement for a phenomenon to capture. Its ground sensors reveal it; its dome eye attacks.",
+      "source": "/infrastructure/",
+      "why": "A fight across the institution’s sky-to-ground infrastructure rewards disabling different senses."
+    },
+    {
+      "idea": "The Organogram: the swarm’s hierarchy fuses research institutes and administrative branches into a many-armed command machine; each branch issues orders that empower another until its chain of command is interrupted.",
+      "source": "/domi/organogramma-eaa/",
+      "why": "The organization itself becomes a coordinated multi-stage adversary."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A night-tour group waits at the main entrance while a guide machine keeps starting the walk over. Find a way to finish the tour and lead everyone out.",
+      "source": "/calendar/22631-04-11-26/",
+      "why": "A routine meeting point becomes a rescue with a social solution."
+    },
+    {
+      "idea": "Five old seismic stations tap out conflicting locations for a hidden cache; one has been moved by the swarm. Compare the rhythms to find it.",
+      "source": "/research/infrastructure/seismologiko-diktyo/",
+      "why": "A small triangulation mystery uses the network’s history."
+    },
+    {
+      "idea": "A strong-motion recorder has collected a day of harmless footsteps and refuses to release a trapped toolbox until someone reproduces its pattern.",
+      "source": "/research/infrastructure/diktyo-epitachynsiografon/",
+      "why": "Players can solve a rhythmic challenge without fighting."
+    },
+    {
+      "idea": "A weather station reports midnight heat under a cold sky: a moth-machine is sheltering a stolen lamp. Retrieve it without attracting the flock.",
+      "source": "/research/infrastructure/diktyo-meteorologikon-stathmon-2/",
+      "why": "Measurements provide a clue and stealth complications."
+    },
+    {
+      "idea": "An archive sorter has mixed a rescue message with outgoing correspondence. Divert the right bundle before it is sealed away.",
+      "source": "/ddoy/tmima-protokolloy/",
+      "why": "Sorting under pressure makes bureaucracy tangible."
+    },
+    {
+      "idea": "The museum’s historic library has a manual instrument guide, but shifting mounts on the geophysical walk block the way back.",
+      "source": "/museum/",
+      "why": "A useful discovery comes with a changing escape route."
+    },
+    {
+      "idea": "A remote-school astronomy kit has gone astray between settlements. Return it to its couriers and gain a safe route onward.",
+      "source": "/universall/",
+      "why": "A modest delivery ties exploration to outreach."
+    },
+    {
+      "idea": "A tactile sky map has lost three raised stars; replacing them reveals a route through a darkened dome.",
+      "source": "/aggizontas-ton-oyrano/",
+      "why": "A physical puzzle supports navigation without sight."
+    },
+    {
+      "idea": "A maintenance scaffold is building a ramp and a cage at once. Redirect its supports before it encloses the entrance.",
+      "source": "/competition/",
+      "why": "The same construction can help or hinder depending on intervention."
+    },
+    {
+      "idea": "An orbit-tracking drone circles a thrown wrench as if it were space debris. Recover the wrench or use its orbit to distract the drone.",
+      "source": "/news/nea/deka-chronia-eu-sst-asfaleia-kai-viosimotita-sto-diastima/",
+      "why": "An everyday object turns orbital tracking into play."
+    },
+    {
+      "idea": "A research-funds balance machine offers a needed battery in exchange for an equally heavy object. Decide what to trade or find a counterweight.",
+      "source": "/financial-data/oikonomika-stoicheia-elke/",
+      "why": "A small bargain invites inventive use of equipment."
+    },
+    {
+      "idea": "A public astronomy lesson at a special school continues by lamplight while a swarm approaches; help protect the lesson and move the materials.",
+      "source": "/one-sky/",
+      "why": "The crew can defend an ongoing act of teaching."
+    },
+    {
+      "idea": "Two operational units send incompatible alerts about the same rattling machine. Trace the signals to restore a clear warning.",
+      "source": "/archiki/epixeirisiakes-monades/",
+      "why": "Reconciling observations turns a false alarm into a cooperative investigation."
+    }
+  ]
+}
