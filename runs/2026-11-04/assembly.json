@@ -1,0 +1,31 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [["gap-hound"], ["kite-spider"], ["sun-collector"], ["gap-hound", "sun-collector"], ["sun-collector", "sun-collector"], ["gap-hound", "gap-hound"]],
+        "mid": [["double-reader"], ["trend-serpent"], ["forecast-cadet"], ["cloud-classifier", "sun-collector"], ["relay-mender", "gap-hound"], ["kite-spider", "sun-collector"], ["cloud-classifier", "gap-hound"]],
+        "late": [["double-reader", "sun-collector"], ["trend-serpent", "sun-collector"], ["forecast-cadet"], ["relay-mender", "sun-collector"], ["cloud-classifier", "kite-spider"], ["gap-hound", "sun-collector", "sun-collector"]]
+      },
+      "elites": [{"id":"extremes-sorter","reward":"hill-observer"}, {"id":"panorama-stitcher","reward":"kite-scout"}, {"id":"enclosure-keeper","reward":"hill-observer"}],
+      "shop": ["sweep", "finish", "breach", "patch", "brace", "jam", "strike+"]
+    },
+    {
+      "packs": {
+        "early": [["sonde-mites"], ["flux-tripod"], ["cloud-hunter"], ["flux-tripod", "cloud-hunter"], ["sonde-mites", "flux-tripod"], ["cloud-hunter", "cloud-hunter"]],
+        "mid": [["lidar-pair"], ["aperture-crawler", "flux-tripod"], ["catalog-collector"], ["calibration-chamber", "cloud-hunter"], ["archive-custodian", "sonde-mites"], ["sonde-mites", "cloud-hunter"]],
+        "late": [["catalog-collector", "flux-tripod"], ["calibration-chamber", "cloud-hunter"], ["archive-custodian", "sonde-mites"], ["lidar-pair", "cloud-hunter"], ["aperture-crawler", "flux-tripod"], ["sonde-mites", "flux-tripod", "cloud-hunter"]]
+      },
+      "elites": [{"id":"lotos-stakes","reward":"reference-standard"}, {"id":"radar-array","reward":"repair-rig"}, {"id":"fabrication-rig","reward":"reference-standard"}],
+      "shop": ["sweep", "breach", "purge", "patch+", "cover", "corrupt", "finish"]
+    },
+    {
+      "packs": {
+        "early": [["radiometer-moth"], ["motion-collector"], ["orbit-sweeper"], ["motion-collector", "orbit-sweeper"], ["radiometer-moth", "orbit-sweeper"], ["motion-collector", "motion-collector"]],
+        "mid": [["seismic-chorus"], ["archive-sorter", "orbit-sweeper"], ["continuity-mechanic", "motion-collector"], ["network-graft", "orbit-sweeper"], ["report-binder"], ["radiometer-moth", "motion-collector"]],
+        "late": [["seismic-chorus", "orbit-sweeper"], ["archive-sorter", "motion-collector"], ["continuity-mechanic", "orbit-sweeper"], ["network-graft", "motion-collector"], ["report-binder", "orbit-sweeper"], ["radiometer-moth", "motion-collector", "orbit-sweeper"]]
+      },
+      "elites": [{"id":"seismicity-mapper","reward":"tactile-guide"}, {"id":"warning-buoy","reward":"museum-keeper"}, {"id":"cardinal-dome","reward":"tactile-guide"}],
+      "shop": ["sweep+", "breach", "finish", "triage", "brace", "jam", "strike+"]
+    }
+  ]
+}

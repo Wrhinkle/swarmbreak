@@ -1,0 +1,45 @@
+{
+  "thread": "Follow the sky upward: begin with weather watched from a hill, travel through the instrumented atmosphere, and end among telescopes listening to the stars. Each stop gives the swarm new sensors, signals, and celestial neighbors to become.",
+  "candidates": [
+    {
+      "name": "Blue Hill Observatory and Science Center",
+      "url": "https://bluehill.org/",
+      "why": "A hilltop weather station with historic instruments, daily observations, climate archives, and long-running records: sunshine recorders and wind gauges can become patient, weather-sensitive creatures."
+    },
+    {
+      "name": "Earth Observing Laboratory",
+      "url": "https://www.eol.ucar.edu/",
+      "why": "Research aircraft, airborne instruments, ground-based radars, and field campaigns offer a menagerie of flying samplers and cloud-probing machines."
+    },
+    {
+      "name": "National Observatory of Athens",
+      "url": "https://www.noa.gr/en/",
+      "why": "The observatory connects atmospheric sensing and meteorological networks with mountaintop telescopes and historical scientific instruments, making a natural bridge from air to space."
+    },
+    {
+      "name": "Perth Observatory",
+      "url": "https://perthobservatory.com.au/",
+      "why": "Southern-sky telescopes, research projects, a historical instrument museum, and even tiny fairy doors suggest both astronomical and miniature inhabitants."
+    },
+    {
+      "name": "National Solar Observatory",
+      "url": "https://nso.edu/",
+      "why": "Solar telescopes, magnetic fields, sunspots, and instruments built to study the Sun provide material for bright, turbulent creatures."
+    },
+    {
+      "name": "National Radio Astronomy Observatory",
+      "url": "https://public.nrao.edu/",
+      "why": "Radio dishes, interferometer arrays, cosmic molecules, and invisible radio signals invite creatures that listen across enormous distances."
+    },
+    {
+      "name": "Hungarian Meteorological Service",
+      "url": "https://www.met.hu/en/",
+      "why": "Forecast models, radar, lake observations, climate records, and a meteorological museum full of old measuring devices offer many ways to sense the lower sky."
+    },
+    {
+      "name": "European Southern Observatory",
+      "url": "https://www.eso.org/public/",
+      "why": "Desert observatories, giant segmented mirrors, instruments, and images of distant nebulae give the journey a deep-space ending."
+    }
+  ]
+}
