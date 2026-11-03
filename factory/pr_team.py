@@ -14,6 +14,8 @@ REPO = 'Wrhinkle/swarmbreak'
 ROUNDS, QODO_WAIT = 2, 1500
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
 PROTECTED = ('AGENTS.md', 'factory/', 'firebase.json', 'public/manifest.json', '.github/')
+GATES = ('AGENTS.md', '.github/', 'firebase.json', 'tools/balance.ts', 'tools/checks.ts', 'tools/sim.ts')
+GATE_PROMPTS = tuple(f'factory/agents/{n}.md' for n in ('manager', 'comms', 'builder', 'pr-triage', 'pr-fixer', 'gate-reviewer'))
 
 
 def sh(*cmd, cwd=ROOT, check=True):
@@ -36,6 +38,28 @@ def findings(url):
 
 def is_open(f):
     return f.get('attribution_status') in OPEN
+
+
+def touches_gates(files):
+    """Files that hold the factory's limits. Changes to them need the gate reviewer as well as Qodo."""
+    paths = [f['path'] for f in files]
+    return [p for p in paths if p.startswith(GATES) or (p.startswith('factory/') and p.endswith(('.py', '.plist'))) or p in GATE_PROMPTS]
+
+
+def gate_verdict(path):
+    """Only an explicit approve counts, so a missing or broken verdict blocks the merge."""
+    try:
+        v = json.loads(Path(path).read_text())
+    except (OSError, ValueError):
+        return False, 'The gate reviewer wrote no readable verdict.'
+    return (v.get('approve') is True, str(v.get('why', ''))) if isinstance(v, dict) else (False, 'The verdict is not an object.')
+
+
+def gate_review(diff):
+    with tempfile.TemporaryDirectory() as work:
+        Path(work, 'diff.patch').write_text(diff)
+        bot('gate-reviewer', work, f'The repo is at {ROOT}. Don\'t change it. Write verdict.json in the current folder.', effort='high')
+        return gate_verdict(Path(work, 'verdict.json'))
 
 
 def verified(tree):
@@ -191,6 +215,15 @@ def main():
     if not merge:
         print(f'PR {number} passes every check at {sha[:7]}. Run with --merge to merge it.')
         return
+    # Reviewed last and merged by commit, so the reviewer's approval covers exactly what lands.
+    names = sh('git', 'diff', '--name-only', f'origin/{base}...{sha}').stdout.split()
+    gates = touches_gates([{'path': n} for n in names])
+    if gates:
+        approved, why = gate_review(sh('git', 'diff', f'origin/{base}...{sha}').stdout)
+        print(f'Gate review of {sha[:7]}: {"approved" if approved else "rejected"}. {why[:400]}', flush=True)
+        if not approved:
+            sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Gate reviewer rejected {sha[:7]}:\n\n{why[:3000]}')
+            sys.exit(f'Gate reviewer rejected PR {number}. Not merging.')
     sh('gh', 'pr', 'merge', number, '--repo', REPO, '--merge', '--match-head-commit', sha)
     print(f'Merged PR {number} at {sha[:7]}.')
 
