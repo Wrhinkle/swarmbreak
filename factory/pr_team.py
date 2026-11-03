@@ -14,7 +14,7 @@ REPO = 'Wrhinkle/swarmbreak'
 ROUNDS, QODO_WAIT = 2, 1500
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
 PROTECTED = ('AGENTS.md', 'factory/', 'firebase.json', 'public/manifest.json', '.github/')
-GATES = ('AGENTS.md', '.github/', 'firebase.json', 'package.json', 'package-lock.json', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
+GATES = ('AGENTS.md', '.github/', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
 
 
 def sh(*cmd, cwd=ROOT, check=True):
@@ -37,6 +37,12 @@ def findings(url):
 
 def is_open(f):
     return f.get('attribution_status') in OPEN
+
+
+def changed_paths(base, sha, cwd=ROOT):
+    # --no-renames lists a renamed file's old path too, so moving a limit file away still counts as touching it.
+    out = sh('git', 'diff', '--name-only', '--no-renames', '-z', f'{base}...{sha}', cwd=cwd).stdout
+    return [p for p in out.split('\0') if p]
 
 
 def touches_gates(files):
@@ -217,10 +223,9 @@ def main():
         print(f'PR {number} passes every check at {sha[:7]}. Run with --merge to merge it.')
         return
     # Reviewed last and merged by commit, so the reviewer's approval covers exactly what lands.
-    names = sh('git', 'diff', '--name-only', f'origin/{base}...{sha}').stdout.split()
-    gates = touches_gates([{'path': n} for n in names])
+    gates = touches_gates([{'path': n} for n in changed_paths(f'origin/{base}', sha)])
     if gates:
-        approved, why = gate_review(sh('git', 'diff', f'origin/{base}...{sha}').stdout)
+        approved, why = gate_review(sh('git', 'diff', '--no-renames', f'origin/{base}...{sha}').stdout)
         print(f'Gate review of {sha[:7]}: {"approved" if approved else "rejected"}. {why[:400]}', flush=True)
         if not approved:
             sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Gate reviewer rejected {sha[:7]}:\n\n{why[:3000]}')

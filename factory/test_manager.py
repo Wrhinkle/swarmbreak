@@ -84,7 +84,21 @@ with tempfile.TemporaryDirectory() as d:
 
 # New agent prompts, saves and the verify scripts all count as limits; the log and ordinary source don't.
 from pr_team import touches_gates
-for path in ('factory/agents/brand-new.md', 'src/save.ts', 'package.json', 'tools/build-run.ts', 'factory/art.py'):
+for path in ('factory/agents/brand-new.md', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'package.json', 'tools/build-run.ts', 'factory/art.py'):
     assert touches_gates([{'path': path}]), path
 for path in ('factory/log/notes.md', 'src/main.ts', 'runs/2026-11-05/content.json'):
     assert not touches_gates([{'path': path}]), path
+
+# Renaming a limit file to an ordinary path still counts as touching it.
+import tempfile
+from pr_team import changed_paths, sh
+with tempfile.TemporaryDirectory() as d:
+    git = ('git', '-c', 'user.name=t', '-c', 'user.email=t@example.com')
+    sh('git', 'init', '-q', '-b', 'main', d, cwd=d)
+    Path(d, 'AGENTS.md').write_text('rules\n' * 20)
+    sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'a', cwd=d)
+    sh('git', 'checkout', '-qb', 'moved', cwd=d)
+    sh(*git, 'mv', 'AGENTS.md', 'notes with space.md', cwd=d); sh(*git, 'commit', '-qm', 'b', cwd=d)
+    moved = changed_paths('main', 'moved', cwd=d)
+    assert 'notes with space.md' in moved and touches_gates([{'path': p} for p in moved]) == ['AGENTS.md'], moved
+
