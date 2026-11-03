@@ -74,27 +74,35 @@ export function generateAct(html: string, sourceUrl: string): Act {
     room.height = Math.round(90 + size * 40);
   }
   let shortcuts = 0;
+  // Preserve at least half of the original entrance-to-exit journey.
+  const minimumSteps = Math.ceil(shortestPath(entrance, lastMain, paths) / 2);
   for (const room of rooms) {
     if (shortcuts >= Math.floor(rooms.length / 3)) break;
     const href = links[room.id];
     if (!href) continue;
     const target = hash(href) % rooms.length;
-    if (target === room.id || paths.some(p => (p.from === room.id && p.to === target) || (p.to === room.id && p.from === target))) continue;
-    connect(room.id, target, true); shortcuts++;
+    if (target === room.id || (room.id === entrance && target === lastMain) || (room.id === lastMain && target === entrance) || paths.some(p => (p.from === room.id && p.to === target) || (p.to === room.id && p.from === target))) continue;
+    connect(room.id, target, true);
+    if (shortestPath(entrance, lastMain, paths) < minimumSteps) paths.pop();
+    else shortcuts++;
   }
   return { title, sourceUrl, rooms, paths, entrance, exit: lastMain };
 }
 
-export function exitReachable(act: Act): boolean {
-  const visited = new Set<number>([act.entrance]);
-  const queue = [act.entrance];
+function shortestPath(entrance: number, exit: number, paths: Path[]): number {
+  const distances = new Map<number, number>([[entrance, 0]]);
+  const queue = [entrance];
   for (let i = 0; i < queue.length; i++) {
     const room = queue[i];
-    if (room === act.exit) return true;
-    for (const path of act.paths) {
+    if (room === exit) return distances.get(room)!;
+    for (const path of paths) {
       const next = path.from === room ? path.to : path.to === room ? path.from : undefined;
-      if (next !== undefined && !visited.has(next)) { visited.add(next); queue.push(next); }
+      if (next !== undefined && !distances.has(next)) { distances.set(next, distances.get(room)! + 1); queue.push(next); }
     }
   }
-  return false;
+  return Infinity;
+}
+
+export function exitReachable(act: Act): boolean {
+  return shortestPath(act.entrance, act.exit, act.paths) !== Infinity;
 }
