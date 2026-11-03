@@ -4,7 +4,7 @@
 Usage: factory/.venv/bin/python factory/art.py <run-id> [only-id ...]
 Finished PNGs stay in runs/.art/<id>/, so a rerun only makes what's missing.
 """
-import concurrent.futures as cf, json, os, subprocess, sys
+import concurrent.futures as cf, json, os, re, shutil, subprocess, sys
 from pathlib import Path
 
 import numpy as np
@@ -86,7 +86,11 @@ def finish(job, png, work, out):
     dest = out / f"{job['id']}.webp"
     if job['kind'] == 'sheet':
         cut = work / 'cut' / job['id']
-        subprocess.run([sys.executable, CUTTER, 'process', '--input', png, '--target', 'creature', '--mode', 'idle', '--rows', '4', '--cols', '6', '--background-mode', 'chroma_key', '--key', job['key'], '--key-quality', 'auto', '--resampler', 'lanczos', '--scale-strategy', 'preserve', '--shared-scale', '--anchor-mode', 'center', '--align', 'center', '--grid-rounding', 'nearest', '--cell-size', '340', '--output-dir', cut], capture_output=True)
+        # The cutter refuses an existing output folder, and a retry would otherwise reopen the rejected sheet.
+        shutil.rmtree(cut, ignore_errors=True)
+        r = subprocess.run([sys.executable, CUTTER, 'process', '--input', png, '--target', 'creature', '--mode', 'idle', '--rows', '4', '--cols', '6', '--background-mode', 'chroma_key', '--key', job['key'], '--key-quality', 'auto', '--resampler', 'lanczos', '--scale-strategy', 'preserve', '--shared-scale', '--anchor-mode', 'center', '--align', 'center', '--grid-rounding', 'nearest', '--cell-size', '340', '--output-dir', cut], capture_output=True, text=True)
+        if r.returncode:
+            return f'cutter failed: {r.stderr[-300:]}'
         sheet = Image.open(cut / 'sheet-transparent.png').convert('RGBA')
         share = clipped(sheet)
         if share > .25:
@@ -108,6 +112,10 @@ def main():
     work.mkdir(parents=True, exist_ok=True)
     out.mkdir(parents=True, exist_ok=True)
     todo = [j for j in jobs(content, brief) if (j['id'] in only if only else not (out / f"{j['id']}.webp").exists())]
+    # Ids come from model-written content and name folders this script deletes.
+    bad = [j['id'] for j in jobs(content, brief) if not re.fullmatch(r'[a-z0-9-]+', j['id'])]
+    if bad:
+        sys.exit(f'Unsafe image ids: {bad}')
     print(f'{len(todo)} images to make', flush=True)
 
     def one(job):
