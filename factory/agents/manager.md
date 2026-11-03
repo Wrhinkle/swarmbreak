@@ -22,8 +22,9 @@ Pick from these only. Anything else is ignored.
 - `{"type":"factory_run","date":"YYYY-MM-DD","from":"researcher"}`: builds one run. `from` can be researcher, parser, storymaker, gameplay, or art. Don't repeat one that failed unless something changed.
 - `{"type":"open_run","id":"YYYY-MM-DD"}`: points the manifest at a finished run and puts it in a PR. The host rechecks balance and art first. Use `merge_pr` next.
 - `{"type":"deploy"}`: publishes main to the live site. The host refuses if main lacks the live run, or if the new run opens more than an hour from now, because the game would be closed until then. Runs open at 13:00 UTC.
+- `{"type":"build_fix","issue":2}`: the builder fixes one issue in code or content on its own branch, and the PR team takes the PR through Qodo and merges it. Only issues from the repo owner qualify. Follow it with `deploy` if players need the fix today.
 
-There's no action for changing code yet, so a request that needs a code change is `defer`, waiting on a builder.
+Other people's issues are `defer`, waiting on the owner refiling them, for now.
 
 ## When you run
 A pass runs at 16:00 and at 06:00 Central, and runs open at 13:00 UTC, which is 07:00 Central. Use the afternoon pass to merge PRs, answer threads, and build tomorrow's run if it doesn't exist. Use the morning pass to `open_run`, `merge_pr`, and `deploy`, in that order, in one file. A failed build isn't retried until something has changed.

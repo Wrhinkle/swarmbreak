@@ -305,6 +305,16 @@ def act(a, s, dry):
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(a.get('id'))):
             return f'Bad run id: {a}'
         return open_run(a['id'], dry)
+    if kind == 'build_fix':
+        issue = next((i for i in s['issues'] if i['number'] == a.get('issue')), None)
+        if not issue or issue['author']['login'] != OWNER:
+            return f'Issue {a.get("issue")} is not an open issue from the owner. Not building.'
+        r = subprocess.run([sys.executable, ROOT / 'factory/builder.py', str(issue['number']), *(['--dry-run'] if dry else [])], cwd=ROOT, capture_output=True, text=True)
+        last = (r.stdout.strip().splitlines() or [''])[-1]
+        if r.returncode or dry or not last.isdigit():
+            return f'Builder on issue {issue["number"]} exited {r.returncode}: {(r.stdout + r.stderr)[-500:]}'
+        team = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', last, '--merge'], cwd=ROOT)
+        return f'Builder opened PR {last}. PR team exited {team.returncode}.'
     if kind == 'deploy':
         return deploy(dry)
     return f'Ignored unknown action: {kind}'

@@ -30,4 +30,15 @@ assert deploy_problems(soon, live, False, now)
 tpl = '```markdown\nAGENTS.md link:\n```'
 assert unfilled_links('AGENTS.md link: Not available.', tpl)
 assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
+from builder import blocked_paths, only_wording
+assert blocked_paths(['src/act.ts', 'runs/2026-11-05/content.json'], '2026-11-04') == []
+for path in ['AGENTS.md', 'factory/run.py', 'tools/balance.ts', 'tools/checks.ts', 'package.json', 'public/manifest.json', 'runs/2026-11-04/content.json']:
+    assert blocked_paths([path], '2026-11-04'), path
+run = {'id': 'x', 'acts': [{'creatures': [{'id': 'a', 'name': 'A', 'blurb': 'b', 'scale': 1, 'routines': ['strike']}]}]}
+reworded = {'id': 'x', 'acts': [{'creatures': [{'id': 'a', 'name': 'New', 'blurb': 'c', 'scale': 1, 'routines': ['strike']}]}]}
+assert only_wording(run, reworded)
+for change in [('id', 'z'), ('scale', 2), ('routines', ['finish'])]:
+    other = {'id': 'x', 'acts': [{'creatures': [{**run['acts'][0]['creatures'][0], change[0]: change[1]}]}]}
+    assert not only_wording(run, other), change
+assert not only_wording({'a': 1}, {'a': 1, 'b': 2})
 print('ok')
