@@ -8,6 +8,7 @@ import { BlockList, isIP } from 'node:net';
 import { request as httpRequest } from 'node:http';
 import { request as httpsRequest } from 'node:https';
 import { Readable } from 'node:stream';
+import { createBrotliDecompress, createGunzip, createInflate } from 'node:zlib';
 import type { SiteGraph, SitePage } from '../src/types';
 
 type Node = DefaultTreeAdapterMap['node'];
@@ -128,8 +129,21 @@ export function allowed(path: string, rules: Rule[]): boolean {
 
 // Stops reading at the limit, so one huge page can't exhaust memory.
 export async function readLimited(response: Response, limit = MAX_PAGE_BYTES): Promise<string> {
+  const encodings = (response.headers.get('content-encoding') ?? 'identity').toLowerCase().split(',').map(value => value.trim());
+  if (encodings.some(encoding => !['identity', 'gzip', 'deflate', 'br'].includes(encoding))) {
+    await response.body?.cancel();
+    throw new Error('Unsupported content encoding');
+  }
+  let body = Readable.fromWeb(response.body as import('node:stream/web').ReadableStream<Uint8Array>);
+  for (const encoding of encodings.reverse()) {
+    if (encoding === 'identity') continue;
+    const decoder = encoding === 'gzip' ? createGunzip() : encoding === 'deflate' ? createInflate() : encoding === 'br' ? createBrotliDecompress() : undefined;
+    body.on('error', () => {}); // compose propagates errors to the final stream
+    decoder!.on('error', () => {});
+    body = body.compose(decoder!);
+  }
   const chunks: Uint8Array[] = []; let size = 0;
-  for await (const chunk of response.body as unknown as AsyncIterable<Uint8Array>) {
+  for await (const chunk of body) {
     size += chunk.length;
     if (size > limit) throw new Error(`Page is larger than ${limit} bytes`);
     chunks.push(chunk);
@@ -176,6 +190,12 @@ export async function publicRequest(url: URL): Promise<Response> {
         if (Array.isArray(value)) value.forEach(v => headers.append(key, v));
         else if (value !== undefined) headers.set(key, value);
       }
+      const encodings = (headers.get('content-encoding') ?? 'identity').toLowerCase().split(',').map(value => value.trim());
+      if (encodings.some(encoding => !['identity', 'gzip', 'deflate', 'br'].includes(encoding))) {
+        res.destroy();
+        reject(new Error('Unsupported content encoding'));
+        return;
+      }
       // Fetch responses with no body status must have a null body.
       const body = [204, 205, 304].includes(res.statusCode ?? 0) ? null : Readable.toWeb(res) as ReadableStream<Uint8Array>;
       resolve(new Response(body, { status: res.statusCode, headers }));
@@ -200,7 +220,7 @@ async function crawl(start: string): Promise<SiteGraph> {
   const robotsResponse = await request(new URL('/robots.txt', origin));
   let robots: Robots;
   if (robotsResponse.status === 404 || robotsResponse.status === 410) robots = { rules: [], delay: 1000 };
-  else if (robotsResponse.ok) robots = parseRobots(await robotsResponse.text());
+  else if (robotsResponse.ok) robots = parseRobots(await readLimited(robotsResponse));
   else throw new Error(`Cannot read robots.txt: HTTP ${robotsResponse.status}`);
   delay = robots.delay;
   const pages: SitePage[] = [], queue = ['/'];
