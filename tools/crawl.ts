@@ -129,6 +129,7 @@ export function allowed(path: string, rules: Rule[]): boolean {
 
 // Stops reading at the limit, so one huge page can't exhaust memory.
 export async function readLimited(response: Response, limit = MAX_PAGE_BYTES): Promise<string> {
+  if (!response.body) return '';
   const encodings = (response.headers.get('content-encoding') ?? 'identity').toLowerCase().split(',').map(value => value.trim());
   if (encodings.some(encoding => !['identity', 'gzip', 'deflate', 'br'].includes(encoding))) {
     await response.body?.cancel();
@@ -205,7 +206,7 @@ export async function publicRequest(url: URL): Promise<Response> {
   });
 }
 
-async function crawl(start: string): Promise<SiteGraph> {
+export async function crawl(start: string): Promise<SiteGraph> {
   const root = new URL(start);
   if (!['http:', 'https:'].includes(root.protocol)) throw new Error('Expected an HTTP(S) URL');
   const origin = root.origin;

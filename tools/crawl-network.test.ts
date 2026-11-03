@@ -6,7 +6,33 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const mocks = vi.hoisted(() => ({ lookup: vi.fn(), request: vi.fn() }));
 vi.mock('node:dns/promises', () => ({ lookup: mocks.lookup }));
 vi.mock('node:https', () => ({ request: mocks.request }));
-import { allowed, parsePage, parseRobots, publicRequest, readLimited } from './crawl';
+import { allowed, crawl, parsePage, parseRobots, publicRequest, readLimited } from './crawl';
+
+describe('empty robots responses', () => {
+  it.each([204, 205])('crawls pages after HTTP %i robots.txt', async status => {
+    vi.useFakeTimers();
+    mocks.lookup.mockReset(); mocks.request.mockReset();
+    mocks.lookup.mockResolvedValue([{ address: '8.8.8.8', family: 4 }]);
+    mocks.request.mockImplementation((url: URL, _options, callback) => {
+      const req = new EventEmitter() as EventEmitter & { end: () => void };
+      req.end = () => {
+        const res = new PassThrough() as PassThrough & { statusCode: number; headers: Record<string, string> };
+        res.statusCode = url.pathname === '/robots.txt' ? status : 200;
+        res.headers = { 'content-type': 'text/html' };
+        callback(res);
+        res.end(url.pathname === '/' ? [1, 2, 3, 4].map(n => `<a href="/page${n}">Page</a>`).join('') : '<p>Page</p>');
+      };
+      return req;
+    });
+    try {
+      const result = crawl('https://example.com/');
+      await vi.runAllTimersAsync();
+      expect((await result).pages).toHaveLength(5);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+});
 
 describe('crawler DNS pinning', () => {
   beforeEach(() => { mocks.lookup.mockReset(); mocks.request.mockReset(); });
