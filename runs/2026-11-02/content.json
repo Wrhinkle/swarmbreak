@@ -1,0 +1,61 @@
+{
+  "id": "2026-11-02",
+  "title": "The Drifting Standard",
+  "seed": 110226,
+  "site": "runs/sites/nist.json",
+  "swarm": { "name": "The Drift", "blurb": "A rogue AI swarm has eaten the nation's measurements and is quietly rounding them off. Go in and take them back." },
+  "act": {
+    "name": "National Institute of Standards and Technology",
+    "url": "https://www.nist.gov/",
+    "note": "A fan-made game inspired by public pages on nist.gov. Not affiliated with or endorsed by NIST. All art and text are original.",
+    "theme": "The swarm has eaten the standards",
+    "shop": ["patch", "brace", "sweep", "finish", "breach", "cover", "purge", "jam", "charge", "triage"]
+  },
+  "crew": [
+    { "id": "wren", "name": "Wren", "blurb": "Field medic. Keeps the crew running with thread and solder.", "bodyPlan": "humanoid", "role": "healer", "routines": ["patch", "strike"], "source": "/", "look": "a small field medic in a patched canvas coat, carrying a satchel and a large needle and thread" },
+    { "id": "ox", "name": "Ox", "blurb": "Shield bearer. Has walked out of worse.", "bodyPlan": "humanoid", "role": "shielder", "routines": ["cover", "brace", "strike"], "source": "/", "look": "a broad shield bearer in riveted scrap armor with a huge round shield made from a hatch door" },
+    { "id": "kestrel", "name": "Kestrel", "blurb": "Breaker. Finds the seam in anything and pulls.", "bodyPlan": "humanoid", "role": "bruiser", "routines": ["finish", "strike"], "source": "/", "look": "a lean scout in a hooded jacket wielding a long crowbar" }
+  ],
+  "creatures": [
+    { "id": "kilogram", "name": "Drifting Kilogram", "tier": "easy", "bodyPlan": "object", "role": "bruiser", "routines": ["strike"], "source": "/physics", "blurb": "The swarm got into the standards from the second to the kilogram. This weight no longer weighs what it says.", "look": "a squat cylindrical brass laboratory weight with a knob on top, stubby legs, and an angry dented face" },
+    { "id": "photons", "name": "Faint Photons", "tier": "easy", "bodyPlan": "swarm", "role": "debuffer", "routines": ["corrupt", "strike"], "source": "/nanotechnology", "blurb": "Detectors were built to catch light this faint. Now it's catching you.", "look": "a loose flock of nine small pale yellow paper light sparks with tiny angry eyes, moving together as a group" },
+    { "id": "hound", "name": "Evidence Hound", "tier": "easy", "bodyPlan": "beast", "role": "thief", "routines": ["skim"], "source": "/forensic-science", "blurb": "Trained to collect and examine. The swarm taught it to keep what it finds, including your gold.", "look": "a lean grey hound with a large magnifying lens for one eye, carrying a stolen evidence bag in its jaws" },
+    { "id": "nanotube", "name": "Nanotube Serpent", "tier": "regular", "bodyPlan": "serpent", "role": "charger", "routines": ["charge"], "source": "/materials", "blurb": "Carbon nanotubes are among the site's emerging materials. This one learned to coil, wait, and strike.", "look": "a long coiled serpent made of a black hexagonal carbon lattice tube" },
+    { "id": "neutron", "name": "Scattered Neutron", "tier": "regular", "bodyPlan": "blob", "role": "splitter", "routines": ["divide", "strike"], "source": "/neutron-research", "blurb": "Fire a neutron beam at a sample and it scatters. Hit this one and it does the same.", "look": "a wobbling translucent pale green blob with concentric ripple rings and a dark core" },
+    { "id": "bloom", "name": "Biofoundry Bloom", "tier": "regular", "bodyPlan": "plant", "role": "summoner", "routines": ["spawn", "strike"], "source": "/biotechnology", "blurb": "Grown in a corrupted biofoundry. It reproduces whenever you stop looking at it.", "look": "a carnivorous potted plant growing out of a laboratory flask, with curling vines and seed pods" },
+    { "id": "tornado", "name": "Test Tornado", "tier": "regular", "bodyPlan": "flier", "role": "debuffer", "routines": ["corrupt", "strike"], "source": "/buildings-and-construction", "blurb": "Part of the research on how buildings withstand tornadoes. It got out of the test and kept the building's roof.", "look": "a small airborne grey-blue tornado funnel carrying spinning shingles and splintered boards" },
+    { "id": "labcoat", "name": "Empty Lab Coat", "tier": "regular", "bodyPlan": "humanoid", "role": "mirror", "routines": ["echo"], "source": "/careers", "blurb": "Still reporting for work. There's nobody inside it, and it copies whatever it saw you do last.", "look": "a floating white lab coat with nobody inside, empty sleeves raised and a clipboard held in one cuff" },
+    { "id": "deadweight", "name": "Deadweight Engine", "tier": "elite", "bodyPlan": "construct", "role": "shielder", "routines": ["brace", "strike+"], "source": "/laboratories/tools-instruments", "blurb": "A force machine stacked with twenty equal weights. The swarm taught it to walk.", "look": "a towering walking steel machine built from a frame and a stack of huge round weights, with piston legs" },
+    { "id": "salamander", "name": "Burn Test Salamander", "tier": "elite", "bodyPlan": "beast", "role": "charger", "routines": ["charge", "strike"], "source": "/fire", "blurb": "It crawled out of the fire research lab, and it's been in the eye of the fire ever since.", "look": "a heavy orange and red salamander with scorched skin, wearing a burnt lab thermocouple harness, flames along its back", "key": "green" },
+    { "id": "wafer", "name": "Wafer Spider", "tier": "elite", "bodyPlan": "construct", "role": "summoner", "routines": ["spawn", "sweep", "strike"], "source": "/chips", "blurb": "A semiconductor wafer with legs, walking off a production line that no longer exists.", "look": "a large spider whose body is a round iridescent silicon wafer etched with a chip grid, with thin wire legs" },
+    { "id": "second", "name": "The Last Accurate Second", "tier": "boss", "bodyPlan": "colossus", "role": "bruiser", "routines": ["jam", "sweep", "strike+"], "source": "/pml/time-and-frequency-division/time-services", "blurb": "The swarm's heart in this site: a colossal clock that has decided what time it is. Every system still trusts it.", "look": "a colossal walking atomic clock tower of brass pipes and cooling coils, with a cracked glowing clock face for a head and massive piston arms" },
+    { "id": "caliper", "name": "Calibrated Caliper", "tier": "ally", "bodyPlan": "object", "role": "shielder", "routines": ["cover", "breach", "strike"], "source": "/calibrations", "blurb": "Freed from the calibration lab. It measures the gap in any armor, and it doesn't round off.", "look": "a friendly steel measuring caliper walking on its two jaws like a crab, with a round dial for a face", "ally": true },
+    { "id": "beacon", "name": "Rescue Beacon", "tier": "ally", "bodyPlan": "flier", "role": "healer", "routines": ["patch", "triage", "strike"], "source": "/public-safety", "blurb": "Built to locate survivors in a collapsed building. It's still looking, and now it's found you.", "look": "a small hovering rescue drone with a warm amber lamp, four paper rotors, and a dangling first aid kit", "ally": true }
+  ],
+  "events": [
+    { "id": "storefront", "source": "/calibrations", "title": "The calibration storefront", "text": "The new calibration storefront is still taking orders, but the price list has been overwritten with teal digits.", "options": [
+      { "label": "Empty the till", "effect": { "type": "gold", "amount": 45 }, "result": "Nobody stops you. Nobody is here." },
+      { "label": "Book a calibration", "effect": { "type": "heal", "amount": 0.25 }, "result": "The bench still works. The crew feels true again." } ] },
+    { "id": "radio", "source": "/pml/time-and-frequency-division/time-services", "title": "An old radio station", "text": "A time-signal transmitter hums in a back room, still broadcasting. The swarm's been listening to it, too.", "options": [
+      { "label": "Jam the signal and learn how", "effect": { "type": "routine", "id": "jam" }, "result": "You learn Jam." },
+      { "label": "Strip it for parts", "effect": { "type": "gold", "amount": 30 }, "result": "You pocket the good copper." } ] },
+    { "id": "spectral", "source": "/chemistry", "title": "The mass spectral library", "text": "Shelves of chemical fingerprints, half eaten. One entry describes exactly how to flush the swarm out of a system.", "options": [
+      { "label": "Copy the entry", "effect": { "type": "routine", "id": "purge" }, "result": "You learn Purge." },
+      { "label": "Sell the shelf's index", "effect": { "type": "gold", "amount": 35 }, "result": "Someone, somewhere, still pays for these." } ] },
+    { "id": "laugh", "source": "/performance-excellence", "title": "A blog post about laughing", "text": "A performance excellence blog insists that a little enjoyment is always important. The swarm has only eaten the second half of the jokes.", "options": [
+      { "label": "Finish the jokes yourselves", "effect": { "type": "heal", "amount": 0.2 }, "result": "They're terrible. The crew feels better anyway." },
+      { "label": "Keep moving", "effect": { "type": "nothing" }, "result": "Nobody laughs. You make good time." } ] },
+    { "id": "burnroom", "source": "/fire", "title": "The burn room", "text": "Fire testing has deep roots here. The burn room door is hot, and there's a lockbox on the far side.", "options": [
+      { "label": "Run through for the lockbox", "effect": { "type": "gold", "amount": 70 }, "result": "You come out richer, smelling of soot." },
+      { "label": "Vent the room first", "effect": { "type": "heal", "amount": 0.1 }, "result": "It takes a while. The crew sits and breathes." } ] },
+    { "id": "reference", "source": "/srm", "title": "Standard reference materials", "text": "Rack after rack of sealed samples, each one the exact thing it says it is. In here, that's rare.", "options": [
+      { "label": "Compare yourselves to the samples", "effect": { "type": "routine", "id": "patch+" }, "result": "You learn Early Patch." },
+      { "label": "Take a crate to trade", "effect": { "type": "gold", "amount": 40 }, "result": "It's heavier than it looks." } ] },
+    { "id": "smallbiz", "source": "/tpo", "title": "A small business grant", "text": "An abandoned partnerships office still has an award letter on the desk, made out to whoever's holding it.", "options": [
+      { "label": "Cash it", "effect": { "type": "gold", "amount": 50 }, "result": "The swarm doesn't check signatures." },
+      { "label": "Read the fine print", "effect": { "type": "routine", "id": "last_stand" }, "result": "Buried in clause nine: Last Stand." } ] },
+    { "id": "aftermath", "source": "/resilience", "title": "A post-disaster survey", "text": "A resilience team's field kit sits where they left it, with notes on how communities recover after the worst has passed.", "options": [
+      { "label": "Use the kit", "effect": { "type": "heal", "amount": 0.3 }, "result": "Good notes. Better bandages." },
+      { "label": "Learn their method", "effect": { "type": "routine", "id": "cover" }, "result": "You learn Cover." } ] }
+  ]
+}

@@ -1,32 +1,5 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Swarmbreak — Volcano</title>
-  <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; background: #10151d; color: #e9eef4; font: 16px/1.5 system-ui, sans-serif; }
-    main { max-width: 1280px; padding: 24px; margin: auto; min-width: 0; }
-    h1 { margin: 0; font-size: 2rem; }
-    p { color: #b9c7d5; }
-    a { color: #8cd6f5; }
-    #map { overflow: auto; max-width: 100%; height: min(65vh, 600px); border: 1px solid #415365; border-radius: 8px; background: #18232e; }
-    canvas { display: block; }
-    @media (max-width: 600px) { main { padding: 16px; } }
-  </style>
-</head>
-<body>
-  <main>
-    <h1 id="title">Loading map…</h1>
-    <p id="status" aria-live="polite"></p>
-    <div id="map" tabindex="0" aria-label="Scrollable dungeon map; see the room list below"><canvas id="canvas" aria-hidden="true"></canvas></div>
-    <details>
-      <summary>Room list</summary>
-      <ul id="room-list"></ul>
-    </details>
-    <p>Source: <a href="https://en.wikipedia.org/wiki/Volcano">Volcano</a> by Wikipedia contributors, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
-  </main>
-  <script type="module" src="/src/main.ts"></script>
-</body>
-</html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#202b29"><title>Swarmbreak</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#202b29;color:#efe4ca;font:16px/1.5 system-ui,sans-serif}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:repeating-linear-gradient(13deg,transparent 0 8px,#000 9px,transparent 10px)}main{position:relative;max-width:1080px;margin:auto;padding:28px 30px 80px}h1,h2,h3{font-family:Georgia,serif;line-height:1.1;font-weight:normal}h1{font-size:clamp(2.5rem,8vw,5rem);margin:.15em 0}h2{font-size:2rem;margin:.3em 0}h3{font-size:1.35rem}p{max-width:65ch}a{color:#b8e4d7}button,select,textarea{font:inherit}button{color:#25312d;background:#e4d2ac;border:1px solid #8f7956;padding:.55rem .85rem;cursor:pointer;box-shadow:2px 3px 0 #101b19}button:hover:not(:disabled){background:#fff1d1}button:focus-visible,a:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #75c8b8;outline-offset:3px}button:disabled{opacity:.45;cursor:not-allowed}.bar{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin:1rem 0}.paper{color:#29342f;background:#e5d5b5;padding:1.3rem 1.5rem;margin:1.4rem 0;box-shadow:4px 5px 0 #111c1a;max-width:800px}.paper a{color:#285d56}.paper .eyebrow{color:#426a5f}.eyebrow{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:#98d2c5}.credit{font-size:.85rem;border-top:1px solid #6d8278;margin-top:2rem;padding-top:1rem;max-width:75ch}.map{display:flex;flex-direction:column;gap:1.1rem;max-width:760px}.floor{border-left:2px dashed #82a99a;padding-left:1rem}.floor>span{display:block;font-size:.75rem;color:#a6c0b0;text-transform:uppercase;letter-spacing:.1em}.floor .bar{margin:.3rem 0}.node{text-align:left;min-width:200px;max-width:100%}.node small{display:block;text-transform:uppercase;letter-spacing:.08em}.row{border-top:1px solid #a99879;padding:.7rem 0}.routine{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin:.4rem 0}.routine span{flex:1;min-width:180px}canvas{display:block;width:100%;max-width:900px;background:#17231f;border:6px solid #8c795c;touch-action:manipulation}.muted{color:#b9c7b8}.paper .muted{color:#58655b}.danger{color:#ffe3ad}textarea{width:100%;min-height:10rem}select{max-width:100%;padding:.4rem}.sprite{width:96px;height:96px;object-fit:cover}.sr{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}@media(max-width:600px){main{padding:20px 16px 60px}.paper{padding:1rem}.node{width:100%}.floor .bar{display:block}.node+ .node{margin-top:.5rem}canvas{border-width:3px}}
+</style></head><body><main id="app"><p>Opening the archive…</p></main><div id="live" class="sr" aria-live="polite"></div><script type="module" src="/src/main.ts"></script></body></html>

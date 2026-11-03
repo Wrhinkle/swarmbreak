@@ -1,0 +1,593 @@
+{
+  "id": "dev",
+  "title": "Development run: The Paper Archive",
+  "swarm": {
+    "name": "The Index Eaters",
+    "blurb": "A swarm of teal hexagons is consuming a fictional archive."
+  },
+  "crew": [
+    {
+      "id": "moth",
+      "name": "Moth Archivist",
+      "blurb": "A patient keeper of misplaced notes.",
+      "sprite": "/art/moth.webp",
+      "bodyPlan": "humanoid",
+      "role": "healer",
+      "tier": "ally",
+      "routines": [
+        "patch",
+        "strike"
+      ],
+      "source": "/archive"
+    }
+  ],
+  "acts": [
+    {
+      "site": {
+        "name": "The Paper Archive (fictional)",
+        "url": "https://example.com/",
+        "note": "Development content, invented for testing. Not affiliated with any real archive."
+      },
+      "theme": "The catalogue is coming apart.",
+      "nodes": [
+        {
+          "id": "f0a",
+          "floor": 0,
+          "x": 0,
+          "kind": "fight",
+          "label": "The Front Desk",
+          "sourcePath": "/rooms/f0a",
+          "next": [
+            "f1a",
+            "f1b"
+          ],
+          "easy": true,
+          "encounter": [
+            "scrap"
+          ]
+        },
+        {
+          "id": "f1a",
+          "floor": 1,
+          "x": 0,
+          "kind": "fight",
+          "label": "Loose Pages",
+          "sourcePath": "/rooms/f1a",
+          "next": [
+            "f2a",
+            "f2b"
+          ],
+          "easy": true,
+          "encounter": [
+            "scrap"
+          ]
+        },
+        {
+          "id": "f1b",
+          "floor": 1,
+          "x": 1,
+          "kind": "fight",
+          "label": "Loose Pages \u00b7 East",
+          "sourcePath": "/rooms/f1b",
+          "next": [
+            "f2a",
+            "f2b"
+          ],
+          "easy": true,
+          "encounter": [
+            "scrap"
+          ]
+        },
+        {
+          "id": "f2a",
+          "floor": 2,
+          "x": 0,
+          "kind": "event",
+          "label": "A Note in the Margin",
+          "sourcePath": "/rooms/f2a",
+          "next": [
+            "f3a",
+            "f3b"
+          ],
+          "easy": true,
+          "eventId": "note"
+        },
+        {
+          "id": "f2b",
+          "floor": 2,
+          "x": 1,
+          "kind": "event",
+          "label": "A Note in the Margin \u00b7 East",
+          "sourcePath": "/rooms/f2b",
+          "next": [
+            "f3a",
+            "f3b"
+          ],
+          "easy": true,
+          "eventId": "note"
+        },
+        {
+          "id": "f3a",
+          "floor": 3,
+          "x": 0,
+          "kind": "fight",
+          "label": "The Reading Room",
+          "sourcePath": "/rooms/f3a",
+          "next": [
+            "f4a",
+            "f4b"
+          ],
+          "easy": false,
+          "encounter": [
+            "scrap"
+          ]
+        },
+        {
+          "id": "f3b",
+          "floor": 3,
+          "x": 1,
+          "kind": "fight",
+          "label": "The Reading Room \u00b7 East",
+          "sourcePath": "/rooms/f3b",
+          "next": [
+            "f4a",
+            "f4b"
+          ],
+          "easy": false,
+          "encounter": [
+            "scrap"
+          ]
+        },
+        {
+          "id": "f4a",
+          "floor": 4,
+          "x": 0,
+          "kind": "rest",
+          "label": "Quiet Alcove",
+          "sourcePath": "/rooms/f4a",
+          "next": [
+            "f5a",
+            "f5b"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f4b",
+          "floor": 4,
+          "x": 1,
+          "kind": "rest",
+          "label": "Quiet Alcove \u00b7 East",
+          "sourcePath": "/rooms/f4b",
+          "next": [
+            "f5a",
+            "f5b"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f5a",
+          "floor": 5,
+          "x": 0,
+          "kind": "elite",
+          "label": "The Locked Cabinet",
+          "sourcePath": "/rooms/f5a",
+          "next": [
+            "f6a",
+            "f6b"
+          ],
+          "easy": false,
+          "encounter": [
+            "warden"
+          ],
+          "reward": "fox"
+        },
+        {
+          "id": "f5b",
+          "floor": 5,
+          "x": 1,
+          "kind": "elite",
+          "label": "The Locked Cabinet \u00b7 East",
+          "sourcePath": "/rooms/f5b",
+          "next": [
+            "f6a",
+            "f6b"
+          ],
+          "easy": false,
+          "encounter": [
+            "warden"
+          ],
+          "reward": "fox"
+        },
+        {
+          "id": "f6a",
+          "floor": 6,
+          "x": 0,
+          "kind": "shop",
+          "label": "Trading Post",
+          "sourcePath": "/rooms/f6a",
+          "next": [
+            "f7a",
+            "f7b"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f6b",
+          "floor": 6,
+          "x": 1,
+          "kind": "shop",
+          "label": "Trading Post \u00b7 East",
+          "sourcePath": "/rooms/f6b",
+          "next": [
+            "f7a",
+            "f7b"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f7a",
+          "floor": 7,
+          "x": 0,
+          "kind": "fight",
+          "label": "The Card Catalogue",
+          "sourcePath": "/rooms/f7a",
+          "next": [
+            "f8a",
+            "f8b"
+          ],
+          "easy": false,
+          "encounter": [
+            "mite"
+          ]
+        },
+        {
+          "id": "f7b",
+          "floor": 7,
+          "x": 1,
+          "kind": "fight",
+          "label": "The Card Catalogue \u00b7 East",
+          "sourcePath": "/rooms/f7b",
+          "next": [
+            "f8a",
+            "f8b"
+          ],
+          "easy": false,
+          "encounter": [
+            "mite"
+          ]
+        },
+        {
+          "id": "f8a",
+          "floor": 8,
+          "x": 0,
+          "kind": "treasure",
+          "label": "Forgotten Drawer",
+          "sourcePath": "/rooms/f8a",
+          "next": [
+            "f9a",
+            "f9b"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f8b",
+          "floor": 8,
+          "x": 1,
+          "kind": "treasure",
+          "label": "Forgotten Drawer \u00b7 East",
+          "sourcePath": "/rooms/f8b",
+          "next": [
+            "f9a",
+            "f9b"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f9a",
+          "floor": 9,
+          "x": 0,
+          "kind": "fight",
+          "label": "The Long Gallery",
+          "sourcePath": "/rooms/f9a",
+          "next": [
+            "f10a",
+            "f10b"
+          ],
+          "easy": false,
+          "encounter": [
+            "mite"
+          ]
+        },
+        {
+          "id": "f9b",
+          "floor": 9,
+          "x": 1,
+          "kind": "fight",
+          "label": "The Long Gallery \u00b7 East",
+          "sourcePath": "/rooms/f9b",
+          "next": [
+            "f10a",
+            "f10b"
+          ],
+          "easy": false,
+          "encounter": [
+            "mite"
+          ]
+        },
+        {
+          "id": "f10a",
+          "floor": 10,
+          "x": 0,
+          "kind": "event",
+          "label": "A Curious Bookmark",
+          "sourcePath": "/rooms/f10a",
+          "next": [
+            "f11a",
+            "f11b"
+          ],
+          "easy": false,
+          "eventId": "note"
+        },
+        {
+          "id": "f10b",
+          "floor": 10,
+          "x": 1,
+          "kind": "event",
+          "label": "A Curious Bookmark \u00b7 East",
+          "sourcePath": "/rooms/f10b",
+          "next": [
+            "f11a",
+            "f11b"
+          ],
+          "easy": false,
+          "eventId": "note"
+        },
+        {
+          "id": "f11a",
+          "floor": 11,
+          "x": 0,
+          "kind": "rest",
+          "label": "The Bindery",
+          "sourcePath": "/rooms/f11a",
+          "next": [
+            "f12a",
+            "f12b"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f11b",
+          "floor": 11,
+          "x": 1,
+          "kind": "rest",
+          "label": "The Bindery \u00b7 East",
+          "sourcePath": "/rooms/f11b",
+          "next": [
+            "f12a",
+            "f12b"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f12a",
+          "floor": 12,
+          "x": 0,
+          "kind": "elite",
+          "label": "The High Shelves",
+          "sourcePath": "/rooms/f12a",
+          "next": [
+            "f13a",
+            "f13b"
+          ],
+          "easy": false,
+          "encounter": [
+            "warden"
+          ],
+          "reward": "owl"
+        },
+        {
+          "id": "f12b",
+          "floor": 12,
+          "x": 1,
+          "kind": "elite",
+          "label": "The High Shelves \u00b7 East",
+          "sourcePath": "/rooms/f12b",
+          "next": [
+            "f13a",
+            "f13b"
+          ],
+          "easy": false,
+          "encounter": [
+            "warden"
+          ],
+          "reward": "owl"
+        },
+        {
+          "id": "f13a",
+          "floor": 13,
+          "x": 0,
+          "kind": "fight",
+          "label": "The Last Index",
+          "sourcePath": "/rooms/f13a",
+          "next": [
+            "f14a",
+            "f14b"
+          ],
+          "easy": false,
+          "encounter": [
+            "mite"
+          ]
+        },
+        {
+          "id": "f13b",
+          "floor": 13,
+          "x": 1,
+          "kind": "fight",
+          "label": "The Last Index \u00b7 East",
+          "sourcePath": "/rooms/f13b",
+          "next": [
+            "f14a",
+            "f14b"
+          ],
+          "easy": false,
+          "encounter": [
+            "mite"
+          ]
+        },
+        {
+          "id": "f14a",
+          "floor": 14,
+          "x": 0,
+          "kind": "treasure",
+          "label": "A Sealed Envelope",
+          "sourcePath": "/rooms/f14a",
+          "next": [
+            "f15a"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f14b",
+          "floor": 14,
+          "x": 1,
+          "kind": "treasure",
+          "label": "A Sealed Envelope \u00b7 East",
+          "sourcePath": "/rooms/f14b",
+          "next": [
+            "f15a"
+          ],
+          "easy": false
+        },
+        {
+          "id": "f15a",
+          "floor": 15,
+          "x": 0,
+          "kind": "boss",
+          "label": "The Empty Shelf",
+          "sourcePath": "/rooms/f15a",
+          "next": [],
+          "easy": false,
+          "encounter": [
+            "queen"
+          ]
+        }
+      ],
+      "creatures": [
+        {
+          "id": "scrap",
+          "name": "Scrap Bit",
+          "blurb": "A small tangle of discarded code.",
+          "sprite": "/art/scrap.webp",
+          "bodyPlan": "construct",
+          "role": "bruiser",
+          "tier": "easy",
+          "routines": [
+            "strike"
+          ],
+          "source": "/scrap"
+        },
+        {
+          "id": "mite",
+          "name": "Hex Mite",
+          "blurb": "A teal parasite with a taste for margins.",
+          "sprite": "/art/mite.webp",
+          "bodyPlan": "construct",
+          "role": "debuffer",
+          "tier": "regular",
+          "routines": [
+            "jam",
+            "strike"
+          ],
+          "source": "/mite"
+        },
+        {
+          "id": "warden",
+          "name": "Paper Warden",
+          "blurb": "It folds old permissions into armor.",
+          "sprite": "/art/warden.webp",
+          "bodyPlan": "construct",
+          "role": "shielder",
+          "tier": "elite",
+          "routines": [
+            "brace",
+            "strike"
+          ],
+          "source": "/warden"
+        },
+        {
+          "id": "queen",
+          "name": "The Index Eater",
+          "blurb": "Its enormous jaws erase the catalogue.",
+          "sprite": "/art/queen.webp",
+          "bodyPlan": "construct",
+          "role": "charger",
+          "tier": "boss",
+          "routines": [
+            "charge"
+          ],
+          "source": "/queen"
+        },
+        {
+          "id": "fox",
+          "name": "Copper Fox",
+          "blurb": "A clever guide through the stacks.",
+          "sprite": "/art/fox.webp",
+          "bodyPlan": "construct",
+          "role": "bruiser",
+          "tier": "ally",
+          "routines": [
+            "finish",
+            "strike"
+          ],
+          "source": "/fox"
+        },
+        {
+          "id": "owl",
+          "name": "Lantern Owl",
+          "blurb": "A watchful companion with a bright lantern.",
+          "sprite": "/art/owl.webp",
+          "bodyPlan": "construct",
+          "role": "shielder",
+          "tier": "ally",
+          "routines": [
+            "cover",
+            "strike"
+          ],
+          "source": "/owl"
+        }
+      ],
+      "events": [
+        {
+          "id": "note",
+          "title": "A note in the margin",
+          "text": "A pencilled note offers a little help.",
+          "options": [
+            {
+              "label": "Take the supplies",
+              "effect": {
+                "type": "gold",
+                "amount": 25
+              },
+              "result": "You pocket the supplies."
+            },
+            {
+              "label": "Rest a moment",
+              "effect": {
+                "type": "heal",
+                "amount": 0.2
+              },
+              "result": "The crew catches its breath."
+            }
+          ]
+        }
+      ],
+      "shop": [
+        "patch",
+        "brace",
+        "sweep",
+        "finish"
+      ]
+    }
+  ],
+  "seed": 77123
+}
