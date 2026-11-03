@@ -77,6 +77,9 @@ def main():
     if sh('git', 'merge', '-q', '--no-edit', f'origin/{base}', cwd=tree, check=False).returncode:
         sh('git', 'merge', '--abort', cwd=tree, check=False)
         sys.exit(f'{head} conflicts with {base}. A person needs to reconcile it.')
+    # Qodo only reviews pushed commits, so a branch behind its base has to catch up on GitHub.
+    if sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip() != pr['headRefOid']:
+        sh('git', 'push', '-q', 'origin', f'HEAD:{head}', cwd=tree)
 
     # An unfinished review lists no findings yet, which isn't the same as a clean one.
     wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip())
