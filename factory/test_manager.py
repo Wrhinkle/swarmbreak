@@ -138,3 +138,8 @@ with tempfile.TemporaryDirectory() as d:
     sh('git', 'checkout', '-q', 'main', cwd=d)
     assert other_branch_json('picks.json', '2026-11-06', cwd=d) == [{'thread': 'sky'}]
     assert other_branch_json('picks.json', '2026-11-05', cwd=d) == []
+    sh('git', 'checkout', '-qb', 'run/2026-11-07', cwd=d)
+    Path(d, 'runs/2026-11-07').mkdir(parents=True)
+    Path(d, 'runs/2026-11-07/picks.json').write_text('{broken')
+    sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'c', cwd=d)
+    assert other_branch_json('picks.json', '2026-11-06', cwd=d) == [{'thread': 'sky'}]

@@ -64,8 +64,12 @@ def other_branch_json(name, run_id, cwd=ROOT):
     found = []
     for branch in git('branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split():
         shown = git('show', f'{branch}:runs/{branch[4:14]}/{name}')
-        if branch != f'run/{run_id}' and not shown.returncode:
+        if branch == f'run/{run_id}' or shown.returncode:
+            continue
+        try:
             found.append(json.loads(shown.stdout))
+        except json.JSONDecodeError:  # a failed build's checkpoint can hold anything
+            pass
     return found
 
 
@@ -91,10 +95,10 @@ def main():
         if want('researcher'):
             used = Path(shared) / 'used-hosts.json'
             hosts = [s['host'] for p in (ROOT / 'runs').glob('*/sites.json') for s in json.loads(p.read_text())['sites']]
-            hosts += [s['host'] for x in other_branch_json('sites.json', run_id) for s in x['sites']]
+            hosts += [s['host'] for x in other_branch_json('sites.json', run_id) if isinstance(x, dict) for s in x.get('sites', []) if 'host' in s]
             used.write_text(json.dumps(hosts))
             themes = Path(shared) / 'recent-threads.json'
-            unmerged = [{'run': 'built, not yet open', 'thread': x['thread']} for x in other_branch_json('picks.json', run_id)]
+            unmerged = [{'run': 'built, not yet open', 'thread': x['thread']} for x in other_branch_json('picks.json', run_id) if isinstance(x, dict) and x.get('thread')]
             themes.write_text(json.dumps(past_threads(ROOT / 'runs', run_id) + unmerged))
             agent('researcher', picks, {'used-hosts.json': used, 'recent-threads.json': themes}, lambda: result(tool('tools/checks.ts', 'picks', rel(picks), str(ACTS))), search=True)
             sites = []
