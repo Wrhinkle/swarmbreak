@@ -4,7 +4,7 @@
 Usage: factory/.venv/bin/python factory/art.py <run-id> [only-id ...]
 Finished PNGs stay in runs/.art/<id>/, so a rerun only makes what's missing.
 """
-import concurrent.futures as cf, json, os, shutil, subprocess, sys
+import concurrent.futures as cf, json, os, re, shutil, subprocess, sys
 from pathlib import Path
 
 import numpy as np
@@ -112,6 +112,10 @@ def main():
     work.mkdir(parents=True, exist_ok=True)
     out.mkdir(parents=True, exist_ok=True)
     todo = [j for j in jobs(content, brief) if (j['id'] in only if only else not (out / f"{j['id']}.webp").exists())]
+    # Ids come from model-written content and name folders this script deletes.
+    bad = [j['id'] for j in jobs(content, brief) if not re.fullmatch(r'[a-z0-9-]+', j['id'])]
+    if bad:
+        sys.exit(f'Unsafe image ids: {bad}')
     print(f'{len(todo)} images to make', flush=True)
 
     def one(job):
