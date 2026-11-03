@@ -46,6 +46,14 @@ def verified(tree):
     return ''
 
 
+def merges_cleanly(tree, base):
+    # Local only. Qodo skips commits that don't change a PR's diff, so a pushed catch-up could never pass the exact-commit check.
+    if sh('git', 'merge', '-q', '--no-edit', f'origin/{base}', cwd=tree, check=False).returncode:
+        sh('git', 'merge', '--abort', cwd=tree, check=False)
+        return False
+    return True
+
+
 def wait_for_review(url, sha):
     deadline = time.time() + QODO_WAIT
     while time.time() < deadline:
@@ -54,6 +62,8 @@ def wait_for_review(url, sha):
             return
         if s.get('commit_sha') == sha and s.get('status') == 'failed':
             sys.exit(f'Qodo\'s review of {sha[:7]} failed. A PR of tens of thousands of lines can do this, so split it. Not merging.')
+        if s.get('commit_sha') == sha and s.get('status') == 'skipped':
+            sys.exit(f'Qodo skipped {sha[:7]}, so it has no review. Not merging.')
         time.sleep(30)
     sys.exit(f'Qodo hasn\'t reviewed {sha[:7]} after {QODO_WAIT // 60} minutes. Not merging.')
 
@@ -73,11 +83,6 @@ def main():
         sys.exit(f'{tree} has uncommitted work. Stopping so it isn\'t lost.')
     if not (tree / 'node_modules').exists():
         sh('npm', 'ci', '--silent', cwd=tree)
-    # Check against the newest base, so a merge can't overwrite newer work.
-    if sh('git', 'merge', '-q', '--no-edit', f'origin/{base}', cwd=tree, check=False).returncode:
-        sh('git', 'merge', '--abort', cwd=tree, check=False)
-        sys.exit(f'{head} conflicts with {base}. A person needs to reconcile it.')
-
     # An unfinished review lists no findings yet, which isn't the same as a clean one.
     wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip())
     for round_no in range(ROUNDS + 1):
@@ -173,11 +178,14 @@ def main():
         blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
     if still:
         blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))
-    if sh('git', 'merge-base', '--is-ancestor', f'origin/{base}', sha, check=False).returncode:
-        blocks.append(f'{head} is behind {base}')
-    failed = verified(tree)
-    if failed:
-        blocks.append(f'Build or tests fail: {failed[-500:]}')
+    # Build and test what main would become, so a PR behind main can't overwrite newer work.
+    # ponytail: main can still move before the merge call below; a merge queue closes that gap if merges get frequent.
+    if not merges_cleanly(tree, base):
+        blocks.append(f'{head} conflicts with {base}')
+    else:
+        failed = verified(tree)
+        if failed:
+            blocks.append(f'Build or tests fail with {base} merged in: {failed[-500:]}')
     if blocks:
         sys.exit('Not ready to merge:\n- ' + '\n- '.join(blocks))
     if not merge:
