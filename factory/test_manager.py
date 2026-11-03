@@ -115,8 +115,26 @@ with tempfile.TemporaryDirectory() as d:
 import types, manager as _m
 real_sh, real_problems, real_switch, moves = _m.sh, _m.run_problems, _m.switch_keeping_log, []
 _m.sh = lambda *c, **k: types.SimpleNamespace(stdout='main\n', stderr='', returncode=0)
-_m.switch_keeping_log = moves.append
+_m.switch_keeping_log = lambda b: moves.append(b) or types.SimpleNamespace(returncode=0, stderr='')
 _m.run_problems = lambda r: ['stop here']
-assert 'Not opening' in _m.open_run('2026-11-05', False) and moves == ['run/2026-11-05']
-assert 'Not opening' in _m.open_run('2026-11-05', True) and moves == ['run/2026-11-05']
+assert 'stop here' in _m.open_run('2026-11-05', False) and moves == ['run/2026-11-05']
+assert 'Would switch' in _m.open_run('2026-11-05', True) and moves == ['run/2026-11-05']
+# A failed switch stops before anything on the wrong branch is checked or written.
+_m.switch_keeping_log = lambda b: types.SimpleNamespace(returncode=1, stderr='nope')
+_m.run_problems = lambda r: 1 / 0
+assert 'could not switch' in _m.open_run('2026-11-05', False)
 _m.sh, _m.run_problems, _m.switch_keeping_log = real_sh, real_problems, real_switch
+
+# A run built on its own branch counts as used before it merges; a run doesn't count against itself.
+from run import other_branch_json
+with tempfile.TemporaryDirectory() as d:
+    git = ('git', '-c', 'user.name=t', '-c', 'user.email=t@example.com')
+    sh('git', 'init', '-q', '-b', 'main', d, cwd=d)
+    Path(d, 'x').write_text('x'); sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'a', cwd=d)
+    sh('git', 'checkout', '-qb', 'run/2026-11-05', cwd=d)
+    Path(d, 'runs/2026-11-05').mkdir(parents=True)
+    Path(d, 'runs/2026-11-05/picks.json').write_text(_json.dumps({'thread': 'sky'}))
+    sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'b', cwd=d)
+    sh('git', 'checkout', '-q', 'main', cwd=d)
+    assert other_branch_json('picks.json', '2026-11-06', cwd=d) == [{'thread': 'sky'}]
+    assert other_branch_json('picks.json', '2026-11-05', cwd=d) == []

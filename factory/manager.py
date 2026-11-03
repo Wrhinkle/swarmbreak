@@ -203,8 +203,12 @@ def run_problems(run_id):
 
 def open_run(run_id, dry):
     # A built run lives on its own branch until this PR, and a pass can start on main.
-    if not dry and sh('git', 'branch', '--show-current').stdout.strip() != f'run/{run_id}':
-        switch_keeping_log(f'run/{run_id}')
+    if sh('git', 'branch', '--show-current').stdout.strip() != f'run/{run_id}':
+        if dry:
+            return f'Would switch to run/{run_id} and check {run_id} there.'
+        moved = switch_keeping_log(f'run/{run_id}')
+        if moved.returncode:
+            return f'Not opening {run_id}: could not switch to run/{run_id}: {moved.stderr[-300:]}'
     problems = run_problems(run_id)
     if problems:
         return f'Not opening {run_id}: {problems}'
