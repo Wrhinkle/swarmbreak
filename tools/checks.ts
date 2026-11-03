@@ -84,6 +84,7 @@ export function checkContent(c: Content, graphs: SiteGraph[]): string[] {
       if (!Array.isArray(e.options) || e.options.length < 2 || e.options.length > 3) { out.push(`${who} needs 2-3 options`); continue; }
       const types = e.options.map(o => o.effect?.type);
       if (new Set(types).size < 2) out.push(`${who} needs options with different effects, so the choice means something`);
+      if (e.options.every(o => o.effect?.type === 'gold' && o.effect.amount < 0)) out.push(`${who} needs an option a player with no gold can take`);
       if (types.includes('nothing') && types.every(t => t === 'nothing' || t === 'heal' || t === 'gold' || t === 'routine')) out.push(`${who} offers a free reward next to doing nothing, which isn't a choice`);
       for (const o of e.options) {
         words(`${who} option label`, o.label, 70, out); words(`${who} option result`, o.result, 220, out);
