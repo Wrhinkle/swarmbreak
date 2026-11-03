@@ -52,6 +52,12 @@ def agent(name, output, inputs, check, search=False):
     sys.exit(f'{name} failed after {RETRIES + 1} attempts. Stopping; nothing was opened.')
 
 
+def past_threads(runs, run_id, keep=14):
+    """The themes of earlier runs, newest last, so the researcher can move somewhere new."""
+    days = sorted(p for p in runs.glob('20*/picks.json') if p.parent.name < run_id)
+    return [{'run': p.parent.name, 'thread': json.loads(p.read_text())['thread']} for p in days[-keep:]]
+
+
 def main():
     args = sys.argv[1:]
     run_id = args[0]
@@ -75,7 +81,9 @@ def main():
             used = Path(shared) / 'used-hosts.json'
             hosts = [s['host'] for p in (ROOT / 'runs').glob('*/sites.json') for s in json.loads(p.read_text())['sites']]
             used.write_text(json.dumps(hosts))
-            agent('researcher', picks, {'used-hosts.json': used}, lambda: result(tool('tools/checks.ts', 'picks', rel(picks), str(ACTS))), search=True)
+            themes = Path(shared) / 'recent-threads.json'
+            themes.write_text(json.dumps(past_threads(ROOT / 'runs', run_id)))
+            agent('researcher', picks, {'used-hosts.json': used, 'recent-threads.json': themes}, lambda: result(tool('tools/checks.ts', 'picks', rel(picks), str(ACTS))), search=True)
             sites = []
             for c in json.loads(picks.read_text())['candidates']:
                 if len(sites) == ACTS:

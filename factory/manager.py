@@ -202,6 +202,9 @@ def run_problems(run_id):
 
 
 def open_run(run_id, dry):
+    # A built run lives on its own branch until this PR, and a pass can start on main.
+    if not dry and sh('git', 'branch', '--show-current').stdout.strip() != f'run/{run_id}':
+        switch_keeping_log(f'run/{run_id}')
     problems = run_problems(run_id)
     if problems:
         return f'Not opening {run_id}: {problems}'
@@ -223,6 +226,16 @@ def open_run(run_id, dry):
     return f'{run_id} is in {url}. It goes live after merge_pr and deploy.'
 
 
+def switch_keeping_log(branch):
+    """Switches branches. The log changes on every pass and would block the switch, so its lines are kept across it."""
+    kept = LOG.read_text().splitlines() if LOG.exists() else []
+    sh('git', 'checkout', '--', str(LOG.relative_to(ROOT)))
+    moved = sh('git', 'switch', '-q', branch, check=False)
+    now = LOG.read_text().splitlines() if LOG.exists() else []
+    LOG.write_text('\n'.join(now + [x for x in kept if x not in now]) + '\n')
+    return moved
+
+
 def sync():
     """Moves the checkout to main once all its commits are merged, so a merged change takes effect on the next pass."""
     head = lambda: sh('git', 'rev-parse', 'HEAD').stdout.strip()
@@ -230,15 +243,11 @@ def sync():
     before = head()
     if sh('git', 'merge-base', '--is-ancestor', before, 'origin/main', check=False).returncode:
         return
-    kept = LOG.read_text().splitlines() if LOG.exists() else []  # this file changes on every pass and would block the switch
-    sh('git', 'checkout', '--', str(LOG.relative_to(ROOT)))
-    moved = sh('git', 'switch', '-q', 'main', check=False)
+    moved = switch_keeping_log('main')
     if not moved.returncode:
         moved = sh('git', 'merge', '-q', '--ff-only', 'origin/main', check=False)
     if moved.returncode:
         print(f'Could not move to main: {moved.stderr[-300:]}', flush=True)
-    now = LOG.read_text().splitlines() if LOG.exists() else []
-    LOG.write_text('\n'.join(now + [x for x in kept if x not in now]) + '\n')
     if head() != before:
         os.execv(sys.executable, [sys.executable, *sys.argv])
 
@@ -306,7 +315,7 @@ def state():
         runs[b.parent.name] = {'problems': report.get('problems'), 'rates': [{'policy': r.get('policy'), 'winRate': r.get('winRate')} for r in report.get('rates', [])]}
     recent = LOG.read_text().splitlines()[-20:] if LOG.exists() else []
     strangers = any(i['author']['login'] != OWNER for i in issues) or any(t['replies_waiting'] for t in threads)  # ponytail: a stranger's issue pauses delegation; a screening agent can lift this
-    return {'strangers': strangers, 'now': datetime.now(timezone.utc).isoformat(timespec='minutes'), 'live': live_manifest(), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'recent_decisions': [json.loads(l) for l in recent]}
+    return {'strangers': strangers, 'now': datetime.now(timezone.utc).isoformat(timespec='minutes'), 'live': live_manifest(), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'run_branches': sh('git', 'branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split(), 'recent_decisions': [json.loads(l) for l in recent]}
 
 
 def act(a, s, dry):
@@ -331,7 +340,7 @@ def act(a, s, dry):
         branch = f'run/{a["date"]}'
         sh('git', 'fetch', '-q', 'origin')
         known = sh('git', 'rev-parse', '--verify', '-q', branch, check=False).returncode == 0
-        moved = sh('git', 'switch', branch, check=False) if known else sh('git', 'switch', '-c', branch, 'origin/main', check=False)
+        moved = switch_keeping_log(branch) if known else sh('git', 'switch', '-c', branch, 'origin/main', check=False)
         if moved.returncode:
             return f'Could not switch to {branch}: {moved.stderr[-300:]}'
         r = subprocess.run([sys.executable, ROOT / 'factory/run.py', a['date'], '--from', a.get('from', 'researcher')], cwd=ROOT)

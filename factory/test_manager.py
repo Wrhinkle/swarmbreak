@@ -102,3 +102,21 @@ with tempfile.TemporaryDirectory() as d:
     moved = changed_paths('main', 'moved', cwd=d)
     assert 'notes with space.md' in moved and touches_gates([{'path': p} for p in moved]) == ['AGENTS.md'], moved
 
+# Earlier themes reach the researcher, and a run never sees its own or a later one.
+import json as _json
+from run import past_threads
+with tempfile.TemporaryDirectory() as d:
+    for day, thread in (('2026-11-04', 'sky'), ('2026-11-05', 'seeds'), ('2026-11-06', 'later')):
+        Path(d, day).mkdir()
+        Path(d, day, 'picks.json').write_text(_json.dumps({'thread': thread}))
+    assert [x['thread'] for x in past_threads(Path(d), '2026-11-05')] == ['sky']
+
+# A pass on main opens a built run from its own branch.
+import types, manager as _m
+real_sh, real_problems, real_switch, moves = _m.sh, _m.run_problems, _m.switch_keeping_log, []
+_m.sh = lambda *c, **k: types.SimpleNamespace(stdout='main\n', stderr='', returncode=0)
+_m.switch_keeping_log = moves.append
+_m.run_problems = lambda r: ['stop here']
+assert 'Not opening' in _m.open_run('2026-11-05', False) and moves == ['run/2026-11-05']
+assert 'Not opening' in _m.open_run('2026-11-05', True) and moves == ['run/2026-11-05']
+_m.sh, _m.run_problems, _m.switch_keeping_log = real_sh, real_problems, real_switch
