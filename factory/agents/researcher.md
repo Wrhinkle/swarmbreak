@@ -13,7 +13,7 @@ A good site has:
 Avoid: social networks, shops, news sites, search engines, anything about a tragedy, a current political fight, medical advice for patients, or a private person. Avoid sites that are mostly a company's marketing.
 
 ## Pick
-Choose a thread linking the sites, such as "things that measure the sky" or "places that keep old seeds". Order candidates by how well they fit: the host crawls from the top and takes the first three that pass, so list good backups.
+Choose a thread linking the sites. `recent-threads.json` lists the themes of recent runs. Pick a subject area far from all of them, so a player on consecutive days never gets the same kind of place twice. Weather and astronomy after a weather run is a repeat, even with new sites. Order candidates by how well they fit: the host crawls from the top and takes the first three that pass, so list good backups.
 
 ## Output
 Write `picks.json`. `used-hosts.json` lists sites used before, which you can't repeat.
