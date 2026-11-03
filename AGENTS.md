@@ -13,7 +13,7 @@ npm test                      # unit tests
 npx vite-node tools/balance.ts public/runs/<id>/run.json   # balance checks for one run
 ```
 
-To run the factory, also: `python3 -m venv factory/.venv && factory/.venv/bin/pip install -r factory/requirements.txt`, and a `codex` CLI signed in with a ChatGPT subscription. `python3 factory/run.py <YYYY-MM-DD>` builds one run. Agent roles are in `factory/agents/`.
+To run the factory, also: `python3 -m venv factory/.venv && factory/.venv/bin/pip install -r factory/requirements.txt`, and a `codex` CLI signed in with a ChatGPT subscription. `python3 factory/run.py <YYYY-MM-DD>` builds one run. Agent roles are in `factory/agents/`. `python3 factory/pr_team.py <pr> [--merge]` works one PR through Qodo.
 
 ## Layout
 
