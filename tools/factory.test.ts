@@ -49,3 +49,8 @@ describe('balance tool', () => {
     for (const w of witnesses) expect(replays(easy, w)).toBe(true);
   });
 });
+
+it('rejects duplicate normalized candidate hosts, even with different paths or ports', () => {
+  const candidates = ['https://Example.com/a', 'https://www.example.com:8443/b', 'https://other.example'].map(url => ({ name: 'Site', url, why: 'Interesting' }));
+  expect(checkPicks({ thread: 'Topic', candidates }, 1, [])).toContain('example.com appears more than once in candidates');
+});

@@ -27,9 +27,12 @@ export function checkPicks(p: Picks, acts: number, used: string[]): string[] {
   const out: string[] = [];
   words('thread', p?.thread, 400, out);
   if (!Array.isArray(p?.candidates) || p.candidates.length < acts + 2) return [...out, `List at least ${acts + 2} candidates`];
+  const normalizeHost = (host: string) => host.toLowerCase().replace(/\.$/, '').replace(/^www\./, '');
+  const previous = new Set(used.map(host => normalizeHost(host.replace(/:\d+$/, ''))));
+  const seen = new Set<string>();
   for (const c of p.candidates) {
     words(`Name of ${c.url}`, c.name, 80, out); words(`Reason for ${c.url}`, c.why, 300, out);
-    try { const u = new URL(c.url); if (u.protocol !== 'https:') out.push(`${c.url} must use https`); if (used.includes(u.host)) out.push(`${u.host} was already used in an earlier run`); if (BANNED_HOST.test(u.host)) out.push(`${u.host} is on the banned list`); }
+    try { const u = new URL(c.url); if (u.protocol !== 'https:') out.push(`${c.url} must use https`); const host = normalizeHost(u.hostname); if (previous.has(host)) out.push(`${host} was already used in an earlier run`); if (seen.has(host)) out.push(`${host} appears more than once in candidates`); seen.add(host); if (BANNED_HOST.test(u.host)) out.push(`${u.host} is on the banned list`); }
     catch { out.push(`Not a URL: ${c.url}`); }
   }
   return out;
