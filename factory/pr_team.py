@@ -75,13 +75,14 @@ def main():
         sys.exit(f'{tree} has uncommitted work. Stopping so it isn\'t lost.')
     if not (tree / 'node_modules').exists():
         sh('npm', 'ci', '--silent', cwd=tree)
-    # Check against the newest base, so a merge can't overwrite newer work. Qodo skips merge
-    # commits, so a branch that's behind gets rebased and pushed, which earns a real review.
-    if sh('git', 'rebase', '-q', f'origin/{base}', cwd=tree, check=False).returncode:
-        sh('git', 'rebase', '--abort', cwd=tree, check=False)
+    # Check against the newest base, so a merge can't overwrite newer work.
+    if sh('git', 'merge', '-q', '--no-edit', f'origin/{base}', cwd=tree, check=False).returncode:
+        sh('git', 'merge', '--abort', cwd=tree, check=False)
         sys.exit(f'{head} conflicts with {base}. A person needs to reconcile it.')
+    # Qodo only reviews pushed commits and skips merges, so a caught-up branch needs a plain commit on top.
     if sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip() != pr['headRefOid']:
-        sh('git', 'push', '-q', f'--force-with-lease={head}:{pr["headRefOid"]}', 'origin', f'HEAD:{head}', cwd=tree)
+        sh('git', 'commit', '-q', '--allow-empty', '-m', f'Ask Qodo to review after catching up with {base}', cwd=tree)
+        sh('git', 'push', '-q', 'origin', f'HEAD:{head}', cwd=tree)
 
     # An unfinished review lists no findings yet, which isn't the same as a clean one.
     wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip())
