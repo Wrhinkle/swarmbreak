@@ -8,11 +8,12 @@ export interface Policy {
   name: string;
   route: 'smart' | 'random'; // how it picks rooms and event options
   build: 'search' | 'heuristic' | 'none'; // search tries loadouts against the coming fight; none never edits routines
+  care?: number; // chance a searching player bothers to set up for a given fight, default 1
   noise: number; // chance any one decision is made at random
   start?: number; // force this column on the first floor
 }
 export const NOVICE: Policy = { name: 'novice', route: 'random', build: 'none', noise: 0 };
-export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'heuristic', noise: 0.2 };
+export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'search', care: 0.5, noise: 0.2 }; // reads the enemy and sets up for about half the fights
 export const EXPERT: Policy = { name: 'expert', route: 'smart', build: 'search', noise: 0 };
 export const NO_ROUTE: Policy = { ...TYPICAL, name: 'typical, random route', route: 'random' };
 export const NO_BUILD: Policy = { ...TYPICAL, name: 'typical, no routine edits', build: 'none' };
@@ -71,12 +72,14 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
     if (policy.start !== undefined && actIndex === 0) legal = legal.filter(n => n.x === policy.start);
     while (legal.length) {
       const score = (n: MapNode) => { if (n.hidden) return random() + .4; return random() + (n.kind === 'rest' ? (health() < .6 ? 3 : 0) : n.kind === 'elite' ? (health() > .8 ? 1.5 : -2) : n.kind === 'shop' ? (gold >= 60 ? 1.5 : 0) : n.kind === 'treasure' ? 1 : n.kind === 'event' ? .5 : 0); };
+      // The whole map is on screen, so a player plans two rooms past the next one.
+      const look = (n: MapNode, depth = 2): number => score(n) + (depth ? .6 * Math.max(0, ...act.nodes.filter(x => n.next.includes(x.id)).map(x => look(x, depth - 1))) : 0);
       const useScore = smart();
-      const n = useScore ? [...legal].sort((a, b) => score(b) - score(a))[0] : legal[Math.floor(random() * legal.length)];
+      const n = useScore ? [...legal].map(x => [look(x), x] as const).sort((a, b) => b[0] - a[0])[0][1] : legal[Math.floor(random() * legal.length)];
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
         swapReserves();
-        if (editing) { equip(); if (policy.build === 'search') search(n, creature); }
+        if (editing) { equip(); if (policy.build === 'search' && random() < (policy.care ?? 1)) search(n, creature); }
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };
@@ -95,7 +98,8 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       if (n.kind === 'event') {
         const e = act.events.find(e => e.id === n.eventId) as GameEvent;
         const worth = (fx: GameEvent['options'][number]['effect']) => fx.type === 'heal' ? fx.amount * (1 - health()) * 4 : fx.type === 'damage' ? -fx.amount * 3 / Math.max(.2, health()) : fx.type === 'gold' ? fx.amount / 60 : fx.type === 'routine' ? (editing ? 1 : 0) : 0;
-        const o = smart() ? [...e.options].sort((a, b) => worth(b.effect) - worth(a.effect))[0] : e.options[Math.floor(random() * e.options.length)];
+        const open = e.options.filter(o => o.effect.type !== 'gold' || gold + o.effect.amount >= 0); // same rule as the event buttons
+        const o = smart() ? [...open].sort((a, b) => worth(b.effect) - worth(a.effect))[0] : open[Math.floor(random() * open.length)];
         const fx = o.effect;
         if (fx.type === 'gold') gold = Math.max(0, gold + fx.amount);
         if (fx.type === 'routine') pool.push(fx.id);

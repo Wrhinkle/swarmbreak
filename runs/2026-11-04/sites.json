@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "bluehill.org",
+   "name": "Blue Hill Observatory and Science Center",
+   "url": "https://bluehill.org/",
+   "file": "runs/2026-11-04/sites/bluehill.org.json"
+  },
+  {
+   "host": "www.eol.ucar.edu",
+   "name": "Earth Observing Laboratory",
+   "url": "https://www.eol.ucar.edu/",
+   "file": "runs/2026-11-04/sites/www.eol.ucar.edu.json"
+  },
+  {
+   "host": "www.noa.gr",
+   "name": "National Observatory of Athens",
+   "url": "https://www.noa.gr/en/",
+   "file": "runs/2026-11-04/sites/www.noa.gr.json"
+  }
+ ]
+}

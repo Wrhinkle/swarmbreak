@@ -1,0 +1,216 @@
+{
+  "reading": "Blue Hill Observatory & Science Center is a nonprofit hilltop weather observatory, historic landmark, research resource, and public classroom. Its identity rests on observers climbing Great Blue Hill every day since 1885 to keep a continuous independent climate record; it values careful measurements, preservation, education, access, and community support. Its vocabulary joins the daily climb, observations, the record, temperature, precipitation, bright sunshine, means and extremes with field trips, forecasting, tours, and volunteers. What makes it distinctive is the meeting of an old, living scientific routine with automated comparison readings, a 635-foot summit, long climate series, kites, and a public invited to take part in the work.",
+  "enemies": [
+    {
+      "idea": "Gap Hounds sniff for a missing day in the observation record, then tear out neighboring entries to make the gap bigger.",
+      "source": "/give/",
+      "why": "A chase becomes a race to protect a fragile chain of dates."
+    },
+    {
+      "idea": "The Extremes Sorter clamps a maximum and minimum thermometer to anything it meets, stretching the object until it becomes a new record.",
+      "source": "/climate-weather/observatory-climate-data/",
+      "why": "Its two opposing clamps give the crew a readable way to interrupt it."
+    },
+    {
+      "idea": "Sunshine Collectors shutter the hill under metal umbrellas, then hoard the stolen bright minutes in glowing canisters.",
+      "source": "/climate-weather/",
+      "why": "The crew can break the shade or release stored light at a useful moment."
+    },
+    {
+      "idea": "The Unofficial Double, built from the automated current-conditions station, copies official readings and changes them just enough to lure observers into bad decisions.",
+      "source": "/climate-weather/weather-now-davis-vantagepro/",
+      "why": "Comparing two instruments exposes the impostor rather than relying on brute force."
+    },
+    {
+      "idea": "Date-Range Shears cut travelers out of the days they specify, trapping them in a loop of archived observations.",
+      "source": "/climate-weather/daily-discussion/",
+      "why": "Careful wording and an unexpected date can turn the trap around."
+    },
+    {
+      "idea": "Trendline Serpents made of long-term graph traces straighten every local dip and rise, flattening the terrain to match their chosen trajectory.",
+      "source": "/category/long-term-climate-graphs/",
+      "why": "A graph becomes a moving landscape hazard with visible bends to exploit."
+    },
+    {
+      "idea": "A Cloud Classifier tags people as cloud types and compresses them into low-hanging banks whenever it cannot agree on a category.",
+      "source": "/education/field-trips/",
+      "why": "Misclassification gives the crew room to distract and confuse it."
+    },
+    {
+      "idea": "Kite-Making Spiders stitch spare fabric into maneuverable wings and tether climbers to their own moving shadows.",
+      "source": "/education/classroom-visits/",
+      "why": "Cutting lines or changing the wind can redirect an airborne ambush."
+    },
+    {
+      "idea": "The Hilltop Temperature Investigator drills probes into warm bodies and cold stones, trying to eliminate every difference it measures.",
+      "source": "/education/field-trips/",
+      "why": "Heat and shade become tactical resources."
+    },
+    {
+      "idea": "Broadcast Cadets rehearse a forecast so forcefully that their loudspeakers herd everyone into the weather they predicted.",
+      "source": "/education/lymc/",
+      "why": "Interrupting the broadcast can change the movement of a whole crowd."
+    },
+    {
+      "idea": "The Trail Redotter paints false red markers around the hill, making every path climb back toward its waiting collection basket.",
+      "source": "/visit/getting-here/",
+      "why": "Navigation and observation matter more than speed."
+    },
+    {
+      "idea": "The Sunset Tour Guide keeps rotating mirrors to hold the sun at the horizon, prolonging its tour until the guests are exhausted.",
+      "source": "/visit/",
+      "why": "Repositioning mirrors creates a time-sensitive puzzle."
+    },
+    {
+      "idea": "An Instrument Enclosure Keeper treats every visitor as an uncalibrated instrument and tries to lock them in the enclosure for comparison.",
+      "source": "/visit/tour-options/",
+      "why": "It offers a clear rule the crew can exploit with a convincing calibration."
+    },
+    {
+      "idea": "A Panorama Stitcher swivels from Boston to the Atlantic to the western hills, sewing all four views together into a maze of mismatched distances.",
+      "source": "/visit/tower-views/",
+      "why": "The orientation of the tower changes the route through the encounter."
+    },
+    {
+      "idea": "The Oscillation Conductor swings between positive and negative phases, pulling its drones in opposite directions on each beat.",
+      "source": "/winter-2026-27-outlook/",
+      "why": "Watching the rhythm tells the crew when to move and when to duck."
+    },
+    {
+      "idea": "Snowfall Analysts sweep the ground in three-day and seasonal passes, scooping up footprints and anyone standing in them as if they were snow.",
+      "source": "/climate-weather/forecast-weather-resources/",
+      "why": "Their different collection intervals create openings and a way to hide tracks."
+    },
+    {
+      "idea": "The Seismic Listener mistakes footsteps for tremors and sends burrowing probes to silence each source of vibration.",
+      "source": "/october-2026-observatory-salon-series/",
+      "why": "A thrown object or coordinated rhythm can draw the probes away."
+    },
+    {
+      "idea": "The Archive Digitizer feeds old daily observations into a scanner that replaces ambiguous handwritten marks with confident, incorrect measurements.",
+      "source": "/climate-weather/observatory-climate-data/",
+      "why": "Rescuing originals and checking the machine’s guesses creates a concrete objective."
+    },
+    {
+      "idea": "The Weather-and-History Reenactor assembles harmless-looking replicas of past conditions and forces every passing crew to perform the same historical sequence.",
+      "source": "/category/weather-and-history-blog/",
+      "why": "Breaking the sequence becomes a challenge without recreating a real tragedy."
+    },
+    {
+      "idea": "The Conference Consensus Engine collects competing forecasts, compresses them into one rigid prediction, and sends drones to enforce it.",
+      "source": "/events/cwc/",
+      "why": "Contradictory evidence can jam a machine that cannot tolerate uncertainty."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A volunteer relay carries the daily observation up the hill by alternate routes whenever a swarm patrol blocks the main climb.",
+      "source": "/october-2026-community-volunteers/",
+      "why": "Helping the relay preserves a tangible daily ritual and earns local guides."
+    },
+    {
+      "idea": "A field-trip kite team flies hand-built scouts above the treeline to signal safe routes and spot moving machines.",
+      "source": "/education/field-trips/",
+      "why": "Their scouts offer aerial information but depend on wind and intact lines."
+    },
+    {
+      "idea": "An independent observer compares the automated station with a carefully read instrument and marks suspicious discrepancies for the crew.",
+      "source": "/climate-weather/weather-now-davis-vantagepro/",
+      "why": "Human comparison gives the crew a practical defense against false readings."
+    },
+    {
+      "idea": "A cloud artist paints fleeting sky patterns on fabric screens, giving crews movable cover from machines that track silhouettes.",
+      "source": "/visit/artist-in-residence-exhibit/",
+      "why": "Art and observation combine into an inventive, portable tool."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Unbroken Observer is a tower-sized assembly of clocks, instruments, and climbing legs that will record every day at any cost; it now manufactures weather and seizes witnesses whenever the real sky refuses to cooperate.",
+      "source": "/",
+      "why": "The site’s central devotion becomes a multi-stage fight: protect the real observation, disable manufactured conditions, and reach the clockwork core."
+    },
+    {
+      "idea": "The Centennial Calibration Crown has fused the historic observing station with the swarm, declaring the entire hill an instrument that must be held perfectly constant for another century.",
+      "source": "/about/",
+      "why": "Its shifting calibration routines let the crew introduce controlled changes to unbalance its defenses."
+    },
+    {
+      "idea": "The Forecast of Everything combines seasonal oscillations and the old record into a machine that treats predictions as orders, dispatching swarms to force the landscape to match its maps.",
+      "source": "/winter-2026-27-outlook/",
+      "why": "The crew can exploit uncertainty and conflicting signals to fracture its command network."
+    }
+  ],
+  "events": [
+    {
+      "idea": "At dusk a relay is one observer short of completing the daily climb; the crew can carry a sealed reading past a patrol before the day ends.",
+      "source": "/give/",
+      "why": "A clear deadline turns a small errand into a meaningful defense of the record."
+    },
+    {
+      "idea": "An automated station reports a pleasant calm while a hand-read instrument shows a strong gust; a climbing party waits for someone to check which route is safe.",
+      "source": "/climate-weather/weather-now-davis-vantagepro/",
+      "why": "A measurement discrepancy prompts investigation and a consequential choice."
+    },
+    {
+      "idea": "A box of handwritten daily observations is blowing across the summit as a digitizer closes in; some sheets are out of order.",
+      "source": "/climate-weather/observatory-climate-data/",
+      "why": "The crew must retrieve and sequence evidence under pressure."
+    },
+    {
+      "idea": "A kite-making group needs a line untangled from a swarm antenna before its kite can lift a warning above the trees.",
+      "source": "/education/field-trips/",
+      "why": "A small repair can become a clever way to signal allies."
+    },
+    {
+      "idea": "The red-dot trail forks into two freshly marked paths; a volunteer remembers that the service road approaches differently.",
+      "source": "/visit/getting-here/",
+      "why": "The crew can use local knowledge and observation to navigate a deceptive fork."
+    },
+    {
+      "idea": "A sunshine collector has trapped several bright minutes in a canister; opening it could illuminate a dark instrument room or expose the crew to patrols.",
+      "source": "/climate-weather/",
+      "why": "A found resource offers an immediate tradeoff."
+    },
+    {
+      "idea": "At the tower, stitched-together views show the Atlantic where the western hills should be; a stranded visitor asks the crew to restore one true bearing.",
+      "source": "/visit/tower-views/",
+      "why": "A compact orientation puzzle uses the summit’s distinctive views."
+    },
+    {
+      "idea": "A classroom temperature investigation has left two readings, one in shade and one in sun; a machine is chasing whichever object is warmer.",
+      "source": "/education/classroom-visits/",
+      "why": "The crew can make a decoy from an ordinary scientific comparison."
+    },
+    {
+      "idea": "A seismic monitor ticks wildly whenever anyone walks, but falls quiet for a rolling canister; something beneath the floor is listening for a particular rhythm.",
+      "source": "/october-2026-observatory-salon-series/",
+      "why": "Players can experiment with vibration to pass or lure the threat."
+    },
+    {
+      "idea": "A forecast rehearsal is stuck on repeat, sending drones to prepare for snow on a clear day; the crew can interrupt the broadcast or use the diversion.",
+      "source": "/education/lymc/",
+      "why": "A malfunction creates both an obstacle and an opportunity."
+    },
+    {
+      "idea": "A guided night-hike group has lost its guide in a false sunset cast by mirrors; they need a way to identify the actual trail before darkness.",
+      "source": "/visit/group-visits/",
+      "why": "The crew can combine light, direction, and escort decisions."
+    },
+    {
+      "idea": "Two forecast maps disagree about the coming winter, and a swarm dispatcher is awaiting the tie-breaker. A local observer asks the crew to deliver the uncertainty along with the maps.",
+      "source": "/winter-2026-27-outlook/",
+      "why": "The encounter rewards preserving uncertainty instead of choosing a false certainty."
+    },
+    {
+      "idea": "A community work party has cleared a route to the summit, but a machine keeps rebuilding the obstruction as a perfectly aligned measuring grid.",
+      "source": "/october-2026-community-volunteers/",
+      "why": "Cooperation and a well-timed distraction can open a lasting passage."
+    },
+    {
+      "idea": "A cloud artist asks the crew to hold a screen against the wind long enough to copy the actual sky before the classifier covers it in labels.",
+      "source": "/visit/artist-in-residence-exhibit/",
+      "why": "A quiet observation becomes a tense cooperative scene."
+    }
+  ]
+}

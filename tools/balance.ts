@@ -44,7 +44,8 @@ export function findWitnesses(run: Run, tries = 400): { witnesses: Witness[]; mi
 export function replays(run: Run, w: Witness): boolean { return play(run, rng(w.seed), { ...EXPERT, start: w.start }).won; }
 
 export interface Report { scale?: number; rates: Rate[]; witnesses: Witness[]; problems: string[] }
-export function evaluate(run: Run, count = 200): Report {
+// 800 games keeps the noise on a difference of two rates near 2.5 points. At 200 it was about 5, too coarse for the 8-point checks.
+export function evaluate(run: Run, count = 800): Report {
   const rate = (p: Policy, n = count) => measure(run, p, n);
   const [novice, noRoute, noBuild, typical, expert] = [rate(NOVICE), rate(NO_ROUTE), rate(NO_BUILD), rate(TYPICAL), rate(EXPERT, Math.min(count, 60))];
   const { witnesses, missing } = findWitnesses(run), problems: string[] = [], pct = (x: number) => `${(100 * x).toFixed(0)}%`;

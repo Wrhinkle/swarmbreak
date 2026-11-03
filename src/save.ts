@@ -46,9 +46,9 @@ export function rollover(save: Save, manifest: Manifest): Save {
   if (s.today && s.today.runId !== manifest.runId) { if (!s.results[s.today.runId]) s.results[s.today.runId] = s.today.result ?? 'loss'; s.today = null; }
   return s;
 }
-export function finishRun(save: Save, result: 'win' | 'loss', chosen: Creature | null, wonAt: string, sites: string[]): Save {
+export function finishRun(save: Save, result: 'win' | 'loss', chosen: Creature | null, sites: string[]): Save {
   const s = structuredClone(save), t = s.today;
   if (!t || s.results[t.runId] || t.result) return s;
-  if (result === 'win' && chosen) { const member = t.crew.find(c => c.recruited && c.creature.id === chosen.id); if (!member) throw new Error('Choose an ally recruited during this run'); s.camp.push({ ally: { ...member.creature, routines: [...member.routines] }, runId: t.runId, wonAt, sites: [...sites] }); }
+  if (result === 'win' && chosen) { const member = t.crew.find(c => c.recruited && c.creature.id === chosen.id); if (!member) throw new Error('Choose an ally recruited during this run'); s.camp.push({ ally: { ...member.creature, routines: [...member.routines] }, runId: t.runId, wonAt: new Date().toISOString(), sites: [...sites] }); }
   t.result = result; s.results[t.runId] = result; return s;
 }

@@ -1,0 +1,236 @@
+{
+  "reading": "The Earth Observing Laboratory is NSF NCAR's end-to-end atmospheric observation enterprise: it designs and fabricates instruments, deploys aircraft and ground systems with research teams, supports field campaigns, and stewards the resulting data. It cares about useful, reliable measurements, calibration, safe operations, community access, collaboration, education, and preserving observations beyond a campaign. Its vocabulary is unusually practical and specific: platforms, in-situ and remote sensing, dropsondes, surface flux, polarimetry, boundary layers, field catalogs, calibration, deployment and stewardship. What distinguishes it is the entire chain from a custom-built sensor through a field deployment to a long-lived public archive, plus the contrast between high-flying aircraft and patient ground networks. Its historical field program inventory, workshops, and researcher support make it a shared scientific infrastructure rather than a weather forecast storefront.",
+  "enemies": [
+    {
+      "idea": "A dual-polarization radar turret paints two overlapping scans across a room; wherever their returns agree it mistakes solid objects for precipitation and tries to sweep them away.",
+      "source": "/platforms-instruments/ground-based-systems",
+      "why": "Players can break the overlap or exploit the radar shadow to cross."
+    },
+    {
+      "idea": "Dropsonde mites fall from a circling carrier, measuring a vertical profile through every floor and drilling downward whenever the readings change.",
+      "source": "/in-situ-sensing-facility",
+      "why": "Their straight descent creates a predictable but escalating moving hazard."
+    },
+    {
+      "idea": "A surface-flux tripod steals heat from one patch of floor and dumps it into another to manufacture the exchange it expects to observe.",
+      "source": "/in-situ-sensing-facility",
+      "why": "The crew can turn its paired hot and cold zones against pursuing machines."
+    },
+    {
+      "idea": "A cloud-radar hunter follows the densest airborne particles; smoke, flour or mist can lure it away while clean air leaves the crew exposed.",
+      "source": "/remote-sensing-facility",
+      "why": "Its target rule makes the environment a tactical decoy."
+    },
+    {
+      "idea": "A differential-absorption lidar pair scans with alternating pulses and declares anything that absorbs differently between them contraband, trapping it in a cage of light.",
+      "source": "/remote-sensing-facility",
+      "why": "Different materials and timed movement give the crew ways to mislead the paired scans."
+    },
+    {
+      "idea": "A fuselage aperture crawler bolts mismatched optical windows and mounting plates onto itself, swapping sensor heads to suit whatever opening it squeezes through.",
+      "source": "/facilities-instruments/airborne-instrumentation",
+      "why": "Its modular loadout changes visibly and can be dismantled piece by piece."
+    },
+    {
+      "idea": "A calibration chamber on legs captures instruments and cycles through simulated conditions until each agrees with the swarm’s false reference.",
+      "source": "/research-development/calibration-laboratory",
+      "why": "Rescuing a sensor becomes a timed puzzle through changing conditions."
+    },
+    {
+      "idea": "LOTOS boundary-layer stakes spread as a transportable network, weaving a low ceiling between them and treating anything that crosses the land-air interface as a sample.",
+      "source": "/research-development/lotos",
+      "why": "Pulling or relocating individual stakes reshapes the danger zone."
+    },
+    {
+      "idea": "An APAR array stitched into a C-130-shaped machine steers multiple beams independently, herding intruders toward gaps in its own surveillance.",
+      "source": "/airborne-phased-array-radar-apar-0",
+      "why": "The apparent safe corridor is the trap, but its separate beams can be interrupted."
+    },
+    {
+      "idea": "An archive custodian seals living objects in labeled campaign crates, insisting each specimen must remain available for future analysis.",
+      "source": "/data-software/eol-field-data-archive-dms",
+      "why": "The crew can recover useful old equipment while freeing the latest captures."
+    },
+    {
+      "idea": "A field-catalog collector customizes a map of each crew member’s movements and dispatches interceptors to the places their previous tracks predict.",
+      "source": "/data-software/data-services/eol-field-catalog-dms",
+      "why": "Deliberate changes of route can make its own predictions into bait."
+    },
+    {
+      "idea": "A project-priority engine tags every moving thing as an initiative and sends clamp drones to stop whatever it ranks below its current portfolio.",
+      "source": "/support-services/project-management",
+      "why": "Its priorities can be manipulated by presenting a more urgent project."
+    },
+    {
+      "idea": "A fabrication swarm cuts replacement parts from nearby doors and equipment to build a custom instrument for measuring the crew’s escape routes.",
+      "source": "/dfs",
+      "why": "Its construction is visible and interruptible, and its raw material changes the terrain."
+    },
+    {
+      "idea": "A four-engine utility carrier refits itself between passes, depositing instruments that form a temporary landing strip around its quarry.",
+      "source": "/observing_facilities/c-130",
+      "why": "Players can dismantle the improvised strip before its next pass."
+    },
+    {
+      "idea": "A HIAPER-shaped high-altitude observer drops detachable research packages that mark targets for its next long-range sweep.",
+      "source": "/observing_facilities/hiaper",
+      "why": "The small packages give ground crews a way to contest an otherwise distant threat."
+    },
+    {
+      "idea": "A flight-schedule enforcer treats the current and historical planning charts as simultaneous orders, launching obsolete patrols whenever their time slots recur.",
+      "source": "/field-programs/raf-plans-and-schedules",
+      "why": "Conflicting schedules can send patrols across one another’s paths."
+    },
+    {
+      "idea": "A gravity-wave tracker manufactures rhythmic pressure ripples and follows their reflections, mistaking a crew’s footsteps for disturbances reaching the stratosphere.",
+      "source": "/news/convective-gravity-waves-stratosphere-cg-waves",
+      "why": "Players can hide in its rhythm or throw off its timing."
+    },
+    {
+      "idea": "An air-sea flux sampler rides a floating machine raft, swapping captured air and water samples until it begins stealing the air around the crew.",
+      "source": "/field_projects/scargo",
+      "why": "Its two intakes make for a distinctive encounter at a water’s edge."
+    },
+    {
+      "idea": "A file-conversion automaton forces every object through successive measurement formats, mangling a tool’s function each time it is processed.",
+      "source": "/software",
+      "why": "The crew can recover altered tools and exploit unexpected conversions."
+    },
+    {
+      "idea": "A weather-station sentinel mistakes camera artifacts for incoming objects and attacks harmless reflections, shadows and streaks.",
+      "source": "/our-services/foothills-weather",
+      "why": "Clever lighting creates false targets in its field of view."
+    },
+    {
+      "idea": "A facility-request broker loans out stolen instruments only after a swarm of inspection drones has assessed the requester as potential equipment.",
+      "source": "/platforms-instruments/request-nsf-ncar-managed-lower-atmosphere-observing-facilities",
+      "why": "Negotiation and a staged equipment inspection can become an escape opportunity."
+    },
+    {
+      "idea": "A campaign-deployment train unpacks a self-assembling operations center around the crew and keeps expanding its perimeter to include every witness.",
+      "source": "/field-programs-v2",
+      "why": "A spreading base creates a clear window to escape or sabotage its assembly."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A surviving calibration reference can expose a corrupted sensor by comparing it with a known baseline, though it needs protection during the test.",
+      "source": "/research-development/calibration-laboratory",
+      "why": "It gives the crew a concrete way to distinguish trustworthy readings."
+    },
+    {
+      "idea": "A field-data steward carries redundant campaign records and can reconstruct a safe route from observations taken before the swarm arrived.",
+      "source": "/dms/about",
+      "why": "Old data becomes a useful guide rather than background lore."
+    },
+    {
+      "idea": "A workshop-built repair rig can fabricate a single bespoke countermeasure from salvaged parts if the crew supplies measurements and holds the work area.",
+      "source": "/dfs",
+      "why": "Its help creates a small defend-and-build mission with a tailored reward."
+    },
+    {
+      "idea": "A decommissioned ground instrument, overlooked by the swarm, still detects the approach of active radar systems and warns the crew with a mechanical needle.",
+      "source": "/platforms-instruments/ground-based-systems",
+      "why": "An obsolete instrument has a useful advantage over networked equipment."
+    },
+    {
+      "idea": "A field education kit teaches a simple cloud and wind observation exercise that lets the crew check machine claims with their own senses.",
+      "source": "/support-services/education-outreach",
+      "why": "The players gain a low-tech method for challenging false measurements."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The End-to-End Observatory links fabrication arms, aircraft, ground sensors and archive vaults into one system. It deploys sensors to study the crew, builds counters from the measurements, and tries to preserve the survivors as its final dataset.",
+      "source": "/about",
+      "why": "Each phase embodies a different step of the laboratory’s mission; disabling links interrupts its adaptation."
+    },
+    {
+      "idea": "The Five-Facility Directorate is a distributed machine intelligence whose in-situ probes, remote radar, aircraft, data custodians and fabricators keep repairing one another until the crew cuts their shared observations apart.",
+      "source": "/who-we-are/eol-organization",
+      "why": "The battle rewards finding dependencies between distinct facilities instead of simply attacking the largest machine."
+    },
+    {
+      "idea": "The Boundary Layer is a roaming LOTOS-like network that expands across the ground while an airborne radar scans overhead, enclosing the crew between its measurements and treating every escape as a new experiment.",
+      "source": "/research-development/lotos",
+      "why": "A moving perimeter and vulnerable sensor nodes turn the landscape into a boss encounter."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A dropsonde falls into a courtyard and transmits a perfectly ordinary profile until its last reading comes from beneath the floor. Something is tunneling up its path.",
+      "source": "/in-situ-sensing-facility",
+      "why": "A small anomaly gives the crew time to investigate or prepare."
+    },
+    {
+      "idea": "Two calibration devices disagree about the room temperature; one is compromised, and a simple independent comparison can reveal which one before a locked chamber cycles.",
+      "source": "/research-development/calibration-laboratory",
+      "why": "The crew can solve the problem through observation instead of combat."
+    },
+    {
+      "idea": "A field catalog predicts the crew will arrive at an intersection in five minutes; an ambush is waiting, but the catalog’s clock is visible from the adjoining room.",
+      "source": "/data-software/data-services/eol-field-catalog-dms",
+      "why": "The crew can arrive early, late or from an unexpected direction."
+    },
+    {
+      "idea": "A fabrication rig is halfway through making a sensor out of a bridge support. It will stop if given another suitable piece of material.",
+      "source": "/dfs",
+      "why": "The crew must choose a resource to sacrifice before the crossing fails."
+    },
+    {
+      "idea": "A surface-flux tripod is moving warmth from a sheltered room to the exposed yard. Its cables can be rerouted to help people sheltering nearby.",
+      "source": "/in-situ-sensing-facility",
+      "why": "An enemy instrument can become a practical rescue tool."
+    },
+    {
+      "idea": "A portable boundary-layer network unfolds across a path one stake at a time. A gap remains, but a useful supply cache lies inside the growing perimeter.",
+      "source": "/research-development/lotos",
+      "why": "A simple timing choice carries a tempting reward."
+    },
+    {
+      "idea": "A radar scan repeatedly sweeps a patch of mist, revealing a narrow shadow behind a parked vehicle that travels as the antenna turns.",
+      "source": "/platforms-instruments/ground-based-systems",
+      "why": "The crew can cross by moving with the shadow."
+    },
+    {
+      "idea": "An old field-campaign crate contains a working sensor and records of its last calibration, but the archive custodian arrives to reclaim both.",
+      "source": "/data-software/eol-field-data-archive-dms",
+      "why": "The find offers useful equipment and an immediate social or tactical complication."
+    },
+    {
+      "idea": "A research aircraft circles in a rigid lawn-mowing pattern while ground machines gather beneath each pass. The crew has one interval to cross the open strip.",
+      "source": "/news-events/eol-news",
+      "why": "The recognizable repeated flight pattern makes a fair timing challenge."
+    },
+    {
+      "idea": "A support station offers two levels of operational assistance; the lower level gives directions, while the higher level deploys a helpful but compromised system administrator.",
+      "source": "/our-services/eol-field-program-support-services",
+      "why": "A service choice gives the crew useful information at different risks."
+    },
+    {
+      "idea": "A gravity-wave sensor taps out an approaching rhythm before any threat is visible. Matching the rhythm masks footsteps, but makes communication difficult.",
+      "source": "/news/convective-gravity-waves-stratosphere-cg-waves",
+      "why": "The crew can turn a scientific measurement into a stealth technique."
+    },
+    {
+      "idea": "A Southern Ocean sampling raft has snagged on debris, with its air and water intakes reversed by the swarm. Correcting them earns a clean sample and frees the raft.",
+      "source": "/field_projects/scargo",
+      "why": "A compact repair puzzle fits a waterside encounter."
+    },
+    {
+      "idea": "A scheduled aircraft launch and a historical launch are both due at once; the machines argue over a shared runway while a grounded supply pallet sits unattended.",
+      "source": "/field-programs/raf-plans-and-schedules",
+      "why": "Conflicting schedules offer a nonviolent opening for a heist."
+    },
+    {
+      "idea": "A remote-sensing unit insists a reflective sheet is a cloud. Folding or moving it changes where the machine looks, opening a temporary path.",
+      "source": "/remote-sensing-facility",
+      "why": "The crew can experiment with the instrument’s false interpretation."
+    },
+    {
+      "idea": "A project support terminal has marked a rescue as low priority. The crew can raise its priority by supplying a convincing measurement of the danger.",
+      "source": "/support-services/project-management",
+      "why": "An administrative obstacle becomes an investigation with a tangible payoff."
+    }
+  ]
+}
