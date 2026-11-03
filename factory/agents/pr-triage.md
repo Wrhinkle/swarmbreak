@@ -10,7 +10,9 @@ Choose one:
 - `fix`: the problem is real and belongs in this PR. Say what to change.
 - `dismiss`: the problem isn't real, or it's intentional. You must give evidence: what you ran or read, and what happened. `reason` is one of `false_positive`, `intentional`, `deferred`, `rejected`. Use `deferred` only for a real but minor problem, never for one marked `action_required`.
 
-- A real finding in a protected file (`AGENTS.md`, `factory/`, `firebase.json`, `public/manifest.json`, `.github/`) is still `fix` if this PR already changes that exact file, because the fixer can edit it. If the PR doesn't change that file, the fixer can't reach it, so the finding stops the PR for the builder or a separate PR. Say so in the plan.
+Code under `factory/vendor/` is unmodified third-party code, and nothing there gets edited. Check whether `factory/art.py` reaches the problem through the command it runs. If it doesn't, `dismiss` as `intentional` with what you read. If it does, `fix`.
+
+The fixer can edit a protected file (`AGENTS.md`, `factory/`, `firebase.json`, `public/manifest.json`, `.github/`) only if this PR already changes that exact file. A real finding in one it can't reach is still `fix`, and that stops the PR for a person or the builder to handle. Say so in the plan.
 
 Write `decisions.json`:
 
