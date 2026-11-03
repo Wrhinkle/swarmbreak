@@ -46,6 +46,16 @@ def verified(tree):
     return ''
 
 
+def wait_for_review(url, sha):
+    deadline = time.time() + QODO_WAIT
+    while time.time() < deadline:
+        s = findings(url).get('review_session') or {}
+        if s.get('commit_sha') == sha and s.get('review_complete'):
+            return
+        time.sleep(30)
+    sys.exit(f'Qodo hasn\'t reviewed {sha[:7]} after {QODO_WAIT // 60} minutes. Not merging.')
+
+
 def main():
     number, merge = sys.argv[1], '--merge' in sys.argv
     pr = json.loads(sh('gh', 'pr', 'view', number, '--repo', REPO, '--json', 'url,headRefName,baseRefName,state,headRefOid').stdout)
@@ -66,6 +76,8 @@ def main():
         sh('git', 'merge', '--abort', cwd=tree, check=False)
         sys.exit(f'{head} conflicts with {base}. A person needs to reconcile it.')
 
+    # An unfinished review lists no findings yet, which isn't the same as a clean one.
+    wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip())
     for round_no in range(ROUNDS + 1):
         data = findings(url)
         session = data.get('review_session') or {}
@@ -144,14 +156,7 @@ def main():
         if pushed == current:
             continue
         print(f'Pushed {pushed[:7]}. Waiting for Qodo to review it', flush=True)
-        deadline = time.time() + QODO_WAIT
-        while time.time() < deadline:
-            s = findings(url).get('review_session') or {}
-            if s.get('commit_sha') == pushed and s.get('review_complete'):
-                break
-            time.sleep(30)
-        else:
-            sys.exit(f'Qodo hasn\'t reviewed {pushed[:7]} after {QODO_WAIT // 60} minutes. Not merging.')
+        wait_for_review(url, pushed)
 
     # The merge decision. Only evidence tied to the exact head commit counts.
     sh('git', 'fetch', '-q', 'origin')
@@ -161,7 +166,7 @@ def main():
     sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
     blocks = []
     if session.get('commit_sha') != sha or not session.get('review_complete'):
-        blocks.append(f'Qodo last reviewed {str(session.get("commit_sha"))[:7]}, not {sha[:7]}')
+        blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
     if still:
         blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))
     if sh('git', 'merge-base', '--is-ancestor', f'origin/{base}', sha, check=False).returncode:
