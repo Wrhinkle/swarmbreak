@@ -81,3 +81,10 @@ with tempfile.TemporaryDirectory() as d:
     for text, ok in (('{"approve": true, "why": "x"}', True), ('{"approve": "true"}', False), ('{"approve": false}', False), ('[]', False), ('nope', False)):
         v.write_text(text)
         assert gate_verdict(v)[0] is ok, text
+
+# New agent prompts, saves and the verify scripts all count as limits; the log and ordinary source don't.
+from pr_team import touches_gates
+for path in ('factory/agents/brand-new.md', 'src/save.ts', 'package.json', 'tools/build-run.ts', 'factory/art.py'):
+    assert touches_gates([{'path': path}]), path
+for path in ('factory/log/notes.md', 'src/main.ts', 'runs/2026-11-05/content.json'):
+    assert not touches_gates([{'path': path}]), path
