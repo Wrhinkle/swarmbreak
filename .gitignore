@@ -5,3 +5,4 @@ dist/
 factory/.venv/
 runs/.art/
 __pycache__/
+factory/log/.lock

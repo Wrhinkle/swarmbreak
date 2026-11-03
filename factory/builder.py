@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import PROTECTED, REPO, bot, sh, verified  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
-LOCKED = (*PROTECTED, 'package.json', 'package-lock.json', 'tools/balance.ts', 'tools/checks.ts', '.gitignore', 'vite.config')
+LOCKED = (*PROTECTED, 'package.json', 'package-lock.json', 'tools/balance.ts', 'tools/checks.ts', 'tools/sim.ts', '.gitignore', 'vite.config')
 RESULT = '.builder-result.json'
 RETRIES = 2
 TEXT_KEYS = {'name', 'blurb', 'title', 'theme', 'intro', 'outro', 'bossIntro', 'text', 'label', 'result'}
@@ -20,7 +20,8 @@ TEXT_KEYS = {'name', 'blurb', 'title', 'theme', 'intro', 'outro', 'bossIntro', '
 
 def blocked_paths(changed, live):
     """Paths this bot can't change: the limits themselves, and the stored stages of a run players are on."""
-    return [c for c in changed if c.startswith(LOCKED) or c.startswith(f'runs/{live}/')]
+    new_agent = lambda c: c.startswith('factory/agents/') and c.endswith('.md') and not (ROOT / c).exists()
+    return [c for c in changed if (c.startswith(LOCKED) and not new_agent(c)) or c.startswith(f'runs/{live}/')]
 
 
 def only_wording(old, new, key=None):
@@ -72,6 +73,7 @@ def problems_in(tree, live):
 
 def main():
     number, dry = sys.argv[1], '--dry-run' in sys.argv
+    role = sys.argv[sys.argv.index('--role') + 1] if '--role' in sys.argv else ''
     issue = json.loads(sh('gh', 'issue', 'view', number, '--repo', REPO, '--json', 'number,title,body,author,state').stdout)
     if issue['author']['login'] != OWNER or issue['state'] != 'OPEN':
         sys.exit(f'Issue {number} is {issue["state"]} from {issue["author"]["login"]}. Only open issues from {OWNER} qualify.')
@@ -91,7 +93,8 @@ def main():
     extra, result, bad = '', {}, []
     for attempt in range(RETRIES + 1):
         (tree / RESULT).unlink(missing_ok=True)
-        bot('builder', tree, f'The report is in .issue.json. {extra}', effort='high')
+        brief = (ROOT / 'factory/agents' / f'{role}.md').read_text() + '\n\nDo the job above under the builder rules.\n\n' if role else ''
+        bot('builder', tree, f'{brief}The report is in .issue.json. {extra}', effort='high')
         try:
             result = json.loads((tree / RESULT).read_text())
         except (OSError, json.JSONDecodeError) as e:

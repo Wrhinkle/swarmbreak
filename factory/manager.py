@@ -5,7 +5,7 @@ Usage: python3 factory/manager.py [--dry-run] [--task "note for the manager"]
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
-import json, re, subprocess, sys, tempfile, time, urllib.request
+import fcntl, json, re, subprocess, sys, tempfile, time, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -18,6 +18,9 @@ SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.c
 LOG = ROOT / 'factory' / 'log' / 'decisions.jsonl'
 NOTES = ROOT / 'factory' / 'log' / 'notes.md'
 MAX_POST, MAX_REPLIES_PER_DAY = 6000, 3
+HUMAN = 'needs-william'
+GATES = ('AGENTS.md', '.github/', 'firebase.json', 'tools/balance.ts', 'tools/checks.ts', 'tools/sim.ts')
+GATE_PROMPTS = tuple(f'factory/agents/{n}.md' for n in ('manager', 'comms', 'builder', 'pr-triage', 'pr-fixer'))
 LINKS = (f'https://github.com/{REPO}', RAW, SITE, f'https://github.com/{CONTEST[0]}', 'https://hackathon.qodo.ai')
 FOOTER = '\n\n<sub>Written by this factory\'s comms agent and posted from the owner\'s account. [How it works](https://github.com/%s/blob/main/AGENTS.md).</sub>' % REPO
 SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{12,}|AIza[\w-]{20,}|-----BEGIN', re.I)
@@ -214,14 +217,27 @@ def open_run(run_id, dry):
     branch = sh('git', 'branch', '--show-current').stdout.strip()
     if branch in ('', 'main'):
         return f'Not opening {run_id}: the checkout is on {branch or "no branch"}, and main only changes through a reviewed PR.'
-    sh('git', 'add', 'public/manifest.json')
-    sh('git', 'commit', '-m', f'Open run {run_id}', '--', 'public/manifest.json')
-    sh('git', 'push', 'origin', branch)
+    keep_run(run_id, f'Open run {run_id}')
     found = gh('pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number')
     if found:
         return f'{run_id} is in PR {found[0]["number"]}. It goes live after merge_pr and deploy.'
     url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', f'Open run {run_id}', '--body', f'Balance report: `runs/{run_id}/balance.json`. Opened by the factory manager.').stdout.strip()
     return f'{run_id} is in {url}. It goes live after merge_pr and deploy.'
+
+
+def keep_run(run_id, message):
+    """Commits and pushes one run's files and the decision log, and nothing else in the checkout."""
+    paths = [p for p in (f'runs/{run_id}', f'public/runs/{run_id}', f'public/art/{run_id}', 'public/manifest.json', 'factory/log') if (ROOT / p).exists()]
+    sh('git', 'add', *paths)
+    if sh('git', 'diff', '--cached', '--quiet', check=False).returncode:
+        sh('git', 'commit', '-q', '-m', message, '--', *paths)
+    sh('git', 'push', '-q', '-u', 'origin', sh('git', 'branch', '--show-current').stdout.strip())
+
+
+def touches_gates(files):
+    """Files that hold the factory's limits. A model doesn't get to merge changes to what limits it."""
+    paths = [f['path'] for f in files]
+    return [p for p in paths if p.startswith(GATES) or (p.startswith('factory/') and p.endswith(('.py', '.plist'))) or p in GATE_PROMPTS]
 
 
 def deploy_problems(manifest, live, has_live_run, now):
@@ -277,7 +293,8 @@ def state():
         report = json.loads(b.read_text())
         runs[b.parent.name] = {'problems': report.get('problems'), 'rates': [{'policy': r.get('policy'), 'winRate': r.get('winRate')} for r in report.get('rates', [])]}
     recent = LOG.read_text().splitlines()[-20:] if LOG.exists() else []
-    return {'now': datetime.now(timezone.utc).isoformat(timespec='minutes'), 'live': live_manifest(), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'recent_decisions': [json.loads(l) for l in recent]}
+    strangers = any(i['author']['login'] != OWNER for i in issues) or any(t['replies_waiting'] for t in threads)  # ponytail: a stranger's issue pauses delegation; a screening agent can lift this
+    return {'strangers': strangers, 'now': datetime.now(timezone.utc).isoformat(timespec='minutes'), 'live': live_manifest(), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'recent_decisions': [json.loads(l) for l in recent]}
 
 
 def act(a, s, dry):
@@ -288,6 +305,11 @@ def act(a, s, dry):
             return f'PR {a.get("pr")} is not open.'
         if pr['author']['login'] != OWNER:
             return f'PR {pr["number"]} is from {pr["author"]["login"]}, not the owner. Not merging.'
+        gates = touches_gates(gh('pr', 'view', str(pr['number']), '--repo', REPO, '--json', 'files')['files'])
+        if gates:
+            if not dry:
+                sh('gh', 'pr', 'edit', str(pr['number']), '--repo', REPO, '--add-label', HUMAN)
+            return f'PR {pr["number"]} changes the factory\'s own limits ({gates[:3]}), so it waits for William\'s review.'
         if dry:
             return f'Would run the PR team on {pr["number"]} with merging on.'
         r = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', str(pr['number']), '--merge'], cwd=ROOT)
@@ -299,17 +321,40 @@ def act(a, s, dry):
             return f'Bad factory run: {a}'
         if dry:
             return f'Would build {a["date"]}.'
+        branch = f'run/{a["date"]}'
+        sh('git', 'fetch', '-q', 'origin')
+        known = sh('git', 'rev-parse', '--verify', '-q', branch, check=False).returncode == 0
+        moved = sh('git', 'switch', branch, check=False) if known else sh('git', 'switch', '-c', branch, 'origin/main', check=False)
+        if moved.returncode:
+            return f'Could not switch to {branch}: {moved.stderr[-300:]}'
         r = subprocess.run([sys.executable, ROOT / 'factory/run.py', a['date'], '--from', a.get('from', 'researcher')], cwd=ROOT)
+        keep_run(a['date'], f'Checkpoint run {a["date"]}, factory exit {r.returncode}')
         return f'Factory on {a["date"]} exited {r.returncode}.'
     if kind == 'open_run':
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(a.get('id'))):
             return f'Bad run id: {a}'
         return open_run(a['id'], dry)
+    if kind == 'delegate':
+        agent, task = str(a.get('agent', '')), str(a.get('task', '')).strip()
+        if s.get('strangers'):
+            return 'Not delegating while issues or replies from other people are in this pass, because their text could have shaped the task.'
+        if not task or (agent and agent != 'new' and not (re.fullmatch(r'[a-z-]+', agent) and (ROOT / 'factory/agents' / f'{agent}.md').exists())) or agent in ('manager', 'comms'):
+            return f'Bad delegate: {a}'
+        if dry:
+            return f'Would delegate to {agent or "builder"}: {task[:200]}'
+        url = sh('gh', 'issue', 'create', '--repo', REPO, '--title', str(a.get('title', task))[:80], '--body', f'{task}\n\nFiled by the factory manager.').stdout.strip()
+        a = {'type': 'build_fix', 'issue': int(url.rsplit('/', 1)[1]), 'role': agent if agent != 'new' else ''}
+        s = {**s, 'issues': [{'number': a['issue'], 'author': {'login': OWNER}}]}
+        kind = 'build_fix'
+    if kind == 'escalate':
+        if dry:
+            return 'Would file an issue for William.'
+        return sh('gh', 'issue', 'create', '--repo', REPO, '--label', HUMAN, '--title', str(a.get('title', 'Needs William'))[:80], '--body', str(a.get('need', ''))).stdout.strip()
     if kind == 'build_fix':
         issue = next((i for i in s['issues'] if i['number'] == a.get('issue')), None)
         if not issue or issue['author']['login'] != OWNER:
             return f'Issue {a.get("issue")} is not an open issue from the owner. Not building.'
-        r = subprocess.run([sys.executable, ROOT / 'factory/builder.py', str(issue['number']), *(['--dry-run'] if dry else [])], cwd=ROOT, capture_output=True, text=True)
+        r = subprocess.run([sys.executable, ROOT / 'factory/builder.py', str(issue['number']), *(['--dry-run'] if dry else []), *(['--role', a['role']] if a.get('role') else [])], cwd=ROOT, capture_output=True, text=True)
         last = (r.stdout.strip().splitlines() or [''])[-1]
         if r.returncode or dry or not last.isdigit():
             return f'Builder on issue {issue["number"]} exited {r.returncode}: {(r.stdout + r.stderr)[-500:]}'
@@ -321,6 +366,11 @@ def act(a, s, dry):
 
 
 def main():
+    lock = open(LOG.parent / '.lock', 'w')
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)  # a build can outlast the gap between passes
+    except OSError:
+        sys.exit('Another manager pass is running.')
     args, dry = sys.argv[1:], '--dry-run' in sys.argv
     if args and args[0] == '--comms':
         print(comms(int(args[1]), args[2], dry))
