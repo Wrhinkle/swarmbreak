@@ -147,10 +147,12 @@ def main():
         if fixes:
             problems = ''
             (tree / '.git-fixes.json').write_text(json.dumps(fixes, indent=1))
+            in_pr = changed_paths(f'origin/{base}', f'origin/{head}')
             for attempt in range(2):
                 bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
                 changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
-                touched = [c for c in changed if c.startswith(PROTECTED)]
+                # The fixer can touch a limit file only if this PR already changes it; the gate reviewer still judges the result.
+                touched = [c for c in changed if c.startswith(PROTECTED) and c not in in_pr]
                 problems = f'Don\'t edit these: {touched}. ' if touched else ''
                 if touched:
                     sh('git', 'checkout', '--', *touched, cwd=tree)
