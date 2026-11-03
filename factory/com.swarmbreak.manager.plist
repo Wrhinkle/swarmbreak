@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
   <key>Label</key><string>com.swarmbreak.manager</string>
-  <key>ProgramArguments</key><array><string>/usr/bin/python3</string><string>factory/manager.py</string></array>
+  <key>ProgramArguments</key><array><string>/opt/homebrew/bin/python3</string><string>factory/manager.py</string></array>
   <key>WorkingDirectory</key><string>/Users/ridgelinemarketing/Documents/Repos/swarmbreak</string>
   <key>EnvironmentVariables</key><dict><key>PATH</key><string>/Users/ridgelinemarketing/.local/bin:/opt/homebrew/bin:/opt/homebrew/bin:/usr/bin:/bin</string></dict>
   <key>StartCalendarInterval</key><array>
