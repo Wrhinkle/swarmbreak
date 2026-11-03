@@ -52,6 +52,13 @@ def template_headings(challenge):
     return [l.strip() for l in block.group(1).splitlines() if l.startswith('#')] if block else []
 
 
+def unfilled_links(body, challenge):
+    """A template's 'link:' lines must hold a real URL, so a post can't say the evidence is missing and still go out."""
+    block = re.search(r'```markdown\n(.*?)```', challenge, re.S)
+    labels = [l.strip() for l in block.group(1).splitlines() if l.strip().lower().endswith('link:')] if block else []
+    return [f'no URL after: {l}' for l in labels if not re.search(re.escape(l) + r'[*\s]*\[?[^\n]*https?://', body)]
+
+
 def dead_links(body):
     dead = []
     for url in set(re.findall(r'https?://[^\s)\]>"]+', body)):
@@ -166,6 +173,7 @@ def check_post(out, t):
         if t['ours']:
             problems.append('we already have a top-level comment on this thread; each challenge gets one')
         problems += post_problems(top, template_headings(t['challenge']))
+        problems += unfilled_links(top, t['challenge'])
         problems += [f'dead link: {u}' for u in dead_links(top)]
     known = {w['id'] for w in t['waiting']}
     if posted_today('reply') + len(replies) > MAX_REPLIES_PER_DAY:

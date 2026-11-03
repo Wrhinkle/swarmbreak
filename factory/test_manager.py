@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
-from manager import SITE, act, check_post, deploy_problems, post_problems, template_headings
+from manager import SITE, act, unfilled_links, check_post, deploy_problems, post_problems, template_headings
 
 good = f'## My rule\nSee {SITE} for it.'
 assert post_problems(good, ['## My rule']) == []
@@ -27,4 +27,7 @@ live, soon, later = {'runId': 'a'}, {'runId': 'b', 'opensAt': '2026-11-04T13:00:
 assert deploy_problems(soon, live, True, now) == []
 assert deploy_problems(later, live, True, now)
 assert deploy_problems(soon, live, False, now)
+tpl = '```markdown\nAGENTS.md link:\n```'
+assert unfilled_links('AGENTS.md link: Not available.', tpl)
+assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
 print('ok')
