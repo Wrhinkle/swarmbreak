@@ -4,7 +4,7 @@ import os, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
-from manager import SITE, act, unfilled_links, check_post, deploy_problems, post_problems, template_headings
+from manager import SITE, act, gate_verdict, unfilled_links, check_post, deploy_problems, post_problems, template_headings
 
 good = f'## My rule\nSee {SITE} for it.'
 assert post_problems(good, ['## My rule']) == []
@@ -73,3 +73,11 @@ with tempfile.TemporaryDirectory() as d:
     Path(d, 'a').write_text('3')
     git('add', '.'); git('commit', '-qm', 'conflict')
     assert not merges_cleanly(d, 'main') and Path(d, 'a').read_text() == '3'
+
+# Only an explicit approve passes the gate review.
+with tempfile.TemporaryDirectory() as d:
+    v = Path(d, 'v.json')
+    assert not gate_verdict(v)[0]
+    for text, ok in (('{"approve": true, "why": "x"}', True), ('{"approve": "true"}', False), ('{"approve": false}', False), ('[]', False), ('nope', False)):
+        v.write_text(text)
+        assert gate_verdict(v)[0] is ok, text

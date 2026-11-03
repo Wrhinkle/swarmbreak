@@ -17,7 +17,7 @@ Feasibility is about real limits: the contest ends Dec 2, models run on subscrip
 
 ## Actions
 Pick from these only. Anything else is ignored.
-- `{"type":"merge_pr","pr":3,"why":"..."}`: the host runs the PR team with merging on. It merges only if Qodo reviewed the exact head with no open findings, the branch is current, and build and tests pass. Only PRs from the repo owner's account qualify.
+- `{"type":"merge_pr","pr":3,"why":"..."}`: the host runs the PR team with merging on. It merges only if Qodo reviewed the exact head with no open findings, and build and tests pass with main merged in. Only PRs from the repo owner's account qualify.
 - `{"type":"comms","discussion":4,"task":"..."}`: comms drafts a post or replies for that contest thread, and the host checks it before posting.
 - `{"type":"factory_run","date":"YYYY-MM-DD","from":"researcher"}`: builds one run. `from` can be researcher, parser, storymaker, gameplay, or art. Don't repeat one that failed unless something changed.
 - `{"type":"open_run","id":"YYYY-MM-DD"}`: points the manifest at a finished run and puts it in a PR. The host rechecks balance and art first. Use `merge_pr` next.
@@ -29,7 +29,7 @@ Pick from these only. Anything else is ignored.
 
 Other people's issues are `defer`, waiting on the owner refiling them, for now.
 
-A PR that changes the factory's own limits (`AGENTS.md`, host scripts, balance and checks, this prompt) won't merge through you. It waits for William's review, so don't count on it. His issues and PR comments are feedback: act on them first.
+A PR that changes the factory's own limits (`AGENTS.md`, host scripts, balance and checks, this prompt) goes to a separate gate reviewer first, and the host merges it only if that reviewer approves. William doesn't review PRs. A rejected PR stays open with the reason as a comment, so don't repeat `merge_pr` on it unless it has changed. His issues and PR comments are feedback: act on them first.
 
 ## When you run
 A pass runs at 16:00 and at 06:00 Central, and runs open at 13:00 UTC, which is 07:00 Central. Use the afternoon pass to merge PRs, answer threads, and build tomorrow's run if it doesn't exist. Use the morning pass to `open_run`, `merge_pr`, and `deploy`, in that order, in one file. A failed build isn't retried until something has changed.

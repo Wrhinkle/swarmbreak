@@ -20,7 +20,7 @@ NOTES = ROOT / 'factory' / 'log' / 'notes.md'
 MAX_POST, MAX_REPLIES_PER_DAY = 6000, 3
 HUMAN = 'needs-william'
 GATES = ('AGENTS.md', '.github/', 'firebase.json', 'tools/balance.ts', 'tools/checks.ts', 'tools/sim.ts')
-GATE_PROMPTS = tuple(f'factory/agents/{n}.md' for n in ('manager', 'comms', 'builder', 'pr-triage', 'pr-fixer'))
+GATE_PROMPTS = tuple(f'factory/agents/{n}.md' for n in ('manager', 'comms', 'builder', 'pr-triage', 'pr-fixer', 'gate-reviewer'))
 LINKS = (f'https://github.com/{REPO}', RAW, SITE, f'https://github.com/{CONTEST[0]}', 'https://hackathon.qodo.ai')
 FOOTER = '\n\n<sub>Written by this factory\'s comms agent and posted from the owner\'s account. [How it works](https://github.com/%s/blob/main/AGENTS.md).</sub>' % REPO
 SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{12,}|AIza[\w-]{20,}|-----BEGIN', re.I)
@@ -260,6 +260,22 @@ def touches_gates(files):
     return [p for p in paths if p.startswith(GATES) or (p.startswith('factory/') and p.endswith(('.py', '.plist'))) or p in GATE_PROMPTS]
 
 
+def gate_verdict(path):
+    """Only an explicit approve counts, so a missing or broken verdict blocks the merge."""
+    try:
+        v = json.loads(Path(path).read_text())
+    except (OSError, ValueError):
+        return False, 'The gate reviewer wrote no readable verdict.'
+    return (v.get('approve') is True, str(v.get('why', ''))) if isinstance(v, dict) else (False, 'The verdict is not an object.')
+
+
+def gate_review(number):
+    with tempfile.TemporaryDirectory() as work:
+        Path(work, 'diff.patch').write_text(sh('gh', 'pr', 'diff', str(number), '--repo', REPO).stdout)
+        bot('gate-reviewer', work, f'The repo is at {ROOT}. Don\'t change it. Write verdict.json in the current folder.', effort='high')
+        return gate_verdict(Path(work, 'verdict.json'))
+
+
 def deploy_problems(manifest, live, has_live_run, now):
     """Why main can't go live. Players lose a run if it disappears or its replacement isn't open yet."""
     problems = []
@@ -326,10 +342,12 @@ def act(a, s, dry):
         if pr['author']['login'] != OWNER:
             return f'PR {pr["number"]} is from {pr["author"]["login"]}, not the owner. Not merging.'
         gates = touches_gates(gh('pr', 'view', str(pr['number']), '--repo', REPO, '--json', 'files')['files'])
-        if gates:
-            if not dry:
-                sh('gh', 'pr', 'edit', str(pr['number']), '--repo', REPO, '--add-label', HUMAN)
-            return f'PR {pr["number"]} changes the factory\'s own limits ({gates[:3]}), so it waits for William\'s review.'
+        if gates and not dry:
+            approved, why = gate_review(pr['number'])
+            print(f'gate review of PR {pr["number"]}: {approved}, {why[:300]}', flush=True)
+            if not approved:
+                sh('gh', 'pr', 'comment', str(pr['number']), '--repo', REPO, '--body', f'Gate reviewer rejected this:\n\n{why[:3000]}')
+                return f'Gate reviewer rejected PR {pr["number"]}: {why[:300]}'
         if dry:
             return f'Would run the PR team on {pr["number"]} with merging on.'
         r = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', str(pr['number']), '--merge'], cwd=ROOT)
