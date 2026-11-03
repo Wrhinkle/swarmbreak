@@ -15,7 +15,7 @@ Each act has an intro, three chapters, a boss intro, and an outro. Chapters are 
 - `bodyPlan` from: humanoid, beast, flier, swarm, blob, serpent, object, construct, plant, colossus
 - `look`: what an artist should draw, in concrete shapes and colors, 400 characters at most. No logos, text, or real people.
 - `key`: "green" if the creature is mostly red, pink, or purple; otherwise leave it out. The art is cut from a coloured background.
-- the boss's routines and blurb should pay off that act's chapters
+- the boss's routines and blurb should pay off that act's chapters. A boss needs at least one routine that deals damage (strike, strike+, finish, breach, sweep, sweep+, or charge), and it should be a fight that gets harder as the acts go on
 
 ## Events, per act
 6-9 events, each from a page. An event is a real choice with a cost. Both options should tempt someone. Effects: `{"type":"heal","amount":0.1-0.4}`, `{"type":"damage","amount":0.05-0.3}`, `{"type":"gold","amount":-100 to 100}`, `{"type":"routine","id":"shop routine"}`, `{"type":"nothing"}`. A single option can only have one effect, so express a trade as "pay gold for a routine" by making the alternatives differ: don't offer a free reward next to doing nothing. `look` describes the illustration.

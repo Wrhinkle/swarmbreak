@@ -8,11 +8,12 @@ export interface Policy {
   name: string;
   route: 'smart' | 'random'; // how it picks rooms and event options
   build: 'search' | 'heuristic' | 'none'; // search tries loadouts against the coming fight; none never edits routines
+  care?: number; // chance a searching player bothers to set up for a given fight, default 1
   noise: number; // chance any one decision is made at random
   start?: number; // force this column on the first floor
 }
 export const NOVICE: Policy = { name: 'novice', route: 'random', build: 'none', noise: 0 };
-export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'heuristic', noise: 0.2 };
+export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'search', care: 0.5, noise: 0.2 }; // reads the enemy and sets up for about half the fights
 export const EXPERT: Policy = { name: 'expert', route: 'smart', build: 'search', noise: 0 };
 export const NO_ROUTE: Policy = { ...TYPICAL, name: 'typical, random route', route: 'random' };
 export const NO_BUILD: Policy = { ...TYPICAL, name: 'typical, no routine edits', build: 'none' };
@@ -75,7 +76,7 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       const n = useScore ? [...legal].sort((a, b) => score(b) - score(a))[0] : legal[Math.floor(random() * legal.length)];
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
-        if (editing) { swapReserves(); equip(); if (policy.build === 'search') search(n, creature); }
+        if (editing) { swapReserves(); equip(); if (policy.build === 'search' && random() < (policy.care ?? 1)) search(n, creature); }
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };

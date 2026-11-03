@@ -74,6 +74,7 @@ export function checkContent(c: Content, graphs: SiteGraph[]): string[] {
       if (!Array.isArray(x.routines) || !x.routines.length || x.routines.length > 3) out.push(`${who} needs 1-3 routines`);
       else for (const r of x.routines) { if (!Object.hasOwn(ROUTINES, r)) out.push(`${who} uses an unknown routine: ${r}`); else if (x.tier === 'ally' && !ROUTINES[r].price) out.push(`${who} is an ally and can't use the swarm-only routine ${r}`); }
     }
+    for (const x of a.creatures ?? []) if (x.tier === 'boss' && !x.routines?.some(r => ['strike', 'heavy', 'sweep', 'overflow', 'charge'].includes(ROUTINES[r]?.action))) out.push(`${x.id} is a boss and needs a routine that deals damage, or the fight is a stall the player can only lose on time`);
     if (new Set(a.creatures?.map(x => x.source)).size < 7) out.push(`${act} creatures must cite at least 7 different pages`);
     if (!Array.isArray(a.events) || a.events.length < 6 || a.events.length > 9) out.push(`${act} needs 6-9 events`);
     for (const e of a.events ?? []) {
