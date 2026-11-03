@@ -33,7 +33,7 @@ assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
 from builder import blocked_paths, only_wording
 from manager import touches_gates
 assert touches_gates([{'path': 'factory/manager.py'}]) and touches_gates([{'path': 'tools/sim.ts'}]) and touches_gates([{'path': 'factory/agents/comms.md'}])
-assert touches_gates([{'path': 'src/act.ts'}, {'path': 'factory/agents/new-role.md'}, {'path': 'public/manifest.json'}]) == []
+assert touches_gates([{'path': 'src/act.ts'}, {'path': 'factory/log/notes.md'}, {'path': 'public/manifest.json'}]) == []
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
 assert 'Bad' in act({'type': 'delegate', 'agent': 'manager', 'task': 'x'}, {}, True)
 assert blocked_paths(['factory/agents/new-role.md'], 'z') == [] and blocked_paths(['factory/agents/comms.md'], 'z') and blocked_paths(['tools/sim.ts'], 'z')
