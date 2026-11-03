@@ -75,7 +75,8 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       const n = useScore ? [...legal].sort((a, b) => score(b) - score(a))[0] : legal[Math.floor(random() * legal.length)];
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
-        if (editing) { swapReserves(); equip(); if (policy.build === 'search') search(n, creature); }
+        swapReserves();
+        if (editing) { equip(); if (policy.build === 'search') search(n, creature); }
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };
