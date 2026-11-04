@@ -104,8 +104,11 @@ def thread(number):
 
 def facts():
     log = sh('git', 'log', '-25', '--format=%h %s', 'origin/main').stdout
-    prs = gh('pr', 'list', '--repo', REPO, '--state', 'all', '--limit', '30', '--json', 'number,title,state,url,headRefName,body,author')
-    issues = gh('issue', 'list', '--repo', REPO, '--state', 'all', '--limit', '30', '--json', 'number,title,state,url,body,author')
+    prs = gh('pr', 'list', '--repo', REPO, '--state', 'all', '--limit', '500', '--json', 'number,title,state,url,headRefName,body,author,commits')
+    issues = gh('issue', 'list', '--repo', REPO, '--state', 'all', '--limit', '500', '--json', 'number,title,state,url,body,author')
+    for x in prs:
+        # The body is written when the PR opens; the commit list shows what changed after it.
+        x['commits'] = [c['messageHeadline'] for c in x.get('commits', [])]
     for x in prs + issues:
         # Other people's bodies are left out, so their text can't steer a post; long ones keep start and end, where the evidence is.
         b = x.pop('body') if (x.pop('author') or {}).get('login') == OWNER else '[body left out: not written by the owner]'
@@ -115,7 +118,7 @@ def facts():
             f'Live run: {json.dumps(live_manifest())}\n\n'
             '# How the factory reads tickets\nTickets are GitHub issues, read through the GitHub CLI (gh). The manager lists open issues with '
             '`gh issue list` each pass and picks one for build_fix. The builder reads it with `gh issue view`, works on branch fix/issue-<n>, '
-            'and opens a PR whose body says "Fixes #<n>". The PR team runs Qodo on that PR and the gate reviewer approves the exact commit before it merges.\n\n'
+            'and opens a PR whose body says "Fixes #<n>". The PR team runs Qodo on that PR. Only a PR touching protected files (AGENTS.md, factory/, the balance and content checks, combat, save and package files) also needs the gate reviewer to approve the exact commit; other PRs merge without it, so never claim a gate review on a PR that does not touch those files.\n\n'
             f'# Issues\n{json.dumps(issues, indent=1)}\n\n# AGENTS.md\n{(ROOT / "AGENTS.md").read_text()}\n\n# Pull requests\n{json.dumps(prs, indent=1)}\n\n'
             f'# Commits on main\nCommit links are https://github.com/{REPO}/commit/<hash>\n{log}\n\n# Log\n{notes}\n')
 
