@@ -243,17 +243,24 @@ def switch_keeping_log(branch):
     return moved
 
 
+def on_run_branch():
+    """Building or opening a run leaves the checkout on its branch, which carries older factory code. Its commits are already pushed."""
+    return sh('git', 'branch', '--show-current').stdout.startswith('run/')
+
+
 def sync():
-    """Moves the checkout to main once all its commits are merged, so a merged change takes effect on the next pass."""
+    """Moves the checkout to main once all its commits are merged, or off a run branch, so a pass always runs main's factory code."""
     head = lambda: sh('git', 'rev-parse', 'HEAD').stdout.strip()
     sh('git', 'fetch', '-q', 'origin')
     before = head()
-    if sh('git', 'merge-base', '--is-ancestor', before, 'origin/main', check=False).returncode:
+    if not on_run_branch() and sh('git', 'merge-base', '--is-ancestor', before, 'origin/main', check=False).returncode:
         return
     moved = switch_keeping_log('main')
     if not moved.returncode:
         moved = sh('git', 'merge', '-q', '--ff-only', 'origin/main', check=False)
     if moved.returncode:
+        if on_run_branch():
+            sys.exit(f'Stopping: still on a run branch, whose factory code is older than main: {moved.stderr[-300:]}')
         print(f'Could not move to main: {moved.stderr[-300:]}', flush=True)
     if head() != before:
         os.execv(sys.executable, [sys.executable, *sys.argv])
@@ -266,6 +273,10 @@ def keep_run(run_id, message):
     if sh('git', 'diff', '--cached', '--quiet', check=False).returncode:
         sh('git', 'commit', '-q', '-m', message, '--', *paths)
     sh('git', 'push', '-q', '-u', 'origin', sh('git', 'branch', '--show-current').stdout.strip())
+    # launchd loads manager.py from this checkout, so leaving it on a run branch would run that branch's older code next pass.
+    back = switch_keeping_log('main')
+    if back.returncode:
+        sys.exit(f'Pushed {run_id} but could not return to main: {back.stderr[-300:]}')
 
 
 def deploy_problems(manifest, live, has_live_run, now):
@@ -448,11 +459,13 @@ def main():
         if FAILED.search(result):
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
     if failures and round_ < FOLLOW_UPS and not dry:
-        # A failure gets worked now, not at the next scheduled pass. The lock fd isn't inherited, so the new pass can take it.
+        # A failure gets worked now, not at the next scheduled pass. The lock fd is inherited, so no other pass gets in between.
         task = (note + '\n\n' if note else '') + ('This is a follow-up pass because these actions just failed:\n' + '\n'.join(failures) +
                 '\nFix the cause now: delegate or build_fix the code or limit that blocked it, then redo the action that needs it, '
                 'and deploy if players need it today. Never repeat a failed action unchanged. If nothing in the factory can fix it, escalate.')
         print(f'Starting follow-up pass {round_ + 1} for {len(failures)} failures.', flush=True)
+        if on_run_branch() and switch_keeping_log('main').returncode:  # execv loads manager.py from disk, so it must be main's copy
+            sys.exit('Not starting the follow-up: could not leave the run branch for main.')
         os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve()), '--follow-up', str(round_ + 1), '--task', task])
 
 
