@@ -80,7 +80,7 @@ def main():
     branch = f'fix/issue-{number}'
     # An open PR means a reviewer turned the last fix down, so the builder reworks that branch with the review in hand.
     # Only the owner's own branch counts: a fork can name its branch the same.
-    open_pr = [p for p in json.loads(sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number,comments,author,isCrossRepository').stdout)
+    open_pr = [p for p in json.loads(sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--author', OWNER, '--json', 'number,comments,author,isCrossRepository').stdout)
                if p['author']['login'] == OWNER and not p['isCrossRepository']]
     with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
         live = json.load(r)['runId']
@@ -88,7 +88,9 @@ def main():
     sh('git', 'fetch', '-q', 'origin')
     if tree.exists():
         sh('git', 'worktree', 'remove', '--force', tree)
-    sh('git', 'worktree', 'add', '-q', '-B', branch, tree, f'origin/{branch}' if open_pr else 'origin/main')
+    # Start from the pushed branch whenever it exists, so a push can only add to earlier work, never replace it.
+    pushed = sh('git', 'rev-parse', '--verify', '-q', f'origin/{branch}', check=False).returncode == 0
+    sh('git', 'worktree', 'add', '-q', '-B', branch, tree, f'origin/{branch}' if pushed else 'origin/main')
     sh('npm', 'ci', '--silent', cwd=tree)
     comments = [c['body'] for c in issue['comments'] if (c['author'] or {}).get('login') == OWNER]
     review = [c['body'] for c in open_pr[0]['comments'] if (c['author'] or {}).get('login') == OWNER] if open_pr else []
