@@ -448,7 +448,7 @@ def main():
         os.environ['SWARMBREAK_LOCK_FD'] = str(lock.fileno())
     args, dry = sys.argv[1:], '--dry-run' in sys.argv
     if args and args[0] == '--comms':
-        print(comms(int(args[1]), args[2], dry, allow_edit='--allow-edit' in args))
+        print(comms(int(args[1]), args[2], dry, allow_edit='--allow-edit' in args[3:]))  # args[2] is the task text
         return
     if not dry:
         sync()
