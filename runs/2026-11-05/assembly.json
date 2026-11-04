@@ -1,0 +1,31 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [["seed-counter"], ["moth-camera"], ["spice-grinder"], ["seed-counter", "moth-camera"], ["spice-grinder", "seed-counter"]],
+        "mid": [["climate-seamstress", "moth-camera"], ["bed-taxonomist", "seed-counter"], ["garden-warden", "spice-grinder"], ["guide-frond"], ["cold-regulator", "seed-counter"]],
+        "late": [["garden-warden", "bed-taxonomist"], ["cold-regulator", "guide-frond"], ["climate-seamstress", "moth-camera", "spice-grinder"], ["bed-taxonomist", "seed-counter"], ["garden-warden", "guide-frond"]]
+      },
+      "elites": [{"id": "walking-scaffold", "reward": "seed-keeper"}, {"id": "soil-tester", "reward": "meadow-guides"}, {"id": "containment-engine", "reward": "meadow-guides"}],
+      "shop": ["breach", "sweep", "finish", "patch", "jam", "purge", "strike+", "brace"]
+    },
+    {
+      "packs": {
+        "early": [["mill-surveyor"], ["mill-courier"], ["mill-clock"], ["mill-surveyor", "mill-clock"], ["mill-courier", "mill-clock"]],
+        "mid": [["mill-racer"], ["mill-crane", "mill-courier"], ["mill-sentinel", "mill-clock"], ["mill-shepherd", "mill-surveyor"], ["mill-restorer", "mill-clock"]],
+        "late": [["mill-racer", "mill-clock"], ["mill-sentinel", "mill-shepherd"], ["mill-restorer", "mill-crane"], ["mill-shepherd", "mill-clock", "mill-surveyor"], ["mill-crane", "mill-courier"]]
+      },
+      "elites": [{"id": "mill-kiln", "reward": "mill-route-keeper"}, {"id": "mill-loom", "reward": "mill-restorer-ally"}, {"id": "mill-transfer", "reward": "mill-restorer-ally"}],
+      "shop": ["breach", "sweep", "sweep+", "patch+", "jam", "finish", "strike+", "triage"]
+    },
+    {
+      "packs": {
+        "early": [["silk-skein-runner"], ["silk-dye-taster"], ["silk-negative"], ["silk-skein-runner", "silk-negative"], ["silk-dye-taster", "silk-skein-runner"]],
+        "mid": [["silk-hatcher"], ["silk-separator", "silk-skein-runner"], ["silk-mantle", "silk-dye-taster"], ["silk-egg-courier", "silk-negative"], ["silk-grazer", "silk-skein-runner"]],
+        "late": [["silk-mantle", "silk-egg-courier"], ["silk-grazer", "silk-hatcher"], ["silk-separator", "silk-dye-taster", "silk-skein-runner"], ["silk-egg-courier", "silk-negative"], ["silk-mantle", "silk-hatcher"]]
+      },
+      "elites": [{"id": "silk-mimic", "reward": "silk-conservator"}, {"id": "silk-indexer", "reward": "silk-librarian"}, {"id": "silk-architect", "reward": "silk-conservator"}],
+      "shop": ["sweep+", "strike+", "jam", "corrupt", "triage", "patch+", "breach", "purge"]
+    }
+  ]
+}
