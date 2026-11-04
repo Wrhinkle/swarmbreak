@@ -104,10 +104,12 @@ def thread(number):
 
 def facts():
     log = sh('git', 'log', '-25', '--format=%h %s', 'origin/main').stdout
-    prs = gh('pr', 'list', '--repo', REPO, '--state', 'all', '--limit', '30', '--json', 'number,title,state,url,headRefName,body')
-    issues = gh('issue', 'list', '--repo', REPO, '--state', 'all', '--limit', '30', '--json', 'number,title,state,url,body')
+    prs = gh('pr', 'list', '--repo', REPO, '--state', 'all', '--limit', '30', '--json', 'number,title,state,url,headRefName,body,author')
+    issues = gh('issue', 'list', '--repo', REPO, '--state', 'all', '--limit', '30', '--json', 'number,title,state,url,body,author')
     for x in prs + issues:
-        x['body'] = x['body'][:1200]
+        # Other people's bodies are left out, so their text can't steer a post; long ones keep start and end, where the evidence is.
+        b = x.pop('body') if (x.pop('author') or {}).get('login') == OWNER else '[body left out: not written by the owner]'
+        x['body'] = b if len(b) <= 2000 else f'{b[:700]}\n[... middle cut ...]\n{b[-1300:]}'
     notes = NOTES.read_text() if NOTES.exists() else ''
     return (f'# Project\nRepo: https://github.com/{REPO}\nLive site: {SITE}\nAGENTS.md: https://github.com/{REPO}/blob/main/AGENTS.md\n'
             f'Live run: {json.dumps(live_manifest())}\n\n'
@@ -164,7 +166,7 @@ def comms(number, task, dry):
         return 'Dry run, nothing posted.'
     mutation = 'mutation($d:ID!,$b:String!,$r:ID){addDiscussionComment(input:{discussionId:$d,body:$b,replyToId:$r}){comment{url}}}'
     urls = []
-    if out.get('top_level', '').strip() and out.get('edit'):
+    if out.get('top_level', '').strip() and out.get('edit') is True:
         edit = 'mutation($c:ID!,$b:String!){updateDiscussionComment(input:{commentId:$c,body:$b}){comment{url}}}'
         url = gh('api', 'graphql', '-f', f'query={edit}', '-f', f'c={t["ours"][0]["id"]}', '-f', f'b={out["top_level"] + FOOTER}')['data']['updateDiscussionComment']['comment']['url']
         urls.append(url)
@@ -186,10 +188,13 @@ def comms(number, task, dry):
 def check_post(out, t):
     problems = []
     top, replies = out.get('top_level', ''), out.get('replies', [])
-    if top.strip() and t['ours'] and not out.get('edit'):
+    edit = out.get('edit') is True
+    if 'edit' in out and not isinstance(out['edit'], bool):
+        problems.append('"edit" must be true or false')
+    if top.strip() and t['ours'] and not edit:
         problems.append('we already have a top-level comment on this thread; each challenge gets one, so set "edit": true to replace it')
-    if out.get('edit') and not t['ours']:
-        problems.append('"edit" needs an existing top-level comment of ours')
+    if edit and len(t['ours']) != 1:
+        problems.append('"edit" needs exactly one existing top-level comment of ours to replace')
     if top.strip():
         problems += post_problems(top, template_headings(t['challenge']))
         problems += unfilled_links(top, t['challenge'])

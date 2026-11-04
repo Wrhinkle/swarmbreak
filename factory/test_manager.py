@@ -16,7 +16,9 @@ assert template_headings('x\n```markdown\n## A\ntext\n## B\n```\n') == ['## A', 
 t = {'ours': [{'url': 'u', 'body': 'b'}], 'waiting': [{'id': 'R1', 'parent': 'C1'}], 'challenge': ''}
 assert any('already' in p for p in check_post({'top_level': good}, t))
 assert not any('already' in p for p in check_post({'top_level': good, 'edit': True}, t))
-assert any('needs an existing' in p for p in check_post({'top_level': good, 'edit': True}, {**t, 'ours': []}))
+assert any('exactly one' in p for p in check_post({'top_level': good, 'edit': True}, {**t, 'ours': []}))
+assert any('exactly one' in p for p in check_post({'top_level': good, 'edit': True}, {**t, 'ours': t['ours'] * 2}))
+assert any('true or false' in p for p in check_post({'top_level': good, 'edit': 'false'}, t))
 assert any('unknown id' in p for p in check_post({'replies': [{'to': 'R9', 'body': 'ok'}]}, t))
 assert check_post({'replies': [{'to': 'R1', 'body': 'ok'}]}, t) == []
 s = {'prs': [{'number': 9, 'author': {'login': 'stranger'}}]}
