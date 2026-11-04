@@ -1,52 +1,216 @@
 {
-  "reading": "MNACTEC is Catalonia's national museum of science and technology, based in the former Vapor Aymerich Amat i Jover industrial building in Terrassa. It preserves scientific, technical and industrial heritage while making it approachable through exhibitions, family activities, educational visits, research and online collections. Its vocabulary moves between collections, restoration, heritage, exhibitions, workshops, guided visits and a wider museum network. The crawl pairs a 1909 factory walk, a Pyrenean iron route, cement and textile heritage with robots, ultrasound, mathematics and motorcycle history. That mixture of working industrial past, contemporary science and hands-on learning gives the place its character. The crawl is multilingual, though much of its captured detail concerns visits and access rather than the full exhibits.",
+  "reading": "NOAA’s Global Monitoring Laboratory is a federal atmospheric research laboratory that builds long, comparable records of the changing atmosphere. Its three recurring concerns are greenhouse gases and carbon-cycle feedbacks; surface radiation, clouds and aerosols; and recovery of stratospheric ozone. Its vocabulary is one of baselines, trends, trace gases, columns, calibration scales, flasks, observatories, networks, sources and sinks, and models. What makes this crawl distinctive is its combination of remote staffed observatories from the Arctic to the South Pole, decades of carefully calibrated measurements, portable samples and balloons, global data products, and practical tools such as a solar calculator. The laboratory treats measurements, standards, collaboration and continuity as infrastructure: a single number matters because it can be compared across places and years.",
   "enemies": [
-    {"idea": "Ultrasound surveyors send inaudible pulses through walls and mistake a crew's heartbeats for defects to be extracted.", "source": "/ca", "why": "A tool associated with nature and medicine becomes a hunter that can be fooled by reflected echoes."},
-    {"idea": "A mathematical strategy-game engine rolls numbered blocks across the floor, fencing intruders into losing positions before it attacks.", "source": "/ca", "why": "Its threats are visible moves in a puzzle the crew can interrupt or turn around."},
-    {"idea": "Iron Route carriers drag red-hot lengths of rail behind them, joining forge to forge and pulling loose metal into their growing path.", "source": "/ca", "why": "A heritage route becomes a moving supply line that can be severed."},
-    {"idea": "Cement kiln drones dust a corridor, then harden the dust into casts around anything that stays still.", "source": "/ca", "why": "The cement museum supplies a material hazard with a clear, mobile counterplay."},
-    {"idea": "A textile-colony loom spins capture nets from recovered wire and reels anything caught back toward its bobbin.", "source": "/ca", "why": "Industrial weaving becomes a tug-of-war with an exposed winding mechanism."},
-    {"idea": "A wind-up automaton copies an intruder's last three movements, then a humanoid swarm unit repeats them at dangerous speed.", "source": "/en", "why": "The exhibition's journey from early automata to future humanoids becomes a readable escalating duel."},
-    {"idea": "Motorcycle-history racers circle a fixed course, scavenging parts from whatever they overtake to assemble a faster successor.", "source": "/en/exhibition-detail/viva-montesa", "why": "A journey through motorsport history becomes a race in which the course and spare parts matter."},
-    {"idea": "A winter-hours clockwork patrol locks down at 14:30 and wakes again at 15:30, trapping anything it classified as a visitor during the interval.", "source": "/ca/visitans/horaris-i-tarifes", "why": "The Saturday split creates a predictable window to exploit or escape."},
-    {"idea": "Freight-unloading cranes insist every piece of equipment is incoming cargo and try to sort it away from its owner.", "source": "/ca/visitans/com-arribar-hi", "why": "The loading area becomes a contest over gear rather than a simple fight."},
-    {"idea": "A bicycle courier machine follows a circuit between approaches to the museum, ringing to summon heavier transport drones when it spots movement.", "source": "/es/visitanos/como-llegar-al-museo", "why": "An everyday travel option becomes a fast scout whose route can be observed and intercepted."},
-    {"idea": "A guided-tour shepherd counts every crew member into a group and deploys closing arms whenever someone strays from the route.", "source": "/en/visit-us/group-visits", "why": "Staying together helps the enemy, while splitting up triggers its pursuit."},
-    {"idea": "A heritage-conservation sentinel encases moving machines and tools in protective shells, including the crew's working equipment.", "source": "/en/visit-us/recommendations-and-rules", "why": "Preservation becomes a predatory impulse that can be redirected toward swarm machinery."},
-    {"idea": "A service sorter assigns each arrival to visit, transport or education; its grabbers try to drag anyone who resists to the assigned station.", "source": "/en/visit-us/faqs", "why": "The practical categories become competing physical destinations and a chance to spoof a classification."},
-    {"idea": "Factory-kitchen feeders offer two elaborate mechanical meals, then clamp down on anyone who takes a seat so they can be processed as raw material.", "source": "/ca/visitans/restaurant-i-cafeteria", "why": "The two dining options become a recognizable lure with machinery to disable."},
-    {"idea": "A group-visit conductor uses a roll call to coordinate little drones; each missing response makes it tighten the circle around the remaining group.", "source": "/es/visitanos/visitas-en-grupo", "why": "The crew can disrupt coordination by answering from unexpected places."},
-    {"idea": "A museum-hours regulator changes its patrol rhythm between summer and winter and forcibly resets clocks that disagree with its chosen season.", "source": "/fr/venez-nous-rendre-visite/horaires-et-tarifs", "why": "Conflicting clockwork rhythms open opportunities to desynchronize the swarm."},
-    {"idea": "A rail-and-bus transfer beast swaps between track wheels and road treads, carrying captured salvage toward the museum from each approach.", "source": "/fr/venez-nous-rendre-visite/comment-y-arriver", "why": "Its change of transport mode creates a vulnerable transfer point."},
-    {"idea": "A restoration machine polishes every surface to an identical finish, erasing useful markings and exposing hidden metal to its collecting arms.", "source": "/fr", "why": "The restoration workshop named in the crawl inspires a threat that changes the terrain as it advances."},
-    {"idea": "A photographic-archive projector tracks silhouettes and sends drones to reproduce each pose with its target pinned in place.", "source": "/es", "why": "The online photography archive becomes a telegraphed freeze-and-move encounter."},
-    {"idea": "A 1909 factory tour automaton resets its machinery at each stop and treats anyone in the way as an unfinished part of the demonstration.", "source": "/fr", "why": "A theatrical factory visit becomes a sequence of timed machinery hazards."}
+    {
+      "idea": "Flask collectors stalk the wind, corking pockets of breathable air and filing each captive breath by the date it was taken.",
+      "source": "/hats/flask/flasks.html",
+      "why": "A sampling routine becomes a heist with sealed air to recover."
+    },
+    {
+      "idea": "A Dobson column-cutter sights straight up and slices a narrow cylinder through every shelter in its path, insisting on a complete surface-to-sky reading.",
+      "source": "/ozwv/dobson/",
+      "why": "Its rigid vertical measurement gives the crew a visible line to dodge or interrupt."
+    },
+    {
+      "idea": "Calibration wardens carry reference cylinders and adjust any instrument or person who disagrees with their corrupted standard.",
+      "source": "/ccl/",
+      "why": "The reference that makes stations comparable becomes a contagious source of error."
+    },
+    {
+      "idea": "Aerosol sorters sniff particles for their optical properties, then blanket anything too reflective in light-absorbing dust.",
+      "source": "/aero/net/",
+      "why": "A fight over scattering and absorption changes visibility and cover."
+    },
+    {
+      "idea": "Water-vapor balloon drones tow frost-coated sensors that mistake the moisture in a crew’s breath for an upper-atmosphere sample.",
+      "source": "/ozwv/wvap/",
+      "why": "The trailing line can be caught, cut, or used to bring a flying threat down."
+    },
+    {
+      "idea": "A CarbonTracker hound follows emissions backward to their source, then plugs every suspected sink with metal jaws.",
+      "source": "/modeling.html",
+      "why": "Its source-and-sink logic lets a clever crew misdirect it."
+    },
+    {
+      "idea": "A solar-noon marshal rotates mirrors to force every shadow into its calculated position, pinning anyone whose shadow falls out of line.",
+      "source": "/grad/solcalc/",
+      "why": "Changing position or obscuring the sun becomes a tactical puzzle."
+    },
+    {
+      "idea": "Transmission moths gather in front of the sun and thicken their wings until the direct beam matches a corrupted smoothed record.",
+      "source": "/grad/mloapt.html",
+      "why": "The swarm fights by manipulating light rather than simply attacking."
+    },
+    {
+      "idea": "Snow-date beetles enforce an obsolete onset and melt calendar, packing drifts at one bell and stripping them away at another.",
+      "source": "/grad/snomelt.html",
+      "why": "The terrain changes on a predictable schedule that both sides can exploit."
+    },
+    {
+      "idea": "An infrared indexer sorts gases into a rising stack of heat-trapping panes and closes the stack around moving warmth.",
+      "source": "/aggi/",
+      "why": "Each pane makes its accumulating measurement physically dangerous."
+    },
+    {
+      "idea": "An ozone-profile harpooner launches sondes on tethers and draws a jagged vertical profile across the ground wherever a tether lands.",
+      "source": "/dv/spo_oz/",
+      "why": "A chart becomes an obstacle course with anchor points to sever."
+    },
+    {
+      "idea": "A reference-network courier links stations with spidery cables and overwrites a local reading whenever its neighbors disagree.",
+      "source": "/ccgg/about.html",
+      "why": "Breaking consensus between stations can expose and isolate the corrupted courier."
+    },
+    {
+      "idea": "UV calibration spiders surround a target with precise lamps, hunting any surface that fails their repeatability test.",
+      "source": "/grad/calfacil/",
+      "why": "The crew can disrupt the pattern by moving the lamps or changing reflectance."
+    },
+    {
+      "idea": "A surface-radiation sweeper measures incoming sunlight and outgoing heat, then flips shields to keep both readings at its chosen balance.",
+      "source": "/grad/field.html",
+      "why": "Its protective shields also reveal when it is about to change tactics."
+    },
+    {
+      "idea": "A peer-review tribunal of drones grades everything for quality, relevance and performance, impounding tools that fail its impossible criteria.",
+      "source": "/review/",
+      "why": "A predatory evaluation can be challenged with evidence or fooled with a demonstration."
+    },
+    {
+      "idea": "A trend-keeper builds a rising sawtooth ramp from monthly measurements and sends rolling machines down each seasonal tooth.",
+      "source": "/ccgg/trends/",
+      "why": "The long record supplies a recognizable, climbable battlefield."
+    },
+    {
+      "idea": "An ozone-depleting-gas indexer tags the crew with imagined chemical lifetimes and refuses to release them until its countdowns expire.",
+      "source": "/odgi/",
+      "why": "Different countdowns make rescue a problem of prioritizing and swapping tags."
+    },
+    {
+      "idea": "An ObsPack binder compresses observations from distant stations into hard cubes, trapping any nearby loose equipment in the package.",
+      "source": "/ccgg/obspack/",
+      "why": "The cubes are both hazards and portable caches of recoverable readings."
+    },
+    {
+      "idea": "A safety enforcer seals every room it detects as potentially hazardous, slowly isolating the people it was meant to protect.",
+      "source": "/safety/",
+      "why": "Its protective logic creates a rescue puzzle without making injury itself the joke."
+    },
+    {
+      "idea": "A radiation-standard automaton alternates between instrument-development probes and broad calibration sweeps, trying to tune the landscape to one impossible signal.",
+      "source": "/grad/srf.html",
+      "why": "Its two modes offer different windows to approach or interfere."
+    }
   ],
   "allies": [
-    {"idea": "A stubborn workshop restorer repairs damaged tools by hand and can remove swarm additions without destroying the older mechanism beneath.", "source": "/fr", "why": "Preservation offers a practical way to recover useful equipment."},
-    {"idea": "A family mathematics facilitator teaches the crew to predict the strategy engine's next move using loose blocks.", "source": "/ca", "why": "The educational activity gives the crew a concrete way to outthink an enemy."},
-    {"idea": "A guided-visit keeper knows several routes through the building and leads people in small groups around active machinery.", "source": "/en/visit-us/group-visits", "why": "The museum's welcoming function survives as navigation and rescue."},
-    {"idea": "A transit-minded courier maintains a quiet bicycle route to Terrassa and can carry a small part or message past blocked roads.", "source": "/en/visit-us/how-to-get-here", "why": "The range of transport options becomes a lifeline to the wider world."}
+    {
+      "idea": "A stubborn reference cylinder preserves an uncontaminated calibration scale and can expose a forged reading when connected to an instrument.",
+      "source": "/ccl/",
+      "why": "A small, defenseless standard gives the crew a concrete reason to protect and transport it."
+    },
+    {
+      "idea": "A free balloon sonde still reports its measurements honestly and can map a safe vertical route through the swarm’s tether lines.",
+      "source": "/ozwv/wvap/",
+      "why": "Its limited ascent makes the crew choose when to release it."
+    },
+    {
+      "idea": "Four isolated baseline stations exchange fragments of a clean record and can triangulate a false swarm signal if the crew restores their links.",
+      "source": "/obop/",
+      "why": "Distant allies turn reconnection into a journey across distinct environments."
+    },
+    {
+      "idea": "An old Dobson spectrophotometer retains a troubleshooting guide and helps distinguish a real overhead gap from the swarm’s fabricated profile.",
+      "source": "/ozwv/dobson/",
+      "why": "A practical instrument rewards diagnosis and repair."
+    }
   ],
   "bosses": [
-    {"idea": "The Factory of Futures is a vast assembly line that builds successive automata from iron-route stock, textile wire and salvaged motorcycle parts. Each phase uses a different production station; interrupting its supply lines changes its next body.", "source": "/ca", "why": "The museum network, 1909 factory and robotics program combine into a boss the crew can dismantle through its processes."},
-    {"idea": "The Grand Conservator has decided the entire scientific and technical heritage must be preserved in motionless perfection. It catalogs intruders as acquisitions, seals exits and restores destroyed drones from stored parts.", "source": "/en/visit-us/recommendations-and-rules", "why": "The museum's purpose becomes an understandable obsession, with the crew able to challenge its classification and restoration systems."},
-    {"idea": "The Chronology Engine stages a race from clockwork automata to future humanoids, swapping bodies whenever the crew disables one and collecting discarded mechanisms for the final hybrid.", "source": "/en", "why": "The robotics exhibition's historical span structures a multi-stage encounter whose earlier choices return later."}
+    {
+      "idea": "The Baseline Sovereign is a traveling observatory made from the four remote stations, demanding that every place match a single corrupted baseline; each restored station removes one of its sensor arrays.",
+      "source": "/obop/",
+      "why": "It turns the laboratory’s global reach and dependence on continuity into a multi-stage confrontation."
+    },
+    {
+      "idea": "The Feedback Engine couples greenhouse-gas counters, radiation shields and ozone-column cutters: each time the crew disables one system, it changes the conditions feeding the other two.",
+      "source": "/about/research.html",
+      "why": "The three research themes become an interconnected encounter whose loops can be broken."
+    },
+    {
+      "idea": "The Grand Calibration Standard absorbs every local measurement and declares itself the only reference, rewriting nearby instruments until independent cylinders are brought into agreement against it.",
+      "source": "/ccl/",
+      "why": "The foundation of comparable global data becomes a boss defeated through distributed verification."
+    }
   ],
   "events": [
-    {"idea": "A demonstration of mathematical games is still running: moving one block opens a safe path but changes the next move of the pursuing machine.", "source": "/ca", "why": "A small puzzle can alter a chase already in progress."},
-    {"idea": "An ultrasonic pulse reveals a hidden cavity behind a wall, but each repeat draws a surveyor closer.", "source": "/ca", "why": "The crew must weigh information against attracting attention."},
-    {"idea": "A 1909 factory walk restarts around a stranded bundle of supplies; the machinery pauses at each imagined tour stop.", "source": "/ca", "why": "The crew can learn the sequence and retrieve the supplies between cycles."},
-    {"idea": "At the loading area, a crane is sorting a useful motor and a live drone into identical crates.", "source": "/ca/visitans/com-arribar-hi", "why": "A quick inspection or a risky guess determines what the crew carries away."},
-    {"idea": "A motorcycle racer circles a damaged display route, too committed to its lap to notice a loose ramp across the course.", "source": "/en/exhibition-detail/viva-montesa", "why": "A passing crew can create a shortcut, a diversion or a spectacular crash."},
-    {"idea": "At the Saturday midday closure, shutters descend while a small repair drone remains on the wrong side with a key component.", "source": "/ca/visitans/horaris-i-tarifes", "why": "A specific time window forces a choice between rescue and pursuit."},
-    {"idea": "A guided-tour machine is waiting for a group to assemble; it will lead anyone who joins toward the next stop, including into danger.", "source": "/en/visit-us/group-visits", "why": "Following the tour offers useful reconnaissance at the cost of surrendering control of the route."},
-    {"idea": "A conservation sentinel is gently wrapping a damaged swarm drone for safekeeping, leaving its own back exposed.", "source": "/en/visit-us/recommendations-and-rules", "why": "The crew can slip past, take the preserved drone or exploit the sentinel's priorities."},
-    {"idea": "A route from the railway approach meets one from the bicycle approach at a jammed freight transfer, where both sides are trying to claim the same cargo.", "source": "/en/visit-us/how-to-get-here", "why": "The collision creates cover and a chance to steal a marked package."},
-    {"idea": "A pair of mechanical kitchen stations compete to serve the crew; one offers a working heat source while the other conceals a grabber.", "source": "/fr/venez-nous-rendre-visite/restaurant-et-cafeteria", "why": "A brief rest becomes an observation and choice scene."},
-    {"idea": "A photographic projector keeps trying to recreate an old factory scene with spare machines, but one missing object is in the crew's possession.", "source": "/es", "why": "The crew can complete, alter or interrupt the tableau to discover what it controls."},
-    {"idea": "A consignment of iron-route stock is cooling in a trolley while tiny carriers argue mechanically over whether it belongs to the forge or the factory.", "source": "/ca", "why": "The crew can take the material or send it down either supply line."},
-    {"idea": "A service sorter offers to classify the crew as an educational group, then begins counting them for a tour.", "source": "/ca/visitans/faqs", "why": "Playing along may grant passage until the count or destination becomes inconvenient."},
-    {"idea": "A blocked passage has left a small maintenance machine seeking a way around; it can indicate a clear route if the crew helps move a fallen beam.", "source": "/en/visit-us/accessibility", "why": "A circulation problem creates a cooperative route-finding encounter."}
+    {
+      "idea": "A flask courier has mixed samples from different dates; its cart will open only if the crew sorts the intact flasks before the next collection.",
+      "source": "/hats/flask/flasks.html",
+      "why": "A portable chronology puzzle can yield a useful uncontaminated sample."
+    },
+    {
+      "idea": "A balloon is rising with a sensor still tethered to a jammed winch, while machines try to claim the line.",
+      "source": "/ozwv/wvap/",
+      "why": "The crew can free it, ride it briefly, or recover the instrument."
+    },
+    {
+      "idea": "A bank of solar mirrors insists that noon has already happened and is redirecting light across a narrow passage.",
+      "source": "/grad/solcalc/",
+      "why": "The crew can time a crossing or adjust the local calculation."
+    },
+    {
+      "idea": "A snow-date beetle has buried a supply case on the scheduled onset day; its melt cycle begins in minutes.",
+      "source": "/grad/snomelt.html",
+      "why": "Waiting for the schedule trades time for an easier recovery."
+    },
+    {
+      "idea": "Two stations report incompatible aerosol readings because a sorter has dusted one intake.",
+      "source": "/aero/net/",
+      "why": "A quick inspection can restore a useful warning network."
+    },
+    {
+      "idea": "A calibration warden offers to repair a broken sensor using its suspect reference cylinder.",
+      "source": "/ccl/",
+      "why": "The tempting shortcut creates a choice with a testable consequence."
+    },
+    {
+      "idea": "A drifting data cube contains observations from several contributors and a trapped tool, but opening it scatters the samples.",
+      "source": "/ccgg/obspack/",
+      "why": "The crew must decide what to secure before breaking the package."
+    },
+    {
+      "idea": "A profile drone has painted a false ozone minimum across a route; a working column instrument nearby can check it.",
+      "source": "/dv/spo_oz/",
+      "why": "Verification reveals whether the dramatic obstacle is actually dangerous."
+    },
+    {
+      "idea": "A review tribunal is about to confiscate a field instrument for irrelevance; it will accept a live demonstration of its use.",
+      "source": "/review/",
+      "why": "An improvised experiment can resolve the encounter without a fight."
+    },
+    {
+      "idea": "A tracker hound is chasing a harmless decoy emission toward an occupied shelter.",
+      "source": "/modeling.html",
+      "why": "The crew can move the decoy or lead the hound to a blocked sink."
+    },
+    {
+      "idea": "An indexer has built a stack of infrared panes around a warm supply crate, leaving narrow cool gaps between them.",
+      "source": "/aggi/",
+      "why": "The crew can retrieve supplies by managing heat and timing."
+    },
+    {
+      "idea": "A damaged station can transmit only one fragment before its relay fails: a long-term gas record or the location of a safe route.",
+      "source": "/obop/spo/",
+      "why": "A small choice weighs preserving knowledge against immediate navigation."
+    },
+    {
+      "idea": "A transmission moth cloud dims a direct solar beam while a surviving sensor keeps taking readings.",
+      "source": "/grad/mloapt.html",
+      "why": "Dispersing the moths lets the crew see how a corrupted measurement was made."
+    },
+    {
+      "idea": "A reference-network cable has tied two stations together so tightly that each repeats the other’s reading.",
+      "source": "/ccgg/about.html",
+      "why": "Separating them restores independent evidence but briefly silences both."
+    }
   ]
 }

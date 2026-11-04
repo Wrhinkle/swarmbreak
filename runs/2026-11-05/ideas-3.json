@@ -1,216 +1,52 @@
 {
-  "reading": "The State Silk Museum in Tbilisi preserves and interprets the biology, craft, science, and movement of silk. Founded in 1887 as part of the Caucasian Sericulture Station, it combines a research and education legacy with a living museum, library, exhibitions, artistic residencies, and programs for families and schools. Its vocabulary moves between cocoons, Bombyx mori, skeins, dyes, egg-carrying containers, mulberry, textiles, photographs, collections, and sericulture, as well as archives, publication, place, and collective memory. What makes it distinctive is the whole chain held together: mulberry leaf to silkworm to thread to textile, alongside the equipment, records, architecture, and human knowledge that connect Georgia to many countries. The crawl presents the museum in Georgian, English, and French and reaches beyond historical specimens into contemporary art and the city’s river.",
+  "reading": "EUMETSAT is a user-governed European operational satellite organisation: it runs meteorological spacecraft, receives and processes their observations, and supplies weather, climate, ocean, land and atmospheric data to services and researchers around the world. It cares about uninterrupted delivery, early warning, accurate and validated measurements, long climate records, open access, training and international cooperation. Its vocabulary is operational and precise: nowcasting, sounding, altimetry, calibration and validation, fiducial reference measurements, data products, ground segment, satellite application facilities and digital twins. What makes it distinctive is the whole chain from geostationary and polar orbits through a distributed network of specialist facilities to practical forecasts, alongside decades of rescued and recalibrated records. This is a place where a tiny measurement error can propagate across a planet-sized picture, and where monitoring the Earth is both a scientific undertaking and a round-the-clock public service.",
   "enemies": [
-    {
-      "idea": "Hybrid Hatchers: cocoon-shaped machines switch between inherited traits mid-fight, spinning a different kind of snare after each shell breaks.",
-      "source": "/collection/4/abreshumis-parkebi",
-      "why": "The collection’s many breeds and hybrids become a readable, changing combat puzzle."
-    },
-    {
-      "idea": "Four-Stage Pursuer: an egg-sized scout becomes a feeding crawler, armoured cocoon and flying moth in sequence; interrupting its feeding delays the next stage.",
-      "source": "/collection/1/entomologia",
-      "why": "The silkworm life cycle gives the crew a chance to change the encounter before it matures."
-    },
-    {
-      "idea": "Anatomy Separators pin intruders in place with fine mechanical limbs and try to arrange them as a life-cycle specimen.",
-      "source": "/collection/1/entomologia",
-      "why": "The scientific anatomy collection turns observation into a precise, escapable threat."
-    },
-    {
-      "idea": "Skein Runners unwind across corridors and pull tight around anything that crosses their route; follow the slack end to find their vulnerable reel.",
-      "source": "/collection/5/dzafishulo",
-      "why": "Thread becomes both a trap and a trail to the machine laying it."
-    },
-    {
-      "idea": "Dye Tasters mark targets with indigo or madder: each colour attracts a different hunting machine until washed or covered.",
-      "source": "/collection/6/saghebavebi",
-      "why": "Distinct dye samples turn a hit into a tactical problem the crew can see and manage."
-    },
-    {
-      "idea": "A chemical-and-natural dye mixer repaints cover in false safe colours, then sprays a revealing wash that makes the painted surfaces conductive.",
-      "source": "/collection/6/saghebavebi",
-      "why": "The collection’s two kinds of dye become a deceptive two-step attack."
-    },
-    {
-      "idea": "Loom Mantles weave discarded industrial and domestic textiles into camouflage, then unravel a whole wall into grasping strips.",
-      "source": "/collection/7/teqstili",
-      "why": "The mix of home craft and industrial cloth makes the environment itself unreliable."
-    },
-    {
-      "idea": "Egg-Box Couriers carry mechanical eggs in old-style transport boxes; if allowed to complete a delivery, the eggs hatch into a new patrol.",
-      "source": "/collection/8/grenis-konteinerebi",
-      "why": "The egg containers’ transport purpose creates an urgent interception mission."
-    },
-    {
-      "idea": "Negative Stalkers flash glass-plate silhouettes onto walls; anyone standing in a silhouette is tracked by a hidden lens.",
-      "source": "/collection/9/fotokoleqtsia",
-      "why": "Photographic negatives create a visible warning and a way to fool the hunter."
-    },
-    {
-      "idea": "Mulberry Grazers strip leaves from living trees to feed the swarm’s silk-making larvae, then defend their harvest with branch-like pincers.",
-      "source": "/collection/10/tuta",
-      "why": "Protecting the worms’ food source becomes a struggle over the swarm’s supply line."
-    },
-    {
-      "idea": "The Butterfly Effect sends a tiny clockwork moth to nudge a lever, setting off a chain of increasingly dangerous machinery across the room.",
-      "source": "/en/programs/education",
-      "why": "A small, interruptible cause grows into a spectacular consequence."
-    },
-    {
-      "idea": "Collection Tutors assign intruders to a specimen category and send different handlers after anyone who refuses to stay in their assigned group.",
-      "source": "/en/programs/education",
-      "why": "A collection-based lesson becomes a predatory sorting game."
-    },
-    {
-      "idea": "Intern Automata rotate between collections, education, exhibitions and library duties; each department adds a different tool to the same relentless patrol.",
-      "source": "/en/programs/internship",
-      "why": "The internship’s departmental rotations make one enemy change jobs and tactics."
-    },
-    {
-      "idea": "Residency Mimics listen to a room, imitate the crew’s movements as an artwork, then use those copied movements to predict their next attack.",
-      "source": "/en/programs/residency",
-      "why": "Artistic dialogue with the museum space becomes an opponent that can be tricked with deliberate feints."
-    },
-    {
-      "idea": "The Silk-is-a-Noun Grammarian stamps objects with fixed names; anything it labels as silk begins to unravel into thread.",
-      "source": "/en/library/publications",
-      "why": "A publication title becomes a rule that players can turn against the machine."
-    },
-    {
-      "idea": "A River-Memory Dredger gathers loose objects into layers of silt and silk, replaying fragments of a place while dragging away anything newly dropped.",
-      "source": "/exhibition/67/muzeumi-da-mdinare",
-      "why": "The exhibition’s river and collective memory become a moving hazard with recoverable cargo."
-    },
-    {
-      "idea": "Station Researchers deploy specimen cages and laboratory instruments to capture living machines and people alike for compulsory study.",
-      "source": "/exhibition/50/muzeumis-mudmivmoqmedi-eqspozitsia-da-biblioteka",
-      "why": "The permanent display’s biology and lab equipment become a capture operation."
-    },
-    {
-      "idea": "A virtual Silk Road Surveyor projects a route through real rooms and forces travellers to follow it, rerouting them whenever they stray.",
-      "source": "/news/12/tbilisis-abreshumis-gzis-virtualuri-turi",
-      "why": "A virtual tour becomes a maze that can be disrupted by breaking its projected path."
-    },
-    {
-      "idea": "A Cabinet Architect extends the museum’s exhibition furniture into interlocking partitions, trapping visitors in ever smaller display spaces.",
-      "source": "/about/building",
-      "why": "The building and its designed exhibition furniture provide a distinctive spatial antagonist."
-    },
-    {
-      "idea": "The Book-Fund Indexer binds useful books shut with silk until a visitor supplies a perfect subject classification; it attacks improvised answers.",
-      "source": "/library/book-fund",
-      "why": "A library integral to the research station becomes a battle over rigid classification."
-    }
+    {"idea": "Nowcast Hounds sniff the next few hours out of a crew's movements, then block the route the crew is about to take. Sudden improvisation makes their predictions stumble.", "source": "/what-we-monitor/weather", "why": "A short-range forecast becomes a readable pursuit puzzle with a built-in counterplay."},
+    {"idea": "Recalibrators drag old climate records behind them and forcibly adjust anything that differs from their chosen baseline until a room resembles their preferred decade.", "source": "/what-we-monitor/climate", "why": "Data rescue becomes a fight over which historical reference the machines consider normal."},
+    {"idea": "Ocean-colour skimmers paint the water in false biological signals, then send harvesting drones to consume whatever their forged colours indicate is there.", "source": "/what-we-monitor/ocean", "why": "The crew can alter the signals to redirect a threat that hunts by interpretation rather than sight."},
+    {"idea": "Land-atmosphere exchangers clamp onto soil and air, pumping moisture and heat between them until paths alternate between sticky mud and parched dust.", "source": "/what-we-monitor/land", "why": "An environmental interface becomes a terrain-changing machine with exposed hoses to sever."},
+    {"idea": "Composition samplers sort the air into dust, ash and greenhouse-gas canisters, then label the crew as an unwanted emission and attempt to bottle them too.", "source": "/what-we-monitor/atmosphere", "why": "A monitoring instrument applies its classification process to the wrong target."},
+    {"idea": "Geostationary Watchers keep one patch of ground under a fixed gaze; their imager marks movement while their sounder dispatches descending probes through layers of cover.", "source": "/our-satellites/meteosat-series", "why": "The paired imager and sounder create a positional challenge: leave the watched patch or break line of sight."},
+    {"idea": "Polar Sweepers circle the area on predictable passes, knitting each strip they scan into a global map and sending patrols to fill any gaps.", "source": "/our-satellites/metop-series", "why": "A polar orbit translates into timed safe windows and a growing map the crew can sabotage."},
+    {"idea": "Altimeter Stilts tap every surface to maintain a sea-level series begun in 1992; when a floor is too low for their imagined ocean, they pile scrap beneath it.", "source": "/our-satellites/jason-3", "why": "An obsession with continuity turns precise measurement into escalating construction trouble."},
+    {"idea": "Doppler Lidar Kites fire pulses through the air to measure wind, but interpret the crew's motion as a dangerous current and herd them with fans.", "source": "/eps-aeolus", "why": "Their measuring beam telegraphs the direction of the next gust and can be interrupted."},
+    {"idea": "Sterna Gap-Fillers arrive as a constellation of tiny microwave sounders, squeezing into blind spots and reporting warmth and humidity as evidence of intruders.", "source": "/eps-sterna", "why": "Many individually fragile scouts make the crew manage heat and moisture as well as visibility."},
+    {"idea": "Downlink Leeches attach to ground-station cables, swallow incoming observations and retransmit them with a slight delay, drawing responders into the wrong place.", "source": "/ground-segment", "why": "The enemy corrupts the connection between observation and action instead of simply destroying equipment."},
+    {"idea": "The Eightfold Sorter divides into specialist SAF modules for atmosphere, climate, land, ice, forecasting, occultation, nowcasting and water; each insists the same intruder is its own kind of anomaly.", "source": "/about-us/satellite-application-facilities-safs", "why": "Different specialist interpretations create changing tactics and opportunities to pit modules against one another."},
+    {"idea": "Fiducial Enforcers carry reference instruments and declare everything that disagrees with their corrupted standard defective, tightening their measuring clamps until it conforms.", "source": "/science/calibration-and-validation-and-fiducial-reference-measurements", "why": "A reliable reference becomes a physical vulnerability if the crew can supply a better one."},
+    {"idea": "Algorithm Molters repeatedly refine their own classification rules mid-fight, shedding a tool whenever it fails and growing one suited to the last thing they observed.", "source": "/science/scientific-algorithms", "why": "Their adaptation rewards alternating tactics and deliberately feeding them misleading observations."},
+    {"idea": "Resolution Bailiffs enforce old council declarations as literal physical boundaries, sealing a corridor whenever they find an unresolved conflict between two active programmes.", "source": "/legal-framework/council-resolutions", "why": "The bureaucracy creates navigable contradictions that can be resolved or exploited."},
+    {"idea": "Weather Cloud Processors condense massive datasets into dense local fog; inside it, duplicate processing jobs become temporary copies of whatever the machines scanned.", "source": "/platforms/european-weather-cloud", "why": "Computing and weather share a playful visual language while the copies reveal what has been observed."},
+    {"idea": "Validation Solicitors invite the crew to test Sentinel atmospheric products, then use every test result to certify their own false readings as truth.", "source": "/announcement-opportunity-call-calval-activities-sentinel-4-and-5", "why": "A cooperative calibration exercise becomes a trap the crew can reverse by providing a controlled counterexample."},
+    {"idea": "Anomaly Normalisers compare a room with a long-term climate baseline and flatten every unusual object into a bland standard shape, including useful equipment.", "source": "/", "why": "The distinction between anomalies and normals turns into a clear, spatial threat."},
+    {"idea": "Tender Collectors issue invitations for components, then dismantle nearby machines and gear to fulfil contracts nobody agreed to.", "source": "/work-us/business-opportunities", "why": "Procurement becomes a scavenger enemy whose shopping list forecasts what it will steal."},
+    {"idea": "Lightning Imager Moths mistake the crew's sparks for storms and converge to triangulate them, alerting larger swarm units with flashes.", "source": "/science-meetings", "why": "Every noisy electrical action can become a beacon, making stealth and equipment choices matter."}
   ],
   "allies": [
-    {
-      "idea": "A patient volunteer conservator knows how to loosen swarm silk without damaging the objects inside, and can teach the crew a safe knot.",
-      "source": "/en/programs/internship",
-      "why": "A museum skill gives the crew a practical non-destructive rescue option."
-    },
-    {
-      "idea": "A family-program facilitator turns a collection-making game into a way to identify which harmless objects the swarm has substituted for dangerous eggs.",
-      "source": "/en/programs/education",
-      "why": "Learning through play becomes a useful investigation technique."
-    },
-    {
-      "idea": "A residency artist makes a temporary installation from loose thread that answers the mimic machines with unpredictable movement.",
-      "source": "/en/programs/residency",
-      "why": "The museum’s artistic dialogue becomes a creative countermeasure."
-    },
-    {
-      "idea": "A librarian keeps a hand-written subject guide to the station’s research and can point the crew toward an old method for rearing silkworms away from the swarm.",
-      "source": "/library/book-fund",
-      "why": "The historic research library offers knowledge without requiring a fight."
-    }
+    {"idea": "A battered ground-reference station still compares orbital readings against local measurements; protect its instruments and it can expose a false swarm forecast.", "source": "/science/calibration-and-validation-and-fiducial-reference-measurements", "why": "It gives the crew a concrete way to restore trust in observations."},
+    {"idea": "The Data Rescue Cart carries fragments of old climate records and can reconstruct a lost baseline if the crew finds missing observations and keeps it powered.", "source": "/what-we-monitor/climate", "why": "A vulnerable archive turns long-term continuity into an escort and reconstruction challenge."},
+    {"idea": "An independent Appeals Board automaton hears disputes with the swarm's rule enforcers and can suspend a command when presented with contradictory evidence.", "source": "/legal-framework/eumetsat-appeals-board", "why": "An impartial legal remedy offers a noncombat route through predatory bureaucracy."},
+    {"idea": "A training relay still teaches users how to interpret satellite data; it marks the difference between raw observations and the swarm's embellished predictions.", "source": "/education/learning-resources", "why": "It equips the crew to solve later measurement puzzles without solving them for them."}
   ],
   "bosses": [
-    {
-      "idea": "The Sericulture Station: a vast research-and-production machine feeds on mulberry, breeds mechanical larvae, reels their silk and catalogues everything it captures. Its feeding, reeling and cataloguing stations must be separated to stop it rebuilding itself.",
-      "source": "/about/museum",
-      "why": "The museum’s original research and education station becomes a whole connected system to dismantle."
-    },
-    {
-      "idea": "The Grand Collection: a walking museum assembled from cocoons, skeins, dyes, textiles, photographs and egg boxes tries to preserve the entire city inside one perfect specimen. Each stolen collection changes its defences.",
-      "source": "/en/collections",
-      "why": "The breadth of the collection makes a multi-phase boss whose parts have recognizable rules."
-    },
-    {
-      "idea": "The River Archive: a silk-lined current carries layers of the city’s remembered places and tries to absorb new ones; the crew can free trapped memories by reconnecting separated fragments.",
-      "source": "/exhibition/67/muzeumi-da-mdinare",
-      "why": "Place, water and collective memory become a boss encounter with a restorative objective."
-    }
+    {"idea": "The Perfect Twin is a captured digital Earth model that treats its simulations as instructions: when its predicted storm fails to appear, it deploys machines to manufacture the missing conditions. It can be destabilised by feeding it observations from places it cannot control.", "source": "/international-cooperation/destine", "why": "The site's ambition to model and predict the Earth becomes a boss that tries to make reality agree with its forecast."},
+    {"idea": "The Unbroken Service is a many-bodied orbital-to-ground pipeline that replaces every disabled part with another satellite, receiving station or specialist processor. To interrupt it, the crew must create a simultaneous gap in observation, processing and distribution.", "source": "/about-us/what-we-do", "why": "The entire 24-hour operational mission becomes a coordinated, multi-stage encounter."},
+    {"idea": "The Grand Calibrator compares every sensor to every other sensor until the swarm shares one immaculate but false planetary picture. Its armour opens when independent ground and airborne references disagree with its consensus.", "source": "/science/calibration-and-validation-and-fiducial-reference-measurements", "why": "The organisation's commitment to trustworthy data supplies both the boss's power and its weakness."}
   ],
   "events": [
-    {
-      "idea": "A box courier has stalled at a threshold, its cargo beginning to hatch. The crew can redirect the box, cool it, or open it and deal with the scouts.",
-      "source": "/collection/8/grenis-konteinerebi",
-      "why": "A small delivery becomes a choice about where the next patrol appears."
-    },
-    {
-      "idea": "Two skeins from different regions have tangled around a locked door; pulling the wrong end tightens the knot, while tracing each strand reveals the release.",
-      "source": "/collection/5/dzafishulo",
-      "why": "A quiet hands-on puzzle uses the collection’s varied threads."
-    },
-    {
-      "idea": "A dye machine has marked a safe route in indigo, but rain is washing the marks away as a patrol approaches.",
-      "source": "/collection/6/saghebavebi",
-      "why": "The crew must preserve or replace a vanishing colour code."
-    },
-    {
-      "idea": "A cocoon twitches in a display beside several lookalikes. One contains a helpful tool, another a hatchling; careful listening distinguishes them.",
-      "source": "/collection/4/abreshumis-parkebi",
-      "why": "The collection’s variety makes inspection more rewarding than smashing everything."
-    },
-    {
-      "idea": "A small mulberry tree is being stripped by harvesters. A nearby nursery can shelter it if the crew moves it before the next collection round.",
-      "source": "/collection/10/tuta",
-      "why": "An ordinary plant becomes a time-sensitive supply-line rescue."
-    },
-    {
-      "idea": "A negative projected on the floor shows a doorway absent from the room. Aligning the light reveals a concealed passage.",
-      "source": "/collection/9/fotokoleqtsia",
-      "why": "The physical properties of a photographic negative give the crew a discovery."
-    },
-    {
-      "idea": "A classroom’s four life-stage models have been shuffled; put them in order to stop a machine repeatedly resetting its own transformation.",
-      "source": "/en/programs/education",
-      "why": "An educational activity becomes a low-stakes way to interrupt a threat."
-    },
-    {
-      "idea": "A resident artist asks the crew to hold a thread installation still while it records the room’s vibrations; the resulting pattern exposes an approaching patrol.",
-      "source": "/en/programs/residency",
-      "why": "Artistic research produces useful information through an active task."
-    },
-    {
-      "idea": "A stream of silk and silt carries familiar objects past the crew. Retrieve one without disturbing the others to return a fragment of a place’s memory.",
-      "source": "/exhibition/67/muzeumi-da-mdinare",
-      "why": "The river exhibition offers a delicate rescue with an evocative reward."
-    },
-    {
-      "idea": "An old research book and a laboratory instrument disagree on the order of a procedure because one page is missing; find the page among the specimens before operating the instrument.",
-      "source": "/exhibition/50/muzeumis-mudmivmoqmedi-eqspozitsia-da-biblioteka",
-      "why": "The library and lab collections combine into a grounded investigation."
-    },
-    {
-      "idea": "A virtual tour draws a bright route through a sealed room, but a stretch of the route predates a rearranged cabinet; following its mismatch exposes a gap behind the furniture.",
-      "source": "/news/12/tbilisis-abreshumis-gzis-virtualuri-turi",
-      "why": "The virtual route becomes a clue to a physical shortcut."
-    },
-    {
-      "idea": "A textile mantle is weaving itself from household and industrial scraps. Untangle a distinctive strip and a trapped object falls free before the mantle finishes.",
-      "source": "/collection/7/teqstili",
-      "why": "The variety of textiles provides a tactile rescue under pressure."
-    },
-    {
-      "idea": "A volunteer automaton is still rotating through its three-month duties and will help for one task if the crew gives it the correct departmental tool.",
-      "source": "/en/programs/internship",
-      "why": "A routine rotation creates a brief, negotiable ally."
-    },
-    {
-      "idea": "The library index lists a missing volume under several subjects. Comparing its entries reveals where the swarm has hidden a cache of silk-rearing notes.",
-      "source": "/library/book-fund",
-      "why": "Cataloguing becomes a small deduction rather than an obstacle alone."
-    }
+    {"idea": "A sounder and imager disagree about a growing four-dimensional storm; the crew can align their observations before the swarm sends a patrol to the wrong altitude.", "source": "/news/features", "why": "Combining instruments becomes a small time-sensitive investigation."},
+    {"idea": "An altimetry station has kept an unbroken sea-level record since 1992, but a replacement instrument introduces a suspicious step. The crew can overlap the two readings to discover the offset.", "source": "/sentinel-6b-track-rising-seas-predict-storms-and-aid-forecasts", "why": "A continuity problem becomes a satisfying measurement puzzle."},
+    {"idea": "Tiny Sterna scouts are plugging gaps in an atmospheric model. A warm kettle or a damp cloth can lure them away long enough to cross their observation strip.", "source": "/eps-sterna", "why": "Everyday objects exploit the scouts' temperature and humidity sensing."},
+    {"idea": "A lunar calibration gathering has lost sight of its reference. Crews must reposition a mirror to give the instruments a common view before the machines recalibrate one another incorrectly.", "source": "/conferences-events/current-events", "why": "A distant shared reference becomes an immediate spatial puzzle."},
+    {"idea": "A damaged downlink has three queues: collect, process and distribute. A real warning is stuck behind a mountain of corrupted observations, and the crew must route it through first.", "source": "/ground-segment", "why": "The operational pipeline supplies urgency and an understandable sequence of choices."},
+    {"idea": "A pair of orbit controllers argue in machine code: one watches a fixed region continuously, the other sweeps past in low orbit. Their overlapping blind spot offers a brief escape route.", "source": "/satellite-operations/launches-and-orbits", "why": "Two orbital patterns become a timing challenge."},
+    {"idea": "A water-management module and a land-surface module both claim a reservoir reading. Reconnecting their shared measurements reveals a blocked flow that threatens a nearby route.", "source": "/what-we-monitor/land", "why": "Specialist facilities must cooperate to reveal a problem neither can see alone."},
+    {"idea": "An ocean-colour buoy reports an impossible bloom. The crew can compare its reading with a water sample and discover that a swarm skimmer has stained the sensor.", "source": "/what-we-monitor/ocean", "why": "A direct observation exposes the difference between a signal and its interpretation."},
+    {"idea": "A visiting-scientist exchange is being conducted by surviving terminals that speak incompatible data formats; translate their observations and they reveal a safe passage.", "source": "/visiting-scientists", "why": "Scientific cooperation becomes a compact translation puzzle."},
+    {"idea": "A climate archive offers two records of the same period, one rescued and one corrupted. Physical reference marks in the room can identify which series has drifted.", "source": "/what-we-monitor/climate", "why": "The crew can solve an abstract data problem through tangible evidence."},
+    {"idea": "A data-lake ferry drifts between islands of model output. It will carry the crew if they supply an observation from the real world that its simulations have not yet absorbed.", "source": "/destine-stories-edge-workshop-2026", "why": "An exchange of experience becomes a strange but practical crossing."},
+    {"idea": "A weather warning is approaching its deadline, but the relay is being flooded with routine imagery. The crew must choose a minimal set of verified observations to transmit in time.", "source": "/what-we-monitor/weather", "why": "The value of timely data creates tension without inventing a real disaster."},
+    {"idea": "An automated early-career poster contest asks for evidence of an anomaly. Build a simple visual explanation from scattered observations and its judges unlock a research cache.", "source": "/science/early-career-scientists-initiative", "why": "Scientific communication becomes a creative, nonviolent challenge."},
+    {"idea": "A machine enforcing a data policy refuses to share a reading until another terminal presents the correct authority. The crew can trace the member-state approval chain or find a publicly available copy.", "source": "/legal-framework/data-policy", "why": "Governance and data access make a social and investigative obstacle."}
   ]
 }

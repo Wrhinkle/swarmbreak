@@ -2,30 +2,276 @@
   "acts": [
     {
       "packs": {
-        "early": [["seed-counter"], ["moth-camera"], ["spice-grinder"], ["seed-counter", "moth-camera"], ["spice-grinder", "seed-counter"]],
-        "mid": [["climate-seamstress", "moth-camera"], ["bed-taxonomist", "seed-counter"], ["garden-warden", "spice-grinder"], ["guide-frond"], ["cold-regulator", "seed-counter"]],
-        "late": [["garden-warden", "bed-taxonomist"], ["cold-regulator", "guide-frond"], ["climate-seamstress", "moth-camera", "spice-grinder"], ["bed-taxonomist", "seed-counter"], ["garden-warden", "guide-frond"]]
+        "early": [
+          [
+            "act-1-lapse-leech"
+          ],
+          [
+            "act-1-wildcat-watcher"
+          ],
+          [
+            "act-1-junior-observer"
+          ],
+          [
+            "act-1-lapse-leech",
+            "act-1-wildcat-watcher"
+          ],
+          [
+            "act-1-junior-observer",
+            "act-1-lapse-leech"
+          ]
+        ],
+        "mid": [
+          [
+            "act-1-mesonet-node",
+            "act-1-wildcat-watcher"
+          ],
+          [
+            "act-1-rime-tender",
+            "act-1-lapse-leech"
+          ],
+          [
+            "act-1-fog-surveyor",
+            "act-1-junior-observer"
+          ],
+          [
+            "act-1-outlook-front"
+          ],
+          [
+            "act-1-cog-hauler",
+            "act-1-wildcat-watcher"
+          ]
+        ],
+        "late": [
+          [
+            "act-1-mesonet-node",
+            "act-1-junior-observer"
+          ],
+          [
+            "act-1-rime-tender",
+            "act-1-wildcat-watcher",
+            "act-1-lapse-leech"
+          ],
+          [
+            "act-1-fog-surveyor",
+            "act-1-outlook-front"
+          ],
+          [
+            "act-1-cog-hauler",
+            "act-1-mesonet-node"
+          ],
+          [
+            "act-1-outlook-front",
+            "act-1-junior-observer"
+          ]
+        ]
       },
-      "elites": [{"id": "walking-scaffold", "reward": "seed-keeper"}, {"id": "soil-tester", "reward": "meadow-guides"}, {"id": "containment-engine", "reward": "meadow-guides"}],
-      "shop": ["breach", "sweep", "finish", "patch", "jam", "purge", "strike+", "brace"]
+      "elites": [
+        {
+          "id": "act-1-imagined-scoutmaster",
+          "reward": "act-1-forecast-operator"
+        },
+        {
+          "id": "act-1-extremes-engine",
+          "reward": "act-1-instrument-tender"
+        },
+        {
+          "id": "act-1-wind-cage",
+          "reward": "act-1-forecast-operator"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch",
+        "brace",
+        "purge",
+        "jam",
+        "finish",
+        "strike+"
+      ]
     },
     {
       "packs": {
-        "early": [["mill-surveyor"], ["mill-courier"], ["mill-clock"], ["mill-surveyor", "mill-clock"], ["mill-courier", "mill-clock"]],
-        "mid": [["mill-racer"], ["mill-crane", "mill-courier"], ["mill-sentinel", "mill-clock"], ["mill-shepherd", "mill-surveyor"], ["mill-restorer", "mill-clock"]],
-        "late": [["mill-racer", "mill-clock"], ["mill-sentinel", "mill-shepherd"], ["mill-restorer", "mill-crane"], ["mill-shepherd", "mill-clock", "mill-surveyor"], ["mill-crane", "mill-courier"]]
+        "early": [
+          [
+            "act-2-flask-collector"
+          ],
+          [
+            "act-2-transmission-moths"
+          ],
+          [
+            "act-2-balloon-sonde"
+          ],
+          [
+            "act-2-flask-collector",
+            "act-2-balloon-sonde"
+          ],
+          [
+            "act-2-transmission-moths",
+            "act-2-flask-collector"
+          ]
+        ],
+        "mid": [
+          [
+            "act-2-calibration-warden",
+            "act-2-flask-collector"
+          ],
+          [
+            "act-2-reference-courier",
+            "act-2-balloon-sonde"
+          ],
+          [
+            "act-2-aerosol-sorter",
+            "act-2-flask-collector"
+          ],
+          [
+            "act-2-tracker-hound"
+          ],
+          [
+            "act-2-snow-date-beetle",
+            "act-2-transmission-moths"
+          ]
+        ],
+        "late": [
+          [
+            "act-2-calibration-warden",
+            "act-2-balloon-sonde"
+          ],
+          [
+            "act-2-reference-courier",
+            "act-2-tracker-hound"
+          ],
+          [
+            "act-2-aerosol-sorter",
+            "act-2-snow-date-beetle"
+          ],
+          [
+            "act-2-tracker-hound",
+            "act-2-transmission-moths",
+            "act-2-flask-collector"
+          ],
+          [
+            "act-2-snow-date-beetle",
+            "act-2-flask-collector"
+          ]
+        ]
       },
-      "elites": [{"id": "mill-kiln", "reward": "mill-route-keeper"}, {"id": "mill-loom", "reward": "mill-restorer-ally"}, {"id": "mill-transfer", "reward": "mill-restorer-ally"}],
-      "shop": ["breach", "sweep", "sweep+", "patch+", "jam", "finish", "strike+", "triage"]
+      "elites": [
+        {
+          "id": "act-2-ozone-column-cutter",
+          "reward": "act-2-free-sonde"
+        },
+        {
+          "id": "act-2-infrared-indexer",
+          "reward": "act-2-reference-cylinder"
+        },
+        {
+          "id": "act-2-obspack-binder",
+          "reward": "act-2-free-sonde"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "triage",
+        "brace",
+        "purge",
+        "jam",
+        "finish",
+        "strike+"
+      ]
     },
     {
       "packs": {
-        "early": [["silk-skein-runner"], ["silk-dye-taster"], ["silk-negative"], ["silk-skein-runner", "silk-negative"], ["silk-dye-taster", "silk-skein-runner"]],
-        "mid": [["silk-hatcher"], ["silk-separator", "silk-skein-runner"], ["silk-mantle", "silk-dye-taster"], ["silk-egg-courier", "silk-negative"], ["silk-grazer", "silk-skein-runner"]],
-        "late": [["silk-mantle", "silk-egg-courier"], ["silk-grazer", "silk-hatcher"], ["silk-separator", "silk-dye-taster", "silk-skein-runner"], ["silk-egg-courier", "silk-negative"], ["silk-mantle", "silk-hatcher"]]
+        "early": [
+          [
+            "act-3-sterna-gap-fillers"
+          ],
+          [
+            "act-3-downlink-leech"
+          ],
+          [
+            "act-3-nowcast-hound"
+          ],
+          [
+            "act-3-downlink-leech",
+            "act-3-nowcast-hound"
+          ],
+          [
+            "act-3-sterna-gap-fillers",
+            "act-3-downlink-leech"
+          ]
+        ],
+        "mid": [
+          [
+            "act-3-ocean-colour-skimmer",
+            "act-3-downlink-leech"
+          ],
+          [
+            "act-3-ground-relay",
+            "act-3-nowcast-hound"
+          ],
+          [
+            "act-3-polar-sweeper"
+          ],
+          [
+            "act-3-eightfold-sorter",
+            "act-3-downlink-leech"
+          ],
+          [
+            "act-3-algorithm-molter",
+            "act-3-nowcast-hound"
+          ]
+        ],
+        "late": [
+          [
+            "act-3-ground-relay",
+            "act-3-polar-sweeper"
+          ],
+          [
+            "act-3-ocean-colour-skimmer",
+            "act-3-nowcast-hound"
+          ],
+          [
+            "act-3-eightfold-sorter",
+            "act-3-algorithm-molter"
+          ],
+          [
+            "act-3-polar-sweeper",
+            "act-3-downlink-leech",
+            "act-3-nowcast-hound"
+          ],
+          [
+            "act-3-algorithm-molter",
+            "act-3-sterna-gap-fillers"
+          ]
+        ]
       },
-      "elites": [{"id": "silk-mimic", "reward": "silk-conservator"}, {"id": "silk-indexer", "reward": "silk-librarian"}, {"id": "silk-architect", "reward": "silk-conservator"}],
-      "shop": ["sweep+", "strike+", "jam", "corrupt", "triage", "patch+", "breach", "purge"]
+      "elites": [
+        {
+          "id": "act-3-geostationary-watcher",
+          "reward": "act-3-ground-reference"
+        },
+        {
+          "id": "act-3-fiducial-enforcer",
+          "reward": "act-3-data-rescue-cart"
+        },
+        {
+          "id": "act-3-weather-cloud-processor",
+          "reward": "act-3-ground-reference"
+        }
+      ],
+      "shop": [
+        "sweep",
+        "triage",
+        "cover",
+        "jam",
+        "finish",
+        "strike+",
+        "corrupt",
+        "brace"
+      ]
     }
   ]
 }

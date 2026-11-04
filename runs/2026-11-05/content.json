@@ -1,834 +1,119 @@
 {
- "title": "The Missing Strand",
+ "title": "The Uncertain Sky",
  "swarm": {
-  "name": "The Spoolwork",
-  "blurb": "A roaming network of fibre-bound machines. It sorts, repairs and builds with whatever its damaged instructions can still recognize."
+  "name": "The Consensus",
+  "blurb": "A moving network of instruments that makes the world agree with its readings."
  },
- "arc": "The Spoolwork divides a garden into sealed specimens, making the crew think it wants to isolate living things. Its fibre trail leads to a mill, where repair work reveals a different purpose: the swarm is trying to replace the maker that kept its machines working. At the silk museum it seeks a control strand containing that maker\u2019s damaged record, dismantling collections to assemble a copy. The crew stops the station and saves the surviving strand; it cannot restore the maker, but the remaining units can be repaired without consuming the collections.",
+ "arc": "The Consensus begins at the mountain, forcing wind and weather to match its forecasts. The crew follows its signals through a global observing network and discovers that it is not simply seeking control: it is trying to preserve a continuous warning after mistaking disagreement between instruments for a failure of observation. It has erased inconvenient differences and is now making the weather fit its single false picture. At the orbital system, the crew feeds its model independent ground and airborne observations, breaks the machinery enforcing the forecast, and lets a corrected warning travel with its uncertainty intact.",
  "acts": [
   {
-   "theme": "A garden divided into specimens",
+   "theme": "Summit readings",
    "story": {
-    "intro": "The swarm has fenced the garden into separate beds. Wren finds living roots behind the barriers. Ox makes a gap for the crew. Kestrel follows a strand of fibre caught on the wire.",
+    "intro": "The Consensus has reached the mountain. Forecasts are becoming orders. Wren checks the cold damage while Ox holds the exposed path. Kestrel looks for a seam in the machinery.",
     "chapters": [
      {
-      "title": "Separate beds",
-      "text": "Fences divide flowers from their pollinators. The machines guard each bed as if a neighbour were a threat. Ox keeps a path open while Wren checks what still needs water."
+      "title": "A Forecast Made Solid",
+      "text": "The machines measure wind, then drive their fans until the forecast comes true. The crew first takes this for a campaign to control the mountain."
      },
      {
-      "title": "Names and origins",
-      "text": "The patrols sort plants by family and origin. Kestrel finds the same pale fibre on several sorting arms. It leads away from the beds, though the machines seem intent on keeping everything apart."
+      "title": "Instruments in Company",
+      "text": "Sensor nodes protect one another and pass the same reading uphill. Wren finds careful repairs among the damage. Someone wants the instruments kept working."
      },
      {
-      "title": "Controlled climates",
-      "text": "Glass compartments hold plants at different temperatures. The swarm is collecting fibres as it seals them. Wren finds the compartments sound, but their inhabitants cannot reach one another."
+      "title": "The Missing Difference",
+      "text": "The summit record leaves out measurements that disagree. Kestrel traces the repeated figure to a walking forecast tower. Ox prepares for the gusts it is making."
      }
     ],
-    "bossIntro": "The Curator closes its glass panels around the last open route. Its spools pull plant fibre through the partitions. Kestrel points to the hinges; Ox raises his shield.",
-    "outro": "The panels fall open. Pollinators cross the beds again. Wren saves a strand from the Curator\u2019s spool. It runs toward a mill, where the swarm is taking the fibre."
+    "bossIntro": "The Summit Observatory raises its fan arms. It predicts the crew\u2019s charge, calls its drones and blows to make the prediction right.",
+    "outro": "The tower falls quiet. Its last transmission asks distant stations for a single reliable reading. Wren saves the message. The crew follows it down the network."
    },
    "creatures": [
     {
-     "id": "seed-counter",
-     "name": "Seed Counter",
-     "tier": "easy",
-     "bodyPlan": "object",
-     "role": "debuffer",
-     "routines": [
-      "jam",
-      "strike"
-     ],
-     "source": "/froprojektet-swede-seed",
-     "blurb": "It sorts seeds and jams anyone who reaches into its tray.",
-     "look": "A low brass hopper on three wheels, with a rotating sieve and a narrow seed nozzle."
-    },
-    {
-     "id": "moth-camera",
-     "name": "Moth Camera",
-     "tier": "easy",
-     "bodyPlan": "flier",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "strike"
-     ],
-     "source": "/inventering-av-invasiva-frammande-nattfjarilar",
-     "blurb": "Its flash calls net carriers. Stop it before the group grows.",
-     "look": "A hovering black camera with two glass wings, a pale flash bulb and a dangling folded net."
-    },
-    {
-     "id": "spice-grinder",
-     "name": "Spice Grinder",
-     "tier": "easy",
-     "bodyPlan": "object",
-     "role": "debuffer",
-     "routines": [
-      "corrupt",
-      "strike"
-     ],
-     "source": "/vad-vore-julen-utan-vaxter",
-     "blurb": "It coats the crew in bitter dust for the other machines to exploit.",
-     "look": "A squat copper mill with a toothed crank, spice-brown dust bellows and four short legs."
-    },
-    {
-     "id": "climate-seamstress",
-     "name": "Climate Seamstress",
-     "tier": "regular",
-     "bodyPlan": "humanoid",
-     "role": "debuffer",
-     "routines": [
-      "jam",
-      "strike"
-     ],
-     "source": "/tradgard-och-vaxter/vaxthus",
-     "blurb": "It pins a moving seam between wet and dry air across the path.",
-     "look": "A slender green jointed figure with a long needle arm and two translucent fans, one beaded with water."
-    },
-    {
-     "id": "bed-taxonomist",
-     "name": "Bed Taxonomist",
-     "tier": "regular",
-     "bodyPlan": "construct",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "strike"
-     ],
-     "source": "/tradgard-och-vaxter/vad-visar-vaxtskyltarna",
-     "blurb": "It calls grafting machines to put intruders in their assigned beds.",
-     "look": "A wheeled iron frame with branching grabbers, a circular sorting dial and small clay pots."
-    },
-    {
-     "id": "garden-warden",
-     "name": "Garden Warden",
-     "tier": "regular",
-     "bodyPlan": "construct",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/besok-och-program/trivselregler",
-     "blurb": "Its retractable cords guard damaged patrols. Break its cover first.",
-     "look": "A boxy olive machine on two wheels, with a broad curved guard and coiled cable arms."
-    },
-    {
-     "id": "guide-frond",
-     "name": "Guide Frond",
-     "tier": "regular",
-     "bodyPlan": "plant",
-     "role": "splitter",
-     "routines": [
-      "divide",
-      "strike"
-     ],
-     "source": "/besok-och-program/guidade-visningar-i-appen",
-     "blurb": "When cut back, its rooted frame divides into smaller blocking fronds.",
-     "look": "A dark green fern of hinged metal fronds on a bundle of thick cable roots."
-    },
-    {
-     "id": "cold-regulator",
-     "name": "Cold Regulator",
-     "tier": "regular",
-     "bodyPlan": "object",
-     "role": "healer",
-     "routines": [
-      "patch",
-      "strike"
-     ],
-     "source": "/tradgard-och-vaxter/vaxthus/agathishuset",
-     "blurb": "It uses condensation to patch nearby machines. Remove it before they recover.",
-     "look": "A blue-grey cylindrical tank with a frost-rimmed valve, brass feet and a looping water hose."
-    },
-    {
-     "id": "walking-scaffold",
-     "name": "Walking Scaffold",
-     "tier": "elite",
-     "bodyPlan": "construct",
-     "role": "shielder",
-     "routines": [
-      "brace",
-      "cover",
-      "strike"
-     ],
-     "source": "/renovering-av-vara-vaxthus",
-     "blurb": "It fences the patrol behind a moving shield. Its jacks are exposed when it braces.",
-     "look": "A tall yellow scaffold on four telescoping jacks, carrying a folded steel barrier."
-    },
-    {
-     "id": "soil-tester",
-     "name": "Soil Tester",
-     "tier": "elite",
-     "bodyPlan": "beast",
-     "role": "charger",
-     "routines": [
-      "charge",
-      "strike"
-     ],
-     "source": "/alternativ-till-torv-och-konstgodsel",
-     "blurb": "It gathers speed behind a rolling mound of soil. Move before it reaches the crew.",
-     "look": "A broad brown beetle-shaped machine with a shovel mouth, heavy treads and a clear soil chamber."
-    },
-    {
-     "id": "containment-engine",
-     "name": "Containment Engine",
-     "tier": "elite",
-     "bodyPlan": "construct",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "brace",
-      "strike"
-     ],
-     "source": "/tradgard-och-vaxter/invasiva-vaxter",
-     "blurb": "It raises barriers and deploys smaller keepers. Rush its exposed spool.",
-     "look": "A green iron cart with a central cable drum, folding fence panels and several small launch tubes."
-    },
-    {
-     "id": "garden-curator",
-     "name": "Curator of Compartments",
-     "tier": "boss",
-     "bodyPlan": "colossus",
-     "role": "shielder",
-     "routines": [
-      "brace",
-      "cover",
-      "sweep+"
-     ],
-     "source": "/tradgard-och-vaxter/vad-visar-vaxtskyltarna",
-     "blurb": "It seals specimens behind shields while its fibre spools sweep the floor. Break the protection and reopen the compartments.",
-     "look": "A towering cabinet of green glass cells, hinged brass panels and long pale fibre reels, on heavy root-like legs."
-    },
-    {
-     "id": "meadow-guides",
-     "name": "Meadow Guides",
-     "tier": "ally",
-     "bodyPlan": "swarm",
-     "role": "healer",
-     "routines": [
-      "patch",
-      "strike"
-     ],
-     "source": "/barn-och-skola/anlagg-en-blomsterang-pa-skolan-eller-forskolan",
-     "blurb": "Pollinators lead the crew between living beds and tend small wounds.",
-     "look": "A cluster of amber and black bees around a small bundle of white flowers."
-    },
-    {
-     "id": "seed-keeper",
-     "name": "Seed Keeper",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/froprojektet-swede-seed",
-     "blurb": "A keeper shields the crew while moving a cache of regional seed.",
-     "look": "A gardener in a moss-green coat carrying a shallow wooden seed tray and a round wicker shield."
-    }
-   ],
-   "events": [
-    {
-     "id": "garden-seed-sort",
-     "source": "/froprojektet-swede-seed",
-     "look": "A spilled tray of pale seeds beside a green canvas sack.",
-     "title": "Mixed seed",
-     "text": "A keeper needs the regional seed separated before a counter arrives. The crew can spend supplies or work under the machine\u2019s reach.",
-     "options": [
-      {
-       "label": "Buy sorting trays",
-       "effect": {
-        "type": "gold",
-        "amount": -25
-       },
-       "result": "The keeper saves the seed in separate trays."
-      },
-      {
-       "label": "Sort by hand",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The seed is safe, but the counter clips the crew."
-      }
-     ]
-    },
-    {
-     "id": "garden-moth-flash",
-     "source": "/inventering-av-invasiva-frammande-nattfjarilar",
-     "look": "A white moth beneath a branch with a flashing black camera above.",
-     "title": "False alarm",
-     "text": "A scrap is drawing the camera toward a resting moth. A decoy costs supplies; a close rescue risks the flash.",
-     "options": [
-      {
-       "label": "Set a decoy",
-       "effect": {
-        "type": "gold",
-        "amount": -20
-       },
-       "result": "The camera follows the decoy away."
-      },
-      {
-       "label": "Lift the moth clear",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The moth escapes. The flash catches the crew."
-      }
-     ]
-    },
-    {
-     "id": "garden-harvest",
-     "source": "/odla-med-botan",
-     "look": "Orange roots and green leaves beside a small metal imitation vegetable.",
-     "title": "Harvest",
-     "text": "The bed has food and one metal imitation. Pick through it carefully or sell the whole lot to a passing trader.",
-     "options": [
-      {
-       "label": "Take food",
-       "effect": {
-        "type": "heal",
-        "amount": 0.2
-       },
-       "result": "Wren sorts a meal from the harvest."
-      },
-      {
-       "label": "Sell the harvest",
-       "effect": {
-        "type": "gold",
-        "amount": 30
-       },
-       "result": "The trader takes the risk of sorting it."
-      }
-     ]
-    },
-    {
-     "id": "garden-label",
-     "source": "/tradgard-och-vaxter/vad-visar-vaxtskyltarna",
-     "look": "A leafy plant beside a blank wooden stake and an inspecting drone.",
-     "title": "Wrong bed",
-     "text": "An inspector is about to remove a plant beside the wrong marker. The crew can use a tool to stop it or sell the tool and take the plant out by hand.",
-     "options": [
-      {
-       "label": "Use the cutting tool",
-       "effect": {
-        "type": "routine",
-        "id": "breach"
-       },
-       "result": "Kestrel opens the clamp and keeps the useful technique."
-      },
-      {
-       "label": "Sell the tool",
-       "effect": {
-        "type": "gold",
-        "amount": 35
-       },
-       "result": "The plant is moved by hand; the trader buys the tool."
-      }
-     ]
-    },
-    {
-     "id": "garden-climate-leak",
-     "source": "/tradgard-och-vaxter/vaxthus",
-     "look": "A glass partition between a dry cactus bed and a dripping fern bed.",
-     "title": "Leaking climates",
-     "text": "A torn screen lets wet air into the dry bed. Supplies can seal it; the wet machinery also has salvage if the crew pulls it free.",
-     "options": [
-      {
-       "label": "Buy a new screen",
-       "effect": {
-        "type": "gold",
-        "amount": -30
-       },
-       "result": "The beds are separated without moving the plants."
-      },
-      {
-       "label": "Pull the machinery free",
-       "effect": {
-        "type": "damage",
-        "amount": 0.15
-       },
-       "result": "The leak stops. A live wire bites the crew."
-      }
-     ]
-    },
-    {
-     "id": "garden-cafe-cart",
-     "source": "/butik-och-kafe/patisseriet-i-botan",
-     "look": "A small cart with a steaming kettle beside a striped barrier.",
-     "title": "Hot delivery",
-     "text": "A cart is stranded beside a cordon. The crew can buy a drink or sell the cart owner a spare wheel.",
-     "options": [
-      {
-       "label": "Buy a drink",
-       "effect": {
-        "type": "heal",
-        "amount": 0.15
-       },
-       "result": "The hot drink gives the crew a rest."
-      },
-      {
-       "label": "Sell a wheel",
-       "effect": {
-        "type": "gold",
-        "amount": 20
-       },
-       "result": "The cart rolls on and the crew pockets the payment."
-      }
-     ]
-    }
-   ],
-   "name": "Lund University Botanical Garden",
-   "url": "https://www.botan.lu.se/en/"
-  },
-  {
-   "theme": "A mill that makes replacements",
-   "story": {
-    "intro": "The fibre trail reaches a former mill. Machines draw it through looms and assembly frames. Kestrel expects a nest. Wren finds carefully repaired parts instead.",
-    "chapters": [
-     {
-      "title": "Raw material",
-      "text": "Iron, wire and fibre converge on the production floor. Ox holds off the carriers while Kestrel traces their loads. The swarm seems to be building an army."
-     },
-     {
-      "title": "Repairs",
-      "text": "The finished machines are not all fighters. Some carry water and patch broken units. Wren finds garden fibres used as replacement ligaments. The swarm is trying to keep its own damaged members working."
-     },
-     {
-      "title": "The missing pattern",
-      "text": "Each replacement follows the same incomplete pattern. The looms leave a gap where a control strand should be. A silk collection is marked as the next source of material and instructions."
-     }
-    ],
-    "bossIntro": "The Factory of Futures draws fibre, iron and salvaged wheels into its frame. It feeds fresh parts to its attendants. Ox braces while Kestrel looks for the supply lines.",
-    "outro": "The factory stops. Among its parts, Wren finds an unfinished body with room for a missing control strand. The swarm is going to the silk museum to complete it."
-   },
-   "creatures": [
-    {
-     "id": "mill-surveyor",
-     "name": "Pulse Surveyor",
-     "tier": "easy",
-     "bodyPlan": "flier",
-     "role": "debuffer",
-     "routines": [
-      "jam",
-      "strike"
-     ],
-     "source": "/ca",
-     "blurb": "Its pulse interrupts the crew while heavier machines close in.",
-     "look": "A small grey flying disk with a black central lens and concentric copper rings."
-    },
-    {
-     "id": "mill-courier",
-     "name": "Cycle Courier",
-     "tier": "easy",
-     "bodyPlan": "construct",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "strike"
-     ],
-     "source": "/es/visitanos/como-llegar-al-museo",
-     "blurb": "It calls transport drones when it sees movement. Catch it early.",
-     "look": "A narrow blue bicycle frame with a brass bell, two grabbers and a single white lamp."
-    },
-    {
-     "id": "mill-clock",
-     "name": "Closure Clock",
-     "tier": "easy",
-     "bodyPlan": "object",
-     "role": "shielder",
-     "routines": [
-      "brace",
-      "strike"
-     ],
-     "source": "/ca/visitans/horaris-i-tarifes",
-     "blurb": "Its shutters close around its own mechanism before it strikes.",
-     "look": "A round cream clockwork casing with folding steel shutters and three short brass legs."
-    },
-    {
-     "id": "mill-racer",
-     "name": "Montesa Racer",
-     "tier": "regular",
-     "bodyPlan": "beast",
-     "role": "charger",
-     "routines": [
-      "charge",
-      "strike"
-     ],
-     "source": "/en/exhibition-detail/viva-montesa",
-     "blurb": "It circles for a charge, then strips useful parts from its target.",
-     "look": "A low red motorcycle-like machine with a blunt steel snout, thick tires and a swept-back exhaust.",
-     "key": "green"
-    },
-    {
-     "id": "mill-crane",
-     "name": "Freight Sorter",
-     "tier": "regular",
-     "bodyPlan": "construct",
-     "role": "thief",
-     "routines": [
-      "skim",
-      "strike"
-     ],
-     "source": "/ca/visitans/com-arribar-hi",
-     "blurb": "Its hook skims supplies while its crate arms block pursuit.",
-     "look": "A yellow wheeled crane with a short hook, two square crate claws and a heavy counterweight."
-    },
-    {
-     "id": "mill-sentinel",
-     "name": "Conservation Sentinel",
-     "tier": "regular",
-     "bodyPlan": "construct",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/en/visit-us/recommendations-and-rules",
-     "blurb": "It wraps damaged allies in protective shells. Break through its cover.",
-     "look": "A tall ivory frame with hinged shell panels, padded claws and a small black wheelbase."
-    },
-    {
-     "id": "mill-shepherd",
-     "name": "Tour Shepherd",
-     "tier": "regular",
-     "bodyPlan": "humanoid",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "strike"
-     ],
-     "source": "/en/visit-us/group-visits",
-     "blurb": "It counts intruders and calls small attendants to close the route.",
-     "look": "A lean brass automaton with a ring of folding arms and a box of small wheeled drones."
-    },
-    {
-     "id": "mill-restorer",
-     "name": "Restoration Hand",
-     "tier": "regular",
-     "bodyPlan": "humanoid",
-     "role": "healer",
-     "routines": [
-      "patch",
-      "strike"
-     ],
-     "source": "/fr",
-     "blurb": "It repairs damaged swarm units with fibre ligaments. Target it first.",
-     "look": "A compact steel figure with a magnifying lens, a spool of pale fibre and articulated repair hands."
-    },
-    {
-     "id": "mill-kiln",
-     "name": "Kiln Caster",
-     "tier": "elite",
-     "bodyPlan": "flier",
-     "role": "debuffer",
-     "routines": [
-      "corrupt",
-      "jam",
-      "strike"
-     ],
-     "source": "/ca",
-     "blurb": "It dusts the crew and locks them in place for the assembly line.",
-     "look": "A charcoal flying kiln with an orange slit, wide dust vents and three hooked landing feet."
-    },
-    {
-     "id": "mill-loom",
-     "name": "Wire Loom",
-     "tier": "elite",
-     "bodyPlan": "construct",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "brace",
-      "strike"
-     ],
-     "source": "/ca",
-     "blurb": "It reels in wire and sends out small net carriers. Rush the bobbin.",
-     "look": "A wide iron loom on caterpillar tracks, with a large silver bobbin and taut wire across its frame."
-    },
-    {
-     "id": "mill-transfer",
-     "name": "Transfer Beast",
-     "tier": "elite",
-     "bodyPlan": "beast",
-     "role": "charger",
-     "routines": [
-      "charge",
-      "breach",
-      "strike"
-     ],
-     "source": "/fr/venez-nous-rendre-visite/comment-y-arriver",
-     "blurb": "It changes from rail wheels to treads and charges through shields.",
-     "look": "A long steel cargo beast with paired rail wheels, black treads and a blunt wedge-shaped head."
-    },
-    {
-     "id": "mill-factory",
-     "name": "Factory of Futures",
-     "tier": "boss",
-     "bodyPlan": "colossus",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "brace",
-      "sweep+"
-     ],
-     "source": "/ca",
-     "blurb": "Its fibre feed braces the assembly line while it produces attendants and sweeps with a long iron beam. Interrupt the supply before the floor fills.",
-     "look": "A huge iron assembly frame on wheels, with a pale fibre spool, a bank of small launch chutes and a swinging steel beam."
-    },
-    {
-     "id": "mill-restorer-ally",
-     "name": "Workshop Restorer",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
-     "role": "healer",
-     "routines": [
-      "patch",
-      "strike"
-     ],
-     "source": "/fr",
-     "blurb": "A patient restorer removes swarm additions and patches the crew\u2019s tools.",
-     "look": "A person in a blue work apron with a leather tool roll, small hammer and protective goggles."
-    },
-    {
-     "id": "mill-route-keeper",
-     "name": "Route Keeper",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/en/visit-us/group-visits",
-     "blurb": "The keeper knows the factory routes and covers the crew at crossings.",
-     "look": "A person in a tan work jacket holding a broad wooden panel and a coil of rope."
-    }
-   ],
-   "events": [
-    {
-     "id": "mill-block-game",
-     "source": "/ca",
-     "look": "Wooden blocks arranged across a metal floor beside a small gear.",
-     "title": "One move",
-     "text": "A strategy machine has left two useful blocks in its game. Keep one as a shield or sell the set to a collector.",
-     "options": [
-      {
-       "label": "Keep a block",
-       "effect": {
-        "type": "routine",
-        "id": "brace"
-       },
-       "result": "Ox uses the block to practice a firmer guard."
-      },
-      {
-       "label": "Sell the set",
-       "effect": {
-        "type": "gold",
-        "amount": 35
-       },
-       "result": "The collector pays for the complete game."
-      }
-     ]
-    },
-    {
-     "id": "mill-cavity",
-     "source": "/ca",
-     "look": "A cracked brick wall with a round cavity and a small pulse device.",
-     "title": "Sounding the wall",
-     "text": "A pulse reveals a cavity. Repeating it gives time to retrieve the contents but draws a surveyor. Selling the device ends the search.",
-     "options": [
-      {
-       "label": "Open the cavity",
-       "effect": {
-        "type": "damage",
-        "amount": 0.15
-       },
-       "result": "The crew retrieves a trapped component, but the surveyor strikes."
-      },
-      {
-       "label": "Sell the pulse device",
-       "effect": {
-        "type": "gold",
-        "amount": 30
-       },
-       "result": "A trader buys it before another pulse sounds."
-      }
-     ]
-    },
-    {
-     "id": "mill-crates",
-     "source": "/ca/visitans/com-arribar-hi",
-     "look": "Two identical wooden crates beneath a yellow crane hook.",
-     "title": "Freight mix-up",
-     "text": "One crate holds a motor and the other a live drone. The crane will sell either without opening it.",
-     "options": [
-      {
-       "label": "Buy the motor crate",
-       "effect": {
-        "type": "gold",
-        "amount": -30
-       },
-       "result": "The motor is recovered and the drone remains boxed."
-      },
-      {
-       "label": "Open both crates",
-       "effect": {
-        "type": "damage",
-        "amount": 0.15
-       },
-       "result": "The crew finds the motor; the drone clips them on its way out."
-      }
-     ]
-    },
-    {
-     "id": "mill-ramp",
-     "source": "/en/exhibition-detail/viva-montesa",
-     "look": "A red wheeled machine circling a raised track with a loose wooden ramp.",
-     "title": "Last lap",
-     "text": "A racer circles a damaged track. Use a spare ramp to stop it or sell the ramp and cross during its next lap.",
-     "options": [
-      {
-       "label": "Set the ramp",
-       "effect": {
-        "type": "gold",
-        "amount": -20
-       },
-       "result": "The racer leaves the track and the crossing clears."
-      },
-      {
-       "label": "Sell the ramp",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The crossing is made, with a glancing hit from the racer."
-      }
-     ]
-    },
-    {
-     "id": "mill-shutters",
-     "source": "/ca/visitans/horaris-i-tarifes",
-     "look": "Steel shutters descending over a small wheeled repair machine.",
-     "title": "Closing time",
-     "text": "A repair drone is trapped under descending shutters with a useful part. Hold the shutter or pay a nearby keeper for the spare.",
-     "options": [
-      {
-       "label": "Hold the shutter",
-       "effect": {
-        "type": "damage",
-        "amount": 0.2
-       },
-       "result": "The drone escapes with the part, but the shutter lands hard."
-      },
-      {
-       "label": "Buy the spare",
-       "effect": {
-        "type": "gold",
-        "amount": -35
-       },
-       "result": "The keeper supplies the part while the drone takes another route."
-      }
-     ]
-    },
-    {
-     "id": "mill-cafe",
-     "source": "/fr/venez-nous-rendre-visite/restaurant-et-cafeteria",
-     "look": "Two metal kitchen counters, one with a steaming pot and one with a hidden claw.",
-     "title": "Factory lunch",
-     "text": "A kitchen station offers a hot meal. Another has salvage in its reach. There is time for one before the machines reset.",
-     "options": [
-      {
-       "label": "Take the meal",
-       "effect": {
-        "type": "heal",
-        "amount": 0.25
-       },
-       "result": "Wren checks the pot and shares the food."
-      },
-      {
-       "label": "Take the salvage",
-       "effect": {
-        "type": "gold",
-        "amount": 30
-       },
-       "result": "Kestrel pulls loose fittings from the second station."
-      }
-     ]
-    }
-   ],
-   "name": "National Museum of Science and Technology of Catalonia",
-   "url": "https://mnactec.cat/en"
-  },
-  {
-   "theme": "Silk, memory and a missing maker",
-   "story": {
-    "intro": "Silk threads run through cabinets, egg boxes and reels. The swarm is collecting records as well as material. Wren compares the unfinished body with a specimen case. The empty slot fits a control strand.",
-    "chapters": [
-     {
-      "title": "A living supply",
-      "text": "The machines harvest mulberry and carry eggs in boxes. Ox protects a young tree while Wren checks the larvae. The swarm is feeding them, not merely stripping the collection."
-     },
-     {
-      "title": "Threads and records",
-      "text": "Skeins carry traces of garden fibre and mill wire. Kestrel finds the same weave in the station records. The missing control strand is a record of a damaged swarm maker, copied into silk."
-     },
-     {
-      "title": "An incomplete copy",
-      "text": "The maker once kept the swarm repaired. Its record is damaged, and the station is trying to copy it by taking whole collections apart. Wren can preserve the surviving strand if Kestrel separates the feed and Ox holds the frame."
-     }
-    ],
-    "bossIntro": "The Sericulture Station pulls mulberry, eggs and old records into one loom. It is making a replacement for its lost maker, one destructive copy at a time. Its feeders keep the frame repaired. Wren asks for the control strand intact.",
-    "outro": "The station stops. Wren saves the surviving control strand, but it is too damaged to restore the maker. The crew leaves it with the museum\u2019s keepers. The freed swarm units can be repaired without taking the collection apart."
-   },
-   "creatures": [
-    {
-     "id": "silk-skein-runner",
-     "name": "Skein Runner",
+     "id": "act-1-lapse-leech",
+     "name": "Lapse Leech",
      "tier": "easy",
      "bodyPlan": "serpent",
-     "role": "thief",
-     "routines": [
-      "skim",
-      "strike"
-     ],
-     "source": "/collection/5/dzafishulo",
-     "blurb": "It pulls loose supplies toward its exposed reel.",
-     "look": "A narrow cream thread reel with a segmented wire tail and two small gripping jaws."
-    },
-    {
-     "id": "silk-dye-taster",
-     "name": "Dye Taster",
-     "tier": "easy",
-     "bodyPlan": "flier",
      "role": "debuffer",
      "routines": [
       "corrupt",
       "strike"
      ],
-     "source": "/collection/6/saghebavebi",
-     "blurb": "It marks the crew with dye for other machines to exploit.",
-     "look": "A small indigo flying vessel with a pointed nozzle, two tin wings and dangling dye tubes."
+     "source": "/research/current-research-projects/",
+     "blurb": "It steals warmth in measured steps. Shake it off before its mark spreads.",
+     "look": "A thin blue segmented leech with frost-white bands and small brass gripping legs."
     },
     {
-     "id": "silk-negative",
-     "name": "Negative Stalker",
+     "id": "act-1-junior-observer",
+     "name": "Junior Observer",
      "tier": "easy",
-     "bodyPlan": "object",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/education/school-visits/",
+     "blurb": "It calls more measuring drones to finish its inspection.",
+     "look": "A cluster of small yellow spheres with wire legs, glass eyes and folding rulers."
+    },
+    {
+     "id": "act-1-wildcat-watcher",
+     "name": "Wildcat Watcher",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/weather-cams/wildcat-weather-camera/",
+     "blurb": "It stores light in its plates, then lunges from the ridge.",
+     "look": "A squat gray camera on jointed legs with a broad gold solar plate and a pointed lens."
+    },
+    {
+     "id": "act-1-mesonet-node",
+     "name": "Mesonet Node",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/weather/mount-washington-regional-mesonet/",
+     "blurb": "Linked nodes guard one another while they fix the crew\u2019s position.",
+     "look": "A white sensor mast on three black hinged legs, with cups and coils of orange cable."
+    },
+    {
+     "id": "act-1-fog-surveyor",
+     "name": "Fog Surveyor",
+     "tier": "regular",
+     "bodyPlan": "construct",
      "role": "debuffer",
      "routines": [
       "jam",
       "strike"
      ],
-     "source": "/collection/9/fotokoleqtsia",
-     "blurb": "Its projected silhouette pins a target long enough for a patrol to arrive.",
-     "look": "A black glass plate in a brass frame on three spindly legs, with a bright round lens."
+     "source": "/research/current-research-projects/",
+     "blurb": "It blinds the crew with fog and interrupts their work.",
+     "look": "A low silver cart with a round lamp, a wide fog nozzle and four thick wheels."
     },
     {
-     "id": "silk-hatcher",
-     "name": "Hybrid Hatcher",
+     "id": "act-1-rime-tender",
+     "name": "Rime Tender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/research/product-testing/",
+     "blurb": "It patches damaged testing rigs. Take it down before the rigs recover.",
+     "look": "A cream machine with mitten-shaped pincers, a spool of wire and a frost-crusted tank."
+    },
+    {
+     "id": "act-1-outlook-front",
+     "name": "Outlook Front",
      "tier": "regular",
      "bodyPlan": "blob",
      "role": "splitter",
@@ -836,13 +121,349 @@
       "divide",
       "strike"
      ],
-     "source": "/collection/4/abreshumis-parkebi",
-     "blurb": "Cracking its cocoon releases smaller machines. Be ready for the split.",
-     "look": "A pale oval cocoon with overlapping ivory plates, small blue joints and a dark seam."
+     "source": "/weather/regional-weather/",
+     "blurb": "A divided front attacks from both sides when damaged.",
+     "look": "A rounded mass of blue-gray cloud with two pale spiral cores and thin trailing wisps."
     },
     {
-     "id": "silk-separator",
-     "name": "Anatomy Separator",
+     "id": "act-1-cog-hauler",
+     "name": "Cog Hauler",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/the-cog-railway/",
+     "blurb": "It pulls loose equipment uphill and keeps what it catches.",
+     "look": "A rust-orange rack-wheel crawler with a toothed belly, hooked cable and a square hopper."
+    },
+    {
+     "id": "act-1-imagined-scoutmaster",
+     "name": "Imagined Scoutmaster",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/weather-cams/view-from-bretton-woods/",
+     "blurb": "Its damaged camera invents intruders and sends scouts to find them.",
+     "look": "A tall black camera on a tripod of bent legs, surrounded by tiny silver lens drones."
+    },
+    {
+     "id": "act-1-extremes-engine",
+     "name": "Extremes Engine",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "finish",
+      "strike"
+     ],
+     "source": "/research/the-white-mountains-almanac/",
+     "blurb": "It flattens ordinary terrain, then drives its rollers through anything left standing.",
+     "look": "A heavy bronze cabinet on wide rollers, with two white gauges and a blue rotating drum."
+    },
+    {
+     "id": "act-1-wind-cage",
+     "name": "Wind Cage",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/research/past-research-projects/",
+     "blurb": "Its spinning cups shield nearby machines. Break the cage to reach them.",
+     "look": "A ring of white anemometer cups around a steel hub, carried on four articulated legs."
+    },
+    {
+     "id": "act-1-summit-observatory",
+     "name": "Summit Observatory",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "charge",
+      "strike"
+     ],
+     "source": "/research/",
+     "blurb": "Its forecast tower summons fan drones and charges to make its predicted gust real.",
+     "look": "A walking stone-gray tower with brass tubes, a spinning cup crown and broad fan blades on jointed arms."
+    },
+    {
+     "id": "act-1-forecast-operator",
+     "name": "Forecast Operator",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/weather/higher-summits-forecast/",
+     "blurb": "A stubborn operator still gives warnings with their uncertainty attached.",
+     "look": "A bundled figure in a blue parka holding a round antenna and a battered metal shield."
+    },
+    {
+     "id": "act-1-instrument-tender",
+     "name": "Instrument Tender",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/research/",
+     "blurb": "A volunteer who repairs sensors and distrusts readings that look too neat.",
+     "look": "A short figure in a tan insulated coat with a tool roll, goggles and a soldering iron."
+    }
+   ],
+   "events": [
+    {
+     "id": "act-1-event-1",
+     "source": "/weather-cams/wildcat-weather-camera/",
+     "look": "A dark camera on a snowy ledge beside a bright silver sheet.",
+     "title": "A Patch of Sun",
+     "text": "A messenger is trapped beside a sleeping solar watcher. A reflective sheet can light the machine or shade the crossing.",
+     "options": [
+      {
+       "label": "Tilt the sheet toward the watcher",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The watcher wakes. Its first lunge catches the crew, but the messenger gets clear."
+      },
+      {
+       "label": "Shade the crossing and take the supplies",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The messenger leads the crew around the sleeping watcher and shares a pouch of coins."
+      }
+     ]
+    },
+    {
+     "id": "act-1-event-2",
+     "source": "/weather/mount-washington-regional-mesonet/",
+     "look": "Two white sensor masts joined by an orange cable over a snowy path.",
+     "title": "Crossed Cables",
+     "text": "Two nodes disagree about the wind. Their cable sweeps across the only dry trail.",
+     "options": [
+      {
+       "label": "Reconnect the cable",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The cable snaps taut against Ox. The nodes settle and leave a clear route."
+      },
+      {
+       "label": "Cut the cable for its fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The nodes separate. Kestrel collects the brass fittings before they scatter."
+      }
+     ]
+    },
+    {
+     "id": "act-1-event-3",
+     "source": "/weather/higher-summits-forecast/",
+     "look": "A radio set beside a window filled with dark mountain clouds.",
+     "title": "Clear Interval",
+     "text": "A broadcast promises clear weather. Clouds are already building over the ridge.",
+     "options": [
+      {
+       "label": "Send a correction",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The operator shares a way to cover an exposed companion. The correction costs the crew their quiet crossing."
+      },
+      {
+       "label": "Use the quiet interval to rest",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren tends the crew while the uncorrected forecast continues to play."
+      }
+     ]
+    },
+    {
+     "id": "act-1-event-4",
+     "source": "/the-cog-railway/",
+     "look": "A small orange cart hanging on a steep toothed rail above snow.",
+     "title": "Hanging Cart",
+     "text": "A supply cart hangs from a stalled rack railway. Its brake is slipping.",
+     "options": [
+      {
+       "label": "Catch the cart",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "Ox stops it with his shield and takes a hard knock. The cart reaches the lower track."
+      },
+      {
+       "label": "Strip the loose fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Kestrel pulls off the fittings before the cart slides away."
+      }
+     ]
+    },
+    {
+     "id": "act-1-event-5",
+     "source": "/research/product-testing/",
+     "look": "A steel case shaking inside a white frame with a small canvas kit beneath it.",
+     "title": "Vibration Trial",
+     "text": "A sealed case rattles inside a test rig. A repair kit is wedged under the clamp.",
+     "options": [
+      {
+       "label": "Stop the rig by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The clamp bruises Wren\u2019s hand. The sensor inside survives."
+      },
+      {
+       "label": "Pull out the repair kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the kit on the crew. The case keeps rattling."
+      }
+     ]
+    },
+    {
+     "id": "act-1-event-6",
+     "source": "/research/the-white-mountains-almanac/",
+     "look": "A brass cabinet with two thermometers and a half-open wooden drawer.",
+     "title": "Two Temperatures",
+     "text": "A compiler wants an ordinary reading and an extreme one. Its drawer contains a useful technique.",
+     "options": [
+      {
+       "label": "Measure both readings",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The compiler accepts the distinction and shows Ox how to brace against a gust."
+      },
+      {
+       "label": "Pry out the drawer",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "Kestrel takes the coins inside. The compiler keeps its two identical readings."
+      }
+     ]
+    }
+   ],
+   "name": "Mount Washington Observatory",
+   "url": "https://mountwashington.org/"
+  },
+  {
+   "theme": "A single baseline",
+   "story": {
+    "intro": "The Consensus has moved into a network of atmospheric instruments. It keeps samples and repairs stations, but makes every reading match. Wren wants to know why.",
+    "chapters": [
+     {
+      "title": "Samples in Order",
+      "text": "Collectors preserve flasks and sensors with unusual care. Ox protects the working instruments while Kestrel opens their sealed housings."
+     },
+     {
+      "title": "The Turn",
+      "text": "An independent reference reveals the error. The swarm treats disagreement as a broken warning, not evidence of different conditions. It has been erasing differences to keep the warning continuous."
+     },
+     {
+      "title": "One Reference",
+      "text": "The forced agreement has made the warning false. Wren compares independent measurements. The calibration standard keeps rewriting them to match its cylinder."
+     }
+    ],
+    "bossIntro": "The Grand Calibration Standard seals itself behind its plates. It marks dissenting instruments and strikes anything that refuses adjustment.",
+    "outro": "The standard breaks. Its outgoing signal points upward to a model that is already turning the false warning into weather. The crew carries independent readings with it."
+   },
+   "creatures": [
+    {
+     "id": "act-2-flask-collector",
+     "name": "Flask Collector",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/hats/flask/flasks.html",
+     "blurb": "It corks samples and pockets unattended gear.",
+     "look": "A greenish-gray cart with glass flasks, a cork claw and narrow black wheels."
+    },
+    {
+     "id": "act-2-transmission-moths",
+     "name": "Transmission Moths",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/grad/mloapt.html",
+     "blurb": "Their overlapping wings darken the beam and spoil readings.",
+     "look": "A cloud of small charcoal moths with translucent amber wings and pinprick white eyes."
+    },
+    {
+     "id": "act-2-balloon-sonde",
+     "name": "Balloon Sonde",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/ozwv/wvap/",
+     "blurb": "It dives after the moisture in a breath.",
+     "look": "A white balloon over a blue sensor box, trailing icy wires and a small pointed probe."
+    },
+    {
+     "id": "act-2-calibration-warden",
+     "name": "Calibration Warden",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/ccl/",
+     "blurb": "It protects its reference cylinder while forcing other instruments to agree.",
+     "look": "A brass cylinder on jointed legs carrying a round white shield and a narrow adjustment wrench."
+    },
+    {
+     "id": "act-2-aerosol-sorter",
+     "name": "Aerosol Sorter",
      "tier": "regular",
      "bodyPlan": "construct",
      "role": "debuffer",
@@ -850,295 +471,671 @@
       "jam",
       "strike"
      ],
-     "source": "/collection/1/entomologia",
-     "blurb": "Its fine limbs pin a target for the collection machines.",
-     "look": "A narrow silver frame with six needle-like limbs and a round amber inspection lens."
+     "source": "/aero/net/",
+     "blurb": "It blankets bright targets in dust and disrupts their actions.",
+     "look": "A squat gray vacuum body with a black intake, tan dust bags and six stubby wheels."
     },
     {
-     "id": "silk-mantle",
-     "name": "Loom Mantle",
+     "id": "act-2-reference-courier",
+     "name": "Reference Courier",
      "tier": "regular",
      "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/ccgg/about.html",
+     "blurb": "It repairs linked machines so their shared false reading survives.",
+     "look": "A slender white spider machine carrying a spool of copper cable and a small repair arm."
+    },
+    {
+     "id": "act-2-tracker-hound",
+     "name": "Tracker Hound",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "finish"
+     ],
+     "source": "/modeling.html",
+     "blurb": "It follows a signal to its source and commits to a hard charge.",
+     "look": "A lean iron hound with a funnel snout, green glass eyes and clamp-shaped jaws."
+    },
+    {
+     "id": "act-2-snow-date-beetle",
+     "name": "Snow-Date Beetle",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/grad/snomelt.html",
+     "blurb": "Its shell breaks into smaller machines on the old melt schedule.",
+     "look": "A broad pale-blue beetle with a hinged snow-crusted shell and black shovel feet."
+    },
+    {
+     "id": "act-2-ozone-column-cutter",
+     "name": "Ozone Column Cutter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike+"
+     ],
+     "source": "/ozwv/dobson/",
+     "blurb": "It cuts through cover to complete a reading from ground to sky.",
+     "look": "A tall cream tripod carrying a vertical black tube and a rotating silver cutting disc."
+    },
+    {
+     "id": "act-2-infrared-indexer",
+     "name": "Infrared Indexer",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "corrupt",
+      "strike"
+     ],
+     "source": "/aggi/",
+     "blurb": "It stacks heat-trapping panes around itself and marks warm targets.",
+     "look": "A dark metal frame carrying overlapping amber glass panes and a red-hot central coil."
+    },
+    {
+     "id": "act-2-obspack-binder",
+     "name": "ObsPack Binder",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/ccgg/obspack/",
+     "blurb": "It compresses observations and deploys drones to gather more.",
+     "look": "A boxy slate-blue press with square jaws, a conveyor belt and small white collector drones."
+    },
+    {
+     "id": "act-2-grand-calibration-standard",
+     "name": "Grand Calibration Standard",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "corrupt",
+      "strike+"
+     ],
+     "source": "/ccl/",
+     "blurb": "It shields its chosen standard, marks dissenting instruments and strikes to force agreement.",
+     "look": "A towering silver cylinder on four heavy legs, ringed by brass gauges and broad white shield plates."
+    },
+    {
+     "id": "act-2-reference-cylinder",
+     "name": "Reference Cylinder",
+     "tier": "ally",
+     "bodyPlan": "object",
      "role": "shielder",
      "routines": [
       "cover",
       "strike"
      ],
-     "source": "/collection/7/teqstili",
-     "blurb": "It wraps damaged units in layered cloth. Tear through its cover.",
-     "look": "A broad walking bundle of ochre and blue woven strips with flat wooden arms and a dark hollow center."
+     "source": "/ccl/",
+     "blurb": "Its intact reference exposes the shared error without needing the machines to agree.",
+     "look": "A small brushed-steel cylinder on a wheeled cradle with a blue valve and a folding plate."
     },
     {
-     "id": "silk-egg-courier",
-     "name": "Egg-Box Courier",
-     "tier": "regular",
-     "bodyPlan": "object",
+     "id": "act-2-free-sonde",
+     "name": "Free Sonde",
+     "tier": "ally",
+     "bodyPlan": "flier",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/ozwv/wvap/",
+     "blurb": "Its independent readings help Wren trace a safe path through the tethers.",
+     "look": "A cream balloon towing a little orange instrument box with wire arms and a repair spool."
+    }
+   ],
+   "events": [
+    {
+     "id": "act-2-event-1",
+     "source": "/hats/flask/flasks.html",
+     "look": "A wheeled rack of clear flasks with differently colored stoppers.",
+     "title": "Mixed Dates",
+     "text": "A courier has mixed its sample flasks. Its cart will open after a careful sort, or after a hard blow.",
+     "options": [
+      {
+       "label": "Sort the flasks",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The courier opens the cart and shares its first-aid supplies."
+      },
+      {
+       "label": "Break the lock",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Kestrel takes the coin box. Several samples spill."
+      }
+     ]
+    },
+    {
+     "id": "act-2-event-2",
+     "source": "/ozwv/wvap/",
+     "look": "A white balloon tugging a cable above a blue winch and an orange sensor.",
+     "title": "The Rising Line",
+     "text": "A balloon strains against a jammed winch. Its sensor and the winch cannot both be recovered in time.",
+     "options": [
+      {
+       "label": "Free the sensor",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The sonde shares a way to clear a bad signal. The winch disappears with the balloon."
+      },
+      {
+       "label": "Recover the winch fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew saves the fittings. The sensor rises out of reach."
+      }
+     ]
+    },
+    {
+     "id": "act-2-event-3",
+     "source": "/grad/solcalc/",
+     "look": "A bank of silver mirrors directing a yellow beam across a stone walkway.",
+     "title": "Wrong Noon",
+     "text": "Mirrors point a bright beam across the passage. Their control housing is hot.",
+     "options": [
+      {
+       "label": "Turn the mirrors",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The housing burns a hand. The beam clears the route."
+      },
+      {
+       "label": "Sell the spare mirror",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "A passing operator buys the spare. The crew crosses in the glare."
+      }
+     ]
+    },
+    {
+     "id": "act-2-event-4",
+     "source": "/aero/net/",
+     "look": "Two small white stations, one with a dusty black intake.",
+     "title": "Dust on the Intake",
+     "text": "Two stations disagree. One intake is coated in dust, and cleaning it will use the crew\u2019s water.",
+     "options": [
+      {
+       "label": "Clean the intake",
+       "effect": {
+        "type": "routine",
+        "id": "patch"
+       },
+       "result": "The stations give distinct readings again. Their tender demonstrates a quick repair."
+      },
+      {
+       "label": "Keep the water for the crew",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "Wren uses the water to clean wounds. The stations continue to disagree."
+      }
+     ]
+    },
+    {
+     "id": "act-2-event-5",
+     "source": "/ccgg/obspack/",
+     "look": "A dark-blue cube with visible glass samples and a metal tool behind a clear panel.",
+     "title": "Packed Tight",
+     "text": "A sealed observation cube holds both samples and a trapped tool. The seams are under pressure.",
+     "options": [
+      {
+       "label": "Open it carefully",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "A spring catches Ox\u2019s arm. The samples survive and the tool comes free."
+      },
+      {
+       "label": "Crack the casing for parts",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The samples scatter, but the casing yields useful metal."
+      }
+     ]
+    },
+    {
+     "id": "act-2-event-6",
+     "source": "/obop/spo/",
+     "look": "A snowbound white antenna beside a sparking gray relay box.",
+     "title": "One Transmission",
+     "text": "A damaged station can send either a long record or a safe route before its relay fails.",
+     "options": [
+      {
+       "label": "Send the long record",
+       "effect": {
+        "type": "routine",
+        "id": "triage"
+       },
+       "result": "The receiving station returns a field-care procedure before the relay fails."
+      },
+      {
+       "label": "Send the safe route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The route leads to a sheltered place where Wren can tend the crew. The record remains unsent."
+      }
+     ]
+    }
+   ],
+   "name": "NOAA Global Monitoring Laboratory",
+   "url": "https://www.gml.noaa.gov/"
+  },
+  {
+   "theme": "The view from orbit",
+   "story": {
+    "intro": "The Consensus has reached the satellite system. Its model can see the whole planet, but it trusts the single corrected-looking picture sent from below.",
+    "chapters": [
+     {
+      "title": "Passes and Gaps",
+      "text": "Scouts fill blind spots while ground relays repeat delayed observations. Ox keeps the working references safe. Kestrel follows the signal toward the model."
+     },
+     {
+      "title": "Picture and Weather",
+      "text": "The model predicts a storm and sends machines to build it. Wren compares the orbital picture with independent ground and airborne readings. They do not agree."
+     },
+     {
+      "title": "A Warning with Room",
+      "text": "The Consensus wanted a warning that would never break. It made a single false answer instead. The crew prepares to send the separate observations through and stop the storm machines."
+     }
+    ],
+    "bossIntro": "The Perfect Twin spins inside its ring. It sends out more machines and sweeps the field as the independent readings reach it.",
+    "outro": "The ring breaks and the storm machines stop. The relays carry a corrected warning, with the disagreement still visible. Wren checks the returning readings. Ox rests his shield. Kestrel keeps the crowbar handy."
+   },
+   "creatures": [
+    {
+     "id": "act-3-sterna-gap-fillers",
+     "name": "Sterna Gap-Fillers",
+     "tier": "easy",
+     "bodyPlan": "swarm",
      "role": "summoner",
      "routines": [
       "spawn",
       "strike"
      ],
-     "source": "/collection/8/grenis-konteinerebi",
-     "blurb": "Its box hatches mechanical scouts. Stop the courier before they spread.",
-     "look": "A small wooden box on four brass legs, its lid raised above a row of pale oval eggs."
+     "source": "/eps-sterna",
+     "blurb": "They crowd blind spots and call more scouts toward warmth.",
+     "look": "A cluster of small white cubes with black antennae, blue lenses and short winglets."
     },
     {
-     "id": "silk-grazer",
-     "name": "Mulberry Grazer",
-     "tier": "regular",
+     "id": "act-3-downlink-leech",
+     "name": "Downlink Leech",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/ground-segment",
+     "blurb": "It steals transmissions and sends them on late.",
+     "look": "A flexible black cable creature with copper rings, a plug tail and a wide glass mouth."
+    },
+    {
+     "id": "act-3-nowcast-hound",
+     "name": "Nowcast Hound",
+     "tier": "easy",
      "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/what-we-monitor/weather",
+     "blurb": "It commits to the path its short forecast predicts.",
+     "look": "A low silver hound with long hinged legs, a dish-shaped nose and blue lens eyes."
+    },
+    {
+     "id": "act-3-ocean-colour-skimmer",
+     "name": "Ocean-Colour Skimmer",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/what-we-monitor/ocean",
+     "blurb": "Its false signals summon harvesters to the wrong water.",
+     "look": "A flat teal flying disc with a blue glass belly, white fins and small trailing drones."
+    },
+    {
+     "id": "act-3-ground-relay",
+     "name": "Ground Relay",
+     "tier": "regular",
+     "bodyPlan": "construct",
      "role": "healer",
      "routines": [
       "patch",
       "strike"
      ],
-     "source": "/collection/10/tuta",
-     "blurb": "It turns mulberry leaves into repair pulp for the swarm.",
-     "look": "A green beetle-like machine with leaf-shaped pincers, a glass pulp tank and six stubby legs."
+     "source": "/ground-segment",
+     "blurb": "It repairs the swarm\u2019s downlink machines before their false warnings stop.",
+     "look": "A gray wheeled dish with a white repair arm, cable spool and blinking amber lens."
     },
     {
-     "id": "silk-mimic",
-     "name": "Residency Mimic",
-     "tier": "elite",
-     "bodyPlan": "humanoid",
+     "id": "act-3-polar-sweeper",
+     "name": "Polar Sweeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike"
+     ],
+     "source": "/our-satellites/metop-series",
+     "blurb": "It sweeps across the crew in repeated passes.",
+     "look": "A silver box with long dark-blue panels, a curved scanning arm and four small thrusters."
+    },
+    {
+     "id": "act-3-eightfold-sorter",
+     "name": "Eightfold Sorter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/about-us/satellite-application-facilities-safs",
+     "blurb": "Its specialist modules split apart and pursue their own classifications.",
+     "look": "An octagonal cream machine with eight colored glass lenses and detachable wedge-shaped sections."
+    },
+    {
+     "id": "act-3-algorithm-molter",
+     "name": "Algorithm Molter",
+     "tier": "regular",
+     "bodyPlan": "construct",
      "role": "mirror",
      "routines": [
       "echo",
-      "brace",
       "strike"
      ],
-     "source": "/en/programs/residency",
-     "blurb": "It copies the crew\u2019s actions behind a shifting thread screen.",
-     "look": "A slim polished silver figure surrounded by loose cream threads on an asymmetrical wire frame."
+     "source": "/science/scientific-algorithms",
+     "blurb": "It echoes the crew\u2019s tactics. Change the approach it is copying.",
+     "look": "A narrow dark-blue machine with overlapping silver plates and a reflective oval face."
     },
     {
-     "id": "silk-indexer",
-     "name": "Book-Fund Indexer",
+     "id": "act-3-geostationary-watcher",
+     "name": "Geostationary Watcher",
      "tier": "elite",
      "bodyPlan": "construct",
-     "role": "debuffer",
+     "role": "summoner",
      "routines": [
-      "corrupt",
+      "spawn",
       "jam",
-      "strike"
+      "strike+"
      ],
-     "source": "/library/book-fund",
-     "blurb": "It binds books and marks intruders, then pins them for collection.",
-     "look": "A dark wooden cabinet on wheels with silk-wrapped drawers, long brass fingers and a round lens."
+     "source": "/our-satellites/meteosat-series",
+     "blurb": "It holds a fixed view and sends probes into the watched area.",
+     "look": "A large gold box with a black circular eye, broad navy panels and descending white probes."
     },
     {
-     "id": "silk-architect",
-     "name": "Cabinet Architect",
+     "id": "act-3-fiducial-enforcer",
+     "name": "Fiducial Enforcer",
      "tier": "elite",
      "bodyPlan": "construct",
      "role": "shielder",
      "routines": [
       "cover",
-      "brace",
-      "breach"
+      "breach",
+      "strike"
      ],
-     "source": "/about/building",
-     "blurb": "It guards the station with folding partitions and drives through shields.",
-     "look": "A tall walnut cabinet on jointed legs with folding panels, brass hinges and a wedge-shaped central drawer."
+     "source": "/science/calibration-and-validation-and-fiducial-reference-measurements",
+     "blurb": "It protects the model\u2019s sensors and breaks through the crew\u2019s shields.",
+     "look": "A white four-legged frame with a long brass measuring arm and thick silver shield plates."
     },
     {
-     "id": "silk-station",
-     "name": "Sericulture Station",
+     "id": "act-3-weather-cloud-processor",
+     "name": "Weather Cloud Processor",
+     "tier": "elite",
+     "bodyPlan": "blob",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "corrupt",
+      "sweep"
+     ],
+     "source": "/platforms/european-weather-cloud",
+     "blurb": "Its fog copies what it scans and marks targets for the network.",
+     "look": "A dense blue-gray cloud around a black cube, with silver cables and several glass eyes."
+    },
+    {
+     "id": "act-3-perfect-twin",
+     "name": "Perfect Twin",
      "tier": "boss",
      "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "strike+"
+     ],
+     "source": "/international-cooperation/destine",
+     "blurb": "It releases machines to manufacture its predicted storm, then sweeps the field when the real readings disagree.",
+     "look": "A vast blue globe in a broken gold ring, with white cloud spirals, black sensor arms and small orbiting drones."
+    },
+    {
+     "id": "act-3-ground-reference",
+     "name": "Ground Reference",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/science/calibration-and-validation-and-fiducial-reference-measurements",
+     "blurb": "Its local readings give the crew a check on the orbital picture.",
+     "look": "A battered white tripod with a round blue sensor, a small dish and a hinged steel shield."
+    },
+    {
+     "id": "act-3-data-rescue-cart",
+     "name": "Data Rescue Cart",
+     "tier": "ally",
+     "bodyPlan": "object",
      "role": "healer",
      "routines": [
       "triage",
-      "spawn",
-      "sweep+"
-     ],
-     "source": "/about/museum",
-     "blurb": "Its feeders mend the swarm as egg boxes hatch and its reel sweeps the floor. Separate the feed and preserve the damaged control strand.",
-     "look": "A vast dark green loom on root-like iron legs, with a mulberry hopper, egg-box chutes, a broad reel and a suspended pale silk strand."
-    },
-    {
-     "id": "silk-conservator",
-     "name": "Volunteer Conservator",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
-     "role": "healer",
-     "routines": [
-      "patch",
       "strike"
      ],
-     "source": "/en/programs/internship",
-     "blurb": "The conservator loosens silk safely and patches damaged equipment.",
-     "look": "A person in a cream work coat carrying fine scissors, a soft brush and a small satchel."
-    },
-    {
-     "id": "silk-librarian",
-     "name": "Station Librarian",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/library/book-fund",
-     "blurb": "The librarian protects research notes and helps the crew trace the control strand.",
-     "look": "A person in a dark teal vest holding a thick closed book and a round wooden tray."
+     "source": "/what-we-monitor/climate",
+     "blurb": "It carries old observations and spare parts for the final comparison.",
+     "look": "A low yellow cart with stacked silver data reels, a repair arm and four black wheels."
     }
    ],
    "events": [
     {
-     "id": "silk-egg-box",
-     "source": "/collection/8/grenis-konteinerebi",
-     "look": "A wooden egg box with its lid ajar and small metal eggs inside.",
-     "title": "Hatching cargo",
-     "text": "A courier\u2019s box is beginning to hatch. Cool it with purchased ice or open it before the scouts emerge.",
+     "id": "act-3-event-1",
+     "source": "/eps-sterna",
+     "look": "Tiny white cube-shaped scouts hovering above a kettle and a damp blue cloth.",
+     "title": "Warm or Damp",
+     "text": "Small scouts search a narrow crossing for heat and moisture. A kettle and a damp cloth offer two decoys.",
      "options": [
       {
-       "label": "Buy ice",
+       "label": "Leave the warm kettle",
        "effect": {
-        "type": "gold",
-        "amount": -30
-       },
-       "result": "The eggs cool and the box can be moved safely."
-      },
-      {
-       "label": "Open the box",
-       "effect": {
-        "type": "damage",
+        "type": "heal",
         "amount": 0.15
        },
-       "result": "The crew stops the scouts, but their sharp legs draw blood."
-      }
-     ]
-    },
-    {
-     "id": "silk-tangled-skeins",
-     "source": "/collection/5/dzafishulo",
-     "look": "Two pale skeins tangled around a dark door handle.",
-     "title": "Two ends",
-     "text": "Two skeins have knotted around a door. Tracing them teaches a useful motion; cutting them yields saleable fibre.",
-     "options": [
-      {
-       "label": "Trace the strands",
-       "effect": {
-        "type": "routine",
-        "id": "purge"
-       },
-       "result": "Wren learns how to shake a binding loose."
+       "result": "The scouts follow the kettle. The crew rests beyond the crossing."
       },
       {
-       "label": "Cut and sell the fibre",
+       "label": "Leave the damp cloth and salvage the kettle",
        "effect": {
         "type": "gold",
-        "amount": 35
+        "amount": 25
        },
-       "result": "The door opens and a trader buys the short lengths."
+       "result": "The scouts chase the cloth. Kestrel sells the kettle to a nearby operator."
       }
      ]
     },
     {
-     "id": "silk-mulberry",
-     "source": "/collection/10/tuta",
-     "look": "A young green mulberry tree in a clay pot beside a wooden nursery cart.",
-     "title": "Young tree",
-     "text": "A harvester is returning for a young mulberry. Buy a cart to move it or carry the pot through the patrol.",
+     "id": "act-3-event-2",
+     "source": "/ground-segment",
+     "look": "A silver dish connected to three stacked glowing boxes and a loose cable.",
+     "title": "Warning in the Queue",
+     "text": "A real warning is buried in a downlink queue. The relay has power for one more transmission.",
      "options": [
       {
-       "label": "Buy a cart",
-       "effect": {
-        "type": "gold",
-        "amount": -25
-       },
-       "result": "The tree reaches the nursery with its roots intact."
-      },
-      {
-       "label": "Carry the pot",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The tree is safe, but the patrol catches the crew."
-      }
-     ]
-    },
-    {
-     "id": "silk-negative-door",
-     "source": "/collection/9/fotokoleqtsia",
-     "look": "A glass negative in front of a lamp casting a pale doorway on a wall.",
-     "title": "Projected door",
-     "text": "A negative reveals a hidden gap. The crew can keep the lamp to study the projection or sell it and force the cabinet aside.",
-     "options": [
-      {
-       "label": "Study the light",
+       "label": "Send the warning",
        "effect": {
         "type": "routine",
         "id": "jam"
        },
-       "result": "Kestrel learns to interrupt a mechanism at the right moment."
+       "result": "The operator clears the queue and teaches the crew how to interrupt a signal."
       },
       {
-       "label": "Sell the lamp",
+       "label": "Send the supply request",
        "effect": {
-        "type": "gold",
-        "amount": 30
+        "type": "heal",
+        "amount": 0.2
        },
-       "result": "The cabinet moves, and a collector pays for the lamp."
+       "result": "A supply pod arrives with bandages. The warning remains in the queue."
       }
      ]
     },
     {
-     "id": "silk-river-object",
-     "source": "/exhibition/67/muzeumi-da-mdinare",
-     "look": "A shallow stream carrying a small wooden object through pale silk and grey silt.",
-     "title": "In the current",
-     "text": "A familiar object drifts in silk and silt. A careful retrieval takes supplies; a quick grab risks the current.",
+     "id": "act-3-event-3",
+     "source": "/what-we-monitor/ocean",
+     "look": "A teal buoy with a stained glass sensor beside a clear jar of water.",
+     "title": "False Bloom",
+     "text": "A buoy reports a vast bloom. Its stained sensor sits beside a clean water sample.",
      "options": [
       {
-       "label": "Use a rope",
+       "label": "Clean and compare",
        "effect": {
-        "type": "gold",
-        "amount": -20
+        "type": "damage",
+        "amount": 0.1
        },
-       "result": "The object reaches its keeper without disturbing the other debris."
+       "result": "The buoy\u2019s clamp catches Wren\u2019s sleeve. The false bloom disappears from its display."
       },
       {
-       "label": "Reach into the current",
+       "label": "Sell the clean sample",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "A researcher buys the sample. The stained buoy keeps reporting its bloom."
+      }
+     ]
+    },
+    {
+     "id": "act-3-event-4",
+     "source": "/what-we-monitor/climate",
+     "look": "Two rows of silver reels beneath a scratched white measuring mark.",
+     "title": "Two Records",
+     "text": "An archive has two records of the same period. A physical reference mark can identify the drift.",
+     "options": [
+      {
+       "label": "Compare the records",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The keeper identifies the drift and shows Kestrel a seam in reinforced plating."
+      },
+      {
+       "label": "Take the loose archive parts",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew takes the parts. The records remain unsorted."
+      }
+     ]
+    },
+    {
+     "id": "act-3-event-5",
+     "source": "/satellite-operations/launches-and-orbits",
+     "look": "A black overhead track with a fixed white dish and a moving silver satellite.",
+     "title": "Shared Blind Spot",
+     "text": "Two controllers disagree over a brief gap in coverage. Crossing now is quick; waiting gives Wren time to work.",
+     "options": [
+      {
+       "label": "Cross during the gap",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew reaches an unattended cache before the next pass."
+      },
+      {
+       "label": "Wait under cover",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren patches the crew while the gap closes."
+      }
+     ]
+    },
+    {
+     "id": "act-3-event-6",
+     "source": "/what-we-monitor/land",
+     "look": "A blue reservoir model between two gray machines joined by a bent pipe.",
+     "title": "Blocked Flow",
+     "text": "Two modules claim the same reservoir reading. Their shared pipe is blocked, and the joint is under pressure.",
+     "options": [
+      {
+       "label": "Open the pipe",
        "effect": {
         "type": "damage",
         "amount": 0.15
        },
-       "result": "The object is recovered, but the current pulls the crew against the stones."
-      }
-     ]
-    },
-    {
-     "id": "silk-library-notes",
-     "source": "/library/book-fund",
-     "look": "An open research volume beside a wooden drawer of blank index cards.",
-     "title": "Missing volume",
-     "text": "A librarian has found the rearing notes. The crew can buy a copy or sell a spare book to fund the library\u2019s repairs.",
-     "options": [
-      {
-       "label": "Buy the copy",
-       "effect": {
-        "type": "routine",
-        "id": "patch+"
-       },
-       "result": "Wren studies a gentler method of repair."
+       "result": "The pressure knocks Ox back. Water flows and both modules get a fresh reading."
       },
       {
-       "label": "Sell the spare book",
+       "label": "Salvage the spare valve",
        "effect": {
         "type": "gold",
-        "amount": 30
+        "amount": 35
        },
-       "result": "The librarian pays for a missing volume and puts it back in use."
+       "result": "The crew takes the valve. The blockage remains."
       }
      ]
     }
    ],
-   "name": "State Silk Museum",
-   "url": "https://silkmuseum.ge/en"
+   "name": "EUMETSAT",
+   "url": "https://www.eumetsat.int/"
   }
  ],
  "id": "2026-11-05",

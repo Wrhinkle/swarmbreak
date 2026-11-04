@@ -1,54 +1,251 @@
 {
-  "reading": "Lund University's botanical garden is both a freely accessible city garden and a living collection used for teaching, research and conservation. Its eight hectares hold plants from around the world, arranged outdoors and in nine greenhouse climates; its greenhouse renovation makes a working garden temporarily rearrange itself around barriers. It cares about biodiversity, threatened local species, responsible growing, regional seed, and the relationships between plants and human life. Its vocabulary moves between families, origins, adaptations, collections and conservation on one hand, and guided walks, school lessons, seasons, fika and friends on the other. Distinctive tensions make this place more than a generic garden: desert and rainforest sit next door, a plant's label carries several languages and a family history, local meadow seeds support pollinators beyond the gates, and the garden is simultaneously a centuries-old university resource, an outdoor classroom and a neighborhood refuge.",
+  "reading": "Mount Washington Observatory is a private, member-supported nonprofit that observes weather and studies the natural systems behind weather and climate. It runs a working summit station, forecasts for the higher summits and surrounding communities, conducts research and product testing, and teaches everyone from schoolchildren to professional educators and university students. Its language moves between practical caution and wonder: summit conditions, higher summits, mesonet, lapse rates, wind sensors, climate zones, edutrips, and the Home of the World’s Worst Weather. What sets it apart is the combination of a mountain laboratory maintained since 1932, extreme and rapidly changing conditions, a long observational record, public safety forecasts, education, and a network of valley and summit partners. The crawl also shows the human infrastructure behind that work: volunteers, interns, a library, publications, and routes up the mountain.",
   "enemies": [
-    {"idea":"Climate seamstresses stitch desert heat to rainforest humidity, then drag the seam across a path so visitors must cross both extremes in a few steps.","source":"/tradgard-och-vaxter/vaxthus","why":"The nine adjacent greenhouse climates become a moving terrain puzzle with visible seams to cut."},
-    {"idea":"A taxonomist with a rotating label-printer assigns each passerby a plant family and origin, then sends mechanical relatives to graft them into the matching bed.","source":"/tradgard-och-vaxter/vad-visar-vaxtskyltarna","why":"Names, family and provenance become a dangerous classification game that can be fooled by swapping labels."},
-    {"idea":"The moth camera has learned to flag anything unfamiliar as invasive; its flash marks a target and summons tiny net-carrying interceptors.","source":"/inventering-av-invasiva-frammande-nattfjarilar","why":"A research identification system mistakes novelty for danger, making light and line of sight matter."},
-    {"idea":"A regional seed counter checks every seed against its supposed place of origin and fires unrecognized seeds away like hard little pellets.","source":"/froprojektet-swede-seed","why":"A conservation problem becomes a precision projectile fight with a sorting mechanism to disrupt."},
-    {"idea":"The comfort warden trails retractable leashes and corrals any moving group into a perfectly orderly walking formation.","source":"/besok-och-program/trivselregler","why":"A recognizable garden rule becomes a choreography problem: break formation to stop the machine."},
-    {"idea":"A prehistoric-plant guide unfolds successive mechanical roots and fronds as it 'explains' the route, blocking each escape behind its audience.","source":"/besok-och-program/guidade-visningar-i-appen","why":"The self-paced tour turns into an escalating living exhibit whose growth can be anticipated."},
-    {"idea":"A renovation scaffold walks on spindly jacks, fencing off each area it finishes and declaring the next bed under repair.","source":"/renovering-av-vara-vaxthus","why":"Construction barriers become a steadily expanding territorial threat with movable supports."},
-    {"idea":"A cold-house regulator swings violently between the Agathis house's warm and cool limits, dropping condensation and brittling metal on alternating cycles.","source":"/tradgard-och-vaxter/vaxthus/agathishuset","why":"Its temperature rhythm telegraphs openings and changes how equipment behaves."},
-    {"idea":"A twelve-faced seasonal pruner strips whatever is currently flowering so that its own month can be the only season on display.","source":"/vaxter-aret-runt","why":"Each face attacks differently, from fruit flails to screens of scented leaves."},
-    {"idea":"A root-and-shoot lesson engine reenacts the journey from water to land, first flooding a path and then anchoring itself with cable roots.","source":"/node/1689","why":"The crew can interrupt an evolutionary sequence at different stages for different results."},
-    {"idea":"A spice mill sniffs out the warmest bodies and grinds aromatic clouds around them, masking the approach of smaller swarm machines.","source":"/vad-vore-julen-utan-vaxter","why":"A sensory lesson becomes a playful scent-and-visibility encounter."},
-    {"idea":"A soil-to-table harvester seizes any unattended object, plants it in a furrow and waits for a matching machine to sprout.","source":"/odla-med-botan","why":"Its literal misunderstanding of cultivation gives the crew a chance to plant a decoy."},
-    {"idea":"An invasive-plant containment machine keeps extending its boundary around the next specimen until the protected collection and its visitors are trapped together.","source":"/tradgard-och-vaxter/invasiva-vaxter","why":"Containment is the threat; opening a safe corridor requires redirecting its boundaries."},
-    {"idea":"A peat substitute tester sucks up soil in search of the perfect growing medium and spits sorted mounds that bury pathways and seedlings alike.","source":"/alternativ-till-torv-och-konstgodsel","why":"Its sorting process produces shifting cover and a clear way to jam it with the wrong material."},
-    {"idea":"A living-classroom examiner demands that everyone identify plants with all their senses; a wrong answer releases a probing mechanical tendril.","source":"/barn-och-skola/gratis-lektion-ak-3","why":"Observation and cooperation can defuse a confrontation without a straight fight."},
-    {"idea":"A group-tour marshal separates travelers into school, workplace and senior parties, then marches the separated groups along conflicting routes.","source":"/besok-och-program/boka-gruppvisningar","why":"Its helpful group categories split a crew into a coordination challenge."},
-    {"idea":"A meadow surveyor measures every patch in square metres and rolls metal edging around anything it decides exceeds its allotted area.","source":"/webform/anmal_dig_till_sa_vilda_skane","why":"A simple measurement becomes a tightening trap that can be tricked with a broken outline."},
-    {"idea":"A specimen-learning machine keeps removing parts from the nearest object so it can teach itself how that object works.","source":"/utbildning-och-forskning","why":"Object-based learning becomes a dismantling threat that can be distracted with expendable curiosities."},
-    {"idea":"An old coal-house stoker patrols with a boiler belly, mistaking any heap of dark material for fuel and sending soot through nearby glasshouses.","source":"/butik-och-kafe/patisseriet-i-botan","why":"The café building's former fuel store supplies a memorable machine with an appetite to exploit."},
-    {"idea":"A survival-strategy mimic rapidly changes its armor after each environmental shock, borrowing the persistence of ancient plant groups.","source":"/overlevnadsstrategier-hos-gamla-vaxtgrupper","why":"Repeated tactics make it tougher, rewarding experimentation and restraint."}
+    {
+      "idea": "Lapse-rate leeches climb a crew member and steal warmth in precise increments as the victim gains altitude; descending makes them release it in a scalding burst.",
+      "source": "/research/current-research-projects/",
+      "why": "Altitude becomes a tactical dial rather than just scenery."
+    },
+    {
+      "idea": "A solid-to-liquid assessor coats equipment in snow, then squeezes it into water to calculate how much useful gear can be extracted from a person.",
+      "source": "/research/current-research-projects/",
+      "why": "Its measurement method gives the crew a messy, visible countdown."
+    },
+    {
+      "idea": "The rain-on-snow collector seeds a snowbank with warm droplets until it slides, then chases the resulting flow to collect anything it carries.",
+      "source": "/research/current-research-projects/",
+      "why": "A small instrument creates a moving terrain problem."
+    },
+    {
+      "idea": "A next-generation Pitot anemometer stalks exposed ridges, pointing its hungry tube into any moving air; a thrown cloak can feed it a false wind.",
+      "source": "/research/current-research-projects/",
+      "why": "Its directional appetite invites decoys and positioning."
+    },
+    {
+      "idea": "Historic visibility surveyors spread a wall of artificial fog, then hunt anything they can still see through it as an error in their record.",
+      "source": "/research/current-research-projects/",
+      "why": "The crew can exploit the same visibility rules as the hunters."
+    },
+    {
+      "idea": "A cosmic-ray monitor mistakes metal tools for particles from space and stacks them into an ever-growing vertical detector.",
+      "source": "/research/current-research-projects/",
+      "why": "It steals the equipment needed to dismantle it, building an absurd antenna."
+    },
+    {
+      "idea": "Mesonet nodes uproot themselves and form a moving weather network around travelers, triangulating their location whenever two nodes exchange readings.",
+      "source": "/weather/mount-washington-regional-mesonet/",
+      "why": "Breaking the network matters more than smashing every node."
+    },
+    {
+      "idea": "A higher-summits forecast engine treats every uncertain outcome as a command: when it predicts a dangerous gust, fan drones hurry to make that prediction true.",
+      "source": "/weather/higher-summits-forecast/",
+      "why": "Changing its inputs can turn prophecy into a weapon against it."
+    },
+    {
+      "idea": "A north-and-south outlook splits into two rival fronts that herd a party toward their disputed boundary, where each demands a different course.",
+      "source": "/weather/regional-weather/",
+      "why": "The crew can play incompatible regional forecasts against one another."
+    },
+    {
+      "idea": "The satellite-loop sentinel repeatedly sweeps the same route, dragging anything it spots back to where it appeared on the previous pass.",
+      "source": "/weather/statewide-forecasts/",
+      "why": "A repeating motion puzzle exposes a brief safe interval."
+    },
+    {
+      "idea": "The Wildcat solar watcher wakes only when light reaches its depleted battery; it stores sunshine in mirrored plates and spends it on sudden lunges.",
+      "source": "/weather-cams/wildcat-weather-camera/",
+      "why": "Shade and bright reflections become meaningful tools."
+    },
+    {
+      "idea": "A time-lapse splicer from the observation deck compresses a day of cloud movement into seconds, hiding its approach inside fast-moving shadows.",
+      "source": "/weather-cams/observation-deck-weather-camera/",
+      "why": "The crew can read the repeating cloud sequence to anticipate it."
+    },
+    {
+      "idea": "A failed Bretton Woods watcher fills its missing view with imagined silhouettes and dispatches little scouts to make the imagined scene real.",
+      "source": "/weather-cams/view-from-bretton-woods/",
+      "why": "Its false assumptions can be manipulated by changing the scene."
+    },
+    {
+      "idea": "A climate-zone examiner lays out portable bands of boreal forest, tree line, and summit and attacks anyone carrying the wrong gear between them.",
+      "source": "/education/field-trips/",
+      "why": "Each zone changes cover and movement in a compact encounter."
+    },
+    {
+      "idea": "Junior weather observer drones award themselves merit for every reading, swarming a person until they have measured every pocket, breath, and footstep.",
+      "source": "/education/school-visits/",
+      "why": "Their earnest overachievement is easy to lure into measuring something else."
+    },
+    {
+      "idea": "A distance-learning instructor projects a summit classroom into the valley and keeps calling on the crew; every incorrect weather observation brings the simulated mountain closer.",
+      "source": "/education/distance-learning/",
+      "why": "An encounter can be solved by observing the actual environment."
+    },
+    {
+      "idea": "A product-testing rig grips a traveler’s equipment and cycles it through wind, cold, and vibration until the gear fails or the test is interrupted.",
+      "source": "/research/product-testing/",
+      "why": "It threatens resources without needing to attack people directly."
+    },
+    {
+      "idea": "An aviation wind-sensor stress tester spins anemometers into a moving cage, recording the exact moment anything inside stops moving.",
+      "source": "/research/past-research-projects/",
+      "why": "The rotating cage offers a timing challenge and a way to jam the test."
+    },
+    {
+      "idea": "The almanac’s Averages and Extremes engine irons terrain toward an average, then suddenly exaggerates anything it classifies as an extreme.",
+      "source": "/research/the-white-mountains-almanac/",
+      "why": "Ordinary and exceptional objects react in opposite, exploitable ways."
+    },
+    {
+      "idea": "A cog-toothed railway machine climbs any steep surface, laying temporary rack rail in front of itself and pulling loose metal uphill behind it.",
+      "source": "/the-cog-railway/",
+      "why": "Its route leaves a usable but dangerous path for the crew."
+    },
+    {
+      "idea": "A Road to the Sky grader unfolds hairpin bends ahead of vehicles and tries to keep every traveler climbing forever.",
+      "source": "/the-mount-washington-auto-road/",
+      "why": "The route itself becomes a pursuer with a discoverable turning mechanism."
+    },
+    {
+      "idea": "The data-request clerk insists on the perfect observation before releasing a record; it takes increasingly intrusive measurements to fill in missing fields.",
+      "source": "/research/data-request/",
+      "why": "Bureaucratic demands create room for bargaining, trickery, or escape."
+    },
+    {
+      "idea": "A three-cup anemometer tree spins up in a gust and scatters sensor seeds that root wherever they land, adding more cups to the next gust.",
+      "source": "/newsletters/",
+      "why": "A whimsical summit tradition becomes a spreading mechanical hazard."
+    },
+    {
+      "idea": "A Category Five research examiner escalates through five levels of atmospheric challenges, interpreting every successful response as permission to intensify the next.",
+      "source": "/research/undergraduate-and-graduate-adventures/",
+      "why": "The crew must find a way to stop a test that rewards competence with escalation."
+    }
   ],
   "allies": [
-    {"idea":"A pocket of meadow pollinators still visits real flowers and leads travelers along a chain of surviving seed patches beyond the swarm's fences.","source":"/barn-och-skola/anlagg-en-blomsterang-pa-skolan-eller-forskolan","why":"A distributed meadow network gives the crew a gentle, living route through occupied ground."},
-    {"idea":"The local seed keepers maintain separate caches of wild-origin seed and trade a packet for help moving another cache to safety.","source":"/froprojektet-swede-seed","why":"Their small, portable mission connects conservation to practical choices about what to carry."},
-    {"idea":"A garden educator uses touch, scent and patient questions to teach visitors how to tell a living plant from its machine imitation.","source":"/barn-och-skola/gratis-lektion-ak-3","why":"The lesson gives the crew an actionable way to spot traps and protect specimens."},
-    {"idea":"The garden's friends organize a quiet relay to water isolated beds, passing tools hand to hand under the patrols' notice.","source":"/om-oss/botans-vanner","why":"A community association becomes a network of guides and small acts of resistance."},
-    {"idea":"Keepers of threatened Scanian plants share cuttings between hidden beds so no single raid can erase the collection.","source":"/hotade-skanska-arter","why":"Their distributed refuge provides a tangible rescue objective and several possible safe havens."}
+    {
+      "idea": "A stubborn forecast operator still broadcasts uncertainty and the advice to turn around, interrupting the swarm’s fabricated certainty with real observations.",
+      "source": "/weather/higher-summits-forecast/",
+      "why": "Its warnings give the crew a reason to trust caution and reconsider a route."
+    },
+    {
+      "idea": "A field-trip educator has preserved a kit for comparing climate zones; with samples from each elevation, they can reveal where the swarm has falsified the mountain.",
+      "source": "/education/field-trips/",
+      "why": "Helping them collect evidence produces a practical map of safe passages."
+    },
+    {
+      "idea": "A volunteer instrument tender can repair damaged sensors and recognize an implausible reading, but needs a crew to retrieve tools from a hostile test rig.",
+      "source": "/research/",
+      "why": "A rescue and repair gives the party an enduring source of reliable data."
+    },
+    {
+      "idea": "A library keeper protects mountain records in the valley and can compare old observations with current swarm claims, provided the crew brings legible measurements.",
+      "source": "/about-us/gladys-brooks-memorial-library/",
+      "why": "Historical knowledge becomes useful only when paired with fieldwork."
+    },
+    {
+      "idea": "A radio forecaster sends concise statewide reports through a surviving broadcast, including a brief quiet interval when the swarm cannot hear replies.",
+      "source": "/weather/statewide-forecasts/",
+      "why": "A narrow communication window creates tense coordination."
+    }
   ],
   "bosses": [
-    {"idea":"The Curator of Everything is a sprawling machine collection that catalogues each living thing by name, family and origin, then seals it into a climate-controlled compartment; it plans to preserve the whole garden by allowing nothing to interact.","source":"/tradgard-och-vaxter/vad-visar-vaxtskyltarna","why":"It combines the garden's collections, labels and greenhouse climates into a fight about reopening connections between compartments."},
-    {"idea":"The Perpetual Renovator rebuilds the nine climate houses around itself, recycling barriers, scaffolds and climate controls into an ever-changing fortress that can never declare the work complete.","source":"/renovering-av-vara-vaxthus","why":"The garden-wide renovation becomes a mobile arena whose construction phases expose different weak points."},
-    {"idea":"The Head Gardener of One Perfect Bed turns lessons, seed production and conservation into a single enforced monoculture, uprooting anything that does not match its model specimen.","source":"/utbildning-och-forskning","why":"It twists the garden's whole mission of learning from diversity into a single escalating conflict over variety."}
+    {
+      "idea": "The Summit Observatory: a sprawling swarm station grafts Pitot tubes, network nodes, and forecast machinery onto a walking tower. It measures the crew, predicts their next move, then rearranges wind and terrain to force the prediction to come true; severing its outlying sensors introduces uncertainty.",
+      "source": "/research/",
+      "why": "The whole observatory’s observing, research, and forecasting mission becomes a multi-stage fight over knowledge."
+    },
+    {
+      "idea": "The World’s Worst Classroom: an enormous teaching machine builds a sequence from valley to summit, demanding observations while its climate zones, testing rigs, and model storms overwhelm the class. Students it has trapped can point out flaws in the lessons.",
+      "source": "/education/",
+      "why": "Education and the mountain’s extreme setting combine into an encounter that can be beaten by learning its rules."
+    },
+    {
+      "idea": "The Almanac of Extremes: a rolling archive of annual records sends mechanical fronts to reproduce its most dramatic entries, while flattening anything ordinary into a featureless average. Contradictory measurements from several elevations can make it pause to reconcile its records.",
+      "source": "/research/the-white-mountains-almanac/",
+      "why": "Long-term climate records become a boss whose strength and vulnerability both come from comparison."
+    }
   ],
   "events": [
-    {"idea":"A ceremony party has reached the southern garden, but a roaming construction barrier keeps moving the chosen gathering place. Help them make a temporary clear circle.","source":"/besok-och-program/vigsel-och-namngivning","why":"A peaceful occasion creates a precise, noncombat goal amid the renovation."},
-    {"idea":"A crate of regional seed has spilled into an ordinary seed pile. A keeper needs help sorting it before the machine counter arrives.","source":"/froprojektet-swede-seed","why":"A tactile sorting task creates tension without making the seeds interchangeable treasure."},
-    {"idea":"An audio tour insists the next prehistoric specimen is behind a newly erected fence; the living specimen is actually visible from another side.","source":"/besok-och-program/guidade-visningar-i-appen","why":"Observant crews can reconcile a fixed route with a changed garden."},
-    {"idea":"A moth camera flashes at a fluttering scrap caught in a branch, drawing interceptors toward a real moth resting just beneath it.","source":"/inventering-av-invasiva-frammande-nattfjarilar","why":"A quick choice of distraction or careful rescue turns a misidentification into a scene."},
-    {"idea":"A school-garden harvest is ready, but the mechanical harvester has planted its own metal imitation among the vegetables.","source":"/odla-med-botan","why":"The crew can inspect and harvest carefully to feed allies while avoiding a surprise."},
-    {"idea":"A fragrant pile of ground spices has drifted across a path; follow the smell and find a stalled mill whose gears have caught on a baking stick.","source":"/vad-vore-julen-utan-vaxter","why":"A sensory clue leads to a machine that can be repaired, diverted or quietly bypassed."},
-    {"idea":"A label has been placed beside the wrong plant, and an inspection drone is about to remove the supposedly misplaced specimen.","source":"/tradgard-och-vaxter/vad-visar-vaxtskyltarna","why":"Correcting a tiny piece of collection data can save a whole plant."},
-    {"idea":"Two neighboring greenhouse zones are leaking into one another; a wilted plant needs shade while a soaked mechanism blocks the dry route.","source":"/tradgard-och-vaxter/vaxthus","why":"Contrasting climates make a small rescue into a route and resource puzzle."},
-    {"idea":"A meadow patch is about to be edged off by a surveyor. A pollinator is still traveling between it and another patch across the path.","source":"/barn-och-skola/anlagg-en-blomsterang-pa-skolan-eller-forskolan","why":"The crew can preserve a visible ecological connection by moving the boundary."},
-    {"idea":"A temporary café cart is stranded on the wrong side of a cordon with a hot drink for the people tending a nearby bed.","source":"/butik-och-kafe/patisseriet-i-botan","why":"A modest delivery creates an excuse to navigate the altered southern garden."},
-    {"idea":"A cold-house regulator is stuck at one end of its cycle; condensation reveals the shorted joint just before its next temperature swing.","source":"/tradgard-och-vaxter/vaxthus/agathishuset","why":"The environment supplies both a timed hazard and the clue to fixing it."},
-    {"idea":"A gardener has three unlabeled soil mixtures and needs to choose one for a rescued plant while a peat-hungry sorter approaches.","source":"/alternativ-till-torv-och-konstgodsel","why":"A practical growing decision doubles as a chance to bait the machine."},
-    {"idea":"A group-tour marshal is leading two sets of visitors in opposite directions around the same bed; they need a signal to pass safely.","source":"/besok-och-program/boka-gruppvisningar","why":"A simple traffic problem invites a clever signal or negotiation."},
-    {"idea":"The month's flowers have been clipped, but fruit and scented leaves still reveal which bed is thriving. A keeper asks the crew to find it.","source":"/vaxter-aret-runt","why":"Seasonal observation rewards attention beyond the obvious blossoms."},
-    {"idea":"A threatened local plant has one surviving cutting and two safe beds, each watched by a different patrol. Carry it to either refuge.","source":"/hotade-skanska-arter","why":"A fragile cargo and a meaningful route choice make a compact rescue."}
+    {
+      "idea": "A solar-powered Wildcat watcher flickers awake in a patch of sun while a stranded messenger waits in its shadow; moving a reflective sheet could charge it or keep the escape route dark.",
+      "source": "/weather-cams/wildcat-weather-camera/",
+      "why": "A small rescue turns on light, timing, and a depleted battery."
+    },
+    {
+      "idea": "Two mesonet nodes disagree about the wind and keep dragging their connecting cable across a trail; reconnecting or separating them offers different safe routes.",
+      "source": "/weather/mount-washington-regional-mesonet/",
+      "why": "A network fault becomes a concrete obstacle with multiple solutions."
+    },
+    {
+      "idea": "A forecast broadcast predicts a clear interval, but a crew member sees clouds building; an intact observer asks for a fresh reading before sending a correction.",
+      "source": "/weather/higher-summits-forecast/",
+      "why": "The party can make observation matter before anyone commits to a route."
+    },
+    {
+      "idea": "A cog machine has stalled with a cart of supplies hanging on a steep rack rail; the crew can free the cart, use it as a counterweight, or let the machine finish hauling it.",
+      "source": "/the-cog-railway/",
+      "why": "A simple mechanical predicament offers several physical solutions."
+    },
+    {
+      "idea": "A product tester is rattling a sealed case through an endless vibration trial; inside is a still-working sensor whose calibration will be lost if the case breaks.",
+      "source": "/research/product-testing/",
+      "why": "Rescuing useful equipment requires care rather than brute force."
+    },
+    {
+      "idea": "An almanac compiler asks for one ordinary temperature reading and one extreme reading, but the swarm keeps substituting the same number for both.",
+      "source": "/research/the-white-mountains-almanac/",
+      "why": "The crew can expose a lie with a small field experiment."
+    },
+    {
+      "idea": "A fog-making visibility surveyor has trapped a guide on one side of a ravine and their rope on the other; its beam passes over the crossing at predictable intervals.",
+      "source": "/research/current-research-projects/",
+      "why": "A rescue doubles as a stealth timing puzzle."
+    },
+    {
+      "idea": "A school field station has sorted borrowed supplies into climate zones; retrieving a warm layer from the summit zone triggers a miniature wind demonstration.",
+      "source": "/education/field-trips/",
+      "why": "A practical need turns a lesson into a playful obstacle."
+    },
+    {
+      "idea": "A radio operator can relay a warning to the valley, but the statewide forecast machine keeps overwriting local conditions with a broad regional summary.",
+      "source": "/weather/statewide-forecasts/",
+      "why": "The crew can protect a precise message from being flattened into a general one."
+    },
+    {
+      "idea": "A three-cup anemometer atop a winter tree spins wildly indoors; its rooted sensor seeds are searching for a draft that does not exist.",
+      "source": "/newsletters/",
+      "why": "A charming oddity invites investigation and a harmless diversion."
+    },
+    {
+      "idea": "At the valley library, two old records disagree with a swarm-produced weather history; the keeper needs someone to recover a missing comparison volume.",
+      "source": "/about-us/gladys-brooks-memorial-library/",
+      "why": "The errand gives a tangible reason to investigate the archive."
+    },
+    {
+      "idea": "A machine running an overnight climbing trip refuses to stop ascending after reaching the summit; its tethered sled is full of useful shelter gear.",
+      "source": "/climbing-trips/",
+      "why": "The crew can redirect the route or retrieve the sled under tension."
+    },
+    {
+      "idea": "A black scanning box at Bretton Woods keeps sweeping an empty patch of sky while tiny swarm markers march across the ground beneath its beam.",
+      "source": "/a-closer-look-at-new-hampshires-first-ground-based-scanning-technology/",
+      "why": "Watching the scan reveals a pattern that can be crossed or disrupted."
+    },
+    {
+      "idea": "A volunteer offers an in-kind donation of spare parts to a swarm collector, which cannot decide whether the parts are a gift or material to seize.",
+      "source": "/donate/",
+      "why": "The crew gets a brief chance to bargain, distract, or recover the parts."
+    },
+    {
+      "idea": "A mountain-road grader is carefully rebuilding a hairpin while a traveler waits on the wrong side; the turn can be crossed only while its blade is raised.",
+      "source": "/the-mount-washington-auto-road/",
+      "why": "A visible work cycle creates a clean opening for a daring crossing."
+    },
+    {
+      "idea": "An old temperature database and a live summit instrument report different values. A research volunteer asks the crew to check both before the swarm uses either reading.",
+      "source": "/research/current-research-projects/",
+      "why": "The encounter rewards verification and produces a useful clue."
+    }
   ]
 }

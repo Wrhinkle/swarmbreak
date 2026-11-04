@@ -1,22 +1,22 @@
 {
  "sites": [
   {
-   "host": "www.botan.lu.se",
-   "name": "Lund University Botanical Garden",
-   "url": "https://www.botan.lu.se/en/",
-   "file": "runs/2026-11-05/sites/www.botan.lu.se.json"
+   "host": "mountwashington.org",
+   "name": "Mount Washington Observatory",
+   "url": "https://mountwashington.org/",
+   "file": "runs/2026-11-05/sites/mountwashington.org.json"
   },
   {
-   "host": "mnactec.cat",
-   "name": "National Museum of Science and Technology of Catalonia",
-   "url": "https://mnactec.cat/en",
-   "file": "runs/2026-11-05/sites/mnactec.cat.json"
+   "host": "www.gml.noaa.gov",
+   "name": "NOAA Global Monitoring Laboratory",
+   "url": "https://www.gml.noaa.gov/",
+   "file": "runs/2026-11-05/sites/www.gml.noaa.gov.json"
   },
   {
-   "host": "silkmuseum.ge",
-   "name": "State Silk Museum",
-   "url": "https://silkmuseum.ge/en",
-   "file": "runs/2026-11-05/sites/silkmuseum.ge.json"
+   "host": "www.eumetsat.int",
+   "name": "EUMETSAT",
+   "url": "https://www.eumetsat.int/",
+   "file": "runs/2026-11-05/sites/www.eumetsat.int.json"
   }
  ]
 }

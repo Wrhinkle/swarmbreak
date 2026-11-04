@@ -1,50 +1,50 @@
 {
-  "thread": "Follow a thread from the garden to the mill and into the museum: the swarm begins among fibre and dye plants, passes through spinning and weaving machinery, and emerges among finished textiles and silkworm collections.",
+  "thread": "Follow the weather upward: begin at a mountain observatory, trace the atmosphere through a global network of instruments, and look back at Earth from weather satellites. The backups continue the journey through balloons, auroras, and the instruments that make the invisible sky legible.",
   "candidates": [
     {
-      "name": "Lund University Botanical Garden",
-      "url": "https://www.botan.lu.se/en/",
-      "why": "Economic plants include fibre crops and indigo; outdoor beds and greenhouses offer a varied population of leaves, roots, seeds, and dye-bearing plants."
+      "name": "Mount Washington Observatory",
+      "url": "https://mountwashington.org/",
+      "why": "Summit instruments, rime ice, fierce winds, weather archives, and a mountain mesonet offer a rugged ground-level beginning."
     },
     {
-      "name": "National Museum of Science and Technology of Catalonia",
-      "url": "https://mnactec.cat/en",
-      "why": "Its former woollen mill holds carding and spinning machinery, looms, boilers, a steam engine, and the tools of dyeing and finishing."
+      "name": "NOAA Global Monitoring Laboratory",
+      "url": "https://www.gml.noaa.gov/",
+      "why": "Observatories and field campaigns track aerosols, ozone, radiation, and greenhouse gases, with calibration devices and sampling networks that could become atmospheric creatures."
     },
     {
-      "name": "State Silk Museum",
-      "url": "https://silkmuseum.ge/en",
-      "why": "Silkworms, cocoons, silk textiles, historic dyes, and a specialist library turn the thread into a collection of living and crafted forms."
+      "name": "EUMETSAT",
+      "url": "https://www.eumetsat.int/",
+      "why": "Meteosat and Metop satellites, their sensors, orbits, ground systems, and images of ocean, land, and clouds carry the journey into space."
     },
     {
-      "name": "LWL Museum Textilwerk",
-      "url": "https://textilwerk.lwl.org/en/",
-      "why": "A spinning mill and weaving mill contain spindles, looms, workshop tools, fabric samples, and historic clothing."
+      "name": "Malaysian Meteorological Department",
+      "url": "https://www.met.gov.my/en/",
+      "why": "Weather balloons and radiosondes, radar, monsoon observations, and marine forecasts make a richly inhabited tropical atmosphere."
     },
     {
-      "name": "The George Washington University Museum and The Textile Museum",
-      "url": "https://museum.gwu.edu/",
-      "why": "Rugs, woven and dyed textiles, and textile-care resources offer patterns, materials, and techniques from many regions."
+      "name": "University of Wisconsin Space Science and Engineering Center",
+      "url": "https://www.ssec.wisc.edu/",
+      "why": "Satellite imagery, atmospheric instruments, research projects, and weather visualization software offer many ways to see clouds from above."
     },
     {
-      "name": "Ethnographic Museum in Belgrade",
-      "url": "https://etnografskimuzej.rs/en/",
-      "why": "Its collections include looms and implements for processing fibre, alongside regional costumes, household objects, and crafts."
+      "name": "University of Alaska Fairbanks Geophysical Institute",
+      "url": "https://www.gi.alaska.edu/",
+      "why": "Auroras, atmospheric science, remote sensing, snow and ice, and research facilities connect the ground to the upper atmosphere."
     },
     {
-      "name": "TextielMuseum",
-      "url": "https://textielmuseum.nl/en",
-      "why": "Historic machinery, textile art, design, and the working TextielLab offer a route from threads to experimental woven surfaces."
+      "name": "Hong Kong Observatory",
+      "url": "https://www.hko.gov.hk/en/",
+      "why": "A coastal observatory with radar, tropical cyclone tracks, satellite imagery, weather records, and educational material on atmospheric phenomena."
     },
     {
-      "name": "Trowbridge Museum",
-      "url": "https://trowbridgemuseum.co.uk/",
-      "why": "A rare spinning jenny, woollen cloth samples, mill tools, and local costume trace the making and wearing of cloth."
+      "name": "Space Weather Prediction Center",
+      "url": "https://www.spaceweather.gov/",
+      "why": "Solar wind, auroras, geomagnetic disturbances, and observing spacecraft extend the weather journey beyond Earth's atmosphere."
     },
     {
-      "name": "Textilmuseum St.Gallen",
-      "url": "https://www.textilmuseum.ch/en/",
-      "why": "Silk fragments, embroidery, pattern books, and a textile library offer intricate forms and surfaces for the swarm to inhabit."
+      "name": "National Weather Service",
+      "url": "https://www.weather.gov/",
+      "why": "Radiosonde launches, Doppler radar, surface stations, forecasts, and weather education provide a deep reserve of sky-watching machinery and processes."
     }
   ]
 }
