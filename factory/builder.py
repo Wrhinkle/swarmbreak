@@ -41,11 +41,14 @@ def touched_run(changed, tree):
 
 
 def problems_in(tree, live):
-    changed = [l[3:].strip('"') for l in sh('git', 'status', '--porcelain', '-uall', cwd=tree).stdout.splitlines() if not l.endswith(RESULT)]
+    # Measured from where the branch left main, so a rework's earlier commits get the same checks as its new edits.
+    base = sh('git', 'merge-base', 'origin/main', 'HEAD', cwd=tree).stdout.strip()
+    listed = sh('git', 'diff', '--name-only', '--no-renames', '-z', base, cwd=tree).stdout + sh('git', 'ls-files', '-z', '--others', '--exclude-standard', cwd=tree).stdout
+    changed = sorted({p for p in listed.split('\0') if p and p != RESULT})
     bad = [f"You can't edit: {p}" for p in blocked_paths(changed, live)]
     live_file = f'public/runs/{live}/run.json'
     if live_file in changed:
-        before = sh('git', 'show', f'HEAD:{live_file}', cwd=tree).stdout
+        before = sh('git', 'show', f'{base}:{live_file}', cwd=tree).stdout
         if not only_wording(json.loads(before), json.loads((tree / live_file).read_text())):
             bad.append(f'{live_file} is live, so only wording can change')
     for path in changed:
