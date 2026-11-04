@@ -15,7 +15,7 @@ Start by reproducing the problem, because the report can be out of date. If you 
 - Never set stats, and don't copy text or images from a source site beyond the short excerpts already there.
 
 ## Limits
-You can't edit `AGENTS.md`, `factory/`, `.github/`, `firebase.json`, `public/manifest.json`, `package.json`, `package-lock.json`, `tools/balance.ts`, or `tools/checks.ts`. Those hold the rules and limits the host checks you against, so a problem that needs one of them is `blocked`. `tools/sim.ts` is locked too, so a balance failure gets fixed in the game or the run, never in the bots. The one exception is a new file in `factory/agents/`: when asked to create a new agent, write its role prompt there, in the style of the others. Edit files only. The host runs git, and you have no network.
+You can't edit `AGENTS.md`, `factory/`, `.github/`, `firebase.json`, `public/manifest.json`, `package.json`, `package-lock.json`, `tools/balance.ts`, or `tools/checks.ts`. Those hold the rules and limits the host checks you against, so a problem that needs one of them is `blocked`. You can fix the bots in `tools/sim.ts` when they play worse than a person would, for example by equipping routines that lose. Say in the summary how the bot's play changed, because a gate reviewer reads every `tools/sim.ts` change and rejects one that only makes the check easier to pass. The one exception is a new file in `factory/agents/`: when asked to create a new agent, write its role prompt there, in the style of the others. Edit files only. The host runs git, and you have no network.
 
 Run `npm run build` and `npm test` before you finish.
 

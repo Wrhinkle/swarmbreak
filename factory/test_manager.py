@@ -36,7 +36,12 @@ assert touches_gates([{'path': 'factory/manager.py'}]) and touches_gates([{'path
 assert touches_gates([{'path': 'src/act.ts'}, {'path': 'factory/log/notes.md'}, {'path': 'public/manifest.json'}]) == []
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
 assert 'Bad' in act({'type': 'delegate', 'agent': 'manager', 'task': 'x'}, {}, True)
-assert blocked_paths(['factory/agents/new-role.md'], 'z') == [] and blocked_paths(['factory/agents/comms.md'], 'z') and blocked_paths(['tools/sim.ts'], 'z')
+assert blocked_paths(['factory/agents/new-role.md'], 'z') == [] and blocked_paths(['factory/agents/comms.md'], 'z') and blocked_paths(['tools/sim.ts'], 'z') == []
+from manager import FAILED
+for bad in ['PR team on 12 exited 1.', 'Builder on issue 14 exited 1: blocked', 'Could not switch to run/x', 'PR 12 was already rejected by the gate reviewer at abc1234.', 'Not deploying: main lacks the live run', 'Not opening x: missing art a.png', 'Action failed: git fetch failed']:
+    assert FAILED.search(bad), bad
+for good in ['PR team on 3 exited 0.', 'Builder opened PR 10. PR team exited 0.', 'Would build 2026-11-05.']:
+    assert not FAILED.search(good), good
 assert blocked_paths(['src/act.ts', 'runs/2026-11-05/content.json'], '2026-11-04') == []
 for path in ['AGENTS.md', 'factory/run.py', 'tools/balance.ts', 'tools/checks.ts', 'package.json', 'public/manifest.json', 'runs/2026-11-04/content.json']:
     assert blocked_paths([path], '2026-11-04'), path
@@ -80,7 +85,7 @@ with tempfile.TemporaryDirectory() as d:
     assert not gate_verdict(v)[0]
     for text, ok in (('{"approve": true, "why": "x"}', True), ('{"approve": "true"}', False), ('{"approve": false}', False), ('[]', False), ('nope', False)):
         v.write_text(text)
-        assert gate_verdict(v)[0] is ok, text
+        assert (gate_verdict(v)[0] is True) is ok, text
 
 # New agent prompts, saves and the verify scripts all count as limits; the log and ordinary source don't.
 from pr_team import touches_gates
