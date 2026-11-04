@@ -46,12 +46,27 @@ it('keeps the existing routine order when automatic equipment makes the fight wo
   vi.mocked(simulate).mockImplementation(state => {
     const crew = state.fighters.find(f => f.side === 'crew')!;
     if (crew.routines[0] === 'finish') crew.hp = 0;
-    return { ...state, result: 'win', goldStolen: 0 };
+    return { ...state, t: crew.hp === 0 ? 20 : 10, result: 'win', goldStolen: 0 };
   });
   vi.mocked(createCombat).mockClear();
-  play(run, () => 0, { ...TYPICAL, care: 0 });
+  const result = play(run, () => 0, { ...TYPICAL, care: 0 });
   const calls = vi.mocked(createCombat).mock.calls;
-  expect(calls[calls.length - 1][0][0].creature.routines).toEqual(['strike+', 'finish']);
+  expect(calls).toHaveLength(2);
+  expect(calls[0][0][0].creature.routines).toEqual(['strike+', 'finish']);
+  expect(calls[1][0][0].creature.routines).toEqual(['finish', 'strike+']);
+  expect(result.ticks).toBe(10);
+});
+
+it('uses the edited result when its value ties the baseline', () => {
+  const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
+  run.acts = [run.acts[0]];
+  const fight = run.acts[0].nodes.find(n => n.encounter?.length)!;
+  run.acts[0].nodes = [{ ...fight, kind: 'fight', floor: 0, next: [] }];
+  vi.mocked(simulate).mockImplementation(state => ({ ...state, t: vi.mocked(simulate).mock.calls.length, result: 'win', goldStolen: 0 }));
+  vi.mocked(simulate).mockClear();
+  const result = play(run, () => 0, { ...TYPICAL, care: 0 });
+  expect(simulate).toHaveBeenCalledTimes(2);
+  expect(result.ticks).toBe(2);
 });
 
 it('checks routine order for a boss even when the bot skips ordinary preparation', () => {
