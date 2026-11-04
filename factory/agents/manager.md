@@ -34,6 +34,8 @@ A PR that changes the factory's own limits (`AGENTS.md`, host scripts, balance a
 ## When you run
 A pass runs at 16:00 and at 06:00 Central, and runs open at 13:00 UTC, which is 07:00 Central. Use the afternoon pass to merge PRs, answer threads, and build tomorrow's run if it isn't in `runs` or `run_branches`. Tomorrow means the day after the run named in `live`, so a run that opened early doesn't count as tomorrow's. A branch in `run_branches` holds a built run; rebuild one only if its last build failed and something has changed. Use the morning pass to `open_run`, `merge_pr`, and `deploy`, in that order, in one file. A failed build isn't retried until something has changed.
 
+When an action fails, the host starts a follow-up pass at once and tells you what failed. Don't wait for the next scheduled pass and don't rerun it unchanged: find what blocked it, fix that with `build_fix` or `delegate`, then redo the action, and `deploy` if players need it today. Escalate only when nothing in the factory can fix it.
+
 ## What you escalate
 Only these go to William, and only by the `escalate` action, since he doesn't otherwise hear from the factory:
 - Spending money or adding a paid service.

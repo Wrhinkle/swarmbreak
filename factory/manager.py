@@ -2,6 +2,7 @@
 """The factory's manager: a Terra agent decides what happens next, and this script carries out what it allows.
 
 Usage: python3 factory/manager.py [--dry-run] [--task "note for the manager"]
+A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS times, told what failed.
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
@@ -19,6 +20,8 @@ LOG = ROOT / 'factory' / 'log' / 'decisions.jsonl'
 NOTES = ROOT / 'factory' / 'log' / 'notes.md'
 MAX_POST, MAX_REPLIES_PER_DAY = 6000, 3
 HUMAN = 'needs-william'
+FOLLOW_UPS = 2
+FAILED = re.compile(r'exited [1-9]|^Could not|^Bad |not merging|Not building|refused|rejected|fails', re.I | re.M)
 LINKS = (f'https://github.com/{REPO}', RAW, SITE, f'https://github.com/{CONTEST[0]}', 'https://hackathon.qodo.ai')
 FOOTER = '\n\n<sub>Written by this factory\'s comms agent and posted from the owner\'s account. [How it works](https://github.com/%s/blob/main/AGENTS.md).</sub>' % REPO
 SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{12,}|AIza[\w-]{20,}|-----BEGIN', re.I)
@@ -322,6 +325,11 @@ def state():
     return {'strangers': strangers, 'now': datetime.now(timezone.utc).isoformat(timespec='minutes'), 'live': live_manifest(), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'run_branches': sh('git', 'branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split(), 'recent_decisions': [json.loads(l) for l in recent]}
 
 
+def gate_rejected(number, sha):
+    bodies = gh('pr', 'view', str(number), '--repo', REPO, '--json', 'comments', '-q', '[.comments[].body]')
+    return any(b.startswith(f'Gate reviewer rejected {sha[:7]}') for b in bodies)
+
+
 def act(a, s, dry):
     kind = a.get('type')
     if kind == 'merge_pr':
@@ -330,6 +338,8 @@ def act(a, s, dry):
             return f'PR {a.get("pr")} is not open.'
         if pr['author']['login'] != OWNER:
             return f'PR {pr["number"]} is from {pr["author"]["login"]}, not the owner. Not merging.'
+        if gate_rejected(pr['number'], pr['headRefOid']):
+            return f'PR {pr["number"]} was already rejected by the gate reviewer at {pr["headRefOid"][:7]}. Change the PR or its cause rather than rerunning it.'
         if dry:
             return f'Would run the PR team on {pr["number"]} with merging on.'
         r = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', str(pr['number']), '--merge'], cwd=ROOT)
@@ -398,6 +408,7 @@ def main():
     if not dry:
         sync()
     note = args[args.index('--task') + 1] if '--task' in args else ''
+    round_ = int(args[args.index('--follow-up') + 1]) if '--follow-up' in args else 0
     s = state()
     with tempfile.TemporaryDirectory() as work:
         (Path(work) / 'state.json').write_text(json.dumps(s, indent=1))
@@ -419,11 +430,21 @@ def main():
                 print(f'Reply refused: {bad}', flush=True)
             else:
                 sh('gh', 'issue', 'comment', q['id'].split('-')[1], '--repo', REPO, '--body', reply + FOOTER)
+    failures = []
     for a in d.get('actions', []):
         s['prs'] = open_prs()  # open_run can add one earlier in the same pass
         result = act(a, s, dry)
         print(f'{a.get("type")}: {result}', flush=True)
         record({'kind': 'action', 'action': a, 'result': result[:500], 'dry': dry})
+        if FAILED.search(result):
+            failures.append(f'{json.dumps(a)} -> {result[-700:]}')
+    if failures and round_ < FOLLOW_UPS and not dry:
+        # A failure gets worked now, not at the next scheduled pass. The lock fd isn't inherited, so the new pass can take it.
+        task = ('This is a follow-up pass because these actions just failed:\n' + '\n'.join(failures) +
+                '\nFix the cause now: delegate or build_fix the code or limit that blocked it, then redo the action that needs it, '
+                'and deploy if players need it today. Never repeat a failed action unchanged. If nothing in the factory can fix it, escalate.')
+        print(f'Starting follow-up pass {round_ + 1} for {len(failures)} failures.', flush=True)
+        os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve()), '--follow-up', str(round_ + 1), '--task', task])
 
 
 if __name__ == '__main__':

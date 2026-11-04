@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import PROTECTED, REPO, bot, sh, verified  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
-LOCKED = (*PROTECTED, 'package.json', 'package-lock.json', 'tools/balance.ts', 'tools/checks.ts', 'tools/sim.ts', '.gitignore', 'vite.config')
+LOCKED = (*PROTECTED, 'package.json', 'package-lock.json', 'tools/balance.ts', 'tools/checks.ts', '.gitignore', 'vite.config')
 RESULT = '.builder-result.json'
 RETRIES = 2
 TEXT_KEYS = {'name', 'blurb', 'title', 'theme', 'intro', 'outro', 'bossIntro', 'text', 'label', 'result'}
@@ -115,7 +115,8 @@ def main():
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         if outcome == 'not_reproduced' and not dry:
             sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
-        return
+            return
+        sys.exit(f'Builder stopped with outcome {outcome}, so issue {number} is still open.')
     if bad:
         sys.exit(f'Builder never got to green, so nothing was pushed. The attempt is in {tree}.\n{str(bad)[:1500]}')
     (tree / RESULT).unlink()
