@@ -233,11 +233,11 @@ def open_run(run_id, dry):
     return f'{run_id} is in {url}. It goes live after merge_pr and deploy.'
 
 
-def switch_keeping_log(branch):
-    """Switches branches. The log changes on every pass and would block the switch, so its lines are kept across it."""
+def switch_keeping_log(branch, *git):
+    """Switches branches, or runs another git command. The log changes on every pass and would block it, so its lines are kept across it."""
     kept = LOG.read_text().splitlines() if LOG.exists() else []
     sh('git', 'checkout', '--', str(LOG.relative_to(ROOT)))
-    moved = sh('git', 'switch', '-q', branch, check=False)
+    moved = sh('git', *(git or ('switch', '-q', branch)), check=False)
     now = LOG.read_text().splitlines() if LOG.exists() else []
     LOG.write_text('\n'.join(now + [x for x in kept if x not in now]) + '\n')
     return moved
@@ -257,7 +257,7 @@ def sync():
         return
     moved = switch_keeping_log('main')
     if not moved.returncode:
-        moved = sh('git', 'merge', '-q', '--ff-only', 'origin/main', check=False)
+        moved = switch_keeping_log('main', 'merge', '-q', '--ff-only', 'origin/main')
     if moved.returncode:
         if on_run_branch():
             sys.exit(f'Stopping: still on a run branch, whose factory code is older than main: {moved.stderr[-300:]}')
@@ -354,8 +354,10 @@ def act(a, s, dry):
             return f'PR {pr["number"]} was already rejected by the gate reviewer at {pr["headRefOid"][:7]}. Change the PR or its cause rather than rerunning it.'
         if dry:
             return f'Would run the PR team on {pr["number"]} with merging on.'
-        r = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', str(pr['number']), '--merge'], cwd=ROOT)
-        return f'PR team on {pr["number"]} exited {r.returncode}.'
+        r = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', str(pr['number']), '--merge'], cwd=ROOT, capture_output=True, text=True)
+        print(r.stdout, end='', flush=True)
+        # The tail says why it stopped, so the next pass works on the cause instead of guessing.
+        return f'PR team on {pr["number"]} exited {r.returncode}.' + (f' Last output: {(r.stdout + r.stderr)[-600:]}' if r.returncode else '')
     if kind == 'comms':
         return comms(int(a['discussion']), str(a.get('task', '')), dry)
     if kind == 'factory_run':
