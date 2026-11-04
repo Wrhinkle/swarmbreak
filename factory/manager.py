@@ -259,6 +259,8 @@ def sync():
     if not moved.returncode:
         moved = sh('git', 'merge', '-q', '--ff-only', 'origin/main', check=False)
     if moved.returncode:
+        if on_run_branch():
+            sys.exit(f'Stopping: still on a run branch, whose factory code is older than main: {moved.stderr[-300:]}')
         print(f'Could not move to main: {moved.stderr[-300:]}', flush=True)
     if head() != before:
         os.execv(sys.executable, [sys.executable, *sys.argv])
@@ -271,6 +273,10 @@ def keep_run(run_id, message):
     if sh('git', 'diff', '--cached', '--quiet', check=False).returncode:
         sh('git', 'commit', '-q', '-m', message, '--', *paths)
     sh('git', 'push', '-q', '-u', 'origin', sh('git', 'branch', '--show-current').stdout.strip())
+    # launchd loads manager.py from this checkout, so leaving it on a run branch would run that branch's older code next pass.
+    back = switch_keeping_log('main')
+    if back.returncode:
+        sys.exit(f'Pushed {run_id} but could not return to main: {back.stderr[-300:]}')
 
 
 def deploy_problems(manifest, live, has_live_run, now):
@@ -458,8 +464,8 @@ def main():
                 '\nFix the cause now: delegate or build_fix the code or limit that blocked it, then redo the action that needs it, '
                 'and deploy if players need it today. Never repeat a failed action unchanged. If nothing in the factory can fix it, escalate.')
         print(f'Starting follow-up pass {round_ + 1} for {len(failures)} failures.', flush=True)
-        if on_run_branch():  # execv loads manager.py from disk, so it must be main's copy
-            switch_keeping_log('main')
+        if on_run_branch() and switch_keeping_log('main').returncode:  # execv loads manager.py from disk, so it must be main's copy
+            sys.exit('Not starting the follow-up: could not leave the run branch for main.')
         os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve()), '--follow-up', str(round_ + 1), '--task', task])
 
 
