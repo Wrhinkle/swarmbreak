@@ -79,7 +79,9 @@ def main():
         sys.exit(f'Issue {number} is {issue["state"]} from {issue["author"]["login"]}. Only open issues from {OWNER} qualify.')
     branch = f'fix/issue-{number}'
     # An open PR means a reviewer turned the last fix down, so the builder reworks that branch with the review in hand.
-    open_pr = json.loads(sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number,comments').stdout)
+    # Only the owner's own branch counts: a fork can name its branch the same.
+    open_pr = [p for p in json.loads(sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number,comments,author,isCrossRepository').stdout)
+               if p['author']['login'] == OWNER and not p['isCrossRepository']]
     with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
         live = json.load(r)['runId']
     tree = ROOT.parent / f'swarmbreak-issue-{number}'
@@ -117,7 +119,7 @@ def main():
     if outcome != 'fixed':
         sh('git', 'checkout', '-q', '--', '.', cwd=tree)
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
-        if outcome == 'not_reproduced':
+        if outcome == 'not_reproduced' and not open_pr:  # on a rework branch the earlier fix may hide the bug, so only main's result closes
             if not dry:
                 sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
             return
