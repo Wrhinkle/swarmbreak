@@ -233,11 +233,11 @@ def open_run(run_id, dry):
     return f'{run_id} is in {url}. It goes live after merge_pr and deploy.'
 
 
-def switch_keeping_log(branch):
-    """Switches branches. The log changes on every pass and would block the switch, so its lines are kept across it."""
+def switch_keeping_log(branch, *git):
+    """Switches branches, or runs another git command. The log changes on every pass and would block it, so its lines are kept across it."""
     kept = LOG.read_text().splitlines() if LOG.exists() else []
     sh('git', 'checkout', '--', str(LOG.relative_to(ROOT)))
-    moved = sh('git', 'switch', '-q', branch, check=False)
+    moved = sh('git', *(git or ('switch', '-q', branch)), check=False)
     now = LOG.read_text().splitlines() if LOG.exists() else []
     LOG.write_text('\n'.join(now + [x for x in kept if x not in now]) + '\n')
     return moved
@@ -257,7 +257,7 @@ def sync():
         return
     moved = switch_keeping_log('main')
     if not moved.returncode:
-        moved = sh('git', 'merge', '-q', '--ff-only', 'origin/main', check=False)
+        moved = switch_keeping_log('main', 'merge', '-q', '--ff-only', 'origin/main')
     if moved.returncode:
         if on_run_branch():
             sys.exit(f'Stopping: still on a run branch, whose factory code is older than main: {moved.stderr[-300:]}')

@@ -74,27 +74,31 @@ def problems_in(tree, live):
 def main():
     number, dry = sys.argv[1], '--dry-run' in sys.argv
     role = sys.argv[sys.argv.index('--role') + 1] if '--role' in sys.argv else ''
-    issue = json.loads(sh('gh', 'issue', 'view', number, '--repo', REPO, '--json', 'number,title,body,author,state').stdout)
+    issue = json.loads(sh('gh', 'issue', 'view', number, '--repo', REPO, '--json', 'number,title,body,author,state,comments').stdout)
     if issue['author']['login'] != OWNER or issue['state'] != 'OPEN':
         sys.exit(f'Issue {number} is {issue["state"]} from {issue["author"]["login"]}. Only open issues from {OWNER} qualify.')
     branch = f'fix/issue-{number}'
-    if sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number', '--jq', 'length').stdout.strip() != '0':
-        sys.exit(f'{branch} already has an open PR.')
+    # An open PR means a reviewer turned the last fix down, so the builder reworks that branch with the review in hand.
+    open_pr = json.loads(sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number,comments').stdout)
     with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
         live = json.load(r)['runId']
     tree = ROOT.parent / f'swarmbreak-issue-{number}'
     sh('git', 'fetch', '-q', 'origin')
     if tree.exists():
         sh('git', 'worktree', 'remove', '--force', tree)
-    sh('git', 'worktree', 'add', '-q', '-B', branch, tree, 'origin/main')
+    sh('git', 'worktree', 'add', '-q', '-B', branch, tree, f'origin/{branch}' if open_pr else 'origin/main')
     sh('npm', 'ci', '--silent', cwd=tree)
-    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live}, indent=1))
+    comments = [c['body'] for c in issue['comments'] if (c['author'] or {}).get('login') == OWNER]
+    review = [c['body'] for c in open_pr[0]['comments'] if (c['author'] or {}).get('login') == OWNER] if open_pr else []
+    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'comments': comments, 'live_run': live,
+                                                  **({'pr': open_pr[0]['number'], 'review': review} if open_pr else {})}, indent=1))
 
     extra, result, bad = '', {}, []
     for attempt in range(RETRIES + 1):
         (tree / RESULT).unlink(missing_ok=True)
         brief = (ROOT / 'factory/agents' / f'{role}.md').read_text() + '\n\nDo the job above under the builder rules.\n\n' if role else ''
-        bot('builder', tree, f'{brief}The report is in .issue.json. {extra}', effort='high')
+        rework = ' Your earlier fix is already on this branch in PR {}, and its review is under "review" in .issue.json. Change the fix so every point in the review is answered.'.format(open_pr[0]['number']) if open_pr else ''
+        bot('builder', tree, f'{brief}The report is in .issue.json.{rework} {extra}', effort='high')
         try:
             result = json.loads((tree / RESULT).read_text())
         except (OSError, json.JSONDecodeError) as e:
@@ -128,6 +132,10 @@ def main():
     title = f'Fix issue {number}: {issue["title"]}'[:90]
     sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
     sh('git', 'push', '-q', '--force-with-lease', 'origin', branch, cwd=tree)
+    if open_pr:
+        sh('gh', 'pr', 'comment', str(open_pr[0]['number']), '--repo', REPO, '--body', f'Reworked after review.\n\n{result["summary"]}\n\nEvidence: {result["evidence"]}')
+        print(open_pr[0]['number'])
+        return
     url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', f'Fixes #{number}.\n\n{result["summary"]}\n\nEvidence: {result["evidence"]}\n\nWritten by the factory builder on GPT-6.1 Terra.').stdout.strip()
     print(url)
     print(url.rsplit('/', 1)[1])
