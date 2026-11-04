@@ -89,7 +89,10 @@ def main():
     if tree.exists():
         sh('git', 'worktree', 'remove', '--force', tree)
     # Only the owner's open PR to main makes a pushed branch safe to build on. Any other pushed branch is refused, never replaced.
-    pushed = sh('git', 'ls-remote', '--exit-code', '--heads', 'origin', branch, check=False).returncode == 0  # GitHub itself, not a stale local ref
+    found = sh('git', 'ls-remote', '--exit-code', '--heads', 'origin', branch, check=False)  # GitHub itself, not a stale local ref
+    if found.returncode not in (0, 2):  # 2 means no such branch; anything else means GitHub wasn't checked
+        sys.exit(f'Could not check GitHub for {branch}: {found.stderr[-300:]}')
+    pushed = found.returncode == 0
     if pushed and not open_pr:
         sys.exit(f'{branch} exists on GitHub without an open PR from {OWNER} to main. Not building over it.')
     sh('git', 'worktree', 'add', '-q', '-B', branch, tree, f'origin/{branch}' if open_pr else 'origin/main')
