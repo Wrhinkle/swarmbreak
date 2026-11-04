@@ -56,15 +56,15 @@ def gate_verdict(path):
     try:
         v = json.loads(Path(path).read_text())
     except (OSError, ValueError):
-        return False, 'The gate reviewer wrote no readable verdict.'
-    return (v.get('approve') is True, str(v.get('why', ''))) if isinstance(v, dict) else (False, 'The verdict is not an object.')
+        return None, 'The gate reviewer wrote no readable verdict.'
+    return (v.get('approve') is True, str(v.get('why', ''))) if isinstance(v, dict) else (None, 'The verdict is not an object.')
 
 
 def gate_review(diff):
     with tempfile.TemporaryDirectory() as work:
         Path(work, 'diff.patch').write_text(diff)
         if bot('gate-reviewer', work, f'The repo is at {ROOT}. Don\'t change it. Write verdict.json in the current folder.', effort='high'):
-            return False, 'The gate reviewer exited with an error.'
+            return None, 'The gate reviewer exited with an error.'
         return gate_verdict(Path(work, 'verdict.json'))
 
 
@@ -226,7 +226,9 @@ def main():
     gates = touches_gates([{'path': n} for n in changed_paths(f'origin/{base}', sha)])
     if gates:
         approved, why = gate_review(sh('git', 'diff', '--no-renames', f'origin/{base}...{sha}').stdout)
-        print(f'Gate review of {sha[:7]}: {"approved" if approved else "rejected"}. {why[:400]}', flush=True)
+        print(f'Gate review of {sha[:7]}: {"approved" if approved else "rejected" if approved is False else "did not run"}. {why[:400]}', flush=True)
+        if approved is None:  # an outage isn't a decision, so it leaves no rejection comment to skip on
+            sys.exit(f'Gate review of PR {number} did not run: {why}. Not merging.')
         if not approved:
             sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Gate reviewer rejected {sha[:7]}:\n\n{why[:3000]}')
             sys.exit(f'Gate reviewer rejected PR {number}. Not merging.')

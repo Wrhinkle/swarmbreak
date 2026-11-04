@@ -21,7 +21,7 @@ NOTES = ROOT / 'factory' / 'log' / 'notes.md'
 MAX_POST, MAX_REPLIES_PER_DAY = 6000, 3
 HUMAN = 'needs-william'
 FOLLOW_UPS = 2
-FAILED = re.compile(r'exited [1-9]|^Could not|^Bad |not merging|Not building|refused|rejected|fails', re.I | re.M)
+FAILED = re.compile(r'exited [1-9]|^Could not|^Bad |^Not (merging|building|opening|deploying)|not merging|refused|rejected|fail|missing', re.I | re.M)
 LINKS = (f'https://github.com/{REPO}', RAW, SITE, f'https://github.com/{CONTEST[0]}', 'https://hackathon.qodo.ai')
 FOOTER = '\n\n<sub>Written by this factory\'s comms agent and posted from the owner\'s account. [How it works](https://github.com/%s/blob/main/AGENTS.md).</sub>' % REPO
 SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{12,}|AIza[\w-]{20,}|-----BEGIN', re.I)
@@ -326,8 +326,9 @@ def state():
 
 
 def gate_rejected(number, sha):
-    bodies = gh('pr', 'view', str(number), '--repo', REPO, '--json', 'comments', '-q', '[.comments[].body]')
-    return any(b.startswith(f'Gate reviewer rejected {sha[:7]}') for b in bodies)
+    """Only the PR team posts these, from the owner's account, so anyone else's comment can't block a merge."""
+    comments = gh('pr', 'view', str(number), '--repo', REPO, '--json', 'comments', '-q', '.comments')
+    return any((c['author'] or {}).get('login') == OWNER and c['body'].startswith(f'Gate reviewer rejected {sha[:7]}') for c in comments)
 
 
 def act(a, s, dry):
@@ -396,11 +397,16 @@ def act(a, s, dry):
 
 
 def main():
-    lock = open(LOG.parent / '.lock', 'w')
-    try:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)  # a build can outlast the gap between passes
-    except OSError:
-        sys.exit('Another manager pass is running.')
+    held = os.environ.get('SWARMBREAK_LOCK_FD')
+    lock = os.fdopen(int(held), 'w') if held else open(LOG.parent / '.lock', 'w')
+    if not held:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)  # a build can outlast the gap between passes
+        except OSError:
+            sys.exit('Another manager pass is running.')
+        # Kept open across the re-execs in sync() and follow-ups, so no other pass can slip in between.
+        os.set_inheritable(lock.fileno(), True)
+        os.environ['SWARMBREAK_LOCK_FD'] = str(lock.fileno())
     args, dry = sys.argv[1:], '--dry-run' in sys.argv
     if args and args[0] == '--comms':
         print(comms(int(args[1]), args[2], dry))
@@ -433,14 +439,17 @@ def main():
     failures = []
     for a in d.get('actions', []):
         s['prs'] = open_prs()  # open_run can add one earlier in the same pass
-        result = act(a, s, dry)
+        try:
+            result = act(a, s, dry)
+        except SystemExit as e:  # a checked command failed inside the action
+            result = f'Action failed: {e}'
         print(f'{a.get("type")}: {result}', flush=True)
         record({'kind': 'action', 'action': a, 'result': result[:500], 'dry': dry})
         if FAILED.search(result):
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
     if failures and round_ < FOLLOW_UPS and not dry:
         # A failure gets worked now, not at the next scheduled pass. The lock fd isn't inherited, so the new pass can take it.
-        task = ('This is a follow-up pass because these actions just failed:\n' + '\n'.join(failures) +
+        task = (note + '\n\n' if note else '') + ('This is a follow-up pass because these actions just failed:\n' + '\n'.join(failures) +
                 '\nFix the cause now: delegate or build_fix the code or limit that blocked it, then redo the action that needs it, '
                 'and deploy if players need it today. Never repeat a failed action unchanged. If nothing in the factory can fix it, escalate.')
         print(f'Starting follow-up pass {round_ + 1} for {len(failures)} failures.', flush=True)

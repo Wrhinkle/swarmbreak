@@ -113,8 +113,9 @@ def main():
     if outcome != 'fixed':
         sh('git', 'checkout', '-q', '--', '.', cwd=tree)
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
-        if outcome == 'not_reproduced' and not dry:
-            sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
+        if outcome == 'not_reproduced':
+            if not dry:
+                sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
             return
         sys.exit(f'Builder stopped with outcome {outcome}, so issue {number} is still open.')
     if bad:
