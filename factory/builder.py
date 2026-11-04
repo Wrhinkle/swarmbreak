@@ -85,11 +85,11 @@ def main():
     with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
         live = json.load(r)['runId']
     tree = ROOT.parent / f'swarmbreak-issue-{number}'
-    sh('git', 'fetch', '-q', 'origin')
+    sh('git', 'fetch', '-q', '--prune', 'origin')
     if tree.exists():
         sh('git', 'worktree', 'remove', '--force', tree)
     # Only the owner's open PR to main makes a pushed branch safe to build on. Any other pushed branch is refused, never replaced.
-    pushed = sh('git', 'rev-parse', '--verify', '-q', f'origin/{branch}', check=False).returncode == 0
+    pushed = sh('git', 'ls-remote', '--exit-code', '--heads', 'origin', branch, check=False).returncode == 0  # GitHub itself, not a stale local ref
     if pushed and not open_pr:
         sys.exit(f'{branch} exists on GitHub without an open PR from {OWNER} to main. Not building over it.')
     sh('git', 'worktree', 'add', '-q', '-B', branch, tree, f'origin/{branch}' if open_pr else 'origin/main')
