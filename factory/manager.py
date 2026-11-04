@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import REPO, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
+from pr_team import GATES, REPO, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
 
 OWNER, CONTEST = 'Wrhinkle', ('qodo-hackathon', 'software-factory-hackathon')
 SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.com/{REPO}'
@@ -104,21 +104,23 @@ def thread(number):
 
 def facts():
     log = sh('git', 'log', '-25', '--format=%h %s', 'origin/main').stdout
-    prs = gh('pr', 'list', '--repo', REPO, '--state', 'all', '--limit', '500', '--json', 'number,title,state,url,headRefName,body,author,commits')
+    prs = gh('pr', 'list', '--repo', REPO, '--state', 'all', '--limit', '500', '--json', 'number,title,state,url,headRefName,body,author')
     issues = gh('issue', 'list', '--repo', REPO, '--state', 'all', '--limit', '500', '--json', 'number,title,state,url,body,author')
-    for x in prs:
-        # The body is written when the PR opens; the commit list shows what changed after it.
-        x['commits'] = [c['messageHeadline'] for c in x.get('commits', [])]
     for x in prs + issues:
-        # Other people's bodies are left out, so their text can't steer a post; long ones keep start and end, where the evidence is.
-        b = x.pop('body') if (x.pop('author') or {}).get('login') == OWNER else '[body left out: not written by the owner]'
+        # Other people's bodies and commit subjects are left out, so their text can't steer a post; long bodies keep start and end, where the evidence is.
+        mine = (x.pop('author') or {}).get('login') == OWNER
+        if x.get('state') == 'MERGED':
+            # The body is written when the PR opens; the commit list shows what changed after it. gh returns at most the first 100.
+            c = [c['messageHeadline'] for c in gh('pr', 'view', str(x['number']), '--repo', REPO, '--json', 'commits')['commits']] if mine else ['[commits left out: not written by the owner]']
+            x['commits'] = c + ['[list stops at 100 commits; later ones are not shown, so do not describe the final fix from it]'] if len(c) >= 100 else c
+        b = x.pop('body') if mine else '[body left out: not written by the owner]'
         x['body'] = b if len(b) <= 2000 else f'{b[:700]}\n[... middle cut ...]\n{b[-1300:]}'
     notes = NOTES.read_text() if NOTES.exists() else ''
     return (f'# Project\nRepo: https://github.com/{REPO}\nLive site: {SITE}\nAGENTS.md: https://github.com/{REPO}/blob/main/AGENTS.md\n'
             f'Live run: {json.dumps(live_manifest())}\n\n'
             '# How the factory reads tickets\nTickets are GitHub issues, read through the GitHub CLI (gh). The manager lists open issues with '
             '`gh issue list` each pass and picks one for build_fix. The builder reads it with `gh issue view`, works on branch fix/issue-<n>, '
-            'and opens a PR whose body says "Fixes #<n>". The PR team runs Qodo on that PR. Only a PR touching protected files (AGENTS.md, factory/, the balance and content checks, combat, save and package files) also needs the gate reviewer to approve the exact commit; other PRs merge without it, so never claim a gate review on a PR that does not touch those files.\n\n'
+            'and opens a PR whose body says "Fixes #<n>". The PR team runs Qodo on that PR. Only a PR touching a protected path (' + ', '.join(GATES) + ', or factory/ outside factory/log/) also needs the gate reviewer to approve the exact commit; other PRs merge without it, so never claim a gate review on a PR that does not touch those files.\n\n'
             f'# Issues\n{json.dumps(issues, indent=1)}\n\n# AGENTS.md\n{(ROOT / "AGENTS.md").read_text()}\n\n# Pull requests\n{json.dumps(prs, indent=1)}\n\n'
             f'# Commits on main\nCommit links are https://github.com/{REPO}/commit/<hash>\n{log}\n\n# Log\n{notes}\n')
 
