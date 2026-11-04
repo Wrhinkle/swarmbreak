@@ -243,12 +243,17 @@ def switch_keeping_log(branch):
     return moved
 
 
+def on_run_branch():
+    """Building or opening a run leaves the checkout on its branch, which carries older factory code. Its commits are already pushed."""
+    return sh('git', 'branch', '--show-current').stdout.startswith('run/')
+
+
 def sync():
-    """Moves the checkout to main once all its commits are merged, so a merged change takes effect on the next pass."""
+    """Moves the checkout to main once all its commits are merged, or off a run branch, so a pass always runs main's factory code."""
     head = lambda: sh('git', 'rev-parse', 'HEAD').stdout.strip()
     sh('git', 'fetch', '-q', 'origin')
     before = head()
-    if sh('git', 'merge-base', '--is-ancestor', before, 'origin/main', check=False).returncode:
+    if not on_run_branch() and sh('git', 'merge-base', '--is-ancestor', before, 'origin/main', check=False).returncode:
         return
     moved = switch_keeping_log('main')
     if not moved.returncode:
@@ -448,11 +453,13 @@ def main():
         if FAILED.search(result):
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
     if failures and round_ < FOLLOW_UPS and not dry:
-        # A failure gets worked now, not at the next scheduled pass. The lock fd isn't inherited, so the new pass can take it.
+        # A failure gets worked now, not at the next scheduled pass. The lock fd is inherited, so no other pass gets in between.
         task = (note + '\n\n' if note else '') + ('This is a follow-up pass because these actions just failed:\n' + '\n'.join(failures) +
                 '\nFix the cause now: delegate or build_fix the code or limit that blocked it, then redo the action that needs it, '
                 'and deploy if players need it today. Never repeat a failed action unchanged. If nothing in the factory can fix it, escalate.')
         print(f'Starting follow-up pass {round_ + 1} for {len(failures)} failures.', flush=True)
+        if on_run_branch():  # execv loads manager.py from disk, so it must be main's copy
+            switch_keeping_log('main')
         os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve()), '--follow-up', str(round_ + 1), '--task', task])
 
 
