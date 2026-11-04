@@ -79,7 +79,20 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
         swapReserves();
-        if (editing) { equip(); if (policy.build === 'search' && random() < (policy.care ?? 1)) search(n, creature); }
+        if (editing) {
+          // Don't keep automatic equipment changes that make this fight worse.
+          const before = active().map(c => ({ c, routines: [...c.routines], slots: c.slots }));
+          const oldPool = [...pool], oldGold = gold, baseline = value(fightWith(n, creature));
+          equip();
+          if (policy.build === 'search' && (random() < (policy.care ?? 1) || n.kind === 'boss')) {
+            search(n, creature);
+            if (n.kind === 'boss') search(n, creature); // Revisit earlier choices after the rest of the crew changes.
+          }
+          if (value(fightWith(n, creature)) < baseline) {
+            for (const { c, routines, slots } of before) { c.routines = routines; c.slots = slots; }
+            pool.splice(0, pool.length, ...oldPool); gold = oldGold;
+          }
+        }
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };
