@@ -18,4 +18,6 @@ You have `thread.json` (the challenge text, our comments, and replies waiting fo
 ## Output
 Write `post.json`:
 
-{ "top_level": "the comment body, or empty if none is needed", "replies": [ { "to": "the reply's id from thread.json", "body": "..." } ] }
+{ "top_level": "the comment body, or empty if none is needed", "edit": "true to replace our existing top-level comment on this thread with top_level, when it is wrong or out of date", "replies": [ { "to": "the reply's id from thread.json", "body": "..." } ] }
+
+facts.md lists the issues (the tickets) and PRs with their branches and bodies. Link the real issue and PR and quote the evidence in their bodies. Never write that something is missing from the record when facts.md has it; if a fact truly is not there, say what happened in plain words instead of "not in the supplied record".

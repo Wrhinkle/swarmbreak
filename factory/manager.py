@@ -95,7 +95,7 @@ def thread(number):
     for c in d['comments']['nodes']:
         if (c['author'] or {}).get('login') != OWNER:
             continue
-        ours.append({'url': c['url'], 'body': c['body']})
+        ours.append({'id': c['id'], 'url': c['url'], 'body': c['body']})
         replies = c['replies']['nodes']
         last_ours = max((i for i, r in enumerate(replies) if (r['author'] or {}).get('login') == OWNER), default=-1)
         waiting += [{'id': r['id'], 'parent': c['id'], 'from': (r['author'] or {}).get('login'), 'body': r['body']} for r in replies[last_ours + 1:]]
@@ -104,10 +104,17 @@ def thread(number):
 
 def facts():
     log = sh('git', 'log', '-25', '--format=%h %s', 'origin/main').stdout
-    prs = gh('pr', 'list', '--repo', REPO, '--state', 'all', '--limit', '15', '--json', 'number,title,state,url')
+    prs = gh('pr', 'list', '--repo', REPO, '--state', 'all', '--limit', '30', '--json', 'number,title,state,url,headRefName,body')
+    issues = gh('issue', 'list', '--repo', REPO, '--state', 'all', '--limit', '30', '--json', 'number,title,state,url,body')
+    for x in prs + issues:
+        x['body'] = x['body'][:1200]
     notes = NOTES.read_text() if NOTES.exists() else ''
     return (f'# Project\nRepo: https://github.com/{REPO}\nLive site: {SITE}\nAGENTS.md: https://github.com/{REPO}/blob/main/AGENTS.md\n'
-            f'Live run: {json.dumps(live_manifest())}\n\n# AGENTS.md\n{(ROOT / "AGENTS.md").read_text()}\n\n# Pull requests\n{json.dumps(prs, indent=1)}\n\n'
+            f'Live run: {json.dumps(live_manifest())}\n\n'
+            '# How the factory reads tickets\nTickets are GitHub issues, read through the GitHub CLI (gh). The manager lists open issues with '
+            '`gh issue list` each pass and picks one for build_fix. The builder reads it with `gh issue view`, works on branch fix/issue-<n>, '
+            'and opens a PR whose body says "Fixes #<n>". The PR team runs Qodo on that PR and the gate reviewer approves the exact commit before it merges.\n\n'
+            f'# Issues\n{json.dumps(issues, indent=1)}\n\n# AGENTS.md\n{(ROOT / "AGENTS.md").read_text()}\n\n# Pull requests\n{json.dumps(prs, indent=1)}\n\n'
             f'# Commits on main\nCommit links are https://github.com/{REPO}/commit/<hash>\n{log}\n\n# Log\n{notes}\n')
 
 
@@ -157,7 +164,12 @@ def comms(number, task, dry):
         return 'Dry run, nothing posted.'
     mutation = 'mutation($d:ID!,$b:String!,$r:ID){addDiscussionComment(input:{discussionId:$d,body:$b,replyToId:$r}){comment{url}}}'
     urls = []
-    if out.get('top_level', '').strip():
+    if out.get('top_level', '').strip() and out.get('edit'):
+        edit = 'mutation($c:ID!,$b:String!){updateDiscussionComment(input:{commentId:$c,body:$b}){comment{url}}}'
+        url = gh('api', 'graphql', '-f', f'query={edit}', '-f', f'c={t["ours"][0]["id"]}', '-f', f'b={out["top_level"] + FOOTER}')['data']['updateDiscussionComment']['comment']['url']
+        urls.append(url)
+        record({'kind': 'edit', 'discussion': number, 'url': url})
+    elif out.get('top_level', '').strip():
         fields = ['api', 'graphql', '-f', f'query={mutation}', '-f', f'd={t["id"]}', '-f', f'b={out["top_level"] + FOOTER}']
         url = gh(*fields)['data']['addDiscussionComment']['comment']['url']
         urls.append(url)
@@ -174,9 +186,11 @@ def comms(number, task, dry):
 def check_post(out, t):
     problems = []
     top, replies = out.get('top_level', ''), out.get('replies', [])
+    if top.strip() and t['ours'] and not out.get('edit'):
+        problems.append('we already have a top-level comment on this thread; each challenge gets one, so set "edit": true to replace it')
+    if out.get('edit') and not t['ours']:
+        problems.append('"edit" needs an existing top-level comment of ours')
     if top.strip():
-        if t['ours']:
-            problems.append('we already have a top-level comment on this thread; each challenge gets one')
         problems += post_problems(top, template_headings(t['challenge']))
         problems += unfilled_links(top, t['challenge'])
         problems += [f'dead link: {u}' for u in dead_links(top)]
