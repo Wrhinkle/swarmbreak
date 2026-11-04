@@ -3,7 +3,7 @@
 
 Usage: python3 factory/manager.py [--dry-run] [--task "note for the manager"]
 A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS times, told what failed.
-       python3 factory/manager.py --comms <discussion> "<task>" [--dry-run] [--allow-edit]
+       python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
 import collections
@@ -95,7 +95,7 @@ def thread(number):
     for c in d['comments']['nodes']:
         if (c['author'] or {}).get('login') != OWNER:
             continue
-        ours.append({'id': c['id'], 'url': c['url'], 'body': c['body']})
+        ours.append({'url': c['url'], 'body': c['body']})
         replies = c['replies']['nodes']
         last_ours = max((i for i, r in enumerate(replies) if (r['author'] or {}).get('login') == OWNER), default=-1)
         waiting += [{'id': r['id'], 'parent': c['id'], 'from': (r['author'] or {}).get('login'), 'body': r['body']} for r in replies[last_ours + 1:]]
@@ -138,7 +138,7 @@ def posted_today(kind):
     return sum(1 for l in LOG.read_text().splitlines() if (e := json.loads(l)).get('kind') == kind and e['at'].startswith(today))
 
 
-def comms(number, task, dry, allow_edit=False):
+def comms(number, task, dry):
     t = thread(number)
     with tempfile.TemporaryDirectory() as work:
         w = Path(work)
@@ -153,7 +153,7 @@ def comms(number, task, dry, allow_edit=False):
             except (OSError, json.JSONDecodeError) as e:
                 problems = [f'post.json unreadable: {e}']
             else:
-                problems = check_post(out, t, allow_edit)
+                problems = check_post(out, t)
             if not problems:
                 break
             print(f'[comms] attempt {attempt + 1} refused: {problems}', flush=True)
@@ -166,12 +166,7 @@ def comms(number, task, dry, allow_edit=False):
         return 'Dry run, nothing posted.'
     mutation = 'mutation($d:ID!,$b:String!,$r:ID){addDiscussionComment(input:{discussionId:$d,body:$b,replyToId:$r}){comment{url}}}'
     urls = []
-    if out.get('top_level', '').strip() and out.get('edit') is True:
-        edit = 'mutation($c:ID!,$b:String!){updateDiscussionComment(input:{commentId:$c,body:$b}){comment{url}}}'
-        url = gh('api', 'graphql', '-f', f'query={edit}', '-f', f'c={t["ours"][0]["id"]}', '-f', f'b={out["top_level"] + FOOTER}')['data']['updateDiscussionComment']['comment']['url']
-        urls.append(url)
-        record({'kind': 'edit', 'discussion': number, 'url': url})
-    elif out.get('top_level', '').strip():
+    if out.get('top_level', '').strip():
         fields = ['api', 'graphql', '-f', f'query={mutation}', '-f', f'd={t["id"]}', '-f', f'b={out["top_level"] + FOOTER}']
         url = gh(*fields)['data']['addDiscussionComment']['comment']['url']
         urls.append(url)
@@ -185,19 +180,12 @@ def comms(number, task, dry, allow_edit=False):
     return f'Posted: {urls}' if urls else 'Nothing to post.'
 
 
-def check_post(out, t, allow_edit=False):
+def check_post(out, t):
     problems = []
     top, replies = out.get('top_level', ''), out.get('replies', [])
-    edit = out.get('edit') is True
-    if 'edit' in out and not isinstance(out['edit'], bool):
-        problems.append('"edit" must be true or false')
-    if top.strip() and t['ours'] and not edit:
-        problems.append('we already have a top-level comment on this thread; each challenge gets one, so set "edit": true to replace it')
-    if edit and not allow_edit:
-        problems.append('replacing a posted comment needs the host run with --allow-edit; the manager action never passes it')
-    if edit and len(t['ours']) != 1:
-        problems.append('"edit" needs exactly one existing top-level comment of ours to replace')
     if top.strip():
+        if t['ours']:
+            problems.append('we already have a top-level comment on this thread; each challenge gets one')
         problems += post_problems(top, template_headings(t['challenge']))
         problems += unfilled_links(top, t['challenge'])
         problems += [f'dead link: {u}' for u in dead_links(top)]
@@ -448,7 +436,7 @@ def main():
         os.environ['SWARMBREAK_LOCK_FD'] = str(lock.fileno())
     args, dry = sys.argv[1:], '--dry-run' in sys.argv
     if args and args[0] == '--comms':
-        print(comms(int(args[1]), args[2], dry, allow_edit='--allow-edit' in args[3:]))  # args[2] is the task text
+        print(comms(int(args[1]), args[2], dry))
         return
     if not dry:
         sync()
