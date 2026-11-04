@@ -15,9 +15,9 @@ assert post_problems('use `@types/node` fine') == []
 assert template_headings('x\n```markdown\n## A\ntext\n## B\n```\n') == ['## A', '## B']
 t = {'ours': [{'url': 'u', 'body': 'b'}], 'waiting': [{'id': 'R1', 'parent': 'C1'}], 'challenge': ''}
 assert any('already' in p for p in check_post({'top_level': good}, t))
-assert not any('already' in p for p in check_post({'top_level': good, 'edit': True}, t))
-assert any('exactly one' in p for p in check_post({'top_level': good, 'edit': True}, {**t, 'ours': []}))
-assert any('exactly one' in p for p in check_post({'top_level': good, 'edit': True}, {**t, 'ours': t['ours'] * 2}))
+assert not any('already' in p for p in check_post({'top_level': good, 'edit': True}, t, True))
+assert any('exactly one' in p for p in check_post({'top_level': good, 'edit': True}, {**t, 'ours': []}, True))
+assert any('exactly one' in p for p in check_post({'top_level': good, 'edit': True}, {**t, 'ours': t['ours'] * 2}, True))
 assert any('true or false' in p for p in check_post({'top_level': good, 'edit': 'false'}, t))
 assert any('unknown id' in p for p in check_post({'replies': [{'to': 'R9', 'body': 'ok'}]}, t))
 assert check_post({'replies': [{'to': 'R1', 'body': 'ok'}]}, t) == []
@@ -152,3 +152,5 @@ with tempfile.TemporaryDirectory() as d:
     Path(d, 'runs/2026-11-07/picks.json').write_text('{broken')
     sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'c', cwd=d)
     assert other_branch_json('picks.json', '2026-11-06', cwd=d) == [{'thread': 'sky'}]
+assert any('--allow-edit' in p for p in check_post({'top_level': good, 'edit': True}, t))
+print('ok edit')

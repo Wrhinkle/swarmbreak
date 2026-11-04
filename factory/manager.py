@@ -3,7 +3,7 @@
 
 Usage: python3 factory/manager.py [--dry-run] [--task "note for the manager"]
 A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS times, told what failed.
-       python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
+       python3 factory/manager.py --comms <discussion> "<task>" [--dry-run] [--allow-edit]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
 import collections
@@ -138,7 +138,7 @@ def posted_today(kind):
     return sum(1 for l in LOG.read_text().splitlines() if (e := json.loads(l)).get('kind') == kind and e['at'].startswith(today))
 
 
-def comms(number, task, dry):
+def comms(number, task, dry, allow_edit=False):
     t = thread(number)
     with tempfile.TemporaryDirectory() as work:
         w = Path(work)
@@ -153,7 +153,7 @@ def comms(number, task, dry):
             except (OSError, json.JSONDecodeError) as e:
                 problems = [f'post.json unreadable: {e}']
             else:
-                problems = check_post(out, t)
+                problems = check_post(out, t, allow_edit)
             if not problems:
                 break
             print(f'[comms] attempt {attempt + 1} refused: {problems}', flush=True)
@@ -185,7 +185,7 @@ def comms(number, task, dry):
     return f'Posted: {urls}' if urls else 'Nothing to post.'
 
 
-def check_post(out, t):
+def check_post(out, t, allow_edit=False):
     problems = []
     top, replies = out.get('top_level', ''), out.get('replies', [])
     edit = out.get('edit') is True
@@ -193,6 +193,8 @@ def check_post(out, t):
         problems.append('"edit" must be true or false')
     if top.strip() and t['ours'] and not edit:
         problems.append('we already have a top-level comment on this thread; each challenge gets one, so set "edit": true to replace it')
+    if edit and not allow_edit:
+        problems.append('replacing a posted comment needs the host run with --allow-edit; the manager action never passes it')
     if edit and len(t['ours']) != 1:
         problems.append('"edit" needs exactly one existing top-level comment of ours to replace')
     if top.strip():
@@ -446,7 +448,7 @@ def main():
         os.environ['SWARMBREAK_LOCK_FD'] = str(lock.fileno())
     args, dry = sys.argv[1:], '--dry-run' in sys.argv
     if args and args[0] == '--comms':
-        print(comms(int(args[1]), args[2], dry))
+        print(comms(int(args[1]), args[2], dry, allow_edit='--allow-edit' in args))
         return
     if not dry:
         sync()
