@@ -41,14 +41,11 @@ def touched_run(changed, tree):
 
 
 def problems_in(tree, live):
-    # Measured from where the branch left main, so a rework's earlier commits get the same checks as its new edits.
-    base = sh('git', 'merge-base', 'origin/main', 'HEAD', cwd=tree).stdout.strip()
-    listed = sh('git', 'diff', '--name-only', '--no-renames', '-z', base, cwd=tree).stdout + sh('git', 'ls-files', '-z', '--others', '--exclude-standard', cwd=tree).stdout
-    changed = sorted({p for p in listed.split('\0') if p and p != RESULT})
+    changed = [l[3:].strip('"') for l in sh('git', 'status', '--porcelain', '-uall', cwd=tree).stdout.splitlines() if not l.endswith(RESULT)]
     bad = [f"You can't edit: {p}" for p in blocked_paths(changed, live)]
     live_file = f'public/runs/{live}/run.json'
     if live_file in changed:
-        before = sh('git', 'show', f'{base}:{live_file}', cwd=tree).stdout
+        before = sh('git', 'show', f'HEAD:{live_file}', cwd=tree).stdout
         if not only_wording(json.loads(before), json.loads((tree / live_file).read_text())):
             bad.append(f'{live_file} is live, so only wording can change')
     for path in changed:
@@ -77,40 +74,27 @@ def problems_in(tree, live):
 def main():
     number, dry = sys.argv[1], '--dry-run' in sys.argv
     role = sys.argv[sys.argv.index('--role') + 1] if '--role' in sys.argv else ''
-    issue = json.loads(sh('gh', 'issue', 'view', number, '--repo', REPO, '--json', 'number,title,body,author,state,comments').stdout)
+    issue = json.loads(sh('gh', 'issue', 'view', number, '--repo', REPO, '--json', 'number,title,body,author,state').stdout)
     if issue['author']['login'] != OWNER or issue['state'] != 'OPEN':
         sys.exit(f'Issue {number} is {issue["state"]} from {issue["author"]["login"]}. Only open issues from {OWNER} qualify.')
     branch = f'fix/issue-{number}'
-    # An open PR means a reviewer turned the last fix down, so the builder reworks that branch with the review in hand.
-    # Only the owner's own branch counts: a fork can name its branch the same.
-    open_pr = [p for p in json.loads(sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--base', 'main', '--author', OWNER, '--json', 'number,comments,author,isCrossRepository').stdout)
-               if p['author']['login'] == OWNER and not p['isCrossRepository']]
+    if sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number', '--jq', 'length').stdout.strip() != '0':
+        sys.exit(f'{branch} already has an open PR.')
     with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
         live = json.load(r)['runId']
     tree = ROOT.parent / f'swarmbreak-issue-{number}'
-    sh('git', 'fetch', '-q', '--prune', 'origin')
+    sh('git', 'fetch', '-q', 'origin')
     if tree.exists():
         sh('git', 'worktree', 'remove', '--force', tree)
-    # Only the owner's open PR to main makes a pushed branch safe to build on. Any other pushed branch is refused, never replaced.
-    found = sh('git', 'ls-remote', '--exit-code', '--heads', 'origin', branch, check=False)  # GitHub itself, not a stale local ref
-    if found.returncode not in (0, 2):  # 2 means no such branch; anything else means GitHub wasn't checked
-        sys.exit(f'Could not check GitHub for {branch}: {found.stderr[-300:]}')
-    pushed = found.returncode == 0
-    if pushed and not open_pr:
-        sys.exit(f'{branch} exists on GitHub without an open PR from {OWNER} to main. Not building over it.')
-    sh('git', 'worktree', 'add', '-q', '-B', branch, tree, f'origin/{branch}' if open_pr else 'origin/main')
+    sh('git', 'worktree', 'add', '-q', '-B', branch, tree, 'origin/main')
     sh('npm', 'ci', '--silent', cwd=tree)
-    comments = [c['body'] for c in issue['comments'] if (c['author'] or {}).get('login') == OWNER]
-    review = [c['body'] for c in open_pr[0]['comments'] if (c['author'] or {}).get('login') == OWNER] if open_pr else []
-    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'comments': comments, 'live_run': live,
-                                                  **({'pr': open_pr[0]['number'], 'review': review} if open_pr else {})}, indent=1))
+    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live}, indent=1))
 
     extra, result, bad = '', {}, []
     for attempt in range(RETRIES + 1):
         (tree / RESULT).unlink(missing_ok=True)
         brief = (ROOT / 'factory/agents' / f'{role}.md').read_text() + '\n\nDo the job above under the builder rules.\n\n' if role else ''
-        rework = ' Your earlier fix is already on this branch in PR {}, and its review is under "review" in .issue.json. Change the fix so every point in the review is answered.'.format(open_pr[0]['number']) if open_pr else ''
-        bot('builder', tree, f'{brief}The report is in .issue.json.{rework} {extra}', effort='high')
+        bot('builder', tree, f'{brief}The report is in .issue.json. {extra}', effort='high')
         try:
             result = json.loads((tree / RESULT).read_text())
         except (OSError, json.JSONDecodeError) as e:
@@ -129,7 +113,7 @@ def main():
     if outcome != 'fixed':
         sh('git', 'checkout', '-q', '--', '.', cwd=tree)
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
-        if outcome == 'not_reproduced' and not open_pr:  # on a rework branch the earlier fix may hide the bug, so only main's result closes
+        if outcome == 'not_reproduced':
             if not dry:
                 sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
             return
@@ -144,10 +128,6 @@ def main():
     title = f'Fix issue {number}: {issue["title"]}'[:90]
     sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
     sh('git', 'push', '-q', '--force-with-lease', 'origin', branch, cwd=tree)
-    if open_pr:
-        sh('gh', 'pr', 'comment', str(open_pr[0]['number']), '--repo', REPO, '--body', f'Reworked after review.\n\n{result["summary"]}\n\nEvidence: {result["evidence"]}')
-        print(open_pr[0]['number'])
-        return
     url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', f'Fixes #{number}.\n\n{result["summary"]}\n\nEvidence: {result["evidence"]}\n\nWritten by the factory builder on GPT-6.1 Terra.').stdout.strip()
     print(url)
     print(url.rsplit('/', 1)[1])
