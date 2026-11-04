@@ -6,6 +6,7 @@ A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS ti
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
+import collections
 import fcntl, json, os, re, subprocess, sys, tempfile, time, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -354,10 +355,14 @@ def act(a, s, dry):
             return f'PR {pr["number"]} was already rejected by the gate reviewer at {pr["headRefOid"][:7]}. Change the PR or its cause rather than rerunning it.'
         if dry:
             return f'Would run the PR team on {pr["number"]} with merging on.'
-        r = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', str(pr['number']), '--merge'], cwd=ROOT, capture_output=True, text=True)
-        print(r.stdout, end='', flush=True)
-        # The tail says why it stopped, so the next pass works on the cause instead of guessing.
-        return f'PR team on {pr["number"]} exited {r.returncode}.' + (f' Last output: {(r.stdout + r.stderr)[-600:]}' if r.returncode else '')
+        # Streamed as it runs, and the tail kept, since it says why the PR team stopped.
+        r = subprocess.Popen([sys.executable, ROOT / 'factory/pr_team.py', str(pr['number']), '--merge'], cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        tail = collections.deque(maxlen=40)
+        for line in r.stdout:
+            print(line, end='', flush=True)
+            tail.append(line)
+        code = r.wait()
+        return f'PR team on {pr["number"]} exited {code}.' + (f' Last output: {"".join(tail)[-600:]}' if code else '')
     if kind == 'comms':
         return comms(int(a['discussion']), str(a.get('task', '')), dry)
     if kind == 'factory_run':
@@ -457,7 +462,7 @@ def main():
         except SystemExit as e:  # a checked command failed inside the action
             result = f'Action failed: {e}'
         print(f'{a.get("type")}: {result}', flush=True)
-        record({'kind': 'action', 'action': a, 'result': result[:500], 'dry': dry})
+        record({'kind': 'action', 'action': a, 'result': result if len(result) <= 1000 else f'{result[:300]} ... {result[-700:]}', 'dry': dry})
         if FAILED.search(result):
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
     if failures and round_ < FOLLOW_UPS and not dry:
