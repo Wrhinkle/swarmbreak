@@ -40,6 +40,7 @@ assert blocked_paths(['factory/agents/new-role.md', 'factory/agents/comms.md', '
 assert blocked_paths(['factory/log/decisions.jsonl'], 'z') and blocked_paths(['factory/agents/gate-reviewer.md'], 'z') and blocked_paths(['factory/vendor/x.py'], 'z')
 from builder import criteria
 assert criteria('x\n## Acceptance criteria\n- a\n- b\n## Notes\nn') == '- a\n- b' and 'no acceptance' in criteria('just text')
+assert len(criteria('y' * 70000)) < 30200 and 'issue link' in criteria('y' * 70000)
 from manager import FAILED
 for bad in ['PR team on 12 exited 1.', 'Builder on issue 14 exited 1: blocked', 'Could not switch to run/x', 'PR 12 was already rejected by the gate reviewer at abc1234.', 'Not deploying: main lacks the live run', 'Not opening x: missing art a.png', 'Action failed: git fetch failed']:
     assert FAILED.search(bad), bad

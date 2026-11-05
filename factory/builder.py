@@ -15,6 +15,7 @@ OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
 LOCKED = (*PROTECTED, '.gitignore', 'vite.config')
 RESULT = '.builder-result.json'
 RETRIES = 2
+CRITERIA_MAX = 30000
 TEXT_KEYS = {'name', 'blurb', 'title', 'theme', 'intro', 'outro', 'bossIntro', 'text', 'label', 'result'}
 
 
@@ -26,7 +27,9 @@ def blocked_paths(changed, live):
 def criteria(body):
     """The issue's acceptance-criteria section, so Qodo reviews the change against the request."""
     m = re.search(r'^#+\s*acceptance criteria\s*$(.*?)(?=^#+\s|\Z)', body or '', re.I | re.M | re.S)
-    return (m.group(1).strip() if m else '') or 'The issue has no acceptance-criteria section. Its full request:\n> ' + (body or '').strip().replace('\n', '\n> ')
+    text = (m.group(1).strip() if m else '') or 'The issue has no acceptance-criteria section. Its full request:\n> ' + (body or '').strip().replace('\n', '\n> ')
+    # GitHub caps a PR body at 65,536 characters; leave room for the summary and evidence around this.
+    return text if len(text) <= CRITERIA_MAX else text[:CRITERIA_MAX] + '\n\n(Cut to fit the PR body. The full request is at the issue link above.)'
 
 
 def only_wording(old, new, key=None):
@@ -133,7 +136,7 @@ def main():
     title = f'Fix issue {number}: {issue["title"]}'[:90]
     sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
     sh('git', 'push', '-q', '--force-with-lease', 'origin', branch, cwd=tree)
-    url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', f'Fixes #{number}: https://github.com/{REPO}/issues/{number}\n\n## Acceptance criteria (from the issue)\n{criteria(issue["body"])}\n\n## Change\n{result["summary"]}\n\nEvidence: {result["evidence"]}\n\nWritten by the factory builder on GPT-6.1 Terra.').stdout.strip()
+    url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', f'Fixes #{number}: https://github.com/{REPO}/issues/{number}\n\n## Acceptance criteria (from the issue)\n{criteria(issue["body"])}\n\n## Change\n{str(result["summary"])[:15000]}\n\nEvidence: {str(result["evidence"])[:15000]}\n\nWritten by the factory builder on GPT-6.1 Terra.').stdout.strip()
     print(url)
     print(url.rsplit('/', 1)[1])
 
