@@ -304,6 +304,25 @@ def deploy_problems(manifest, live, has_live_run, now):
     return problems
 
 
+def release_due(main_m, live, now):
+    """What the host must do about the live run this pass: 'deploy', 'expired', or None. Not left to the model, since a run left undeployed closes the game."""
+    at = lambda k, m: datetime.fromisoformat(m[k].replace('Z', '+00:00'))
+    if main_m['runId'] != live['runId']:
+        return 'deploy' if at('opensAt', main_m) - now <= timedelta(hours=1) else None
+    return 'expired' if now >= at('nextOpensAt', live) else None
+
+
+def release():
+    main_m = json.loads(sh('git', 'show', 'origin/main:public/manifest.json').stdout)
+    live = live_manifest()
+    due = release_due(main_m, live, datetime.now(timezone.utc))
+    if due == 'deploy':
+        return deploy(False)
+    if due == 'expired':
+        return f'Missing run: live run {live["runId"]} closed at {live["nextOpensAt"]} and main has no newer run. Build and open the next run now.'
+    return ''
+
+
 def deploy(dry):
     """Publish origin/main, from a clean checkout so local work can't ship by accident."""
     sh('git', 'fetch', 'origin')
@@ -324,7 +343,11 @@ def deploy(dry):
             r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
             if r.returncode:
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
-            now_live = live_manifest()['runId']
+            for _ in range(6):  # the CDN can serve the old manifest for a few seconds
+                now_live = live_manifest()['runId']
+                if now_live == manifest['runId']:
+                    break
+                time.sleep(10)
             return f'Deployed. Live run is {now_live}.' if now_live == manifest['runId'] else f'Deployed, but live run reads {now_live}, expected {manifest["runId"]}.'
         finally:
             sh('git', 'worktree', 'remove', '--force', tree, check=False)
@@ -481,6 +504,13 @@ def main():
         record({'kind': 'action', 'action': a, 'result': result if len(result) <= 1000 else f'{result[:300]} ... {result[-700:]}', 'dry': dry})
         if FAILED.search(result):
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
+    if not dry:
+        result = release()
+        if result:
+            print(f'release: {result}', flush=True)
+            record({'kind': 'action', 'action': {'type': 'release'}, 'result': result[-1000:], 'dry': False})
+            if FAILED.search(result):
+                failures.append(f'release -> {result[-700:]}')
     if failures and round_ < FOLLOW_UPS and not dry:
         # A failure gets worked now, not at the next scheduled pass. The lock fd is inherited, so no other pass gets in between.
         task = (note + '\n\n' if note else '') + ('This is a follow-up pass because the actions in state.json failed_last_pass just failed. '
