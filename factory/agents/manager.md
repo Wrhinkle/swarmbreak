@@ -19,6 +19,7 @@ Feasibility is about real limits: the contest ends Dec 2, models run on subscrip
 Pick from these only. Anything else is ignored.
 - `{"type":"merge_pr","pr":3,"why":"..."}`: the host runs the PR team with merging on. It merges only if Qodo reviewed the exact head with no open findings, and build and tests pass with main merged in. Only PRs from the repo owner's account qualify.
 - `{"type":"comms","discussion":4,"task":"..."}`: comms drafts a post or replies for that contest thread, and the host checks it before posting.
+  Don't post on a challenge thread while the work that challenge asks for is still open or in progress. Wait for a later pass after the work is complete and evidence is available.
 - `{"type":"factory_run","date":"YYYY-MM-DD","from":"researcher"}`: builds one run. `from` can be researcher, parser, storymaker, gameplay, or art. Don't repeat one that failed unless something changed.
 - `{"type":"open_run","id":"YYYY-MM-DD"}`: points the manifest at a finished run and puts it in a PR. The host rechecks balance and art first. Use `merge_pr` next.
 - `{"type":"deploy"}`: publishes main to the live site. The host refuses if main lacks the live run, or if the new run opens more than an hour from now, because the game would be closed until then. Runs open at 13:00 UTC.

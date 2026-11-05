@@ -28,6 +28,7 @@ FOOTER = '\n\n<sub>Written by this factory\'s comms agent and posted from the ow
 SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{12,}|AIza[\w-]{20,}|-----BEGIN', re.I)
 PRIVATE = re.compile(r'ridgeline|[\w.+-]+@[\w-]+\.[a-z]{2,}', re.I)
 MENTION = re.compile(r'(?<![\w`/])@[A-Za-z0-9][A-Za-z0-9-]*')
+NO_EVIDENCE = re.compile(r"\b(?:can(?:not|'t|’t)|could(?: not|n't|n’t)|unable to)\s+(?:tell|establish|determine|verify)\b[^.!?\n]*\b(?:what happened|what occurred)\b", re.I)
 
 
 def post_problems(body, template=(), max_len=MAX_POST):
@@ -43,6 +44,8 @@ def post_problems(body, template=(), max_len=MAX_POST):
         problems.append('names the employer or an email address')
     if MENTION.search(body):
         problems.append('has an @mention')
+    if NO_EVIDENCE.search(body):
+        problems.append('says it cannot establish what happened')
     for url in re.findall(r'https?://[^\s)\]>"]+', body):
         if not url.startswith(LINKS):
             problems.append(f'links outside the project and contest: {url}')

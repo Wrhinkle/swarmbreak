@@ -12,6 +12,11 @@ assert post_problems(good, ['## Other'])
 for bad in ['Hi @someone', 'me@example.com', 'Ridgeline CRM', 'token ghp_' + 'a' * 30, 'see https://evil.example/x', ' ', 'x' * 7000]:
     assert post_problems(bad), bad
 assert post_problems('use `@types/node` fine') == []
+for uncertain in ["I can't tell what happened.", 'We cannot establish what happened.', 'We could not determine what occurred.', 'Unable to verify what happened.']:
+    assert post_problems(uncertain), uncertain
+assert post_problems('We can establish what happened from the merged PR.') == []
+assert post_problems("We can't tell whether the next run will win.") == []
+assert check_post({'top_level': "I can't tell what happened."}, {'ours': [], 'waiting': [], 'challenge': ''})
 assert template_headings('x\n```markdown\n## A\ntext\n## B\n```\n') == ['## A', '## B']
 t = {'ours': [{'url': 'u', 'body': 'b'}], 'waiting': [{'id': 'R1', 'parent': 'C1'}], 'challenge': ''}
 assert any('already' in p for p in check_post({'top_level': good}, t))
