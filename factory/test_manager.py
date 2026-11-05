@@ -191,6 +191,8 @@ if not os.environ.get('SWARMBREAK_SANDBOX'):
         assert sandboxed(['touch', f'{secret}/w'], tree).returncode
         assert sandboxed(['python3', '-c', 'import socket; socket.create_connection(("1.1.1.1", 443), 3)'], tree).returncode
         assert sandboxed(['sh', '-c', 'echo ok > out'], tree).returncode == 0
+        # Checks run on a copy, so nothing they write reaches the tree that gets committed.
+        assert not Path(tree, 'out').exists()
         # Host credentials and sockets are unavailable, even in shared temporary directories.
         import socket
         os.environ['AWS_SECRET_ACCESS_KEY'] = 'dummy-secret'

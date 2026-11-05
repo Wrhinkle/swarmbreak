@@ -73,20 +73,26 @@ def gate_review(diff):
 
 
 def sandboxed(cmd, tree):
-    """Checks run code an agent wrote, so they get no network, no writes outside the checkout and temp, and no reads of
-    files in the home folder (gh, git and codex tokens live there) apart from the checkout itself."""
-    t, home = Path(tree).resolve(), Path.home().resolve()
-    profile = ('(version 1)(allow default)(deny network*)'
-               '(deny mach-lookup (global-name "com.apple.SecurityServer") (global-name "com.apple.securityd.xpc"))'
-               f'(deny file-write*)(allow file-write* (subpath "{t}") (subpath "/private/tmp") (subpath "/private/var/folders") (subpath "/dev"))'
-               f'(deny file-read-data (subpath "{home}"))(allow file-read-data (subpath "{t}"))')
-    with tempfile.TemporaryDirectory(prefix='sbx-home-') as fake:
+    """Checks run code an agent wrote. They run on a throwaway clone of the tree, so nothing they write can end up in
+    the commit, with no network, writes only inside that throwaway folder, and no reads of home-folder files (gh, git
+    and codex tokens live there) apart from the clone."""
+    with tempfile.TemporaryDirectory(prefix='sbx-') as box:
+        box = Path(box).resolve()
+        copy, fake = box / 'tree', box / 'home'
+        fake.mkdir()
+        # cp -c clones on APFS, so even node_modules copies in moments.
+        subprocess.run(['cp', '-cR', f'{Path(tree).resolve()}/', str(copy)], check=True, capture_output=True)
+        home = Path.home().resolve()
+        profile = ('(version 1)(allow default)(deny network*)'
+                   '(deny mach-lookup (global-name "com.apple.SecurityServer") (global-name "com.apple.securityd.xpc"))'
+                   f'(deny file-write*)(allow file-write* (subpath "{box}") (literal "/dev/null") (literal "/dev/tty"))'
+                   f'(deny file-read-data (subpath "{home}"))(allow file-read-data (subpath "{box}"))')
         env = {'PATH': '/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
-               'HOME': fake, 'TMPDIR': fake, 'TMP': fake, 'TEMP': fake,
-               'XDG_CACHE_HOME': fake, 'npm_config_cache': str(Path(fake) / 'npm'),
+               'HOME': str(fake), 'TMPDIR': str(fake), 'TMP': str(fake), 'TEMP': str(fake),
+               'XDG_CACHE_HOME': str(fake), 'npm_config_cache': str(fake / 'npm'),
                'npm_config_update_notifier': 'false', 'PYTHONDONTWRITEBYTECODE': '1',
                'SWARMBREAK_SANDBOX': '1'}
-        return subprocess.run(['sandbox-exec', '-p', profile, *cmd], cwd=tree, capture_output=True, text=True, stdin=subprocess.DEVNULL, env=env)
+        return subprocess.run(['sandbox-exec', '-p', profile, *cmd], cwd=copy, capture_output=True, text=True, stdin=subprocess.DEVNULL, env=env)
 
 
 def verified(tree):
