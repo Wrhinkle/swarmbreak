@@ -304,12 +304,43 @@ def deploy_problems(manifest, live, has_live_run, now):
     return problems
 
 
-def deploy(dry):
-    """Publish origin/main, from a clean checkout so local work can't ship by accident."""
-    sh('git', 'fetch', 'origin')
+def release_due(main_m, live, now):
+    """What the host must do about the live run: 'deploy', 'older', 'expired', or None. Not left to the model, since a run left undeployed closes the game.
+    A run deploys only once it has opened: the client won't start a run before its opensAt, so publishing early would lock players out of the current one."""
+    at = lambda k, m: datetime.fromisoformat(m[k].replace('Z', '+00:00'))
+    if main_m['runId'] != live['runId']:
+        if at('opensAt', main_m) <= at('opensAt', live):
+            return 'older'
+        if now >= at('opensAt', main_m):
+            return 'deploy'
+    return 'expired' if now >= at('nextOpensAt', live) else None
+
+
+def release(dry=False):
+    try:
+        sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
+        rev = sh('git', 'rev-parse', 'origin/main').stdout.strip()  # deploy exactly the commit that was checked
+        main_m = json.loads(sh('git', 'show', f'{rev}:public/manifest.json').stdout)
+        live = live_manifest()
+        due = release_due(main_m, live, datetime.now(timezone.utc))
+        if due == 'deploy':
+            return deploy(dry, rev)
+    except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
+        return f'Release check failed: {e}'
+    if due == 'older':
+        return f'Not deploying: main has {main_m["runId"]}, which is older than the live run {live["runId"]}. Main\'s manifest went backwards.'
+    if due == 'expired':
+        return f'Missing run: live run {live["runId"]} closed at {live["nextOpensAt"]} and no newer run on main has opened. Build and open the next run now.'
+    return ''
+
+
+def deploy(dry, rev=None):
+    """Publish origin/main, or the commit `rev` that release() checked, from a clean checkout so local work can't ship by accident."""
+    if not rev:
+        sh('git', 'fetch', 'origin')
     with tempfile.TemporaryDirectory() as work:
         tree = Path(work) / 'main'
-        sh('git', 'worktree', 'add', '--detach', tree, 'origin/main')
+        sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
         try:
             manifest, live = json.loads((tree / 'public/manifest.json').read_text()), live_manifest()
             problems = deploy_problems(manifest, live, (tree / 'public' / live['runUrl'].lstrip('/')).exists(), datetime.now(timezone.utc))
@@ -324,8 +355,12 @@ def deploy(dry):
             r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
             if r.returncode:
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
-            now_live = live_manifest()['runId']
-            return f'Deployed. Live run is {now_live}.' if now_live == manifest['runId'] else f'Deployed, but live run reads {now_live}, expected {manifest["runId"]}.'
+            for _ in range(6):  # the CDN can serve the old manifest for a few seconds
+                now_live = live_manifest()['runId']
+                if now_live == manifest['runId']:
+                    break
+                time.sleep(10)
+            return f'Deployed. Live run is {now_live}.' if now_live == manifest['runId'] else f'Deploy failed verification: live run reads {now_live}, expected {manifest["runId"]}.'
         finally:
             sh('git', 'worktree', 'remove', '--force', tree, check=False)
 
@@ -445,6 +480,11 @@ def main():
         return
     if not dry:
         sync()
+    if '--release-only' in args:  # the quarter-hourly check: no model call unless something failed
+        failures = []
+        release_step(failures, dry)
+        follow_up(failures, 0, '', dry)
+        return
     note = args[args.index('--task') + 1] if '--task' in args else ''
     round_ = int(args[args.index('--follow-up') + 1]) if '--follow-up' in args else 0
     s = state()
@@ -481,6 +521,21 @@ def main():
         record({'kind': 'action', 'action': a, 'result': result if len(result) <= 1000 else f'{result[:300]} ... {result[-700:]}', 'dry': dry})
         if FAILED.search(result):
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
+    if not dry:
+        release_step(failures)
+    follow_up(failures, round_, note, dry)
+
+
+def release_step(failures, dry=False):
+    result = release(dry)
+    if result:
+        print(f'release: {result}', flush=True)
+        record({'kind': 'action', 'action': {'type': 'release'}, 'result': result[-1000:], 'dry': dry})
+        if FAILED.search(result):
+            failures.append(f'release -> {result[-700:]}')
+
+
+def follow_up(failures, round_, note, dry):
     if failures and round_ < FOLLOW_UPS and not dry:
         # A failure gets worked now, not at the next scheduled pass. The lock fd is inherited, so no other pass gets in between.
         task = (note + '\n\n' if note else '') + ('This is a follow-up pass because the actions in state.json failed_last_pass just failed. '
