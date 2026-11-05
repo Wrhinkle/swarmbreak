@@ -13,7 +13,11 @@ QODO = str(Path.home() / '.qodo/bin/qodo')
 REPO = 'Wrhinkle/swarmbreak'
 ROUNDS, QODO_WAIT = 2, 1500
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
-PROTECTED = ('AGENTS.md', 'factory/', 'firebase.json', 'public/manifest.json', '.github/')
+# Agents may fix factory code; every factory/ change still goes to the gate reviewer (gated_paths). Locked: the rules,
+# hosting, install scripts that run on this Mac, the balance limits, the gate reviewer's own brief, vendored code, and the
+# decision log (reply caps and failure history are counted from it, and gated_paths skips it).
+PROTECTED = ('AGENTS.md', 'firebase.json', 'public/manifest.json', '.github/', 'package.json', 'package-lock.json',
+             'tools/balance.ts', 'tools/checks.ts', 'factory/agents/gate-reviewer.md', 'factory/vendor/', 'factory/log/')
 GATES = ('AGENTS.md', '.github/', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
 
 
@@ -68,9 +72,32 @@ def gate_review(diff):
         return gate_verdict(Path(work, 'verdict.json'))
 
 
+def sandboxed(cmd, tree):
+    """Checks run code an agent wrote. They run on a throwaway clone of the tree, so nothing they write can end up in
+    the commit, with no network, writes only inside that throwaway folder, and no reads of home-folder files (gh, git
+    and codex tokens live there) apart from the clone."""
+    with tempfile.TemporaryDirectory(prefix='sbx-') as box:
+        box = Path(box).resolve()
+        copy, fake = box / 'tree', box / 'home'
+        fake.mkdir()
+        # cp -c clones on APFS, so even node_modules copies in moments.
+        subprocess.run(['cp', '-cR', f'{Path(tree).resolve()}/', str(copy)], check=True, capture_output=True)
+        home = Path.home().resolve()
+        profile = ('(version 1)(allow default)(deny network*)'
+                   '(deny mach-lookup (global-name "com.apple.SecurityServer") (global-name "com.apple.securityd.xpc"))'
+                   f'(deny file-write*)(allow file-write* (subpath "{box}") (literal "/dev/null") (literal "/dev/tty"))'
+                   f'(deny file-read-data (subpath "{home}"))(allow file-read-data (subpath "{box}"))')
+        env = {'PATH': '/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
+               'HOME': str(fake), 'TMPDIR': str(fake), 'TMP': str(fake), 'TEMP': str(fake),
+               'XDG_CACHE_HOME': str(fake), 'npm_config_cache': str(fake / 'npm'),
+               'npm_config_update_notifier': 'false', 'PYTHONDONTWRITEBYTECODE': '1',
+               'SWARMBREAK_SANDBOX': '1'}
+        return subprocess.run(['sandbox-exec', '-p', profile, *cmd], cwd=copy, capture_output=True, text=True, stdin=subprocess.DEVNULL, env=env)
+
+
 def verified(tree):
-    for cmd in (['npm', 'run', 'build'], ['npm', 'test']):
-        r = sh(*cmd, cwd=tree, check=False)
+    for cmd in (['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']):
+        r = sandboxed(cmd, tree)
         if r.returncode:
             return (r.stdout + r.stderr)[-2000:]
     return ''

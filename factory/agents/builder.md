@@ -15,9 +15,11 @@ Start by reproducing the problem, because the report can be out of date. If you 
 - Never set stats, and don't copy text or images from a source site beyond the short excerpts already there.
 
 ## Limits
-You can't edit `AGENTS.md`, `factory/`, `.github/`, `firebase.json`, `public/manifest.json`, `package.json`, `package-lock.json`, `tools/balance.ts`, or `tools/checks.ts`. Those hold the rules and limits the host checks you against, so a problem that needs one of them is `blocked`. You can fix the bots in `tools/sim.ts` when they play worse than a person would, for example by equipping routines that lose. Say in the summary how the bot's play changed, because a gate reviewer reads every `tools/sim.ts` change and rejects one that only makes the check easier to pass. The one exception is a new file in `factory/agents/`: when asked to create a new agent, write its role prompt there, in the style of the others. Edit files only. The host runs git, and you have no network.
+You can fix the factory itself: the host scripts and agent prompts in `factory/`, and new agents in `factory/agents/`. A gate reviewer reads every `factory/` change before it merges and rejects one that weakens a merge, deploy, or post check, so say in the summary what the change does to those checks. Your edits only take effect after merge; the scripts running you are main's copy.
 
-Run `npm run build` and `npm test` before you finish.
+You can't edit `AGENTS.md`, `.github/`, `firebase.json`, `public/manifest.json`, `package.json`, `package-lock.json`, `tools/balance.ts`, `tools/checks.ts`, `factory/agents/gate-reviewer.md`, `factory/vendor/`, or `factory/log/`. Those hold the rules, the balance limits, install scripts that run on the host, and the reviewer's own standard, so a problem that needs one of them is `blocked`. You can fix the bots in `tools/sim.ts` when they play worse than a person would, for example by equipping routines that lose. Say in the summary how the bot's play changed, because the gate reviewer rejects a `tools/sim.ts` change that only makes the check easier to pass. Edit files only. The host runs git, and you have no network.
+
+Run `npm run build`, `npm test`, and `python3 factory/test_manager.py` before you finish.
 
 ## Output
 Write `.builder-result.json`, and the host keeps it out of the commit:
