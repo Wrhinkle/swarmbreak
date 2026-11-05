@@ -26,7 +26,7 @@ def blocked_paths(changed, live):
 def criteria(body):
     """The issue's acceptance-criteria section, so Qodo reviews the change against the request."""
     m = re.search(r'^#+\s*acceptance criteria\s*$(.*?)(?=^#+\s|\Z)', body or '', re.I | re.M | re.S)
-    return (m.group(1).strip() if m else '') or f'The issue has no acceptance-criteria section. Its request:\n> ' + (body or '').strip()[:1500].replace('\n', '\n> ')
+    return (m.group(1).strip() if m else '') or 'The issue has no acceptance-criteria section. Its full request:\n> ' + (body or '').strip().replace('\n', '\n> ')
 
 
 def only_wording(old, new, key=None):

@@ -37,7 +37,7 @@ assert touches_gates([{'path': 'src/act.ts'}, {'path': 'factory/log/notes.md'}, 
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
 assert 'Bad' in act({'type': 'delegate', 'agent': 'manager', 'task': 'x'}, {}, True)
 assert blocked_paths(['factory/agents/new-role.md', 'factory/agents/comms.md', 'factory/run.py', 'factory/builder.py', 'tools/sim.ts'], 'z') == []  # the builder fixes factory code; the gate reviewer reads it
-assert blocked_paths(['factory/agents/gate-reviewer.md'], 'z') and blocked_paths(['factory/vendor/x.py'], 'z')
+assert blocked_paths(['factory/log/decisions.jsonl'], 'z') and blocked_paths(['factory/agents/gate-reviewer.md'], 'z') and blocked_paths(['factory/vendor/x.py'], 'z')
 from builder import criteria
 assert criteria('x\n## Acceptance criteria\n- a\n- b\n## Notes\nn') == '- a\n- b' and 'no acceptance' in criteria('just text')
 from manager import FAILED

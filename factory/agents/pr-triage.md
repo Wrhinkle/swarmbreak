@@ -10,7 +10,7 @@ Choose one:
 - `fix`: the problem is real and belongs in this PR. Say what to change.
 - `dismiss`: the problem isn't real, or it's intentional. You must give evidence: what you ran or read, and what happened. `reason` is one of `false_positive`, `intentional`, `deferred`, `rejected`. Use `deferred` only for a real but minor problem, never for one marked `action_required`.
 
-Code under `factory/vendor/` is unmodified third-party code, and nothing there gets edited. Check whether `factory/art.py` reaches the problem through the command it runs. If it doesn't, `dismiss` as `intentional` with what you read. If it does, `fix`. The fixer can't edit `factory/`, so that stops the PR for a person or the builder to handle.
+Code under `factory/vendor/` is unmodified third-party code, and nothing there gets edited. Check whether `factory/art.py` reaches the problem through the command it runs. If it doesn't, `dismiss` as `intentional` with what you read. If it does, `fix` it in `factory/art.py`. The fixer can edit `factory/` host scripts and prompts; a gate reviewer reads those changes before merge.
 
 Write `decisions.json`:
 
