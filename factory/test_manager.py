@@ -12,11 +12,24 @@ assert post_problems(good, ['## Other'])
 for bad in ['Hi @someone', 'me@example.com', 'Ridgeline CRM', 'token ghp_' + 'a' * 30, 'see https://evil.example/x', ' ', 'x' * 7000]:
     assert post_problems(bad), bad
 assert post_problems('use `@types/node` fine') == []
+for uncertain in ["I can't tell what happened.", 'We cannot establish what happened.', 'We can not tell what happened.', 'We could not determine what occurred.', 'Unable to verify what happened.', "We don't know what happened.", 'We do not know what occurred.', 'We don’t know what happened.', "We can't say what happened.", 'We can’t say what occurred.']:
+    assert post_problems(uncertain, challenge=True), uncertain
+for supported in ['We can establish what happened from the merged PR.', 'We know what occurred.', "We can't tell whether the next run will win."]:
+    assert post_problems(supported, challenge=True) == [], supported
+assert post_problems('We could not determine what occurred.') == []
+assert check_post({'top_level': "I can't tell what happened."}, {'ours': [], 'waiting': [], 'challenge': ''})
 assert template_headings('x\n```markdown\n## A\ntext\n## B\n```\n') == ['## A', '## B']
 t = {'ours': [{'url': 'u', 'body': 'b'}], 'waiting': [{'id': 'R1', 'parent': 'C1'}], 'challenge': ''}
 assert any('already' in p for p in check_post({'top_level': good}, t))
 assert any('unknown id' in p for p in check_post({'replies': [{'to': 'R9', 'body': 'ok'}]}, t))
 assert check_post({'replies': [{'to': 'R1', 'body': 'ok'}]}, t) == []
+from unittest.mock import patch
+with patch('manager.posted_today', return_value=0):
+    reply = {'to': 'R1', 'body': 'We could not determine what occurred.'}
+    assert check_post({'replies': [reply]}, t) == []
+    assert check_post({'top_level': 'The merged PR documents what happened.', 'replies': [reply]}, {**t, 'ours': []}) == []
+    assert check_post({'top_level': 'We can not tell what happened.', 'replies': [reply]}, {**t, 'ours': []})
+    assert post_problems('We could not determine what occurred. Contact me@example.com', max_len=1500)
 s = {'prs': [{'number': 9, 'author': {'login': 'stranger'}}]}
 assert 'Not merging' in act({'type': 'merge_pr', 'pr': 9}, s, True)
 assert 'not open' in act({'type': 'merge_pr', 'pr': 1}, s, True)
