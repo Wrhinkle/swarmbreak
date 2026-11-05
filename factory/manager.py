@@ -316,15 +316,16 @@ def release_due(main_m, live, now):
     return 'expired' if now >= at('nextOpensAt', live) else None
 
 
-def release():
+def release(dry=False):
     try:
         sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
-        main_m = json.loads(sh('git', 'show', 'origin/main:public/manifest.json').stdout)
+        rev = sh('git', 'rev-parse', 'origin/main').stdout.strip()  # deploy exactly the commit that was checked
+        main_m = json.loads(sh('git', 'show', f'{rev}:public/manifest.json').stdout)
         live = live_manifest()
         due = release_due(main_m, live, datetime.now(timezone.utc))
         if due == 'deploy':
-            return deploy(False)
-    except (SystemExit, OSError, ValueError, KeyError) as e:  # urllib errors are OSErrors
+            return deploy(dry, rev)
+    except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
         return f'Release check failed: {e}'
     if due == 'older':
         return f'Not deploying: main has {main_m["runId"]}, which is older than the live run {live["runId"]}. Main\'s manifest went backwards.'
@@ -333,12 +334,13 @@ def release():
     return ''
 
 
-def deploy(dry):
-    """Publish origin/main, from a clean checkout so local work can't ship by accident."""
-    sh('git', 'fetch', 'origin')
+def deploy(dry, rev=None):
+    """Publish origin/main, or the commit `rev` that release() checked, from a clean checkout so local work can't ship by accident."""
+    if not rev:
+        sh('git', 'fetch', 'origin')
     with tempfile.TemporaryDirectory() as work:
         tree = Path(work) / 'main'
-        sh('git', 'worktree', 'add', '--detach', tree, 'origin/main')
+        sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
         try:
             manifest, live = json.loads((tree / 'public/manifest.json').read_text()), live_manifest()
             problems = deploy_problems(manifest, live, (tree / 'public' / live['runUrl'].lstrip('/')).exists(), datetime.now(timezone.utc))
@@ -480,7 +482,7 @@ def main():
         sync()
     if '--release-only' in args:  # the quarter-hourly check: no model call unless something failed
         failures = []
-        release_step(failures)
+        release_step(failures, dry)
         follow_up(failures, 0, '', dry)
         return
     note = args[args.index('--task') + 1] if '--task' in args else ''
@@ -524,11 +526,11 @@ def main():
     follow_up(failures, round_, note, dry)
 
 
-def release_step(failures):
-    result = release()
+def release_step(failures, dry=False):
+    result = release(dry)
     if result:
         print(f'release: {result}', flush=True)
-        record({'kind': 'action', 'action': {'type': 'release'}, 'result': result[-1000:], 'dry': False})
+        record({'kind': 'action', 'action': {'type': 'release'}, 'result': result[-1000:], 'dry': dry})
         if FAILED.search(result):
             failures.append(f'release -> {result[-700:]}')
 

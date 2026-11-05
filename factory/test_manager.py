@@ -163,3 +163,17 @@ assert FAILED.search('Deploy failed verification: live run reads 2026-11-04, exp
 assert release_due(m4, m4, n) == 'expired'
 assert release_due(m5, m5, n) is None
 print('ok release')
+
+import manager, json
+calls = []
+manager.sh = lambda *a, **k: type('R', (), {'stdout': 'abc123' if a[1] == 'rev-parse' else json.dumps(m5) if a[1] == 'show' else '', 'returncode': 0})()
+manager.live_manifest = lambda: m4
+manager.datetime = type('D', (), {'now': staticmethod(lambda tz: n), 'fromisoformat': staticmethod(datetime.fromisoformat)})
+manager.deploy = lambda dry, rev=None: calls.append((dry, rev)) or 'Could deploy.'
+manager.release(True)
+assert calls == [(True, 'abc123')], calls  # dry stays dry, and the checked commit is the one deployed
+manager.live_manifest = lambda: None
+assert manager.release().startswith('Release check failed')  # null manifest is a recorded failure
+manager.live_manifest = lambda: {**m4, 'opensAt': 5}
+assert manager.release().startswith('Release check failed')  # non-string timestamp
+print('ok release path')
