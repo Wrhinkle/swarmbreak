@@ -13,7 +13,10 @@ QODO = str(Path.home() / '.qodo/bin/qodo')
 REPO = 'Wrhinkle/swarmbreak'
 ROUNDS, QODO_WAIT = 2, 1500
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
-PROTECTED = ('AGENTS.md', 'factory/', 'firebase.json', 'public/manifest.json', '.github/')
+# Agents may fix factory code; every factory/ change still goes to the gate reviewer (gated_paths). Locked: the rules,
+# hosting, install scripts that run on this Mac, the balance limits, the gate reviewer's own brief, and vendored code.
+PROTECTED = ('AGENTS.md', 'firebase.json', 'public/manifest.json', '.github/', 'package.json', 'package-lock.json',
+             'tools/balance.ts', 'tools/checks.ts', 'factory/agents/gate-reviewer.md', 'factory/vendor/')
 GATES = ('AGENTS.md', '.github/', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
 
 
@@ -69,7 +72,7 @@ def gate_review(diff):
 
 
 def verified(tree):
-    for cmd in (['npm', 'run', 'build'], ['npm', 'test']):
+    for cmd in (['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']):
         r = sh(*cmd, cwd=tree, check=False)
         if r.returncode:
             return (r.stdout + r.stderr)[-2000:]

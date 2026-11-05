@@ -36,14 +36,17 @@ assert touches_gates([{'path': 'factory/manager.py'}]) and touches_gates([{'path
 assert touches_gates([{'path': 'src/act.ts'}, {'path': 'factory/log/notes.md'}, {'path': 'public/manifest.json'}]) == []
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
 assert 'Bad' in act({'type': 'delegate', 'agent': 'manager', 'task': 'x'}, {}, True)
-assert blocked_paths(['factory/agents/new-role.md'], 'z') == [] and blocked_paths(['factory/agents/comms.md'], 'z') and blocked_paths(['tools/sim.ts'], 'z') == []
+assert blocked_paths(['factory/agents/new-role.md', 'factory/agents/comms.md', 'factory/run.py', 'factory/builder.py', 'tools/sim.ts'], 'z') == []  # the builder fixes factory code; the gate reviewer reads it
+assert blocked_paths(['factory/agents/gate-reviewer.md'], 'z') and blocked_paths(['factory/vendor/x.py'], 'z')
+from builder import criteria
+assert criteria('x\n## Acceptance criteria\n- a\n- b\n## Notes\nn') == '- a\n- b' and 'no acceptance' in criteria('just text')
 from manager import FAILED
 for bad in ['PR team on 12 exited 1.', 'Builder on issue 14 exited 1: blocked', 'Could not switch to run/x', 'PR 12 was already rejected by the gate reviewer at abc1234.', 'Not deploying: main lacks the live run', 'Not opening x: missing art a.png', 'Action failed: git fetch failed']:
     assert FAILED.search(bad), bad
 for good in ['PR team on 3 exited 0.', 'Builder opened PR 10. PR team exited 0.', 'Would build 2026-11-05.']:
     assert not FAILED.search(good), good
 assert blocked_paths(['src/act.ts', 'runs/2026-11-05/content.json'], '2026-11-04') == []
-for path in ['AGENTS.md', 'factory/run.py', 'tools/balance.ts', 'tools/checks.ts', 'package.json', 'public/manifest.json', 'runs/2026-11-04/content.json']:
+for path in ['AGENTS.md', '.github/x.yml', 'firebase.json', 'tools/balance.ts', 'tools/checks.ts', 'package.json', 'public/manifest.json', 'runs/2026-11-04/content.json']:
     assert blocked_paths([path], '2026-11-04'), path
 run = {'id': 'x', 'acts': [{'creatures': [{'id': 'a', 'name': 'A', 'blurb': 'b', 'scale': 1, 'routines': ['strike']}]}]}
 reworded = {'id': 'x', 'acts': [{'creatures': [{'id': 'a', 'name': 'New', 'blurb': 'c', 'scale': 1, 'routines': ['strike']}]}]}

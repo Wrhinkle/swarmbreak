@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import PROTECTED, REPO, bot, sh, verified  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
-LOCKED = (*PROTECTED, 'package.json', 'package-lock.json', 'tools/balance.ts', 'tools/checks.ts', '.gitignore', 'vite.config')
+LOCKED = (*PROTECTED, '.gitignore', 'vite.config')
 RESULT = '.builder-result.json'
 RETRIES = 2
 TEXT_KEYS = {'name', 'blurb', 'title', 'theme', 'intro', 'outro', 'bossIntro', 'text', 'label', 'result'}
@@ -20,8 +20,13 @@ TEXT_KEYS = {'name', 'blurb', 'title', 'theme', 'intro', 'outro', 'bossIntro', '
 
 def blocked_paths(changed, live):
     """Paths this bot can't change: the limits themselves, and the stored stages of a run players are on."""
-    new_agent = lambda c: c.startswith('factory/agents/') and c.endswith('.md') and not (ROOT / c).exists()
-    return [c for c in changed if (c.startswith(LOCKED) and not new_agent(c)) or c.startswith(f'runs/{live}/')]
+    return [c for c in changed if c.startswith(LOCKED) or c.startswith(f'runs/{live}/')]
+
+
+def criteria(body):
+    """The issue's acceptance-criteria section, so Qodo reviews the change against the request."""
+    m = re.search(r'^#+\s*acceptance criteria\s*$(.*?)(?=^#+\s|\Z)', body or '', re.I | re.M | re.S)
+    return (m.group(1).strip() if m else '') or f'The issue has no acceptance-criteria section. Its request:\n> ' + (body or '').strip()[:1500].replace('\n', '\n> ')
 
 
 def only_wording(old, new, key=None):
@@ -128,7 +133,7 @@ def main():
     title = f'Fix issue {number}: {issue["title"]}'[:90]
     sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
     sh('git', 'push', '-q', '--force-with-lease', 'origin', branch, cwd=tree)
-    url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', f'Fixes #{number}.\n\n{result["summary"]}\n\nEvidence: {result["evidence"]}\n\nWritten by the factory builder on GPT-6.1 Terra.').stdout.strip()
+    url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', f'Fixes #{number}: https://github.com/{REPO}/issues/{number}\n\n## Acceptance criteria (from the issue)\n{criteria(issue["body"])}\n\n## Change\n{result["summary"]}\n\nEvidence: {result["evidence"]}\n\nWritten by the factory builder on GPT-6.1 Terra.').stdout.strip()
     print(url)
     print(url.rsplit('/', 1)[1])
 
