@@ -181,3 +181,14 @@ assert manager.release().startswith('Release check failed')  # null manifest is 
 manager.live_manifest = lambda: {**m4, 'opensAt': 5}
 assert manager.release().startswith('Release check failed')  # non-string timestamp
 print('ok release path')
+
+# Checks run agent-written code: the sandbox blocks home-folder reads, network and writes outside the checkout.
+if not os.environ.get('SWARMBREAK_SANDBOX'):
+    from pr_team import sandboxed
+    with tempfile.TemporaryDirectory(dir=Path.home()) as secret, tempfile.TemporaryDirectory() as tree:
+        Path(secret, 'token').write_text('x')
+        assert sandboxed(['cat', f'{secret}/token'], tree).returncode
+        assert sandboxed(['touch', f'{secret}/w'], tree).returncode
+        assert sandboxed(['python3', '-c', 'import socket; socket.create_connection(("1.1.1.1", 443), 3)'], tree).returncode
+        assert sandboxed(['sh', '-c', 'echo ok > out'], tree).returncode == 0
+    print('ok sandbox')

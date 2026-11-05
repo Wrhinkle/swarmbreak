@@ -72,9 +72,24 @@ def gate_review(diff):
         return gate_verdict(Path(work, 'verdict.json'))
 
 
+def sandboxed(cmd, tree):
+    """Checks run code an agent wrote, so they get no network, no writes outside the checkout and temp, and no reads of
+    files in the home folder (gh, git and codex tokens live there) apart from the checkout itself."""
+    t, home = Path(tree).resolve(), Path.home().resolve()
+    profile = ('(version 1)(allow default)(deny network*)(allow network* (local unix))'
+               '(deny mach-lookup (global-name "com.apple.SecurityServer") (global-name "com.apple.securityd.xpc"))'
+               f'(deny file-write*)(allow file-write* (subpath "{t}") (subpath "/private/tmp") (subpath "/private/var/folders") (subpath "/dev"))'
+               f'(deny file-read-data (subpath "{home}"))(allow file-read-data (subpath "{t}"))')
+    fake = Path(tempfile.mkdtemp(prefix='sbx-home-'))
+    env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL', '_TOKEN'))}
+    env.update(HOME=str(fake), npm_config_cache=str(fake / 'npm'), npm_config_update_notifier='false',
+               PYTHONDONTWRITEBYTECODE='1', SWARMBREAK_SANDBOX='1')
+    return subprocess.run(['sandbox-exec', '-p', profile, *cmd], cwd=tree, capture_output=True, text=True, stdin=subprocess.DEVNULL, env=env)
+
+
 def verified(tree):
     for cmd in (['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']):
-        r = sh(*cmd, cwd=tree, check=False)
+        r = sandboxed(cmd, tree)
         if r.returncode:
             return (r.stdout + r.stderr)[-2000:]
     return ''
