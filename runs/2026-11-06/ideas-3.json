@@ -1,0 +1,216 @@
+{
+  "reading": "The George Washington University Museum and The Textile Museum brings global textile art and the local history of Washington, D.C. together on a university campus. It collects, exhibits, studies and conserves objects, while inviting visitors, students, artisans and scholars to learn through galleries, hands-on programs, research centers and publications. It cares about creative skill, cultural context, careful stewardship, access and scholarship. Its vocabulary joins fiber, color, structure, decoration, fragments, rugs, coverlets and conservation with maps, prints, manuscripts and Washingtoniana. Its distinctive tension is between a worldwide history of textiles and the particular changing capital city, and between complete works made for life and the tiny traces researchers use to understand them.",
+  "enemies": [
+    {
+      "idea": "Rank-badge inspectors pin a hierarchy onto every passerby; a badge changes which doors and drones recognize its wearer.",
+      "source": "/east-south-southeast-asian-textiles",
+      "why": "Stealing or swapping ranks turns a patrol into a social puzzle."
+    },
+    {
+      "idea": "Fragment assemblers seize loose scraps and bolt them into false wholes, chasing anyone whose clothing completes their imagined pattern.",
+      "source": "/cotsen-textile-traces-study-collection",
+      "why": "A tiny missing piece becomes both bait and a way to dismantle the machine."
+    },
+    {
+      "idea": "Map rollers unspool competing plans of the capital over the floor, moving streets and sealing routes when their survey lines cross.",
+      "source": "/albert-h-small-washingtoniana-collection",
+      "why": "Navigation becomes a contest between overlapping versions of a city."
+    },
+    {
+      "idea": "Conservation mites hunt dust but classify skin, paper and moving machinery as contamination, wrapping their targets for treatment.",
+      "source": "/caring-textiles",
+      "why": "Their protective mission creates an escape puzzle instead of a simple fight."
+    },
+    {
+      "idea": "Mounting rigs weigh each intruder and select a hanging method, trying to pin them flat without damaging their equipment.",
+      "source": "/displaying-textiles",
+      "why": "The rig telegraphs its choice through size and weight, giving the crew ways to fool it."
+    },
+    {
+      "idea": "Spindle drones twist loose fiber into a fast-growing cord that binds a crew together and reels them toward the spinner.",
+      "source": "/textiles-101-pop-spinning",
+      "why": "Cutting a cord saves one person but leaves useful thread for traps."
+    },
+    {
+      "idea": "Four-element looms strip color, fiber, structure and decoration from whatever enters their reach, rebuilding it as obedient cloth.",
+      "source": "/textiles-101-resources",
+      "why": "Each stolen element changes the fight in a distinct, reversible way."
+    },
+    {
+      "idea": "Figured-coverlet sentries weave an emblem for each room and attack anyone whose silhouette does not match its household pattern.",
+      "source": "/rug-and-textile-appreciation-morning-american-coverlet-and-its-role-digital-age",
+      "why": "A crew can improvise a matching figure to pass or redraw it to redirect patrols."
+    },
+    {
+      "idea": "Yorgan pressers sandwich machines between block-printed cotton and velvet, producing padded rolling fortresses that swallow impacts.",
+      "source": "/yorgan-art-turkish-quilt",
+      "why": "Their soft armor invites unpicking seams and exploiting the layers."
+    },
+    {
+      "idea": "Journal referees demand evidence for every action and freeze a target under a growing stack of contradictory review notes.",
+      "source": "/textile-museum-journal",
+      "why": "The crew can satisfy, misdirect or turn the reviewers against one another."
+    },
+    {
+      "idea": "Appointment keepers partition the study center into time slots and trap latecomers in repeating waiting periods.",
+      "source": "/research-centers",
+      "why": "A stolen appointment or synchronized clock can open a nonviolent route."
+    },
+    {
+      "idea": "Rotating-exhibition movers rearrange entire galleries on a schedule, sweeping intruders into storage when their theme expires.",
+      "source": "/exhibitions",
+      "why": "The rotation is both an environmental hazard and a predictable moving platform."
+    },
+    {
+      "idea": "Raffia braiders build springy geometric barricades from scavenged fibers, then pull their tension lines tight around approaching machines.",
+      "source": "/african-textiles",
+      "why": "Reading the tension lines reveals how to spring the barricade on its makers."
+    },
+    {
+      "idea": "Carpet network crawlers map every trade of supplies as a thread and follow the connections back to hidden caches.",
+      "source": "/volume-51-2024",
+      "why": "The crew can plant a decoy supply trail or deliberately tangle the network."
+    },
+    {
+      "idea": "Ruins printers stamp imagined ancient arches over intact corridors, creating misleading layers of old and new architecture.",
+      "source": "/piranesis-rome-and-america-250",
+      "why": "The crew must distinguish a usable doorway from a printed illusion."
+    },
+    {
+      "idea": "Postcard couriers crop the city into tidy views and fold anything outside the frame into a pocket-sized detour.",
+      "source": "/alexander-hamilton-and-vintage-washington-postcards-explored",
+      "why": "Changing the viewpoint changes the safe route through the scene."
+    },
+    {
+      "idea": "Material-choice drones imitate contemporary textile expression by endlessly swapping their outer skins, copying the last tool used against them.",
+      "source": "/contemporary-textile-art",
+      "why": "Varied tactics make them unpredictable, while a deliberate harmless tool can mislead them."
+    },
+    {
+      "idea": "Careful climate regulators declare moving bodies a humidity problem and corral them into increasingly dry isolation chambers.",
+      "source": "/textile-care-display",
+      "why": "A preservation system becomes an environmental puzzle with readable controls."
+    },
+    {
+      "idea": "Resonance recorders collect fragments of statements from old letters and echo them as rigid commands to nearby machines.",
+      "source": "/revolutionary-echoes-washington",
+      "why": "Reordering the fragments can make the machines disagree and open a path."
+    },
+    {
+      "idea": "Coverlet production frames feed on spare parts to weave tougher and faster, but jam when their shuttle encounters an unexpected knot.",
+      "source": "/american-coverlets",
+      "why": "An escalating factory can be sabotaged using the same weaving process it exploits."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Fragment readers compare surviving samples and identify the one false join that lets an assembler be taken apart.",
+      "source": "/cotsen-textile-traces-study-collection",
+      "why": "Their expertise gives close observation a practical reward."
+    },
+    {
+      "idea": "Conservation volunteers establish low-light refuges and teach the crew how to carry fragile finds without attracting pest-treatment drones.",
+      "source": "/caring-textiles",
+      "why": "Protecting vulnerable objects creates quieter objectives and safe routes."
+    },
+    {
+      "idea": "Student researchers cross-check maps against letters, charting which streets are real when the swarm overlays old city plans.",
+      "source": "/faculty-student-resources",
+      "why": "Their interdisciplinary work makes the shifting map navigable."
+    },
+    {
+      "idea": "A spinning collective makes cord to rescue trapped visitors and can unwind the swarm’s bindings if supplied with loose fiber.",
+      "source": "/textiles-101-pop-spinning",
+      "why": "A hands-on skill becomes a helpful countermeasure and a reason to gather materials."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Composite Curator joins the global textile collection to the capital’s maps, weaving streets, garments and fragments into one supposedly complete exhibit; its weak points are the incompatible joins it refuses to acknowledge.",
+      "source": "/collections",
+      "why": "The museum’s global and local collections become one shifting arena with several routes to victory."
+    },
+    {
+      "idea": "The Fourfold Loom commands fiber, color, structure and decoration as separate machine swarms; defeating one changes the battlefield for the other three.",
+      "source": "/textiles-101-gallery",
+      "why": "The introductory framework gives the boss clear phases and room for creative combinations."
+    },
+    {
+      "idea": "The Centennial Conservator tries to preserve the entire museum forever by immobilizing it, using climate controls, mounts and archival wrapping to stop every living movement.",
+      "source": "/textile-care-display",
+      "why": "The crew must restore balanced care while navigating a boss whose defenses are preservation tools."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A small textile fragment matches a gap in a machine’s armor, but fitting it there also reveals a hidden route in the weave.",
+      "source": "/cotsen-textile-traces-study-collection",
+      "why": "The crew chooses between disabling a threat and following a clue."
+    },
+    {
+      "idea": "Two overlapping maps put the same doorway on different streets; a nearby letter describes which version was actually built.",
+      "source": "/treasures-albert-h-small-washingtoniana-collection",
+      "why": "Comparing different kinds of evidence rewards exploration."
+    },
+    {
+      "idea": "A spinning demonstration has continued without its audience, winding a thread across a hall; following it leads to a trapped volunteer.",
+      "source": "/textiles-101-pop-spinning",
+      "why": "A simple visible line becomes both a guide and an obstacle."
+    },
+    {
+      "idea": "A climate alarm triggers because a machine has mistaken a warm cup for a dangerous rise in gallery humidity.",
+      "source": "/caring-textiles",
+      "why": "A small, funny misunderstanding can be solved without combat."
+    },
+    {
+      "idea": "A rotating display is about to carry a stranded researcher into storage; the crew can interrupt the rotation or ride it through.",
+      "source": "/selections-textile-museum-collection",
+      "why": "A changing exhibition creates a timed rescue and an optional shortcut."
+    },
+    {
+      "idea": "A coverlet frame offers warmth in a cold room, but starts weaving the sleepers’ possessions into its regional pattern.",
+      "source": "/rug-and-textile-appreciation-morning-american-coverlet-and-its-role-digital-age",
+      "why": "A useful shelter comes with a discoverable cost."
+    },
+    {
+      "idea": "A journal referee drone demands a second opinion on whether a scrap is evidence; two nearby machines produce incompatible readings.",
+      "source": "/textile-museum-journal",
+      "why": "The crew can use scholarly disagreement to buy time or obtain a clue."
+    },
+    {
+      "idea": "A velvet-padded yorgan bundle rolls past, carrying spare parts between two factories; its seams can be opened quietly.",
+      "source": "/yorgan-art-turkish-quilt",
+      "why": "A moving supply cache rewards careful handling."
+    },
+    {
+      "idea": "A print of a ruined arch appears across a solid wall; from another angle its lines point toward an actual passage.",
+      "source": "/piranesis-rome-and-america-250",
+      "why": "Changing perspective turns a misleading image into a navigational clue."
+    },
+    {
+      "idea": "A gallery of textiles for everyday life has been sorted by a drone into court, village and encampment; its misfiled supplies can be reclaimed before the next sorting cycle.",
+      "source": "/textiles-islamic-world",
+      "why": "A race against a sorting machine gives the crew several useful targets."
+    },
+    {
+      "idea": "A study table holds four labeled samples: fiber, color, structure and decoration. Recombining them in the right order opens a loom’s maintenance panel.",
+      "source": "/textiles-101-resources",
+      "why": "The site’s basic vocabulary becomes a tactile puzzle."
+    },
+    {
+      "idea": "An old postcard view does not match the corridor beyond it; aligning the view with surviving landmarks reveals where a courier hid a package.",
+      "source": "/alexander-hamilton-and-vintage-washington-postcards-explored",
+      "why": "A visual comparison creates a compact treasure hunt."
+    },
+    {
+      "idea": "A mounting rig has chosen a support too small for a fragile textile. The crew can adjust the support before its automatic cycle begins.",
+      "source": "/displaying-textiles",
+      "why": "A conservation problem becomes a tense, precise intervention."
+    },
+    {
+      "idea": "A peer discussion about figured coverlets is being replayed to an audience of silent drones; inserting a new pattern makes them attempt to weave it.",
+      "source": "/program-videos",
+      "why": "The crew can create a distraction through the museum’s own teaching format."
+    }
+  ]
+}

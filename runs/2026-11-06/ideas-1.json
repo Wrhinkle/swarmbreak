@@ -1,0 +1,251 @@
+{
+  "reading": "Cambridge University Botanic Garden is a public garden, university teaching collection, research resource and conservation institution. Its 40-acre landscape holds thousands of plant taxa and accessions, arranged in habitats, systematic beds and seasonal displays; living specimens are connected to records, dried specimens, books, archives and material of known provenance. It cares about plant diversity, careful curation, scientific access, wildlife-friendly horticulture, seasonal change, education at every age and welcoming visitors. Its vocabulary moves easily between accession, taxon, epithet, provenance, phenology and comparative morphology on one hand, and plant picks, Welly Walks, Friends and family activities on the other. The distinctive place is simultaneously a heritage landscape, an outdoor classroom, an international collecting network and a working laboratory, with a dye catalogue, a dawn redwood observed through the seasons and a garden transformed by light after dark.",
+  "enemies": [
+    {
+      "idea": "Accession Ticks latch onto anything moving, assign it a collection number and drag it to the bed corresponding to their mistaken record.",
+      "source": "/collections/living-collections/",
+      "why": "A rescue becomes a race against a meticulous inventory system."
+    },
+    {
+      "idea": "Label Stitchers connect plants to the wrong records with metallic threads; a mislabeled rose suddenly receives the care regime of a bog specimen.",
+      "source": "/the-garden/understanding-plant-labels/",
+      "why": "Cutting a thread can free a plant or erase the clue needed to restore it."
+    },
+    {
+      "idea": "Provenance Hounds sniff for an origin and reject anything whose history they cannot verify, packing their quarry into expedition crates.",
+      "source": "/collections/collecting-expeditions/",
+      "why": "A crew can distract them with convincing false histories or recover real field notes."
+    },
+    {
+      "idea": "Phenology Clocks ring the first-flowering alarm whenever they detect warm machinery, then force nearby buds open regardless of season.",
+      "source": "/research-science/phenology-project/",
+      "why": "Heat management matters as much as fighting, and premature blooms expose a route."
+    },
+    {
+      "idea": "Herbarium Pressers flatten living things between hinged specimen sheets, trying to make every encounter a permanent reference sample.",
+      "source": "/collections/herbarium/",
+      "why": "Their slow closing jaws create a clear rescue window and useful cover."
+    },
+    {
+      "idea": "Dye Indexers spray blue, red and yellow botanical pigments onto intruders, then hunt by colour; mixed stains confuse rival indexers.",
+      "source": "/collections/botanic-dyes/",
+      "why": "A messy colour puzzle turns their targeting system against them."
+    },
+    {
+      "idea": "Systematic Bed Sorters uproot anything that appears out of family and rearrange it into rigid rows, including the crew’s equipment.",
+      "source": "/the-garden/garden-map/",
+      "why": "Their predictable sorting lets players plant decoys and redirect patrols."
+    },
+    {
+      "idea": "C3/C4 Switchers measure the wrong atmosphere and alternate between two wildly different photosynthesis routines, flooding one zone with shade and another with harsh light.",
+      "source": "/research-science/supporting-plant-science/",
+      "why": "Their cycle makes a moving environmental puzzle with readable safe intervals."
+    },
+    {
+      "idea": "Morphology Examiners compare every limb and leaf to an ideal specimen, folding anything that differs into a matching shape.",
+      "source": "/learning/certificate-in-botany/",
+      "why": "Unusual silhouettes draw attention while disguises can exploit the examiner’s assumptions."
+    },
+    {
+      "idea": "Seed-storage Weevils vacuum up loose seeds and seal them in chilled compartments, mistaking every small object for a future plant.",
+      "source": "/learning/courses/",
+      "why": "The crew can recover a stolen key or seed packet by cracking a mobile cold store."
+    },
+    {
+      "idea": "Wildlife Census Drones count the same bird repeatedly and deploy barriers to protect their imaginary flock, trapping the real animals inside.",
+      "source": "/the-garden/wildlife/",
+      "why": "Stopping the count without frightening the wildlife rewards careful timing."
+    },
+    {
+      "idea": "Wreath Winders twist fallen branches into rolling rings that corral anything they encounter and add it to the circle.",
+      "source": "/whats-on/",
+      "why": "Their shape makes them fast on a path but vulnerable on uneven ground."
+    },
+    {
+      "idea": "Living Portal Custodians demand an epithet, higher grouping and accession number before allowing anything through, then seize whatever fails their impossible classification.",
+      "source": "/collections/collectionsportal/",
+      "why": "Botanical clues and deliberately ambiguous identities can open a nonviolent route."
+    },
+    {
+      "idea": "Chronological Bed Crawlers drag plants and tools into a supposed historical sequence, making newer objects retreat whenever their gears strike.",
+      "source": "/the-garden/garden-map/",
+      "why": "Players can use objects of different ages to manipulate the advancing line."
+    },
+    {
+      "idea": "Irrigation Bailiffs divert water to whichever bed has the most machinery, leaving real plants dry while patrolling with pressurised hoses.",
+      "source": "/join-support/donate/",
+      "why": "Reopening valves creates both a rescue objective and a way to knock machines off balance."
+    },
+    {
+      "idea": "Light-trail Moths follow programmed colour and sound, projecting false paths through the dark and gathering a swarm at each bright endpoint.",
+      "source": "/cambridgebotaniclights2026/",
+      "why": "Changing the light pattern can lure a whole patrol away."
+    },
+    {
+      "idea": "Plaster Casters take moulds of rare leaves and then entomb the original so their copies stay perfect.",
+      "source": "/learning/courses/",
+      "why": "A delicate extraction has a visible cost if the crew smashes the mould."
+    },
+    {
+      "idea": "Genome Mappers unspool metallic threads across the garden, attempting to link every organism into one uniform pattern and snipping away differences.",
+      "source": "/research-science/",
+      "why": "A network of threads makes a navigational hazard with vulnerable junctions."
+    },
+    {
+      "idea": "Grass Resonators turn the movement and sound of grasses into shrill targeting signals; stillness makes them lose their lock.",
+      "source": "/news/",
+      "why": "The crew can move with gusts or create a louder diversion elsewhere."
+    },
+    {
+      "idea": "Alpine Seed Porters carry refrigerated mountain-seed cases and build tiny icy slopes wherever they stop, forcing warm-climate plants into their preferred conditions.",
+      "source": "/collections/collecting-expeditions/",
+      "why": "Their portable microclimates reshape the terrain and threaten a particular collection."
+    },
+    {
+      "idea": "Expedition Passionflower Grapplers mimic tendrils with jointed cables, snagging equipment and winding it into crates marked for collection.",
+      "source": "/collections/collecting-expeditions/",
+      "why": "Players can cut or redirect the winding cables before their gear disappears."
+    },
+    {
+      "idea": "Rose Golden Wings scouts unfold metal petals like wings, flash reflected sunlight into a target’s eyes and mark it for the weekly harvest.",
+      "source": "/plant-picks-week/",
+      "why": "A named plant pick becomes an airborne spotter whose glare can be aimed back."
+    },
+    {
+      "idea": "Library Borers chew through volumes on plant care and spit out partial instructions, which nearby machines follow literally and disastrously.",
+      "source": "/collections/cory-library/",
+      "why": "Recovering missing pages can change the behavior of several enemies at once."
+    },
+    {
+      "idea": "Archive Surveyors trace the 1834 watercolour plan over the current garden, fencing off anything that does not fit their old outline.",
+      "source": "/collections/archives/",
+      "why": "Two different garden layouts create an intelligible maze with exploitable gaps."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Seed Keepers are intact storage machines that hide viable seeds in ordinary-looking packets and ask the crew to carry them between safe beds.",
+      "source": "/collections/",
+      "why": "Protecting small, portable life gives the crew a concrete stake in the garden’s future."
+    },
+    {
+      "idea": "A network of wildlife-friendly nesting spots shelters real pollinators; patient gardeners can use their movements to find safe passages past the census drones.",
+      "source": "/the-garden/wildlife/",
+      "why": "The living garden supplies information without turning animals into disposable weapons."
+    },
+    {
+      "idea": "The Phenology Watch maintains a hand-kept record of the dawn redwood’s seasonal changes and can predict when the false flowering alarms will sound.",
+      "source": "/research-science/phenology-project/",
+      "why": "Observation becomes actionable intelligence and counters the swarm’s faulty measurements."
+    },
+    {
+      "idea": "The Friends’ Table is a survivor-run gathering where people pool supplies and teach one another how to repair tools and tend damaged beds.",
+      "source": "/whats-on/",
+      "why": "A social refuge makes the garden feel worth saving."
+    },
+    {
+      "idea": "The Dye Catalogue keeper gives the crew plant-derived pigments for marking safe routes and confusing colour-tracking machines.",
+      "source": "/collections/botanic-dyes/",
+      "why": "A creative practice becomes a practical countermeasure."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Curator, a towering mobile glasshouse, gathers labels, specimens and records into a single perfect collection, preserving each plant by locking it away from the conditions that keep it alive. Its shields fail when separated plants and records are correctly reunited across several beds.",
+      "source": "/collections/",
+      "why": "The whole institution’s care for living collections becomes a multi-stage fight about restoring relationships."
+    },
+    {
+      "idea": "The Calendar Crown sits above the dawn redwood and forces every season to occur at once: spring buds, summer glare, autumn leaf fall and winter frost rotate through the arena. Recalibrating its observations gradually returns the garden to its real rhythm.",
+      "source": "/research-science/phenology-project/",
+      "why": "The garden’s seasonal science drives a changing arena and a resolution based on observation."
+    },
+    {
+      "idea": "The Ark Engine roams on rootlike collectors, building a self-contained machine garden from specimens taken from every habitat. Its cargo bays can be opened one by one to return the plants and deprive it of their borrowed abilities.",
+      "source": "/the-garden/",
+      "why": "Conservation and a landscape of distinct plantings combine into a boss with meaningful rescue objectives."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A label has been swapped between two plants and the watering machines are heading for both. Match the plants to their records before the wrong treatment begins.",
+      "source": "/the-garden/understanding-plant-labels/",
+      "why": "A small detective problem has an immediate physical consequence."
+    },
+    {
+      "idea": "A seed keeper drops a packet on the edge of the Grass Maze; a collecting drone is approaching from the other side.",
+      "source": "/the-garden/garden-map/",
+      "why": "The crew can race, hide or divert the drone through the maze."
+    },
+    {
+      "idea": "A mistimed phenology alarm has opened buds during a cold spell. Shield the branch while someone resets the sensor.",
+      "source": "/research-science/phenology-project/",
+      "why": "A brief defense encounter makes the seasonal error tangible."
+    },
+    {
+      "idea": "A dye spill turns a path blue, and colour-seeking machines converge on it. The crew can wash a crossing clear or lay a false trail.",
+      "source": "/collections/botanic-dyes/",
+      "why": "One mess offers several tactical choices."
+    },
+    {
+      "idea": "A herbarium sheet has snagged in a press; its handwritten record could identify an endangered specimen, but the machine closes in regular cycles.",
+      "source": "/collections/herbarium/",
+      "why": "Timing a careful retrieval preserves both clue and specimen."
+    },
+    {
+      "idea": "An expedition crate holds Swiss Alpine seeds and a broken cooler. Find a cool shelter before the crate’s collection drone returns.",
+      "source": "/collections/collecting-expeditions/",
+      "why": "A portable delivery problem borrows a specific collecting destination."
+    },
+    {
+      "idea": "In the Bee Borders, a census drone keeps counting its own reflection. Cover the reflective panel while pollinators move between flowers.",
+      "source": "/the-garden/garden-map/",
+      "why": "A quiet solution rewards noticing what the machine is actually seeing."
+    },
+    {
+      "idea": "A wreath-making station has tangled tools in a revolving branch ring. Stop its rotation and free the tools without breaking the living cuttings.",
+      "source": "/learning/courses/",
+      "why": "A workshop becomes a compact mechanical puzzle."
+    },
+    {
+      "idea": "A damaged light projector sends visitors in circles after dark. Reorder its coloured beams to reveal a safe route through the garden.",
+      "source": "/cambridgebotaniclights2026/",
+      "why": "The night trail becomes a navigation puzzle with a visible solution."
+    },
+    {
+      "idea": "An irrigation pipe feeds a puddle around an empty machine stand while a nearby bed wilts. Reroute the flow before the patrol notices the pressure drop.",
+      "source": "/join-support/donate/",
+      "why": "A practical repair creates a timed stealth problem."
+    },
+    {
+      "idea": "A family activity table has vegetable-print patterns that happen to resemble swarm identification marks. Make a print to pass a nearby scanner.",
+      "source": "/learning/families/",
+      "why": "An approachable craft becomes an improvised disguise."
+    },
+    {
+      "idea": "A scanner at the living collections portal asks for provenance, but its record has two conflicting answers. Find the matching field note before choosing which route to unlock.",
+      "source": "/collections/collectionsportal/",
+      "why": "The crew can investigate instead of guessing a password."
+    },
+    {
+      "idea": "A fallen archive case reveals a watercolour garden plan; its older paths offer a shortcut around a newly erected swarm barricade.",
+      "source": "/collections/archives/",
+      "why": "A historic object changes how the crew navigates the present landscape."
+    },
+    {
+      "idea": "A Friends’ gathering is trying to move seeds and tools to a safer bed. Escort the little procession or create a diversion for the patrolling collectors.",
+      "source": "/join-support/friends/",
+      "why": "A community objective gives several ways to help."
+    },
+    {
+      "idea": "A dawn redwood observation station reports every season at once. Compare the actual tree with its stored observations and reconnect the correct sensor.",
+      "source": "/research-science/phenology-project/",
+      "why": "The environment itself supplies the answer."
+    },
+    {
+      "idea": "In a botany lesson area, a morphology examiner has mixed leaves from several specimens. Sort the shapes to release the trapped teaching kit.",
+      "source": "/learning/certificate-in-botany/",
+      "why": "Comparative observation becomes a tactile escape puzzle."
+    }
+  ]
+}

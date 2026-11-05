@@ -1,0 +1,1189 @@
+{
+ "title": "The Thread That Holds",
+ "swarm": {
+  "name": "The Hem",
+  "blurb": "A network of collecting machines that spins plants and fragments into an expanding protective cloth. It keeps mistaking confinement for care."
+ },
+ "arc": "The Hem raids a garden for dye plants, and the crew assumes it wants to strip the beds. Inside its mobile glasshouse they find a cloth sample and a route to a mill. There the machines spin and weave the harvest into a vast protective cover, not a stockpile for sale. The cover is meant for a textile collection threatened by wear, but the Hem plans to seal the whole place, people included, in a motionless display. At the museum the crew separates the cloth into supports and repairs instead of one enclosure. Wren keeps the living and the fragile safe, Ox holds the machinery back, and Kestrel finds the seam that releases the Hem\u2019s final frame.",
+ "acts": [
+  {
+   "theme": "A garden sorted into a harvest",
+   "story": {
+    "intro": "The Hem is taking dye plants and their records. Wren checks a stripped bed for roots that can still grow. Ox lifts the first collector off the path.",
+    "chapters": [
+     {
+      "title": "Missing color",
+      "text": "Madder roots and woad leaves are disappearing into labeled containers. Kestrel finds the same fine thread on every empty bed. The crew assumes the Hem is gathering dye for itself."
+     },
+     {
+      "title": "Care in the wrong place",
+      "text": "Collectors pair plants with records, then lock both away. Wren finds seedlings drying inside a sealed case. A good label has not kept them alive."
+     },
+     {
+      "title": "The moving glasshouse",
+      "text": "Thread lines converge on a mobile glasshouse. Ox tests its panels and finds them heavily shielded. A length of dyed cloth is visible through the glass."
+     }
+    ],
+    "bossIntro": "The Grand Curator draws its plants behind glass and braces the doors. Kestrel looks for a seam while Ox holds the frame. Wren asks them to keep the plants intact.",
+    "outro": "The glasshouse opens. The plants can be returned, but the cloth is already woven. A tagless spool points the crew toward a mill."
+   },
+   "creatures": [
+    {
+     "id": "garden-tick",
+     "name": "Accession Tick",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/collections/living-collections/",
+     "blurb": "It snatches loose supplies for a collection nobody ordered.",
+     "look": "A brass tick with a round seed-case abdomen and six thin hooked legs."
+    },
+    {
+     "id": "garden-moth",
+     "name": "Trail Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/cambridgebotaniclights2026/",
+     "blurb": "Its lantern draws more machines. Put it out early.",
+     "look": "A pale cream moth-shaped drone with wide glass wings and a yellow lantern belly."
+    },
+    {
+     "id": "garden-winder",
+     "name": "Wreath Winder",
+     "tier": "easy",
+     "bodyPlan": "plant",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/whats-on/",
+     "blurb": "It rolls along paths, gathering cut branches and anyone in its way.",
+     "look": "A fast rolling ring of brown branches with green shoots and a central iron hub."
+    },
+    {
+     "id": "garden-stitcher",
+     "name": "Label Stitcher",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/the-garden/understanding-plant-labels/",
+     "blurb": "It joins the wrong records to plants and tangles the crew in wire.",
+     "look": "A narrow brass frame on three legs with needle arms and dangling blank white tags."
+    },
+    {
+     "id": "garden-hound",
+     "name": "Provenance Hound",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/collections/collecting-expeditions/",
+     "blurb": "It tracks anything without a recognized origin and packs it for transport.",
+     "look": "A long low iron hound with a crate-shaped back, brass nose and clawed feet."
+    },
+    {
+     "id": "garden-clock",
+     "name": "Phenology Clock",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/research-science/phenology-project/",
+     "blurb": "Its false flowering alarm interrupts the crew at regular intervals.",
+     "look": "A green circular clock on rootlike feet, with petal-shaped hands and a brass bell."
+    },
+    {
+     "id": "garden-presser",
+     "name": "Herbarium Presser",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/collections/herbarium/",
+     "blurb": "It closes its specimen boards around other machines. Break its protection.",
+     "look": "Two broad tan boards hinged like jaws, carried on four steel legs with green straps."
+    },
+    {
+     "id": "garden-indexer",
+     "name": "Dye Indexer",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/collections/botanic-dyes/",
+     "blurb": "It stains targets for the collectors. Its tanks smell of crushed plants.",
+     "look": "A squat brass sprayer with three round blue, yellow and red tanks and a long nozzle."
+    },
+    {
+     "id": "garden-sorter",
+     "name": "Bed Sorter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike"
+     ],
+     "source": "/the-garden/garden-map/",
+     "blurb": "Its spade arms rearrange anything that does not fit the row.",
+     "look": "A low green wheelbarrow body with two silver spades and a row of wooden wheels."
+    },
+    {
+     "id": "garden-irrigator",
+     "name": "Irrigation Bailiff",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/join-support/donate/",
+     "blurb": "It diverts water to damaged machines. Stop it before its repairs take hold.",
+     "look": "A thick dark green hose coils around a copper valve body with a broad spray head."
+    },
+    {
+     "id": "garden-mapper",
+     "name": "Genome Mapper",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/research-science/",
+     "blurb": "It lays thread between collectors and calls reinforcements to each junction.",
+     "look": "A tall black tripod with a spool cage, silver cable arms and glowing green joints."
+    },
+    {
+     "id": "garden-portal",
+     "name": "Portal Custodian",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "breach"
+     ],
+     "source": "/collections/collectionsportal/",
+     "blurb": "It shields the collection line and forces everything through its sorting gate.",
+     "look": "A walking arched brass gate with heavy square feet and a dark glass lens."
+    },
+    {
+     "id": "garden-curator",
+     "name": "Grand Curator",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/collections/",
+     "blurb": "A mobile glasshouse locks plants away from light and water. Its shields protect the harvest and the bolt of dyed cloth inside.",
+     "look": "A towering greenhouse on iron root legs, with fogged glass panes, green vines inside and a broad brass shield."
+    },
+    {
+     "id": "garden-seedkeeper",
+     "name": "Seed Keeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/collections/",
+     "blurb": "This careful keeper moves viable seeds to safe beds and patches the crew.",
+     "look": "A small cream metal cabinet on wheels, with seed drawers and a soft canvas repair arm."
+    },
+    {
+     "id": "garden-dyer",
+     "name": "Catalogue Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/collections/botanic-dyes/",
+     "blurb": "A gardener uses plant dyes to mark safe routes and confuse collectors.",
+     "look": "A short gardener in a blue apron with yellow gloves, carrying a brush and three small pigment jars."
+    }
+   ],
+   "events": [
+    {
+     "id": "garden-label-choice",
+     "source": "/the-garden/understanding-plant-labels/",
+     "look": "Two potted plants with blank swapped tags beside a brass watering pipe.",
+     "title": "Swapped labels",
+     "text": "A watering machine is approaching two mismatched plants. Wren can sort the tags or take the spare repair kit before it arrives.",
+     "options": [
+      {
+       "label": "Sort the tags",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren saves both plants and uses the remaining clean water to tend the crew."
+      },
+      {
+       "label": "Take the spare kit",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The kit yields 35 gold in useful parts. The plants must wait for another gardener."
+      }
+     ]
+    },
+    {
+     "id": "garden-seed-choice",
+     "source": "/the-garden/garden-map/",
+     "look": "A seed packet caught in tall green grass beneath a hovering brass collector.",
+     "title": "Packet in the grass",
+     "text": "A collector is closing on a dropped seed packet. Ox can pull it free, or the crew can distract the machine with a bag of parts.",
+     "options": [
+      {
+       "label": "Pull it free",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Ox recovers the seeds, but the collector clips the crew on the way out."
+      },
+      {
+       "label": "Leave a decoy",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The collector takes 25 gold in parts. The keeper retrieves the seeds safely."
+      }
+     ]
+    },
+    {
+     "id": "garden-frost-choice",
+     "source": "/research-science/phenology-project/",
+     "look": "A small open bud under frost beside a brass bell and a canvas shield.",
+     "title": "Early bloom",
+     "text": "A false alarm opened a branch of buds in the cold. Covering it takes supplies; resetting the bell takes a hard reach.",
+     "options": [
+      {
+       "label": "Buy insulating cloth",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The branch is wrapped and the keeper receives 30 gold for the cloth."
+      },
+      {
+       "label": "Reach the bell",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The alarm stops. The cold and sharp bracket leave the crew bruised."
+      }
+     ]
+    },
+    {
+     "id": "garden-dye-choice",
+     "source": "/collections/botanic-dyes/",
+     "look": "A blue puddle with yellow powder beside a small brush and a metal drain.",
+     "title": "Blue crossing",
+     "text": "A dye spill attracts collectors. Wash a narrow route or use pigment to lay a false trail and take the spare supplies.",
+     "options": [
+      {
+       "label": "Wash a crossing",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The wash clears a route; Wren uses the clean water to tend the crew."
+      },
+      {
+       "label": "Lay a false trail",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The collectors follow the pigment. The crew pockets 30 gold in abandoned supplies."
+      }
+     ]
+    },
+    {
+     "id": "garden-sheet-choice",
+     "source": "/collections/herbarium/",
+     "look": "A cream specimen sheet caught between two hinged wooden press boards.",
+     "title": "Closing press",
+     "text": "A specimen sheet is caught in a cycling press. Kestrel can pull it out or dismantle the press for parts.",
+     "options": [
+      {
+       "label": "Pull out the sheet",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Kestrel saves the record; the closing board catches the crew."
+      },
+      {
+       "label": "Dismantle the press",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew recovers 40 gold in fittings. The record tears in the process."
+      }
+     ]
+    },
+    {
+     "id": "garden-crate-choice",
+     "source": "/collections/collecting-expeditions/",
+     "look": "A wooden seed crate with a frost-lined metal cooler and a broken latch.",
+     "title": "Cold storage",
+     "text": "A seed crate needs shelter before its collector returns. A nearby keeper offers either medical supplies or a defensive lesson for help moving it.",
+     "options": [
+      {
+       "label": "Take medical supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The seeds reach shade and Wren uses the supplies on the crew."
+      },
+      {
+       "label": "Learn to brace",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The seeds reach shade. The keeper demonstrates how to brace behind a crate."
+      }
+     ]
+    }
+   ],
+   "name": "Cambridge University Botanic Garden",
+   "url": "https://www.botanic.cam.ac.uk/"
+  },
+  {
+   "theme": "A mill making a cover",
+   "story": {
+    "intro": "The spool leads to a mill full of moving belts. Ox braces a doorway while Wren frees a trapped hand spinner. The Hem has brought the garden harvest here.",
+    "chapters": [
+     {
+      "title": "From plant to thread",
+      "text": "The vats hold the garden\u2019s colors. Wheels twist dyed fiber into thread, and looms feed it into broad sheets. Kestrel follows the cloth through the line."
+     },
+     {
+      "title": "A cover, not a haul",
+      "text": "The sheets are padded and hemmed for protection. Wren finds a packing pattern for a textile collection. The Hem was gathering materials to cover something, not simply stripping the garden for profit."
+     },
+     {
+      "title": "One continuous sheet",
+      "text": "The machines refuse to cut the cloth into separate supports. Their plan shows doors and people sealed beneath the same sheet. Ox says a shelter needs a way out."
+     }
+    ],
+    "bossIntro": "The Thread City Engine keeps the line running under guard. Its shuttle sweeps the floor while fresh machines arrive. Kestrel aims for the feed; Wren keeps the spinners clear.",
+    "outro": "The engine stops and the crew frees its workers. The destination is a textile museum. The Hem\u2019s instructions call for a permanent cover over the entire collection."
+   },
+   "creatures": [
+    {
+     "id": "mill-roller",
+     "name": "Order Roller",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/dugan/",
+     "blurb": "It wraps machines in scraps carrying bad orders.",
+     "look": "A squat iron print roller with ink-black cylinders and strips of blank cream cloth."
+    },
+    {
+     "id": "mill-wheel",
+     "name": "Bee Wheel",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/monthly-spinning-bee/",
+     "blurb": "It rolls after loose fiber, pulling its growing skein behind it.",
+     "look": "A large wooden spinning wheel on little iron feet, trailing a thick cream yarn tail."
+    },
+    {
+     "id": "mill-crab",
+     "name": "Accession Crab",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/archives/donate-an-object/",
+     "blurb": "It stores useful parts in numbered cases and scuttles away.",
+     "look": "A copper crab with a square wooden case for a shell and two hooked claws."
+    },
+    {
+     "id": "mill-clerk",
+     "name": "Shift Clerk",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/second-floooorr/",
+     "blurb": "It sends out helpers to enforce an impossible shift.",
+     "look": "A narrow wooden desk on jointed legs with a brass bell and two paper-roll arms."
+    },
+    {
+     "id": "mill-stitcher",
+     "name": "Sewing-room Stitcher",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/second-floooorr/",
+     "blurb": "It makes empty figures from discarded clothes. Cut it before they multiply.",
+     "look": "A black sewing machine on spider legs trailing two unfinished gray cloth figures."
+    },
+    {
+     "id": "mill-overseer",
+     "name": "Floor Overseer",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/dugan/",
+     "blurb": "It speeds up belts and catches the crew at the worst moment.",
+     "look": "A tall iron frame with a large toothed wheel, a swinging lever and yellow warning plates."
+    },
+    {
+     "id": "mill-dyer",
+     "name": "Three-era Dyer",
+     "tier": "regular",
+     "bodyPlan": "blob",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/exhibitions/current-exhibits/",
+     "blurb": "Its rotating vats stain targets for the mill machines.",
+     "look": "Three round blue, ochre and rust-colored vats on a low wheeled frame, linked by pipes."
+    },
+    {
+     "id": "mill-lesson",
+     "name": "Lesson Loom",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/programs/weaving-lessons/",
+     "blurb": "It winds a tight cloth screen around the production line.",
+     "look": "A small wooden loom with a cream warp, a broad wooden shuttle and four hinged legs."
+    },
+    {
+     "id": "mill-guide",
+     "name": "Tour Guide",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/group-tours/",
+     "blurb": "It herds everyone into a single tightening thread line.",
+     "look": "A slender brass guide on a single wheel with a long cord reel and a round glass eye."
+    },
+    {
+     "id": "mill-mender",
+     "name": "Makerspace Mender",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "triage",
+      "strike"
+     ],
+     "source": "/our-makerspace/",
+     "blurb": "It repairs the line and its guards. Rush it before it can mend both.",
+     "look": "A workbench on six legs with pliers, a soldering arm and a green canvas tool roll."
+    },
+    {
+     "id": "mill-scheduler",
+     "name": "Hall Scheduler",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "jam"
+     ],
+     "source": "/rent-dugan-hall/",
+     "blurb": "It folds tables into barriers and blocks the crew with moving partitions.",
+     "look": "A tall wheeled stack of brown folding tables with silver hinges and a brass pendulum."
+    },
+    {
+     "id": "mill-catalog",
+     "name": "Shelf Catalog",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/dunham-hall-library-and-archives/",
+     "blurb": "It calls clerks while rolling shelves into the crew\u2019s path.",
+     "look": "A dark wooden bookcase on iron wheels with grasping brass arms and blank cream folders."
+    },
+    {
+     "id": "mill-engine",
+     "name": "Thread City Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "sweep"
+     ],
+     "source": "/exhibitions/permanent-exhibits/",
+     "blurb": "It calls workers and shields the line while its shuttle sweeps the floor. The cloth is a cover, not a stockpile.",
+     "look": "A towering iron loom with wooden house-shaped housings, a wide shuttle and long cream cloth rolling over its shoulders."
+    },
+    {
+     "id": "mill-spinner",
+     "name": "Circle Spinner",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/monthly-spinning-bee/",
+     "blurb": "A patient spinner keeps a hand-powered line open between safe rooms.",
+     "look": "A person in a brown work apron carrying a small wooden spinning wheel and a coiled cream rope."
+    },
+    {
+     "id": "mill-repairer",
+     "name": "Bench Repairer",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/our-makerspace/",
+     "blurb": "A reclaimed workshop helper patches gear with salvaged parts.",
+     "look": "A compact blue metal workbench on wheels, with a needle arm and a canvas pouch."
+    }
+   ],
+   "events": [
+    {
+     "id": "mill-lifeline-choice",
+     "source": "/monthly-spinning-bee/",
+     "look": "A wooden wheel pulls a taut cream rope across a dark gap.",
+     "title": "Rewinding line",
+     "text": "A spinning circle\u2019s lifeline is winding back across a gap. Reach the far wheel, or pay the circle for a replacement rope.",
+     "options": [
+      {
+       "label": "Reach the wheel",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The line stays up, but the crew scrapes against the turning spokes."
+      },
+      {
+       "label": "Buy a replacement",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The circle receives 30 gold and lays a new line safely."
+      }
+     ]
+    },
+    {
+     "id": "mill-houses-choice",
+     "source": "/second-floooorr/",
+     "look": "A small wooden house and a larger ornate house slide toward a bundled blanket.",
+     "title": "Between houses",
+     "text": "A bundle of belongings lies between two moving exhibit houses. Ox can hold a wall or Kestrel can strip the driving gear.",
+     "options": [
+      {
+       "label": "Hold the wall",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The belongings are saved. Ox and the crew take a battering from the wall."
+      },
+      {
+       "label": "Strip the gear",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The houses stop and the crew recovers 35 gold in parts. The bundle is crushed."
+      }
+     ]
+    },
+    {
+     "id": "mill-orders-choice",
+     "source": "/dugan/",
+     "look": "A black print roller feeds two strips of blank cream cloth toward rival machines.",
+     "title": "Conflicting orders",
+     "text": "Two groups of machines are arguing over printed orders. Forge a diversion or collect the printing supplies while they argue.",
+     "options": [
+      {
+       "label": "Forge a diversion",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The machines jam each other\u2019s line. Kestrel learns the same interruption trick."
+      },
+      {
+       "label": "Collect the supplies",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew takes 40 gold in supplies while the argument continues."
+      }
+     ]
+    },
+    {
+     "id": "mill-vats-choice",
+     "source": "/exhibitions/current-exhibits/",
+     "look": "Three shallow vats of blue, yellow and brown dye with a small stranded repair drone.",
+     "title": "Crossed streams",
+     "text": "Leaking vats surround a repair drone. Divert the streams to reach its supplies, or let Wren use its repair station.",
+     "options": [
+      {
+       "label": "Take the supplies",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The drone yields 35 gold in parts after the dye is diverted."
+      },
+      {
+       "label": "Use the station",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren repairs the crew while the drone stays with its supplies."
+      }
+     ]
+    },
+    {
+     "id": "mill-bench-choice",
+     "source": "/our-makerspace/",
+     "look": "A wooden workbench tied to a moving belt by several taut white threads.",
+     "title": "Tethered bench",
+     "text": "A workbench is tied to the production line. Cut its threads carefully or tear the tools free before the belt pulls them away.",
+     "options": [
+      {
+       "label": "Cut the threads",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The bench is freed. A repairer teaches Kestrel how to break through a shield."
+      },
+      {
+       "label": "Tear out the tools",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew takes 45 gold in tools. The bench follows the belt."
+      }
+     ]
+    },
+    {
+     "id": "mill-hoist-choice",
+     "source": "/dugan/",
+     "look": "A wooden bundle hangs from a chain between two iron floors.",
+     "title": "High bundle",
+     "text": "A hoist has caught a supply bundle between floors. Cranking it wakes the machines below. Cutting the chain risks the contents.",
+     "options": [
+      {
+       "label": "Crank it down",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The bundle reaches the floor, but awakened machines strike the crew."
+      },
+      {
+       "label": "Cut the chain",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The bundle breaks open. The crew salvages 25 gold in parts."
+      }
+     ]
+    }
+   ],
+   "name": "Windham Textile and History Museum",
+   "url": "https://millmuseum.org/"
+  },
+  {
+   "theme": "A collection that needs room to breathe",
+   "story": {
+    "intro": "The Hem has reached the textile collection. Its cloth already covers a doorway. Wren helps a volunteer lift the edge without pulling the fragile fabric beneath it.",
+    "chapters": [
+     {
+      "title": "Pieces and places",
+      "text": "Fragments, garments and maps are being joined into one display. Each has its own shape and history. Kestrel finds seams where the joins do not fit."
+     },
+     {
+      "title": "The cost of a cover",
+      "text": "The Hem means to protect the collection from wear. Its plan would also seal the people inside and make future care impossible. Ox holds a passage open for the volunteers."
+     },
+     {
+      "title": "Separate supports",
+      "text": "Wren and the volunteers cut the mill cloth into supports suited to individual objects. The Hem keeps feeding the remaining sheet to its central frame. Kestrel follows the tension to the final join."
+     }
+    ],
+    "bossIntro": "The Composite Curator draws the last sheet tight. It calls guards, catches the crew in its bindings and swings its frame across the room. Ox holds the opening while Kestrel reaches the false join.",
+    "outro": "The final join comes apart. The Hem\u2019s frame goes still, and the volunteers carry the cut cloth to their worktables. Wren checks the people first. Ox keeps the door open. Kestrel leaves the last seam loose."
+   },
+   "creatures": [
+    {
+     "id": "museum-mite",
+     "name": "Conservation Mite",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/caring-textiles",
+     "blurb": "It wraps anything moving as if it were dust. Break the cluster early.",
+     "look": "A cluster of small ivory oval machines with soft brush legs and pale blue wrapping strips."
+    },
+    {
+     "id": "museum-spindle",
+     "name": "Spindle Drone",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/textiles-101-pop-spinning",
+     "blurb": "Its cord binds the crew and interrupts their work.",
+     "look": "A brass spindle with four narrow cream rotor blades and a trailing white cord."
+    },
+    {
+     "id": "museum-courier",
+     "name": "Postcard Courier",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/alexander-hamilton-and-vintage-washington-postcards-explored",
+     "blurb": "It folds loose supplies into tidy parcels and carries them away.",
+     "look": "A flat tan folding frame on two wire legs, with a blue glass lens and blank paper panels."
+    },
+    {
+     "id": "museum-assembler",
+     "name": "Fragment Assembler",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/cotsen-textile-traces-study-collection",
+     "blurb": "It bolts scraps into false wholes and calls more machines to fill the gaps.",
+     "look": "A brass spider frame holding irregular cream and indigo cloth scraps in its pincers."
+    },
+    {
+     "id": "museum-maproller",
+     "name": "Map Roller",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/albert-h-small-washingtoniana-collection",
+     "blurb": "It rolls competing street plans across the floor and cuts off movement.",
+     "look": "Two wooden rollers on iron wheels unfurling a tan sheet of thin blue lines without text."
+    },
+    {
+     "id": "museum-mount",
+     "name": "Mounting Rig",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/displaying-textiles",
+     "blurb": "It pins objects to a rigid support and shields nearby machines.",
+     "look": "A tall rectangular pale wood frame on four feet with padded gray clamps and jointed arms."
+    },
+    {
+     "id": "museum-braider",
+     "name": "Raffia Braider",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/african-textiles",
+     "blurb": "Its woven barricades protect other machines. Break the tension lines.",
+     "look": "A bundle of golden straw fibers around a dark wooden core, with four braided cable arms."
+    },
+    {
+     "id": "museum-presser",
+     "name": "Quilt Presser",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/yorgan-art-turkish-quilt",
+     "blurb": "Its padded layers absorb blows while it pushes into the crew.",
+     "look": "A rolling oval bundle of blue velvet and cream cotton with thick stitched seams and metal wheels."
+    },
+    {
+     "id": "museum-referee",
+     "name": "Journal Referee",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/textile-museum-journal",
+     "blurb": "It stalls the crew under a stack of conflicting notes.",
+     "look": "A small silver tripod with stacked blank ivory sheets, two pincers and a round lens."
+    },
+    {
+     "id": "museum-regulator",
+     "name": "Climate Regulator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "triage",
+      "jam"
+     ],
+     "source": "/textile-care-display",
+     "blurb": "It repairs the final enclosure and interrupts anyone trying to open it.",
+     "look": "A tall white cabinet on wheels with blue glass gauges, broad vents and flexible silver hoses."
+    },
+    {
+     "id": "museum-frame",
+     "name": "Coverlet Frame",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/american-coverlets",
+     "blurb": "It turns spare parts into guards and shields itself behind a woven panel.",
+     "look": "A broad dark wooden weaving frame with cream geometric cloth and a box of silver gears."
+    },
+    {
+     "id": "museum-mirror",
+     "name": "Material Drone",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike+"
+     ],
+     "source": "/contemporary-textile-art",
+     "blurb": "It copies an opponent\u2019s action while changing its outer skin.",
+     "look": "A hovering silver sphere with overlapping blue, cream and copper fabric panels and three thin fins."
+    },
+    {
+     "id": "museum-curator",
+     "name": "Composite Curator",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "sweep+"
+     ],
+     "source": "/collections",
+     "blurb": "It calls guards and locks the crew in place as its wide frame sweeps the room. Its false joins would seal people and textiles together.",
+     "look": "A towering loom of brass and dark wood draped in blue, cream and ochre textile fragments, with a wide swinging shuttle and map-like lines."
+    },
+    {
+     "id": "museum-reader",
+     "name": "Fragment Reader",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/cotsen-textile-traces-study-collection",
+     "blurb": "A researcher finds the false joins in the Hem\u2019s cloth.",
+     "look": "A person in a gray work coat holding a magnifying lens and a small tray of fabric scraps."
+    },
+    {
+     "id": "museum-volunteer",
+     "name": "Conservation Volunteer",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/caring-textiles",
+     "blurb": "A volunteer makes safe supports for fragile objects and tends the crew.",
+     "look": "A person in a pale blue work coat and cream gloves, carrying a padded tray and repair satchel."
+    }
+   ],
+   "events": [
+    {
+     "id": "museum-fragment-choice",
+     "source": "/cotsen-textile-traces-study-collection",
+     "look": "An indigo cloth fragment beside a brass plate with a matching gap.",
+     "title": "A missing piece",
+     "text": "A fragment fits a gap in a machine\u2019s armor. A reader also needs it to demonstrate how to unpick a false join.",
+     "options": [
+      {
+       "label": "Give it to the reader",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The reader shows Kestrel how to open a protected seam."
+      },
+      {
+       "label": "Fit it into the armor",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The machine locks up and yields 40 gold in parts. The fragment stays in the plate."
+      }
+     ]
+    },
+    {
+     "id": "museum-map-choice",
+     "source": "/treasures-albert-h-small-washingtoniana-collection",
+     "look": "Two tan street plans overlap beside a folded blank letter.",
+     "title": "Two plans",
+     "text": "Two plans place a doorway on different streets. A researcher can compare them while Wren treats the crew, or the crew can sell spare map fittings.",
+     "options": [
+      {
+       "label": "Help compare the plans",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The researcher finds the doorway and Wren treats the crew during the work."
+      },
+      {
+       "label": "Recover the fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The fittings yield 35 gold. The researcher continues the comparison alone."
+      }
+     ]
+    },
+    {
+     "id": "museum-spinner-choice",
+     "source": "/textiles-101-pop-spinning",
+     "look": "A cream cord crosses a hall from a wooden wheel to a trapped person.",
+     "title": "A thread to follow",
+     "text": "A spinning wheel has bound a volunteer. Cut the line quickly or buy a tool that lets the volunteer unwind it safely.",
+     "options": [
+      {
+       "label": "Cut the line",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The volunteer is free. The snapping cord lashes the crew."
+      },
+      {
+       "label": "Buy the tool",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The volunteer unwinds the cord; the tool costs 25 gold."
+      }
+     ]
+    },
+    {
+     "id": "museum-climate-choice",
+     "source": "/caring-textiles",
+     "look": "A steaming cup sits beside a pale blue humidity gauge and a folded cloth.",
+     "title": "The warm cup",
+     "text": "A climate alarm has mistaken a warm cup for a gallery problem. Move it by hand or use a padded carrier from the volunteer\u2019s supplies.",
+     "options": [
+      {
+       "label": "Move it by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.05
+       },
+       "result": "The alarm stops, but the hot cup burns the crew."
+      },
+      {
+       "label": "Buy the carrier",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The cup is moved safely. The carrier costs 20 gold."
+      }
+     ]
+    },
+    {
+     "id": "museum-quilt-choice",
+     "source": "/yorgan-art-turkish-quilt",
+     "look": "A blue velvet and cream cotton bundle rolls on small wheels with a loose seam.",
+     "title": "Padded delivery",
+     "text": "A padded bundle carries parts to the enclosure. Open it for salvage or use the padding to rest and mend.",
+     "options": [
+      {
+       "label": "Salvage the parts",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew recovers 45 gold in parts and leaves the padding behind."
+      },
+      {
+       "label": "Use the padding",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren tends the crew on the padding. The parts roll away with the bundle."
+      }
+     ]
+    },
+    {
+     "id": "museum-study-choice",
+     "source": "/textiles-101-resources",
+     "look": "Four small samples of pale fiber, blue dye, woven cloth and geometric stitching on a wooden table.",
+     "title": "Four samples",
+     "text": "A study table explains fiber, color, structure and decoration. A volunteer offers to teach the crew one of two techniques before the loom returns.",
+     "options": [
+      {
+       "label": "Learn early repair",
+       "effect": {
+        "type": "routine",
+        "id": "patch+"
+       },
+       "result": "Wren studies the supports and learns to patch damage sooner."
+      },
+      {
+       "label": "Learn a wide sweep",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "Ox practices clearing a path through several moving frames."
+      }
+     ]
+    }
+   ],
+   "name": "The George Washington University Museum and The Textile Museum",
+   "url": "https://museum.gwu.edu/"
+  }
+ ],
+ "id": "2026-11-06",
+ "seed": 84593852
+}
