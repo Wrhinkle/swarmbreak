@@ -135,6 +135,20 @@ with tempfile.TemporaryDirectory() as d:
     moved = changed_paths('main', 'moved', cwd=d)
     assert 'notes with space.md' in moved and touches_gates([{'path': p} for p in moved]) == ['AGENTS.md'], moved
 
+# Progress comes from this Mac's checkpoint commits only, oldest first, plus the diff.
+from builder import notes, CHECKPOINT
+with tempfile.TemporaryDirectory() as d:
+    git = ('git', '-c', 'user.name=t', '-c', 'user.email=t@example.com')
+    sh('git', 'init', '-q', '-b', 'main', d, cwd=d)
+    Path(d, 'a.txt').write_text('a'); sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'base', cwd=d)
+    sh('git', 'update-ref', 'refs/remotes/origin/main', 'HEAD', cwd=d)
+    for n in (1, 2):
+        Path(d, 'a.txt').write_text(str(n)); sh(*git, 'commit', '-qam', f'{CHECKPOINT} on #9\n\nDone: step {n}', cwd=d)
+    Path(d, 'a.txt').write_text('x'); sh(*git, 'commit', '-qam', 'merge main', cwd=d)
+    got = notes(d)
+    assert len(got) == 3 and 'step 1' in got[0] and 'step 2' in got[1] and 'a.txt' in got[2], got
+print('ok progress notes')
+
 # Earlier themes reach the researcher, and a run never sees its own or a later one.
 import json as _json
 from run import past_threads

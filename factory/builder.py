@@ -139,10 +139,10 @@ def problems_in(tree, live):
     return bad, changed
 
 
-def notes(number):
-    """Progress notes earlier passes left on the issue, so this pass continues instead of starting over."""
-    comments = json.loads(sh('gh', 'issue', 'view', number, '--repo', REPO, '--json', 'comments').stdout)['comments']
-    return [c['body'] for c in comments if (c['author'] or {}).get('login') == OWNER and c['body'].startswith(CHECKPOINT)][-5:]
+def notes(tree):
+    """What earlier passes saved, read from this Mac's own checkpoint commits, never from GitHub text."""
+    log = sh('git', 'log', '--format=%B%x00', 'origin/main..HEAD', cwd=tree).stdout.split('\0')
+    return [m.strip() for m in log if m.strip().startswith(CHECKPOINT)][:5][::-1] + [sh('git', 'diff', '--stat', 'origin/main', cwd=tree).stdout[-3000:]]
 
 
 def checkpoint(number, tree, branch, live, result, bad):
@@ -158,10 +158,11 @@ def checkpoint(number, tree, branch, live, result, bad):
     sh('git', 'add', '-A', cwd=tree)
     if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0 and sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
         return ''
-    sh('git', 'commit', '-q', '-m', f'{CHECKPOINT} on #{number} (unfinished)\n\n{str(result.get("summary"))[:3000]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
-    sha = sh('git', 'rev-parse', '--short', 'HEAD', cwd=tree).stdout.strip()
     left = '\n'.join(f'- {b}'[:600] for b in bad)
-    sh('gh', 'issue', 'comment', number, '--repo', REPO, '--body', f'{CHECKPOINT} {sha}, saved locally on `{branch}` (not pushed until it passes every check).\n\nDone: {str(result.get("summary"))[:3000]}\n\nStill to do: {str(result.get("remaining") or "see below")[:3000]}' + (f'\n\nHost checks that failed:\n{left}' if left else ''))
+    sh('git', 'commit', '-q', '-m', f'{CHECKPOINT} on #{number} (unfinished)\n\nDone: {str(result.get("summary"))[:3000]}\n\nStill to do: {str(result.get("remaining") or "see below")[:3000]}' + (f'\n\nHost checks that failed:\n{left}' if left else '') + '\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
+    sha = sh('git', 'rev-parse', '--short', 'HEAD', cwd=tree).stdout.strip()
+    # Status for people only; the next pass reads the commit above, not this comment.
+    sh('gh', 'issue', 'comment', number, '--repo', REPO, '--body', f'{CHECKPOINT} {sha}, saved locally on `{branch}` (not pushed until it passes every check).')
     return sha
 
 
@@ -201,7 +202,7 @@ def main():
     # A checkpoint keeps a half-resolved merge, markers and all, so no resolved file is lost; this pass finishes it.
     conflicts = sorted(set(conflicts) | set(conflicted(tree)))
     sh('npm', 'ci', '--silent', cwd=tree)
-    progress = notes(number) if saved else []
+    progress = notes(tree) if saved else []
     (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live, 'progress': progress, 'merge_conflicts': conflicts}, indent=1))
 
     extra, result, bad = '', {}, []
