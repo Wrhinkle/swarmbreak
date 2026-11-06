@@ -313,10 +313,10 @@ me = {'login': 'Wrhinkle'}
 issue = lambda n, *l, body='': {'number': n, 'author': me, 'body': body, 'labels': [{'name': x} for x in l]}
 never = lambda n, sha: False
 issues = [issue(14), issue(52, body='Depends on #51'), issue(51), issue(53, 'priority'), issue(60, 'stuck'), issue(61)]
-assert next_job([], issues, set(), {}, never) == ('issue', 53, 'issue-53')
-assert next_job([], issues, {61}, {}, never) == ('issue', 61, 'issue-61')
+assert next_job([], issues, set(), set(), never) == ('issue', 53, 'issue-53')
+assert next_job([], issues, {61}, set(), never) == ('issue', 61, 'issue-61')
 building = [{'number': 55, 'author': me, 'headRefName': 'fix/issue-53', 'headRefOid': 'abcdef1', 'labels': []}]
-assert next_job(building, issues, set(), {}, never) == ('pr', 55, 'pr-55@abcdef1')
-assert next_job(building, issues, set(), {}, lambda n, sha: True) == ('issue', 14, 'issue-14')
-assert next_job([], issues, set(), {'issue-53': 3, 'issue-14': 3}, never) == ('issue', 51, 'issue-51')
+assert next_job(building, issues, set(), set(), never) == ('pr', 55, 'pr-55@abcdef1')
+assert next_job(building, issues, set(), set(), lambda n, sha: True) == ('issue', 14, 'issue-14')
+assert next_job([], issues, set(), {'issue-53', 'issue-14'}, never) == ('issue', 51, 'issue-51')  # held until their lessons close
 print('ok foreman order')

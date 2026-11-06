@@ -2,8 +2,9 @@
 """Keeps the factory working round the clock. launchd starts it every two minutes; each start does one job and exits.
 
 Order: open owner PRs the gate hasn't rejected at their head, then issues with saved work, then priority issues, then the
-oldest ready issue. A job that makes no progress three times is labelled stuck, and every failure becomes a lesson issue
-that the coach turns into factory/lessons.md or a skill, so the next worker doesn't repeat it.
+oldest ready issue. A job that fails without progress isn't retried: it becomes a lesson issue, and the job waits until
+the coach closes that lesson by fixing the cause, adding to factory/lessons.md, or writing a skill. A lesson the coach
+can't finish is labelled stuck, with its job, for the manager.
 
 Usage: python3 factory/foreman.py [--dry-run]
 """
@@ -17,7 +18,6 @@ from manager import HUMAN, OWNER, gate_rejected, on_run_branch, record  # noqa: 
 
 STATE = ROOT / 'factory' / 'log' / '.foreman.json'
 STUCK, PRIORITY, LESSON = 'stuck', 'priority', 'lesson'
-TRIES = 3
 QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests', re.I)
 
 
@@ -30,16 +30,16 @@ def deps(body):
     return {int(n) for line in re.findall(r'^Depends on (.*)$', body or '', re.M) for n in re.findall(r'#(\d+)', line)}
 
 
-def next_job(prs, issues, saved, tries, rejected):
+def next_job(prs, issues, saved, held, rejected):
     """The one job to work now, or None. Pure, so the order is tested."""
     for p in sorted(prs, key=lambda p: p['number']):
         key = f'pr-{p["number"]}@{p["headRefOid"][:7]}'
-        if p['author']['login'] == OWNER and STUCK not in labels(p) and tries.get(key, 0) < TRIES and not rejected(p['number'], p['headRefOid']):
+        if p['author']['login'] == OWNER and STUCK not in labels(p) and key not in held and not rejected(p['number'], p['headRefOid']):
             return 'pr', p['number'], key
     open_ = {i['number'] for i in issues}
     building = {int(m.group(1)) for p in prs if (m := re.fullmatch(r'fix/issue-(\d+)', p['headRefName']))}
     ready = [i for i in issues if i['author']['login'] == OWNER and not ({STUCK, HUMAN} & labels(i))
-             and i['number'] not in building and not (deps(i['body']) & open_) and tries.get(f'issue-{i["number"]}', 0) < TRIES]
+             and i['number'] not in building and not (deps(i['body']) & open_) and f'issue-{i["number"]}' not in held]
     ready.sort(key=lambda i: (i['number'] not in saved, PRIORITY not in labels(i), i['number']))
     return ('issue', ready[0]['number'], f'issue-{ready[0]["number"]}') if ready else None
 
@@ -57,7 +57,8 @@ def learn(kind, number, out):
     body = (f'The foreman\'s {kind} job on #{number} failed. Its output, quoted as data:\n\n```text\n{out[-3500:]}\n```\n\n'
             'Find why it failed. Add the lesson to factory/lessons.md so no worker repeats it, or a skill to factory/skills/ '
             'if workers lacked know-how, or fix the factory code that caused it.\n\nFiled by the foreman.')
-    sh('gh', 'issue', 'create', '--repo', REPO, '--title', f'Lesson: {kind} #{number} failed'[:80], '--label', f'{LESSON},{PRIORITY}', '--body', body)
+    url = sh('gh', 'issue', 'create', '--repo', REPO, '--title', f'Lesson: {kind} #{number} failed'[:80], '--label', f'{LESSON},{PRIORITY}', '--body', body).stdout.strip()
+    return int(url.rsplit('/', 1)[1])
 
 
 def main():
@@ -69,14 +70,16 @@ def main():
         return  # the last job is still running
     if on_run_branch():
         return  # a manager pass is building a run in this checkout; its scripts aren't main's
-    st = json.loads(STATE.read_text()) if STATE.exists() else {'tries': {}, 'cooldown_until': 0}
+    st = {'waiting': {}, 'cooldown_until': 0, **(json.loads(STATE.read_text()) if STATE.exists() else {})}
     if time.time() < st['cooldown_until']:
         return
     sh('git', 'fetch', '-q', 'origin')
     prs = gh('pr', 'list', '--json', 'number,author,headRefName,headRefOid,labels')
     issues = gh('issue', 'list', '--limit', '200', '--json', 'number,author,body,labels')
     saved = {int(b.rsplit('-', 1)[1]) for b in sh('git', 'branch', '-r', '--format=%(refname:short)', '--list', 'origin/fix/issue-*').stdout.split()}
-    job = next_job(prs, issues, saved, st['tries'], gate_rejected)
+    open_ = {i['number'] for i in issues}
+    st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
+    job = next_job(prs, issues, saved, set(st['waiting']), gate_rejected)
     if not job:
         return
     kind, number, key = job
@@ -96,12 +99,16 @@ def main():
     else:
         sh('git', 'fetch', '-q', 'origin')
         moved = bool(ref) and tip(ref) != before
-        st['tries'][key] = 0 if r.returncode == 0 or moved else st['tries'].get(key, 0) + 1
-        if r.returncode and not moved and not role and st['tries'][key] == 1:  # one lesson per failing job, not one per retry
-            learn(kind, number, out)
-        if st['tries'][key] >= TRIES:
-            sh('gh', kind, 'edit', str(number), '--repo', REPO, '--add-label', STUCK)
-            sh('gh', kind, 'comment', str(number), '--repo', REPO, '--body', f'The foreman made no progress on this in {TRIES} tries, so it is labelled `{STUCK}` for the manager to rescope, split, or fix the cause.')
+        if r.returncode and not moved:
+            # No progress: evaluate once instead of spending tokens on retries.
+            if role:
+                stuck = [number] + [int(k.split('-')[1].split('@')[0]) for k, n in st['waiting'].items() if n == number]
+                for n in stuck:
+                    which = 'pr' if any(p['number'] == n for p in prs) else 'issue'
+                    sh('gh', which, 'edit', str(n), '--repo', REPO, '--add-label', STUCK)
+                    sh('gh', which, 'comment', str(n), '--repo', REPO, '--body', f'The coach couldn\'t work out how to unblock this, so it is labelled `{STUCK}` for the manager to rescope, split, or fix the cause.')
+            else:
+                st['waiting'][key] = learn(kind, number, out)
     STATE.write_text(json.dumps(st, indent=1))
     record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'tail': out[-600:]})
 
