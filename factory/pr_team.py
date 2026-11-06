@@ -95,7 +95,32 @@ def sandboxed(cmd, tree):
         return subprocess.run(['sandbox-exec', '-p', profile, *cmd], cwd=copy, capture_output=True, text=True, stdin=subprocess.DEVNULL, env=env)
 
 
+def sandbox_works():
+    """Asserts the sandbox still blocks home-folder reads, network and writes outside the checkout. verified() runs this
+    on the host, outside any sandbox, before every check, so a broken sandbox stops verification instead of passing it."""
+    import socket
+    with tempfile.TemporaryDirectory(dir=Path.home().resolve()) as secret, tempfile.TemporaryDirectory() as tree:
+        Path(secret, 'token').write_text('x')
+        assert sandboxed(['cat', f'{secret}/token'], tree).returncode
+        assert sandboxed(['touch', f'{secret}/w'], tree).returncode
+        assert sandboxed(['python3', '-c', 'import socket; socket.create_connection(("1.1.1.1", 443), 3)'], tree).returncode
+        assert sandboxed(['sh', '-c', 'echo ok > out'], tree).returncode == 0
+        # Checks run on a copy, so nothing they write reaches the tree that gets committed.
+        assert not Path(tree, 'out').exists()
+        # Host credentials and sockets are unavailable, even in shared temporary directories.
+        os.environ['AWS_SECRET_ACCESS_KEY'] = 'dummy-secret'
+        sock = socket.socket(socket.AF_UNIX)
+        sock.bind(str(Path(secret, 'agent.sock')))
+        sock.listen()
+        try:
+            assert sandboxed(['python3', '-c', 'import os; assert "AWS_SECRET_ACCESS_KEY" not in os.environ'], tree).returncode == 0
+            assert sandboxed(['python3', '-c', 'import socket, sys; s=socket.socket(socket.AF_UNIX); s.connect(sys.argv[1])', str(Path(secret, 'agent.sock'))], tree).returncode
+        finally:
+            sock.close()
+            del os.environ['AWS_SECRET_ACCESS_KEY']
+
 def verified(tree):
+    sandbox_works()
     for cmd in (['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']):
         r = sandboxed(cmd, tree)
         if r.returncode:
