@@ -20,6 +20,7 @@ You can fix the factory itself: the host scripts and agent prompts in `factory/`
 You can't edit `AGENTS.md`, `.github/`, `firebase.json`, `public/manifest.json`, `package.json`, `package-lock.json`, `tools/balance.ts`, `tools/checks.ts`, `factory/agents/gate-reviewer.md`, `factory/vendor/`, or `factory/log/`. Those hold the rules, the balance limits, install scripts that run on the host, and the reviewer's own standard, so a problem that needs one of them is `blocked`. You can fix the bots in `tools/sim.ts` when they play worse than a person would, for example by equipping routines that lose. Say in the summary how the bot's play changed, because the gate reviewer rejects a `tools/sim.ts` change that only makes the check easier to pass. Edit files only. The host runs git, and you have no network.
 
 Run `npm run build`, `npm test`, and `python3 factory/test_manager.py` before you finish.
+Your own sandbox can't start a second one, so `test_manager.py`'s sandbox checks fail there with exit 71 and `sandbox-exec: sandbox_apply: Operation not permitted`. That failure alone doesn't make the problem `blocked`: the host reruns all three commands before anything is pushed and refuses the attempt if they fail, and the sandbox checks only mean something when run on the host outside any sandbox. Report it in the evidence and judge the outcome on everything else.
 
 ## Output
 Write `.builder-result.json`, and the host keeps it out of the commit:
