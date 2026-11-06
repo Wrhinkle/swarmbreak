@@ -241,10 +241,31 @@ def outside_checkout_sandbox(cmd, tree):
     return SimpleNamespace(returncode=0, stdout='', stderr='')
 
 with patch.object(pr_team, '__file__', '/outside-home/checkout/factory/pr_team.py'), patch('pr_team.sandboxed', side_effect=outside_checkout_sandbox), patch('socket.socket'):
-    assert pr_team.verified('/outside-home/checkout') == ''
+    from io import StringIO
+    from contextlib import redirect_stdout
+    host_log = StringIO()
+    with redirect_stdout(host_log):
+        assert pr_team.verified('/outside-home/checkout') == ''
 assert len(probe_paths) == 1 and not probe_paths[0].exists()
 assert verification_calls == [['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']]
+assert host_log.getvalue().splitlines() == [
+    'Host verification: checking sandbox isolation', 'Host verification: sandbox isolation passed',
+    'Host verification: npm run build passed', 'Host verification: npm test passed',
+    'Host verification: python3 factory/test_manager.py passed']
 print('ok sandbox probe outside checkout')
+# Failed host checks are recorded and stop verification before later checks.
+verification_calls.clear()
+def failed_build(cmd, tree):
+    if cmd == ['npm', 'run', 'build']:
+        verification_calls.append(cmd)
+        return SimpleNamespace(returncode=2, stdout='', stderr='build failed')
+    return outside_checkout_sandbox(cmd, tree)
+with patch('pr_team.sandboxed', side_effect=failed_build), patch('socket.socket'), redirect_stdout(host_log := StringIO()):
+    assert pr_team.verified('.') == 'build failed'
+assert verification_calls == [['npm', 'run', 'build']]
+assert 'Host verification: npm run build failed (exit 2)' in host_log.getvalue()
+with patch('pr_team.sandbox_works'), patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=71, stdout='', stderr='')), redirect_stdout(StringIO()):
+    assert pr_team.verified('.') == 'npm run build failed with exit 71 (no output)'
 # A sandbox that lets everything through stops verification before any check runs.
 with patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')):
     try:

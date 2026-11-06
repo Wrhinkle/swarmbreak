@@ -136,11 +136,15 @@ def sandbox_works():
             del os.environ['AWS_SECRET_ACCESS_KEY']
 
 def verified(tree):
+    print('Host verification: checking sandbox isolation', flush=True)
     sandbox_works()
+    print('Host verification: sandbox isolation passed', flush=True)
     for cmd in (['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']):
         r = sandboxed(cmd, tree)
         if r.returncode:
-            return (r.stdout + r.stderr)[-2000:]
+            print(f'Host verification: {" ".join(cmd)} failed (exit {r.returncode})', flush=True)
+            return (r.stdout + r.stderr)[-2000:] or f'{" ".join(cmd)} failed with exit {r.returncode} (no output)'
+        print(f'Host verification: {" ".join(cmd)} passed', flush=True)
     return ''
 
 
