@@ -1,0 +1,45 @@
+{
+  "thread": "Follow a thread from the garden to the loom and into the finished cloth. The swarm begins among dye plants, passes through spinning wheels and mills, and emerges among woven patterns and textiles from around the world.",
+  "candidates": [
+    {
+      "name": "Cambridge University Botanic Garden",
+      "url": "https://www.botanic.cam.ac.uk/",
+      "why": "Madder roots, woad leaves and weld flowers yield a garden of color, while the dye catalogue, living collections, seed bank and herbarium offer plants and processes to inhabit."
+    },
+    {
+      "name": "Windham Textile and History Museum",
+      "url": "https://millmuseum.org/",
+      "why": "Spindles, great wheels, looms and thread-making machinery lead into a linked digital archive of mill artifacts, exhibits, photographs and histories."
+    },
+    {
+      "name": "The George Washington University Museum and The Textile Museum",
+      "url": "https://museum.gwu.edu/",
+      "why": "Rugs, fragments and textiles from several continents offer a final world of woven structures, dyes, motifs and intricate surfaces."
+    },
+    {
+      "name": "Lund University Botanical Garden",
+      "url": "https://www.botan.lu.se/en/",
+      "why": "Its economic plant garden connects fibers and dyes to the plants that produce them, including indigo; outdoor beds and greenhouses add many more botanical forms."
+    },
+    {
+      "name": "Forssa Museum",
+      "url": "https://www.forssanmuseo.fi/",
+      "why": "A Finnish cotton-mill town's spinning and weaving sites, textile-printing history and pattern collections supply machinery, architecture and colorful designs."
+    },
+    {
+      "name": "Textile Museum St. Gallen",
+      "url": "https://www.textilmuseum.ch/en/",
+      "why": "Lace, embroidery, historical fabrics and sample books offer a dense menagerie of stitches and patterns, with an online collection and exhibition archive."
+    },
+    {
+      "name": "Textile Museum of Canada",
+      "url": "https://textilemuseum.ca/",
+      "why": "Its online collection ranges from a salmon-skin garment to woven textiles and hooked rugs, alongside exhibitions and learning resources about textile making."
+    },
+    {
+      "name": "LWL Museum Textilwerk Bocholt",
+      "url": "https://textilwerk.lwl.org/en/",
+      "why": "A historic spinning mill and weaving mill bring together spindles, working looms, textile sample books and garments from a century of fashion."
+    }
+  ]
+}

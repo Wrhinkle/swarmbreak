@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.botanic.cam.ac.uk",
+   "name": "Cambridge University Botanic Garden",
+   "url": "https://www.botanic.cam.ac.uk/",
+   "file": "runs/2026-11-06/sites/www.botanic.cam.ac.uk.json"
+  },
+  {
+   "host": "millmuseum.org",
+   "name": "Windham Textile and History Museum",
+   "url": "https://millmuseum.org/",
+   "file": "runs/2026-11-06/sites/millmuseum.org.json"
+  },
+  {
+   "host": "museum.gwu.edu",
+   "name": "The George Washington University Museum and The Textile Museum",
+   "url": "https://museum.gwu.edu/",
+   "file": "runs/2026-11-06/sites/museum.gwu.edu.json"
+  }
+ ]
+}
