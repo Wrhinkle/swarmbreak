@@ -410,6 +410,28 @@ with tempfile.TemporaryDirectory() as d:
         tree = Path(d) / 'swarmbreak-issue-42'
         (tree / 'file').write_text('saved checkpoint\n')
         git('add', 'file', cwd=tree); git('commit', '-qm', 'checkpoint', cwd=tree)
+        with patch.object(sys, 'argv', ['builder.py', '42']):
+            try:
+                builder.main()
+                assert False, 'a changed checkpoint must prevent closure'
+            except SystemExit:
+                pass
+        assert len(closed) == 1
+        git('revert', '--no-edit', 'HEAD', cwd=tree)
+        with patch.object(sys, 'argv', ['builder.py', '42']):
+            builder.main()
+        assert len(closed) == 2
+        # A staged change hidden by an opposite unstaged change is still unfinished work.
+        (tree / 'file').write_text('staged\n'); git('add', 'file', cwd=tree)
+        (tree / 'file').write_text('base\n')
+        assert not builder.clean_on_main(tree)
+        git('reset', '-q', 'HEAD', '--', 'file', cwd=tree)
+        merge_head = Path(git('rev-parse', '--git-path', 'MERGE_HEAD', cwd=tree).stdout.strip())
+        if not merge_head.is_absolute():
+            merge_head = tree / merge_head
+        merge_head.write_text(git('rev-parse', 'HEAD', cwd=tree).stdout)
+        assert not builder.clean_on_main(tree)
+        merge_head.unlink()
         (tree / 'uncommitted').write_text('keep\n')
         with patch.object(sys, 'argv', ['builder.py', '42']):
             try:
@@ -417,5 +439,5 @@ with tempfile.TemporaryDirectory() as d:
                 assert False, 'saved work must prevent closure'
             except SystemExit:
                 pass
-        assert len(closed) == 1 and (tree / 'uncommitted').read_text() == 'keep\n'
+        assert len(closed) == 2 and (tree / 'uncommitted').read_text() == 'keep\n'
 print('ok builder saved work')

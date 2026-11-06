@@ -88,6 +88,18 @@ def changed_from_main(tree):
     return sorted({n for n in names if n and n not in (RESULT, '.issue.json')})
 
 
+def clean_on_main(tree):
+    """The reported evidence applies to main only if no saved or unfinished work differs from it."""
+    for args in [('diff', '--quiet', 'origin/main', 'HEAD'),
+                 ('diff', '--quiet'), ('diff', '--cached', '--quiet')]:
+        if sh('git', *args, cwd=tree, check=False).returncode != 0:
+            return False
+    untracked = sh('git', 'ls-files', '-z', '--others', '--exclude-standard', cwd=tree)
+    if any(name and name != RESULT for name in untracked.stdout.split('\0')):
+        return False
+    return sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode == 1
+
+
 def conflicted(tree):
     result = sh('git', 'grep', '--untracked', '-l', '-z', '-E', MARKERS, cwd=tree, check=False)
     if result.returncode not in (0, 1):
@@ -210,8 +222,7 @@ def main():
         extra = 'Your last attempt was refused. Fix each of these:\n' + '\n'.join(bad)
     (tree / '.issue.json').unlink()
     outcome = result.get('outcome')
-    if (outcome == 'not_reproduced' and not sh('git', 'rev-list', 'origin/main..HEAD', cwd=tree).stdout.strip()
-            and not changed_from_main(tree)):
+    if outcome == 'not_reproduced' and clean_on_main(tree):
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         if not dry:
             sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
