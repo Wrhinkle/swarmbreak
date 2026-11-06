@@ -332,3 +332,23 @@ with tempfile.TemporaryDirectory() as d:
     Path(d, 'a.ts').write_text('b\n'); Path(d, 'new.ts').write_text('n\n'); Path(d, '.builder-result.json').write_text('{}')
     assert changed_from_main(Path(d)) == ['AGENTS.md', 'a.ts', 'moved.md', 'new.ts'], changed_from_main(Path(d))
 print('ok changed_from_main')
+
+# Conflict scans include new files, preserve whitespace, and fail closed on errors.
+from builder import conflicted
+with tempfile.TemporaryDirectory() as d:
+    g = lambda *a: subprocess.run(['git', '-C', d, *a], check=True, capture_output=True)
+    g('init', '-q')
+    Path(d, 'clean new.txt').write_text('clean\n')
+    assert conflicted(Path(d)) == []
+    Path(d, 'new conflict.txt').write_text('<<<<<<< branch\n')
+    assert conflicted(Path(d)) == ['new conflict.txt']
+    Path(d, '.gitignore').write_text('ignored.txt\n')
+    Path(d, 'ignored.txt').write_text('>>>>>>> branch\n')
+    assert conflicted(Path(d)) == ['new conflict.txt']
+with tempfile.TemporaryDirectory() as d:
+    try:
+        conflicted(Path(d))
+        assert False, 'a failed scan must not pass'
+    except RuntimeError as e:
+        assert 'Conflict marker scan failed' in str(e)
+print('ok conflict scan')

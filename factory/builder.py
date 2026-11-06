@@ -89,7 +89,10 @@ def changed_from_main(tree):
 
 
 def conflicted(tree):
-    return sh('git', 'grep', '-l', '-E', MARKERS, cwd=tree, check=False).stdout.split()
+    result = sh('git', 'grep', '--untracked', '-l', '-z', '-E', MARKERS, cwd=tree, check=False)
+    if result.returncode not in (0, 1):
+        raise RuntimeError(f'Conflict marker scan failed: {result.stderr}')
+    return [name for name in result.stdout.split('\0') if name]
 
 
 def problems_in(tree, live):
