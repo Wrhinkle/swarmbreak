@@ -319,7 +319,7 @@ def release_due(main_m, live, now):
     return 'expired' if now >= at('nextOpensAt', live) else None
 
 
-def release(dry=False):
+def release_check():
     try:
         sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
         rev = sh('git', 'rev-parse', 'origin/main').stdout.strip()  # deploy exactly the commit that was checked
@@ -327,14 +327,22 @@ def release(dry=False):
         live = live_manifest()
         due = release_due(main_m, live, datetime.now(timezone.utc))
         if due == 'deploy':
-            return deploy(dry, rev)
+            return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
-        return f'Release check failed: {e}'
+        return f'Release check failed: {e}', None
     if due == 'older':
-        return f'Not deploying: main has {main_m["runId"]}, which is older than the live run {live["runId"]}. Main\'s manifest went backwards.'
+        return f'Not deploying: main has {main_m["runId"]}, which is older than the live run {live["runId"]}. Main\'s manifest went backwards.', None
     if due == 'expired':
-        return f'Missing run: live run {live["runId"]} closed at {live["nextOpensAt"]} and no newer run on main has opened. Build and open the next run now.'
-    return ''
+        return f'Missing run: live run {live["runId"]} closed at {live["nextOpensAt"]} and no newer run on main has opened. Build and open the next run now.', None
+    return '', None
+
+
+def release(dry=False):
+    result, rev = release_check()
+    try:
+        return deploy(dry, rev) if rev else result
+    except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:
+        return f'Release check failed: {e}'
 
 
 def deploy(dry, rev=None):
@@ -468,7 +476,7 @@ def act(a, s, dry):
 
 def main():
     held = os.environ.get('SWARMBREAK_LOCK_FD')
-    lock = os.fdopen(int(held), 'w') if held else open(LOG.parent / '.lock', 'w')
+    lock = os.fdopen(int(held), 'a+') if held else open(LOG.parent / '.lock', 'a+')
     if not held:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)  # a build can outlast the gap between passes
@@ -485,8 +493,15 @@ def main():
         sync()
     if '--release-only' in args:  # the quarter-hourly check: no model call unless something failed
         failures = []
-        release_step(failures, dry)
-        follow_up(failures, 0, '', dry)
+        lock.seek(0)
+        previous = [lock.read().strip()]
+        blocker = release_step(failures, dry, previous)
+        if not dry:
+            lock.seek(0)
+            lock.truncate()
+            lock.write(blocker)
+            lock.flush()
+        follow_up(failures, 0, '', dry, blocker)
         return
     note = args[args.index('--task') + 1] if '--task' in args else ''
     round_ = int(args[args.index('--follow-up') + 1]) if '--follow-up' in args else 0
@@ -533,6 +548,10 @@ def main():
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
     if not dry:
         blocker = release_step(failures, previous=previous)
+        lock.seek(0)
+        lock.truncate()
+        lock.write(blocker)
+        lock.flush()
     follow_up(failures, round_, note, dry, blocker)
 
 
@@ -542,7 +561,7 @@ def missing_run_blocker(result, previous):
 
 def blocked_deploy(previous):
     # Recheck the live manifest and main before suppressing an explicit deploy.
-    return any(p.startswith('release -> Missing run:') for p in previous) and missing_run_blocker(release(True), previous)
+    return any(p.startswith('release -> Missing run:') for p in previous) and missing_run_blocker(release_check()[0], previous)
 
 
 def release_step(failures, dry=False, previous=()):

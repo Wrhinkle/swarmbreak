@@ -232,14 +232,39 @@ if not os.environ.get('SWARMBREAK_SANDBOX'):
     print('ok sandbox')
 
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
-with patch('manager.release', return_value='Missing run: live run x closed') as check, patch('manager.record') as log:
+with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
     previous = ['release -> Missing run: live run x closed']
     failures = []
     manager.release_step(failures, previous=previous)
     assert failures == []
     assert 'blocked' in log.call_args.args[0]['result'].lower()
     assert manager.blocked_deploy(previous)
-    check.return_value = 'Missing run: live run y closed'
+    check.return_value = ('Missing run: live run y closed', None)
+    release.return_value = 'Missing run: live run y closed'
     assert not manager.blocked_deploy(previous)
     manager.release_step(failures, previous=previous)
     assert failures == ['release -> Missing run: live run y closed']
+
+# Scheduled invocations retain a blocker through follow-ups and clear or replace it as conditions change.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
+    def scheduled(result):
+        release.return_value = result
+        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args
+
+    x, y = 'Missing run: live run x closed', 'Missing run: live run y closed'
+    assert scheduled(x)[0] == ['release -> ' + x]
+    assert scheduled(x)[0] == []
+    assert scheduled(y)[0] == ['release -> ' + y]
+    assert scheduled('')[0] == []
+    assert scheduled(x)[0] == ['release -> ' + x]
+
+# Rechecking an eligible run does not prepare a dry deployment before the explicit one.
+with patch('manager.live_manifest', return_value=m4), patch('manager.deploy', return_value='Deployed.') as deploy:
+    previous = ['release -> Missing run: live run x closed']
+    assert not manager.blocked_deploy(previous)
+    assert deploy.call_count == 0
+    assert manager.act({'type': 'deploy'}, {}, False) == 'Deployed.'
+    assert deploy.call_count == 1
