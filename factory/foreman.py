@@ -76,7 +76,7 @@ def main():
     sh('git', 'fetch', '-q', 'origin')
     prs = gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
     issues = gh('issue', 'list', '--limit', '500', '--json', 'number,author,body,labels')
-    saved = {int(b.rsplit('-', 1)[1]) for b in sh('git', 'branch', '-r', '--format=%(refname:short)', '--list', 'origin/fix/issue-*').stdout.split()}
+    saved = {int(b.rsplit('-', 1)[1]) for b in sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*').stdout.split()}
     open_ = {i['number'] for i in issues}
     st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
     job = next_job(prs, issues, saved, set(st['waiting']), gate_rejected)
@@ -86,7 +86,7 @@ def main():
     if dry:
         print(f'Would work {kind} {number}.')
         return
-    ref = f'origin/fix/issue-{number}' if kind == 'issue' else ''
+    ref = f'refs/heads/fix/issue-{number}' if kind == 'issue' else ''  # checkpoints are local commits
     before = tip(ref) if ref else ''
     role = ['--role', 'coach'] if kind == 'issue' and LESSON in labels(next(i for i in issues if i['number'] == number)) else []
     cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number), *role, *(['--merge'] if kind == 'pr' else [])]

@@ -134,7 +134,8 @@ def notes(number):
 
 
 def checkpoint(number, tree, branch, live, result, bad):
-    """Saves an unfinished pass on the issue's branch, without a PR, and notes what's left. The next pass starts from it."""
+    """Saves an unfinished pass as a local commit on the issue's branch and notes what's left. The next pass starts from it.
+    Nothing is pushed: code leaves this Mac only after every host check passes."""
     # Locked files go back to main's version, and so do built runs, which the host rebuilds from content.json.
     built = [p for p in changed_from_main(tree) if re.match(rf'public/runs/(?!{live}/)[^/]+/run\.json$', p)]
     for p in blocked_paths(changed_from_main(tree), live) + built:
@@ -146,10 +147,9 @@ def checkpoint(number, tree, branch, live, result, bad):
     if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0 and sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
         return ''
     sh('git', 'commit', '-q', '-m', f'{CHECKPOINT} on #{number} (unfinished)\n\n{str(result.get("summary"))[:3000]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
-    sh('git', 'push', '-q', 'origin', f'HEAD:refs/heads/{branch}', cwd=tree)
     sha = sh('git', 'rev-parse', '--short', 'HEAD', cwd=tree).stdout.strip()
     left = '\n'.join(f'- {b}'[:600] for b in bad)
-    sh('gh', 'issue', 'comment', number, '--repo', REPO, '--body', f'{CHECKPOINT} {sha} on `{branch}`.\n\nDone: {str(result.get("summary"))[:3000]}\n\nStill to do: {str(result.get("remaining") or "see below")[:3000]}' + (f'\n\nHost checks that failed:\n{left}' if left else ''))
+    sh('gh', 'issue', 'comment', number, '--repo', REPO, '--body', f'{CHECKPOINT} {sha}, saved locally on `{branch}` (not pushed until it passes every check).\n\nDone: {str(result.get("summary"))[:3000]}\n\nStill to do: {str(result.get("remaining") or "see below")[:3000]}' + (f'\n\nHost checks that failed:\n{left}' if left else ''))
     return sha
 
 
@@ -169,8 +169,11 @@ def main():
     sh('git', 'fetch', '-q', 'origin')
     if tree.exists():
         sh('git', 'worktree', 'remove', '--force', tree)
-    saved = sh('git', 'rev-parse', '--verify', '-q', f'origin/{branch}', check=False).returncode == 0
-    sh('git', 'worktree', 'add', '-q', '-B', branch, tree, f'origin/{branch}' if saved else 'origin/main')
+    saved = sh('git', 'rev-parse', '--verify', '-q', f'refs/heads/{branch}', check=False).returncode == 0
+    if saved:
+        sh('git', 'worktree', 'add', '-q', tree, branch)
+    else:
+        sh('git', 'worktree', 'add', '-q', '-B', branch, tree, 'origin/main')
     conflicts = []
     if saved and sh('git', 'merge', '-q', '--no-edit', 'origin/main', cwd=tree, check=False).returncode:
         conflicts = sh('git', 'diff', '--name-only', '--diff-filter=U', cwd=tree).stdout.split()
