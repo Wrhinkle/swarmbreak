@@ -206,37 +206,89 @@ manager.live_manifest = lambda: {**m4, 'opensAt': 5}
 assert manager.release().startswith('Release check failed')  # non-string timestamp
 print('ok release path')
 
-# Checks run agent-written code: the sandbox blocks home-folder reads, network and writes outside the checkout.
-# macOS refuses a restrictive sandbox inside another sandbox (exit 71, sandbox_apply), e.g. when an agent runs this file from its own sandbox.
-# The host gate can't apply one there either, so skipping hides nothing; on the host this always runs.
+# Checks run agent-written code. A verification sandbox has its own marker; Codex's
+# builder sandbox has a different policy and does not deny reads throughout home.
 from pr_team import sandboxed
-with tempfile.TemporaryDirectory() as probe:
-    r = sandboxed(['true'], probe)
-    nested = r.returncode == 71 and 'sandbox_apply' in r.stderr
-if nested:
-    print('skip sandbox: already inside a sandbox')
-elif not os.environ.get('SWARMBREAK_SANDBOX'):
+import errno, pwd, socket, uuid
+
+def sandbox_checks(env, run_sandboxed=sandboxed):
+    if env.get('SWARMBREAK_SANDBOX') == '1' or env.get('CODEX_SANDBOX'):
+        home = Path(pwd.getpwuid(os.getuid()).pw_dir)
+        outside = home / ('.swarmbreak-sandbox-probe-' + uuid.uuid4().hex)
+        try:
+            try:
+                outside.write_text('probe')
+            except PermissionError:
+                pass
+            else:
+                raise AssertionError('sandbox allowed writes outside the checkout')
+        finally:
+            if outside.exists():
+                outside.unlink()
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as allowed:
+            Path(allowed, 'out').write_text('ok')
+        with socket.socket() as sock:
+            sock.settimeout(3)  # A timeout is not evidence of sandbox denial.
+            result = sock.connect_ex(('1.1.1.1', 443))
+            assert result in (errno.EPERM, errno.EACCES), f'network was not denied by sandbox: {result}'
+        if env.get('SWARMBREAK_SANDBOX') == '1':
+            try:
+                os.listdir(home)
+            except PermissionError:
+                pass
+            else:
+                raise AssertionError('verification sandbox allowed home directory reads')
+        else:
+            print('builder sandbox: home read denial and sandboxed() isolation require the host verification sandbox')
+        print('ok current sandbox')
+        return
+
+    with tempfile.TemporaryDirectory() as probe:
+        r = run_sandboxed(['true'], probe)
+        assert r.returncode == 0, f'sandbox probe failed ({r.returncode}): {r.stderr}'
     with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as secret, tempfile.TemporaryDirectory() as tree:
         Path(secret, 'token').write_text('x')
-        assert sandboxed(['cat', f'{secret}/token'], tree).returncode
-        assert sandboxed(['touch', f'{secret}/w'], tree).returncode
-        assert sandboxed(['python3', '-c', 'import socket; socket.create_connection(("1.1.1.1", 443), 3)'], tree).returncode
-        assert sandboxed(['sh', '-c', 'echo ok > out'], tree).returncode == 0
-        # Checks run on a copy, so nothing they write reaches the tree that gets committed.
+        assert run_sandboxed(['cat', f'{secret}/token'], tree).returncode
+        assert run_sandboxed(['touch', f'{secret}/w'], tree).returncode
+        assert run_sandboxed(['python3', '-c', 'import socket; socket.create_connection(("1.1.1.1", 443), 3)'], tree).returncode
+        assert run_sandboxed(['sh', '-c', 'echo ok > out'], tree).returncode == 0
         assert not Path(tree, 'out').exists()
-        # Host credentials and sockets are unavailable, even in shared temporary directories.
-        import socket
         os.environ['AWS_SECRET_ACCESS_KEY'] = 'dummy-secret'
         sock = socket.socket(socket.AF_UNIX)
         sock.bind(str(Path(secret, 'agent.sock')))
         sock.listen()
         try:
-            assert sandboxed(['python3', '-c', 'import os; assert "AWS_SECRET_ACCESS_KEY" not in os.environ'], tree).returncode == 0
-            assert sandboxed(['python3', '-c', 'import socket, sys; s=socket.socket(socket.AF_UNIX); s.connect(sys.argv[1])', str(Path(secret, 'agent.sock'))], tree).returncode
+            assert run_sandboxed(['python3', '-c', 'import os; assert "AWS_SECRET_ACCESS_KEY" not in os.environ'], tree).returncode == 0
+            assert run_sandboxed(['python3', '-c', 'import socket, sys; s=socket.socket(socket.AF_UNIX); s.connect(sys.argv[1])', str(Path(secret, 'agent.sock'))], tree).returncode
         finally:
             sock.close()
             del os.environ['AWS_SECRET_ACCESS_KEY']
     print('ok sandbox')
+
+# A host sandbox failure is an error even when its diagnostic resembles a nesting failure.
+with patch('tempfile.TemporaryDirectory') as temp:
+    temp.return_value.__enter__.return_value = '/tmp/probe'
+    failed = types.SimpleNamespace(returncode=71, stderr='sandbox_apply: failed')
+    try:
+        sandbox_checks({}, lambda *args: failed)
+    except AssertionError as e:
+        assert 'sandbox_apply: failed' in str(e)
+    else:
+        raise AssertionError('host sandbox failure was skipped')
+
+# Both explicit nested contexts use direct checks, never a second sandbox.
+real_write = Path.write_text
+def deny_outside(path, *args, **kwargs):
+    if path.name.startswith('.swarmbreak-sandbox-probe-'):
+        raise PermissionError('denied')
+    return real_write(path, *args, **kwargs)
+with patch.object(Path, 'write_text', deny_outside), patch('socket.socket') as fake_socket, patch('os.listdir', side_effect=PermissionError('denied')) as list_home:
+    fake_socket.return_value.__enter__.return_value.connect_ex.return_value = errno.EPERM
+    for context in ({'SWARMBREAK_SANDBOX': '1'}, {'CODEX_SANDBOX': 'seatbelt'}):
+        sandbox_checks(context, lambda *args: (_ for _ in ()).throw(AssertionError('nested sandbox attempted')))
+    assert list_home.call_count == 1
+
+sandbox_checks(os.environ)
 
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
 with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
