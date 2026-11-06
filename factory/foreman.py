@@ -82,6 +82,10 @@ def main():
     if time.time() < st['cooldown_until']:
         return
     sh('git', 'fetch', '-q', 'origin')
+    if sh('git', 'diff', '--quiet', 'origin/main', '--', 'factory', ':(exclude)factory/log', check=False).returncode:
+        # Every script it runs must be main's; the manager's next pass syncs the checkout. Never run older or unmerged factory code.
+        print('Factory code here differs from origin/main; waiting for the manager to sync this checkout.', flush=True)
+        return
     prs = gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
     issues = gh('issue', 'list', '--limit', '500', '--json', 'number,author,body,labels')
     saved = saved_issues(sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*').stdout.split())
