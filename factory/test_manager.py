@@ -320,3 +320,15 @@ assert next_job(building, issues, set(), set(), never) == ('pr', 55, 'pr-55@abcd
 assert next_job(building, issues, set(), set(), lambda n, sha: True) == ('issue', 14, 'issue-14')
 assert next_job([], issues, set(), {'issue-53', 'issue-14'}, never) == ('issue', 51, 'issue-51')  # held until their lessons close
 print('ok foreman order')
+
+# Everything a branch changes against main counts, committed or not, and a rename shows both names.
+from builder import changed_from_main
+with tempfile.TemporaryDirectory() as d:
+    g = lambda *a: subprocess.run(['git', '-C', d, *a], check=True, capture_output=True)
+    g('init', '-q'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
+    Path(d, 'AGENTS.md').write_text('rules\n'); Path(d, 'a.ts').write_text('a\n'); g('add', '-A'); g('commit', '-qm', 'base')
+    g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    g('mv', 'AGENTS.md', 'moved.md'); g('commit', '-qm', 'checkpoint')
+    Path(d, 'a.ts').write_text('b\n'); Path(d, 'new.ts').write_text('n\n'); Path(d, '.builder-result.json').write_text('{}')
+    assert changed_from_main(Path(d)) == ['AGENTS.md', 'a.ts', 'moved.md', 'new.ts'], changed_from_main(Path(d))
+print('ok changed_from_main')

@@ -81,7 +81,8 @@ def touched_run(changed, tree):
 
 def changed_from_main(tree):
     """Everything this branch changes against main, earlier checkpoints included, so a saved pass can't slip a locked file in."""
-    names = sh('git', 'diff', '-z', '--name-only', '--no-renames', 'origin/main', cwd=tree)  # a rename lists both names.stdout.split('\0')
+    # --no-renames lists both names of a rename, so a renamed locked file is still caught.
+    names = sh('git', 'diff', '-z', '--name-only', '--no-renames', 'origin/main', cwd=tree).stdout.split('\0')
     names += sh('git', 'ls-files', '-z', '--others', '--exclude-standard', cwd=tree).stdout.split('\0')
     return sorted({n for n in names if n and n not in (RESULT, '.issue.json')})
 
