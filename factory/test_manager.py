@@ -230,3 +230,68 @@ if not os.environ.get('SWARMBREAK_SANDBOX'):
             sock.close()
             del os.environ['AWS_SECRET_ACCESS_KEY']
     print('ok sandbox')
+
+# An unchanged missing-run blocker must not start another follow-up or trigger deploy.
+with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
+    previous = ['release -> Missing run: live run x closed']
+    failures = []
+    manager.release_step(failures, previous=previous)
+    assert failures == []
+    assert 'blocked' in log.call_args.args[0]['result'].lower()
+    assert manager.blocked_deploy(previous)
+    check.return_value = ('Missing run: live run y closed', None)
+    release.return_value = 'Missing run: live run y closed'
+    assert not manager.blocked_deploy(previous)
+    manager.release_step(failures, previous=previous)
+    assert failures == ['release -> Missing run: live run y closed']
+
+# Scheduled invocations retain a blocker through follow-ups and clear or replace it as conditions change.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
+    def scheduled(result):
+        release.return_value = result
+        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args
+
+    x, y = 'Missing run: live run x closed', 'Missing run: live run y closed'
+    assert scheduled(x)[0] == ['release -> ' + x]
+    assert scheduled(x)[0] == []
+    assert scheduled(y)[0] == ['release -> ' + y]
+    assert scheduled('')[0] == []
+    assert scheduled(x)[0] == ['release -> ' + x]
+
+# Full scheduled passes read the same lock, including before explicit deploy actions.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release, patch('manager.release_check') as check, patch('manager.state', return_value={'issues': []}), patch('manager.open_prs', return_value=[]), patch('manager.act', return_value='Deployed.') as action:
+    seen = []
+    def decide(role, work, prompt, **kwargs):
+        seen.append(json.loads(Path(work, 'state.json').read_text())['failed_last_pass'])
+        Path(work, 'decisions.json').write_text(json.dumps({'actions': [{'type': 'deploy'}]}))
+    def full(result, extra=()):
+        release.return_value = result
+        check.return_value = (result, None)
+        with patch.object(sys, 'argv', ['manager.py', *extra]), patch.dict(os.environ), patch('manager.bot', side_effect=decide):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args[0]
+
+    x, y = 'Missing run: live run x closed', 'Missing run: live run y closed'
+    assert full(x) == ['release -> ' + x]
+    assert action.call_count == 1
+    assert full(x) == [] and action.call_count == 1
+    assert seen[-1] == ['release -> ' + x]
+    assert full(y) == ['release -> ' + y] and action.call_count == 2
+    assert full('') == [] and action.call_count == 3
+    assert Path(d, '.lock').read_text() == ''
+    assert full(x) == ['release -> ' + x] and action.call_count == 4
+    # A follow-up's explicit empty blocker must not resurrect the saved one.
+    assert full(x, ['--follow-up', '1', '--release-blocker', '']) == ['release -> ' + x]
+    assert action.call_count == 5 and seen[-1] == []
+
+# Rechecking an eligible run does not prepare a dry deployment before the explicit one.
+with patch('manager.live_manifest', return_value=m4), patch('manager.deploy', return_value='Deployed.') as deploy:
+    previous = ['release -> Missing run: live run x closed']
+    assert not manager.blocked_deploy(previous)
+    assert deploy.call_count == 0
+    assert manager.act({'type': 'deploy'}, {}, False) == 'Deployed.'
+    assert deploy.call_count == 1
