@@ -211,10 +211,28 @@ if not os.environ.get('SWARMBREAK_SANDBOX'):
     from pr_team import sandbox_works
     sandbox_works()
     print('ok sandbox')
-# A sandbox that lets everything through stops verification before any check runs.
 from types import SimpleNamespace
+import pr_team
+probe_paths, verification_calls = [], []
+def outside_checkout_sandbox(cmd, tree):
+    if cmd[0] == 'cat':
+        token = Path(cmd[1])
+        assert token.is_relative_to(Path.home().resolve()) and token.read_text() == 'x'
+        probe_paths.append(token.parent)
+        return SimpleNamespace(returncode=1, stdout='', stderr='')
+    if cmd[0] == 'touch' or (cmd[:2] == ['python3', '-c'] and 'socket' in cmd[2]):
+        return SimpleNamespace(returncode=1, stdout='', stderr='')
+    if cmd[0] in ('npm', 'python3') and cmd[1] != '-c':
+        verification_calls.append(cmd)
+    return SimpleNamespace(returncode=0, stdout='', stderr='')
+
+with patch.object(pr_team, '__file__', '/outside-home/checkout/factory/pr_team.py'), patch('pr_team.sandboxed', side_effect=outside_checkout_sandbox), patch('socket.socket'):
+    assert pr_team.verified('/outside-home/checkout') == ''
+assert len(probe_paths) == 1 and not probe_paths[0].exists()
+assert verification_calls == [['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']]
+print('ok sandbox probe outside checkout')
+# A sandbox that lets everything through stops verification before any check runs.
 with patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')):
-    import pr_team
     try:
         pr_team.verified('.')
     except AssertionError:

@@ -99,7 +99,7 @@ def sandbox_works():
     """Asserts the sandbox still blocks home-folder reads, network and writes outside the checkout. verified() runs this
     on the host, outside any sandbox, before every check, so a broken sandbox stops verification instead of passing it."""
     import socket
-    with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as secret, tempfile.TemporaryDirectory() as tree:
+    with tempfile.TemporaryDirectory(dir=Path.home().resolve()) as secret, tempfile.TemporaryDirectory() as tree:
         Path(secret, 'token').write_text('x')
         assert sandboxed(['cat', f'{secret}/token'], tree).returncode
         assert sandboxed(['touch', f'{secret}/w'], tree).returncode
