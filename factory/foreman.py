@@ -74,8 +74,8 @@ def main():
     if time.time() < st['cooldown_until']:
         return
     sh('git', 'fetch', '-q', 'origin')
-    prs = gh('pr', 'list', '--json', 'number,author,headRefName,headRefOid,labels')
-    issues = gh('issue', 'list', '--limit', '200', '--json', 'number,author,body,labels')
+    prs = gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
+    issues = gh('issue', 'list', '--limit', '500', '--json', 'number,author,body,labels')
     saved = {int(b.rsplit('-', 1)[1]) for b in sh('git', 'branch', '-r', '--format=%(refname:short)', '--list', 'origin/fix/issue-*').stdout.split()}
     open_ = {i['number'] for i in issues}
     st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
@@ -94,6 +94,18 @@ def main():
     r = subprocess.run([str(c) for c in cmd], cwd=ROOT, capture_output=True, text=True)
     out = r.stdout + r.stderr
     print(out[-4000:], flush=True)
+    if r.returncode and 'is already being worked' in out:
+        return  # a manager pass has it; not a failure
+    try:
+        settle(st, r, out, kind, number, key, ref, before, role, prs)
+    except SystemExit as e:  # a GitHub write failed; pause instead of rerunning the same job every start
+        print(f'[foreman] {e}', flush=True)
+        st['cooldown_until'] = time.time() + 600
+    STATE.write_text(json.dumps(st, indent=1))
+    record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'tail': out[-600:]})
+
+
+def settle(st, r, out, kind, number, key, ref, before, role, prs):
     if r.returncode and QUOTA.search(out):
         st['cooldown_until'] = time.time() + 1800  # the subscription is resting; nothing will run until it's back
     else:
@@ -109,8 +121,6 @@ def main():
                     sh('gh', which, 'comment', str(n), '--repo', REPO, '--body', f'The coach couldn\'t work out how to unblock this, so it is labelled `{STUCK}` for the manager to rescope, split, or fix the cause.')
             else:
                 st['waiting'][key] = learn(kind, number, out)
-    STATE.write_text(json.dumps(st, indent=1))
-    record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'tail': out[-600:]})
 
 
 if __name__ == '__main__':

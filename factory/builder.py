@@ -81,7 +81,7 @@ def touched_run(changed, tree):
 
 def changed_from_main(tree):
     """Everything this branch changes against main, earlier checkpoints included, so a saved pass can't slip a locked file in."""
-    names = sh('git', 'diff', '-z', '--name-only', 'origin/main', cwd=tree).stdout.split('\0')
+    names = sh('git', 'diff', '-z', '--name-only', '--no-renames', 'origin/main', cwd=tree)  # a rename lists both names.stdout.split('\0')
     names += sh('git', 'ls-files', '-z', '--others', '--exclude-standard', cwd=tree).stdout.split('\0')
     return sorted({n for n in names if n and n not in (RESULT, '.issue.json')})
 
@@ -131,7 +131,7 @@ def checkpoint(number, tree, branch, live, result, bad):
         else:
             sh('git', 'checkout', 'origin/main', '--', p, cwd=tree)
     if sh('git', 'grep', '-l', '-E', '^(<<<<<<<|>>>>>>>) ', cwd=tree, check=False).stdout.strip():
-        # ponytail: an unresolved merge of main is dropped with that pass's edits; the next pass merges again.
+        # ponytail: a half-resolved merge of main is dropped with that pass's edits and redone next pass; keep resolved files if this recurs.
         sh('git', 'merge', '--abort', cwd=tree, check=False)
         return ''
     sh('git', 'add', '-A', cwd=tree)
@@ -212,7 +212,10 @@ def main():
         return
     sh('git', 'add', '-A', cwd=tree)
     title = f'Fix issue {number}: {issue["title"]}'[:90]
-    sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
+    staged = sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode
+    if staged or not sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
+        sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
+    # else the saved checkpoints already hold the whole fix
     sh('git', 'push', '-q', 'origin', f'HEAD:refs/heads/{branch}', cwd=tree)
     url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', body).stdout.strip()
     print(url)
