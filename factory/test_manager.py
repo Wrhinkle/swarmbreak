@@ -207,8 +207,15 @@ assert manager.release().startswith('Release check failed')  # non-string timest
 print('ok release path')
 
 # Checks run agent-written code: the sandbox blocks home-folder reads, network and writes outside the checkout.
-if not os.environ.get('SWARMBREAK_SANDBOX'):
-    from pr_team import sandboxed
+# macOS refuses a restrictive sandbox inside another sandbox (exit 71, sandbox_apply), e.g. when an agent runs this file from its own sandbox.
+# The host gate can't apply one there either, so skipping hides nothing; on the host this always runs.
+from pr_team import sandboxed
+with tempfile.TemporaryDirectory() as probe:
+    r = sandboxed(['true'], probe)
+    nested = r.returncode == 71 and 'sandbox_apply' in r.stderr
+if nested:
+    print('skip sandbox: already inside a sandbox')
+elif not os.environ.get('SWARMBREAK_SANDBOX'):
     with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as secret, tempfile.TemporaryDirectory() as tree:
         Path(secret, 'token').write_text('x')
         assert sandboxed(['cat', f'{secret}/token'], tree).returncode
