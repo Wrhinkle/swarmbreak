@@ -42,6 +42,7 @@ it('refreshes the roster for health, shields, and new fighters', async () => {
     textContent = '';
     className = '';
     children: Element[] = [];
+    setAttribute() {}
     append(...children: Element[]) { this.children.push(...children); }
     replaceChildren(...children: Element[]) { this.children = children; }
   }
@@ -64,4 +65,32 @@ it('refreshes the roster for health, shields, and new fighters', async () => {
     globalThis.document = oldDocument;
     globalThis.fetch = oldFetch;
   }
+});
+
+
+it('renders cards and selectable options with their supplied content', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; attributes: Record<string, string> = {};
+    type = ''; disabled = false; src = ''; alt = ''; click?: () => void;
+    append(...children: Element[]) { this.children.push(...children); }
+    setAttribute(name: string, value: string) { this.attributes[name] = value; }
+    addEventListener(_name: string, handler: () => void) { this.click = handler; }
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { renderCard, optionButtons } = await import('./main');
+    const card = renderCard({ name: 'Guard', cost: '20g', effect: 'Protect an ally', icon: '◆' }) as unknown as Element;
+    expect(card.children[0].textContent).toBe('◆');
+    expect(card.children[1].children.map(c => c.textContent)).toEqual(['Guard', '20g', 'Protect an ally']);
+    const ally = renderCard({ name: 'Ally', effect: 'Strike', art: '/ally.png' }) as unknown as Element;
+    expect(ally.children[0].src).toBe('/ally.png');
+    expect(ally.children[1].children.map(c => c.textContent)).toEqual(['Ally', 'Strike']);
+    let selected = '';
+    const group = optionButtons('Crew', [{value:'a',label:'Ally'}, {value:'b',label:'Friend'}], 'a', value => { selected = value; }) as unknown as Element;
+    expect(group.children[1].attributes['aria-pressed']).toBe('true');
+    group.children[2].click?.();
+    expect(selected).toBe('b');
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
 });
