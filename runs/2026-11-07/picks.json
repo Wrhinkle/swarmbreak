@@ -1,0 +1,45 @@
+{
+  "thread": "Follow the swarm underground, from fossil-bearing layers and sinking streams into sculpted caverns, then back out among crystals and mineral collections. Along the way, stone becomes a maze, a habitat, and a cabinet of strange shapes.",
+  "candidates": [
+    {
+      "name": "Kentucky Geological Survey",
+      "url": "https://kygs.uky.edu/",
+      "why": "Fossil-bearing limestone, sinkholes, springs, mineral deposits, and geologic maps give the swarm a layered landscape to enter."
+    },
+    {
+      "name": "Carlsbad Caverns National Park",
+      "url": "https://www.nps.gov/cave/index.htm",
+      "why": "Sulfuric-acid caves, immense chambers, cave formations, bats, and desert life offer a populated underground maze."
+    },
+    {
+      "name": "Mineralogy Museum of the Paris School of Mines",
+      "url": "https://www.minesparis.psl.eu/musee/en/home/",
+      "why": "Minerals, gems, rocks, synthetic crystals, and unusual specimens furnish a cabinet of crystalline shapes for the swarm to inhabit."
+    },
+    {
+      "name": "National Cave and Karst Research Institute",
+      "url": "https://nckri.org/",
+      "why": "Scalloped cave walls, stone fins, dripstone, springs, sinkholes, and cave environments make an alternate subterranean act."
+    },
+    {
+      "name": "GeoKansas",
+      "url": "https://geokansas.ku.edu/",
+      "why": "Kansas rocks, fossils, chalk formations, sinkholes, and geologic places offer another entrance into deep time."
+    },
+    {
+      "name": "Camborne School of Mines Virtual Museum",
+      "url": "https://csm-museum.co.uk/",
+      "why": "Mineral specimens, rock microscopy, mining heritage, and virtual field trips turn underground materials into a field laboratory."
+    },
+    {
+      "name": "Geevor Tin Mine",
+      "url": "https://geevor.com/",
+      "why": "Underground workings, shafts, mining machinery, and the Hard Rock Museum introduce a human-made network through the stone."
+    },
+    {
+      "name": "British Geological Survey",
+      "url": "https://www.bgs.ac.uk/",
+      "why": "Geological maps, rock and mineral resources, boreholes, and collections give the swarm many routes through the ground beneath Britain."
+    }
+  ]
+}

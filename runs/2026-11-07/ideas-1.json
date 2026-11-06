@@ -1,0 +1,236 @@
+{
+  "reading": "The National Park Service cares for a network of natural and historic places, helps people visit them safely, and works with communities, educators, researchers and partners to preserve and interpret both nature and human history. Its language moves between welcome and stewardship: preserves, monuments, heritage, species recovery, interpretation, accessibility, conditions, passes and planning ahead. This crawl ranges from bats and campfire safety to civil rights history and Alaska Native cultures; it treats parks as places of living communities and difficult histories as well as scenery. The Bering Land Bridge pages give it an especially distinctive remote, roadless Alaska thread: hot springs, migration research, topographic maps, field permits and observations of environmental change. State listings connect very different places into a single national system, while practical details such as free entry, weather and traveling teaching materials make that system tangible.",
+  "enemies": [
+    {
+      "idea": "Contour Stitchers pull raised lines from topographic maps and sew hills together, trapping travelers inside a valley that moves when they climb.",
+      "source": "/bela/planyourvisit/maps.htm",
+      "why": "The map becomes a manipulable terrain puzzle in a vast roadless preserve."
+    },
+    {
+      "idea": "Dewpoint Ticks latch onto equipment and cool it until moisture condenses into a shell; the colder their reported wind chill, the faster they multiply.",
+      "source": "/bela/planyourvisit/conditions.htm",
+      "why": "Several actual weather measurements combine into a visible, escalating hazard."
+    },
+    {
+      "idea": "Minimum Requirement Auditors judge every action against a distorted wilderness analysis and confiscate whatever tool seems less than absolutely necessary.",
+      "source": "/articles/researchakwilderness.htm",
+      "why": "The crew can debate, improvise or outwit an overzealous fieldwork bureaucracy."
+    },
+    {
+      "idea": "Timed Entry Stags carry clocks in their antlers and charge anyone who crosses a clearing outside a randomly reassigned reservation window.",
+      "source": "/planyourvisit/passes.htm",
+      "why": "A familiar access rule becomes a moving timing challenge."
+    },
+    {
+      "idea": "Echolocator bats emit false echoes that make open passages sound solid and solid rock sound hollow; they home in on anyone who makes a test noise.",
+      "source": "/subjects/bats/index.htm",
+      "why": "Their navigation gives players a reason to experiment with sound and silence."
+    },
+    {
+      "idea": "Chorus Frogs emerge from under logs at a false spring and synchronize into a mechanical song that wakes dormant swarm nests.",
+      "source": "/subjects/amphibiansandreptiles/index.htm",
+      "why": "Stopping a few singers can interrupt a larger chain reaction."
+    },
+    {
+      "idea": "Recovery Collectors encase at-risk plants and animals in armored capsules to prevent extinction, then refuse to let them live outside the collection.",
+      "source": "/subjects/rareandendangered/index.htm",
+      "why": "A protective mission becomes a rescue problem with fragile cargo."
+    },
+    {
+      "idea": "Biodiversity Sorters split a mixed habitat into identical single-species pens, dismantling anything that crosses a boundary.",
+      "source": "/subjects/biodiversity/index.htm",
+      "why": "Restoring the connections between habitats undermines the enemy."
+    },
+    {
+      "idea": "Birding Scopes on jointed legs classify every moving silhouette; once a flock has been identified, their lenses mark it for capture.",
+      "source": "/subjects/birds/index.htm",
+      "why": "Players can use decoys and mixed silhouettes to scramble identification."
+    },
+    {
+      "idea": "A herd of mechanical bison rolls across the range in formation, compacting every trail into a single straight migration corridor.",
+      "source": "/subjects/bison/index.htm",
+      "why": "A herd encounter changes the terrain and offers a dangerous moving route."
+    },
+    {
+      "idea": "The Fat Bear Bracket breeds scrap bears that hoard fuel for a simulated winter; each victory makes the next contender larger and slower.",
+      "source": "/katm/learn/nature/fat-bear-week-past-and-present.htm",
+      "why": "The contest creates a visible escalation and a tempting cache inside each rival."
+    },
+    {
+      "idea": "Campfire Wardens build ever larger rings around unattended sparks, then smother nearby lamps and engines as potential fires.",
+      "source": "/articles/campfires.htm",
+      "why": "Light and warmth become resources to defend without making fire safety itself a joke."
+    },
+    {
+      "idea": "Roadside Viewfinders freeze vehicles whenever passengers look away from the scenery, while their hidden wheels quietly steer the road underneath.",
+      "source": "/articles/drivingsafety.htm",
+      "why": "The tension between enjoying a view and watching the road becomes a cooperative driving challenge."
+    },
+    {
+      "idea": "Autumn Leaf Sweepers harvest bright foliage into spinning camouflage cloaks, exposing themselves whenever they stop to sort the colors.",
+      "source": "/subjects/npscelebrates/fall-season.htm",
+      "why": "Changing cover creates a readable opening during pursuit."
+    },
+    {
+      "idea": "A hot-spring siphon coils around Iyat, drawing warmth into a steam-powered brood that leaves the surrounding ground brittle and cold.",
+      "source": "/bela/index.htm",
+      "why": "The crew can redirect heat and steam through a distinctive geothermal setting."
+    },
+    {
+      "idea": "Migration Theorists lay competing mechanical routes across the land bridge and attack anything that follows a different one.",
+      "source": "/bela/learn/index.htm",
+      "why": "Conflicting hypotheses become overlapping patrol patterns, without pretending the mystery has one settled answer."
+    },
+    {
+      "idea": "Overland Mail Carriers race an endless route with sealed cargo, adding any unattended object to their delivery and defending it fiercely.",
+      "source": "/state/az/index.htm",
+      "why": "The historic mail route becomes a chase and a chance to plant cargo."
+    },
+    {
+      "idea": "River-Confluence Machines force two waterways into a single channel and reject anything carried by only one current.",
+      "source": "/state/ar/index.htm",
+      "why": "Players can use two streams together to sneak through a selective barrier."
+    },
+    {
+      "idea": "Footpath Extenders unroll a self-growing trail that loops back on itself whenever a traveler tries to leave the route.",
+      "source": "/state/ct/index.htm",
+      "why": "A long public footpath becomes a navigational loop with physical seams to find."
+    },
+    {
+      "idea": "Ten-Essentials Packers stuff travelers with redundant supplies until they cannot move, then announce they are ready for any emergency.",
+      "source": "/planyourvisit/index.htm",
+      "why": "A safety checklist becomes a comic inventory-management threat."
+    },
+    {
+      "idea": "A traveling trunk unfolds into a field classroom and insists on testing the crew before releasing the supplies it swallowed.",
+      "source": "/teachers/index.htm",
+      "why": "The loaned teaching material becomes a mobile encounter solvable through observation."
+    },
+    {
+      "idea": "A permafrost recorder compares today with a frozen baseline and flash-freezes anything that makes its readings differ.",
+      "source": "/articles/000/akchangeprjjuke.htm",
+      "why": "A measurement intended to document change becomes an obstacle to adaptation."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Community stewards share locally observed changes and point out a safe route the swarm’s old measurements miss.",
+      "source": "/articles/000/akchangeprjjuke.htm",
+      "why": "Firsthand observations give the crew useful, changing intelligence."
+    },
+    {
+      "idea": "A small volunteer repair crew restores damaged shelters and will reinforce a refuge if the travelers recover its tools.",
+      "source": "/getinvolved/index.htm",
+      "why": "Helping the people who care for places leaves a lasting safe haven."
+    },
+    {
+      "idea": "An accessibility planner identifies alternative ways through a blocked site and helps the crew build a route usable by more travelers.",
+      "source": "/aboutus/accessibility.htm",
+      "why": "Access becomes a practical cooperative solution to a terrain problem."
+    },
+    {
+      "idea": "A field researcher carries a minimum-impact kit and can disable a machine nest without disturbing nearby habitat if given time and protection.",
+      "source": "/articles/researchakwilderness.htm",
+      "why": "The ally turns careful fieldwork into a different tactical approach."
+    },
+    {
+      "idea": "A teacher with a traveling trunk lends hand lenses and activity cards that reveal how to identify swarm mimics.",
+      "source": "/teachers/index.htm",
+      "why": "Education supplies become discovery tools for the crew."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Forever Preserve is a vast self-assembling landscape of vaults, maps and specimen capsules. It tries to keep every park unchanged forever, sealing living things and visitors into the version it first recorded.",
+      "source": "/index.htm",
+      "why": "The site’s promise of enduring special places becomes a tragic preservation engine; opening its vaults changes the battlefield."
+    },
+    {
+      "idea": "The Grand Itinerary joins route-laying machines, pass inspectors, weather instruments and safety packers into one roaming expedition planner. It keeps recalculating the perfect visit and will not let anyone arrive until every condition is satisfied.",
+      "source": "/planyourvisit/index.htm",
+      "why": "The site’s many practical services combine into a multi-stage boss whose subsystems can be persuaded or disabled."
+    },
+    {
+      "idea": "The Atlas of All Places folds distant park landscapes into one another, splicing river, desert and roadless tundra into an unstable mosaic that it calls a complete national collection.",
+      "source": "/learnandexplore/explore-by-topic.htm",
+      "why": "The breadth of natural and historic places produces shifting arenas and choices about what connections to restore."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A leaf sweeper has buried a trail junction under sorted piles of brilliant leaves; a family needs help finding the real markers before the piles are collected.",
+      "source": "/subjects/npscelebrates/fall-season.htm",
+      "why": "A small navigation problem has a colorful visual payoff."
+    },
+    {
+      "idea": "A supposedly free entrance to the remote preserve is blocked by a broken pass inspector demanding a ticket. Its own records can convince it to step aside.",
+      "source": "/bela/planyourvisit/fees.htm",
+      "why": "The specific no-pass rule gives the crew an evidence-based solution."
+    },
+    {
+      "idea": "A field team cannot retrieve a sample because an auditor has seized its equipment; the crew can propose a lower-impact method or recover the tools.",
+      "source": "/articles/researchakwilderness.htm",
+      "why": "A dilemma offers negotiation and resourceful fieldwork."
+    },
+    {
+      "idea": "At a hot spring, a siphon has diverted warm water into a dormant brood. Rerouting a valve restores the pool but may wake the machines.",
+      "source": "/bela/index.htm",
+      "why": "A clear tradeoff makes the geothermal feature matter."
+    },
+    {
+      "idea": "A group of bats is trapped behind a false-echo projector. Mimicking an unobstructed return leads them out while confusing the projector.",
+      "source": "/subjects/bats/index.htm",
+      "why": "Echolocation supplies a nonviolent rescue mechanic."
+    },
+    {
+      "idea": "A mechanical bear is stuffing a cache for winter and has accidentally swallowed a ranger’s supply case; it can be distracted with scrap from a nearby stream.",
+      "source": "/katm/learn/nature/fat-bear-week-past-and-present.htm",
+      "why": "Seasonal energy storage gives the encounter a concrete motive and solution."
+    },
+    {
+      "idea": "A campfire has been fully extinguished, but an overactive warden keeps shoveling cold earth onto a buried cooking pot. Prove the coals are cold to reclaim dinner.",
+      "source": "/articles/campfires.htm",
+      "why": "The final stage of fire safety becomes a low-stakes puzzle."
+    },
+    {
+      "idea": "Two rival topographic surveys disagree about a pass through the roadless preserve. A climb to a vantage point reveals which contour machine has shifted the ground.",
+      "source": "/bela/planyourvisit/maps.htm",
+      "why": "The landscape itself can settle a map dispute."
+    },
+    {
+      "idea": "A traveling classroom trunk has scattered specimen cards in the wind. Returning them in ecological groups unlocks a cache of field supplies.",
+      "source": "/teachers/index.htm",
+      "why": "The teaching-material premise encourages observation and collaboration."
+    },
+    {
+      "idea": "A group of community volunteers is repairing a damaged footbridge while a sorter tries to separate their tools by material. Protect the mixed pile long enough to finish.",
+      "source": "/getinvolved/communities.htm",
+      "why": "Community conservation becomes a timed defense with a clear objective."
+    },
+    {
+      "idea": "A weather instrument reports perfect visibility while its lenses have frosted over. Clearing them exposes an approaching swarm and restores a useful warning.",
+      "source": "/bela/planyourvisit/conditions.htm",
+      "why": "The instrument’s wrong measurement creates a small investigation."
+    },
+    {
+      "idea": "A confluence machine refuses to open a sluice until objects arrive on both currents at once; two stranded boats ask the crew to coordinate their approach.",
+      "source": "/state/ar/index.htm",
+      "why": "The meeting of two rivers becomes a cooperative timing puzzle."
+    },
+    {
+      "idea": "A walking trail has looped a hiker back to the same tree three times. Following the seam of a newly laid mechanical path reveals where to cut it.",
+      "source": "/state/ct/index.htm",
+      "why": "A recognizable trail problem has a physical clue and satisfying fix."
+    },
+    {
+      "idea": "A recovery collector has locked a rare plant away from its pollinators. A researcher asks the crew to open the capsule without damaging the plant.",
+      "source": "/subjects/rareandendangered/index.htm",
+      "why": "A rescue requires care and restores an ecological relationship."
+    },
+    {
+      "idea": "A visitor group wants to reach a temporary gathering place, but swarm debris blocks the planned approach. An access planner asks the crew to clear and test an alternative route.",
+      "source": "/bicr/planyourvisit/basicinfo.htm",
+      "why": "A monument in progress becomes a respectful problem of access and cooperation."
+    }
+  ]
+}
