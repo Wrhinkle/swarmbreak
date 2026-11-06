@@ -128,7 +128,9 @@ def main():
         return
     prs = gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
     issues = gh('issue', 'list', '--limit', '500', '--json', 'number,author,body,labels')
-    saved = saved_issues(sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*').stdout.split())
+    # Only branches holding commits main lacks are saved work; finished or never-used issue branches are not.
+    saved = saved_issues([b for b in sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*').stdout.split()
+                          if sh('git', 'rev-list', '--count', f'origin/main..{b}').stdout.strip() != '0'])
     open_ = {i['number'] for i in issues}
     st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
     job = next_job(prs, issues, saved, set(st['waiting']), gate_rejected)
