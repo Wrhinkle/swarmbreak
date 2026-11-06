@@ -352,3 +352,70 @@ with tempfile.TemporaryDirectory() as d:
     except RuntimeError as e:
         assert 'Conflict marker scan failed' in str(e)
 print('ok conflict scan')
+
+# Only exact issue branch names count; branch creation at main is not progress.
+import foreman
+from types import SimpleNamespace
+assert foreman.saved_issues(['fix/issue-42', 'fix/issue-42-backup', 'fix/issue-x', 'fix/issue-7']) == {42, 7}
+for prior, after, progress in [('', 'main', False), ('', 'checkpoint', True),
+                               ('old', 'old', False), ('old', 'checkpoint', True)]:
+    with patch('foreman.tip', side_effect=lambda ref: prior if ref == 'branch' else 'main'):
+        baseline = foreman.starting_tip('branch')
+    state = {'waiting': {}, 'cooldown_until': 0}
+    with patch('foreman.sh'), patch('foreman.tip', return_value=after), patch('foreman.learn', return_value=99) as learn:
+        foreman.settle(state, SimpleNamespace(returncode=1), 'failed', 'issue', 42, 'issue-42', 'branch', baseline, [], [])
+        assert learn.called != progress
+        assert bool(state['waiting']) != progress
+print('ok foreman progress')
+
+# A dry-run branch can be reused to close an unreproduced issue, while saved work survives.
+import builder
+import json
+from unittest.mock import MagicMock
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    def git(*args, cwd=root, check=True):
+        return subprocess.run(['git', *map(str, args)], cwd=cwd, check=check, capture_output=True, text=True)
+    git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+    (root / 'file').write_text('base\n')
+    git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    closed = []
+    def fake_sh(*args, cwd=None, check=True):
+        if args[:3] == ('git', 'fetch', '-q') or args[0] == 'npm':
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        if args[0] == 'git':
+            return git(*args[1:], cwd=cwd or root, check=check)
+        if args[:3] == ('gh', 'issue', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'author': {'login': builder.OWNER}, 'state': 'OPEN', 'title': 't', 'body': 'b'}))
+        if args[:3] == ('gh', 'pr', 'list'):
+            return SimpleNamespace(stdout='0')
+        if args[:3] == ('gh', 'issue', 'close'):
+            closed.append(args)
+            return SimpleNamespace(stdout='')
+        raise AssertionError(args)
+    def fake_bot(role, tree, prompt, **kwargs):
+        (tree / builder.RESULT).write_text(json.dumps({'outcome': 'not_reproduced', 'summary': 's', 'evidence': 'e'}))
+    response = MagicMock()
+    response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
+    with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+         patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
+         patch.object(builder.urllib.request, 'urlopen', return_value=response), patch.object(builder, 'notes', return_value=[]), \
+         patch.object(builder, 'checkpoint', return_value=''):
+        with patch.object(sys, 'argv', ['builder.py', '42', '--dry-run']):
+            builder.main()
+        with patch.object(sys, 'argv', ['builder.py', '42']):
+            builder.main()
+        assert len(closed) == 1
+        tree = Path(d) / 'swarmbreak-issue-42'
+        (tree / 'file').write_text('saved checkpoint\n')
+        git('add', 'file', cwd=tree); git('commit', '-qm', 'checkpoint', cwd=tree)
+        (tree / 'uncommitted').write_text('keep\n')
+        with patch.object(sys, 'argv', ['builder.py', '42']):
+            try:
+                builder.main()
+                assert False, 'saved work must prevent closure'
+            except SystemExit:
+                pass
+        assert len(closed) == 1 and (tree / 'uncommitted').read_text() == 'keep\n'
+print('ok builder saved work')

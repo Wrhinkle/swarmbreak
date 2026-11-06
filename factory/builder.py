@@ -167,10 +167,14 @@ def main():
     _lock = hold(f'issue-{number}')  # noqa: F841 - held until exit, so a manager pass and the foreman can't build it at once
     tree = ROOT.parent / f'swarmbreak-issue-{number}'
     sh('git', 'fetch', '-q', 'origin')
-    if tree.exists():
-        sh('git', 'worktree', 'remove', '--force', tree)
     saved = sh('git', 'rev-parse', '--verify', '-q', f'refs/heads/{branch}', check=False).returncode == 0
-    if saved:
+    if tree.exists():
+        current = sh('git', 'symbolic-ref', '-q', '--short', 'HEAD', cwd=tree, check=False)
+        common = sh('git', 'rev-parse', '--path-format=absolute', '--git-common-dir', cwd=tree, check=False)
+        root_common = sh('git', 'rev-parse', '--path-format=absolute', '--git-common-dir')
+        if not saved or current.returncode or current.stdout.strip() != branch or common.returncode or common.stdout.strip() != root_common.stdout.strip():
+            sys.exit(f'{tree} is not the worktree for {branch}; leaving it untouched.')
+    elif saved:
         sh('git', 'worktree', 'add', '-q', tree, branch)
     else:
         sh('git', 'worktree', 'add', '-q', '-B', branch, tree, 'origin/main')
@@ -206,7 +210,8 @@ def main():
         extra = 'Your last attempt was refused. Fix each of these:\n' + '\n'.join(bad)
     (tree / '.issue.json').unlink()
     outcome = result.get('outcome')
-    if outcome == 'not_reproduced' and not saved:
+    if (outcome == 'not_reproduced' and not sh('git', 'rev-list', 'origin/main..HEAD', cwd=tree).stdout.strip()
+            and not changed_from_main(tree)):
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         if not dry:
             sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
