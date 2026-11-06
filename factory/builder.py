@@ -177,10 +177,15 @@ def main():
     with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
         live = json.load(r)['runId']
     _lock = hold(f'issue-{number}')  # noqa: F841 - held until exit, so a manager pass and the foreman can't build it at once
-    tree = ROOT.parent / f'swarmbreak-issue-{number}'
+    tree = ROOT.parent / f'swarmbreak-issue-{number}{"-dry" if dry else ""}'
     sh('git', 'fetch', '-q', 'origin')
     saved = sh('git', 'rev-parse', '--verify', '-q', f'refs/heads/{branch}', check=False).returncode == 0
-    if tree.exists():
+    if dry:
+        # Dry runs get a throwaway detached copy, so their edits never reach the real branch or worktree.
+        if tree.exists():
+            sh('git', 'worktree', 'remove', '--force', tree)
+        sh('git', 'worktree', 'add', '-q', '--detach', tree, branch if saved else 'origin/main')
+    elif tree.exists():
         current = sh('git', 'symbolic-ref', '-q', '--short', 'HEAD', cwd=tree, check=False)
         common = sh('git', 'rev-parse', '--path-format=absolute', '--git-common-dir', cwd=tree, check=False)
         root_common = sh('git', 'rev-parse', '--path-format=absolute', '--git-common-dir')
