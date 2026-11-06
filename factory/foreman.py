@@ -8,10 +8,55 @@ can't finish is labelled stuck, with its job, for the manager.
 
 Usage: python3 factory/foreman.py [--dry-run]
 """
-import fcntl, json, re, subprocess, sys, time
+import sys
+
+# A script's directory is first on sys.path, before even the standard library.
+# Do not let checkout files load until the factory has passed its Git checks.
+_factory = __file__.rsplit('/', 1)[0]
+_root = _factory.rsplit('/', 1)[0]
+if __name__ == '__main__':
+    sys.path.pop(0)  # Python may resolve this path differently from __file__ (for example /var vs /private/var).
+sys.path = [p for p in sys.path if p and p.rstrip('/') not in (_factory, _root)]
+sys.pycache_prefix = '/dev/null'  # neither this process nor its children may trust checkout bytecode
+import os
+sys.path = [p for p in sys.path if os.path.realpath(p) not in (os.path.realpath(_factory), os.path.realpath(_root))]
+import fcntl, json, re, subprocess, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+os.environ['PYTHONPYCACHEPREFIX'] = '/dev/null'
+
+
+def factory_clean(root):
+    """Fail closed on changed, untracked or ignored factory inputs, leaving them in place."""
+    def git(*args):
+        return subprocess.run(['git', *args], cwd=root, capture_output=True)
+
+    try:
+        if git('diff', '--quiet', 'origin/main', '--', 'factory', ':(exclude)factory/log').returncode:
+            return False
+        for extra in ((), ('--ignored',)):
+            result = git('ls-files', '--others', '--exclude-standard', *extra, '-z', '--', 'factory',
+                         ':(exclude)factory/log', ':(exclude)factory/.venv')
+            if result.returncode:
+                return False
+            for path in result.stdout.split(b'\0'):
+                if path and not (b'__pycache__' in path.split(b'/') and path.endswith(b'.pyc')):
+                    return False
+        return True
+    except OSError:
+        return False
+
+
+if __name__ == '__main__':
+    try:
+        fetched = subprocess.run(['git', 'fetch', '-q', 'origin'], cwd=ROOT).returncode == 0
+    except OSError:
+        fetched = False
+    if not fetched or not factory_clean(ROOT):
+        print('Factory code here differs from origin/main or could not be checked; waiting for the manager to sync this checkout.', flush=True)
+        sys.exit(1)
+
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, sh  # noqa: E402
 from manager import HUMAN, OWNER, gate_rejected, on_run_branch, record  # noqa: E402
@@ -80,11 +125,6 @@ def main():
         return  # a manager pass is building a run in this checkout; its scripts aren't main's
     st = {'waiting': {}, 'cooldown_until': 0, **(json.loads(STATE.read_text()) if STATE.exists() else {})}
     if time.time() < st['cooldown_until']:
-        return
-    sh('git', 'fetch', '-q', 'origin')
-    if sh('git', 'diff', '--quiet', 'origin/main', '--', 'factory', ':(exclude)factory/log', check=False).returncode:
-        # Every script it runs must be main's; the manager's next pass syncs the checkout. Never run older or unmerged factory code.
-        print('Factory code here differs from origin/main; waiting for the manager to sync this checkout.', flush=True)
         return
     prs = gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
     issues = gh('issue', 'list', '--limit', '500', '--json', 'number,author,body,labels')

@@ -382,6 +382,35 @@ for prior, after, progress in [('', 'main', False), ('', 'checkpoint', True),
         assert bool(state['waiting']) != progress
 print('ok foreman progress')
 
+# The foreman refuses both ignored and ordinary untracked inputs, before importing them.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    factory = root / 'factory'
+    factory.mkdir()
+    g = lambda *a: subprocess.run(['git', '-C', d, *a], check=True, capture_output=True)
+    g('init', '-q'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
+    (root / '.gitignore').write_text('factory/ignored.py\n__pycache__/\nfactory/.venv/\n')
+    (factory / 'foreman.py').write_text(Path(foreman.__file__).read_text())
+    g('add', '-A'); g('commit', '-qm', 'base'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    (factory / 'log').mkdir(); (factory / 'log' / 'state').write_text('runtime')
+    (factory / '__pycache__').mkdir(); (factory / '__pycache__' / 'json.pyc').write_bytes(b'cache')
+    (factory / '.venv').mkdir(); (factory / '.venv' / 'artifact').write_text('runtime')
+    assert foreman.factory_clean(root)
+    for name in ('json.py', 'ignored.py', 'skills/new.md'):
+        path = factory / name
+        path.parent.mkdir(exist_ok=True)
+        path.write_text('raise SystemExit("untrusted import")')
+        assert not foreman.factory_clean(root), name
+        if name == 'json.py':
+            result = subprocess.run([sys.executable, str(factory / 'foreman.py')], cwd=root, capture_output=True, text=True)
+            assert result.returncode and 'untrusted import' not in result.stderr
+        path.unlink()
+    with patch('foreman.subprocess.run', side_effect=OSError('git unavailable')):
+        assert not foreman.factory_clean(root)
+    with patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=2, stdout=b'')):
+        assert not foreman.factory_clean(root)
+print('ok foreman factory guard')
+
 # A dry-run branch can be reused to close an unreproduced issue, while saved work survives.
 import builder
 import json
