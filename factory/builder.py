@@ -15,6 +15,7 @@ OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
 LOCKED = (*PROTECTED, '.gitignore', 'vite.config')
 RESULT = '.builder-result.json'
 CHECKPOINT = 'Builder checkpoint'
+MARKERS = '^(<<<<<<<|>>>>>>>) '
 RETRIES = 2
 CRITERIA_MAX = 30000
 PR_BODY_MAX = 65536
@@ -87,9 +88,14 @@ def changed_from_main(tree):
     return sorted({n for n in names if n and n not in (RESULT, '.issue.json')})
 
 
+def conflicted(tree):
+    return sh('git', 'grep', '-l', '-E', MARKERS, cwd=tree, check=False).stdout.split()
+
+
 def problems_in(tree, live):
     changed = changed_from_main(tree)
     bad = [f"You can't edit: {p}" for p in blocked_paths(changed, live)]
+    bad += [f'Merge conflict markers left in {p}' for p in conflicted(tree)]
     live_file = f'public/runs/{live}/run.json'
     if live_file in changed:
         before = sh('git', 'show', f'origin/main:{live_file}', cwd=tree).stdout
@@ -126,15 +132,13 @@ def notes(number):
 
 def checkpoint(number, tree, branch, live, result, bad):
     """Saves an unfinished pass on the issue's branch, without a PR, and notes what's left. The next pass starts from it."""
-    for p in blocked_paths(changed_from_main(tree), live):
+    # Locked files go back to main's version, and so do built runs, which the host rebuilds from content.json.
+    built = [p for p in changed_from_main(tree) if re.match(rf'public/runs/(?!{live}/)[^/]+/run\.json$', p)]
+    for p in blocked_paths(changed_from_main(tree), live) + built:
         if sh('git', 'cat-file', '-e', f'origin/main:{p}', cwd=tree, check=False).returncode:
             (tree / p).unlink(missing_ok=True)
         else:
             sh('git', 'checkout', 'origin/main', '--', p, cwd=tree)
-    if sh('git', 'grep', '-l', '-E', '^(<<<<<<<|>>>>>>>) ', cwd=tree, check=False).stdout.strip():
-        # ponytail: a half-resolved merge of main is dropped with that pass's edits and redone next pass; keep resolved files if this recurs.
-        sh('git', 'merge', '--abort', cwd=tree, check=False)
-        return ''
     sh('git', 'add', '-A', cwd=tree)
     if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0 and sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
         return ''
@@ -167,6 +171,8 @@ def main():
     conflicts = []
     if saved and sh('git', 'merge', '-q', '--no-edit', 'origin/main', cwd=tree, check=False).returncode:
         conflicts = sh('git', 'diff', '--name-only', '--diff-filter=U', cwd=tree).stdout.split()
+    # A checkpoint keeps a half-resolved merge, markers and all, so no resolved file is lost; this pass finishes it.
+    conflicts = sorted(set(conflicts) | set(conflicted(tree)))
     sh('npm', 'ci', '--silent', cwd=tree)
     progress = notes(number) if saved else []
     (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live, 'progress': progress, 'merge_conflicts': conflicts}, indent=1))
