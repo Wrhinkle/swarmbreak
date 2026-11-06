@@ -230,3 +230,16 @@ if not os.environ.get('SWARMBREAK_SANDBOX'):
             sock.close()
             del os.environ['AWS_SECRET_ACCESS_KEY']
     print('ok sandbox')
+
+# An unchanged missing-run blocker must not start another follow-up or trigger deploy.
+with patch('manager.release', return_value='Missing run: live run x closed') as check, patch('manager.record') as log:
+    previous = ['release -> Missing run: live run x closed']
+    failures = []
+    manager.release_step(failures, previous=previous)
+    assert failures == []
+    assert 'blocked' in log.call_args.args[0]['result'].lower()
+    assert manager.blocked_deploy(previous)
+    check.return_value = 'Missing run: live run y closed'
+    assert not manager.blocked_deploy(previous)
+    manager.release_step(failures, previous=previous)
+    assert failures == ['release -> Missing run: live run y closed']

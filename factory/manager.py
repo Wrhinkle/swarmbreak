@@ -493,6 +493,10 @@ def main():
     s = state()
     # Failure output quotes PR content and Qodo titles, so it reaches the manager as data in state.json, never in its prompt.
     s['failed_last_pass'] = json.loads(args[args.index('--failures') + 1]) if '--failures' in args else []
+    blocker = args[args.index('--release-blocker') + 1] if '--release-blocker' in args else ''
+    previous = s['failed_last_pass'] + ([blocker] if blocker else [])
+    if blocker and blocker not in s['failed_last_pass']:
+        s['failed_last_pass'].append(blocker)
     with tempfile.TemporaryDirectory() as work:
         (Path(work) / 'state.json').write_text(json.dumps(s, indent=1))
         (Path(work) / 'AGENTS.md').write_text((ROOT / 'AGENTS.md').read_text())
@@ -517,28 +521,45 @@ def main():
     for a in d.get('actions', []):
         s['prs'] = open_prs()  # open_run can add one earlier in the same pass
         try:
-            result = act(a, s, dry)
+            if not dry and a.get('type') == 'deploy' and blocked_deploy(previous):
+                result = 'Not deploying: unchanged missing-run release blocker remains.'
+            else:
+                result = act(a, s, dry)
         except SystemExit as e:  # a checked command failed inside the action
             result = f'Action failed: {e}'
         print(f'{a.get("type")}: {result}', flush=True)
         record({'kind': 'action', 'action': a, 'result': result if len(result) <= 1000 else f'{result[:300]} ... {result[-700:]}', 'dry': dry})
-        if FAILED.search(result):
+        if FAILED.search(result) and result != 'Not deploying: unchanged missing-run release blocker remains.':
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
     if not dry:
-        release_step(failures)
-    follow_up(failures, round_, note, dry)
+        blocker = release_step(failures, previous=previous)
+    follow_up(failures, round_, note, dry, blocker)
 
 
-def release_step(failures, dry=False):
+def missing_run_blocker(result, previous):
+    return result.startswith('Missing run:') and f'release -> {result[-700:]}' in previous
+
+
+def blocked_deploy(previous):
+    # Recheck the live manifest and main before suppressing an explicit deploy.
+    return any(p.startswith('release -> Missing run:') for p in previous) and missing_run_blocker(release(True), previous)
+
+
+def release_step(failures, dry=False, previous=()):
     result = release(dry)
     if result:
-        print(f'release: {result}', flush=True)
-        record({'kind': 'action', 'action': {'type': 'release'}, 'result': result[-1000:], 'dry': dry})
-        if FAILED.search(result):
+        blocked = missing_run_blocker(result, previous)
+        recorded = f'Blocked: unchanged release failure: {result}' if blocked else result
+        print(f'release: {recorded}', flush=True)
+        record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded[-1000:], 'dry': dry})
+        if FAILED.search(result) and not blocked:
             failures.append(f'release -> {result[-700:]}')
+        if result.startswith('Missing run:'):
+            return f'release -> {result[-700:]}'
+    return ''
 
 
-def follow_up(failures, round_, note, dry):
+def follow_up(failures, round_, note, dry, blocker=''):
     if failures and round_ < FOLLOW_UPS and not dry:
         # A failure gets worked now, not at the next scheduled pass. The lock fd is inherited, so no other pass gets in between.
         task = (note + '\n\n' if note else '') + ('This is a follow-up pass because the actions in state.json failed_last_pass just failed. '
@@ -548,7 +569,7 @@ def follow_up(failures, round_, note, dry):
         print(f'Starting follow-up pass {round_ + 1} for {len(failures)} failures.', flush=True)
         if on_run_branch() and switch_keeping_log('main').returncode:  # execv loads manager.py from disk, so it must be main's copy
             sys.exit('Not starting the follow-up: could not leave the run branch for main.')
-        os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve()), '--follow-up', str(round_ + 1), '--task', task, '--failures', json.dumps(failures)])
+        os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve()), '--follow-up', str(round_ + 1), '--task', task, '--failures', json.dumps(failures), '--release-blocker', blocker])
 
 
 if __name__ == '__main__':
