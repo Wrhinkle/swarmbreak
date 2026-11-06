@@ -208,28 +208,20 @@ print('ok release path')
 
 # Checks run agent-written code: the sandbox blocks home-folder reads, network and writes outside the checkout.
 if not os.environ.get('SWARMBREAK_SANDBOX'):
-    from pr_team import sandboxed
-    with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as secret, tempfile.TemporaryDirectory() as tree:
-        Path(secret, 'token').write_text('x')
-        assert sandboxed(['cat', f'{secret}/token'], tree).returncode
-        assert sandboxed(['touch', f'{secret}/w'], tree).returncode
-        assert sandboxed(['python3', '-c', 'import socket; socket.create_connection(("1.1.1.1", 443), 3)'], tree).returncode
-        assert sandboxed(['sh', '-c', 'echo ok > out'], tree).returncode == 0
-        # Checks run on a copy, so nothing they write reaches the tree that gets committed.
-        assert not Path(tree, 'out').exists()
-        # Host credentials and sockets are unavailable, even in shared temporary directories.
-        import socket
-        os.environ['AWS_SECRET_ACCESS_KEY'] = 'dummy-secret'
-        sock = socket.socket(socket.AF_UNIX)
-        sock.bind(str(Path(secret, 'agent.sock')))
-        sock.listen()
-        try:
-            assert sandboxed(['python3', '-c', 'import os; assert "AWS_SECRET_ACCESS_KEY" not in os.environ'], tree).returncode == 0
-            assert sandboxed(['python3', '-c', 'import socket, sys; s=socket.socket(socket.AF_UNIX); s.connect(sys.argv[1])', str(Path(secret, 'agent.sock'))], tree).returncode
-        finally:
-            sock.close()
-            del os.environ['AWS_SECRET_ACCESS_KEY']
+    from pr_team import sandbox_works
+    sandbox_works()
     print('ok sandbox')
+# A sandbox that lets everything through stops verification before any check runs.
+from types import SimpleNamespace
+with patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')):
+    import pr_team
+    try:
+        pr_team.verified('.')
+    except AssertionError:
+        pass
+    else:
+        raise AssertionError('verified() ran with a broken sandbox')
+print('ok broken sandbox refused')
 
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
 with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
