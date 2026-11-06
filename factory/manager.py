@@ -508,7 +508,11 @@ def main():
     s = state()
     # Failure output quotes PR content and Qodo titles, so it reaches the manager as data in state.json, never in its prompt.
     s['failed_last_pass'] = json.loads(args[args.index('--failures') + 1]) if '--failures' in args else []
-    blocker = args[args.index('--release-blocker') + 1] if '--release-blocker' in args else ''
+    if '--release-blocker' in args:
+        blocker = args[args.index('--release-blocker') + 1]
+    else:
+        lock.seek(0)
+        blocker = lock.read().strip()
     previous = s['failed_last_pass'] + ([blocker] if blocker else [])
     if blocker and blocker not in s['failed_last_pass']:
         s['failed_last_pass'].append(blocker)
