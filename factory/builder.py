@@ -142,7 +142,7 @@ def problems_in(tree, live):
 def notes(tree):
     """What earlier passes saved, read from this Mac's own checkpoint commits, never from GitHub text."""
     log = sh('git', 'log', '--format=%B%x00', 'origin/main..HEAD', cwd=tree).stdout.split('\0')
-    return [m.strip() for m in log if m.strip().startswith(CHECKPOINT)][:5][::-1] + [sh('git', 'diff', '--stat', 'origin/main', cwd=tree).stdout[-3000:]]
+    return [m.strip() for m in log if m.strip().startswith(CHECKPOINT)][::-1] + [sh('git', 'diff', '--stat', 'origin/main', cwd=tree).stdout[-3000:]]
 
 
 def checkpoint(number, tree, branch, live, result, bad):

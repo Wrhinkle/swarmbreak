@@ -142,11 +142,11 @@ with tempfile.TemporaryDirectory() as d:
     sh('git', 'init', '-q', '-b', 'main', d, cwd=d)
     Path(d, 'a.txt').write_text('a'); sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'base', cwd=d)
     sh('git', 'update-ref', 'refs/remotes/origin/main', 'HEAD', cwd=d)
-    for n in (1, 2):
-        Path(d, 'a.txt').write_text(str(n)); sh(*git, 'commit', '-qam', f'{CHECKPOINT} on #9\n\nDone: step {n}', cwd=d)
+    for n in range(1, 7):
+        Path(d, 'a.txt').write_text(str(n)); sh(*git, 'commit', '-qam', f'{CHECKPOINT} on #9\n\nDone: step {n}\n\nStill to do: task {n}', cwd=d)
     Path(d, 'a.txt').write_text('x'); sh(*git, 'commit', '-qam', 'merge main', cwd=d)
     got = notes(d)
-    assert len(got) == 3 and 'step 1' in got[0] and 'step 2' in got[1] and 'a.txt' in got[2], got
+    assert len(got) == 7 and all(f'Done: step {n}\n\nStill to do: task {n}' in got[n - 1] for n in range(1, 7)) and 'a.txt' in got[6], got
 print('ok progress notes')
 
 # Earlier themes reach the researcher, and a run never sees its own or a later one.
