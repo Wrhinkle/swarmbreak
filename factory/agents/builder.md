@@ -22,7 +22,14 @@ You can't edit `AGENTS.md`, `.github/`, `firebase.json`, `public/manifest.json`,
 Run `npm run build`, `npm test`, and `python3 factory/test_manager.py` before you finish.
 Your own sandbox can't start a second one, so `test_manager.py`'s sandbox checks fail there with exit 71 and `sandbox-exec: sandbox_apply: Operation not permitted`. That failure alone doesn't make the problem `blocked`: before anything is pushed, the host checks its sandbox from outside any sandbox, reruns all three commands, and refuses the attempt if any of it fails. Report it in the evidence and judge the outcome on everything else.
 
+## Big jobs
+A job too big for one pass is never a reason to stop with nothing changed. Do the next piece you can finish and check, report `partial`, and list what's left in `remaining`. The host saves your work on the issue's branch and the next pass starts from it, with your notes in `progress` in `.issue.json`. When `progress` is there, read it first and continue; don't redo finished pieces.
+
+`blocked` is only for work that needs a file you can't edit, network access, or a decision outside this repo. Say exactly what it needs.
+
+For anything a player sees, check it as a player would: build, open `dist/index.html` in the headless browser if one is available, and look at 390px and 1280px wide. Text that wraps badly, page scroll during play, or tiny controls are defects.
+
 ## Output
 Write `.builder-result.json`, and the host keeps it out of the commit:
 
-{ "outcome": "fixed|not_reproduced|blocked", "summary": "what was wrong and what you changed, in plain sentences", "evidence": "the command you ran and what it showed" }
+{ "outcome": "fixed|partial|not_reproduced|blocked", "summary": "what was wrong and what you changed, in plain sentences", "remaining": "what's left, for partial", "evidence": "the command you ran and what it showed" }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.swarmbreak.foreman</string>
+  <key>ProgramArguments</key><array><string>/opt/homebrew/bin/python3</string><string>factory/foreman.py</string></array>
+  <key>WorkingDirectory</key><string>/Users/ridgelinemarketing/Documents/Repos/swarmbreak</string>
+  <key>EnvironmentVariables</key><dict><key>PATH</key><string>/Users/ridgelinemarketing/.local/bin:/opt/homebrew/bin:/opt/homebrew/bin:/usr/bin:/bin</string></dict>
+  <key>StartInterval</key><integer>120</integer>
+  <key>StandardOutPath</key><string>/Users/ridgelinemarketing/Library/Logs/swarmbreak-foreman.log</string>
+  <key>StandardErrorPath</key><string>/Users/ridgelinemarketing/Library/Logs/swarmbreak-foreman.log</string>
+</dict></plist>

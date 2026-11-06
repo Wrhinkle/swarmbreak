@@ -305,3 +305,18 @@ with patch('manager.live_manifest', return_value=m4), patch('manager.deploy', re
     assert deploy.call_count == 0
     assert manager.act({'type': 'deploy'}, {}, False) == 'Deployed.'
     assert deploy.call_count == 1
+
+# The foreman works PRs first, then saved work, then priority, then oldest; it skips stuck, blocked-on-deps and building issues.
+from foreman import next_job, deps
+assert deps('x\nDepends on #51, #52\n') == {51, 52}
+me = {'login': 'Wrhinkle'}
+issue = lambda n, *l, body='': {'number': n, 'author': me, 'body': body, 'labels': [{'name': x} for x in l]}
+never = lambda n, sha: False
+issues = [issue(14), issue(52, body='Depends on #51'), issue(51), issue(53, 'priority'), issue(60, 'stuck'), issue(61)]
+assert next_job([], issues, set(), {}, never) == ('issue', 53, 'issue-53')
+assert next_job([], issues, {61}, {}, never) == ('issue', 61, 'issue-61')
+building = [{'number': 55, 'author': me, 'headRefName': 'fix/issue-53', 'headRefOid': 'abcdef1', 'labels': []}]
+assert next_job(building, issues, set(), {}, never) == ('pr', 55, 'pr-55@abcdef1')
+assert next_job(building, issues, set(), {}, lambda n, sha: True) == ('issue', 14, 'issue-14')
+assert next_job([], issues, set(), {'issue-53': 3, 'issue-14': 3}, never) == ('issue', 51, 'issue-51')
+print('ok foreman order')
