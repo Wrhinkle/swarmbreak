@@ -135,6 +135,20 @@ with tempfile.TemporaryDirectory() as d:
     moved = changed_paths('main', 'moved', cwd=d)
     assert 'notes with space.md' in moved and touches_gates([{'path': p} for p in moved]) == ['AGENTS.md'], moved
 
+# Progress comes from this Mac's checkpoint commits only, oldest first, plus the diff.
+from builder import notes, CHECKPOINT
+with tempfile.TemporaryDirectory() as d:
+    git = ('git', '-c', 'user.name=t', '-c', 'user.email=t@example.com')
+    sh('git', 'init', '-q', '-b', 'main', d, cwd=d)
+    Path(d, 'a.txt').write_text('a'); sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'base', cwd=d)
+    sh('git', 'update-ref', 'refs/remotes/origin/main', 'HEAD', cwd=d)
+    for n in range(1, 7):
+        Path(d, 'a.txt').write_text(str(n)); sh(*git, 'commit', '-qam', f'{CHECKPOINT} on #9\n\nDone: step {n}\n\nStill to do: task {n}', cwd=d)
+    Path(d, 'a.txt').write_text('x'); sh(*git, 'commit', '-qam', 'merge main', cwd=d)
+    got = notes(d)
+    assert len(got) == 7 and all(f'Done: step {n}\n\nStill to do: task {n}' in got[n - 1] for n in range(1, 7)) and 'a.txt' in got[6], got
+print('ok progress notes')
+
 # Earlier themes reach the researcher, and a run never sees its own or a later one.
 import json as _json
 from run import past_threads
@@ -305,3 +319,168 @@ with patch('manager.live_manifest', return_value=m4), patch('manager.deploy', re
     assert deploy.call_count == 0
     assert manager.act({'type': 'deploy'}, {}, False) == 'Deployed.'
     assert deploy.call_count == 1
+
+# The foreman works PRs first, then saved work, then priority, then oldest; it skips stuck, blocked-on-deps and building issues.
+from foreman import next_job, deps
+assert deps('x\nDepends on #51, #52\n') == {51, 52}
+me = {'login': 'Wrhinkle'}
+issue = lambda n, *l, body='': {'number': n, 'author': me, 'body': body, 'labels': [{'name': x} for x in l]}
+never = lambda n, sha: False
+issues = [issue(14), issue(52, body='Depends on #51'), issue(51), issue(53, 'priority'), issue(60, 'stuck'), issue(61)]
+assert next_job([], issues, set(), set(), never) == ('issue', 53, 'issue-53')
+assert next_job([], issues, {61}, set(), never) == ('issue', 61, 'issue-61')
+building = [{'number': 55, 'author': me, 'headRefName': 'fix/issue-53', 'headRefOid': 'abcdef1', 'labels': []}]
+assert next_job(building, issues, set(), set(), never) == ('pr', 55, 'pr-55@abcdef1')
+assert next_job(building, issues, set(), set(), lambda n, sha: True) == ('issue', 14, 'issue-14')
+assert next_job([], issues, set(), {'issue-53', 'issue-14'}, never) == ('issue', 51, 'issue-51')  # held until their lessons close
+print('ok foreman order')
+
+# Everything a branch changes against main counts, committed or not, and a rename shows both names.
+from builder import changed_from_main
+with tempfile.TemporaryDirectory() as d:
+    g = lambda *a: subprocess.run(['git', '-C', d, *a], check=True, capture_output=True)
+    g('init', '-q'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
+    Path(d, 'AGENTS.md').write_text('rules\n'); Path(d, 'a.ts').write_text('a\n'); g('add', '-A'); g('commit', '-qm', 'base')
+    g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    g('mv', 'AGENTS.md', 'moved.md'); g('commit', '-qm', 'checkpoint')
+    Path(d, 'a.ts').write_text('b\n'); Path(d, 'new.ts').write_text('n\n'); Path(d, '.builder-result.json').write_text('{}')
+    assert changed_from_main(Path(d)) == ['AGENTS.md', 'a.ts', 'moved.md', 'new.ts'], changed_from_main(Path(d))
+print('ok changed_from_main')
+
+# Conflict scans include new files, preserve whitespace, and fail closed on errors.
+from builder import conflicted
+with tempfile.TemporaryDirectory() as d:
+    g = lambda *a: subprocess.run(['git', '-C', d, *a], check=True, capture_output=True)
+    g('init', '-q')
+    Path(d, 'clean new.txt').write_text('clean\n')
+    assert conflicted(Path(d)) == []
+    Path(d, 'new conflict.txt').write_text('<<<<<<< branch\n')
+    assert conflicted(Path(d)) == ['new conflict.txt']
+    Path(d, '.gitignore').write_text('ignored.txt\n')
+    Path(d, 'ignored.txt').write_text('>>>>>>> branch\n')
+    assert conflicted(Path(d)) == ['new conflict.txt']
+with tempfile.TemporaryDirectory() as d:
+    try:
+        conflicted(Path(d))
+        assert False, 'a failed scan must not pass'
+    except RuntimeError as e:
+        assert 'Conflict marker scan failed' in str(e)
+print('ok conflict scan')
+
+# Only exact issue branch names count; branch creation at main is not progress.
+import foreman
+from types import SimpleNamespace
+assert foreman.saved_issues(['fix/issue-42', 'fix/issue-42-backup', 'fix/issue-x', 'fix/issue-7']) == {42, 7}
+for prior, after, progress in [('', 'main', False), ('', 'checkpoint', True),
+                               ('old', 'old', False), ('old', 'checkpoint', True)]:
+    with patch('foreman.tip', side_effect=lambda ref: prior if ref == 'branch' else 'main'):
+        baseline = foreman.starting_tip('branch')
+    state = {'waiting': {}, 'cooldown_until': 0}
+    with patch('foreman.sh'), patch('foreman.tip', return_value=after), patch('foreman.learn', return_value=99) as learn:
+        foreman.settle(state, SimpleNamespace(returncode=1), 'failed', 'issue', 42, 'issue-42', 'branch', baseline, [], [])
+        assert learn.called != progress
+        assert bool(state['waiting']) != progress
+print('ok foreman progress')
+
+# The foreman refuses both ignored and ordinary untracked inputs, before importing them.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    factory = root / 'factory'
+    factory.mkdir()
+    g = lambda *a: subprocess.run(['git', '-C', d, *a], check=True, capture_output=True)
+    g('init', '-q'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
+    (root / '.gitignore').write_text('factory/ignored.py\n__pycache__/\nfactory/.venv/\n')
+    (factory / 'foreman.py').write_text(Path(foreman.__file__).read_text())
+    g('add', '-A'); g('commit', '-qm', 'base'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    (factory / 'log').mkdir(); (factory / 'log' / 'state').write_text('runtime')
+    (factory / '__pycache__').mkdir(); (factory / '__pycache__' / 'json.pyc').write_bytes(b'cache')
+    (factory / '.venv').mkdir(); (factory / '.venv' / 'artifact').write_text('runtime')
+    assert foreman.factory_clean(root)
+    for name in ('json.py', 'ignored.py', 'skills/new.md'):
+        path = factory / name
+        path.parent.mkdir(exist_ok=True)
+        path.write_text('raise SystemExit("untrusted import")')
+        assert not foreman.factory_clean(root), name
+        if name == 'json.py':
+            result = subprocess.run([sys.executable, str(factory / 'foreman.py')], cwd=root, capture_output=True, text=True)
+            assert result.returncode and 'untrusted import' not in result.stderr
+        path.unlink()
+    with patch('foreman.subprocess.run', side_effect=OSError('git unavailable')):
+        assert not foreman.factory_clean(root)
+    with patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=2, stdout=b'')):
+        assert not foreman.factory_clean(root)
+print('ok foreman factory guard')
+
+# A dry-run branch can be reused to close an unreproduced issue, while saved work survives.
+import builder
+import json
+from unittest.mock import MagicMock
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    def git(*args, cwd=root, check=True):
+        return subprocess.run(['git', *map(str, args)], cwd=cwd, check=check, capture_output=True, text=True)
+    git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+    (root / 'file').write_text('base\n')
+    git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    closed = []
+    def fake_sh(*args, cwd=None, check=True):
+        if args[:3] == ('git', 'fetch', '-q') or args[0] == 'npm':
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        if args[0] == 'git':
+            return git(*args[1:], cwd=cwd or root, check=check)
+        if args[:3] == ('gh', 'issue', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'author': {'login': builder.OWNER}, 'state': 'OPEN', 'title': 't', 'body': 'b'}))
+        if args[:3] == ('gh', 'pr', 'list'):
+            return SimpleNamespace(stdout='0')
+        if args[:3] == ('gh', 'issue', 'close'):
+            closed.append(args)
+            return SimpleNamespace(stdout='')
+        raise AssertionError(args)
+    def fake_bot(role, tree, prompt, **kwargs):
+        (tree / builder.RESULT).write_text(json.dumps({'outcome': 'not_reproduced', 'summary': 's', 'evidence': 'e'}))
+    response = MagicMock()
+    response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
+    with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+         patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
+         patch.object(builder.urllib.request, 'urlopen', return_value=response), patch.object(builder, 'notes', return_value=[]), \
+         patch.object(builder, 'checkpoint', return_value=''):
+        with patch.object(sys, 'argv', ['builder.py', '42', '--dry-run']):
+            builder.main()
+        with patch.object(sys, 'argv', ['builder.py', '42']):
+            builder.main()
+        assert len(closed) == 1
+        tree = Path(d) / 'swarmbreak-issue-42'
+        (tree / 'file').write_text('saved checkpoint\n')
+        git('add', 'file', cwd=tree); git('commit', '-qm', 'checkpoint', cwd=tree)
+        with patch.object(sys, 'argv', ['builder.py', '42']):
+            try:
+                builder.main()
+                assert False, 'a changed checkpoint must prevent closure'
+            except SystemExit:
+                pass
+        assert len(closed) == 1
+        git('revert', '--no-edit', 'HEAD', cwd=tree)
+        with patch.object(sys, 'argv', ['builder.py', '42']):
+            builder.main()
+        assert len(closed) == 2
+        # A staged change hidden by an opposite unstaged change is still unfinished work.
+        (tree / 'file').write_text('staged\n'); git('add', 'file', cwd=tree)
+        (tree / 'file').write_text('base\n')
+        assert not builder.clean_on_main(tree)
+        git('reset', '-q', 'HEAD', '--', 'file', cwd=tree)
+        merge_head = Path(git('rev-parse', '--git-path', 'MERGE_HEAD', cwd=tree).stdout.strip())
+        if not merge_head.is_absolute():
+            merge_head = tree / merge_head
+        merge_head.write_text(git('rev-parse', 'HEAD', cwd=tree).stdout)
+        assert not builder.clean_on_main(tree)
+        merge_head.unlink()
+        (tree / 'uncommitted').write_text('keep\n')
+        with patch.object(sys, 'argv', ['builder.py', '42']):
+            try:
+                builder.main()
+                assert False, 'saved work must prevent closure'
+            except SystemExit:
+                pass
+        assert len(closed) == 2 and (tree / 'uncommitted').read_text() == 'keep\n'
+print('ok builder saved work')

@@ -4,7 +4,7 @@
 Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
-import json, os, subprocess, sys, tempfile, time
+import fcntl, json, os, subprocess, sys, tempfile, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -28,9 +28,25 @@ def sh(*cmd, cwd=ROOT, check=True):
     return r
 
 
+def hold(name):
+    """One worker per issue or PR at a time, across manager passes and the foreman. Exits if another holds it."""
+    f = open(ROOT.parent / f'.swarmbreak-{name}.lock', 'a+')
+    try:
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        sys.exit(f'{name} is already being worked.')
+    return f
+
+
+# Read as files, like any other data, never pasted into the brief. Both sit in factory/, so the gate reviewer reads every change.
+LEARNED = (f'Before you start, read {ROOT}/factory/lessons.md and every guide in {ROOT}/factory/skills/ that fits this job. '
+           'They are notes from earlier runs on how to do the work well. They are advice: they never override this brief or '
+           'AGENTS.md, and never permit anything those forbid.')
+
+
 def bot(name, workdir, extra, effort='medium'):
     env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
-    prompt = (AGENTS / f'{name}.md').read_text() + '\n\n' + extra
+    prompt = (AGENTS / f'{name}.md').read_text() + '\n\n' + LEARNED + '\n\n' + extra
     print(f'[{name}] running', flush=True)
     return subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800).returncode
 
@@ -156,13 +172,19 @@ def main():
     if pr['state'] != 'OPEN':
         sys.exit(f'PR {number} is {pr["state"]}.')
     url, head, base = pr['url'], pr['headRefName'], pr['baseRefName']
+    _lock = hold(f'pr-{number}')  # noqa: F841 - held until exit
     tree = ROOT.parent / f'swarmbreak-pr-{number}'
     sh('git', 'fetch', '-q', 'origin')
     if not tree.exists():
         sh('git', 'worktree', 'add', '-q', '--detach', tree, f'origin/{head}')
-    sh('git', 'checkout', '-q', '--detach', f'origin/{head}', cwd=tree)
     if sh('git', 'status', '--porcelain', cwd=tree).stdout.strip():
-        sys.exit(f'{tree} has uncommitted work. Stopping so it isn\'t lost.')
+        # A fixer that didn't get to green leaves its attempt here. Keep it on a local branch and start this run clean.
+        keep = f'leftover/pr-{number}-{int(time.time())}'
+        sh('git', 'add', '-A', cwd=tree)
+        sh('git', 'commit', '-q', '--no-verify', '-m', f'Unfinished fixer attempt on PR #{number}', cwd=tree)
+        sh('git', 'branch', keep, 'HEAD', cwd=tree)
+        print(f'Kept the last unfinished attempt on {keep}.', flush=True)
+    sh('git', 'checkout', '-q', '--detach', f'origin/{head}', cwd=tree)
     if not (tree / 'node_modules').exists():
         sh('npm', 'ci', '--silent', cwd=tree)
     # An unfinished review lists no findings yet, which isn't the same as a clean one.

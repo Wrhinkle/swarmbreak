@@ -6,3 +6,5 @@ factory/.venv/
 runs/.art/
 __pycache__/
 factory/log/.lock
+factory/log/.foreman.json
+factory/log/.foreman.lock

@@ -4,16 +4,18 @@
 Usage: python3 factory/builder.py <issue> [--dry-run]
 Prints the PR number on the last line when it opens one. Only issues filed by the repo owner qualify for now.
 """
-import json, re, shutil, subprocess, sys, urllib.request
+import json, re, subprocess, sys, urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import PROTECTED, REPO, bot, sh, verified  # noqa: E402
+from pr_team import PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
 LOCKED = (*PROTECTED, '.gitignore', 'vite.config')
 RESULT = '.builder-result.json'
+CHECKPOINT = 'Builder checkpoint'
+MARKERS = '^(<<<<<<<|>>>>>>>) '
 RETRIES = 2
 CRITERIA_MAX = 30000
 PR_BODY_MAX = 65536
@@ -78,12 +80,40 @@ def touched_run(changed, tree):
     return sorted({m.group(1) for c in changed if (m := re.match(r'runs/(\d{4}-\d{2}-\d{2})/(content|assembly)\.json$', c))})
 
 
+def changed_from_main(tree):
+    """Everything this branch changes against main, earlier checkpoints included, so a saved pass can't slip a locked file in."""
+    # --no-renames lists both names of a rename, so a renamed locked file is still caught.
+    names = sh('git', 'diff', '-z', '--name-only', '--no-renames', 'origin/main', cwd=tree).stdout.split('\0')
+    names += sh('git', 'ls-files', '-z', '--others', '--exclude-standard', cwd=tree).stdout.split('\0')
+    return sorted({n for n in names if n and n not in (RESULT, '.issue.json')})
+
+
+def clean_on_main(tree):
+    """The reported evidence applies to main only if no saved or unfinished work differs from it."""
+    for args in [('diff', '--quiet', 'origin/main', 'HEAD'),
+                 ('diff', '--quiet'), ('diff', '--cached', '--quiet')]:
+        if sh('git', *args, cwd=tree, check=False).returncode != 0:
+            return False
+    untracked = sh('git', 'ls-files', '-z', '--others', '--exclude-standard', cwd=tree)
+    if any(name and name != RESULT for name in untracked.stdout.split('\0')):
+        return False
+    return sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode == 1
+
+
+def conflicted(tree):
+    result = sh('git', 'grep', '--untracked', '-l', '-z', '-E', MARKERS, cwd=tree, check=False)
+    if result.returncode not in (0, 1):
+        raise RuntimeError(f'Conflict marker scan failed: {result.stderr}')
+    return [name for name in result.stdout.split('\0') if name]
+
+
 def problems_in(tree, live):
-    changed = [l[3:].strip('"') for l in sh('git', 'status', '--porcelain', '-uall', cwd=tree).stdout.splitlines() if not l.endswith(RESULT)]
+    changed = changed_from_main(tree)
     bad = [f"You can't edit: {p}" for p in blocked_paths(changed, live)]
+    bad += [f'Merge conflict markers left in {p}' for p in conflicted(tree)]
     live_file = f'public/runs/{live}/run.json'
     if live_file in changed:
-        before = sh('git', 'show', f'HEAD:{live_file}', cwd=tree).stdout
+        before = sh('git', 'show', f'origin/main:{live_file}', cwd=tree).stdout
         if not only_wording(json.loads(before), json.loads((tree / live_file).read_text())):
             bad.append(f'{live_file} is live, so only wording can change')
     for path in changed:
@@ -109,6 +139,33 @@ def problems_in(tree, live):
     return bad, changed
 
 
+def notes(tree):
+    """What earlier passes saved, read from this Mac's own checkpoint commits, never from GitHub text."""
+    log = sh('git', 'log', '--format=%B%x00', 'origin/main..HEAD', cwd=tree).stdout.split('\0')
+    return [m.strip() for m in log if m.strip().startswith(CHECKPOINT)][::-1] + [sh('git', 'diff', '--stat', 'origin/main', cwd=tree).stdout[-3000:]]
+
+
+def checkpoint(number, tree, branch, live, result, bad):
+    """Saves an unfinished pass as a local commit on the issue's branch and notes what's left. The next pass starts from it.
+    Nothing is pushed: code leaves this Mac only after every host check passes."""
+    # Locked files go back to main's version, and so do built runs, which the host rebuilds from content.json.
+    built = [p for p in changed_from_main(tree) if re.match(rf'public/runs/(?!{live}/)[^/]+/run\.json$', p)]
+    for p in blocked_paths(changed_from_main(tree), live) + built:
+        if sh('git', 'cat-file', '-e', f'origin/main:{p}', cwd=tree, check=False).returncode:
+            (tree / p).unlink(missing_ok=True)
+        else:
+            sh('git', 'checkout', 'origin/main', '--', p, cwd=tree)
+    sh('git', 'add', '-A', cwd=tree)
+    if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0 and sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
+        return ''
+    left = '\n'.join(f'- {b}'[:600] for b in bad)
+    sh('git', 'commit', '-q', '-m', f'{CHECKPOINT} on #{number} (unfinished)\n\nDone: {str(result.get("summary"))[:3000]}\n\nStill to do: {str(result.get("remaining") or "see below")[:3000]}' + (f'\n\nHost checks that failed:\n{left}' if left else '') + '\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
+    sha = sh('git', 'rev-parse', '--short', 'HEAD', cwd=tree).stdout.strip()
+    # Status for people only; the next pass reads the commit above, not this comment.
+    sh('gh', 'issue', 'comment', number, '--repo', REPO, '--body', f'{CHECKPOINT} {sha}, saved locally on `{branch}` (not pushed until it passes every check).')
+    return sha
+
+
 def main():
     number, dry = sys.argv[1], '--dry-run' in sys.argv
     role = sys.argv[sys.argv.index('--role') + 1] if '--role' in sys.argv else ''
@@ -120,15 +177,38 @@ def main():
         sys.exit(f'{branch} already has an open PR.')
     with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
         live = json.load(r)['runId']
-    tree = ROOT.parent / f'swarmbreak-issue-{number}'
+    _lock = hold(f'issue-{number}')  # noqa: F841 - held until exit, so a manager pass and the foreman can't build it at once
+    tree = ROOT.parent / f'swarmbreak-issue-{number}{"-dry" if dry else ""}'
     sh('git', 'fetch', '-q', 'origin')
-    if tree.exists():
-        sh('git', 'worktree', 'remove', '--force', tree)
-    sh('git', 'worktree', 'add', '-q', '-B', branch, tree, 'origin/main')
+    saved = sh('git', 'rev-parse', '--verify', '-q', f'refs/heads/{branch}', check=False).returncode == 0
+    if dry:
+        # Dry runs get a throwaway detached copy, so their edits never reach the real branch or worktree.
+        if tree.exists():
+            sh('git', 'worktree', 'remove', '--force', tree)
+        sh('git', 'worktree', 'add', '-q', '--detach', tree, branch if saved else 'origin/main')
+    elif tree.exists():
+        current = sh('git', 'symbolic-ref', '-q', '--short', 'HEAD', cwd=tree, check=False)
+        common = sh('git', 'rev-parse', '--path-format=absolute', '--git-common-dir', cwd=tree, check=False)
+        root_common = sh('git', 'rev-parse', '--path-format=absolute', '--git-common-dir')
+        if not saved or current.returncode or current.stdout.strip() != branch or common.returncode or common.stdout.strip() != root_common.stdout.strip():
+            sys.exit(f'{tree} is not the worktree for {branch}; leaving it untouched.')
+    elif saved:
+        sh('git', 'worktree', 'add', '-q', tree, branch)
+    else:
+        sh('git', 'worktree', 'add', '-q', '-B', branch, tree, 'origin/main')
+    conflicts = []
+    if saved and sh('git', 'merge', '-q', '--no-edit', 'origin/main', cwd=tree, check=False).returncode:
+        conflicts = sh('git', 'diff', '--name-only', '--diff-filter=U', cwd=tree).stdout.split()
+    # A checkpoint keeps a half-resolved merge, markers and all, so no resolved file is lost; this pass finishes it.
+    conflicts = sorted(set(conflicts) | set(conflicted(tree)))
     sh('npm', 'ci', '--silent', cwd=tree)
-    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live}, indent=1))
+    progress = notes(tree) if saved else []
+    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live, 'progress': progress, 'merge_conflicts': conflicts}, indent=1))
 
     extra, result, bad = '', {}, []
+    if progress or conflicts:
+        extra = ('Earlier passes saved work on this branch. `progress` in .issue.json says what they did and what is left. Continue from there. '
+                 + (f'Merging main left conflict markers in {conflicts}; resolve them first. ' if conflicts else ''))
     for attempt in range(RETRIES + 1):
         (tree / RESULT).unlink(missing_ok=True)
         brief = (ROOT / 'factory/agents' / f'{role}.md').read_text() + '\n\nDo the job above under the builder rules.\n\n' if role else ''
@@ -148,16 +228,18 @@ def main():
         extra = 'Your last attempt was refused. Fix each of these:\n' + '\n'.join(bad)
     (tree / '.issue.json').unlink()
     outcome = result.get('outcome')
-    if outcome != 'fixed':
-        sh('git', 'checkout', '-q', '--', '.', cwd=tree)
+    if outcome == 'not_reproduced' and clean_on_main(tree):
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
-        if outcome == 'not_reproduced':
-            if not dry:
-                sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
-            return
-        sys.exit(f'Builder stopped with outcome {outcome}, so issue {number} is still open.')
-    if bad:
-        sys.exit(f'Builder never got to green, so nothing was pushed. The attempt is in {tree}.\n{str(bad)[:1500]}')
+        if not dry:
+            sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
+        return
+    if outcome != 'fixed' or bad:
+        # Unfinished work is kept and continued, never thrown away.
+        (tree / RESULT).unlink(missing_ok=True)
+        sha = '' if dry else checkpoint(number, tree, branch, live, result, bad)
+        print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
+        sys.exit(f'Builder stopped with outcome {outcome}' + (f'; saved {sha} on {branch} for the next pass.' if sha else '; nothing new to save.')
+                 + (f'\n{str(bad)[:1500]}' if bad else ''))
     body = pr_body(number, issue['body'], result['summary'], result['evidence'])
     (tree / RESULT).unlink()
     if dry:
@@ -165,8 +247,11 @@ def main():
         return
     sh('git', 'add', '-A', cwd=tree)
     title = f'Fix issue {number}: {issue["title"]}'[:90]
-    sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
-    sh('git', 'push', '-q', '--force-with-lease', 'origin', branch, cwd=tree)
+    staged = sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode
+    if staged or not sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
+        sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
+    # else the saved checkpoints already hold the whole fix
+    sh('git', 'push', '-q', 'origin', f'HEAD:refs/heads/{branch}', cwd=tree)
     url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', body).stdout.strip()
     print(url)
     print(url.rsplit('/', 1)[1])
