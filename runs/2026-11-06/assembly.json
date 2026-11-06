@@ -1,0 +1,31 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [["garden-tick"], ["garden-winder"], ["garden-moth"], ["garden-tick", "garden-winder"], ["garden-moth", "garden-tick"]],
+        "mid": [["garden-stitcher", "garden-winder"], ["garden-hound", "garden-tick"], ["garden-clock", "garden-winder"], ["garden-presser", "garden-tick"], ["garden-indexer", "garden-moth"], ["garden-sorter"]],
+        "late": [["garden-presser", "garden-hound"], ["garden-clock", "garden-moth"], ["garden-stitcher", "garden-sorter"], ["garden-indexer", "garden-winder", "garden-tick"], ["garden-hound", "garden-moth"], ["garden-presser", "garden-winder"]]
+      },
+      "elites": [{"id": "garden-irrigator", "reward": "garden-seedkeeper"}, {"id": "garden-mapper", "reward": "garden-dyer"}, {"id": "garden-portal", "reward": "garden-seedkeeper"}],
+      "shop": ["breach", "sweep", "patch", "brace", "purge", "jam", "finish", "strike+"]
+    },
+    {
+      "packs": {
+        "early": [["mill-roller"], ["mill-wheel"], ["mill-crab"], ["mill-roller", "mill-wheel"], ["mill-crab", "mill-wheel"]],
+        "mid": [["mill-clerk", "mill-crab"], ["mill-stitcher", "mill-wheel"], ["mill-overseer", "mill-crab"], ["mill-dyer", "mill-wheel"], ["mill-lesson", "mill-roller"], ["mill-guide", "mill-crab"]],
+        "late": [["mill-lesson", "mill-clerk"], ["mill-stitcher", "mill-overseer"], ["mill-guide", "mill-roller"], ["mill-dyer", "mill-crab", "mill-wheel"], ["mill-clerk", "mill-wheel"], ["mill-lesson", "mill-guide"]]
+      },
+      "elites": [{"id": "mill-mender", "reward": "mill-repairer"}, {"id": "mill-scheduler", "reward": "mill-spinner"}, {"id": "mill-catalog", "reward": "mill-spinner"}],
+      "shop": ["breach", "sweep", "patch+", "triage", "purge", "jam", "finish", "cover"]
+    },
+    {
+      "packs": {
+        "early": [["museum-mite"], ["museum-spindle"], ["museum-courier"], ["museum-mite", "museum-courier"], ["museum-spindle", "museum-courier"]],
+        "mid": [["museum-assembler", "museum-courier"], ["museum-maproller", "museum-mite"], ["museum-mount", "museum-courier"], ["museum-braider", "museum-spindle"], ["museum-presser", "museum-courier"], ["museum-referee", "museum-mite"]],
+        "late": [["museum-mount", "museum-assembler"], ["museum-braider", "museum-mite"], ["museum-presser", "museum-referee"], ["museum-maproller", "museum-courier", "museum-mite"], ["museum-assembler", "museum-spindle"], ["museum-braider", "museum-maproller"]]
+      },
+      "elites": [{"id": "museum-regulator", "reward": "museum-volunteer"}, {"id": "museum-frame", "reward": "museum-reader"}, {"id": "museum-mirror", "reward": "museum-reader"}],
+      "shop": ["breach", "sweep", "patch+", "brace", "jam", "finish", "strike+", "triage"]
+    }
+  ]
+}
