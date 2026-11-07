@@ -95,6 +95,14 @@ describe('ATB bot decisions', () => {
     state.fighters[2].hp = state.fighters[2].maxHp;
     expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'sweep' });
   });
+  it('uses Sweep when it defeats the same enemy as a single-target attack and damages another', () => {
+    const ally = { ...run.crew[0], routines: ['strike', 'sweep'] };
+    const state = createCombat([{ creature: ally }], [enemy, enemy], run.seed);
+    state.fighters[0].nextAction = 1;
+    state.fighters.slice(1).forEach(f => { f.nextAction = 100; });
+    state.fighters[1].hp = 1;
+    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'sweep' });
+  });
   it('uses an equipped sweep to finish all enemies instead of healing', () => {
     const ally = { ...run.crew[0], routines: ['patch', 'sweep'] };
     const state = createCombat([{ creature: ally }], [enemy, enemy], run.seed);

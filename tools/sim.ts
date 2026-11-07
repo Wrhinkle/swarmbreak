@@ -61,7 +61,10 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
         ROUTINES[id]?.action === 'sweep' && foes.every(foe => foe.hp + foe.shield <= Math.round(actor.power * .6)));
       const sweepKill = actor.routines.find(id =>
         ROUTINES[id]?.action === 'sweep' && foes.some(foe => foe.hp + foe.shield <= Math.round(actor.power * .6)));
-      if (sweepFinisher) { routineId = sweepFinisher; }
+      // If Sweep removes the same target, it also damages the other foes.
+      const sweepSameKill = sweepKill && foes.length > 1 && finishers.length &&
+        finishers[0].foe.hp + finishers[0].foe.shield <= Math.round(actor.power * .6);
+      if (sweepFinisher || sweepSameKill) { routineId = (sweepFinisher || sweepKill)!; }
       else if (finishers.length) { routineId = finishers[0].id; targetId = finishers[0].foe.id; }
       else if (sweepKill) { routineId = sweepKill; }
       else if (groupHeal && patients.length && groupHealing > singleHealing) { routineId = groupHeal; }
