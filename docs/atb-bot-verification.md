@@ -127,3 +127,13 @@ On a different released run, November 6, the current typical bot on seeds 171–
 On the same November 6 run, the no-routine-edit bot on seeds 171–180 won 0/10 with Auto and 1/10 with manual decisions (one manual-only win). Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-06/run.json 10 171 no-build`. This is likewise a small current-policy comparison, not a historical or balance result.
 
 The current expert on November 6 seeds 171–180 won 0/10 with Auto and 8/10 with manual choices, all manual-only. Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-06/run.json 10 171 expert`. This small sample is not enough to establish strength or balance, and does not include the historical equipment search.
+
+On November 6, a further matched sample covers seeds 201–300 after the group-healing changes:
+
+| Policy | Historical wins | Current Auto wins | Current manual wins | Manual-only | Auto-only |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| typical | 55/100 | 17/100 | 47/100 | 36 | 6 |
+| expert | 99/100 | 10/100 | 51/100 | 48 | 7 |
+| no-build | 3/100 | 3/100 | 22/100 | 21 | 2 |
+
+Run `npx vite-node tools/compare-atb.ts public/runs/2026-11-06/run.json 100 201 <policy>` for each current policy. The historical results use the extraction method above, substituting November 6 and seeds 201–300. The historical expert's 48-win advantage over current manual play reinforces the gap seen on November 7, but the historical editing policies use fight-result lookahead and routes can diverge. The consecutive seeds are descriptive, not an independent random sample or a balance-gate result. Player-feasible expert improvements and the next run's unchanged balance gate still need investigation.
