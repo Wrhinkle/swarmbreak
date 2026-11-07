@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { atbTargets, chooseAtb, condition, createCombat, enableAtb, fighter, order, setAutoBattle, simulate, step } from './combat';
+import { atbTargets, chooseAtb, condition, createCombat, enableAtb, fighter, setAutoBattle, simulate, step } from './combat';
 import { ROUTINES } from './library';
 import type { ActionId, ConditionId, Routine } from './library';
 import type { Creature } from './types';
@@ -57,12 +57,15 @@ describe('combat',()=>{
  it('absorbs damage with shield before HP',()=>{const s=createCombat([{creature:c('a')}],[c('e')],1);s.fighters[1].shield=10;s.fighters[1].nextAction=99;const out=simulate(s,8);expect(out.fighters[1].hp).toBe(s.fighters[1].hp);expect(out.fighters[1].shield).toBe(3);});
  it('caps summons and split copies',()=>{for(const id of ['spawn','divide']){const s=createCombat([{creature:c('a',[id])}],[c('e',['brace'])],1);s.fighters[0].hp=10;s.fighters[0].power=0;s.fighters[1].power=0;const out=simulate(s,100);expect(out.fighters.filter(f=>f.summonedBy==='c0').length).toBeLessThanOrEqual(id==='spawn'?2:1);}});
  it('times out at 3000 ticks as a loss',()=>{const s=createCombat([{creature:c('a',['brace'])}],[c('e',['brace'])],1);s.fighters.forEach(f=>f.power=0);const out=simulate(s,3100);expect(out.t).toBe(3000);expect(out.result).toBe('loss');});
- it('queues an order and starts a shared cooldown',()=>{let s=createCombat([{creature:c('a',['strike'])}],[c('e')],1);s=order(s,'c0','strike');expect(s.queued).not.toBeNull();s=simulate(s,8);expect(s.queued).toBeNull();expect(s.cooldown).toBe(20);expect(order(s,'c0','strike').queued).toBeNull();});
+ it('ignores legacy queued orders and cooldown when resolving an ATB action',()=>{
+  const s=createCombat([{creature:c('a',['strike','brace'])}],[c('e')],1);s.fighters[0].nextAction=1;s.fighters[1].nextAction=100;s.queued={actorId:'c0',routineId:'brace'};s.cooldown=20;
+  const waiting=step(enableAtb(s));const result=step(chooseAtb(waiting,'c0','strike','e0'));
+  expect(result.events.find(e=>e.kind==='action')?.routine).toBe('strike');expect(result.fighters[1].hp).toBeLessThan(s.fighters[1].hp);
+ });
  it('does not mutate input on a step',()=>{const s=createCombat([{creature:c('a')}],[c('b')],1), before=structuredClone(s);step(s);expect(s).toEqual(before);expect(fighter(c('a'),'crew','x').hp).toBeGreaterThan(0);});
 });
 describe('review findings',()=>{
  it('a boss with jam first still deals damage',()=>{const s=createCombat([{creature:c('a',['brace'])}],[c('e',['jam','strike'])],1);const out=simulate(s,60);expect(out.fighters[0].hp).toBeLessThan(s.fighters[0].hp);});
- it('clears an order when its actor dies',()=>{let s=createCombat([{creature:c('a')},{creature:c('b')}],[c('e')],1);s=order(s,'c0','strike');s.fighters[0].hp=0;s=step(s);expect(s.queued).toBeNull();});
  it('heals the most wounded ally by fraction',()=>{const s=createCombat([{creature:{...c('a',['patch']),role:'healer'}},{creature:c('b')}],[c('e')],1);s.fighters[0].hp=30;s.fighters[0].maxHp=30;s.fighters[1].hp=35;s.fighters[1].maxHp=48;s.fighters[0].nextAction=1;s.fighters[2].nextAction=99;ROUTINES.patch.arg=.8;const out=step(s);ROUTINES.patch.arg=.5;expect(out.fighters[1].hp).toBeGreaterThan(35);});
  it('a stun breaks a charge',()=>{const s=createCombat([{creature:c('a')}],[c('e')],1);s.fighters[1].charging=true;s.fighters[1].stunned=true;s.fighters[1].nextAction=1;s.fighters[0].nextAction=99;expect(step(s).fighters[1].charging).toBe(false);});
 });

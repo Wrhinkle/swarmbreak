@@ -1,4 +1,4 @@
-import { OVERRIDE_COOLDOWN_TICKS, ROLE_STATS, ROUTINES, TIER_SCALE } from './library';
+import { ROLE_STATS, ROUTINES, TIER_SCALE } from './library';
 import type { ActionId, Routine } from './library';
 import type { Creature } from './types';
 
@@ -77,12 +77,6 @@ function act(s: CombatState, f: Fighter, r: Routine, action: ActionId = r.action
     case 'charge': if (f.charging) { f.charging = false; hit(foe, 3); } else { f.charging = true; emit(s, 'charge', f, f, 0, r.id); } break;
   }
 }
-export function order(state: CombatState, actorId: string, routineId: string): CombatState {
-  const s = structuredClone(state); const f = s.fighters.find(a => a.id === actorId && a.side === 'crew' && a.hp > 0);
-  if (s.queued && !s.fighters.some(a => a.id === s.queued!.actorId && a.hp > 0)) s.queued = null;
-  if (!s.result && s.cooldown <= 0 && !s.queued && f && f.routines.includes(routineId) && ROUTINES[routineId]) s.queued = { actorId, routineId };
-  return s;
-}
 // Opt in at a tick boundary. The cursor makes a pause in the middle of a tick
 // serializable, including when several fighters become ready together.
 export function enableAtb(state: CombatState, autoBattle = false): CombatState {
@@ -129,8 +123,7 @@ export function step(state: CombatState): CombatState { return advance(structure
 function advance(s: CombatState): CombatState {
   if (s.result || s.atb?.pending) return s;
   const atb = s.atb;
-  if (!atb || atb.limit === 0) { s.t++; nextRandom(s); s.cooldown = Math.max(0, s.cooldown - 1); if (atb) { atb.cursor = 0; atb.limit = s.fighters.length; } }
-  if (s.queued && !s.fighters.some(f => f.id === s.queued!.actorId && f.hp > 0)) s.queued = null;
+  if (!atb || atb.limit === 0) { s.t++; nextRandom(s); if (atb) { atb.cursor = 0; atb.limit = s.fighters.length; } }
   const fighters = atb ? s.fighters.slice(0, atb.limit) : [...s.fighters];
   for (let i = atb?.cursor ?? 0; i < fighters.length; i++) {
     const f = fighters[i], resuming = !!atb?.choice;
@@ -142,7 +135,6 @@ function advance(s: CombatState): CombatState {
     if (f.stunned) { f.stunned = false; f.charging = false; emit(s, 'stunned', f, f, 0, ''); continue; }
     let r: Routine | undefined; const targetId = atb?.targetId; if (atb) delete atb.targetId;
     if (atb?.choice) { if (atb.choice !== 'auto') r = ROUTINES[atb.choice]; atb.choice = null; }
-    if (s.queued?.actorId === f.id) { r = ROUTINES[s.queued.routineId]; s.queued = null; s.cooldown = OVERRIDE_COOLDOWN_TICKS; }
     if (f.charging) r = ROUTINES.charge;
     r ??= f.routines.map(id => ROUTINES[id]).find(routine => routine && condition(s, f, routine)) ?? ROUTINES.strike;
     f.acted = (f.acted ?? 0) + 1;

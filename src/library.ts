@@ -65,5 +65,4 @@ export const ENEMY_SCALE = { min: 0.6, max: 1.6 }; // how far the balance tool m
 export const SLOTS_START = 3;
 export const SLOTS_MAX = 8;
 export const CREW_MAX = 4;
-export const OVERRIDE_COOLDOWN_TICKS = 20;
 export const TICK_MS = 200; // one combat tick at 1x speed
