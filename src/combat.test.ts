@@ -62,6 +62,16 @@ describe('combat',()=>{
   expect(resumed).toEqual(repeat); expect(resumed.atb?.choices.map(x=>x.actorId)).toEqual(['c0','c1']);
   const {atb: _atb,...actual}=resumed; expect(actual).toEqual(step(initial));
  });
+ it('applies corruption only once when a ready fighter resumes a saved decision',()=>{
+  const initial=createCombat([{creature:c('a')}],[c('e')],42);
+  initial.fighters[0].nextAction=1; initial.fighters[0].corrupted=4; initial.fighters[1].nextAction=100;
+  const waiting=step(enableAtb(initial));
+  expect(waiting.atb?.pending).toBe('c0');
+  expect(waiting.fighters[0].hp).toBe(initial.fighters[0].hp-1);
+  const resumed=step(chooseAtb(JSON.parse(JSON.stringify(waiting)),'c0','auto'));
+  const {atb: _atb,...actual}=resumed;
+  expect(actual).toEqual(step(initial));
+ });
  it('does not ask for an action after the last enemy falls mid-tick',()=>{
   const initial=createCombat([{creature:c('a')},{creature:c('b')}],[c('e')],42);
   initial.fighters.forEach(f=>f.nextAction=1); initial.fighters[2].hp=1;
