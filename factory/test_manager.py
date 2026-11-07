@@ -241,19 +241,51 @@ def outside_checkout_sandbox(cmd, tree):
     return SimpleNamespace(returncode=0, stdout='', stderr='')
 
 with patch.object(pr_team, '__file__', '/outside-home/checkout/factory/pr_team.py'), patch('pr_team.sandboxed', side_effect=outside_checkout_sandbox), patch('socket.socket'):
-    assert pr_team.verified('/outside-home/checkout') == ''
+    from io import StringIO
+    from contextlib import redirect_stdout
+    host_log = StringIO()
+    with redirect_stdout(host_log):
+        assert pr_team.verified('/outside-home/checkout') == ''
 assert len(probe_paths) == 1 and not probe_paths[0].exists()
 assert verification_calls == [['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']]
+assert host_log.getvalue().splitlines() == [
+    'Host verification: checking sandbox isolation', 'Host verification: sandbox isolation passed',
+    'Host verification: npm run build passed', 'Host verification: npm test passed',
+    'Host verification: python3 factory/test_manager.py passed']
 print('ok sandbox probe outside checkout')
+# Failed host checks are recorded and stop verification before later checks.
+verification_calls.clear()
+def failed_build(cmd, tree):
+    if cmd == ['npm', 'run', 'build']:
+        verification_calls.append(cmd)
+        return SimpleNamespace(returncode=2, stdout='', stderr='build failed')
+    return outside_checkout_sandbox(cmd, tree)
+with patch('pr_team.sandboxed', side_effect=failed_build), patch('socket.socket'), redirect_stdout(host_log := StringIO()):
+    assert pr_team.verified('.') == 'build failed'
+assert verification_calls == [['npm', 'run', 'build']]
+assert 'Host verification: npm run build failed (exit 2)' in host_log.getvalue()
+with patch('pr_team.sandbox_works'), patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=71, stdout='', stderr='')), redirect_stdout(StringIO()):
+    assert pr_team.verified('.') == 'npm run build failed with exit 71 (no output)'
 # A sandbox that lets everything through stops verification before any check runs.
 with patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')):
     try:
         pr_team.verified('.')
-    except AssertionError:
-        pass
-    else:
-        raise AssertionError('verified() ran with a broken sandbox')
+        assert False, 'broken isolation must stop verification'
+    except pr_team.HostVerificationError as exc:
+        assert 'sandbox isolation failed' in str(exc)
 print('ok broken sandbox refused')
+# A failed real isolation probe is recorded and prevents all subsequent checks.
+with patch('pr_team.sandbox_works', side_effect=PermissionError('fixture denied')), \
+     patch('pr_team.sandboxed') as checks_after_failed_probe, redirect_stdout(host_log := StringIO()):
+    try:
+        pr_team.verified(Path('.'))
+        assert False, 'probe failure must stop verification'
+    except pr_team.HostVerificationError as exc:
+        failure = str(exc)
+assert 'sandbox isolation failed (PermissionError: fixture denied)' in failure
+assert failure in host_log.getvalue()
+checks_after_failed_probe.assert_not_called()
+print('ok isolation probe failure recorded')
 
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
 with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
@@ -493,7 +525,7 @@ for instruction in ('Report the actual failure in the evidence.',
                     'Do not treat mocked or skipped sandbox checks as proof the real host sandbox passed.'):
     assert instruction in brief
 
-for failing_check in (None, 1):
+for failing_check in (None, 1, 'probe'):
     with tempfile.TemporaryDirectory() as d:
         root = Path(d) / 'repo'
         root.mkdir()
@@ -529,7 +561,7 @@ for failing_check in (None, 1):
              patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
              patch.object(builder.urllib.request, 'urlopen', return_value=response), \
              patch.object(builder, 'checkpoint', return_value=''), \
-             patch.object(pr_team, 'sandbox_works', side_effect=lambda: probes.append(True)), \
+             patch.object(pr_team, 'sandbox_works', side_effect=lambda: (probes.append(True), (_ for _ in ()).throw(PermissionError('fixture denied')) if failing_check == 'probe' else None)), \
              patch.object(pr_team, 'sandboxed', side_effect=fake_sandboxed), \
              patch.object(sys, 'argv', ['builder.py', '42']):
             if failing_check is None:
@@ -541,9 +573,47 @@ for failing_check in (None, 1):
                 try:
                     builder.main()
                 except SystemExit as e:
-                    assert 'host test failed' in str(e)
+                    assert ('fixture denied' if failing_check == 'probe' else 'host test failed') in str(e)
                 else:
                     raise AssertionError('host check failure allowed a PR')
-                assert not published and len(probes) == builder.RETRIES + 1
-                assert checks == [['npm', 'run', 'build'], ['npm', 'test']] * (builder.RETRIES + 1)
+                expected = 1 if failing_check == 'probe' else builder.RETRIES + 1
+                assert not published and len(probes) == expected
+                assert checks == ([] if failing_check == 'probe' else [['npm', 'run', 'build'], ['npm', 'test']] * expected)
+                assert (root.parent / 'swarmbreak-issue-42' / 'file').read_text() == 'fixed\n'
 print('ok builder host check handoff')
+
+# A host probe failure stops the PR fixer after one worker and preserves its changes.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    tree = Path(d) / 'swarmbreak-pr-42'
+    tree.mkdir()
+    (tree / 'node_modules').mkdir()
+    workers = []
+    def pr_sh(*args, cwd=None, check=True):
+        if args[:3] == ('gh', 'pr', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
+        if args[:3] == ('git', 'status', '--porcelain'):
+            return SimpleNamespace(stdout='', returncode=0)
+        return SimpleNamespace(stdout='sha', returncode=0)
+    def pr_bot(role, work, prompt, **kwargs):
+        if role == 'pr-triage':
+            (Path(work) / 'decisions.json').write_text(json.dumps({'decisions': [{'id': '1', 'action': 'fix'}]}))
+        else:
+            workers.append(role)
+            (tree / 'work').write_text('preserved')
+    finding = {'id': '1', 'title': 'defect', 'attribution_status': 'pending'}
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=pr_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), \
+         patch.object(pr_team, 'findings', return_value={'findings': [finding]}), \
+         patch.object(pr_team, 'bot', side_effect=pr_bot), \
+         patch.object(pr_team, 'sandbox_works', side_effect=PermissionError('fixture denied')), \
+         patch.object(sys, 'argv', ['pr_team.py', '42']):
+        try:
+            pr_team.main()
+            assert False, 'probe failure must stop the fixer'
+        except SystemExit as exc:
+            assert 'fixture denied' in str(exc) and str(tree) in str(exc)
+    assert workers == ['pr-fixer'] and (tree / 'work').read_text() == 'preserved'
+    assert not (tree / '.git-fixes.json').exists()
+print('ok PR fixer stops on host failure')
