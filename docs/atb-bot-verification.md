@@ -63,3 +63,9 @@ On 2026-11-05, seeds 51–70, the historical simulator won 12/20 typical and 2/2
 The November 7 run is now in the checkout. On seeds 1–10, the current typical bot won 8/10 with Auto and 2/10 with manual decisions; all six differing results favored Auto. Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 10 1 typical`. This small, consecutively seeded sample does not establish a win rate, but it differs from earlier samples and warrants a larger investigation before changing bot decisions. It does not compare with the historical equipment search or establish that the run passes balance.
 
 On the same seeds, the current expert bot won 4/10 with Auto and 5/10 with manual decisions (3 manual-only, 2 Auto-only). Use the same command with `expert` in place of `typical`. This is likewise only a preliminary sample.
+
+For typical seeds 11–30, Auto won 7/20 and manual won 4/20 (1 manual-only and 4 Auto-only). Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 20 11 typical`. Together with seeds 1–10, this is 15/30 Auto and 6/30 manual; it remains a small consecutive-seed sample, not evidence that the balance thresholds pass. These results make the manual policy worth investigating across more runs and seeds before changing it.
+
+For expert seeds 11–30, Auto won 5/20 and manual won 6/20 (3 manual-only and 2 Auto-only). Use the same command with `expert` in place of `typical`. This small sample does not establish relative strength or balance.
+
+For no-routine-edit seeds 1–10, Auto won 0/10 and manual won 3/10 (3 manual-only). Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 10 1 no-build`. This small sample does not establish relative strength or balance.
