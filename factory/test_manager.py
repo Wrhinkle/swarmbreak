@@ -5,6 +5,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
 from manager import SITE, act, gate_verdict, unfilled_links, check_post, deploy_problems, post_problems, template_headings
+import unittest
+import test_release_handoff
+
+assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromModule(test_release_handoff)).wasSuccessful()
 
 good = f'## My rule\nSee {SITE} for it.'
 assert post_problems(good, ['## My rule']) == []

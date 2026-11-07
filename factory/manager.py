@@ -443,6 +443,19 @@ def act(a, s, dry):
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(a.get('id'))):
             return f'Bad run id: {a}'
         return open_run(a['id'], dry)
+    if kind == 'open_and_merge':
+        run_id = str(a.get('id', ''))
+        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', run_id):
+            return f'Bad run id: {a}'
+        opened = open_run(run_id, dry)
+        if dry or FAILED.search(opened):
+            return opened
+        prs = open_prs()
+        matches = [p for p in prs if p['headRefName'] == f'run/{run_id}' and p['baseRefName'] == 'main']
+        if len(matches) != 1:
+            return f'Failed to find exactly one open PR for run/{run_id} against main after opening: found {len(matches)}. {opened}'
+        merged = act({'type': 'merge_pr', 'pr': matches[0]['number']}, {'prs': prs}, False)
+        return f'{opened} {merged}'
     if kind == 'delegate':
         agent, task = str(a.get('agent', '')), str(a.get('task', '')).strip()
         if s.get('strangers'):
