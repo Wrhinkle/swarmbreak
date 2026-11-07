@@ -6,6 +6,16 @@ import type { Creature } from './types';
 const c = (id:string, routines=['strike']):Creature => ({id,name:id,blurb:'',sprite:'',bodyPlan:'construct',role:'bruiser',tier:'ally',routines,source:'/'});
 const routine = (condition:ConditionId, action:ActionId='strike', arg?:number):Routine => ({id:'test',name:'test',condition,action,price:0,arg});
 describe('combat',()=>{
+ it('executes a manually selected routine instead of a previously charged attack',()=>{
+  const initial=createCombat([{creature:c('a',['charge','brace','patch'])}],[c('e')],42);
+  initial.fighters[0].charging=true; initial.fighters[0].nextAction=1; initial.fighters[1].nextAction=100;
+  const waiting=step(enableAtb(initial));
+  expect(atbTargets(waiting,'c0','patch').map(f=>f.id)).toEqual(['c0']);
+  const result=step(chooseAtb(waiting,'c0','brace'));
+  expect(result.events.find(e=>e.kind==='action')?.routine).toBe('brace');
+  expect(result.fighters[0].shield).toBeGreaterThan(0);
+  expect(result.fighters[0].charging).toBe(false);
+ });
  it('records and applies a valid manual target after serialization',()=>{
   const initial=createCombat([{creature:c('a',['strike','patch'])},{creature:c('b')}],[c('e'),c('f')],42);
   initial.fighters[0].nextAction=1; initial.fighters.slice(1).forEach(f=>f.nextAction=100);

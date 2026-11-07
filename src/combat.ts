@@ -98,7 +98,7 @@ export function setAutoBattle(state: CombatState, enabled: boolean): CombatState
 export function atbTargets(state: CombatState, actorId: string, routineId: string): Fighter[] {
   const f = state.fighters.find(a => a.id === actorId && a.side === 'crew' && a.hp > 0);
   if (!f || !f.routines.includes(routineId) || !ROUTINES[routineId]) return [];
-  let action = f.charging ? 'charge' : ROUTINES[routineId].action;
+  let action = ROUTINES[routineId].action;
   if (action === 'mirror') action = f.lastAction && f.lastAction !== 'mirror' ? f.lastAction : 'strike';
   if (['strike','heavy','overflow','corrupt','stun','steal'].includes(action) || (action === 'charge' && f.charging)) return living(state, 'enemy');
   if (action === 'patch' || action === 'guard_ally') return living(state, 'crew');
@@ -135,7 +135,7 @@ function advance(s: CombatState): CombatState {
     if (f.stunned) { f.stunned = false; f.charging = false; emit(s, 'stunned', f, f, 0, ''); continue; }
     let r: Routine | undefined; const targetId = atb?.targetId; if (atb) delete atb.targetId;
     if (atb?.choice) { if (atb.choice !== 'auto') r = ROUTINES[atb.choice]; atb.choice = null; }
-    if (f.charging) r = ROUTINES.charge;
+    if (f.charging) { if (!r) r = ROUTINES.charge; else if (r.action !== 'charge') f.charging = false; }
     r ??= f.routines.map(id => ROUTINES[id]).find(routine => routine && condition(s, f, routine)) ?? ROUTINES.strike;
     f.acted = (f.acted ?? 0) + 1;
     act(s, f, r, r.action, targetId);
