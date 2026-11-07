@@ -56,7 +56,10 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
             const breach = attacks.find(id => ROUTINES[id]?.action === 'overflow');
             // Breach removes the visible shield before dealing damage.
             if (breach && targets[0].shield > 0 && ROUTINES[attack].action === 'heavy' &&
-                Math.round(actor.power * 1.5) >= Math.max(0, Math.round(actor.power * 1.8) - targets[0].shield)) attack = breach;
+                Math.round(actor.power * 1.5) >= Math.max(0, Math.round(actor.power * 1.8) - targets[0].shield)) {
+              attack = breach;
+              rankAttackTargets(targets, attack);
+            }
             routineId = attack; targetId = targets[0].id;
           }
         }
