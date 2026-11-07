@@ -36,7 +36,7 @@ export function renderRoster(roster: HTMLElement, fighters: CombatState['fighter
       group.append(el('p', fighterHealth(fighterName(f, fighters), f.hp, f.maxHp, f.shield)));
       if (f.hp > 0 && f.speed > 0) {
         const gauge = el('progress'); gauge.max = f.speed; gauge.value = Math.max(0, Math.min(f.speed, f.speed - (f.nextAction - tick)));
-        gauge.setAttribute('aria-label', `${f.creature.name} action readiness`); group.append(gauge);
+        gauge.setAttribute('aria-label', `${fighterName(f, fighters)} action readiness`); group.append(gauge);
       }
     }
     roster.append(group);

@@ -3,6 +3,28 @@ import { atbTargets, chooseAtb, createCombat, enableAtb, setAutoBattle, step } f
 import type { Creature } from './types';
 import { loadSave, newSave, parseSave, writeSave } from './save';
 
+it('distinguishes the action gauges of fighters with the same name', async () => {
+  class Element {
+    children: Element[] = []; attributes: Record<string, string> = {}; max = 0; value = 0;
+    setAttribute(name: string, value: string) { this.attributes[name] = value; }
+    append(...children: Element[]) { this.children.push(...children); }
+    replaceChildren(...children: Element[]) { this.children = children; }
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { renderRoster } = await import('./main');
+    const creature: Creature = { id: 'ally', name: 'Ally', blurb: '', sprite: '', bodyPlan: 'construct', role: 'bruiser', tier: 'ally', routines: ['strike'], source: '/' };
+    const combat = createCombat([{ creature }, { creature }], [creature], 42);
+    const roster = new Element();
+    renderRoster(roster as unknown as HTMLElement, combat.fighters, combat.t);
+    const group = roster.children[0];
+    expect(group.children[2].attributes['aria-label']).toBe('Ally (1) action readiness');
+    expect(group.children[4].attributes['aria-label']).toBe('Ally (2) action readiness');
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});
+
 it('renders a ready fighter, records a selected target, and offers Auto after reload', async () => {
   class Element {
     textContent = ''; className = ''; children: Element[] = []; type = ''; disabled = false;
