@@ -46,6 +46,15 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     combat = step(combat);
     while (!combat.result && !combat.atb!.pending) combat = step(combat);
     expect(combat.atb!.pending).toBe('c0');
+    // Turning on Auto battle at a pending decision must persist both the toggle
+    // and the recorded choice, so reloading cannot ask for that action again.
+    const autoBattle = setAutoBattle(combat, true);
+    save.today!.combat = autoBattle; writeSave(save);
+    const reloadedAuto = loadSave().today!.combat!;
+    expect(reloadedAuto.atb!.autoBattle).toBe(true);
+    expect(reloadedAuto.atb!.pending).toBeNull();
+    expect(reloadedAuto.atb!.choices.at(-1)).toEqual({ actorId: 'c0', routineId: 'auto' });
+    expect(step(reloadedAuto)).toEqual(step(autoBattle));
     render(); panel.children[2].click?.();
     expect(combat.atb!.choices.at(-1)?.routineId).toBe('auto');
     expect(setAutoBattle(combat, true).atb!.autoBattle).toBe(true);
