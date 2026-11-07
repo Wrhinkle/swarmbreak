@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
+from pr_team import HostVerificationError, PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
 LOCKED = (*PROTECTED, '.gitignore', 'vite.config')
@@ -220,7 +220,11 @@ def main():
         else:
             if result.get('outcome') != 'fixed':
                 break
-            bad, changed = problems_in(tree, live)
+            try:
+                bad, changed = problems_in(tree, live)
+            except HostVerificationError as exc:
+                bad = [str(exc)]
+                break
             bad += [] if changed else ['outcome is fixed, but nothing changed']
         if not bad:
             break

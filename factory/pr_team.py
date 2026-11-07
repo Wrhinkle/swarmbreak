@@ -135,6 +135,10 @@ def sandbox_works():
             sock.close()
             del os.environ['AWS_SECRET_ACCESS_KEY']
 
+class HostVerificationError(Exception):
+    """The host could not safely run verification."""
+
+
 def verified(tree):
     print('Host verification: checking sandbox isolation', flush=True)
     try:
@@ -142,10 +146,13 @@ def verified(tree):
     except (AssertionError, OSError, subprocess.SubprocessError) as exc:
         failure = f'Host verification: sandbox isolation failed ({type(exc).__name__}: {exc})'
         print(failure, flush=True)
-        return failure
+        raise HostVerificationError(failure) from exc
     print('Host verification: sandbox isolation passed', flush=True)
     for cmd in (['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']):
-        r = sandboxed(cmd, tree)
+        try:
+            r = sandboxed(cmd, tree)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise HostVerificationError(f'Host verification: could not run {" ".join(cmd)} ({type(exc).__name__}: {exc})') from exc
         if r.returncode:
             print(f'Host verification: {" ".join(cmd)} failed (exit {r.returncode})', flush=True)
             return (r.stdout + r.stderr)[-2000:] or f'{" ".join(cmd)} failed with exit {r.returncode} (no output)'
@@ -237,7 +244,11 @@ def main():
                 problems = f'Don\'t edit these: {touched}. ' if touched else ''
                 if touched:
                     sh('git', 'checkout', '--', *touched, cwd=tree)
-                failed = verified(tree)
+                try:
+                    failed = verified(tree)
+                except HostVerificationError as exc:
+                    (tree / '.git-fixes.json').unlink()
+                    sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
                 if failed:
                     problems += f'Build or tests fail:\n{failed}'
                 if not problems:
@@ -297,7 +308,10 @@ def main():
     if not merges_cleanly(tree, base):
         blocks.append(f'{head} conflicts with {base}')
     else:
-        failed = verified(tree)
+        try:
+            failed = verified(tree)
+        except HostVerificationError as exc:
+            sys.exit(f'Not ready to merge: {exc}')
         if failed:
             blocks.append(f'Build or tests fail with {base} merged in: {failed[-500:]}')
     if blocks:
