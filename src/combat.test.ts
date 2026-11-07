@@ -93,6 +93,21 @@ describe('combat',()=>{
   const auto=simulate(enableAtb(initial,true),3000); const {atb,...actual}=auto;
   expect(atb?.pending).toBeNull(); expect(actual).toEqual(simulate(initial,3000));
  });
+ it('choosing Auto throughout a saved fight matches the original automatic fight',()=>{
+  const initial=createCombat([{creature:c('summoner',['spawn','strike'])},{creature:c('attacker',['charge','strike'])}],[c('enemy',['corrupt','strike']),c('other')],73);
+  let fight=enableAtb(initial), decisions=0;
+  while (!fight.result) {
+   fight=simulate(fight,3000);
+   if (fight.atb?.pending) {
+    fight=chooseAtb(JSON.parse(JSON.stringify(fight)),fight.atb.pending,'auto');
+    decisions++;
+   }
+  }
+  expect(decisions).toBeGreaterThan(1);
+  expect(fight.fighters.some(f=>f.summonedBy)).toBe(true);
+  const {atb: _atb,...actual}=fight;
+  expect(actual).toEqual(simulate(initial,3000));
+ });
  it('repeats the same event log for the same seed',()=>{const make=()=>simulate(createCombat([{creature:c('a',['sweep','strike'])}],[c('b'),c('c')],123),3000);expect(make()).toEqual(make());});
  it('evaluates all conditions',()=>{const s=createCombat([{creature:c('a')},{creature:c('b')}],[c('e'),c('f')],1),[a,b,e]=s.fighters;a.hp=5;a.shield=0;a.corrupted=4;b.hp=0;e.shield=1;e.hp=4;const yes: [ConditionId,number?][]=[['always'],['self_hp_below',.5],['ally_hp_below',.5],['ally_down'],['self_unshielded'],['foe_shielded'],['foe_hp_below',.5],['foes_at_least',2],['self_corrupted']];for(const [id,arg] of yes)expect(condition(s,a,routine(id,'strike',arg)),id).toBe(true);expect(condition(s,a,routine('foes_at_least','strike',3))).toBe(false);});
  it('runs each action and every library routine',()=>{const actions:ActionId[]=['strike','heavy','sweep','overflow','patch','mend_all','guard_self','guard_ally','corrupt','purge','stun','summon','split','steal','mirror','charge'];for(const action of actions){const id=`test_${action}`;ROUTINES[id]=routine('always',action);ROUTINES[id].id=id;const s=createCombat([{creature:c('a',[id])}],[c('e')],1);s.fighters[0].hp=10;s.fighters[0].corrupted=8;s.fighters[0].lastAction='heavy';expect(()=>simulate(s,30),action).not.toThrow();delete ROUTINES[id];} for(const id of Object.keys(ROUTINES))expect(()=>simulate(createCombat([{creature:c('a',[id])}],[c('e')],2),60),id).not.toThrow();});
