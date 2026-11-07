@@ -44,6 +44,10 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
     if (policy.action === 'manual') {
       const heal = actor.routines.find(id => ROUTINES[id]?.action === 'patch');
       const patients = heal ? atbTargets(state, actorId, heal).filter(f => f.hp / f.maxHp < .6).sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp) : [];
+      const groupHeal = actor.routines.find(id => ROUTINES[id]?.action === 'mend_all');
+      const allies = state.fighters.filter(f => f.side === actor.side && f.hp > 0);
+      const groupHealing = allies.reduce((total, f) => total + Math.min(f.maxHp - f.hp, Math.round(actor.power * .8)), 0);
+      const singleHealing = patients.length ? Math.min(patients[0].maxHp - patients[0].hp, Math.round(actor.power * 1.5)) : 0;
       const foes = state.fighters.filter(f => f.side !== actor.side && f.hp > 0);
       const finishers = actor.routines.flatMap(id => {
         const action = ROUTINES[id]?.action;
@@ -60,6 +64,7 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
       if (sweepFinisher) { routineId = sweepFinisher; }
       else if (finishers.length) { routineId = finishers[0].id; targetId = finishers[0].foe.id; }
       else if (sweepKill) { routineId = sweepKill; }
+      else if (groupHeal && patients.length && groupHealing > singleHealing) { routineId = groupHeal; }
       else if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
       else {
         const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));

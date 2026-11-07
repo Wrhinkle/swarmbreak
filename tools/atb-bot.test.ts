@@ -21,6 +21,13 @@ describe('ATB bot decisions', () => {
     expect(end.atb!.choices.some(c => c.routineId !== 'auto')).toBe(true);
     expect(playCombat(fight(), EXPERT)).toEqual(end);
   });
+  it('uses group healing when it restores more health to multiple injured allies', () => {
+    const healer = { ...run.crew[0], routines: ['patch', 'triage'] };
+    const state = createCombat([{ creature: healer }, { creature: healer }, { creature: healer }], [enemy], run.seed);
+    state.fighters.slice(0, 3).forEach((f, i) => { f.hp = Math.floor(f.maxHp / 2); f.nextAction = i === 0 ? 1 : 100; });
+    state.fighters[3].nextAction = 100;
+    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'triage' });
+  });
   it('uses a stronger equipped attack even when it follows Strike', () => {
     const ally = { ...run.crew[0], routines: ['strike', 'finish'] };
     const state = createCombat([{ creature: ally }], [enemy], run.seed);
