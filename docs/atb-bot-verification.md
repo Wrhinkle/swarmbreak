@@ -137,3 +137,13 @@ On November 6, a further matched sample covers seeds 201–300 after the group-h
 | no-build | 3/100 | 3/100 | 22/100 | 21 | 2 |
 
 Run `npx vite-node tools/compare-atb.ts public/runs/2026-11-06/run.json 100 201 <policy>` for each current policy. The historical results use the extraction method above, substituting November 6 and seeds 201–300. The historical expert's 48-win advantage over current manual play reinforces the gap seen on November 7, but the historical editing policies use fight-result lookahead and routes can diverge. The consecutive seeds are descriptive, not an independent random sample or a balance-gate result. Player-feasible expert improvements and the next run's unchanged balance gate still need investigation.
+
+After the latest Sweep preference change, the same November 6 sample was rerun:
+
+| Policy | Auto wins | Manual wins | Manual-only | Auto-only |
+| --- | ---: | ---: | ---: | ---: |
+| typical | 17/100 | 46/100 | 35 | 6 |
+| expert | 10/100 | 51/100 | 48 | 7 |
+| no-build | 3/100 | 22/100 | 21 | 2 |
+
+The typical manual total is one lower than the earlier 47/100; the expert and no-build totals match their earlier values. The commands and limitations above still apply. These aggregate results do not establish the effect of the change or satisfy the balance gate; the historical expert's result includes outcome lookahead.
