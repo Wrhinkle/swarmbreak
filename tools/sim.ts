@@ -43,11 +43,17 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
       else {
         const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
         // Heavy and Breach deal more than Strike to the same target, regardless of Auto conditions.
-        const attack = ROUTINES[attacks[0]]?.action === 'strike'
+        let attack = ROUTINES[attacks[0]]?.action === 'strike'
           ? attacks.find(id => ROUTINES[id]?.action === 'heavy') ?? attacks.find(id => ROUTINES[id]?.action === 'overflow') ?? attacks[0] : attacks[0];
         if (attack) {
           const targets = atbTargets(state, actorId, attack).sort((a, b) => a.hp + a.shield - b.hp - b.shield);
-          if (targets.length) { routineId = attack; targetId = targets[0].id; }
+          if (targets.length) {
+            const breach = attacks.find(id => ROUTINES[id]?.action === 'overflow');
+            // Breach removes the visible shield before dealing damage.
+            if (breach && targets[0].shield > 0 && ROUTINES[attack].action === 'heavy' &&
+                Math.round(actor.power * 1.5) >= Math.max(0, Math.round(actor.power * 1.8) - targets[0].shield)) attack = breach;
+            routineId = attack; targetId = targets[0].id;
+          }
         }
       }
     }
