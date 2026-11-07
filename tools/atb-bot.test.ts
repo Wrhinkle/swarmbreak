@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { chooseAtb, createCombat, enableAtb, simulate } from '../src/combat';
 import { newSave, parseSave } from '../src/save';
 import type { Run } from '../src/types';
-import { EXPERT, NOVICE, playCombat } from './sim';
+import { EXPERT, NOVICE, playCombat, rankAttackTargets } from './sim';
 
 describe('ATB bot decisions', () => {
   const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
@@ -45,6 +45,16 @@ describe('ATB bot decisions', () => {
     state.fighters[1].shield = 100;
     const end = playCombat(state, EXPERT);
     expect(end.atb!.choices[0].routineId).toBe('breach');
+  });
+  it('uses Breach to finish a shielded enemy before attacking a healthier one', () => {
+    const ally = { ...run.crew[0], routines: ['breach'] };
+    const target = { ...enemy, routines: ['strike'] };
+    const state = createCombat([{ creature: ally }], [target, target], run.seed);
+    state.fighters[0].nextAction = 1;
+    state.fighters.slice(1).forEach(f => { f.nextAction = 100; });
+    state.fighters[1].hp = 1; state.fighters[1].shield = 100;
+    state.fighters[2].hp = Math.round(state.fighters[0].power * 1.5) + 1;
+    expect(rankAttackTargets(state.fighters.slice(1), 'breach')[0].id).toBe('e0');
   });
   it('replays a full manual fight across saves at every decision', () => {
     const expected = playCombat(fight(), EXPERT);

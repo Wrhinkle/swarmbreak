@@ -26,6 +26,11 @@ export const rng = (seed: number) => { let state = seed >>> 0; return () => { st
 const conditional = (id: string) => ROUTINES[id]?.condition !== 'always';
 const WANT_HEAL = ['patch+', 'patch', 'triage', 'cover'], WANT_HIT = ['strike+', 'finish', 'breach', 'sweep+', 'sweep', 'charge', 'jam', 'corrupt', 'brace', 'last_stand', 'purge'];
 
+export function rankAttackTargets(targets: CombatState['fighters'], attack: string) {
+  const healthToHit = (f: CombatState['fighters'][number]) => f.hp + (ROUTINES[attack].action === 'overflow' ? 0 : f.shield);
+  return targets.sort((a, b) => healthToHit(a) - healthToHit(b));
+}
+
 // Choose using the equipped actions and the health visible on the fight screen.
 // Never simulate alternatives or inspect an encounter's eventual outcome.
 export function playCombat(initial: CombatState, policy: Policy): CombatState {
@@ -46,7 +51,7 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
         let attack = ROUTINES[attacks[0]]?.action === 'strike'
           ? attacks.find(id => ROUTINES[id]?.action === 'heavy') ?? attacks.find(id => ROUTINES[id]?.action === 'overflow') ?? attacks[0] : attacks[0];
         if (attack) {
-          const targets = atbTargets(state, actorId, attack).sort((a, b) => a.hp + a.shield - b.hp - b.shield);
+          const targets = rankAttackTargets(atbTargets(state, actorId, attack), attack);
           if (targets.length) {
             const breach = attacks.find(id => ROUTINES[id]?.action === 'overflow');
             // Breach removes the visible shield before dealing damage.
