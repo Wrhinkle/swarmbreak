@@ -69,3 +69,5 @@ For typical seeds 11–30, Auto won 7/20 and manual won 4/20 (1 manual-only and 
 For expert seeds 11–30, Auto won 5/20 and manual won 6/20 (3 manual-only and 2 Auto-only). Use the same command with `expert` in place of `typical`. This small sample does not establish relative strength or balance.
 
 For no-routine-edit seeds 1–10, Auto won 0/10 and manual won 3/10 (3 manual-only). Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 10 1 no-build`. This small sample does not establish relative strength or balance.
+
+On November 7, seeds 31–40, the typical bot won 3/10 manually and 5/10 on Auto both before and after changing the manual policy to prefer an equipped heavy attack over an earlier Strike. This paired sample is too small to establish the change's effect on strength. The policy still uses only equipped routines and visible targets; further comparisons for all policies and representative runs remain necessary.

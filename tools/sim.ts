@@ -41,7 +41,10 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
       const patients = heal ? atbTargets(state, actorId, heal).filter(f => f.hp / f.maxHp < .6).sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp) : [];
       if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
       else {
-        const attack = actor.routines.find(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
+        const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
+        // Heavy always deals more than Strike to the same target, regardless of its Auto condition.
+        const attack = ROUTINES[attacks[0]]?.action === 'strike'
+          ? attacks.find(id => ROUTINES[id]?.action === 'heavy') ?? attacks[0] : attacks[0];
         if (attack) {
           const targets = atbTargets(state, actorId, attack).sort((a, b) => a.hp + a.shield - b.hp - b.shield);
           if (targets.length) { routineId = attack; targetId = targets[0].id; }

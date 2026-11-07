@@ -21,6 +21,14 @@ describe('ATB bot decisions', () => {
     expect(end.atb!.choices.some(c => c.routineId !== 'auto')).toBe(true);
     expect(playCombat(fight(), EXPERT)).toEqual(end);
   });
+  it('uses a stronger equipped attack even when it follows Strike', () => {
+    const ally = { ...run.crew[0], routines: ['strike', 'finish'] };
+    const state = createCombat([{ creature: ally }], [enemy], run.seed);
+    state.fighters[0].nextAction = 1;
+    state.fighters[1].nextAction = 100;
+    const end = playCombat(state, EXPERT);
+    expect(end.atb!.choices[0].routineId).toBe('finish');
+  });
   it('replays a full manual fight across saves at every decision', () => {
     const expected = playCombat(fight(), EXPERT);
     const choices = expected.atb!.choices;
