@@ -1,0 +1,236 @@
+{
+  "reading": "Mines Paris–PSL is a French engineering grande école, founded in 1783 for mining and now part of the multidisciplinary PSL university. It teaches from bachelor to doctorate and continuing education, conducts research across 18 centres and five departments, and works closely with industry and public partners. Its vocabulary joins ‘théorie et pratique’, transitions écologique et numérique, recherche partenariale, valorisation, interdisciplinarité and engagement: knowledge should become usable action. The crawl also cares about scientific integrity, inclusion, international mobility, student life and making knowledge public. What gives this place its particular texture is the continuity between mineral extraction and today's energy and digital systems, the museum's vast mineral inventory, a historic library spread across four campuses, and projects such as an engineering-and-architecture micro-museum. It is at once laboratory, school, industrial collaborator and keeper of scientific heritage.",
+  "enemies": [
+    {
+      "idea": "Locality Sorters: mineral-armoured machines capture loose objects and people, shelving them by supposed geological origin; a mislabelled specimen can make the whole patrol reorder itself.",
+      "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+      "why": "The old cabinet’s locality-based inventory becomes a tactical sorting hazard."
+    },
+    {
+      "idea": "Species Splitters grow crystal blades in different habits, then divide whenever struck along a matching cleavage plane.",
+      "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+      "why": "Mineral diversity turns observation of form into a combat puzzle."
+    },
+    {
+      "idea": "Deep-Time Exposure units illuminate a room in pulses; anything caught in the beam acquires layers of mineral crust, while darkness lets the crust flake away.",
+      "source": "/blog/evenements/exposition-temps-profonds-et-autres-lumieres/",
+      "why": "Matter, light and environmental sensitivity become a readable positional threat."
+    },
+    {
+      "idea": "Citation Borers tunnel through walls following chains of references, emerging wherever a crew repeats a distinctive technical term.",
+      "source": "/recherche/partage-des-savoirs/bibliotheque/",
+      "why": "The research library’s connected literature becomes a pursuit network."
+    },
+    {
+      "idea": "Archive Conservators vacuum up annotations and repair torn pages by sealing them in clear mineral shells, trapping any hands still holding them.",
+      "source": "/recherche/partage-des-savoirs/bibliotheque/",
+      "why": "Preservation becomes an overzealous physical restraint."
+    },
+    {
+      "idea": "Micro-Museum Architects fold experimental models into full-size rooms around intruders; each rebuild tests a different compromise between structural stability and usable space.",
+      "source": "/blog/actualites/bachelor-i-be%c2%b3-ingenierie-et-architecture-croisent-leurs-regards-pour-concevoir-les-batiments-de-demain/",
+      "why": "The concrete architecture-and-engineering project becomes a changing arena."
+    },
+    {
+      "idea": "Load Integrators clamp onto tools and insist on electrifying every action, pulling power from nearby devices until the local circuit trips.",
+      "source": "/blog/evenements/workshop-electrification-des-usages/",
+      "why": "Electrification and system integration create cascading resource choices."
+    },
+    {
+      "idea": "Sustainability Auditors measure only the electricity a person uses, declaring breathing and movement inefficient; they stalk anyone whose activity rises above their arbitrary baseline.",
+      "source": "/blog/evenements/workshop-electrification-des-usages/",
+      "why": "A real systems question is twisted into a comically wrong metric."
+    },
+    {
+      "idea": "Subsoil Prospectors drill under floors for strategic materials, leaving resonant hollows that collapse if a crew follows their heavy footsteps.",
+      "source": "/ecole/un-peu-dhistoire/",
+      "why": "The school’s mining origins produce a navigable threat underfoot."
+    },
+    {
+      "idea": "Five-Department Composite: five specialist modules share one chassis; each adapts to a different tactic and must be separated before its repairs can be stopped.",
+      "source": "/recherche/18-centres-de-recherche-5-domaines-disciplinaires/",
+      "why": "Interdisciplinary research becomes an enemy whose parts protect each other."
+    },
+    {
+      "idea": "Water-and-ore surveyors mark anything containing water or minerals as a resource deposit and stake claims with drilling spikes.",
+      "source": "/recherche/18-centres-de-recherche-5-domaines-disciplinaires/",
+      "why": "Earth and environmental resource research acquires a predatory definition of terrain."
+    },
+    {
+      "idea": "Co-design Assemblers drag loose material and unwilling participants to a moving worktable; each completed round adds another attachment to the machine.",
+      "source": "/ecole/strategie/",
+      "why": "Participatory workshops become an escalating assembly encounter."
+    },
+    {
+      "idea": "Credit Collectors award project credits for useful actions, then seize the tools used to earn them as evidence; spending the credits can lure them away.",
+      "source": "/formations/i-be3/",
+      "why": "The six-semester, 180-credit curriculum becomes a playful economy of risk."
+    },
+    {
+      "idea": "Double-Diploma Couriers stamp a traveller for two destinations at once, then attempt to fold the route between them into a loop.",
+      "source": "/international-2/partir-a-linternational/",
+      "why": "International double recognition becomes a spatial trap with two valid exits."
+    },
+    {
+      "idea": "Contractualisation Crabs offer a research partnership, then bind anything used in the proposed experiment with cable until the promised result is delivered.",
+      "source": "/relations-entreprises/recherche-partenariale/",
+      "why": "The journey from defining a need to contracting becomes a bargain with physical consequences."
+    },
+    {
+      "idea": "Feasibility Leeches attach to an unfinished invention and continuously model whether it can work; their calculations slow it until a surprising improvised use defeats the model.",
+      "source": "/innovation-valorisation/lentrepreneuriat/",
+      "why": "Innovation support becomes a parasite that can be outwitted through experimentation."
+    },
+    {
+      "idea": "Originality Examiners copy a crew’s last move and reject anyone who repeats it, erecting a barrier that only a new approach will open.",
+      "source": "/recherche/habilitation-a-diriger-des-recherches-hdr/",
+      "why": "HDR’s recognition of original research becomes a challenge to vary tactics."
+    },
+    {
+      "idea": "Optimisation Moths seek the shortest route between two points and cut through every obstacle, including the cover the crew is hiding behind.",
+      "source": "/formations/masters/",
+      "why": "The modelling and optimisation master yields an enemy with an exploitable simple rule."
+    },
+    {
+      "idea": "Housing Allocators unfold empty rooms around travellers and keep relocating them to balance occupancy, separating companions until they find the common corridor.",
+      "source": "/vie-de-campus/logement/",
+      "why": "The campus housing network becomes a shifting spatial puzzle."
+    },
+    {
+      "idea": "Club Recruiters swarm in sporting, artistic and engineering formations, each trying to draft a crew member into its next coordinated exercise.",
+      "source": "/vie-de-campus/vie-associative-sportive-et-culturelle/",
+      "why": "The many student associations become competing, legible formations."
+    },
+    {
+      "idea": "Twin Transition Engines trade heat and data between them; damaging one makes the other stronger until their exchange is interrupted.",
+      "source": "/recherche/2-instituts-strategiques/",
+      "why": "The ecological and digital institutes become an interdependent adversary."
+    },
+    {
+      "idea": "Integrity Inverters demand perfect transparency, exposing every hidden position in a room while concealing their own sensors behind mirrored shutters.",
+      "source": "/recherche/deontologie-et-integrite-scientifique/",
+      "why": "The value of transparency is perverted into an asymmetrical stealth problem."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A mineral curator’s independent cataloguing automaton identifies safe specimens and teaches the crew how to redirect locality sorters with a corrected label.",
+      "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+      "why": "Knowledge of the collection gives the crew a nonviolent tool."
+    },
+    {
+      "idea": "A surviving library relay caches research across all four sites and can retrieve a useful old diagram if the crew brings a citation fragment.",
+      "source": "/recherche/partage-des-savoirs/bibliotheque/",
+      "why": "A distributed library supports scavenging and discovery."
+    },
+    {
+      "idea": "A student club collective holds a communal workshop, pooling sport, art and technical skills to build diversions and give passing crews a safe rest.",
+      "source": "/vie-de-campus/vie-associative-sportive-et-culturelle/",
+      "why": "Campus associations supply solidarity and practical improvisation."
+    },
+    {
+      "idea": "An independent integrity committee records conflicting observations and challenges the swarm’s false measurements; protect its witnesses and it reveals a machine’s flawed assumption.",
+      "source": "/recherche/deontologie-et-integrite-scientifique/",
+      "why": "Scientific integrity becomes an active way to defeat corrupted models."
+    },
+    {
+      "idea": "A prototype micro-museum offers shelter that its occupants can redesign together, combining structural advice with creative use of space.",
+      "source": "/blog/actualites/bachelor-i-be%c2%b3-ingenierie-et-architecture-croisent-leurs-regards-pour-concevoir-les-batiments-de-demain/",
+      "why": "The actual interdisciplinary project becomes a small, participatory refuge."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Transition: an immense factory-campus that consumes old mining equipment, experimental designs and digital models to rebuild the world continuously. Its five research arms optimise competing goals; the crew can expose contradictions between them and interrupt its supply routes.",
+      "source": "/recherche/18-centres-de-recherche-5-domaines-disciplinaires/",
+      "why": "The school’s systemic, multidisciplinary ambitions become a many-stage encounter with competing objectives."
+    },
+    {
+      "idea": "The Partnership Engine turns every encountered need into a funded project and every passerby into an experimental resource. Its armour is sustained by three linked stages—problem definition, contract and exploitation of results—which must be broken in a different order each time.",
+      "source": "/relations-entreprises/recherche-partenariale/",
+      "why": "The whole research-to-industry pipeline becomes a predatory but legible bureaucracy."
+    },
+    {
+      "idea": "The Cabinet of Tomorrow carries the old mineral inventory on a moving chassis, using specimens as models for new materials and building experimental structures around itself. Freeing catalogued specimens changes its armour and opens routes inside.",
+      "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+      "why": "Mining heritage, scientific collections and making future solutions converge in one boss."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A sorter has placed a warm battery among mineral specimens; its neighbours are cracking. Recover it quietly or relabel the case before the patrol returns.",
+      "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+      "why": "A small rescue uses the enemy’s sorting rule."
+    },
+    {
+      "idea": "A beam of environmental light is making a mineral crust bloom over a bridge. Carry a shade across while another crew member chips a path.",
+      "source": "/blog/evenements/exposition-temps-profonds-et-autres-lumieres/",
+      "why": "The light-sensitive installation creates a cooperative crossing."
+    },
+    {
+      "idea": "A library relay offers an old engineering diagram, but two versions disagree. Compare the physical copy with a distant relay before choosing which mechanism to build.",
+      "source": "/recherche/partage-des-savoirs/bibliotheque/",
+      "why": "Preservation and research become a useful uncertainty."
+    },
+    {
+      "idea": "A micro-museum model has unfolded across a corridor. Its ceiling is safe only while its tiny counterweight stays in balance; relocate the model or crawl through in sequence.",
+      "source": "/blog/actualites/bachelor-i-be%c2%b3-ingenierie-et-architecture-croisent-leurs-regards-pour-concevoir-les-batiments-de-demain/",
+      "why": "Architecture as an experiment produces an intimate traversal puzzle."
+    },
+    {
+      "idea": "An electrification rig has connected a kettle, a door and a beacon to one limited supply. Choose which two to power while the third draws a patrol’s attention.",
+      "source": "/blog/evenements/workshop-electrification-des-usages/",
+      "why": "Integration and limited capacity force a visible tradeoff."
+    },
+    {
+      "idea": "Two rival student clubs are improvising a joint performance to distract machines but cannot agree on a rhythm. Help coordinate them for a safe passage.",
+      "source": "/vie-de-campus/vie-associative-sportive-et-culturelle/",
+      "why": "The social life of campus becomes a cooperative diversion."
+    },
+    {
+      "idea": "A housing allocator keeps moving an empty room away from its owner. Track the repeating sequence of rooms and return a personal belonging to stop the relocation.",
+      "source": "/vie-de-campus/logement/",
+      "why": "A shifting housing puzzle has a human-scale purpose."
+    },
+    {
+      "idea": "A mobility courier offers two stamped routes to a distant refuge; one is short but infested and the other long but carries a stranded traveller.",
+      "source": "/international-2/partir-a-linternational/",
+      "why": "International mobility becomes a meaningful route choice."
+    },
+    {
+      "idea": "An abandoned drilling machine has exposed a seam beneath a courtyard. Its markings reveal both a shortcut and the unstable ground surrounding it.",
+      "source": "/ecole/un-peu-dhistoire/",
+      "why": "The mining legacy supplies useful information with a cost."
+    },
+    {
+      "idea": "A five-discipline research team of intact instruments argues over how to open a jammed gate. Combine two of their incompatible proposals to make a third solution.",
+      "source": "/recherche/18-centres-de-recherche-5-domaines-disciplinaires/",
+      "why": "Interdisciplinarity becomes a small collaborative invention."
+    },
+    {
+      "idea": "A partnership crab asks the crew to define a problem before it will release a captured tool. A carefully bounded task can keep it busy while they recover it.",
+      "source": "/relations-entreprises/recherche-partenariale/",
+      "why": "Contract language becomes an improvisational encounter."
+    },
+    {
+      "idea": "A researcher’s autonomous verifier detects that a patrol’s measurements are inconsistent, but needs a second observation from inside the patrol route.",
+      "source": "/recherche/deontologie-et-integrite-scientifique/",
+      "why": "Integrity becomes a field investigation with a clear payoff."
+    },
+    {
+      "idea": "A project-credit collector offers a shortcut in exchange for proof of a completed practical project. Repair a broken water carrier or risk presenting a convincing decoy.",
+      "source": "/formations/i-be3/",
+      "why": "Learning by doing becomes a choice between useful work and deception."
+    },
+    {
+      "idea": "A student-built renewable-energy test rig can charge the crew’s equipment, but only if they balance its output with the demands of a nearby shelter.",
+      "source": "/recherche/2-instituts-strategiques/",
+      "why": "The transition theme becomes a resource-sharing decision."
+    },
+    {
+      "idea": "An originality examiner is stuck repeatedly copying its own gestures. Show it an unexpected use for an ordinary object and it may open the laboratory door.",
+      "source": "/recherche/habilitation-a-diriger-des-recherches-hdr/",
+      "why": "The research-originality rule supports a playful noncombat solution."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [["contour-stitcher"], ["dewpoint-tick"], ["echo-bat"], ["contour-stitcher", "echo-bat"], ["dewpoint-tick", "echo-bat"], ["contour-stitcher", "dewpoint-tick"]],
+        "mid": [["chorus-frog"], ["recovery-collector"], ["birding-scope"], ["range-bison"], ["fire-warden"], ["recovery-collector", "echo-bat"], ["birding-scope", "contour-stitcher"], ["fire-warden", "echo-bat"]],
+        "late": [["chorus-frog"], ["range-bison"], ["recovery-collector", "birding-scope"], ["fire-warden", "dewpoint-tick"], ["range-bison", "echo-bat"], ["chorus-frog", "echo-bat"], ["birding-scope", "dewpoint-tick"], ["recovery-collector", "contour-stitcher"]]
+      },
+      "elites": [{"id": "habitat-sorter", "reward": "park-steward"}, {"id": "hot-spring-siphon", "reward": "shelter-repairer"}, {"id": "field-auditor", "reward": "park-steward"}],
+      "shop": ["strike+", "finish", "breach", "sweep", "patch", "patch+", "brace", "corrupt", "jam"]
+    },
+    {
+      "packs": {
+        "early": [["locality-sorter"], ["citation-borer"], ["exposure-unit"], ["locality-sorter", "exposure-unit"], ["locality-sorter", "citation-borer"], ["exposure-unit", "citation-borer"]],
+        "mid": [["species-splitter"], ["archive-conservator"], ["load-integrator"], ["subsoil-prospector"], ["credit-collector"], ["archive-conservator", "locality-sorter"], ["load-integrator", "exposure-unit"], ["credit-collector", "exposure-unit"]],
+        "late": [["subsoil-prospector"], ["species-splitter", "locality-sorter"], ["archive-conservator", "citation-borer"], ["load-integrator", "locality-sorter"], ["credit-collector", "locality-sorter"], ["species-splitter", "exposure-unit"], ["subsoil-prospector", "locality-sorter"], ["archive-conservator", "credit-collector"]]
+      },
+      "elites": [{"id": "micro-architect", "reward": "curator-automaton"}, {"id": "co-design-assembler", "reward": "student-builder"}, {"id": "five-department-composite", "reward": "student-builder"}],
+      "shop": ["strike+", "finish", "breach", "sweep", "patch+", "triage", "brace", "purge", "jam", "corrupt"]
+    },
+    {
+      "packs": {
+        "early": [["solution-miner"], ["humidity-regulator"], ["spring-siphon"], ["solution-miner", "spring-siphon"], ["humidity-regulator", "spring-siphon"], ["solution-miner", "humidity-regulator"]],
+        "mid": [["formation-weaver"], ["collapse-beetle"], ["fossil-assessor"], ["artifact-extractor"], ["lampenflora-imitator"], ["formation-weaver", "spring-siphon"], ["fossil-assessor", "humidity-regulator"], ["artifact-extractor", "solution-miner"]],
+        "late": [["collapse-beetle"], ["formation-weaver", "solution-miner"], ["collapse-beetle", "solution-miner"], ["fossil-assessor", "spring-siphon"], ["artifact-extractor", "humidity-regulator"], ["lampenflora-imitator", "spring-siphon"], ["formation-weaver", "artifact-extractor"], ["lampenflora-imitator", "solution-miner"]]
+      },
+      "elites": [{"id": "aquifer-custodian", "reward": "cave-interpreter"}, {"id": "grant-planter", "reward": "water-monitor"}, {"id": "hypogene-borer", "reward": "water-monitor"}],
+      "shop": ["strike+", "finish", "breach", "sweep+", "patch+", "triage", "brace", "corrupt", "jam", "purge"]
+    }
+  ]
+}
