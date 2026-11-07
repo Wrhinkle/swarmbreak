@@ -16,6 +16,9 @@ These paired samples compare the current manual ATB policy with the current Auto
 | 2026-11-05 | typical | 41–50 | 2/10 | 5/10 | 5 | 2 |
 | 2026-11-05 | no-build | 41–50 | 2/10 | 5/10 | 5 | 2 |
 | 2026-11-05 | expert | 41–60 | 2/20 | 15/20 | 15 | 2 |
+| 2026-11-05 | typical | 51–70 | 5/20 | 13/20 | 10 | 2 |
+| 2026-11-05 | no-build | 51–70 | 2/20 | 14/20 | 12 | 0 |
+| 2026-11-05 | expert | 61–80 | 7/20 | 16/20 | 9 | 0 |
 | 2026-11-04 | typical | 1–10 | 0/10 | 2/10 | 2 | 0 |
 | 2026-11-04 | typical | 11–30 | 2/20 | 8/20 | 8 | 2 |
 | 2026-11-04 | typical | 31–50 | 6/20 | 8/20 | 7 | 5 |
@@ -42,3 +45,5 @@ To reproduce the baseline, extract `src` and `tools/sim.ts` from `ad7ca5c` into 
 For seeds 31–50 on the same run, the historical simulator won 16/20 typical, 19/20 expert, and 3/20 no-build. Current Auto/manual won 6/20 and 8/20 typical, 0/20 and 9/20 expert, and 3/20 and 10/20 no-build. The old typical and expert results include fight-result lookahead; these paired seeds do not isolate the effects of equipment, routing, and combat choices. They are still too few to establish balance.
 
 On 2026-11-05, seeds 41–50, the same historical simulator won 5/10 typical, 10/10 expert, and 2/10 no-build. Current Auto/manual won 2/10 and 5/10 typical, 0/10 and 9/10 expert, and 2/10 and 5/10 no-build. Reproduce the historical results using the extraction method above, substituting the November 5 run and seeds 41–50. This additional small sample is subject to the same policy and lookahead limitations and does not establish balance.
+
+On 2026-11-05, seeds 51–70, the historical simulator won 12/20 typical and 2/20 no-build; current Auto/manual won 5/20 and 13/20 typical and 2/20 and 14/20 no-build. On seeds 61–80, historical expert won 17/20 and current Auto/manual won 7/20 and 16/20. Reproduce using the extraction method above and these seed ranges. These results include the historical equipment search and do not isolate the effects of equipment, routing, and combat choices. The samples remain insufficient to establish balance.
