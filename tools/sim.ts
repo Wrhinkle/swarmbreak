@@ -89,7 +89,8 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
         if (n.kind === 'elite' && act.shop.length) pool.push(act.shop[(n.floor + run.seed) % act.shop.length]);
       }
       if (n.kind === 'rest') {
-        const upgrade = editing && health() > .75 ? crew.flatMap(c => c.routines.map((r, j) => ({ c, j, up: ROUTINES[r]?.upgradesTo }))).find(x => x.up) : undefined;
+        // Wide Sweep also fires against one foe, where it deals less damage than Strike.
+        const upgrade = editing && health() > .75 ? crew.flatMap(c => c.routines.map((r, j) => ({ c, j, up: ROUTINES[r]?.upgradesTo }))).find(x => x.up && x.up !== 'sweep+') : undefined;
         if (upgrade) upgrade.c.routines[upgrade.j] = upgrade.up!;
         else crew.forEach(c => { c.hp = Math.min(c.max, c.hp + Math.round(c.max * .3)); });
       }

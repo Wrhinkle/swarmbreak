@@ -36,3 +36,19 @@ describe('simulation reserves', () => {
     expect(fights[1][0].map(member => member.creature.id)).toEqual(['starter-1', 'starter-2', 'starter-3', 'recruit']);
   });
 });
+
+describe('simulation upgrades', () => {
+  it('keeps Sweep conditional instead of upgrading it to a weaker single-target attack', () => {
+    const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
+    run.acts = [run.acts[0]];
+    run.crew = [{ ...run.crew[0], id: 'sweeper', routines: ['sweep', 'strike'] }];
+    const act = run.acts[0];
+    const fight = { ...act.nodes.find(n => n.encounter?.length)!, id: 'fight', floor: 1, next: [] };
+    const rest = { ...fight, id: 'rest', floor: 0, kind: 'rest' as const, encounter: undefined, next: ['fight'] };
+    act.nodes = [rest, fight];
+    vi.mocked(createCombat).mockClear();
+    play(run, () => 0, { ...NO_BUILD, build: 'heuristic' });
+    const loadout = vi.mocked(createCombat).mock.calls[0][0][0].creature.routines;
+    expect(loadout).toEqual(['sweep', 'strike+']);
+  });
+});
