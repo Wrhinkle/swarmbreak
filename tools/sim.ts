@@ -54,9 +54,9 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
       else if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
       else {
         const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
-        // Heavy and Breach deal more than Strike to the same target, regardless of Auto conditions.
-        let attack = ROUTINES[attacks[0]]?.action === 'strike'
-          ? attacks.find(id => ROUTINES[id]?.action === 'heavy') ?? attacks.find(id => ROUTINES[id]?.action === 'overflow') ?? attacks[0] : attacks[0];
+        // Start with the strongest unshielded hit; consider Breach against shields below.
+        let attack = attacks.find(id => ROUTINES[id]?.action === 'heavy')
+          ?? attacks.find(id => ROUTINES[id]?.action === 'overflow') ?? attacks[0];
         if (attack) {
           const targets = rankAttackTargets(atbTargets(state, actorId, attack), attack);
           if (targets.length) {

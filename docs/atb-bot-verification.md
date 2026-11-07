@@ -75,3 +75,5 @@ On November 7, seeds 31–40, the typical bot won 3/10 manually and 5/10 on Auto
 After correcting target ranking when switching from heavy to Breach, the same seeds again produced 3/10 manual and 5/10 Auto wins. The preceding baseline predates other Breach policy improvements, so this does not isolate the target-ranking change. The sample is too small to establish its effect on strength.
 
 After choosing a lethal equipped attack over healing when only one enemy remains, seeds 31–40 produced 4/10 manual and 5/10 Auto wins. Before that change, the same sample produced 3/10 manual and 5/10 Auto wins. This small consecutive-seed sample does not establish the change's effect on bot strength or balance.
+
+After choosing a heavy attack ahead of an earlier Breach against unshielded targets, November 7 typical seeds 31–40 again produced 4/10 manual and 5/10 Auto wins. This matches the preceding small sample, but does not establish the policy's effect on strength or balance. The change uses equipped routines and visible shields; it does not change the balance gates.

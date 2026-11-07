@@ -29,6 +29,13 @@ describe('ATB bot decisions', () => {
     const end = playCombat(state, EXPERT);
     expect(end.atb!.choices[0].routineId).toBe('finish');
   });
+  it('uses a heavy attack over an earlier Breach against an unshielded enemy', () => {
+    const ally = { ...run.crew[0], routines: ['breach', 'finish'] };
+    const state = createCombat([{ creature: ally }], [enemy], run.seed);
+    state.fighters[0].nextAction = 1;
+    state.fighters[1].nextAction = 100;
+    expect(playCombat(state, EXPERT).atb!.choices[0].routineId).toBe('finish');
+  });
   it('uses Breach over Strike when both are equipped', () => {
     const ally = { ...run.crew[0], routines: ['strike', 'breach'] };
     const state = createCombat([{ creature: ally }], [enemy], run.seed);
