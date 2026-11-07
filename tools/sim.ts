@@ -92,7 +92,11 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
               attack = breach;
               rankAttackTargets(targets, attack);
             }
-            routineId = attack; targetId = targets[0].id;
+            // Against several foes, spread damage with Sweep after the kill
+            // and healing priorities above have been considered.
+            const sweep = actor.routines.find(id => ROUTINES[id]?.action === 'sweep');
+            if (sweep && foes.length >= 3 && ROUTINES[attack].action === 'strike') routineId = sweep;
+            else { routineId = attack; targetId = targets[0].id; }
           }
         }
       }
