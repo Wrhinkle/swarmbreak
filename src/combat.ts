@@ -107,7 +107,9 @@ export function atbTargets(state: CombatState, actorId: string, routineId: strin
 }
 export function chooseAtb(state: CombatState, actorId: string, routineId: string, targetId?: string): CombatState {
   const s = structuredClone(state), atb = s.atb, f = s.fighters.find(f => f.id === actorId);
-  if (atb && atb.pending === actorId && f && (routineId === 'auto' || (f.routines.includes(routineId) && ROUTINES[routineId])) && (targetId === undefined || (routineId !== 'auto' && atbTargets(s, actorId, routineId).some(t => t.id === targetId)))) {
+  const targets = routineId === 'auto' ? [] : atbTargets(s, actorId, routineId);
+  const validTarget = targetId === undefined ? targets.length === 0 : targets.some(t => t.id === targetId);
+  if (atb && atb.pending === actorId && f && (routineId === 'auto' || (f.routines.includes(routineId) && ROUTINES[routineId])) && validTarget) {
     atb.choice = routineId; atb.targetId = targetId; atb.pending = null; atb.choices.push(targetId === undefined ? { actorId, routineId } : { actorId, routineId, targetId });
   }
   return s;

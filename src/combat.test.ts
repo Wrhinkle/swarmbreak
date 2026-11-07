@@ -45,6 +45,8 @@ describe('combat',()=>{
   const paused=step(enableAtb(initial));
   expect(atbTargets(paused,'c0','strike').map(f=>f.id)).toEqual(['e0','e1']);
   expect(atbTargets(paused,'c0','patch').map(f=>f.id)).toEqual(['c0','c1']);
+  expect(chooseAtb(paused,'c0','strike')).toEqual(paused);
+  expect(chooseAtb(paused,'c0','patch')).toEqual(paused);
   expect(chooseAtb(paused,'c0','strike','c1')).toEqual(paused);
   const chosen=chooseAtb(paused,'c0','strike','e1');
   expect(chosen.atb?.choices).toEqual([{actorId:'c0',routineId:'strike',targetId:'e1'}]);
