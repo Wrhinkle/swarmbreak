@@ -60,7 +60,7 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     expect(panel.children[0].textContent).toBe('Ally is ready');
     panel.children[3].click?.();
     expect(atbTargets(combat, 'c0', 'strike').map(f => f.creature.name)).toEqual(['First', 'Second']);
-    expect(panel.children[4].textContent).toBe('Choose a target');
+    expect(panel.children[4].textContent).toBe('Choose a target for Strike');
     expect(panel.children[5].focused).toBe(true);
     // Copies of the same creature can have identical health, but still need distinct targets.
     combat.fighters[2].creature.name = 'First';

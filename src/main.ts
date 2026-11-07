@@ -49,7 +49,7 @@ export function renderCombatDecision(decisions: HTMLElement, combat: CombatState
  decisions.replaceChildren(); const f=combat.fighters.find(x=>x.id===combat.atb?.pending); if(!f)return;
  decisions.append(stageLabel(`${fighterName(f,combat.fighters)} is ready`),el('p','Choose an action to use now, or Auto to follow routines.'));
  decisions.append(btn('Auto',()=>choose('auto'))); for(const id of f.routines) decisions.append(btn(manualActionText(ROUTINES[id]),()=>{const targets=atbTargets(combat,f.id,id); if(targets.length)select(id); else choose(id);}));
- if(selected){const targets=atbTargets(combat,f.id,selected); decisions.append(stageLabel('Choose a target')); const buttons=targets.map(target=>btn(fighterHealth(fighterName(target,combat.fighters),target.hp,target.maxHp,target.shield),()=>choose(selected,target.id))); decisions.append(...buttons); buttons[0]?.focus();}
+ if(selected){const targets=atbTargets(combat,f.id,selected); decisions.append(stageLabel(`Choose a target for ${ROUTINES[selected].name}`)); const buttons=targets.map(target=>btn(fighterHealth(fighterName(target,combat.fighters),target.hp,target.maxHp,target.shield),()=>choose(selected,target.id))); decisions.append(...buttons); buttons[0]?.focus();}
 }
 // Keep the current controls (and keyboard focus) when a paused fight is redrawn.
 export function createCombatDecisionRenderer(decisions: HTMLElement) {
