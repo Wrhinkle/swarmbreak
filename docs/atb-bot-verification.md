@@ -85,3 +85,13 @@ After adding the choice to finish all remaining enemies with Sweep when their vi
 After allowing the manual bot to use Sweep to remove a vulnerable enemy before healing, November 7 typical seeds 31–40 produced 3/10 manual and 5/10 Auto wins. Earlier checkpoints reported 4/10 and 5/10, but predate another lethal-attack policy change, so this does not isolate the Sweep change. This small sample does not establish bot strength or balance; the choice uses visible health and shields.
 
 With the same policy, November 7 typical seeds 41–50 produced 4/10 wins for both Auto and manual, with three wins unique to each policy. Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 10 41 typical`. This adds a paired sample for the current policy, but is too small to establish strength or balance and does not compare the historical equipment search.
+
+Additional paired samples on November 7 with the current policy:
+
+| Policy | Seeds | Auto wins | Manual wins | Manual-only | Auto-only |
+| --- | --- | ---: | ---: | ---: | ---: |
+| typical | 51–70 | 10/20 | 9/20 | 7 | 8 |
+| expert | 31–50 | 3/20 | 8/20 | 7 | 2 |
+| no-build | 11–30 | 0/20 | 4/20 | 4 | 0 |
+
+Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 20 <first-seed> <policy>`. These consecutive-seed samples compare current Auto and manual decisions with the same current equipment heuristic, not the historical equipment search. They do not establish bot strength or balance.
