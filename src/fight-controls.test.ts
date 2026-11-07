@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest';
 import { atbTargets, chooseAtb, createCombat, enableAtb, setAutoBattle, step } from './combat';
 import type { Creature } from './types';
+import { loadSave, newSave, parseSave, writeSave } from './save';
 
 it('renders a ready fighter, records a selected target, and offers Auto after reload', async () => {
   class Element {
@@ -12,6 +13,9 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     addEventListener(_name: string, handler: () => void) { this.click = handler; }
   }
   const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  const oldStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+  let stored = '';
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: { getItem: () => stored, setItem: (_key: string, value: string) => { stored = value; } } });
   globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
   globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
   try {
@@ -20,6 +24,11 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     let combat = enableAtb(createCombat([{ creature: creature('Ally') }], [creature('First'), creature('Second')], 42));
     combat.fighters[0].nextAction = 1; combat.fighters.slice(1).forEach(f => f.nextAction = 100);
     combat = step(combat);
+    const save = newSave();
+    save.today = { runId: 'test', node: null, cleared: [], crew: [{ creature: creature('Ally'), hp: 40, routines: ['strike'], slots: 3, recruited: false, active: true }], deck: ['strike'], gold: 0, seed: 42, result: null, combat };
+    writeSave(save);
+    expect(parseSave(stored).today!.combat).toEqual(combat);
+    combat = loadSave().today!.combat!;
     const panel = new Element(); let selected = '';
     const render = () => renderCombatDecision(panel as unknown as HTMLElement, combat, selected, id => { selected = id; render(); }, (id, target) => { combat = chooseAtb(combat, combat.atb!.pending!, id, target); selected = ''; render(); });
     render();
@@ -30,7 +39,9 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     panel.children[6].click?.();
     expect(combat.atb!.choices).toEqual([{ actorId: 'c0', routineId: 'strike', targetId: 'e1' }]);
     expect(panel.children).toHaveLength(0);
-    const reloaded = JSON.parse(JSON.stringify(combat));
+    save.today!.combat = combat; writeSave(save);
+    expect(parseSave(stored).today!.combat).toEqual(combat);
+    const reloaded = loadSave().today!.combat!;
     expect(step(reloaded)).toEqual(step(combat));
     combat = step(combat);
     while (!combat.result && !combat.atb!.pending) combat = step(combat);
@@ -38,5 +49,5 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     render(); panel.children[2].click?.();
     expect(combat.atb!.choices.at(-1)?.routineId).toBe('auto');
     expect(setAutoBattle(combat, true).atb!.autoBattle).toBe(true);
-  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; if (oldStorage) Object.defineProperty(globalThis, 'localStorage', oldStorage); else Reflect.deleteProperty(globalThis, 'localStorage'); }
 });
