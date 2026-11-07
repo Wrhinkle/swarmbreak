@@ -55,8 +55,11 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
       });
       const sweepFinisher = foes.length > 1 && actor.routines.find(id =>
         ROUTINES[id]?.action === 'sweep' && foes.every(foe => foe.hp + foe.shield <= Math.round(actor.power * .6)));
+      const sweepKill = actor.routines.find(id =>
+        ROUTINES[id]?.action === 'sweep' && foes.some(foe => foe.hp + foe.shield <= Math.round(actor.power * .6)));
       if (sweepFinisher) { routineId = sweepFinisher; }
       else if (finishers.length) { routineId = finishers[0].id; targetId = finishers[0].foe.id; }
+      else if (sweepKill) { routineId = sweepKill; }
       else if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
       else {
         const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
