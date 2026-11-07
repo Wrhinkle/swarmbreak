@@ -1,11 +1,25 @@
 import { describe, it, expect } from 'vitest';
-import { condition, createCombat, fighter, order, simulate, step } from './combat';
+import { chooseAtb, condition, createCombat, enableAtb, fighter, order, simulate, step } from './combat';
 import { ROUTINES } from './library';
 import type { ActionId, ConditionId, Routine } from './library';
 import type { Creature } from './types';
 const c = (id:string, routines=['strike']):Creature => ({id,name:id,blurb:'',sprite:'',bodyPlan:'construct',role:'bruiser',tier:'ally',routines,source:'/'});
 const routine = (condition:ConditionId, action:ActionId='strike', arg?:number):Routine => ({id:'test',name:'test',condition,action,price:0,arg});
 describe('combat',()=>{
+ it('pauses at each ready crew decision and resumes a serialized tick deterministically',()=>{
+  const initial=createCombat([{creature:c('a')},{creature:c('b')}],[c('e')],42); initial.fighters.forEach(f=>f.nextAction=1);
+  const paused=step(enableAtb(initial)); expect(paused.atb?.pending).toBe('c0'); expect(paused.events).toHaveLength(0);
+  expect(step(paused)).toEqual(paused);
+  const resolve=(s:typeof paused)=>{ while(s.atb?.pending) s=step(chooseAtb(s,s.atb.pending,'auto')); return s; };
+  const resumed=resolve(JSON.parse(JSON.stringify(paused))); const repeat=resolve(paused);
+  expect(resumed).toEqual(repeat); expect(resumed.atb?.choices.map(x=>x.actorId)).toEqual(['c0','c1']);
+  const {atb: _atb,...actual}=resumed; expect(actual).toEqual(step(initial));
+ });
+ it('auto battle follows the existing fight without pausing',()=>{
+  const initial=createCombat([{creature:c('a',['sweep','strike'])}],[c('e'),c('f')],3);
+  const auto=simulate(enableAtb(initial,true),3000); const {atb,...actual}=auto;
+  expect(atb?.pending).toBeNull(); expect(actual).toEqual(simulate(initial,3000));
+ });
  it('repeats the same event log for the same seed',()=>{const make=()=>simulate(createCombat([{creature:c('a',['sweep','strike'])}],[c('b'),c('c')],123),3000);expect(make()).toEqual(make());});
  it('evaluates all conditions',()=>{const s=createCombat([{creature:c('a')},{creature:c('b')}],[c('e'),c('f')],1),[a,b,e]=s.fighters;a.hp=5;a.shield=0;a.corrupted=4;b.hp=0;e.shield=1;e.hp=4;const yes: [ConditionId,number?][]=[['always'],['self_hp_below',.5],['ally_hp_below',.5],['ally_down'],['self_unshielded'],['foe_shielded'],['foe_hp_below',.5],['foes_at_least',2],['self_corrupted']];for(const [id,arg] of yes)expect(condition(s,a,routine(id,'strike',arg)),id).toBe(true);expect(condition(s,a,routine('foes_at_least','strike',3))).toBe(false);});
  it('runs each action and every library routine',()=>{const actions:ActionId[]=['strike','heavy','sweep','overflow','patch','mend_all','guard_self','guard_ally','corrupt','purge','stun','summon','split','steal','mirror','charge'];for(const action of actions){const id=`test_${action}`;ROUTINES[id]=routine('always',action);ROUTINES[id].id=id;const s=createCombat([{creature:c('a',[id])}],[c('e')],1);s.fighters[0].hp=10;s.fighters[0].corrupted=8;s.fighters[0].lastAction='heavy';expect(()=>simulate(s,30),action).not.toThrow();delete ROUTINES[id];} for(const id of Object.keys(ROUTINES))expect(()=>simulate(createCombat([{creature:c('a',[id])}],[c('e')],2),60),id).not.toThrow();});

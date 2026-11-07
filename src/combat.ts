@@ -8,7 +8,7 @@ export interface Fighter {
   lastAction?: ActionId; charging: boolean; summonedBy?: string;
 }
 export interface CombatEvent { t: number; kind: string; actor: string; target: string; amount: number; routine: string }
-export interface CombatState { t: number; seed: number; fighters: Fighter[]; events: CombatEvent[]; result: 'win' | 'loss' | null; goldStolen: number; cooldown: number; queued: { actorId: string; routineId: string } | null; serial: number }
+export interface CombatState { t: number; seed: number; fighters: Fighter[]; events: CombatEvent[]; result: 'win' | 'loss' | null; goldStolen: number; cooldown: number; queued: { actorId: string; routineId: string } | null; serial: number; atb?: { autoBattle: boolean; cursor: number; limit: number; pending: string | null; choice: string | null; choices: { actorId: string; routineId: string }[] } }
 
 export function fighter(creature: Creature, side: Fighter['side'], id: string, hp?: number): Fighter {
   const base = ROLE_STATS[creature.role], scale = TIER_SCALE[creature.tier];
@@ -83,6 +83,20 @@ export function order(state: CombatState, actorId: string, routineId: string): C
   if (!s.result && s.cooldown <= 0 && !s.queued && f && f.routines.includes(routineId) && ROUTINES[routineId]) s.queued = { actorId, routineId };
   return s;
 }
+// Opt in at a tick boundary. The cursor makes a pause in the middle of a tick
+// serializable, including when several fighters become ready together.
+export function enableAtb(state: CombatState, autoBattle = false): CombatState {
+  const s = structuredClone(state);
+  if (!s.atb) s.atb = { autoBattle, cursor: 0, limit: 0, pending: null, choice: null, choices: [] };
+  return s;
+}
+export function chooseAtb(state: CombatState, actorId: string, routineId: string): CombatState {
+  const s = structuredClone(state), atb = s.atb, f = s.fighters.find(f => f.id === actorId);
+  if (atb && atb.pending === actorId && f && (routineId === 'auto' || (f.routines.includes(routineId) && ROUTINES[routineId]))) {
+    atb.choice = routineId; atb.pending = null; atb.choices.push({ actorId, routineId });
+  }
+  return s;
+}
 // The generator belongs to the fight state; no browser entropy or clock enters a simulation.
 function nextRandom(s: CombatState): number {
   s.seed = (s.seed + 0x6D2B79F5) >>> 0;
@@ -93,21 +107,29 @@ function nextRandom(s: CombatState): number {
 }
 export function step(state: CombatState): CombatState { return advance(structuredClone(state)); }
 function advance(s: CombatState): CombatState {
-  if (s.result) return s; s.t++; nextRandom(s); s.cooldown = Math.max(0, s.cooldown - 1);
+  if (s.result || s.atb?.pending) return s;
+  const atb = s.atb;
+  if (!atb || atb.limit === 0) { s.t++; nextRandom(s); s.cooldown = Math.max(0, s.cooldown - 1); if (atb) { atb.cursor = 0; atb.limit = s.fighters.length; } }
   if (s.queued && !s.fighters.some(f => f.id === s.queued!.actorId && f.hp > 0)) s.queued = null;
-  for (const f of [...s.fighters]) {
+  const fighters = atb ? s.fighters.slice(0, atb.limit) : [...s.fighters];
+  for (let i = atb?.cursor ?? 0; i < fighters.length; i++) {
+    const f = fighters[i], resuming = !!atb?.choice;
     if (f.hp <= 0) continue;
-    if (f.corrupted > 0) { if (f.corrupted % 4 === 0) { f.hp = Math.max(0, f.hp - CORRUPT_DAMAGE); emit(s, 'damage', f, f, CORRUPT_DAMAGE, 'corrupt'); if (!f.hp) emit(s, 'death', f, f, 0, 'corrupt'); } f.corrupted--; if (f.hp <= 0) continue; }
-    if (s.t < f.nextAction) continue; f.nextAction = s.t + f.speed;
+    if (!resuming && f.corrupted > 0) { if (f.corrupted % 4 === 0) { f.hp = Math.max(0, f.hp - CORRUPT_DAMAGE); emit(s, 'damage', f, f, CORRUPT_DAMAGE, 'corrupt'); if (!f.hp) emit(s, 'death', f, f, 0, 'corrupt'); } f.corrupted--; if (f.hp <= 0) continue; }
+    if (s.t < f.nextAction) continue;
+    if (atb && !atb.autoBattle && f.side === 'crew' && !f.stunned && !resuming) { atb.cursor = i; atb.pending = f.id; return s; }
+    f.nextAction = s.t + f.speed;
     if (f.stunned) { f.stunned = false; f.charging = false; emit(s, 'stunned', f, f, 0, ''); continue; }
     let r: Routine | undefined;
+    if (atb?.choice) { if (atb.choice !== 'auto') r = ROUTINES[atb.choice]; atb.choice = null; }
     if (s.queued?.actorId === f.id) { r = ROUTINES[s.queued.routineId]; s.queued = null; s.cooldown = OVERRIDE_COOLDOWN_TICKS; }
     if (f.charging) r = ROUTINES.charge;
     r ??= f.routines.map(id => ROUTINES[id]).find(routine => routine && condition(s, f, routine)) ?? ROUTINES.strike;
     f.acted = (f.acted ?? 0) + 1;
     act(s, f, r);
   }
+  if (atb) { atb.cursor = 0; atb.limit = 0; }
   if (!living(s, 'crew').length) s.result = 'loss'; else if (!living(s, 'enemy').length) s.result = 'win'; else if (s.t >= 3000) s.result = 'loss';
   return s;
 }
-export function simulate(state: CombatState, ticks: number): CombatState { const s = structuredClone(state); for (let i = 0; i < ticks && !s.result; i++) advance(s); return s; }
+export function simulate(state: CombatState, ticks: number): CombatState { const s = structuredClone(state); for (let i = 0; i < ticks && !s.result && !s.atb?.pending; i++) advance(s); return s; }
