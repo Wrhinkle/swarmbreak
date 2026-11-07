@@ -16,7 +16,7 @@ vi.mock('../src/combat', async importOriginal => {
 });
 
 import { createCombat } from '../src/combat';
-import { NO_BUILD, play } from './sim';
+import { EXPERT, NO_BUILD, play } from './sim';
 
 describe('simulation reserves', () => {
   it('brings a healthy recruit into the next fight without routine edits', () => {
@@ -35,4 +35,15 @@ describe('simulation reserves', () => {
     expect(fights).toHaveLength(2);
     expect(fights[1][0].map(member => member.creature.id)).toEqual(['starter-1', 'starter-2', 'starter-3', 'recruit']);
   });
+});
+
+it('plays each encounter once instead of testing loadouts against its outcome', () => {
+  const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
+  run.acts = [run.acts[0]];
+  const act = run.acts[0];
+  const encounter = act.nodes.find(n => n.encounter?.length)!;
+  act.nodes = [{ ...encounter, id: 'only', floor: 0, next: [] }];
+  vi.mocked(createCombat).mockClear();
+  expect(play(run, () => 0, EXPERT).won).toBe(true);
+  expect(vi.mocked(createCombat)).toHaveBeenCalledTimes(1);
 });

@@ -7,14 +7,13 @@ import type { Creature, GameEvent, MapNode, Run } from '../src/types';
 export interface Policy {
   name: string;
   route: 'smart' | 'random'; // how it picks rooms and event options
-  build: 'search' | 'heuristic' | 'none'; // search tries loadouts against the coming fight; none never edits routines
-  care?: number; // chance a searching player bothers to set up for a given fight, default 1
+  build: 'heuristic' | 'none'; // none never edits routines
   noise: number; // chance any one decision is made at random
   start?: number; // force this column on the first floor
 }
 export const NOVICE: Policy = { name: 'novice', route: 'random', build: 'none', noise: 0 };
-export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'search', care: 0.5, noise: 0.2 }; // reads the enemy and sets up for about half the fights
-export const EXPERT: Policy = { name: 'expert', route: 'smart', build: 'search', noise: 0 };
+export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'heuristic', noise: 0.2 };
+export const EXPERT: Policy = { name: 'expert', route: 'smart', build: 'heuristic', noise: 0 };
 export const NO_ROUTE: Policy = { ...TYPICAL, name: 'typical, random route', route: 'random' };
 export const NO_BUILD: Policy = { ...TYPICAL, name: 'typical, no routine edits', build: 'none' };
 
@@ -34,7 +33,6 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
   const active = () => crew.filter(c => c.active);
   const health = () => { const up = active(); return up.reduce((n, c) => n + c.hp / c.max, 0) / up.length; };
   const fightWith = (n: MapNode, creature: (id: string) => Creature) => simulate(createCombat(active().map(c => ({ creature: { ...c.creature, routines: [...c.routines] }, hp: c.hp })), n.encounter!.map(creature), run.seed), 3000);
-  const value = (f: ReturnType<typeof simulate>) => (f.result === 'win' ? 10 : 0) + f.fighters.filter(x => x.side === 'crew' && !x.summonedBy).reduce((t, x) => t + x.hp / x.maxHp, 0);
   // Bring reserves in for the fallen, the same as the crew screen allows.
   const swapReserves = () => { for (const dead of active().filter(c => c.hp <= 0)) { const sub = crew.find(c => !c.active && c.hp > 0); if (sub) { dead.active = false; sub.active = true; } } };
   // Equip what's in the pool with no knowledge of the coming fight.
@@ -50,22 +48,6 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
     }
     for (const c of active()) c.routines.sort((a, b) => Number(conditional(b)) - Number(conditional(a)));
   };
-  // Enemy routines are public, so a careful player sets up for the fight: try each option, keep what helps.
-  const search = (n: MapNode, creature: (id: string) => Creature) => {
-    for (const c of active()) {
-      for (const id of [...c.routines]) {
-        const before = c.routines, best = value(fightWith(n, creature));
-        c.routines = [id, ...before.filter(x => x !== id)];
-        if (value(fightWith(n, creature)) <= best) c.routines = before;
-      }
-      for (const id of [...new Set(pool)]) {
-        const before = c.routines, best = value(fightWith(n, creature));
-        c.routines = c.routines.length < c.slots ? [id, ...before] : [id, ...before.slice(0, -1)];
-        if (value(fightWith(n, creature)) > best) { pool.splice(pool.indexOf(id), 1); if (before.length >= c.slots) pool.push(before[before.length - 1]); }
-        else c.routines = before;
-      }
-    }
-  };
   for (const [actIndex, act] of run.acts.entries()) {
     const creature = (id: string) => act.creatures.find(c => c.id === id)!;
     let legal = act.nodes.filter(n => n.floor === 0);
@@ -79,7 +61,7 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
         swapReserves();
-        if (editing) { equip(); if (policy.build === 'search' && random() < (policy.care ?? 1)) search(n, creature); }
+        if (editing) equip();
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };
