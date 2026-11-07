@@ -268,13 +268,16 @@ with patch('pr_team.sandbox_works'), patch('pr_team.sandboxed', return_value=Sim
     assert pr_team.verified('.') == 'npm run build failed with exit 71 (no output)'
 # A sandbox that lets everything through stops verification before any check runs.
 with patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')):
-    try:
-        pr_team.verified('.')
-    except AssertionError:
-        pass
-    else:
-        raise AssertionError('verified() ran with a broken sandbox')
+    assert 'sandbox isolation failed' in pr_team.verified('.')
 print('ok broken sandbox refused')
+# A failed real isolation probe is recorded and prevents all subsequent checks.
+with patch('pr_team.sandbox_works', side_effect=PermissionError('fixture denied')), \
+     patch('pr_team.sandboxed') as checks_after_failed_probe, redirect_stdout(host_log := StringIO()):
+    failure = pr_team.verified(Path('.'))
+assert 'sandbox isolation failed (PermissionError: fixture denied)' in failure
+assert failure in host_log.getvalue()
+checks_after_failed_probe.assert_not_called()
+print('ok isolation probe failure recorded')
 
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
 with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:

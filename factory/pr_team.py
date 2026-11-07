@@ -137,7 +137,12 @@ def sandbox_works():
 
 def verified(tree):
     print('Host verification: checking sandbox isolation', flush=True)
-    sandbox_works()
+    try:
+        sandbox_works()
+    except (AssertionError, OSError, subprocess.SubprocessError) as exc:
+        failure = f'Host verification: sandbox isolation failed ({type(exc).__name__}: {exc})'
+        print(failure, flush=True)
+        return failure
     print('Host verification: sandbox isolation passed', flush=True)
     for cmd in (['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']):
         r = sandboxed(cmd, tree)
