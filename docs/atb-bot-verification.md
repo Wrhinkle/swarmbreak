@@ -12,6 +12,7 @@ These paired samples compare the current manual ATB policy with the current Auto
 | 2026-11-05 | expert | 11–20 | 3/10 | 10/10 | 7 | 0 |
 | 2026-11-04 | typical | 1–10 | 0/10 | 2/10 | 2 | 0 |
 | 2026-11-04 | typical | 11–30 | 2/20 | 8/20 | 8 | 2 |
+| 2026-11-04 | typical | 31–50 | 6/20 | 8/20 | 7 | 5 |
 | 2026-11-04 | no-build | 1–10 | 2/10 | 8/10 | 6 | 0 |
 | 2026-11-04 | no-build | 11–30 | 2/20 | 14/20 | 12 | 0 |
 | 2026-11-04 | expert | 11–30 | 3/20 | 8/20 | 7 | 2 |
