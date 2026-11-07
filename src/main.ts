@@ -60,6 +60,13 @@ export function createCombatDecisionRenderer(decisions: HTMLElement) {
   renderCombatDecision(decisions, combat, selected, select, choose);
  };
 }
+// A pause can be followed by resume before the pending frame has run.
+export function toggleFightPause(paused: boolean, animation: number, frame: FrameRequestCallback): { paused: boolean; animation: number } {
+ paused = !paused;
+ if (paused) cancelAnimationFrame(animation);
+ else animation = requestAnimationFrame(frame);
+ return { paused, animation };
+}
 const clear = () => { root.replaceChildren(); root.className = `stage screen-${screen}`; if (['map','crew','room','fight','fight-result','choice'].includes(screen)) renderHud(); };
 const announce = (s: string) => { live.textContent = s; };
 const persist = () => writeSave(save);
@@ -130,7 +137,7 @@ function enterRoom(n:MapNode, resumed=false) { room=n; if(['fight','elite','boss
 function applyEffect(e:EventEffect){ const t=today(); switch(e.type){case 'gold':t.gold=Math.max(0,t.gold+e.amount);break;case 'routine':t.deck.push(e.id);break;case 'heal':case 'damage':for(const c of t.crew)c.hp=Math.max(0,Math.min(maxHp(c.creature),c.hp+Math.round(maxHp(c.creature)*e.amount*(e.type==='heal'?1:-1))));break;} }
 function completeRoom(){ if(!room)return; const n=room,t=today(); if(n.reward){const c=creature(act(),n.reward); if(c){t.crew.push(member(c,true,t.crew.filter(x=>x.active).length<CREW_MAX)); t.deck.push(...c.routines); notice=`${c.name} joined the crew. ${notice}`;}} t.cleared.push(n.id);t.node=n.id;t.pending=null; if(n.kind==='boss'){ if((t.act??0)<run.acts.length-1){t.act=(t.act??0)+1;t.node=null;loadArt(act());notice=`${act().story?run.acts[(t.act??1)-1].story?.outro??'':'The act is clear. A new site awaits.'}`;}else{t.pending='win';persist();showEndChoice();return;} } persist();showMap(); }
 function startFight(n:MapNode){ screen='fight'; clear(); stageHeading(`${n.kind} · Floor ${n.floor+1}`,n.label,n.kind==='boss'&&act().story?act().story!.bossIntro:'Tap an enemy to inspect it.'); const t=today(); combat=enableAtb(t.combat ?? createCombat(t.crew.filter(c=>c.active).map(c=>({creature:{...c.creature,routines:[...c.routines]},hp:c.hp})),(n.encounter??[]).map(id=>creature(act(),id)),t.seed)); if(combat.queued) combat.queued=null; t.combat=combat; persist(); root.querySelector('.hud')?.remove(); renderHud(); root.prepend(root.lastElementChild!); paused=false; speed=1; inspected=''; flashes=[];
- const canvas=el('canvas'); canvas.width=900;canvas.height=420;canvas.setAttribute('aria-label','Fight: crew on the left, enemies on the right. Tap an enemy for details.');canvas.tabIndex=0; root.append(canvas); const fightRoster=el('section',undefined,'paper fight-roster'); fightRoster.setAttribute('aria-label','Fighter health'); root.append(fightRoster); const controls=el('div',undefined,'bar'); const pause=btn('Pause',()=>{paused=!paused;pause.textContent=paused?'Resume':'Pause';if(!paused){lastTime=0;animation=requestAnimationFrame(frame);}}); pause.dataset.fightPause=''; controls.append(pause); for(const x of [1,2,4])controls.append(btn(`${x}×`,()=>{speed=x;})); const decisions=el('section',undefined,'order-controls'); decisions.setAttribute('aria-label','Combat action'); let selected=''; const renderDecision=createCombatDecisionRenderer(decisions);
+ const canvas=el('canvas'); canvas.width=900;canvas.height=420;canvas.setAttribute('aria-label','Fight: crew on the left, enemies on the right. Tap an enemy for details.');canvas.tabIndex=0; root.append(canvas); const fightRoster=el('section',undefined,'paper fight-roster'); fightRoster.setAttribute('aria-label','Fighter health'); root.append(fightRoster); const controls=el('div',undefined,'bar'); const pause=btn('Pause',()=>{({paused,animation}=toggleFightPause(paused,animation,frame));pause.textContent=paused?'Resume':'Pause';if(!paused)lastTime=0;}); pause.dataset.fightPause=''; controls.append(pause); for(const x of [1,2,4])controls.append(btn(`${x}×`,()=>{speed=x;})); const decisions=el('section',undefined,'order-controls'); decisions.setAttribute('aria-label','Combat action'); let selected=''; const renderDecision=createCombatDecisionRenderer(decisions);
  const saveCombat=()=>{ if(combat){today().combat=combat;persist();} };
  const resume=()=>{lastTime=0;accumulator=0;cancelAnimationFrame(animation);animation=requestAnimationFrame(frame);};
  const autoBattle=btn('',()=>{if(!combat?.atb)return; combat=setAutoBattle(combat,!combat.atb.autoBattle); saveCombat(); updateDecision(); if(!paused)resume();});

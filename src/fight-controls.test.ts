@@ -3,6 +3,29 @@ import { atbTargets, chooseAtb, createCombat, enableAtb, setAutoBattle, step } f
 import type { Creature } from './types';
 import { loadSave, newSave, parseSave, writeSave } from './save';
 
+it('keeps one animation loop when pause and resume happen before a frame', async () => {
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  const oldRequest = globalThis.requestAnimationFrame, oldCancel = globalThis.cancelAnimationFrame;
+  const scheduled = new Map<number, FrameRequestCallback>(); let next = 0;
+  globalThis.document = { querySelector: () => null } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  globalThis.requestAnimationFrame = callback => { scheduled.set(++next, callback); return next; };
+  globalThis.cancelAnimationFrame = id => { scheduled.delete(id); };
+  try {
+    const { toggleFightPause } = await import('./main');
+    const frame: FrameRequestCallback = () => {};
+    let state = { paused: false, animation: requestAnimationFrame(frame) };
+    state = toggleFightPause(state.paused, state.animation, frame);
+    expect(scheduled.size).toBe(0);
+    state = toggleFightPause(state.paused, state.animation, frame);
+    expect(state.paused).toBe(false);
+    expect([...scheduled.keys()]).toEqual([state.animation]);
+  } finally {
+    globalThis.document = oldDocument; globalThis.fetch = oldFetch;
+    globalThis.requestAnimationFrame = oldRequest; globalThis.cancelAnimationFrame = oldCancel;
+  }
+});
+
 it('distinguishes the action gauges of fighters with the same name', async () => {
   class Element {
     children: Element[] = []; attributes: Record<string, string> = {}; max = 0; value = 0;
