@@ -6,7 +6,8 @@ import { loadSave, newSave, parseSave, writeSave } from './save';
 it('renders a ready fighter, records a selected target, and offers Auto after reload', async () => {
   class Element {
     textContent = ''; className = ''; children: Element[] = []; type = ''; disabled = false;
-    click?: () => void;
+    click?: () => void; focused = false;
+    focus() { this.focused = true; }
     setAttribute() {}
     append(...children: Element[]) { this.children.push(...children); }
     replaceChildren(...children: Element[]) { this.children = children; }
@@ -36,6 +37,7 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     panel.children[3].click?.();
     expect(atbTargets(combat, 'c0', 'strike').map(f => f.creature.name)).toEqual(['First', 'Second']);
     expect(panel.children[4].textContent).toBe('Choose a target');
+    expect(panel.children[5].focused).toBe(true);
     panel.children[6].click?.();
     expect(combat.atb!.choices).toEqual([{ actorId: 'c0', routineId: 'strike', targetId: 'e1' }]);
     expect(panel.children).toHaveLength(0);
