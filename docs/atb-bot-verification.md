@@ -13,6 +13,9 @@ These paired samples compare the current manual ATB policy with the current Auto
 | 2026-11-05 | expert | 1–10 | 0/10 | 8/10 | 8 | 0 |
 | 2026-11-05 | expert | 11–20 | 3/10 | 10/10 | 7 | 0 |
 | 2026-11-05 | expert | 21–40 | 4/20 | 14/20 | 11 | 1 |
+| 2026-11-05 | typical | 41–50 | 2/10 | 5/10 | 5 | 2 |
+| 2026-11-05 | no-build | 41–50 | 2/10 | 5/10 | 5 | 2 |
+| 2026-11-05 | expert | 41–60 | 2/20 | 15/20 | 15 | 2 |
 | 2026-11-04 | typical | 1–10 | 0/10 | 2/10 | 2 | 0 |
 | 2026-11-04 | typical | 11–30 | 2/20 | 8/20 | 8 | 2 |
 | 2026-11-04 | typical | 31–50 | 6/20 | 8/20 | 7 | 5 |
@@ -37,3 +40,5 @@ On 2026-11-04, seeds 11–20, the pre-ATB simulator at commit `ad7ca5c` won 6/10
 To reproduce the baseline, extract `src` and `tools/sim.ts` from `ad7ca5c` into a temporary directory, provide the current `node_modules`, and run a `vite-node` script in that directory which loads the current `public/runs/2026-11-04/run.json` and calls `play(run, rng(seed), policy).won` for each seed 11 through 20, using `TYPICAL`, `EXPERT`, and `NO_BUILD` from the extracted simulator. This uses the historical combat engine and equipment search as well as the historical policies.
 
 For seeds 31–50 on the same run, the historical simulator won 16/20 typical, 19/20 expert, and 3/20 no-build. Current Auto/manual won 6/20 and 8/20 typical, 0/20 and 9/20 expert, and 3/20 and 10/20 no-build. The old typical and expert results include fight-result lookahead; these paired seeds do not isolate the effects of equipment, routing, and combat choices. They are still too few to establish balance.
+
+On 2026-11-05, seeds 41–50, the same historical simulator won 5/10 typical, 10/10 expert, and 2/10 no-build. Current Auto/manual won 2/10 and 5/10 typical, 0/10 and 9/10 expert, and 2/10 and 5/10 no-build. Reproduce the historical results using the extraction method above, substituting the November 5 run and seeds 41–50. This additional small sample is subject to the same policy and lookahead limitations and does not establish balance.
