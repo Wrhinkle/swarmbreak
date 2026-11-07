@@ -4,6 +4,7 @@ These paired samples compare the current manual ATB policy with the current Auto
 
 | Run | Policy | Seeds | Auto wins | Manual wins | Manual-only wins | Auto-only wins |
 | --- | --- | --- | ---: | ---: | ---: | ---: |
+| 2026-11-06 | typical | 1–10 | 2/10 | 4/10 | 2 | 0 |
 | 2026-11-05 | typical | 1–10 | 0/10 | 8/10 | 8 | 0 |
 | 2026-11-05 | typical | 11–20 | 2/10 | 9/10 | 7 | 0 |
 | 2026-11-05 | typical | 21–40 | 2/20 | 12/20 | 11 | 1 |
