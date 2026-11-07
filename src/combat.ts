@@ -136,7 +136,7 @@ function advance(s: CombatState): CombatState {
     if (f.stunned) { f.stunned = false; f.charging = false; emit(s, 'stunned', f, f, 0, ''); continue; }
     let r: Routine | undefined; const targetId = atb?.targetId; if (atb) delete atb.targetId;
     if (atb?.choice) { if (atb.choice !== 'auto') r = ROUTINES[atb.choice]; atb.choice = null; }
-    if (f.charging) { if (!r) r = ROUTINES.charge; else if (r.action !== 'charge') f.charging = false; }
+    if (f.charging) { if (!r) r = ROUTINES.charge; else if (r.action !== 'charge' && !(r.action === 'mirror' && f.lastAction === 'charge')) f.charging = false; }
     r ??= f.routines.map(id => ROUTINES[id]).find(routine => routine && condition(s, f, routine)) ?? ROUTINES.strike;
     f.acted = (f.acted ?? 0) + 1;
     act(s, f, r, r.action, targetId);
