@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { createCombat, simulate } from '../src/combat';
+import { chooseAtb, createCombat, enableAtb, simulate } from '../src/combat';
+import { newSave, parseSave } from '../src/save';
 import type { Run } from '../src/types';
 import { EXPERT, NOVICE, playCombat } from './sim';
 
@@ -19,5 +20,26 @@ describe('ATB bot decisions', () => {
     const end = playCombat(fight(), EXPERT);
     expect(end.atb!.choices.some(c => c.routineId !== 'auto')).toBe(true);
     expect(playCombat(fight(), EXPERT)).toEqual(end);
+  });
+  it('replays a full manual fight across saves at every decision', () => {
+    const expected = playCombat(fight(), EXPERT);
+    const choices = expected.atb!.choices;
+    expect(choices.filter(c => c.targetId).length).toBeGreaterThan(1);
+    const save = newSave();
+    save.today = { runId: run.id, node: null, cleared: [], crew: run.crew.map(creature => ({ creature, hp: 1, routines: creature.routines, slots: 3, recruited: false, active: true })), deck: run.crew.flatMap(c => c.routines), gold: 0, seed: run.seed, result: null };
+    let state = enableAtb(fight()), index = 0;
+    while (!state.result) {
+      state = simulate(state, 3000);
+      if (!state.atb!.pending) break;
+      save.today.combat = state;
+      state = parseSave(JSON.stringify(save)).today!.combat!;
+      const choice = choices[index++];
+      expect(state.atb!.pending).toBe(choice.actorId);
+      state = chooseAtb(state, choice.actorId, choice.routineId, choice.targetId);
+      save.today.combat = state;
+      state = parseSave(JSON.stringify(save)).today!.combat!;
+    }
+    expect(index).toBe(choices.length);
+    expect(state).toEqual(expected);
   });
 });
