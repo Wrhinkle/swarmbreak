@@ -90,6 +90,15 @@ export function enableAtb(state: CombatState, autoBattle = false): CombatState {
   if (!s.atb) s.atb = { autoBattle, cursor: 0, limit: 0, pending: null, choice: null, choices: [] };
   return s;
 }
+// Switching to automatic play resolves a waiting decision through the same
+// recorded Auto choice used by a player, so a saved fight resumes identically.
+export function setAutoBattle(state: CombatState, enabled: boolean): CombatState {
+  let s = structuredClone(state);
+  if (!s.atb) return s;
+  s.atb.autoBattle = enabled;
+  if (enabled && s.atb.pending) s = chooseAtb(s, s.atb.pending, 'auto');
+  return s;
+}
 // Return only targets a player may select for this action. Area and self actions
 // have no selectable target; mirror uses the action it would currently copy.
 export function atbTargets(state: CombatState, actorId: string, routineId: string): Fighter[] {

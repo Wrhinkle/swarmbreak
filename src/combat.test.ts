@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { atbTargets, chooseAtb, condition, createCombat, enableAtb, fighter, order, simulate, step } from './combat';
+import { atbTargets, chooseAtb, condition, createCombat, enableAtb, fighter, order, setAutoBattle, simulate, step } from './combat';
 import { ROUTINES } from './library';
 import type { ActionId, ConditionId, Routine } from './library';
 import type { Creature } from './types';
@@ -28,6 +28,14 @@ describe('combat',()=>{
   const resumed=resolve(JSON.parse(JSON.stringify(paused))); const repeat=resolve(paused);
   expect(resumed).toEqual(repeat); expect(resumed.atb?.choices.map(x=>x.actorId)).toEqual(['c0','c1']);
   const {atb: _atb,...actual}=resumed; expect(actual).toEqual(step(initial));
+ });
+ it('enabling auto battle resolves and records a waiting decision across reload',()=>{
+  const initial=createCombat([{creature:c('a')}],[c('e')],7); initial.fighters[0].nextAction=1;
+  const waiting=step(enableAtb(initial)); const automatic=setAutoBattle(waiting,true);
+  expect(waiting.atb?.pending).toBe('c0'); expect(automatic.atb?.pending).toBeNull();
+  expect(automatic.atb?.choices).toEqual([{actorId:'c0',routineId:'auto'}]);
+  expect(step(JSON.parse(JSON.stringify(automatic)))).toEqual(step(automatic));
+  expect(simulate(automatic,3000).atb?.pending).toBeNull();
  });
  it('auto battle follows the existing fight without pausing',()=>{
   const initial=createCombat([{creature:c('a',['sweep','strike'])}],[c('e'),c('f')],3);
