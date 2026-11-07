@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 import type { Run } from '../src/types';
 import { EXPERT, NO_BUILD, TYPICAL, play, rng } from './sim';
-import { comparisonCheckpoint, comparisonPolicies, comparisonRange } from './compare-atb-range';
+import { comparisonCheckpoint, comparisonPolicies, comparisonRange, pairedWinInterval } from './compare-atb-range';
 
 const [file, countArg, startArg, policyArg] = process.argv.slice(2);
 if (!file) throw new Error('Usage: compare-atb.ts <run.json> [positive game count] [starting seed]');
@@ -19,6 +19,9 @@ for (const [key, policy] of [['typical', TYPICAL], ['expert', EXPERT], ['no-buil
     automatic += Number(a); manual += Number(m);
     manualOnly += Number(m && !a); autoOnly += Number(a && !m);
     const completed = seed - start + 1;
-    if (comparisonCheckpoint(completed, count)) console.log(`${policy.name}: ${completed} paired seeds starting at ${start}; Auto ${automatic}/${completed}, manual ${manual}/${completed}; manual-only ${manualOnly}, Auto-only ${autoOnly}`);
+    if (comparisonCheckpoint(completed, count)) {
+      const [low, high] = pairedWinInterval(completed, manualOnly, autoOnly);
+      console.log(`${policy.name}: ${completed} paired seeds starting at ${start}; Auto ${automatic}/${completed}, manual ${manual}/${completed}; manual-only ${manualOnly}, Auto-only ${autoOnly}; paired difference bound [${(100 * low).toFixed(1)}%, ${(100 * high).toFixed(1)}%] (95% only for independent random seeds and a fixed sample)`);
+    }
   }
 }

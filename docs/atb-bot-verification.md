@@ -7,6 +7,7 @@ These paired samples compare the current manual ATB policy with the current Auto
 | 2026-11-06 | typical | 1–10 | 2/10 | 4/10 | 2 | 0 |
 | 2026-11-06 | typical | 11–30 | 4/20 | 7/20 | 6 | 3 |
 | 2026-11-06 | typical | 31–50 | 2/20 | 7/20 | 6 | 1 |
+| 2026-11-06 | typical | 51–100 | 7/50 | 22/50 | 18 | 3 |
 | 2026-11-06 | expert | 1–10 | 1/10 | 5/10 | 5 | 1 |
 | 2026-11-06 | expert | 11–30 | 3/20 | 12/20 | 11 | 2 |
 | 2026-11-06 | no-build | 1–10 | 0/10 | 3/10 | 3 | 0 |
@@ -42,6 +43,8 @@ These paired samples compare the current manual ATB policy with the current Auto
 | 2026-11-04 | expert | 51–70 | 2/20 | 8/20 | 6 | 0 |
 
 Reproduce each row with `npx vite-node tools/compare-atb.ts public/runs/<run>/run.json <count> <starting-seed> <policy>`. Manual choices have a large apparent advantage in these small samples; do not infer a reliable win rate from them. The outstanding work is to collect meaningful samples on representative runs, compare against pre-ATB bots including their former equipment search, and check the next run with the unchanged balance tool. These results do not establish that the run passes the balance gate.
+
+The comparison tool also prints a conservative Hoeffding bound on the paired win-rate difference. Its 95% coverage requires independent random seeds and a fixed sample size; the consecutive seeds and intermediate checkpoints here do not establish those assumptions and are not a confidence claim.
 
 ## Preliminary pre-ATB baseline
 
