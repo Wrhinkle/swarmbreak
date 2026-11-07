@@ -40,6 +40,7 @@ export function renderRoster(roster: HTMLElement, fighters: CombatState['fighter
 const append = (p: HTMLElement, ...children: (HTMLElement | string)[]) => { for (const c of children) p.append(c); };
 const btn = (label: string, action: () => void, disabled = false, cls = '') => { const b = el('button', label, cls); b.type = 'button'; b.disabled = disabled; b.addEventListener('click', action); return b; };
 export function renderCombatDecision(decisions: HTMLElement, combat: CombatState, selected: string, select: (id: string) => void, choose: (id: string, target?: string) => void) {
+ decisions.setAttribute('aria-live','polite');
  decisions.replaceChildren(); const f=combat.fighters.find(x=>x.id===combat.atb?.pending); if(!f)return;
  decisions.append(stageLabel(`${f.creature.name} is ready`),el('p','Choose an action to use now, or Auto to follow routines.'));
  decisions.append(btn('Auto',()=>choose('auto'))); for(const id of f.routines) decisions.append(btn(manualActionText(ROUTINES[id]),()=>{const targets=atbTargets(combat,f.id,id); if(targets.length)select(id); else choose(id);}));

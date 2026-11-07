@@ -8,7 +8,8 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     textContent = ''; className = ''; children: Element[] = []; type = ''; disabled = false;
     click?: () => void; focused = false;
     focus() { this.focused = true; }
-    setAttribute() {}
+    attributes: Record<string, string> = {};
+    setAttribute(name: string, value: string) { this.attributes[name] = value; }
     append(...children: Element[]) { this.children.push(...children); }
     replaceChildren(...children: Element[]) { this.children = children; }
     addEventListener(_name: string, handler: () => void) { this.click = handler; }
@@ -33,6 +34,7 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     const panel = new Element(); let selected = '';
     const render = () => renderCombatDecision(panel as unknown as HTMLElement, combat, selected, id => { selected = id; render(); }, (id, target) => { combat = chooseAtb(combat, combat.atb!.pending!, id, target); selected = ''; render(); });
     render();
+    expect(panel.attributes['aria-live']).toBe('polite');
     expect(panel.children[0].textContent).toBe('Ally is ready');
     panel.children[3].click?.();
     expect(atbTargets(combat, 'c0', 'strike').map(f => f.creature.name)).toEqual(['First', 'Second']);
