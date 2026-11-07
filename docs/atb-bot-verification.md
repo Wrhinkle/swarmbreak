@@ -95,3 +95,13 @@ Additional paired samples on November 7 with the current policy:
 | no-build | 11–30 | 0/20 | 4/20 | 4 | 0 |
 
 Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 20 <first-seed> <policy>`. These consecutive-seed samples compare current Auto and manual decisions with the same current equipment heuristic, not the historical equipment search. They do not establish bot strength or balance.
+
+An additional paired sample on November 7, seeds 71–90, used the current policy:
+
+| Policy | Auto wins | Manual wins | Manual-only | Auto-only |
+| --- | ---: | ---: | ---: | ---: |
+| typical | 4/20 | 9/20 | 7 | 2 |
+| expert | 7/20 | 12/20 | 8 | 3 |
+| no-build | 0/20 | 6/20 | 6 | 0 |
+
+Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 20 71 <policy>`. These results use consecutive seeds and compare current Auto and manual policies, not the historical bot. They do not establish a win rate or satisfy the balance gate.
