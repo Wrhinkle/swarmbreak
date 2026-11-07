@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { comparisonRange } from './compare-atb-range';
+import { comparisonPolicies, comparisonRange } from './compare-atb-range';
 
 it('splits paired comparisons into distinct reproducible seed ranges', () => {
   expect(comparisonRange()).toEqual({ count: 800, start: 1 });
@@ -7,4 +7,10 @@ it('splits paired comparisons into distinct reproducible seed ranges', () => {
   for (const [count, start] of [['0', '1'], ['1', '0'], ['2', '4294967295'], ['1.5', '1'], ['1', 'NaN']]) {
     expect(() => comparisonRange(count, start)).toThrow();
   }
+});
+
+it('allows a comparison batch to select a single policy', () => {
+  expect(comparisonPolicies()).toEqual(['typical', 'expert', 'no-build']);
+  expect(comparisonPolicies('expert')).toEqual(['expert']);
+  expect(() => comparisonPolicies('novice')).toThrow();
 });

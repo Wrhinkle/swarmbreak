@@ -6,3 +6,10 @@ export function comparisonRange(countArg = '800', startArg = '1'): { count: numb
   }
   return { count, start };
 }
+
+export function comparisonPolicies(policy?: string): string[] {
+  const policies = ['typical', 'expert', 'no-build'];
+  if (policy === undefined) return policies;
+  if (!policies.includes(policy)) throw new Error('Policy must be typical, expert, or no-build');
+  return [policy];
+}
