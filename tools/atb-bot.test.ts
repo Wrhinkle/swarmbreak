@@ -28,6 +28,21 @@ describe('ATB bot decisions', () => {
     state.fighters[3].nextAction = 100;
     expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'triage' });
   });
+  it('uses group healing when no single-target heal is equipped', () => {
+    const healer = { ...run.crew[0], routines: ['triage', 'strike'] };
+    const state = createCombat([{ creature: healer }, { creature: healer }, { creature: healer }], [enemy], run.seed);
+    state.fighters.slice(0, 3).forEach((f, i) => { f.hp = Math.floor(f.maxHp / 2); f.nextAction = i === 0 ? 1 : 100; });
+    state.fighters[3].nextAction = 100;
+    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'triage' });
+  });
+  it('uses group healing for one injured ally when it is the only heal', () => {
+    const healer = { ...run.crew[0], routines: ['triage', 'strike'] };
+    const state = createCombat([{ creature: healer }], [enemy], run.seed);
+    state.fighters[0].hp = Math.floor(state.fighters[0].maxHp / 2);
+    state.fighters[0].nextAction = 1;
+    state.fighters[1].nextAction = 100;
+    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'triage' });
+  });
   it('uses a stronger equipped attack even when it follows Strike', () => {
     const ally = { ...run.crew[0], routines: ['strike', 'finish'] };
     const state = createCombat([{ creature: ally }], [enemy], run.seed);
