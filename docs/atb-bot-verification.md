@@ -23,6 +23,7 @@ These paired samples compare the current manual ATB policy with the current Auto
 | 2026-11-04 | no-build | 51–60 | 1/10 | 7/10 | 6 | 0 |
 | 2026-11-04 | expert | 11–30 | 3/20 | 8/20 | 7 | 2 |
 | 2026-11-04 | expert | 31–50 | 0/20 | 9/20 | 9 | 0 |
+| 2026-11-04 | expert | 51–70 | 2/20 | 8/20 | 6 | 0 |
 
 Reproduce each row with `npx vite-node tools/compare-atb.ts public/runs/<run>/run.json <count> <starting-seed> <policy>`. Manual choices have a large apparent advantage in these small samples; do not infer a reliable win rate from them. The outstanding work is to collect meaningful samples on representative runs, compare against pre-ATB bots including their former equipment search, and check the next run with the unchanged balance tool. These results do not establish that the run passes the balance gate.
 
