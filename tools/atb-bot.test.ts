@@ -37,6 +37,16 @@ describe('ATB bot decisions', () => {
     const end = playCombat(state, EXPERT);
     expect(end.atb!.choices[0].routineId).toBe('breach');
   });
+  it('finishes the last enemy instead of healing when an equipped attack can end the fight', () => {
+    const ally = { ...run.crew[0], routines: ['patch', 'strike'] };
+    const state = createCombat([{ creature: ally }], [enemy], run.seed);
+    state.fighters[0].nextAction = 1;
+    state.fighters[0].hp = Math.floor(state.fighters[0].maxHp / 2);
+    state.fighters[1].nextAction = 100;
+    state.fighters[1].hp = 1;
+    const first = playCombat(state, EXPERT).atb!.choices[0];
+    expect(first).toEqual({ actorId: 'c0', routineId: 'strike', targetId: 'e0' });
+  });
   it('uses Breach against a shielded enemy even when a heavy attack comes first', () => {
     const ally = { ...run.crew[0], routines: ['finish', 'breach'] };
     const state = createCombat([{ creature: ally }], [enemy], run.seed);

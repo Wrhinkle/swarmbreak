@@ -44,7 +44,14 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
     if (policy.action === 'manual') {
       const heal = actor.routines.find(id => ROUTINES[id]?.action === 'patch');
       const patients = heal ? atbTargets(state, actorId, heal).filter(f => f.hp / f.maxHp < .6).sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp) : [];
-      if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
+      const foes = state.fighters.filter(f => f.side !== actor.side && f.hp > 0);
+      const finisher = foes.length === 1 ? actor.routines.find(id => {
+        const action = ROUTINES[id]?.action;
+        const multiplier = action === 'heavy' ? 1.8 : action === 'overflow' ? 1.5 : action === 'strike' ? 1 : 0;
+        return multiplier > 0 && Math.round(actor.power * multiplier) >= foes[0].hp + (action === 'overflow' ? 0 : foes[0].shield);
+      }) : undefined;
+      if (finisher) { routineId = finisher; targetId = foes[0].id; }
+      else if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
       else {
         const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
         // Heavy and Breach deal more than Strike to the same target, regardless of Auto conditions.

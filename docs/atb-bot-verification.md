@@ -73,3 +73,5 @@ For no-routine-edit seeds 1–10, Auto won 0/10 and manual won 3/10 (3 manual-on
 On November 7, seeds 31–40, the typical bot won 3/10 manually and 5/10 on Auto both before and after changing the manual policy to prefer an equipped heavy attack over an earlier Strike. This paired sample is too small to establish the change's effect on strength. The policy still uses only equipped routines and visible targets; further comparisons for all policies and representative runs remain necessary.
 
 After correcting target ranking when switching from heavy to Breach, the same seeds again produced 3/10 manual and 5/10 Auto wins. The preceding baseline predates other Breach policy improvements, so this does not isolate the target-ranking change. The sample is too small to establish its effect on strength.
+
+After choosing a lethal equipped attack over healing when only one enemy remains, seeds 31–40 produced 4/10 manual and 5/10 Auto wins. Before that change, the same sample produced 3/10 manual and 5/10 Auto wins. This small consecutive-seed sample does not establish the change's effect on bot strength or balance.
