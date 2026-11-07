@@ -40,6 +40,12 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     expect(atbTargets(combat, 'c0', 'strike').map(f => f.creature.name)).toEqual(['First', 'Second']);
     expect(panel.children[4].textContent).toBe('Choose a target');
     expect(panel.children[5].focused).toBe(true);
+    // Copies of the same creature can have identical health, but still need distinct targets.
+    combat.fighters[2].creature.name = 'First';
+    combat.fighters[2].hp = combat.fighters[1].hp;
+    render();
+    expect(panel.children[5].textContent).toContain('First (1)');
+    expect(panel.children[6].textContent).toContain('First (2)');
     panel.children[6].click?.();
     expect(combat.atb!.choices).toEqual([{ actorId: 'c0', routineId: 'strike', targetId: 'e1' }]);
     expect(panel.children).toHaveLength(0);
