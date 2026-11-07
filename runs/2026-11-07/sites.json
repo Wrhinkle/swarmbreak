@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.nps.gov",
+   "name": "Carlsbad Caverns National Park",
+   "url": "https://www.nps.gov/cave/index.htm",
+   "file": "runs/2026-11-07/sites/www.nps.gov.json"
+  },
+  {
+   "host": "www.minesparis.psl.eu",
+   "name": "Mineralogy Museum of the Paris School of Mines",
+   "url": "https://www.minesparis.psl.eu/musee/en/home/",
+   "file": "runs/2026-11-07/sites/www.minesparis.psl.eu.json"
+  },
+  {
+   "host": "nckri.org",
+   "name": "National Cave and Karst Research Institute",
+   "url": "https://nckri.org/",
+   "file": "runs/2026-11-07/sites/nckri.org.json"
+  }
+ ]
+}
