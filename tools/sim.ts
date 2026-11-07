@@ -50,7 +50,10 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
         const multiplier = action === 'heavy' ? 1.8 : action === 'overflow' ? 1.5 : action === 'strike' ? 1 : 0;
         return multiplier > 0 && Math.round(actor.power * multiplier) >= foes[0].hp + (action === 'overflow' ? 0 : foes[0].shield);
       }) : undefined;
+      const sweepFinisher = foes.length > 1 && actor.routines.find(id =>
+        ROUTINES[id]?.action === 'sweep' && foes.every(foe => foe.hp + foe.shield <= Math.round(actor.power * .6)));
       if (finisher) { routineId = finisher; targetId = foes[0].id; }
+      else if (sweepFinisher) { routineId = sweepFinisher; }
       else if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
       else {
         const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));

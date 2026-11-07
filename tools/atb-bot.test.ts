@@ -54,6 +54,14 @@ describe('ATB bot decisions', () => {
     const first = playCombat(state, EXPERT).atb!.choices[0];
     expect(first).toEqual({ actorId: 'c0', routineId: 'strike', targetId: 'e0' });
   });
+  it('uses an equipped sweep to finish all enemies instead of healing', () => {
+    const ally = { ...run.crew[0], routines: ['patch', 'sweep'] };
+    const state = createCombat([{ creature: ally }], [enemy, enemy], run.seed);
+    state.fighters[0].nextAction = 1;
+    state.fighters[0].hp = Math.floor(state.fighters[0].maxHp / 2);
+    state.fighters.slice(1).forEach(f => { f.nextAction = 100; f.hp = 1; });
+    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'sweep' });
+  });
   it('uses Breach against a shielded enemy even when a heavy attack comes first', () => {
     const ally = { ...run.crew[0], routines: ['finish', 'breach'] };
     const state = createCombat([{ creature: ally }], [enemy], run.seed);
