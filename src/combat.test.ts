@@ -1,11 +1,25 @@
 import { describe, it, expect } from 'vitest';
-import { chooseAtb, condition, createCombat, enableAtb, fighter, order, simulate, step } from './combat';
+import { atbTargets, chooseAtb, condition, createCombat, enableAtb, fighter, order, simulate, step } from './combat';
 import { ROUTINES } from './library';
 import type { ActionId, ConditionId, Routine } from './library';
 import type { Creature } from './types';
 const c = (id:string, routines=['strike']):Creature => ({id,name:id,blurb:'',sprite:'',bodyPlan:'construct',role:'bruiser',tier:'ally',routines,source:'/'});
 const routine = (condition:ConditionId, action:ActionId='strike', arg?:number):Routine => ({id:'test',name:'test',condition,action,price:0,arg});
 describe('combat',()=>{
+ it('records and applies a valid manual target after serialization',()=>{
+  const initial=createCombat([{creature:c('a',['strike','patch'])},{creature:c('b')}],[c('e'),c('f')],42);
+  initial.fighters[0].nextAction=1; initial.fighters.slice(1).forEach(f=>f.nextAction=100);
+  const paused=step(enableAtb(initial));
+  expect(atbTargets(paused,'c0','strike').map(f=>f.id)).toEqual(['e0','e1']);
+  expect(atbTargets(paused,'c0','patch').map(f=>f.id)).toEqual(['c0','c1']);
+  expect(chooseAtb(paused,'c0','strike','c1')).toEqual(paused);
+  const chosen=chooseAtb(paused,'c0','strike','e1');
+  expect(chosen.atb?.choices).toEqual([{actorId:'c0',routineId:'strike',targetId:'e1'}]);
+  const resumed=step(JSON.parse(JSON.stringify(chosen)));
+  expect(resumed).toEqual(step(chosen));
+  expect(resumed.fighters[2].hp).toBe(initial.fighters[2].hp);
+  expect(resumed.fighters[3].hp).toBeLessThan(initial.fighters[3].hp);
+ });
  it('pauses at each ready crew decision and resumes a serialized tick deterministically',()=>{
   const initial=createCombat([{creature:c('a')},{creature:c('b')}],[c('e')],42); initial.fighters.forEach(f=>f.nextAction=1);
   const paused=step(enableAtb(initial)); expect(paused.atb?.pending).toBe('c0'); expect(paused.events).toHaveLength(0);

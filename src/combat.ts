@@ -8,7 +8,7 @@ export interface Fighter {
   lastAction?: ActionId; charging: boolean; summonedBy?: string;
 }
 export interface CombatEvent { t: number; kind: string; actor: string; target: string; amount: number; routine: string }
-export interface CombatState { t: number; seed: number; fighters: Fighter[]; events: CombatEvent[]; result: 'win' | 'loss' | null; goldStolen: number; cooldown: number; queued: { actorId: string; routineId: string } | null; serial: number; atb?: { autoBattle: boolean; cursor: number; limit: number; pending: string | null; choice: string | null; choices: { actorId: string; routineId: string }[] } }
+export interface CombatState { t: number; seed: number; fighters: Fighter[]; events: CombatEvent[]; result: 'win' | 'loss' | null; goldStolen: number; cooldown: number; queued: { actorId: string; routineId: string } | null; serial: number; atb?: { autoBattle: boolean; cursor: number; limit: number; pending: string | null; choice: string | null; targetId?: string; choices: { actorId: string; routineId: string; targetId?: string }[] } }
 
 export function fighter(creature: Creature, side: Fighter['side'], id: string, hp?: number): Fighter {
   const base = ROLE_STATS[creature.role], scale = TIER_SCALE[creature.tier];
@@ -46,9 +46,9 @@ function damage(s: CombatState, actor: Fighter, target: Fighter, amount: number,
   target.lastAction = action; emit(s, 'damage', actor, target, dealt, routine);
   if (target.hp <= 0) emit(s, 'death', actor, target, 0, routine);
 }
-function act(s: CombatState, f: Fighter, r: Routine, action: ActionId = r.action) {
+function act(s: CombatState, f: Fighter, r: Routine, action: ActionId = r.action, targetId?: string) {
   const allies = living(s, f.side), foes = living(s, f.side === 'crew' ? 'enemy' : 'crew');
-  const foe = lowest(foes), ally = neediest(allies); if (!foe || !ally) return;
+  const foe = foes.find(a => a.id === targetId) ?? lowest(foes), ally = allies.find(a => a.id === targetId) ?? neediest(allies); if (!foe || !ally) return;
   const hit = (target: Fighter, multiplier: number, overflow = false) => damage(s, f, target, Math.round(f.power * multiplier), r.id, action, overflow);
   const heal = (target: Fighter, multiplier: number) => { const amount = Math.min(target.maxHp - target.hp, Math.round(f.power * multiplier)); target.hp += amount; target.lastAction = action; emit(s, 'heal', f, target, amount, r.id); };
   const guard = (target: Fighter) => { const amount = Math.max(0, Math.min(target.maxHp * .5 - target.shield, Math.round(f.power * 1.5))); target.shield += amount; target.lastAction = action; emit(s, 'shield', f, target, amount, r.id); };
@@ -62,7 +62,7 @@ function act(s: CombatState, f: Fighter, r: Routine, action: ActionId = r.action
     case 'mend_all': allies.forEach(a => heal(a, .8)); break;
     case 'guard_self': guard(f); break;
     case 'guard_ally': guard(ally); break;
-    case 'corrupt': { const victim = foes.find(a => a.corrupted <= 0) ?? foe; victim.corrupted = 24; victim.lastAction = action; emit(s, 'corrupt', f, victim, 24, r.id); break; }
+    case 'corrupt': { const victim = foes.find(a => a.id === targetId) ?? foes.find(a => a.corrupted <= 0) ?? foe; victim.corrupted = 24; victim.lastAction = action; emit(s, 'corrupt', f, victim, 24, r.id); break; }
     case 'purge': f.corrupted = 0; emit(s, 'purge', f, f, 0, r.id); break;
     case 'stun': foe.stunned = true; foe.lastAction = action; emit(s, 'stun', f, foe, 0, r.id); break;
     case 'summon': case 'split': {
@@ -73,7 +73,7 @@ function act(s: CombatState, f: Fighter, r: Routine, action: ActionId = r.action
       s.fighters.push(copy); emit(s, action, f, copy, copy.hp, r.id); break;
     }
     case 'steal': hit(foe, 1); s.goldStolen++; emit(s, 'steal', f, foe, 1, r.id); break;
-    case 'mirror': if (f.lastAction && f.lastAction !== 'mirror') act(s, f, r, f.lastAction); else hit(foe, 1); break;
+    case 'mirror': if (f.lastAction && f.lastAction !== 'mirror') act(s, f, r, f.lastAction, targetId); else hit(foe, 1); break;
     case 'charge': if (f.charging) { f.charging = false; hit(foe, 3); } else { f.charging = true; emit(s, 'charge', f, f, 0, r.id); } break;
   }
 }
@@ -90,10 +90,21 @@ export function enableAtb(state: CombatState, autoBattle = false): CombatState {
   if (!s.atb) s.atb = { autoBattle, cursor: 0, limit: 0, pending: null, choice: null, choices: [] };
   return s;
 }
-export function chooseAtb(state: CombatState, actorId: string, routineId: string): CombatState {
+// Return only targets a player may select for this action. Area and self actions
+// have no selectable target; mirror uses the action it would currently copy.
+export function atbTargets(state: CombatState, actorId: string, routineId: string): Fighter[] {
+  const f = state.fighters.find(a => a.id === actorId && a.side === 'crew' && a.hp > 0);
+  if (!f || !f.routines.includes(routineId) || !ROUTINES[routineId]) return [];
+  let action = f.charging ? 'charge' : ROUTINES[routineId].action;
+  if (action === 'mirror') action = f.lastAction && f.lastAction !== 'mirror' ? f.lastAction : 'strike';
+  if (['strike','heavy','overflow','corrupt','stun','steal'].includes(action) || (action === 'charge' && f.charging)) return living(state, 'enemy');
+  if (action === 'patch' || action === 'guard_ally') return living(state, 'crew');
+  return [];
+}
+export function chooseAtb(state: CombatState, actorId: string, routineId: string, targetId?: string): CombatState {
   const s = structuredClone(state), atb = s.atb, f = s.fighters.find(f => f.id === actorId);
-  if (atb && atb.pending === actorId && f && (routineId === 'auto' || (f.routines.includes(routineId) && ROUTINES[routineId]))) {
-    atb.choice = routineId; atb.pending = null; atb.choices.push({ actorId, routineId });
+  if (atb && atb.pending === actorId && f && (routineId === 'auto' || (f.routines.includes(routineId) && ROUTINES[routineId])) && (targetId === undefined || (routineId !== 'auto' && atbTargets(s, actorId, routineId).some(t => t.id === targetId)))) {
+    atb.choice = routineId; atb.targetId = targetId; atb.pending = null; atb.choices.push(targetId === undefined ? { actorId, routineId } : { actorId, routineId, targetId });
   }
   return s;
 }
@@ -120,13 +131,13 @@ function advance(s: CombatState): CombatState {
     if (atb && !atb.autoBattle && f.side === 'crew' && !f.stunned && !resuming) { atb.cursor = i; atb.pending = f.id; return s; }
     f.nextAction = s.t + f.speed;
     if (f.stunned) { f.stunned = false; f.charging = false; emit(s, 'stunned', f, f, 0, ''); continue; }
-    let r: Routine | undefined;
+    let r: Routine | undefined; const targetId = atb?.targetId; if (atb) delete atb.targetId;
     if (atb?.choice) { if (atb.choice !== 'auto') r = ROUTINES[atb.choice]; atb.choice = null; }
     if (s.queued?.actorId === f.id) { r = ROUTINES[s.queued.routineId]; s.queued = null; s.cooldown = OVERRIDE_COOLDOWN_TICKS; }
     if (f.charging) r = ROUTINES.charge;
     r ??= f.routines.map(id => ROUTINES[id]).find(routine => routine && condition(s, f, routine)) ?? ROUTINES.strike;
     f.acted = (f.acted ?? 0) + 1;
-    act(s, f, r);
+    act(s, f, r, r.action, targetId);
   }
   if (atb) { atb.cursor = 0; atb.limit = 0; }
   if (!living(s, 'crew').length) s.result = 'loss'; else if (!living(s, 'enemy').length) s.result = 'win'; else if (s.t >= 3000) s.result = 'loss';
