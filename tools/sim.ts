@@ -45,15 +45,18 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
       const heal = actor.routines.find(id => ROUTINES[id]?.action === 'patch');
       const patients = heal ? atbTargets(state, actorId, heal).filter(f => f.hp / f.maxHp < .6).sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp) : [];
       const foes = state.fighters.filter(f => f.side !== actor.side && f.hp > 0);
-      const finisher = foes.length === 1 ? actor.routines.find(id => {
+      const finishers = actor.routines.flatMap(id => {
         const action = ROUTINES[id]?.action;
         const multiplier = action === 'heavy' ? 1.8 : action === 'overflow' ? 1.5 : action === 'strike' ? 1 : 0;
-        return multiplier > 0 && Math.round(actor.power * multiplier) >= foes[0].hp + (action === 'overflow' ? 0 : foes[0].shield);
-      }) : undefined;
+        if (!multiplier) return [];
+        return rankAttackTargets(atbTargets(state, actorId, id), id)
+          .filter(foe => Math.round(actor.power * multiplier) >= foe.hp + (action === 'overflow' ? 0 : foe.shield))
+          .map(foe => ({ id, foe }));
+      });
       const sweepFinisher = foes.length > 1 && actor.routines.find(id =>
         ROUTINES[id]?.action === 'sweep' && foes.every(foe => foe.hp + foe.shield <= Math.round(actor.power * .6)));
-      if (finisher) { routineId = finisher; targetId = foes[0].id; }
-      else if (sweepFinisher) { routineId = sweepFinisher; }
+      if (sweepFinisher) { routineId = sweepFinisher; }
+      else if (finishers.length) { routineId = finishers[0].id; targetId = finishers[0].foe.id; }
       else if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
       else {
         const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
