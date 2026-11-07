@@ -505,3 +505,66 @@ with tempfile.TemporaryDirectory() as d:
                 pass
         assert len(closed) == 2 and (tree / 'uncommitted').read_text() == 'keep\n'
 print('ok builder saved work')
+
+# A fixed worker result with a sandbox-only failure still goes through host verification.
+# These assertions protect the brief, not the model's compliance with it.
+brief = (Path(__file__).parent / 'agents/builder.md').read_text()
+for instruction in ('Report the actual failure in the evidence.',
+                    'Neither failure alone makes completed work `partial` or `blocked`',
+                    'Do not treat mocked or skipped sandbox checks as proof the real host sandbox passed.'):
+    assert instruction in brief
+
+for failing_check in (None, 1):
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d) / 'repo'
+        root.mkdir()
+        def git(*args, cwd=root, check=True):
+            return subprocess.run(['git', *map(str, args)], cwd=cwd, check=check, capture_output=True, text=True)
+        git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+        (root / 'file').write_text('base\n')
+        git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+        published, checks, probes = [], [], []
+        def fake_sh(*args, cwd=None, check=True):
+            if args[:3] == ('git', 'fetch', '-q') or args[0] == 'npm':
+                return SimpleNamespace(returncode=0, stdout='', stderr='')
+            if args[:2] == ('git', 'push') or args[:3] == ('gh', 'pr', 'create'):
+                published.append(args)
+                return SimpleNamespace(returncode=0, stdout='https://example.test/pr/1', stderr='')
+            if args[0] == 'git':
+                return git(*args[1:], cwd=cwd or root, check=check)
+            if args[:3] == ('gh', 'issue', 'view'):
+                return SimpleNamespace(stdout=json.dumps({'author': {'login': builder.OWNER}, 'state': 'OPEN', 'title': 't', 'body': 'b'}))
+            if args[:3] == ('gh', 'pr', 'list'):
+                return SimpleNamespace(stdout='0')
+            raise AssertionError(args)
+        def fake_bot(role, tree, prompt, **kwargs):
+            (tree / 'file').write_text('fixed\n')
+            (tree / builder.RESULT).write_text(json.dumps({'outcome': 'fixed', 'summary': 'fixed', 'evidence': 'test_manager.py: sandbox-exec sandbox_apply: Operation not permitted'}))
+        def fake_sandboxed(cmd, tree):
+            checks.append(cmd)
+            failed = failing_check is not None and cmd == ['npm', 'test']
+            return SimpleNamespace(returncode=int(failed), stdout='host test failed' if failed else '', stderr='')
+        response = MagicMock()
+        response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
+        with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+             patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
+             patch.object(builder.urllib.request, 'urlopen', return_value=response), \
+             patch.object(builder, 'checkpoint', return_value=''), \
+             patch.object(pr_team, 'sandbox_works', side_effect=lambda: probes.append(True)), \
+             patch.object(pr_team, 'sandboxed', side_effect=fake_sandboxed), \
+             patch.object(sys, 'argv', ['builder.py', '42']):
+            if failing_check is None:
+                builder.main()
+                assert len(published) == 2 and len(probes) == 1
+                assert checks == [['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']]
+                assert 'sandbox_apply: Operation not permitted' in published[-1][-1]
+            else:
+                try:
+                    builder.main()
+                except SystemExit as e:
+                    assert 'host test failed' in str(e)
+                else:
+                    raise AssertionError('host check failure allowed a PR')
+                assert not published and len(probes) == builder.RETRIES + 1
+                assert checks == [['npm', 'run', 'build'], ['npm', 'test']] * (builder.RETRIES + 1)
+print('ok builder host check handoff')
