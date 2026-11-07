@@ -1,0 +1,42 @@
+import { expect, it } from 'vitest';
+import { atbTargets, chooseAtb, createCombat, enableAtb, setAutoBattle, step } from './combat';
+import type { Creature } from './types';
+
+it('renders a ready fighter, records a selected target, and offers Auto after reload', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; type = ''; disabled = false;
+    click?: () => void;
+    setAttribute() {}
+    append(...children: Element[]) { this.children.push(...children); }
+    replaceChildren(...children: Element[]) { this.children = children; }
+    addEventListener(_name: string, handler: () => void) { this.click = handler; }
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { renderCombatDecision } = await import('./main');
+    const creature = (id: string): Creature => ({ id, name: id, blurb: '', sprite: '', bodyPlan: 'construct', role: 'bruiser', tier: 'ally', routines: ['strike'], source: '/' });
+    let combat = enableAtb(createCombat([{ creature: creature('Ally') }], [creature('First'), creature('Second')], 42));
+    combat.fighters[0].nextAction = 1; combat.fighters.slice(1).forEach(f => f.nextAction = 100);
+    combat = step(combat);
+    const panel = new Element(); let selected = '';
+    const render = () => renderCombatDecision(panel as unknown as HTMLElement, combat, selected, id => { selected = id; render(); }, (id, target) => { combat = chooseAtb(combat, combat.atb!.pending!, id, target); selected = ''; render(); });
+    render();
+    expect(panel.children[0].textContent).toBe('Ally is ready');
+    panel.children[3].click?.();
+    expect(atbTargets(combat, 'c0', 'strike').map(f => f.creature.name)).toEqual(['First', 'Second']);
+    expect(panel.children[4].textContent).toBe('Choose a target');
+    panel.children[6].click?.();
+    expect(combat.atb!.choices).toEqual([{ actorId: 'c0', routineId: 'strike', targetId: 'e1' }]);
+    expect(panel.children).toHaveLength(0);
+    const reloaded = JSON.parse(JSON.stringify(combat));
+    expect(step(reloaded)).toEqual(step(combat));
+    combat = step(combat);
+    while (!combat.result && !combat.atb!.pending) combat = step(combat);
+    expect(combat.atb!.pending).toBe('c0');
+    render(); panel.children[2].click?.();
+    expect(combat.atb!.choices.at(-1)?.routineId).toBe('auto');
+    expect(setAutoBattle(combat, true).atb!.autoBattle).toBe(true);
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});
