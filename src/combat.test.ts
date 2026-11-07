@@ -93,6 +93,17 @@ describe('combat',()=>{
   const auto=simulate(enableAtb(initial,true),3000); const {atb,...actual}=auto;
   expect(atb?.pending).toBeNull(); expect(actual).toEqual(simulate(initial,3000));
  });
+ it('keeps the recorded Auto action when auto battle is switched off before the tick resumes',()=>{
+  const initial=createCombat([{creature:c('a')},{creature:c('b')}],[c('e')],7);
+  initial.fighters.forEach(f=>f.nextAction=1);
+  const waiting=step(enableAtb(initial));
+  const switched=setAutoBattle(setAutoBattle(waiting,true),false);
+  const resumed=step(JSON.parse(JSON.stringify(switched)));
+  expect(resumed.atb?.choices).toEqual([{actorId:'c0',routineId:'auto'}]);
+  expect(resumed.events.some(e=>e.kind==='action' && e.actor==='c0')).toBe(true);
+  expect(resumed.atb?.pending).toBe('c1');
+  expect(resumed).toEqual(step(switched));
+ });
  it('choosing Auto throughout a saved fight matches the original automatic fight',()=>{
   const initial=createCombat([{creature:c('summoner',['spawn','strike'])},{creature:c('attacker',['charge','strike'])}],[c('enemy',['corrupt','strike']),c('other')],73);
   let fight=enableAtb(initial), decisions=0;
