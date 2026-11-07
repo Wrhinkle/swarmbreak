@@ -54,6 +54,24 @@ describe('simulation upgrades', () => {
 });
 
 describe('simulation equipment', () => {
+  it('buys and equips Breach for a reachable shielded fight', () => {
+    const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
+    run.acts = [run.acts[0]];
+    run.crew = [{ ...run.crew[0], role: 'bruiser', routines: ['sweep', 'strike'] }];
+    const act = run.acts[0];
+    const enemy = { ...act.creatures[0], id: 'shielded', routines: ['brace', 'strike'] };
+    act.creatures = [enemy];
+    const fight = { ...act.nodes.find(n => n.encounter?.length)!, id: 'fight', floor: 2, encounter: [enemy.id], next: [], hidden: false };
+    const shop = { ...fight, id: 'shop', floor: 1, kind: 'shop' as const, encounter: undefined, next: ['fight'] };
+    const event = { ...shop, id: 'event', floor: 0, kind: 'event' as const, eventId: 'gold', next: ['shop'] };
+    act.nodes = [event, shop, fight];
+    act.shop = ['breach'];
+    act.events = [{ id: 'gold', name: 'Gold', text: '', options: [{ text: 'Take', effect: { type: 'gold', amount: 100 } }] }];
+    vi.mocked(createCombat).mockClear();
+    play(run, () => 0, { ...NO_BUILD, build: 'search', care: 1, noise: 0 });
+    expect(vi.mocked(createCombat)).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(createCombat).mock.calls[0][0][0].creature.routines).toEqual(['breach', 'sweep', 'strike']);
+  });
   it('does not equip Wide Sweep from the pool during preparation', () => {
     const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
     run.acts = [run.acts[0]];

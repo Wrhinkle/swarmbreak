@@ -37,11 +37,11 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
   // Bring reserves in for the fallen, the same as the crew screen allows.
   const swapReserves = () => { for (const dead of active().filter(c => c.hp <= 0)) { const sub = crew.find(c => !c.active && c.hp > 0); if (sub) { dead.active = false; sub.active = true; } } };
   // Favor routines with clear benefits: earlier healing and a stronger basic attack.
-  const equip = () => {
+  const equip = (shielded: boolean) => {
     for (const id of [...pool]) {
       if (!(policy.noise === 0 || random() >= policy.noise)) continue;
       const heals = WANT_HEAL.includes(id);
-      if (!heals && !WANT_HIT.includes(id)) continue;
+      if (!heals && !WANT_HIT.includes(id) && !(id === 'breach' && shielded)) continue;
       const m = active().filter(c => !c.routines.includes(id) && (c.creature.role === 'healer') === heals).sort((a, b) => a.routines.length - b.routines.length)[0];
       if (!m) continue;
       if (m.routines.length >= m.slots) { if (gold < 50 || m.slots >= SLOTS_MAX) continue; gold -= 50; m.slots++; }
@@ -51,6 +51,20 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
   };
   for (const [actIndex, act] of run.acts.entries()) {
     const creature = (id: string) => act.creatures.find(c => c.id === id)!;
+    const shields = (n: MapNode) => !n.hidden && n.encounter?.some(id => creature(id)?.routines.some(r => ['guard_self', 'guard_ally'].includes(ROUTINES[r]?.action)));
+    const upcomingShields = (n: MapNode): boolean => {
+      const seen = new Set<string>(), pending = [...n.next];
+      while (pending.length) {
+        const id = pending.pop()!;
+        if (seen.has(id)) continue;
+        seen.add(id);
+        const next = act.nodes.find(x => x.id === id);
+        if (!next) continue;
+        if (shields(next)) return true;
+        pending.push(...next.next);
+      }
+      return false;
+    };
     let legal = act.nodes.filter(n => n.floor === 0);
     if (policy.start !== undefined && actIndex === 0) legal = legal.filter(n => n.x === policy.start);
     while (legal.length) {
@@ -62,7 +76,7 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
         swapReserves();
-        if (editing && (policy.build === 'heuristic' || random() < (policy.care ?? 1))) equip();
+        if (editing && (policy.build === 'heuristic' || random() < (policy.care ?? 1))) equip(!!shields(n));
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };
@@ -78,7 +92,7 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
         else crew.forEach(c => { c.hp = Math.min(c.max, c.hp + Math.round(c.max * .3)); });
       }
       if (n.kind === 'treasure') { const id = act.shop[0]; if (editing && id && !crew.some(c => c.routines.includes(id)) && !pool.includes(id)) pool.push(id); else gold += 40; }
-      if (n.kind === 'shop' && editing) for (const id of act.shop) if (ROUTINES[id].price && ROUTINES[id].price <= gold && !pool.includes(id) && !crew.some(c => c.routines.includes(id)) && (WANT_HEAL.includes(id) || WANT_HIT.includes(id))) { gold -= ROUTINES[id].price; pool.push(id); }
+      if (n.kind === 'shop' && editing) for (const id of act.shop) if (ROUTINES[id].price && ROUTINES[id].price <= gold && !pool.includes(id) && !crew.some(c => c.routines.includes(id)) && (WANT_HEAL.includes(id) || WANT_HIT.includes(id) || (id === 'breach' && upcomingShields(n) && active().some(c => c.creature.role !== 'healer' && (c.routines.length < c.slots || (c.slots < SLOTS_MAX && gold >= ROUTINES[id].price + 50))) && (policy.build === 'heuristic' || random() < (policy.care ?? 1))))) { gold -= ROUTINES[id].price; pool.push(id); }
       if (n.kind === 'event') {
         const e = act.events.find(e => e.id === n.eventId) as GameEvent;
         const worth = (fx: GameEvent['options'][number]['effect']) => fx.type === 'heal' ? fx.amount * (1 - health()) * 4 : fx.type === 'damage' ? -fx.amount * 3 / Math.max(.2, health()) : fx.type === 'gold' ? fx.amount / 60 : fx.type === 'routine' ? (editing ? 1 : 0) : 0;
