@@ -100,6 +100,7 @@ export function atbTargets(state: CombatState, actorId: string, routineId: strin
   if (!f || !f.routines.includes(routineId) || !ROUTINES[routineId]) return [];
   let action = ROUTINES[routineId].action;
   if (action === 'mirror') action = f.lastAction && f.lastAction !== 'mirror' ? f.lastAction : 'strike';
+  if ((action === 'summon' && f.summons >= 2) || (action === 'split' && f.splitDone)) action = 'strike';
   if (['strike','heavy','overflow','corrupt','stun','steal'].includes(action) || (action === 'charge' && f.charging)) return living(state, 'enemy');
   if (action === 'patch' || action === 'guard_ally') return living(state, 'crew');
   return [];

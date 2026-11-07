@@ -6,6 +6,18 @@ import type { Creature } from './types';
 const c = (id:string, routines=['strike']):Creature => ({id,name:id,blurb:'',sprite:'',bodyPlan:'construct',role:'bruiser',tier:'ally',routines,source:'/'});
 const routine = (condition:ConditionId, action:ActionId='strike', arg?:number):Routine => ({id:'test',name:'test',condition,action,price:0,arg});
 describe('combat',()=>{
+ it('lets a player target the attack used after a summon or split is exhausted',()=>{
+  for (const id of ['spawn','divide']) {
+   const initial=createCombat([{creature:c('a',[id])}],[c('e'),c('f')],42);
+   initial.fighters[0].nextAction=1; initial.fighters[0].summons=2; initial.fighters[0].splitDone=true;
+   initial.fighters.slice(1).forEach(f=>f.nextAction=100);
+   const waiting=step(enableAtb(initial));
+   expect(atbTargets(waiting,'c0',id).map(f=>f.id)).toEqual(['e0','e1']);
+   const result=step(chooseAtb(waiting,'c0',id,'e1'));
+   expect(result.fighters[1].hp).toBe(initial.fighters[1].hp);
+   expect(result.fighters[2].hp).toBeLessThan(initial.fighters[2].hp);
+  }
+ });
  it('executes a manually selected routine instead of a previously charged attack',()=>{
   const initial=createCombat([{creature:c('a',['charge','brace','patch'])}],[c('e')],42);
   initial.fighters[0].charging=true; initial.fighters[0].nextAction=1; initial.fighters[1].nextAction=100;
