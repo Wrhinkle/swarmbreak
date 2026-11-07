@@ -130,7 +130,7 @@ function advance(s: CombatState): CombatState {
     if (f.hp <= 0) continue;
     if (!resuming && f.corrupted > 0) { if (f.corrupted % 4 === 0) { f.hp = Math.max(0, f.hp - CORRUPT_DAMAGE); emit(s, 'damage', f, f, CORRUPT_DAMAGE, 'corrupt'); if (!f.hp) emit(s, 'death', f, f, 0, 'corrupt'); } f.corrupted--; if (f.hp <= 0) continue; }
     if (s.t < f.nextAction) continue;
-    if (atb && !atb.autoBattle && f.side === 'crew' && !f.stunned && !resuming) { atb.cursor = i; atb.pending = f.id; return s; }
+    if (atb && !atb.autoBattle && f.side === 'crew' && !f.stunned && !resuming && living(s, 'enemy').length) { atb.cursor = i; atb.pending = f.id; return s; }
     f.nextAction = s.t + f.speed;
     if (f.stunned) { f.stunned = false; f.charging = false; emit(s, 'stunned', f, f, 0, ''); continue; }
     let r: Routine | undefined; const targetId = atb?.targetId; if (atb) delete atb.targetId;

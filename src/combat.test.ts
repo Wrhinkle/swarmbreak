@@ -29,6 +29,14 @@ describe('combat',()=>{
   expect(resumed).toEqual(repeat); expect(resumed.atb?.choices.map(x=>x.actorId)).toEqual(['c0','c1']);
   const {atb: _atb,...actual}=resumed; expect(actual).toEqual(step(initial));
  });
+ it('does not ask for an action after the last enemy falls mid-tick',()=>{
+  const initial=createCombat([{creature:c('a')},{creature:c('b')}],[c('e')],42);
+  initial.fighters.forEach(f=>f.nextAction=1); initial.fighters[2].hp=1;
+  const first=step(enableAtb(initial));
+  const finished=step(chooseAtb(first,'c0','strike','e0'));
+  expect(finished.result).toBe('win'); expect(finished.atb?.pending).toBeNull();
+  const {atb: _atb,...automaticFields}=finished; expect(automaticFields).toEqual(step(initial));
+ });
  it('enabling auto battle resolves and records a waiting decision across reload',()=>{
   const initial=createCombat([{creature:c('a')}],[c('e')],7); initial.fighters[0].nextAction=1;
   const waiting=step(enableAtb(initial)); const automatic=setAutoBattle(waiting,true);
