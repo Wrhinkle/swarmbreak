@@ -84,6 +84,15 @@ describe('ATB bot decisions', () => {
     expect(first.routineId).toBe('breach');
     expect(first.targetId).toBe('e1');
   });
+  it('uses Breach to finish a shielded foe even when the heavy target is unshielded', () => {
+    const ally = { ...run.crew[0], routines: ['finish', 'breach'] };
+    const state = createCombat([{ creature: ally }], [enemy, enemy], run.seed);
+    state.fighters[0].nextAction = 1;
+    state.fighters.slice(1).forEach(f => { f.nextAction = 100; });
+    state.fighters[1].hp = Math.round(state.fighters[0].power * 1.8) + 1;
+    state.fighters[2].hp = 1; state.fighters[2].shield = 100;
+    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'breach', targetId: 'e1' });
+  });
   it('replays a full manual fight across saves at every decision', () => {
     const expected = playCombat(fight(), EXPERT);
     const choices = expected.atb!.choices;

@@ -61,6 +61,14 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
           const targets = rankAttackTargets(atbTargets(state, actorId, attack), attack);
           if (targets.length) {
             const breach = attacks.find(id => ROUTINES[id]?.action === 'overflow');
+            // A shielded foe may be lethal to Breach even when the best heavy target is not.
+            const breachTarget = breach && rankAttackTargets(atbTargets(state, actorId, breach), breach)[0];
+            if (breach && breachTarget && ROUTINES[attack].action === 'heavy' &&
+                targets[0].hp + targets[0].shield > Math.round(actor.power * 1.8) &&
+                breachTarget.hp <= Math.round(actor.power * 1.5)) {
+              attack = breach;
+              rankAttackTargets(targets, attack);
+            }
             // Breach removes the visible shield before dealing damage.
             if (breach && targets[0].shield > 0 && ROUTINES[attack].action === 'heavy' &&
                 Math.round(actor.power * 1.5) >= Math.max(0, Math.round(actor.power * 1.8) - targets[0].shield)) {
