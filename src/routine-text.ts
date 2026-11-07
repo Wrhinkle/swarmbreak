@@ -1,3 +1,6 @@
 import type { Routine } from './library';
 
 export function routineText(r: Routine | undefined) { if (!r) return 'Unknown routine'; const pct=Math.round((r.arg ?? 0)*100); const cond: Record<string,string>={always:'Always',self_hp_below:`If self is under ${pct}% HP`,ally_hp_below:`If an ally is under ${pct}% HP`,ally_down:'If an ally is down',self_unshielded:'If self has no shield',foe_shielded:'If a foe has a shield',foe_hp_below:`If a foe is under ${pct}% HP`,foes_at_least:`If there are at least ${r.arg} foes`,self_corrupted:'If self is corrupted',every_third:'Every third action',foe_uncorrupted:'If a foe is not corrupted'}; const action: Record<string,string>={strike:'Strike',heavy:'Heavy strike',sweep:'Sweep',overflow:'Break shield and strike',patch:'Patch',mend_all:'Mend all',guard_self:'Guard self',guard_ally:'Guard ally',corrupt:'Corrupt',purge:'Purge',stun:'Stun',summon:'Summon',split:'Split',steal:'Steal',mirror:'Mirror',charge:'Charge'}; return `${cond[r.condition]}: ${action[r.action]}`; }
+
+// Manual choices execute immediately; their automatic conditions do not apply.
+export function manualActionText(r: Routine) { return `${r.name} · ${routineText(r).split(': ')[1]}`; }

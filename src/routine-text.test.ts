@@ -9,3 +9,9 @@ describe('routine labels', () => {
     expect(routineText(ROUTINES.corrupt)).toBe('If a foe is not corrupted: Corrupt');
   });
 });
+
+it('labels manual actions without implying their automatic conditions apply', async () => {
+  const { manualActionText } = await import('./routine-text');
+  expect(manualActionText(ROUTINES.patch)).toBe('Patch · Patch');
+  expect(manualActionText(ROUTINES.jam)).toBe('Jam · Stun');
+});

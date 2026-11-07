@@ -1,7 +1,7 @@
 import { hudHealth, hudLocation } from './hud';
 import { countdownLineText } from './countdown';
 import { CREW_MAX, ROLE_STATS, ROUTINES, SLOTS_MAX, SLOTS_START, TICK_MS, TIER_SCALE } from './library';
-import { routineText } from './routine-text';
+import { manualActionText, routineText } from './routine-text';
 import { atbTargets, chooseAtb, createCombat, enableAtb, setAutoBattle, step } from './combat';
 import type { CombatState } from './combat';
 import { checkRun } from './run';
@@ -113,9 +113,9 @@ function startFight(n:MapNode){ screen='fight'; clear(); stageHeading(`${n.kind}
  const saveCombat=()=>{ if(combat){today().combat=combat;persist();} };
  const resume=()=>{lastTime=0;accumulator=0;cancelAnimationFrame(animation);animation=requestAnimationFrame(frame);};
  const autoBattle=btn('',()=>{if(!combat?.atb)return; combat=setAutoBattle(combat,!combat.atb.autoBattle); saveCombat(); updateDecision(); if(!paused)resume();});
- const updateDecision=()=>{if(!combat?.atb)return; const atb=combat.atb; autoBattle.textContent=`Auto battle: ${atb.autoBattle?'on':'off'}`; autoBattle.setAttribute('aria-pressed',String(atb.autoBattle)); decisions.replaceChildren(); const f=combat.fighters.find(x=>x.id===atb.pending); if(!f){selected='';return;} decisions.append(stageLabel(`${f.creature.name} is ready`));
+ const updateDecision=()=>{if(!combat?.atb)return; const atb=combat.atb; autoBattle.textContent=`Auto battle: ${atb.autoBattle?'on':'off'}`; autoBattle.setAttribute('aria-pressed',String(atb.autoBattle)); decisions.replaceChildren(); const f=combat.fighters.find(x=>x.id===atb.pending); if(!f){selected='';return;} decisions.append(stageLabel(`${f.creature.name} is ready`),el('p','Choose an action to use now, or Auto to follow routines.'));
  const choose=(id:string,target?:string)=>{if(!combat||!f)return;combat=chooseAtb(combat,f.id,id,target);selected='';saveCombat();updateDecision();if(!paused)resume();};
- decisions.append(btn('Auto',()=>choose('auto'))); for(const id of f.routines) decisions.append(btn(routineText(ROUTINES[id]),()=>{if(!combat)return; const targets=atbTargets(combat,f.id,id); if(targets.length){selected=id;updateDecision();}else choose(id);}));
+ decisions.append(btn('Auto',()=>choose('auto'))); for(const id of f.routines) decisions.append(btn(manualActionText(ROUTINES[id]),()=>{if(!combat)return; const targets=atbTargets(combat,f.id,id); if(targets.length){selected=id;updateDecision();}else choose(id);}));
  if(selected){const targets=atbTargets(combat,f.id,selected); decisions.append(stageLabel('Choose a target')); for(const target of targets) decisions.append(btn(fighterHealth(target.creature.name,target.hp,target.maxHp,target.shield),()=>choose(selected,target.id)));}
  }; controls.append(autoBattle,decisions); updateDecision(); root.append(controls); const detail=el('p','Tap an enemy to read its dossier.','muted');root.append(detail); const status=el('p','','muted');root.append(status);
  canvas.addEventListener('click',ev=>{ const rect=canvas.getBoundingClientRect(),x=(ev.clientX-rect.left)*canvas.width/rect.width,y=(ev.clientY-rect.top)*canvas.height/rect.height; const enemies=combat?.fighters.filter(f=>f.side==='enemy')??[]; const idx=enemies.findIndex((_,i)=>y>=enemyY(enemies,i)&&y<(enemies[i+1]?enemyY(enemies,i+1):canvas.height)); if(x>450&&idx>=0){const f=enemies[idx];inspected=f.id;detail.textContent=`${f.creature.name}: ${f.creature.blurb} ${f.routines.map(r=>routineText(ROUTINES[r])).join(' · ')}`;} });
