@@ -106,4 +106,14 @@ An additional paired sample on November 7, seeds 71–90, used the current polic
 
 Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 20 71 <policy>`. These results use consecutive seeds and compare current Auto and manual policies, not the historical bot. They do not establish a win rate or satisfy the balance gate.
 
-The historical simulator at `ad7ca5c` won 9/20 typical, 16/20 expert, and 0/20 no-build on those same seeds 71–90. The current Auto/manual results in the table above were 4/20 and 9/20 typical, 7/20 and 12/20 expert, and 0/20 and 6/20 no-build. Extending the historical sample through seed 170 gave 49/100 typical, 83/100 expert, and 0/100 no-build. Reproduce with the historical extraction method above and substitute the November 7 run and seed ranges. The old editing bots use fight-result equipment search, and the current and historical paths can diverge, so this comparison does not isolate ATB or establish player-feasible bot strength. These consecutive seeds are not an independent random sample; matching current results for seeds 91–170 and broader representative comparisons remain to be collected.
+The historical simulator at `ad7ca5c` won 9/20 typical, 16/20 expert, and 0/20 no-build on those same seeds 71–90. The current Auto/manual results in the table above were 4/20 and 9/20 typical, 7/20 and 12/20 expert, and 0/20 and 6/20 no-build. Extending the historical sample through seed 170 gave 49/100 typical, 83/100 expert, and 0/100 no-build. Reproduce with the historical extraction method above and substitute the November 7 run and seed ranges. The old editing bots use fight-result equipment search, and the current and historical paths can diverge, so this comparison does not isolate ATB or establish player-feasible bot strength. These consecutive seeds are not an independent random sample; broader representative comparisons remain to be collected.
+
+The current results now cover the same 100 seeds, 71–170:
+
+| Policy | Historical wins | Current Auto wins | Current manual wins |
+| --- | ---: | ---: | ---: |
+| typical | 49/100 | 37/100 | 43/100 |
+| expert | 83/100 | 41/100 | 50/100 |
+| no-build | 0/100 | 0/100 | 25/100 |
+
+The current totals combine the reproduced 71–90 results above with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 80 91 <policy>`. For seeds 91–170, typical had 33 Auto wins, 34 manual wins, 18 manual-only wins and 17 Auto-only wins; expert had 34, 38, 18 and 14 respectively; no-build had 0, 19, 19 and 0. The historical expert's large advantage merits further investigation, but its equipment lookahead and diverging game paths prevent attributing the difference to ATB alone. These consecutive seeds are not a statistical confidence sample or a balance-gate result.
