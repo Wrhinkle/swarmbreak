@@ -13,3 +13,9 @@ export function comparisonPolicies(policy?: string): string[] {
   if (!policies.includes(policy)) throw new Error('Policy must be typical, expert, or no-build');
   return [policy];
 }
+
+// Emit cumulative totals during long comparisons so an interrupted batch can
+// be resumed at the next seed without losing completed evidence.
+export function comparisonCheckpoint(completed: number, count: number): boolean {
+  return completed === count || completed % 10 === 0;
+}
