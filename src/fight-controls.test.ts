@@ -70,3 +70,34 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     expect(setAutoBattle(combat, true).atb!.autoBattle).toBe(true);
   } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; if (oldStorage) Object.defineProperty(globalThis, 'localStorage', oldStorage); else Reflect.deleteProperty(globalThis, 'localStorage'); }
 });
+
+it('keeps focused decision controls when the same paused fight is rendered again', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; type = ''; disabled = false;
+    attributes: Record<string, string> = {}; focused = false; click?: () => void;
+    setAttribute(name: string, value: string) { this.attributes[name] = value; }
+    append(...children: Element[]) { this.children.push(...children); }
+    replaceChildren(...children: Element[]) { this.children = children; }
+    addEventListener(_name: string, handler: () => void) { this.click = handler; }
+    focus() { this.focused = true; }
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { createCombatDecisionRenderer } = await import('./main');
+    const creature = (id: string): Creature => ({ id, name: id, blurb: '', sprite: '', bodyPlan: 'construct', role: 'bruiser', tier: 'ally', routines: ['strike'], source: '/' });
+    let combat = enableAtb(createCombat([{ creature: creature('Ally') }], [creature('Enemy')], 42));
+    combat.fighters[0].nextAction = 1;
+    combat = step(combat);
+    const panel = new Element();
+    const render = createCombatDecisionRenderer(panel as unknown as HTMLElement);
+    render(combat, 'strike', () => {}, () => {});
+    const target = panel.children[5];
+    expect(target.focused).toBe(true);
+    render(combat, 'strike', () => {}, () => {});
+    expect(panel.children[5]).toBe(target);
+    render(structuredClone(combat), 'strike', () => {}, () => {});
+    expect(panel.children[5]).not.toBe(target);
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});
