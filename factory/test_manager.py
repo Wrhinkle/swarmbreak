@@ -638,28 +638,29 @@ with tempfile.TemporaryDirectory() as d:
     assert not (tree / '.git-fixes.json').exists()
 print('ok PR fixer stops on host failure')
 
-# Qodo waits: an unreviewed head is waiting (not a failure); a review of identical content counts.
+# Qodo waits: an unreviewed head is waiting, not a failure. The merge check stays exact-head and review_complete.
 import pr_team
-with tempfile.TemporaryDirectory() as d:
-    g = lambda *a: subprocess.run(['git', *a], cwd=d, check=True, capture_output=True, text=True).stdout.strip()
-    g('init', '-q'); g('-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-q', '--allow-empty', '-m', 'a')
-    a = g('rev-parse', 'HEAD')
-    g('-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-q', '--allow-empty', '-m', 'same content')
-    b = g('rev-parse', 'HEAD')
-    Path(d, 'f').write_text('x'); g('add', 'f'); g('-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-q', '-m', 'new')
-    c = g('rev-parse', 'HEAD')
-    assert pr_team.reviewed({'commit_sha': a, 'status': 'completed', 'review_complete': False}, a, Path(d))
-    assert pr_team.reviewed({'commit_sha': a, 'review_complete': True}, b, Path(d))
-    assert not pr_team.reviewed({'commit_sha': a, 'review_complete': True}, c, Path(d))
-    assert not pr_team.reviewed({'commit_sha': a, 'status': 'running'}, a, Path(d))
-    with patch.object(pr_team, 'QODO_WAIT', 0):
+a, b = 'a' * 40, 'b' * 40
+assert pr_team.reviewed({'commit_sha': a, 'review_complete': True}, a)
+assert not pr_team.reviewed({'commit_sha': a, 'status': 'completed', 'review_complete': False}, a)
+assert not pr_team.reviewed({'commit_sha': a, 'review_complete': True}, b)  # even with identical content
+with patch.object(pr_team, 'QODO_WAIT', 0):
+    try:
+        pr_team.wait_for_review('url', a); assert False
+    except SystemExit as e:
+        assert e.code == pr_team.WAITING
+with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
+        patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'completed', 'review_complete': False}}), \
+        patch.object(pr_team, 'sh') as run:
+    for _ in range(2):
         try:
-            pr_team.wait_for_review('url', a, Path(d)); assert False
+            pr_team.wait_for_review('url', a); assert False
         except SystemExit as e:
             assert e.code == pr_team.WAITING
-    with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'failed'}}):
-        try:
-            pr_team.wait_for_review('url', a, Path(d)); assert False
-        except SystemExit as e:
-            assert e.code != pr_team.WAITING
+    assert run.call_count == 1 and '/review' in run.call_args.args  # a stalled review is re-requested once, then waited on
+with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'failed'}}):
+    try:
+        pr_team.wait_for_review('url', a); assert False
+    except SystemExit as e:
+        assert e.code != pr_team.WAITING
 print('ok Qodo waiting versus failed')

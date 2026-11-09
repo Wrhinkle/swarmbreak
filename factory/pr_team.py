@@ -169,21 +169,36 @@ def merges_cleanly(tree, base):
     return True
 
 
-def reviewed(s, sha, cwd=ROOT):
-    """Qodo's finished review counts for sha when it was of sha, or of a commit with identical content."""
-    # Qodo sometimes posts a full review with status completed but review_complete false, so either counts.
-    at = s.get('commit_sha')
-    if not (at and (s.get('review_complete') or s.get('status') == 'completed')):
-        return False
-    return at == sha or sh('git', 'diff', '--quiet', at, sha, cwd=cwd, check=False).returncode == 0
+def reviewed(s, sha):
+    """Only a review Qodo marked complete, of exactly this commit, counts. Never loosen this: it is the merge check."""
+    return s.get('commit_sha') == sha and bool(s.get('review_complete'))
 
 
-def wait_for_review(url, sha, cwd=ROOT):
+def stalled(s, sha):
+    """Qodo sometimes ends a review of sha with status completed but review_complete false. Waiting won't finish it."""
+    return s.get('commit_sha') == sha and s.get('status') == 'completed' and not s.get('review_complete')
+
+
+def rerequest(url, sha):
+    """Ask Qodo once per commit to review again. The foreman's next tick picks up the fresh review."""
+    mark = Path.home() / '.cache' / 'swarmbreak-qodo-rerequested'
+    done = mark.read_text().split() if mark.exists() else []
+    if sha in done:
+        return
+    sh('gh', 'pr', 'comment', url, '--body', '/review')
+    mark.parent.mkdir(parents=True, exist_ok=True)
+    mark.write_text(' '.join(done[-50:] + [sha]))
+
+
+def wait_for_review(url, sha):
     deadline = time.time() + QODO_WAIT
     while time.time() < deadline:
         s = findings(url).get('review_session') or {}
-        if reviewed(s, sha, cwd):
+        if reviewed(s, sha):
             return
+        if stalled(s, sha):
+            rerequest(url, sha)
+            break
         if s.get('commit_sha') == sha and s.get('status') == 'failed':
             sys.exit(f'Qodo\'s review of {sha[:7]} failed. A PR of tens of thousands of lines can do this, so split it. Not merging.')
         if s.get('commit_sha') == sha and s.get('status') == 'skipped':
@@ -215,7 +230,7 @@ def main():
     if not (tree / 'node_modules').exists():
         sh('npm', 'ci', '--silent', cwd=tree)
     # An unfinished review lists no findings yet, which isn't the same as a clean one.
-    wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip(), tree)
+    wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip())
     for round_no in range(ROUNDS + 1):
         data = findings(url)
         session = data.get('review_session') or {}
@@ -300,7 +315,7 @@ def main():
         if pushed == current:
             continue
         print(f'Pushed {pushed[:7]}. Waiting for Qodo to review it', flush=True)
-        wait_for_review(url, pushed, tree)
+        wait_for_review(url, pushed)
 
     # The merge decision. Only evidence tied to the exact head commit counts.
     sh('git', 'fetch', '-q', 'origin')
@@ -310,7 +325,7 @@ def main():
     still = [f for f in data['findings'] if is_open(f)]
     sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
     blocks = []
-    if not reviewed(session, sha, tree):
+    if not reviewed(session, sha):
         blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
     if still:
         blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))
