@@ -18,3 +18,21 @@ export async function openedRun(manifest: Manifest, now: number): Promise<{ mani
   if (next.runId === manifest.runId) return null;
   return { manifest: next, run: await loadRun(next) };
 }
+
+export async function loadManifest(): Promise<Manifest> {
+  const response = await fetch('/manifest.json', { cache: 'no-store' });
+  if (!response.ok) throw new Error('Could not load manifest');
+  const m: unknown = await response.json();
+  if (!m || typeof m !== 'object') throw new Error('Invalid manifest');
+  const value = m as Manifest;
+  if (typeof value.runId !== 'string' || typeof value.runUrl !== 'string' || typeof value.opensAt !== 'string' || typeof value.nextOpensAt !== 'string' || !Array.isArray(value.voided) || (value.next != null && (typeof value.next.runId !== 'string' || typeof value.next.opensAt !== 'string' || typeof value.next.runUrl !== 'string'))) throw new Error('Invalid manifest');
+  return value;
+}
+
+export async function refreshRun(active: Manifest, now: number): Promise<{ manifest: Manifest; run: Run | null }> {
+  const published = await loadManifest();
+  const candidate = currentRun(published, now);
+  if (candidate.runId === active.runId) return { manifest: candidate, run: null };
+  if (Date.parse(candidate.opensAt) <= Date.parse(active.opensAt)) return { manifest: active, run: null };
+  return { manifest: candidate, run: await loadRun(candidate) };
+}

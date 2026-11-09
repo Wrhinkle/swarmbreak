@@ -4,7 +4,7 @@ import { CREW_MAX, ROLE_STATS, ROUTINES, SLOTS_MAX, SLOTS_START, TICK_MS, TIER_S
 import type { Routine } from './library';
 import { createCombat, order, step } from './combat';
 import type { CombatState } from './combat';
-import { loadRun, openedRun } from './live-run';
+import { loadManifest, loadRun, openedRun, refreshRun } from './live-run';
 import { currentRun, exportSave, finishRun, importSave, loadSave, rollover, writeSave } from './save';
 import type { CrewMember, Save } from './save';
 import type { Creature, EventEffect, Manifest, MapNode, Run, RunAct } from './types';
@@ -116,10 +116,17 @@ function showEndChoice(){screen='choice';clear();stageHeading('The swarm is brok
 function showResult(){screen='result';clear();const t=today(), won=t.result==='win';const floors=t.cleared.length;const text=`Swarmbreak ${run.id}\n${won?'CLEARED':'LOST'} · ${floors} rooms\n${won?'⬡'.repeat(Math.min(16,floors)):'⬡'.repeat(Math.min(15,floors))+'◇'}`;heading('Official result',won?'Swarm broken':'The crew fell',won?'One ally can carry the story onward.':`You cleared ${floors} rooms.`);const pre=el('pre',text,'paper');root.append(pre,countdownLine('Next run in')); const status=el('p','','muted');const bar=el('div',undefined,'bar');append(bar,btn('Copy result',async()=>{try{await navigator.clipboard.writeText(text);status.textContent='Copied.';}catch{status.textContent='Copy the result text above.';}}),btn('Camp',showCamp),btn('Title',showTitle,false,'primary'));root.append(bar,status);announce(won?'Run won.':'Run lost.');}
 let checkingOpening = false, openingReady: Awaited<ReturnType<typeof openedRun>> = null, openingError = '';
 async function checkOpening() {
-  if (checkingOpening || openingReady || !manifest.next || Date.parse(manifest.next.opensAt) > Date.now()) return;
+  if (checkingOpening || openingReady) return;
   checkingOpening = true;
-  try { openingReady = await openedRun(manifest, Date.now()); openingError = ''; }
-  catch { openingError = 'The new run could not be loaded. Retrying shortly.'; }
+  try {
+    const refreshed = await refreshRun(manifest, Date.now());
+    if (refreshed.run) openingReady = { manifest: refreshed.manifest, run: refreshed.run };
+    else manifest = refreshed.manifest;
+    openingError = '';
+  } catch {
+    try { openingReady = await openedRun(manifest, Date.now()); } catch { /* retry below */ }
+    openingError = openingReady ? '' : 'The new run could not be loaded. Retrying shortly.';
+  }
   finally { checkingOpening = false; }
   if (openingReady && (!save.today || save.today.result)) applyOpening();
   else showOpeningNotice();
@@ -139,5 +146,5 @@ function showOpeningNotice() {
   else if (openingError) banner.append(el('p', openingError));
   else banner.remove();
 }
-async function boot(){try {const m=await fetch('/manifest.json');if(!m.ok)throw new Error('Could not load manifest');manifest=await m.json() as Manifest;if(!manifest||typeof manifest.runId!=='string'||typeof manifest.runUrl!=='string'||typeof manifest.opensAt!=='string'||typeof manifest.nextOpensAt!=='string'||!Array.isArray(manifest.voided)||(manifest.next!=null&&(typeof manifest.next.runId!=='string'||typeof manifest.next.opensAt!=='string'||typeof manifest.next.runUrl!=='string')))throw new Error('Invalid manifest');manifest=currentRun(manifest,Date.now());run=await loadRun(manifest);save=rollover(loadSave(),manifest);persist();loadArt(run.acts[0]);showTitle();setInterval(()=>{if (openingReady && (!save.today || save.today.result)) applyOpening(); else if (openingReady || openingError) { if (!document.querySelector('#opening-notice')) showOpeningNotice(); } else void checkOpening(); for(const p of document.querySelectorAll<HTMLElement>('[data-countdown]'))p.textContent=openingReady ? 'The next run is open.' : openingError || countdownLineText(p.dataset.countdown!, manifest.nextOpensAt, Date.now());},1000);setInterval(()=>{if(openingError) void checkOpening();},30000);}catch(e){clear();heading('Unable to open the archive','Run unavailable');root.append(el('pre',e instanceof Error?e.message:String(e),'paper'));}}
+async function boot(){try {manifest=await loadManifest();manifest=currentRun(manifest,Date.now());run=await loadRun(manifest);save=rollover(loadSave(),manifest);persist();loadArt(run.acts[0]);showTitle();setInterval(()=>{if (openingReady && (!save.today || save.today.result)) applyOpening(); else if (openingReady || openingError) { if (!document.querySelector('#opening-notice')) showOpeningNotice(); } else if (manifest.next && Date.parse(manifest.next.opensAt) <= Date.now()) void checkOpening(); for(const p of document.querySelectorAll<HTMLElement>('[data-countdown]'))p.textContent=openingReady ? 'The next run is open.' : openingError || countdownLineText(p.dataset.countdown!, manifest.nextOpensAt, Date.now());},1000);setInterval(()=>{void checkOpening();},30000);}catch(e){clear();heading('Unable to open the archive','Run unavailable');root.append(el('pre',e instanceof Error?e.message:String(e),'paper'));}}
 void boot();

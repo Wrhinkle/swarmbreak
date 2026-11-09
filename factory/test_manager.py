@@ -240,6 +240,29 @@ for moment, active in [(n, '2026-11-05'), (after, '2026-11-06')]:
              patch.object(builder, 'conflicted', return_value=[]), \
              patch.object(builder, 'sh', return_value=SimpleNamespace(stdout='{"seed": 1}')):
             assert any('only wording' in p for p in builder.problems_in(tree, live_id)[0])
+# Both the effective run and its published reserve are protected, including after opening.
+from builder import protected_runs
+with patch('builder.datetime') as clock:
+    for moment, expected in [(n, {'2026-11-05', '2026-11-06'}), (after, {'2026-11-06'})]:
+        clock.now.return_value = moment
+        ids = protected_runs(r)
+        assert ids == expected
+        assert blocked_paths(['runs/2026-11-06/content.json'], ids)
+# A reserve appearing after work began must be included in the next host check.
+with patch('builder.datetime') as clock:
+    clock.now.return_value = n
+    initially = protected_runs(m5)
+    later = protected_runs(r)
+    assert not blocked_paths(['runs/2026-11-06/content.json'], initially)
+    assert blocked_paths(['runs/2026-11-06/content.json'], initially | later)
+# Publication while verification is running triggers another guard pass.
+with patch('builder.published_runs', side_effect=[({'2026-11-05'}, set()),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'}),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'}),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'})]), \
+     patch('builder.problems_in', side_effect=lambda tree, ids, pending: (blocked_paths(['runs/2026-11-06/content.json'], ids), [])) as guard:
+    bad, _ = builder.check_published(None, {'2026-11-05'}, set())
+    assert bad and guard.call_count == 2
 print('ok release')
 
 import manager, json

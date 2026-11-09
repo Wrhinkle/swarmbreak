@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { openedRun } from './live-run';
+import { openedRun, refreshRun } from './live-run';
 import type { Manifest } from './types';
 
 const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8'));
@@ -22,4 +22,20 @@ describe('reserve opening in an open tab', () => {
     }
     expect(manifest.runId).toBe('old');
   });
+});
+
+it('discovers later reserves before and after opening, and retains the active run on failures', async () => {
+  const b = { ...run, id: 'b' }, c = { ...run, id: 'c' };
+  const a: Manifest = { ...manifest, runId: 'a', next: { runId: 'b', runUrl: '/b', opensAt: '2026-11-06T13:00:00Z' } };
+  const deployed: Manifest = { ...a, runId: 'b', opensAt: '2026-11-06T13:00:00Z', next: { runId: 'c', runUrl: '/c', opensAt: '2026-11-07T13:00:00Z' } };
+  const fetcher = vi.fn(async (url: string) => ({ ok: true, json: async () => url === '/manifest.json' ? deployed : url === '/b' ? b : c }));
+  vi.stubGlobal('fetch', fetcher);
+  const promoted = (await openedRun(a, Date.parse('2026-11-06T13:00:00Z')))!.manifest;
+  const scheduled = await refreshRun(promoted, Date.parse('2026-11-07T12:00:00Z'));
+  expect(scheduled.manifest.next?.runId).toBe('c');
+  expect(scheduled.run).toBeNull();
+  expect((await refreshRun(promoted, Date.parse('2026-11-07T14:00:00Z'))).run?.id).toBe('c');
+  fetcher.mockResolvedValueOnce({ ok: false, json: async () => ({}) });
+  await expect(refreshRun(promoted, Date.parse('2026-11-07T14:00:00Z'))).rejects.toThrow();
+  expect(promoted.runId).toBe('b');
 });
