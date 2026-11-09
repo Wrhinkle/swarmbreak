@@ -4,8 +4,8 @@ import { CREW_MAX, ROLE_STATS, ROUTINES, SLOTS_MAX, SLOTS_START, TICK_MS, TIER_S
 import type { Routine } from './library';
 import { createCombat, order, step } from './combat';
 import type { CombatState } from './combat';
-import { checkRun } from './run';
-import { exportSave, finishRun, importSave, loadSave, rollover, writeSave } from './save';
+import { loadManifest, loadRun, openedRun, refreshRun } from './live-run';
+import { currentRun, exportSave, finishRun, importSave, loadSave, rollover, writeSave } from './save';
 import type { CrewMember, Save } from './save';
 import type { Creature, EventEffect, Manifest, MapNode, Run, RunAct } from './types';
 
@@ -114,5 +114,37 @@ function finishFight(){ if(!combat||!room)return; cancelAnimationFrame(animation
 function showVictory(text:string){ screen='fight-result';clear();stageHeading('The swarm retreats','Victory',text);const panel=el('section',undefined,'paper'); panel.append(btn('Continue',completeRoom,false,'primary')); root.append(panel); }
 function showEndChoice(){screen='choice';clear();stageHeading('The swarm is broken','Choose an ally',`${act().story?.outro??''} One ally recruited on this run can join your camp.`); const candidates=today().crew.filter(c=>c.recruited); for(const c of candidates){const s=el('section',undefined,'paper');append(s,stageLabel(c.creature.name),el('p',c.creature.blurb),btn('Keep this ally',()=>{save=finishRun(save,'win',c.creature,run.acts.map(a=>a.site.name));persist();showResult();}));root.append(s);} if(!candidates.length)root.append(btn('Finish run',()=>{save=finishRun(save,'win',null,run.acts.map(a=>a.site.name));persist();showResult();}));}
 function showResult(){screen='result';clear();const t=today(), won=t.result==='win';const floors=t.cleared.length;const text=`Swarmbreak ${run.id}\n${won?'CLEARED':'LOST'} · ${floors} rooms\n${won?'⬡'.repeat(Math.min(16,floors)):'⬡'.repeat(Math.min(15,floors))+'◇'}`;heading('Official result',won?'Swarm broken':'The crew fell',won?'One ally can carry the story onward.':`You cleared ${floors} rooms.`);const pre=el('pre',text,'paper');root.append(pre,countdownLine('Next run in')); const status=el('p','','muted');const bar=el('div',undefined,'bar');append(bar,btn('Copy result',async()=>{try{await navigator.clipboard.writeText(text);status.textContent='Copied.';}catch{status.textContent='Copy the result text above.';}}),btn('Camp',showCamp),btn('Title',showTitle,false,'primary'));root.append(bar,status);announce(won?'Run won.':'Run lost.');}
-async function boot(){try {const m=await fetch('/manifest.json');if(!m.ok)throw new Error('Could not load manifest');manifest=await m.json() as Manifest;if(!manifest||typeof manifest.runId!=='string'||typeof manifest.runUrl!=='string'||typeof manifest.opensAt!=='string'||typeof manifest.nextOpensAt!=='string'||!Array.isArray(manifest.voided))throw new Error('Invalid manifest');const response=await fetch(manifest.runUrl);if(!response.ok)throw new Error('Could not load today’s run');const data:unknown=await response.json();const errors=checkRun(data);if(errors.length)throw new Error(`Run validation failed:\n${errors.join('\n')}`);run=data as Run;if(run.id!==manifest.runId)throw new Error('Manifest and run IDs do not match');save=rollover(loadSave(),manifest);persist();loadArt(run.acts[0]);showTitle();setInterval(()=>{for(const p of document.querySelectorAll<HTMLElement>('[data-countdown]'))p.textContent=countdownLineText(p.dataset.countdown!, manifest.nextOpensAt, Date.now());},1000);}catch(e){clear();heading('Unable to open the archive','Run unavailable');root.append(el('pre',e instanceof Error?e.message:String(e),'paper'));}}
+let checkingOpening = false, openingReady: Awaited<ReturnType<typeof openedRun>> = null, openingError = '';
+async function checkOpening() {
+  if (checkingOpening || openingReady) return;
+  checkingOpening = true;
+  try {
+    const refreshed = await refreshRun(manifest, Date.now());
+    if (refreshed.run) openingReady = { manifest: refreshed.manifest, run: refreshed.run };
+    else manifest = refreshed.manifest;
+    openingError = '';
+  } catch {
+    try { openingReady = await openedRun(manifest, Date.now()); } catch { /* retry below */ }
+    openingError = openingReady ? '' : 'The new run could not be loaded. Retrying shortly.';
+  }
+  finally { checkingOpening = false; }
+  if (openingReady && (!save.today || save.today.result)) applyOpening();
+  else showOpeningNotice();
+}
+function applyOpening() {
+  if (!openingReady) return;
+  cancelAnimationFrame(animation); combat = null; room = null;
+  manifest = openingReady.manifest; run = openingReady.run; openingReady = null;
+  save = rollover(save, manifest); persist(); selectedCamp = -1; loadArt(run.acts[0]); showTitle();
+  announce('The new run is open.');
+}
+function showOpeningNotice() {
+  let banner = document.querySelector<HTMLElement>('#opening-notice');
+  if (!banner) { banner = el('div'); banner.id = 'opening-notice'; root.prepend(banner); }
+  banner.replaceChildren();
+  if (openingReady) append(banner, el('p', 'A new run is open. Switching ends your current attempt as a loss.'), btn('Switch to new run', () => { applyOpening(); banner?.remove(); }));
+  else if (openingError) banner.append(el('p', openingError));
+  else banner.remove();
+}
+async function boot(){try {manifest=await loadManifest();manifest=currentRun(manifest,Date.now());run=await loadRun(manifest);save=rollover(loadSave(),manifest);persist();loadArt(run.acts[0]);showTitle();setInterval(()=>{if (openingReady && (!save.today || save.today.result)) applyOpening(); else if (openingReady || openingError) { if (!document.querySelector('#opening-notice')) showOpeningNotice(); } else if (manifest.next && Date.parse(manifest.next.opensAt) <= Date.now()) void checkOpening(); for(const p of document.querySelectorAll<HTMLElement>('[data-countdown]'))p.textContent=openingReady ? 'The next run is open.' : openingError || countdownLineText(p.dataset.countdown!, manifest.nextOpensAt, Date.now());},1000);setInterval(()=>{void checkOpening();},30000);}catch(e){clear();heading('Unable to open the archive','Run unavailable');root.append(el('pre',e instanceof Error?e.message:String(e),'paper'));}}
 void boot();

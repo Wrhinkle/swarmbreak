@@ -201,12 +201,81 @@ assert release_due(m5, m4, datetime(2026, 11, 5, 12, 30, tzinfo=timezone.utc)) i
 assert release_due(m4, m5, n) == 'older'
 m7 = {'runId': '2026-11-07', 'opensAt': '2026-11-07T13:00:00Z', 'nextOpensAt': '2026-11-08T13:00:00Z'}
 assert release_due(m7, m4, n) == 'expired'  # main skipped a day; live has closed
-assert FAILED.search('Deploy failed verification: live run reads 2026-11-04, expected 2026-11-05.')
+assert FAILED.search('Deploy failed verification: live manifest reads {}, expected {}.')
 assert release_due(m4, m4, n) == 'expired'
 assert release_due(m5, m5, n) is None
+# Reserve run: built a day early, it rides along as `next` and opens itself, so a dead host never closes the game.
+from manager import opened, effective
+m5['runUrl'], m5['voided'] = '/runs/2026-11-05/run.json', []
+r = opened(m5, '2026-11-06', n)
+assert r['runId'] == '2026-11-05' and r['next'] == {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}
+assert release_due(r, m5, n) == 'deploy'  # publish the reserve early
+assert release_due(r, r, n) is None  # already published
+after = datetime(2026, 11, 6, 14, tzinfo=timezone.utc)
+assert release_due(r, r, after) is None  # host was down all day: the reserve opened by itself
+assert effective(r, after) == {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'nextOpensAt': '2026-11-07T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json', 'voided': []}
+assert release_due(r, r, datetime(2026, 11, 7, 13, tzinfo=timezone.utc)) == 'expired'  # nothing built behind the reserve
+assert opened(r, '2026-11-07', after)['next']['runId'] == '2026-11-07' and opened(r, '2026-11-07', after)['runId'] == '2026-11-06'
+assert opened(r, '2026-11-06', n) == r and opened(r, '2026-11-05', n) == r
+try:
+    opened(r, '2026-11-07', n)
+    assert False, 'a pending reserve must not be replaced'
+except ValueError as e:
+    assert '2026-11-06' in str(e)
+assert 'next' not in opened(m5, '2026-11-05', n)  # opening a run that is already due replaces the manifest as before
+from builder import blocked_paths
+for moment, active in [(n, '2026-11-05'), (after, '2026-11-06')]:
+    live_id = effective(r, moment)['runId']
+    assert live_id == active
+    assert blocked_paths([f'runs/{active}/content.json'], live_id)
+    assert not blocked_paths([f'runs/{"2026-11-06" if active == "2026-11-05" else "2026-11-05"}/content.json'], live_id)
+    import builder, tempfile
+    from types import SimpleNamespace
+    with tempfile.TemporaryDirectory() as tmp:
+        tree = Path(tmp)
+        path = f'public/runs/{active}/run.json'
+        (tree / path).parent.mkdir(parents=True)
+        (tree / path).write_text('{"seed": 2}')
+        with patch.object(builder, 'changed_from_main', return_value=[path]), \
+             patch.object(builder, 'conflicted', return_value=[]), \
+             patch.object(builder, 'sh', return_value=SimpleNamespace(stdout='{"seed": 1}')):
+            assert any('only wording' in p for p in builder.problems_in(tree, live_id)[0])
+# Both the effective run and its published reserve are protected, including after opening.
+from builder import protected_runs
+with patch('builder.datetime') as clock:
+    for moment, expected in [(n, {'2026-11-05', '2026-11-06'}), (after, {'2026-11-06'})]:
+        clock.now.return_value = moment
+        ids = protected_runs(r)
+        assert ids == expected
+        assert blocked_paths(['runs/2026-11-06/content.json'], ids)
+# A reserve appearing after work began must be included in the next host check.
+with patch('builder.datetime') as clock:
+    clock.now.return_value = n
+    initially = protected_runs(m5)
+    later = protected_runs(r)
+    assert not blocked_paths(['runs/2026-11-06/content.json'], initially)
+    assert blocked_paths(['runs/2026-11-06/content.json'], initially | later)
+# Publication while verification is running triggers another guard pass.
+with patch('builder.published_runs', side_effect=[({'2026-11-05'}, set()),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'}),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'}),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'})]), \
+     patch('builder.problems_in', side_effect=lambda tree, ids, pending: (blocked_paths(['runs/2026-11-06/content.json'], ids), [])) as guard:
+    bad, _ = builder.check_published(None, {'2026-11-05'}, set())
+    assert bad and guard.call_count == 2
 print('ok release')
 
 import manager, json
+with patch('manager.open_prs', return_value=[]), patch('manager.gh', return_value=[]), \
+     patch('manager.graphql', return_value={'repository': {'discussions': {'nodes': []}}}), \
+     patch('manager.live_manifest', return_value=r), patch('manager.sh') as state_sh, \
+     patch('manager.datetime') as state_clock:
+    state_sh.return_value.stdout = ''
+    state_clock.fromisoformat.side_effect = datetime.fromisoformat
+    state_clock.now.return_value = after
+    assert manager.state()['live']['runId'] == '2026-11-06'
+    state_clock.now.return_value = n
+    assert manager.state()['live']['next']['runId'] == '2026-11-06'
 calls = []
 manager.sh = lambda *a, **k: type('R', (), {'stdout': 'abc123' if a[1] == 'rev-parse' else json.dumps(m5) if a[1] == 'show' else '', 'returncode': 0})()
 manager.live_manifest = lambda: m4
@@ -688,7 +757,7 @@ with tempfile.TemporaryDirectory() as d:
         result = {'outcome': 'partial' if len(contexts) == 1 else 'fixed', 'summary': 's', 'evidence': 'e',
                   'investigated': [{'answer_index': 0, 'item': 'PR #55' if len(contexts) == 1 else 'PR #56'}, {'answer_index': 1, 'item': 'failed item'}]}
         (tree / builder.RESULT).write_text(json.dumps(result))
-    def save_checkpoint(number, tree, branch, live, result, bad):
+    def save_checkpoint(number, tree, branch, live, result, bad, reserves=frozenset()):
         git('add', '-A', cwd=tree); git('commit', '-qm', 'Builder checkpoint on #42 (unfinished)', cwd=tree)
         return 'saved'
     response = MagicMock()

@@ -5,11 +5,13 @@ Usage: python3 factory/builder.py <issue> [--dry-run]
 Prints the PR number on the last line when it opens one. Only issues filed by the repo owner qualify for now.
 """
 import json, re, subprocess, sys, urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import QODO, HostVerificationError, PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
+from manager import effective  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
 LOCKED = (*PROTECTED, '.gitignore', 'vite.config')
@@ -23,9 +25,22 @@ INVESTIGATION_TIMEOUT = 60
 TEXT_KEYS = {'name', 'blurb', 'title', 'theme', 'intro', 'outro', 'bossIntro', 'text', 'label', 'result'}
 
 
+def protected_runs(manifest):
+    live = effective(manifest, datetime.now(timezone.utc))['runId']
+    return {live} | ({manifest['next']['runId']} if manifest.get('next') else set())
+
+
+def published_runs():
+    with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as response:
+        manifest = json.load(response)
+    active = effective(manifest, datetime.now(timezone.utc))['runId']
+    return protected_runs(manifest), ({manifest['next']['runId']} - {active} if manifest.get('next') else set())
+
+
 def blocked_paths(changed, live):
     """Paths this bot can't change: the limits themselves, and the stored stages of a run players are on."""
-    return [c for c in changed if c.startswith(LOCKED) or c.startswith(f'runs/{live}/')]
+    live = {live} if isinstance(live, str) else live
+    return [c for c in changed if c.startswith(LOCKED) or any(c.startswith(f'runs/{run_id}/') for run_id in live)]
 
 
 def criteria(body, max_length=PR_BODY_MAX):
@@ -153,17 +168,23 @@ def conflicted(tree):
     return [name for name in result.stdout.split('\0') if name]
 
 
-def problems_in(tree, live):
+def problems_in(tree, live, published_reserves=frozenset()):
     changed = changed_from_main(tree)
     bad = [f"You can't edit: {p}" for p in blocked_paths(changed, live)]
     bad += [f'Merge conflict markers left in {p}' for p in conflicted(tree)]
-    live_file = f'public/runs/{live}/run.json'
-    if live_file in changed:
+    live = {live} if isinstance(live, str) else live
+    for live_id in live:
+        live_file = f'public/runs/{live_id}/run.json'
+        if live_file not in changed:
+            continue
+        if live_id in published_reserves:
+            bad.append(f'{live_file} is a published reserve and cannot change')
+            continue
         before = sh('git', 'show', f'origin/main:{live_file}', cwd=tree).stdout
         if not only_wording(json.loads(before), json.loads((tree / live_file).read_text())):
             bad.append(f'{live_file} is live, so only wording can change')
     for path in changed:
-        if re.match(rf'public/runs/(?!{live}/)', path) and path.endswith('run.json'):
+        if re.match(r'public/runs/[^/]+/run\.json$', path) and path.split('/')[2] not in live:
             bad.append(f"Edit runs/<id>/content.json rather than {path}; the host rebuilds it")
     if bad:
         return bad, changed
@@ -185,17 +206,31 @@ def problems_in(tree, live):
     return bad, changed
 
 
+def check_published(tree, live, reserves):
+    """Recheck publication after host verification, including changes during the checks."""
+    while True:
+        latest, pending = published_runs()
+        live |= latest
+        reserves |= pending
+        bad, changed = problems_in(tree, live, reserves)
+        latest, pending = published_runs()
+        if latest <= live and pending <= reserves:
+            return bad, changed
+        live |= latest
+        reserves |= pending
+
+
 def notes(tree):
     """What earlier passes saved, read from this Mac's own checkpoint commits, never from GitHub text."""
     log = sh('git', 'log', '--format=%B%x00', 'origin/main..HEAD', cwd=tree).stdout.split('\0')
     return [m.strip() for m in log if m.strip().startswith(CHECKPOINT)][::-1] + [sh('git', 'diff', '--stat', 'origin/main', cwd=tree).stdout[-3000:]]
 
 
-def checkpoint(number, tree, branch, live, result, bad):
+def checkpoint(number, tree, branch, live, result, bad, reserves=frozenset()):
     """Saves an unfinished pass as a local commit on the issue's branch and notes what's left. The next pass starts from it.
     Nothing is pushed: code leaves this Mac only after every host check passes."""
     # Locked files go back to main's version, and so do built runs, which the host rebuilds from content.json.
-    built = [p for p in changed_from_main(tree) if re.match(rf'public/runs/(?!{live}/)[^/]+/run\.json$', p)]
+    built = [p for p in changed_from_main(tree) if re.match(r'public/runs/[^/]+/run\.json$', p) and (p.split('/')[2] not in live or p.split('/')[2] in reserves)]
     for p in blocked_paths(changed_from_main(tree), live) + built:
         if sh('git', 'cat-file', '-e', f'origin/main:{p}', cwd=tree, check=False).returncode:
             (tree / p).unlink(missing_ok=True)
@@ -221,8 +256,7 @@ def main():
     branch = f'fix/issue-{number}'
     if sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number', '--jq', 'length').stdout.strip() != '0':
         sys.exit(f'{branch} already has an open PR.')
-    with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
-        live = json.load(r)['runId']
+    live, reserves = published_runs()
     _lock = hold(f'issue-{number}')  # noqa: F841 - held until exit, so a manager pass and the foreman can't build it at once
     tree = ROOT.parent / f'swarmbreak-issue-{number}{"-dry" if dry else ""}'
     sh('git', 'fetch', '-q', 'origin')
@@ -260,7 +294,7 @@ def main():
     found = investigation['found']
     investigation['references'] = valid_references(found, investigation.get('references'))
     metadata.write_text(json.dumps(investigation))
-    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live, 'progress': progress, 'merge_conflicts': conflicts, 'investigation': found, 'investigation_references': investigation['references']}, indent=1))
+    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': sorted(live), 'progress': progress, 'merge_conflicts': conflicts, 'investigation': found, 'investigation_references': investigation['references']}, indent=1))
 
     extra, result, bad = '', {}, []
     if progress or conflicts:
@@ -284,7 +318,7 @@ def main():
             if result.get('outcome') != 'fixed':
                 break
             try:
-                bad, changed = problems_in(tree, live)
+                bad, changed = check_published(tree, live, reserves)
             except HostVerificationError as exc:
                 bad = [str(exc)]
                 break
@@ -303,7 +337,10 @@ def main():
     if outcome != 'fixed' or bad:
         # Unfinished work is kept and continued, never thrown away.
         (tree / RESULT).unlink(missing_ok=True)
-        sha = '' if dry else checkpoint(number, tree, branch, live, result, bad)
+        latest, pending = published_runs()
+        live |= latest
+        reserves |= pending
+        sha = '' if dry else checkpoint(number, tree, branch, live, result, bad, reserves)
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         sys.exit(f'Builder stopped with outcome {outcome}' + (f'; saved {sha} on {branch} for the next pass.' if sha else '; nothing new to save.')
                  + (f'\n{str(bad)[:1500]}' if bad else ''))

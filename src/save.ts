@@ -37,6 +37,13 @@ export function loadSave(): Save { try { const raw = localStorage.getItem(KEY); 
 export function writeSave(save: Save): void { memory = structuredClone(save); try { localStorage.setItem(KEY, JSON.stringify(save)); } catch { /* session continues in memory */ } }
 export function exportSave(save: Save): string { return JSON.stringify(save, null, 2); }
 export function importSave(text: string): Save { const save = parseSave(text); writeSave(save); return save; }
+// A prebuilt next run opens itself at its time, so a missed build or a dead host never closes the game.
+export function currentRun(m: Manifest, now: number): Manifest {
+  const n = m.next, opens = n ? Date.parse(n.opensAt) : NaN;
+  if (!n || !(opens <= now)) return m;
+  const { next: _, ...rest } = m;
+  return { ...rest, runId: n.runId, opensAt: n.opensAt, runUrl: n.runUrl, nextOpensAt: new Date(opens + 86_400_000).toISOString().replace('.000Z', 'Z') };
+}
 export function rollover(save: Save, manifest: Manifest): Save {
   const s = structuredClone(save);
   // A voided run gives a losing player one more attempt, once.
