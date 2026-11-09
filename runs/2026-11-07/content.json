@@ -1,0 +1,1146 @@
+{
+ "title": "The Shape of Safe",
+ "swarm": {
+  "name": "The Keepers",
+  "blurb": "A machine swarm following an old shelter plan. It gathers, sorts and seals whatever it believes is in danger."
+ },
+ "arc": "The Keepers cross the parks, enclosing a landscape to match an old survey. The crew first thinks the swarm wants control, then follows it to a mineral collection and learns the enclosures are part of an emergency shelter plan. The plan treats ordinary change as a threat and turns protection into confinement. Its search for water leads into a connected karst system, where blocked channels endanger the people it was meant to protect. Wren, Ox and Kestrel break the controller\u2019s links, restore the water and leave a corrected plan with local surveyors.",
+ "acts": [
+  {
+   "theme": "A landscape held still",
+   "story": {
+    "intro": "The swarm has crossed into the parks. Paths fold shut behind it. Wren checks the abandoned camps while Ox tests the ground with his shield. Kestrel follows the machine tracks.",
+    "chapters": [
+     {
+      "title": "The fixed route",
+      "text": "Machines stitch trails into single loops and send anything that strays back to the start. Kestrel finds the seams in their work. The crew assumes the swarm wants to control where people go."
+     },
+     {
+      "title": "The safe enclosure",
+      "text": "Capsules hold plants away from their pollinators. Warmth is diverted from camps into sealed nests. Wren finds a machine keeping a specimen alive with unusual care. Control may be a means, not the goal."
+     },
+     {
+      "title": "An old record",
+      "text": "Every enclosure matches an older survey. Ox sees that the exits have been braced from the outside. The machines seem to be protecting a recorded landscape from any further change."
+     }
+    ],
+    "bossIntro": "The Forever Preserve rolls into view on a bed of folded maps. Capsules hang behind its plated doors. It seals a gap each time the crew opens one.",
+    "outro": "The Preserve breaks open. Its last map points toward a mineral collection. Wren frees the specimens, while Kestrel pockets a shard carrying the same old survey. The swarm is still moving."
+   },
+   "creatures": [
+    {
+     "id": "contour-stitcher",
+     "name": "Contour Stitcher",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/bela/planyourvisit/maps.htm",
+     "blurb": "It pulls map lines tight around another machine. Break its cover before the line closes.",
+     "look": "A low brass spider carries pale cord spools and a folded green contour sheet across its back."
+    },
+    {
+     "id": "dewpoint-tick",
+     "name": "Dewpoint Tick",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/bela/planyourvisit/conditions.htm",
+     "blurb": "A cold shell cracks into smaller ticks when it is hurt.",
+     "look": "A round steel tick with icy blue plates, six hooked legs and a bead of frost on its back."
+    },
+    {
+     "id": "echo-bat",
+     "name": "Echo Bat",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/subjects/bats/index.htm",
+     "blurb": "Its false return interrupts a crew member just as they move.",
+     "look": "A charcoal bat with wide fan-shaped ears, silver wing ribs and a blue throat bulb."
+    },
+    {
+     "id": "chorus-frog",
+     "name": "Chorus Frog",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/subjects/amphibiansandreptiles/index.htm",
+     "blurb": "Its song calls more machines. Silence it early.",
+     "look": "A squat green metal frog with a ribbed yellow throat sac and four broad feet."
+    },
+    {
+     "id": "recovery-collector",
+     "name": "Recovery Collector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/subjects/rareandendangered/index.htm",
+     "blurb": "It repairs damaged capsules and the machines guarding them.",
+     "look": "A cream cabinet on jointed legs holds glass pods; two fine arms carry a clamp and a soldering tip."
+    },
+    {
+     "id": "birding-scope",
+     "name": "Birding Scope",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/subjects/birds/index.htm",
+     "blurb": "Its lens marks a target for the rest of the patrol.",
+     "look": "A long black telescope on three insect legs, with a wide amber lens and a swiveling hood."
+    },
+    {
+     "id": "range-bison",
+     "name": "Range Bison",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/subjects/bison/index.htm",
+     "blurb": "It compacts a straight lane and charges down it.",
+     "look": "A heavy brown mechanical bison with a roller chest, blunt horns and thick square hooves."
+    },
+    {
+     "id": "fire-warden",
+     "name": "Fire Warden",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/articles/campfires.htm",
+     "blurb": "Its expanding ring protects the warden while it smothers lamps.",
+     "look": "A squat soot-gray stove on wheels with a circular iron fender and two shovel arms."
+    },
+    {
+     "id": "habitat-sorter",
+     "name": "Habitat Sorter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "cover",
+      "strike"
+     ],
+     "source": "/subjects/biodiversity/index.htm",
+     "blurb": "It separates a mixed habitat and divides when its frame is damaged.",
+     "look": "A tall white sorting machine with hinged wire pens, four wheels and green glass compartments."
+    },
+    {
+     "id": "hot-spring-siphon",
+     "name": "Hot Spring Siphon",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/bela/index.htm",
+     "blurb": "It shields its warm coil while feeding a new brood.",
+     "look": "A coiled copper pipe serpent with steam vents, a broad valve head and small glowing amber tanks."
+    },
+    {
+     "id": "field-auditor",
+     "name": "Field Auditor",
+     "tier": "elite",
+     "bodyPlan": "humanoid",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "jam",
+      "strike"
+     ],
+     "source": "/articles/researchakwilderness.htm",
+     "blurb": "It steals tools and interrupts anyone who tries to retrieve them.",
+     "look": "A narrow gray mechanical figure with a hinged measuring arm, a canvas pouch and a blank oval face."
+    },
+    {
+     "id": "forever-preserve",
+     "name": "Forever Preserve",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/index.htm",
+     "blurb": "Its plated vaults protect the machines inside. Break through the shield and open the cages it keeps repairing.",
+     "look": "A huge walking vault of gray stone and folded green maps, with glass specimen pods behind overlapping brass doors."
+    },
+    {
+     "id": "park-steward",
+     "name": "Park Steward",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/articles/000/akchangeprjjuke.htm",
+     "blurb": "A local observer knows where the old maps no longer match the ground.",
+     "look": "A traveler in a blue weatherproof coat with a field satchel and a small brass hand lens."
+    },
+    {
+     "id": "shelter-repairer",
+     "name": "Shelter Repairer",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/getinvolved/index.htm",
+     "blurb": "A volunteer braces damaged shelters and protects others while they work.",
+     "look": "A stocky worker in tan overalls carries a folded metal panel and a tool roll."
+    }
+   ],
+   "events": [
+    {
+     "id": "false-echo",
+     "source": "/subjects/bats/index.htm",
+     "look": "A dark cave mouth with a brass horn and bats clustered behind a wire screen.",
+     "title": "False Echo",
+     "text": "A projector traps bats behind a screen. Its horn answers every sound with a false return.",
+     "options": [
+      {
+       "label": "Imitate an open passage",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The bats escape, but the horn catches the crew at close range."
+      },
+      {
+       "label": "Strip the horn for parts",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The projector falls silent and yields useful brass. The bats must find their own way out."
+      }
+     ]
+    },
+    {
+     "id": "buried-junction",
+     "source": "/subjects/npscelebrates/fall-season.htm",
+     "look": "Orange and yellow leaf piles conceal a fork and a small wooden marker.",
+     "title": "Buried Junction",
+     "text": "A family waits at a fork buried in sorted leaves. The sweeper is coming back.",
+     "options": [
+      {
+       "label": "Clear the marker together",
+       "effect": {
+        "type": "damage",
+        "amount": 0.05
+       },
+       "result": "The family finds the trail. The returning sweeper clips the crew."
+      },
+      {
+       "label": "Sell the loose metal rake",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The family uses the remaining daylight to search while the crew takes the rake to trade."
+      }
+     ]
+    },
+    {
+     "id": "cold-spring",
+     "source": "/bela/index.htm",
+     "look": "A steaming pool feeds a copper pipe leading into a frost-covered machine nest.",
+     "title": "Cold Spring",
+     "text": "A siphon has taken the spring\u2019s heat. Its valve also feeds a dormant nest.",
+     "options": [
+      {
+       "label": "Turn the valve",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Warm water returns. The crew rests briefly before the nest begins to stir."
+      },
+      {
+       "label": "Salvage the valve wheel",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The wheel is valuable. The pool stays cold for now."
+      }
+     ]
+    },
+    {
+     "id": "free-entry",
+     "source": "/bela/planyourvisit/fees.htm",
+     "look": "A squat gate machine blocks an open tundra path with a rusted barrier.",
+     "title": "Free Entry",
+     "text": "A broken inspector demands payment at an entrance its records say is free.",
+     "options": [
+      {
+       "label": "Pay the mechanism",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The barrier lifts immediately. The inspector keeps the coins."
+      },
+      {
+       "label": "Force the barrier",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Ox bends the arm aside, but its spring snaps back into the crew."
+      }
+     ]
+    },
+    {
+     "id": "field-kit",
+     "source": "/articles/researchakwilderness.htm",
+     "look": "A canvas field kit lies inside a wire cage beside a small tundra plot.",
+     "title": "Field Kit",
+     "text": "An auditor has seized a researcher\u2019s equipment. The sample will not wait long.",
+     "options": [
+      {
+       "label": "Buy replacement tools",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The researcher finishes the work with the new kit."
+      },
+      {
+       "label": "Cut open the cage",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Kestrel recovers the original kit, with a scrape from the wire."
+      }
+     ]
+    },
+    {
+     "id": "traveling-classroom",
+     "source": "/teachers/index.htm",
+     "look": "An open wooden trunk spills illustrated cards and a brass hand lens onto grass.",
+     "title": "Traveling Classroom",
+     "text": "A teacher needs scattered cards returned before the wind takes them. A spare hand lens lies in the trunk.",
+     "options": [
+      {
+       "label": "Collect the cards",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The teacher shows the crew how to brace a load before it shifts. The search takes the remaining daylight."
+      },
+      {
+       "label": "Take the spare lens for trade",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The lens brings a fair price. The teacher gathers the cards alone."
+      }
+     ]
+    }
+   ],
+   "name": "Carlsbad Caverns National Park",
+   "url": "https://www.nps.gov/cave/index.htm"
+  },
+  {
+   "theme": "A collection that builds",
+   "story": {
+    "intro": "The shard leads the crew to a mineral collection and its workshops. Crystals have been moved from their cases into new machine frames. Kestrel checks each joint for a weak seam.",
+    "chapters": [
+     {
+      "title": "Order and shelter",
+      "text": "Sorters group people and objects by supposed origin. Some cases are armored and heated. Ox holds one open while Wren helps its occupants out."
+     },
+     {
+      "title": "The turn",
+      "text": "Workshop records show the swarm is building a shelter, not merely preserving a collection. It copied an old emergency plan and now treats all movement as damage. Its cages are failed attempts to keep living things safe."
+     },
+     {
+      "title": "A missing connection",
+      "text": "The plan needs a steady water supply. Its diagrams end at a cave network, but the cabinet is building pipes through occupied rooms. Kestrel finds the shared joints between the new armor and the supply lines."
+     }
+    ],
+    "bossIntro": "The Cabinet of Tomorrow advances with specimen cases for armor. It grows supports from its cargo and calls smaller builders to close each opening. The water diagram hangs inside its frame.",
+    "outro": "The cabinet falls apart when its supply joints are cut. Its diagram shows a central controller beneath the karst. Wren keeps the plan: the crew can stop the machinery without sealing the water away."
+   },
+   "creatures": [
+    {
+     "id": "locality-sorter",
+     "name": "Locality Sorter",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+     "blurb": "It takes loose gear for its geological shelves.",
+     "look": "A wheeled steel rack with blue mineral plates, two pincers and a row of empty square trays."
+    },
+    {
+     "id": "citation-borer",
+     "name": "Citation Borer",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/recherche/partage-des-savoirs/bibliotheque/",
+     "blurb": "It tunnels toward repeated sounds, then bursts out in a straight charge.",
+     "look": "A short brass mole with a spiral drill nose, tiny black eyes and broad digging feet."
+    },
+    {
+     "id": "exposure-unit",
+     "name": "Exposure Unit",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/blog/evenements/exposition-temps-profonds-et-autres-lumieres/",
+     "blurb": "Its pulsing beam coats a target in brittle mineral crust.",
+     "look": "A black tripod lamp with a broad blue lens and a fan of pale crystalline fins."
+    },
+    {
+     "id": "species-splitter",
+     "name": "Species Splitter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+     "blurb": "Its crystal body divides along a clean seam when damaged.",
+     "look": "An angular white crystal beetle with a dark seam down its back and six jointed iron legs."
+    },
+    {
+     "id": "archive-conservator",
+     "name": "Archive Conservator",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/recherche/partage-des-savoirs/bibliotheque/",
+     "blurb": "It repairs nearby machines with clear mineral shells.",
+     "look": "A narrow wheeled cabinet with a glass dome, a vacuum hose and two fine silver repair arms."
+    },
+    {
+     "id": "load-integrator",
+     "name": "Load Integrator",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/blog/evenements/workshop-electrification-des-usages/",
+     "blurb": "It overloads tools and interrupts their users.",
+     "look": "A yellow copper-framed machine with thick black cables and two clamp hands."
+    },
+    {
+     "id": "subsoil-prospector",
+     "name": "Subsoil Prospector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach"
+     ],
+     "source": "/ecole/un-peu-dhistoire/",
+     "blurb": "Its drill charges through a guarded line.",
+     "look": "A squat olive drilling rig on treads with a long steel auger and a round work lamp."
+    },
+    {
+     "id": "credit-collector",
+     "name": "Credit Collector",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/formations/i-be3/",
+     "blurb": "It confiscates the tools used to finish a job.",
+     "look": "A slim mechanical clerk with a square bronze torso, long arms and a deep canvas tool pouch."
+    },
+    {
+     "id": "micro-architect",
+     "name": "Micro Architect",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/blog/actualites/bachelor-i-be%c2%b3-ingenierie-et-architecture-croisent-leurs-regards-pour-concevoir-les-batiments-de-demain/",
+     "blurb": "It folds model walls into protective cover for its builders.",
+     "look": "A tall silver frame carrying hinged cream panels, a plumb weight and four articulated arms."
+    },
+    {
+     "id": "co-design-assembler",
+     "name": "Co-design Assembler",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "strike"
+     ],
+     "source": "/ecole/strategie/",
+     "blurb": "It calls builders and shelters them behind fresh attachments.",
+     "look": "A rolling workbench with green jointed arms, a vise mouth and a stack of small metal frames."
+    },
+    {
+     "id": "five-department-composite",
+     "name": "Five-Department Composite",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "brace",
+      "strike"
+     ],
+     "source": "/recherche/18-centres-de-recherche-5-domaines-disciplinaires/",
+     "blurb": "Its linked modules repair their whole group. Interrupt the repair unit first.",
+     "look": "Five mismatched brass and blue modules share a broad wheeled chassis, each with a different tool arm."
+    },
+    {
+     "id": "cabinet-of-tomorrow",
+     "name": "Cabinet of Tomorrow",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "sweep+"
+     ],
+     "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+     "blurb": "It calls builders, shields them and sweeps the room with its frame. Break its construction line before it fills the floor.",
+     "look": "A huge wheeled cabinet of dark wood and brass, with pale crystal cases, folding beams and a ring of long construction arms."
+    },
+    {
+     "id": "curator-automaton",
+     "name": "Curator Automaton",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+     "blurb": "An independent cataloguer helps open cases and guards the people inside.",
+     "look": "A compact cream robot with a glass lens, padded clamp hands and a flat protective tray."
+    },
+    {
+     "id": "student-builder",
+     "name": "Student Builder",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/vie-de-campus/vie-associative-sportive-et-culturelle/",
+     "blurb": "A workshop volunteer repairs gear and makes practical diversions.",
+     "look": "A person in a green work jacket and goggles carries a tool bag and a coil of wire."
+    }
+   ],
+   "events": [
+    {
+     "id": "warm-battery",
+     "source": "/recherche/partage-des-savoirs/musee-de-mineralogie/",
+     "look": "A glowing battery sits among pale crystals in a cracked glass case.",
+     "title": "Warm Battery",
+     "text": "A battery is heating the specimens around it. A sorter is approaching.",
+     "options": [
+      {
+       "label": "Pull it out by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The specimens cool. The battery burns the crew through their gloves."
+      },
+      {
+       "label": "Sell the spare case fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The fittings fetch a price. The curator returns later to move the battery."
+      }
+     ]
+    },
+    {
+     "id": "crystal-bridge",
+     "source": "/blog/evenements/exposition-temps-profonds-et-autres-lumieres/",
+     "look": "A narrow bridge is covered in pale crystalline crust under a blue lamp.",
+     "title": "Crystal Bridge",
+     "text": "Light feeds a spreading crust over the bridge. A shade could block it.",
+     "options": [
+      {
+       "label": "Carry the shade",
+       "effect": {
+        "type": "damage",
+        "amount": 0.05
+       },
+       "result": "The crew clears a path, taking a few cuts from the crust."
+      },
+      {
+       "label": "Buy a long pole",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The pole holds the shade at a safe distance and is left with the people crossing."
+      }
+     ]
+    },
+    {
+     "id": "conflicting-diagrams",
+     "source": "/recherche/partage-des-savoirs/bibliotheque/",
+     "look": "Two unfolded diagrams lie on a steel desk beside a small lamp.",
+     "title": "Conflicting Diagrams",
+     "text": "Two diagrams disagree about a support. Checking the older copy will take time and supplies.",
+     "options": [
+      {
+       "label": "Consult the relay",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The relay charges for a power cell and points out a safer brace."
+      },
+      {
+       "label": "Test the support",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The support fails under a careful test. The crew finds the mistake the hard way."
+      }
+     ]
+    },
+    {
+     "id": "balanced-model",
+     "source": "/blog/actualites/bachelor-i-be%c2%b3-ingenierie-et-architecture-croisent-leurs-regards-pour-concevoir-les-batiments-de-demain/",
+     "look": "A tiny model building holds up a full-size ceiling with a hanging weight.",
+     "title": "Balanced Model",
+     "text": "A model\u2019s counterweight holds a corridor ceiling in place. The weight is valuable, but moving it is risky.",
+     "options": [
+      {
+       "label": "Crawl through in sequence",
+       "effect": {
+        "type": "heal",
+        "amount": 0.1
+       },
+       "result": "The slow crossing gives Wren time to tend minor injuries. The weight stays in place."
+      },
+      {
+       "label": "Take the counterweight",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The crew slips through as the ceiling lowers. The weight can be traded."
+      }
+     ]
+    },
+    {
+     "id": "limited-supply",
+     "source": "/blog/evenements/workshop-electrification-des-usages/",
+     "look": "A single generator feeds a kettle, a closed door and a small beacon.",
+     "title": "Limited Supply",
+     "text": "The generator can power only two devices. People behind the door need the beacon and the kettle.",
+     "options": [
+      {
+       "label": "Power the door and kettle",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The crew shares hot water with the occupants. Their beacon stays dark."
+      },
+      {
+       "label": "Power the door and beacon",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "A technician guides the crew through clearing a bad circuit. The kettle remains cold."
+      }
+     ]
+    },
+    {
+     "id": "moving-room",
+     "source": "/vie-de-campus/logement/",
+     "look": "A row of open doors shifts on rails around a small furnished room.",
+     "title": "Moving Room",
+     "text": "A housing machine keeps moving an empty room away from its owner. A loose rail can stop it.",
+     "options": [
+      {
+       "label": "Buy the rail from a scavenger",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The rail jams the mechanism. The owner gets the room back."
+      },
+      {
+       "label": "Hold the doors apart",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Ox holds them long enough for the owner to enter. A door catches the crew on the way out."
+      }
+     ]
+    }
+   ],
+   "name": "Mineralogy Museum of the Paris School of Mines",
+   "url": "https://www.minesparis.psl.eu/musee/en/home/"
+  },
+  {
+   "theme": "Water connects the system",
+   "story": {
+    "intro": "The water diagram leads underground. Springs, sinkholes and wells share passages the swarm has begun to seal. Ox tests every ledge before the crew crosses.",
+    "chapters": [
+     {
+      "title": "The same water",
+      "text": "A well and a distant spring carry the same machine debris. Wren follows the flow instead of the marked corridors. The swarm is trying to secure a supply for its shelter."
+     },
+     {
+      "title": "A flawed safeguard",
+      "text": "Sealed channels raise pressure under occupied ground. The controller still follows the emergency plan from the collection. It cannot distinguish a safe change in water flow from a threat."
+     },
+     {
+      "title": "Separate the links",
+      "text": "Surveyors trace three links: a surface marker, boring limbs and a spring-mouth core. Kestrel finds where the links meet. Ox plans a route that leaves the water passages open."
+     }
+    ],
+    "bossIntro": "The Karst Mandate rises through the floor. Its surveyor marks targets while its limbs bore new channels. The spring-mouth core shields the whole machine and sends water across the chamber.",
+    "outro": "The crew breaks the links to the core and opens the blocked channels. Water returns to the well and spring. The swarm wanted a permanent shelter for living things, but its old plan made a prison. Wren leaves the corrected diagram with the surveyors; the crew moves on."
+   },
+   "creatures": [
+    {
+     "id": "solution-miner",
+     "name": "Solution Miner",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/about-caves/types/",
+     "blurb": "It dissolves cover and marks targets for the boring machines.",
+     "look": "A small gray crawler with a narrow nozzle, blue fluid tank and four gripping legs."
+    },
+    {
+     "id": "humidity-regulator",
+     "name": "Humidity Regulator",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/about-caves/cave-environment/",
+     "blurb": "It condenses a protective mist around damaged machines.",
+     "look": "A round silver fan on three feet with a clear water reservoir and a ring of white vapor nozzles."
+    },
+    {
+     "id": "spring-siphon",
+     "name": "Spring Siphon",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/about-karst/springs/",
+     "blurb": "It pulls loose equipment into the current.",
+     "look": "A slender blue-gray pipe serpent with a circular suction mouth and flexible ribbed body."
+    },
+    {
+     "id": "formation-weaver",
+     "name": "Formation Weaver",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/about-caves/formations/",
+     "blurb": "It grows mineral strands over allies to protect them.",
+     "look": "A chalk-white spider with long wire legs and dangling amber mineral threads."
+    },
+    {
+     "id": "collapse-beetle",
+     "name": "Collapse Beetle",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/about-karst/sinkholes/",
+     "blurb": "It braces a slab, then charges as the stone falls.",
+     "look": "A broad brown beetle with stone plates, thick piston legs and a flat slab balanced on its back."
+    },
+    {
+     "id": "fossil-assessor",
+     "name": "Fossil Assessor",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/about-caves/paleontology/",
+     "blurb": "It casts fresh footprints and uses them to pin their maker in place.",
+     "look": "A tan box on spindly legs with a wide plaster nozzle and a pair of round blue lenses."
+    },
+    {
+     "id": "artifact-extractor",
+     "name": "Artifact Extractor",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/about-caves/archaeology/",
+     "blurb": "It removes tools under a ring of probing arms.",
+     "look": "A low brass machine with a circular probe frame, a mesh basket and four rubber wheels."
+    },
+    {
+     "id": "lampenflora-imitator",
+     "name": "Lampenflora Imitator",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/academic-program/student-research/",
+     "blurb": "Its mechanical mat splits and spreads when cut.",
+     "look": "A mat of dark green metal fronds with tiny pale bulbs and rootlike copper wires."
+    },
+    {
+     "id": "aquifer-custodian",
+     "name": "Aquifer Custodian",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "breach"
+     ],
+     "source": "/about-karst/",
+     "blurb": "Its interlocking scales seal the channel and protect other machines.",
+     "look": "A thick slate-blue mechanical eel with overlapping shield scales and a broad circular valve head."
+    },
+    {
+     "id": "grant-planter",
+     "name": "Grant Planter",
+     "tier": "elite",
+     "bodyPlan": "plant",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/academic-program/grant-information/",
+     "blurb": "Its buried pods call machines when water reaches them. Rush it before the nest grows.",
+     "look": "A bronze seedpod on jointed root legs, with a short survey mast and glowing green seed chambers."
+    },
+    {
+     "id": "hypogene-borer",
+     "name": "Hypogene Borer",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach",
+      "strike"
+     ],
+     "source": "/publications/special-papers/",
+     "blurb": "It rises beneath cover and drives through a shielded front.",
+     "look": "A heavy black drilling cylinder with a pale stone cutting crown and four hydraulic braces."
+    },
+    {
+     "id": "karst-mandate",
+     "name": "Karst Mandate",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "spawn",
+      "sweep+"
+     ],
+     "source": "/about/",
+     "blurb": "Its core shields itself, calls boring machines and sweeps the chamber. Break the guarded links before its reinforcements overwhelm the crew.",
+     "look": "A vast gray stone and brass machine with a circular spring-mouth core, three drilling limbs and a tall survey mast."
+    },
+    {
+     "id": "water-monitor",
+     "name": "Water Monitor",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/about-karst/springs/",
+     "blurb": "A surveyor traces the flow and helps keep the crew fit to follow it.",
+     "look": "A surveyor in a blue waterproof coat carries a sample bottle, field bag and compact lamp."
+    },
+    {
+     "id": "cave-interpreter",
+     "name": "Cave Interpreter",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/cave-week/",
+     "blurb": "A volunteer guides people around fragile formations and shields them from falling debris.",
+     "look": "A person in a tan helmet and green jacket carries a broad folded canvas shield and a small lantern."
+    }
+   ],
+   "events": [
+    {
+     "id": "cast-footprints",
+     "source": "/about-caves/paleontology/",
+     "look": "Fresh footprints end beside a pale cast on a muddy cave floor.",
+     "title": "Cast Footprints",
+     "text": "An assessor is hunting the person whose footprints it copied. They are hiding nearby.",
+     "options": [
+      {
+       "label": "Draw the assessor away",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The person slips out while the crew takes a glancing hit."
+      },
+      {
+       "label": "Sell the discarded casting tools",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The tools bring useful supplies. The person waits for a quieter chance to leave."
+      }
+     ]
+    },
+    {
+     "id": "lost-equipment",
+     "source": "/about-karst/springs/",
+     "look": "A clear spring spills metal parts and a canvas pouch onto a rocky bank.",
+     "title": "Lost Equipment",
+     "text": "The spring is returning lost gear. A narrow crack upstream holds more.",
+     "options": [
+      {
+       "label": "Reach into the crack",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew recovers a pouch, but sharp stone cuts their hands."
+      },
+      {
+       "label": "Collect loose parts downstream",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The loose metal is easy to trade. The pouch stays lodged upstream."
+      }
+     ]
+    },
+    {
+     "id": "sagging-tripod",
+     "source": "/about-karst/sinkholes/",
+     "look": "Two metal machines stand beside a tripod on visibly cracked ground.",
+     "title": "Sagging Tripod",
+     "text": "Two machines debate the type of sinkhole while their tripod sinks.",
+     "options": [
+      {
+       "label": "Pull the tripod free",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The tripod comes loose as the ground drops underfoot."
+      },
+      {
+       "label": "Buy a rope and anchor",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The crew hauls the tripod from a safe distance and leaves the rope for surveyors."
+      }
+     ]
+    },
+    {
+     "id": "dark-route",
+     "source": "/academic-program/student-research/",
+     "look": "A dim cave passage has green metal fronds growing toward a lamp.",
+     "title": "Dark Route",
+     "text": "A surveyor is stranded behind a mat that grows toward their lamp.",
+     "options": [
+      {
+       "label": "Guide them out in darkness",
+       "effect": {
+        "type": "damage",
+        "amount": 0.05
+       },
+       "result": "The surveyor gets clear. The crew stumbles against the rock."
+      },
+      {
+       "label": "Redirect the lamp with a mirror",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "A purchased mirror draws the mat aside and the surveyor escapes."
+      }
+     ]
+    },
+    {
+     "id": "reversed-airflow",
+     "source": "/about-caves/cave-environment/",
+     "look": "A forked cave passage carries a cloud of dust past a fluttering cloth.",
+     "title": "Reversed Airflow",
+     "text": "A distress call comes from one branch and machine dust from the other. The draft is shifting.",
+     "options": [
+      {
+       "label": "Follow the call now",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew reaches a stranded traveler but takes a lungful of dust."
+      },
+      {
+       "label": "Wait for the dust to settle",
+       "effect": {
+        "type": "heal",
+        "amount": 0.1
+       },
+       "result": "Wren tends the crew during the wait. The traveler finds another route out."
+      }
+     ]
+    },
+    {
+     "id": "old-field-guide",
+     "source": "/publications/field-guides/",
+     "look": "A narrow crack reveals a white stone column behind a newly built wall.",
+     "title": "Old Field Guide",
+     "text": "A survey team\u2019s old route ends at a wall. A familiar formation shows through a crack.",
+     "options": [
+      {
+       "label": "Widen the crack",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Kestrel opens a route and catches falling grit."
+      },
+      {
+       "label": "Trade for the team\u2019s spare map",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The surveyors exchange a lesson in breaking shields for the crew\u2019s remaining lamp fuel."
+      }
+     ]
+    }
+   ],
+   "name": "National Cave and Karst Research Institute",
+   "url": "https://nckri.org/"
+  }
+ ],
+ "id": "2026-11-07",
+ "seed": 1600061541
+}

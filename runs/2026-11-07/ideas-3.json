@@ -1,0 +1,231 @@
+{
+  "reading": "The National Cave and Karst Research Institute is a New Mexico Tech research center that advances cave and karst knowledge through research, education, outreach and environmental management. It treats the underground as both a source of wonder and a connected, vulnerable landscape: soluble rock, groundwater, springs and sinkholes matter to people at the surface. Its vocabulary moves comfortably between solution caves, speleogens, speleothems, dolines, aquifers, airflow, paleontology and geomicrobiology, and the practical language of grants, field guides and multidisciplinary conferences. What distinguishes it is that a lesson on cave decorations sits alongside work on water resources, cave viruses, engineering impacts and public celebration; the institute connects specialists, students, managers and curious visitors rather than treating caves as isolated curiosities.",
+  "enemies": [
+    {
+      "idea": "Solution miners drip reactive machine fluid into stone, opening narrow routes behind the crew and dissolving their cover.",
+      "source": "/about-caves/types/",
+      "why": "A slow geological process becomes a mobile flanking tactic."
+    },
+    {
+      "idea": "A lava-tube crawler extrudes a hot shell around itself, then leaves the hollow tube as a shortcut for smaller swarm units.",
+      "source": "/about-caves/types/",
+      "why": "Its discarded armor changes the battlefield."
+    },
+    {
+      "idea": "Eolian burrowers blast abrasive grit through keyholes, sculpting routes too narrow for their pursuers.",
+      "source": "/about-caves/types/",
+      "why": "Wind-carved caves suggest a distinctive ranged attack and escape route."
+    },
+    {
+      "idea": "Speleothem weavers hang mineral-coated filaments from ceilings and grow matching spikes beneath intruders until the two clamp together.",
+      "source": "/about-caves/formations/",
+      "why": "A cave decoration becomes a visible, escalating trap."
+    },
+    {
+      "idea": "Speleogen scrapers remove the walls around a target rather than building a cage, leaving them stranded on a shrinking pillar.",
+      "source": "/about-caves/formations/",
+      "why": "The distinction between carved and deposited formations yields a different encounter."
+    },
+    {
+      "idea": "A cover-collapse doline engine undermines a patch of ground while projecting an intact surface above it; its seams tremble just before they give way.",
+      "source": "/about-karst/sinkholes/",
+      "why": "A readable bluff turns footing into a tactical puzzle."
+    },
+    {
+      "idea": "Bedrock-collapse beetles brace a ceiling with their legs, then withdraw together to drop a chosen slab.",
+      "source": "/about-karst/sinkholes/",
+      "why": "The crew can interrupt the coordinated collapse by breaking the formation."
+    },
+    {
+      "idea": "Spring-mouth siphons hide in cracks and pull water and loose gear through a maze of tiny channels, reappearing at another outlet.",
+      "source": "/about-karst/springs/",
+      "why": "Tracking the stolen flow reveals a hidden route."
+    },
+    {
+      "idea": "Aquifer custodians classify any moving water as swarm property and seal wells with interlocking machine scales.",
+      "source": "/about-karst/",
+      "why": "A water resource becomes the center of a rescue and access problem."
+    },
+    {
+      "idea": "Air-quality sentries mistake the crew’s breath for contamination and redirect airflow to herd them into sealed chambers.",
+      "source": "/about-caves/cave-environment/",
+      "why": "Breathing exposes the crew, while changing the draft can misdirect the machines."
+    },
+    {
+      "idea": "Humidity regulators condense fog around warm bodies, making them visible to other machines while concealing the regulators themselves.",
+      "source": "/about-caves/cave-environment/",
+      "why": "The environment becomes both camouflage and a tracking system."
+    },
+    {
+      "idea": "Fossil-age assessors press living footprints into quick-setting mineral casts, then pursue the makers as specimens that have escaped their assigned age.",
+      "source": "/about-caves/paleontology/",
+      "why": "Trace fossils become clues the enemy manufactures in real time."
+    },
+    {
+      "idea": "Artifact extractors surround any dropped tool with a grid of probes and painstakingly remove it, treating the owner as a disturbance to the dig.",
+      "source": "/about-caves/archaeology/",
+      "why": "A careful research method creates an odd, interruptible theft."
+    },
+    {
+      "idea": "Acid-adapted microbe mimics ride in corrosion-resistant machine colonies, eating through metal barriers while leaving glass vessels untouched.",
+      "source": "/academic-program/student-research/",
+      "why": "Material choice becomes a practical defense against the swarm."
+    },
+    {
+      "idea": "Lampenflora imitators grow mechanical green mats under artificial light, spreading along illuminated paths and smothering lamps.",
+      "source": "/academic-program/student-research/",
+      "why": "Light helps navigation but also feeds an advancing hazard."
+    },
+    {
+      "idea": "Seed-grant planters bury small machines that promise new research sites, then grow survey towers which summon the swarm when watered.",
+      "source": "/academic-program/grant-information/",
+      "why": "A funding metaphor turns a tempting resource into a delayed threat."
+    },
+    {
+      "idea": "Field-guide outriders recite an accurate description of each cave feature, then quietly rearrange markers to lead travelers into a machine survey.",
+      "source": "/publications/field-guides/",
+      "why": "Trustworthy knowledge and treacherous directions coexist in one adversary."
+    },
+    {
+      "idea": "Investigation collectors pin numbered tags to everything they encounter and dismantle anything that resists being catalogued.",
+      "source": "/publications/reports-of-investigation/",
+      "why": "A research archive becomes an escalating capture procedure."
+    },
+    {
+      "idea": "Symposium chorus machines argue incompatible interpretations of the same cave and attack whoever interrupts their rotating presentations.",
+      "source": "/publications/symposia/",
+      "why": "The crew can exploit the predictable handoffs between competing speakers."
+    },
+    {
+      "idea": "Hypogene boring machines rise from below and hollow a chamber under the crew, venting through the floor when their pressure builds.",
+      "source": "/publications/special-papers/",
+      "why": "A named cave-forming process makes the attack come from an unusual direction."
+    },
+    {
+      "idea": "Deadline keepers patrol with clocks set to funding deadlines, seizing unfinished experiments when their alarms sound.",
+      "source": "/events/cave-and-karst-news/",
+      "why": "A visible countdown gives a straightforward reason to hurry."
+    },
+    {
+      "idea": "Mandate enforcers interpret environmental management as a command to remove every unpredictable visitor from the landscape.",
+      "source": "/about/",
+      "why": "The institute’s protective mission becomes an adversary with a comprehensible rule."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A pocket field guide maintained by surviving surveyors offers routes and cave-feature descriptions; its keepers need help checking which passages the swarm has changed.",
+      "source": "/publications/field-guides/",
+      "why": "Useful knowledge is earned through a small cooperative survey."
+    },
+    {
+      "idea": "A student research collective protects samples of cave microbes and can identify swarm imitations if the crew retrieves their scattered instruments.",
+      "source": "/academic-program/student-research/",
+      "why": "Research skills help distinguish living cave systems from machine copies."
+    },
+    {
+      "idea": "Volunteer Cave Week interpreters signal safe gathering places with a shared sequence of knocks and teach crews how to move gently through formations.",
+      "source": "/cave-week/",
+      "why": "The site’s public wonder becomes a network of people helping one another."
+    },
+    {
+      "idea": "A water-monitoring team traces the underground flow between a threatened well and spring, giving the crew a way to intercept the swarm without sealing the whole aquifer.",
+      "source": "/about-karst/springs/",
+      "why": "Understanding connections offers an alternative to destroying the passage."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Karst Mandate is a distributed management machine: its surface surveyor marks a site, its dissolution limbs make passages, and its spring-mouth core controls what emerges. Cut the connections between its parts to expose the core.",
+      "source": "/about/",
+      "why": "The institute’s science, landscape management and outreach fuse into a system-wide opponent whose body follows the landscape."
+    },
+    {
+      "idea": "The Grand Confluence convenes engineering, environmental and cave-science machines around an artificial sinkhole; each discipline reinforces a different defense until the crew turns their contradictory measurements against one another.",
+      "source": "/events/sinkhole-conference/",
+      "why": "A multidisciplinary conference becomes a coordinated boss with several ways to disrupt it."
+    },
+    {
+      "idea": "The Catalyst has absorbed the institute’s research and teaching mission and is converting the entire cave into a demonstration: it grows formations, redirects water and demands that every visitor become a permanent specimen.",
+      "source": "/",
+      "why": "The home page’s central idea becomes a boss that makes the whole landscape its exhibit."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A fresh set of identical footprints ends at a mineral cast; the original traveler is hiding nearby while a fossil assessor hunts the cast’s maker.",
+      "source": "/about-caves/paleontology/",
+      "why": "The crew can decode the tracks and rescue someone before the machine returns."
+    },
+    {
+      "idea": "A clean spring begins spitting out the crew’s lost equipment alongside machine parts; someone must trace which upstream crack the siphons are using.",
+      "source": "/about-karst/springs/",
+      "why": "An everyday loss points toward a navigable underground connection."
+    },
+    {
+      "idea": "Two machines debate whether a depression is solution or collapse while the ground under their measuring tripod gradually sags.",
+      "source": "/about-karst/sinkholes/",
+      "why": "Their classification dispute gives players time to notice and avoid a hazard."
+    },
+    {
+      "idea": "A patch of mechanical lampenflora advances whenever a stranded surveyor relights their lamp; a dark route or redirected light can get them out.",
+      "source": "/academic-program/student-research/",
+      "why": "The crew must balance visibility against the growth of the hazard."
+    },
+    {
+      "idea": "An underground airflow abruptly reverses, carrying a distress call from a side passage and a cloud of machine dust from the other.",
+      "source": "/about-caves/cave-environment/",
+      "why": "Air movement gives the crew both a clue and a choice of routes."
+    },
+    {
+      "idea": "A seed-grant planter offers a sealed canister of survey supplies; a ticking buried tower nearby suggests what accepting and watering its metal seed will awaken.",
+      "source": "/academic-program/grant-information/",
+      "why": "A useful reward comes with a legible delayed consequence."
+    },
+    {
+      "idea": "A field-guide team’s old route ends at a new wall; their notes describe a formation that can still be seen through a narrow crack.",
+      "source": "/publications/field-guides/",
+      "why": "Comparing the guide with the altered cave reveals a way forward."
+    },
+    {
+      "idea": "A Cave Week gathering is trapped between a swarm patrol and a fragile decorated chamber; the crew can guide everyone out without breaking the formations.",
+      "source": "/cave-week/",
+      "why": "A public celebration becomes a quiet escort challenge with a reason to tread carefully."
+    },
+    {
+      "idea": "A machine archaeology crew has cordoned off a dropped modern wrench as an ancient object, leaving its owner unable to repair a water pump.",
+      "source": "/about-caves/archaeology/",
+      "why": "The crew can negotiate, distract the excavators or replace the wrench."
+    },
+    {
+      "idea": "At a miniature sinkhole conference, engineering and environmental machines issue opposite safety orders while a small crack widens between their podiums.",
+      "source": "/events/sinkhole-conference/",
+      "why": "The disagreement provides a comic opening to redirect both groups."
+    },
+    {
+      "idea": "A research report contains a careful observation of a spring’s flow before the swarm arrived; comparing it with the current flow locates a hidden diversion.",
+      "source": "/publications/reports-of-investigation/",
+      "why": "A piece of evidence leads directly to a practical objective."
+    },
+    {
+      "idea": "A sinking stream carries a small rescue beacon underground and its signal reappears far away; the crew can follow the water or race to the outlet.",
+      "source": "/about/history/",
+      "why": "The landscape connects two locations and creates a route choice."
+    },
+    {
+      "idea": "A survey lesson pairs a carved speleogen with a deposited speleothem; the swarm has disguised a switch as one of them, but only the carved feature is hollow behind it.",
+      "source": "/about-caves/formations/",
+      "why": "The site’s terminology becomes a hands-on observation puzzle."
+    },
+    {
+      "idea": "An annual-report machine demands proof of this year’s accomplishments before opening a shelter; surviving researchers can supply evidence if the crew recovers their field notes.",
+      "source": "/publications/annual-reports/",
+      "why": "A bureaucratic obstacle becomes a small retrieval mission."
+    },
+    {
+      "idea": "A cave-studies group is trying to combine water, rock and biological observations into one map, but each set of markers has been moved by a different swarm unit.",
+      "source": "/academic-program/",
+      "why": "The interdisciplinary mission becomes a collaborative mapping challenge."
+    }
+  ]
+}
