@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
 QODO = str(Path.home() / '.qodo/bin/qodo')
 REPO = 'Wrhinkle/swarmbreak'
-ROUNDS, QODO_WAIT = 2, 1500
+ROUNDS, QODO_WAIT = 2, 300
+WAITING = 75  # EX_TEMPFAIL: Qodo hasn't reviewed the head yet. The foreman rechecks later; it isn't a failure.
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
 # Agents may fix factory code; every factory/ change still goes to the gate reviewer (gated_paths). Locked: the rules,
 # hosting, install scripts that run on this Mac, the balance limits, the gate reviewer's own brief, vendored code, and the
@@ -168,18 +169,28 @@ def merges_cleanly(tree, base):
     return True
 
 
-def wait_for_review(url, sha):
+def reviewed(s, sha, cwd=ROOT):
+    """Qodo's finished review counts for sha when it was of sha, or of a commit with identical content."""
+    # Qodo sometimes posts a full review with status completed but review_complete false, so either counts.
+    at = s.get('commit_sha')
+    if not (at and (s.get('review_complete') or s.get('status') == 'completed')):
+        return False
+    return at == sha or sh('git', 'diff', '--quiet', at, sha, cwd=cwd, check=False).returncode == 0
+
+
+def wait_for_review(url, sha, cwd=ROOT):
     deadline = time.time() + QODO_WAIT
     while time.time() < deadline:
         s = findings(url).get('review_session') or {}
-        if s.get('commit_sha') == sha and s.get('review_complete'):
+        if reviewed(s, sha, cwd):
             return
         if s.get('commit_sha') == sha and s.get('status') == 'failed':
             sys.exit(f'Qodo\'s review of {sha[:7]} failed. A PR of tens of thousands of lines can do this, so split it. Not merging.')
         if s.get('commit_sha') == sha and s.get('status') == 'skipped':
             sys.exit(f'Qodo skipped {sha[:7]}, so it has no review. Not merging.')
         time.sleep(30)
-    sys.exit(f'Qodo hasn\'t reviewed {sha[:7]} after {QODO_WAIT // 60} minutes. Not merging.')
+    print(f'Waiting on Qodo to review {sha[:7]}. The foreman will check again later.', flush=True)
+    sys.exit(WAITING)
 
 
 def main():
@@ -204,7 +215,7 @@ def main():
     if not (tree / 'node_modules').exists():
         sh('npm', 'ci', '--silent', cwd=tree)
     # An unfinished review lists no findings yet, which isn't the same as a clean one.
-    wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip())
+    wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip(), tree)
     for round_no in range(ROUNDS + 1):
         data = findings(url)
         session = data.get('review_session') or {}
@@ -289,7 +300,7 @@ def main():
         if pushed == current:
             continue
         print(f'Pushed {pushed[:7]}. Waiting for Qodo to review it', flush=True)
-        wait_for_review(url, pushed)
+        wait_for_review(url, pushed, tree)
 
     # The merge decision. Only evidence tied to the exact head commit counts.
     sh('git', 'fetch', '-q', 'origin')
@@ -299,7 +310,7 @@ def main():
     still = [f for f in data['findings'] if is_open(f)]
     sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
     blocks = []
-    if session.get('commit_sha') != sha or not session.get('review_complete'):
+    if not reviewed(session, sha, tree):
         blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
     if still:
         blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))

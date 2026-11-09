@@ -617,3 +617,29 @@ with tempfile.TemporaryDirectory() as d:
     assert workers == ['pr-fixer'] and (tree / 'work').read_text() == 'preserved'
     assert not (tree / '.git-fixes.json').exists()
 print('ok PR fixer stops on host failure')
+
+# Qodo waits: an unreviewed head is waiting (not a failure); a review of identical content counts.
+import pr_team
+with tempfile.TemporaryDirectory() as d:
+    g = lambda *a: subprocess.run(['git', *a], cwd=d, check=True, capture_output=True, text=True).stdout.strip()
+    g('init', '-q'); g('-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-q', '--allow-empty', '-m', 'a')
+    a = g('rev-parse', 'HEAD')
+    g('-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-q', '--allow-empty', '-m', 'same content')
+    b = g('rev-parse', 'HEAD')
+    Path(d, 'f').write_text('x'); g('add', 'f'); g('-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-q', '-m', 'new')
+    c = g('rev-parse', 'HEAD')
+    assert pr_team.reviewed({'commit_sha': a, 'status': 'completed', 'review_complete': False}, a, Path(d))
+    assert pr_team.reviewed({'commit_sha': a, 'review_complete': True}, b, Path(d))
+    assert not pr_team.reviewed({'commit_sha': a, 'review_complete': True}, c, Path(d))
+    assert not pr_team.reviewed({'commit_sha': a, 'status': 'running'}, a, Path(d))
+    with patch.object(pr_team, 'QODO_WAIT', 0):
+        try:
+            pr_team.wait_for_review('url', a, Path(d)); assert False
+        except SystemExit as e:
+            assert e.code == pr_team.WAITING
+    with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'failed'}}):
+        try:
+            pr_team.wait_for_review('url', a, Path(d)); assert False
+        except SystemExit as e:
+            assert e.code != pr_team.WAITING
+print('ok Qodo waiting versus failed')
