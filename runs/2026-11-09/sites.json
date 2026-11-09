@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.canalmuseum.org.uk",
+   "name": "London Canal Museum",
+   "url": "https://www.canalmuseum.org.uk/",
+   "file": "runs/2026-11-09/sites/www.canalmuseum.org.uk.json"
+  },
+  {
+   "host": "www.nationalhistoricships.org.uk",
+   "name": "National Historic Ships UK",
+   "url": "https://www.nationalhistoricships.org.uk/",
+   "file": "runs/2026-11-09/sites/www.nationalhistoricships.org.uk.json"
+  },
+  {
+   "host": "www.mmb.cat",
+   "name": "Maritime Museum of Barcelona",
+   "url": "https://www.mmb.cat/en/",
+   "file": "runs/2026-11-09/sites/www.mmb.cat.json"
+  }
+ ]
+}
