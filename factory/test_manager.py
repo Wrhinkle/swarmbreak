@@ -201,9 +201,22 @@ assert release_due(m5, m4, datetime(2026, 11, 5, 12, 30, tzinfo=timezone.utc)) i
 assert release_due(m4, m5, n) == 'older'
 m7 = {'runId': '2026-11-07', 'opensAt': '2026-11-07T13:00:00Z', 'nextOpensAt': '2026-11-08T13:00:00Z'}
 assert release_due(m7, m4, n) == 'expired'  # main skipped a day; live has closed
-assert FAILED.search('Deploy failed verification: live run reads 2026-11-04, expected 2026-11-05.')
+assert FAILED.search('Deploy failed verification: live manifest reads {}, expected {}.')
 assert release_due(m4, m4, n) == 'expired'
 assert release_due(m5, m5, n) is None
+# Reserve run: built a day early, it rides along as `next` and opens itself, so a dead host never closes the game.
+from manager import opened, effective
+m5['runUrl'], m5['voided'] = '/runs/2026-11-05/run.json', []
+r = opened(m5, '2026-11-06', n)
+assert r['runId'] == '2026-11-05' and r['next'] == {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}
+assert release_due(r, m5, n) == 'deploy'  # publish the reserve early
+assert release_due(r, r, n) is None  # already published
+after = datetime(2026, 11, 6, 14, tzinfo=timezone.utc)
+assert release_due(r, r, after) is None  # host was down all day: the reserve opened by itself
+assert effective(r, after) == {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'nextOpensAt': '2026-11-07T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json', 'voided': []}
+assert release_due(r, r, datetime(2026, 11, 7, 13, tzinfo=timezone.utc)) == 'expired'  # nothing built behind the reserve
+assert opened(r, '2026-11-07', after)['next']['runId'] == '2026-11-07' and opened(r, '2026-11-07', after)['runId'] == '2026-11-06'
+assert 'next' not in opened(m5, '2026-11-05', n)  # opening a run that is already due replaces the manifest as before
 print('ok release')
 
 import manager, json

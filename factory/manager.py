@@ -235,11 +235,8 @@ def open_run(run_id, dry):
         return f'Not opening {run_id}: {problems}'
     if dry:
         return f'{run_id} could open.'
-    opens = datetime.fromisoformat(f'{run_id}T13:00:00+00:00')
-    fmt = '%Y-%m-%dT%H:%M:%SZ'
     manifest = ROOT / 'public' / 'manifest.json'
-    current = json.loads(manifest.read_text())
-    manifest.write_text(json.dumps({'runId': run_id, 'opensAt': opens.strftime(fmt), 'nextOpensAt': (opens + timedelta(days=1)).strftime(fmt), 'runUrl': f'/runs/{run_id}/run.json', 'voided': current.get('voided', [])}, indent=2) + '\n')
+    manifest.write_text(json.dumps(opened(json.loads(manifest.read_text()), run_id, datetime.now(timezone.utc)), indent=2) + '\n')
     branch = sh('git', 'branch', '--show-current').stdout.strip()
     if branch in ('', 'main'):
         return f'Not opening {run_id}: the checkout is on {branch or "no branch"}, and main only changes through a reviewed PR.'
@@ -297,6 +294,27 @@ def keep_run(run_id, message):
         sys.exit(f'Pushed {run_id} but could not return to main: {back.stderr[-300:]}')
 
 
+FMT = '%Y-%m-%dT%H:%M:%SZ'
+at = lambda m, k: datetime.fromisoformat(m[k].replace('Z', '+00:00'))
+
+
+def effective(m, now):
+    """The run players get now. Mirrors currentRun in src/save.ts: a prebuilt `next` takes over at its opensAt with no deploy."""
+    n = m.get('next')
+    if not n or now < at(n, 'opensAt'):
+        return m
+    return {k: v for k, v in m.items() if k != 'next'} | {'runId': n['runId'], 'opensAt': n['opensAt'], 'runUrl': n['runUrl'], 'nextOpensAt': (at(n, 'opensAt') + timedelta(days=1)).strftime(FMT)}
+
+
+def opened(current, run_id, now):
+    """The manifest after opening run_id. A run built before it opens rides along as `next`, so it goes live on time even if this host is down."""
+    base, opens = effective(current, now), datetime.fromisoformat(f'{run_id}T13:00:00+00:00')
+    entry = {'runId': run_id, 'opensAt': opens.strftime(FMT), 'runUrl': f'/runs/{run_id}/run.json'}
+    if now < opens and base['runId'] != run_id and at(base, 'opensAt') < opens:
+        return base | {'next': entry}
+    return {**entry, 'nextOpensAt': (opens + timedelta(days=1)).strftime(FMT), 'voided': current.get('voided', [])}
+
+
 def deploy_problems(manifest, live, has_live_run, now):
     """Why main can't go live. Players lose a run if it disappears or its replacement isn't open yet."""
     problems = []
@@ -310,13 +328,15 @@ def deploy_problems(manifest, live, has_live_run, now):
 def release_due(main_m, live, now):
     """What the host must do about the live run: 'deploy', 'older', 'expired', or None. Not left to the model, since a run left undeployed closes the game.
     A run deploys only once it has opened: the client won't start a run before its opensAt, so publishing early would lock players out of the current one."""
-    at = lambda k, m: datetime.fromisoformat(m[k].replace('Z', '+00:00'))
+    main_m, live_next, live = effective(main_m, now), live.get('next'), effective(live, now)
     if main_m['runId'] != live['runId']:
-        if at('opensAt', main_m) <= at('opensAt', live):
+        if at(main_m, 'opensAt') <= at(live, 'opensAt'):
             return 'older'
-        if now >= at('opensAt', main_m):
+        if now >= at(main_m, 'opensAt'):
             return 'deploy'
-    return 'expired' if now >= at('nextOpensAt', live) else None
+    if main_m.get('next') and main_m['next'] != live_next:
+        return 'deploy'  # publish the prebuilt run early; players keep today's until it opens
+    return 'expired' if now >= at(live, 'nextOpensAt') else None
 
 
 def release_check():
@@ -324,8 +344,9 @@ def release_check():
         sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
         rev = sh('git', 'rev-parse', 'origin/main').stdout.strip()  # deploy exactly the commit that was checked
         main_m = json.loads(sh('git', 'show', f'{rev}:public/manifest.json').stdout)
-        live = live_manifest()
-        due = release_due(main_m, live, datetime.now(timezone.utc))
+        now = datetime.now(timezone.utc)
+        due = release_due(main_m, live_manifest(), now)
+        main_m, live = effective(main_m, now), effective(live_manifest(), now)
         if due == 'deploy':
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
@@ -353,8 +374,9 @@ def deploy(dry, rev=None):
         tree = Path(work) / 'main'
         sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
         try:
-            manifest, live = json.loads((tree / 'public/manifest.json').read_text()), live_manifest()
-            problems = deploy_problems(manifest, live, (tree / 'public' / live['runUrl'].lstrip('/')).exists(), datetime.now(timezone.utc))
+            now = datetime.now(timezone.utc)
+            manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
+            problems = deploy_problems(effective(manifest, now), live, (tree / 'public' / live['runUrl'].lstrip('/')).exists(), now)
             if problems:
                 return f'Not deploying: {problems}'
             for cmd in (['npm', 'ci'], ['npm', 'run', 'build'], ['npm', 'test']):
@@ -367,11 +389,12 @@ def deploy(dry, rev=None):
             if r.returncode:
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
             for _ in range(6):  # the CDN can serve the old manifest for a few seconds
-                now_live = live_manifest()['runId']
-                if now_live == manifest['runId']:
+                served = live_manifest()
+                if served == manifest:
                     break
                 time.sleep(10)
-            return f'Deployed. Live run is {now_live}.' if now_live == manifest['runId'] else f'Deploy failed verification: live run reads {now_live}, expected {manifest["runId"]}.'
+            reserve = f' Reserve run {manifest["next"]["runId"]} opens itself at {manifest["next"]["opensAt"]}.' if manifest.get('next') else ''
+            return f'Deployed. Live run is {manifest["runId"]}.{reserve}' if served == manifest else f'Deploy failed verification: live manifest reads {served}, expected {manifest}.'
         finally:
             sh('git', 'worktree', 'remove', '--force', tree, check=False)
 
