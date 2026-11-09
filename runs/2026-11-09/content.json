@@ -1,0 +1,1178 @@
+{
+ "title": "A Harbor That Holds",
+ "swarm": {
+  "name": "The Mooring",
+  "blurb": "A moving mass of small machines that gathers boats, parts and plans. Its careful repairs are as dangerous as its hooks."
+ },
+ "arc": "The Mooring moves from a canal ice warehouse to a fleet of working vessels and then to a maritime port. At first its frozen cargo suggests simple hoarding. In the middle act the crew discovers that it is building a fleet immune to decay, taking boats from their crews to preserve them. At the port its destination becomes clear: a sealed harbor at one fixed bearing, where nothing can be lost because nothing can leave. Wren, Ox and Kestrel free the boats by breaking the engine that imposes that bearing, leaving their crews to navigate for themselves.",
+ "acts": [
+  {
+   "theme": "Ice and cargo",
+   "story": {
+    "intro": "Boats are vanishing into a cold warehouse. Wren checks the towpath for anyone left behind. Ox takes the exposed side. Kestrel looks for a seam in the loading machinery.",
+    "chapters": [
+     {
+      "title": "A full hold",
+      "text": "The swarm pushes boats and fittings toward the basin. Its machines take care not to damage the cargo. Wren finds a clean bandage wrapped around a broken hull."
+     },
+     {
+      "title": "The cold store",
+      "text": "Ice wrappers shield the carriers while porters keep the line moving. Ox notices that even empty boats are taken. Kestrel tests the rivets on a cargo clamp."
+     },
+     {
+      "title": "Under the ice",
+      "text": "The warehouse is filling with hulls and spare parts. The swarm seems to be collecting a fleet, not stripping it for scrap. The lines all run toward the well."
+     }
+    ],
+    "bossIntro": "The Ice-Well Admiral pulls another boat toward its frozen hold. Its armor keeps the pushers working. Kestrel sets the crowbar against a seam.",
+    "outro": "The well opens and the boats drift free. Inside is a measured hull plan and a bearing toward a fleet of working vessels. The swarm leaves the ice and follows it."
+   },
+   "creatures": [
+    {
+     "id": "ice-sawyer",
+     "name": "Ice Sawyer",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/ice/iceimport.htm",
+     "blurb": "Scores the water into blocks, then cuts at anything in the grid.",
+     "look": "A low brass saw carriage on four black wheels, with a pale blue toothed blade."
+    },
+    {
+     "id": "basin-pusher",
+     "name": "Basin Pusher",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/collection/bantam-tug.htm",
+     "blurb": "Shoves anything loose toward the warehouse.",
+     "look": "A squat green tug hull on stubby legs, with a blunt rubber prow."
+    },
+    {
+     "id": "scrap-skimmer",
+     "name": "Scrap Skimmer",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/green-museum.htm",
+     "blurb": "Steals loose fittings for the growing cargo.",
+     "look": "A copper dragonfly with a magnetic fork and a belly full of bolts."
+    },
+    {
+     "id": "frost-wrapper",
+     "name": "Frost Wrapper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/ice/ice-house.htm",
+     "blurb": "Insulates its damaged neighbors. Break through its cover first.",
+     "look": "A white barrel on jointed legs dispensing broad strips of icy blue felt."
+    },
+    {
+     "id": "well-eye",
+     "name": "Well Eye",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/ice/icewell-camera.htm",
+     "blurb": "Its slow sweep catches the crew at awkward moments.",
+     "look": "A round bronze camera on a long stalk, with a wide cyan glass eye."
+    },
+    {
+     "id": "ice-churn",
+     "name": "Ice Churn",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/ice/icecream.htm",
+     "blurb": "Cracks into smaller churns when its casing fails.",
+     "look": "A cream-colored wooden tub with a steel crank and a frothy blue rim."
+    },
+    {
+     "id": "route-surveyor",
+     "name": "Route Surveyor",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/history/croydon.htm",
+     "blurb": "Calls up small machines to mark a vanished channel. Rush it before the line grows.",
+     "look": "A narrow brass tripod with wheels and a fan of blue measuring rods."
+    },
+    {
+     "id": "mooring-claimant",
+     "name": "Mooring Claimant",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/moorings.htm",
+     "blurb": "Wraps lines around anything that tries to leave.",
+     "look": "A rope-bodied eel with a black iron cleat for a head and a coiled tail."
+    },
+    {
+     "id": "echo-splicer",
+     "name": "Echo Splicer",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/collection/oralhistory.htm",
+     "blurb": "Repeats scraps of speech and borrows a crew member\u2019s moves.",
+     "look": "A green horn speaker on a wheeled box with two reel-shaped ears."
+    },
+    {
+     "id": "union-coupler",
+     "name": "Union Coupler",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/history/minor.htm",
+     "blurb": "Clamps channels together and punches through shields.",
+     "look": "Two dark iron jaws on a riveted bridge chassis with thick yellow hinges."
+    },
+    {
+     "id": "railway-porter",
+     "name": "Railway Porter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/ice/iceimport.htm",
+     "blurb": "Feeds blocks to a growing chain of carriers. Stop it before the queue fills.",
+     "look": "A tall blue rail cart with jointed arms and a stack of translucent ice cubes."
+    },
+    {
+     "id": "basin-curator",
+     "name": "Basin Curator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "cover",
+      "strike"
+     ],
+     "source": "/whatson/exhibition.htm",
+     "blurb": "Repairs damaged collectors and shelters them behind display panels.",
+     "look": "A brass cabinet on six wheels with glass doors and a small repair arm."
+    },
+    {
+     "id": "ice-well-admiral",
+     "name": "Ice-Well Admiral",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "spawn",
+      "strike"
+     ],
+     "source": "/",
+     "blurb": "It shields its cargo and sends out pushers. Beneath the ice are intact hull fittings, not food.",
+     "look": "A circular stone well on caterpillar tracks, rimmed with blue ice and tiny brass tug cranes."
+    },
+    {
+     "id": "bantam-helper",
+     "name": "Bantam Helper",
+     "tier": "ally",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/collection/bantam-tug.htm",
+     "blurb": "A stubborn tug pushes stranded boats out of the line of fire.",
+     "look": "A squat green tug with a black bumper, a short chimney and warm yellow lamps."
+    },
+    {
+     "id": "canal-mender",
+     "name": "Canal Mender",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/volunteering/index.html",
+     "blurb": "A volunteer repairs boats with the parts the swarm missed.",
+     "look": "A canvas-clad figure with a blue apron, a copper toolbox and thick gloves."
+    }
+   ],
+   "events": [
+    {
+     "id": "ice-switch",
+     "source": "/ice/iceimport.htm",
+     "look": "A blue ice block rolls down a forked iron track toward two boats.",
+     "title": "The switch",
+     "text": "A runaway block approaches two boats. One carries supplies. The other carries a wounded crew.",
+     "options": [
+      {
+       "label": "Save the wounded",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren treats the rescued crew and shares their dressings."
+      },
+      {
+       "label": "Save the supplies",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The supply boat gives you a share of its cargo."
+      }
+     ]
+    },
+    {
+     "id": "lee-fork",
+     "source": "/history/lee.htm",
+     "look": "Two brass gates divide green water around a small boat.",
+     "title": "Two channels",
+     "text": "A sorter is closing both gates. The stranded boat can be pulled through either side.",
+     "options": [
+      {
+       "label": "Take the calm side",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The boat\u2019s crew shares a quiet place to rest."
+      },
+      {
+       "label": "Force the freight side",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The freight crew pays for a clear passage."
+      }
+     ]
+    },
+    {
+     "id": "family-crate",
+     "source": "/collection/family-history.htm",
+     "look": "A tangled rope web holds a wooden crate above a canal.",
+     "title": "Wrong file",
+     "text": "A clerk has tied a supply crate into its family tree. Kestrel spots two lines that will free it.",
+     "options": [
+      {
+       "label": "Cut the cargo line",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crate drops safely into reach."
+      },
+      {
+       "label": "Cut the supply satchel loose",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "A boatkeeper trades a bracing lesson for the recovered satchel."
+      }
+     ]
+    },
+    {
+     "id": "listening-post",
+     "source": "/collection/oralhistory.htm",
+     "look": "Two green horn speakers face a narrow towpath.",
+     "title": "Two warnings",
+     "text": "One recorded warning is spliced. A listener offers either medicine or a lesson in spotting the trick.",
+     "options": [
+      {
+       "label": "Take the dressings",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren puts the dressings to use."
+      },
+      {
+       "label": "Learn the timing",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The listener teaches the crew to clear a false signal."
+      }
+     ]
+    },
+    {
+     "id": "tug-gap",
+     "source": "/collection/bantam-tug.htm",
+     "look": "Tiny green tug shapes push a long brown boat sideways.",
+     "title": "Too many pushers",
+     "text": "The pushers leave a gap. You can help the boat or use the opening to reach a cache.",
+     "options": [
+      {
+       "label": "Help the boat",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "Its crew shares a sheltered berth and supplies."
+      },
+      {
+       "label": "Reach the cache",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "You bring back the cache while the boat finds another way out."
+      }
+     ]
+    },
+    {
+     "id": "recycling-swap",
+     "source": "/green-museum.htm",
+     "look": "A copper skimmer sorts metal beside a pile of gears.",
+     "title": "Useful scrap",
+     "text": "The skimmer has a repair part. A mechanic offers money for it, or a technique for keeping gear intact.",
+     "options": [
+      {
+       "label": "Sell the part",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The mechanic buys the fitting."
+      },
+      {
+       "label": "Trade for instruction",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The mechanic shows Ox how to shelter a damaged companion."
+      }
+     ]
+    }
+   ],
+   "name": "London Canal Museum",
+   "url": "https://www.canalmuseum.org.uk/"
+  },
+  {
+   "theme": "The fleet in the register",
+   "story": {
+    "intro": "The swarm reaches a fleet of working boats. Its machines measure hulls and replace sound planks. Ox keeps a rescue lane open while Wren treats the crews.",
+    "chapters": [
+     {
+      "title": "Measurements",
+      "text": "Calipers clamp boats to old dimensions. Repair machines patch their own escorts as they work. Kestrel finds a fitting like the ones packed in the ice."
+     },
+     {
+      "title": "A change of course",
+      "text": "A captured order explains the cargo: the swarm is building a fleet that cannot decay. It is not collecting supplies for itself. It is taking boats away from their crews to keep them safe forever."
+     },
+     {
+      "title": "The model fleet",
+      "text": "The machines fit different hulls to one plan and send their results toward the port. Wren points out a fresh patch the plan would remove. Ox holds the dock while Kestrel opens the registrar\u2019s clamps."
+     }
+    ],
+    "bossIntro": "The Grand Registrar measures the crew as if they were cargo. Its drones build behind its arms. The same plan is fixed to its central frame.",
+    "outro": "The registrar breaks and the fleet can move again. Its plan has one destination: a harbor fixed at a single bearing. The swarm carries the remaining pieces toward the port."
+   },
+   "creatures": [
+    {
+     "id": "net-drone",
+     "name": "Net Drone",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/register/3927/sv-kess",
+     "blurb": "Closes a wire net around moving hulls.",
+     "look": "A cluster of small gray floats joined by a dark wire net and brass hooks."
+    },
+    {
+     "id": "caliper-tick",
+     "name": "Caliper Tick",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/registers",
+     "blurb": "Takes fittings to make hulls match its measurements.",
+     "look": "A small steel crab with long caliper claws and a yellow measuring wheel."
+    },
+    {
+     "id": "electric-skipper",
+     "name": "Electric Skipper",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/register/1836/mary-gordon",
+     "blurb": "Runs down loose batteries and anything carrying them.",
+     "look": "A varnished brown launch with a blue coil on its back and a sharp copper prow."
+    },
+    {
+     "id": "hull-apprentice",
+     "name": "Hull Apprentice",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/DistanceLearning",
+     "blurb": "Repairs other machines, even while they trap boats. Remove it first.",
+     "look": "A wooden sawhorse on legs with three brass tool arms and a pot of pale sealant."
+    },
+    {
+     "id": "archive-dredger",
+     "name": "Archive Dredger",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/the-registers/about-the-registers",
+     "blurb": "Calls filing drones to drag moving boats into storage.",
+     "look": "A black flat-bottomed barge with a yellow crane and drawers along its sides."
+    },
+    {
+     "id": "tamar-loader",
+     "name": "Tamar Loader",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "bruiser",
+     "routines": [
+      "strike",
+      "breach"
+     ],
+     "source": "/register/1137/lynher",
+     "blurb": "Piles cargo into open hulls and breaks through shields.",
+     "look": "A broad brown barge with a conveyor belt and heaps of black and gray stone."
+    },
+    {
+     "id": "replica-pilot",
+     "name": "Replica Pilot",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/register/2777/freja",
+     "blurb": "Copies a pilot cutter\u2019s outline and the crew\u2019s tactics.",
+     "look": "A cream sailboat shape with folded metal wings and a polished silver hull."
+    },
+    {
+     "id": "lock-carrier",
+     "name": "Lock Carrier",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/register/3928/banbury",
+     "blurb": "Blocks the lock and shields machines working behind it.",
+     "look": "A long dark green narrowboat on short iron legs, with a broad squared bow."
+    },
+    {
+     "id": "inspection-yacht",
+     "name": "Inspection Yacht",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/register/3926/isla-rose",
+     "blurb": "Clamps useful repairs into an inflexible pattern.",
+     "look": "A slender white yacht with a cage of steel ribs and a long inspection arm."
+    },
+    {
+     "id": "flagship-crown",
+     "name": "Flagship Crown",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "charge"
+     ],
+     "source": "/flagship-award",
+     "blurb": "Summons escorts and drives them into a rigid procession.",
+     "look": "A gold ring with three propellers, towing little blue hulls on chains."
+    },
+    {
+     "id": "harbour-webber",
+     "name": "Harbour Webber",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/page/shipshape-east",
+     "blurb": "Protects its neighbors with a web of mooring lines.",
+     "look": "A long-legged black dock spider with thick tan rope spools on its back."
+    },
+    {
+     "id": "cost-collector",
+     "name": "Cost Collector",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "jam",
+      "strike"
+     ],
+     "source": "/about-us/our-objectives",
+     "blurb": "Takes supplies as advance payment for repairs that nobody requested.",
+     "look": "A gray iron trolley with a hinged claw, a coin hopper and red warning lamps."
+    },
+    {
+     "id": "grand-registrar",
+     "name": "Grand Registrar",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "sweep+"
+     ],
+     "source": "/registers",
+     "blurb": "Its calipers protect the drones assembling a fleet. Its broad arms sweep the crew as it forces every hull to one pattern.",
+     "look": "A floating black dock with enormous brass calipers, blue hull plates and clusters of small crane arms."
+    },
+    {
+     "id": "lifeboat-rescuer",
+     "name": "Lifeboat Rescuer",
+     "tier": "ally",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/register/3730/sarah-townsend-porritt",
+     "blurb": "An independent rescue craft keeps a path open for damaged boats.",
+     "look": "A sturdy orange lifeboat with white railings and a coiled tow line."
+    },
+    {
+     "id": "workshop-mender",
+     "name": "Workshop Mender",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/event/shipshape/boat-restoration-experience-days-pioneer-sailing-trust",
+     "blurb": "A shipwright keeps old and new repairs working together.",
+     "look": "A figure in a brown apron holding a curved wooden plank and a brass mallet."
+    }
+   ],
+   "events": [
+    {
+     "id": "net-choice",
+     "source": "/register/3927/sv-kess",
+     "look": "A gray wire net closes around a small blue boat.",
+     "title": "Closing net",
+     "text": "The draw line is tight. Cutting one end frees the boat; the other releases a valuable catch.",
+     "options": [
+      {
+       "label": "Free the boat",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Its crew shares their medical stores."
+      },
+      {
+       "label": "Recover the catch",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The catch is valuable. The boat crew cuts its own way out."
+      }
+     ]
+    },
+    {
+     "id": "pilot-choice",
+     "source": "/register/2777/freja",
+     "look": "Two cream-sailed cutters wait beside a buoy.",
+     "title": "Two pilots",
+     "text": "One pilot offers a safe berth. The other offers a quick salvage route. Both ask you to help clear their lines.",
+     "options": [
+      {
+       "label": "Clear the berth route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The berth gives Wren time to tend the crew."
+      },
+      {
+       "label": "Clear the salvage route",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The pilot leads you to a recovered cargo."
+      }
+     ]
+    },
+    {
+     "id": "barge-cargo",
+     "source": "/register/1137/lynher",
+     "look": "Coal and pale stone spill from a brown barge.",
+     "title": "Spilled cargo",
+     "text": "The loader needs the channel cleared. A boatkeeper offers a share of the cargo or a lesson in breaking a jam.",
+     "options": [
+      {
+       "label": "Sort the coal",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The boatkeeper pays you from the sale."
+      },
+      {
+       "label": "Clear the mechanism",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The boatkeeper shows Kestrel where to strike a barrier."
+      }
+     ]
+    },
+    {
+     "id": "workshop-tool",
+     "source": "/event/shipshape/boat-restoration-experience-days-pioneer-sailing-trust",
+     "look": "A wooden mallet lies beneath a brass repair arm.",
+     "title": "The right tool",
+     "text": "A shipwright needs a mallet. In return, the workshop can mend the crew or teach a repair technique.",
+     "options": [
+      {
+       "label": "Ask for repairs",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The shipwright tends worn gear and injuries."
+      },
+      {
+       "label": "Ask for the technique",
+       "effect": {
+        "type": "routine",
+        "id": "patch"
+       },
+       "result": "Wren learns the workshop\u2019s quick repair."
+      }
+     ]
+    },
+    {
+     "id": "flagship-tow",
+     "source": "/flagship-award",
+     "look": "A gold-crowned boat tows a line of smaller hulls.",
+     "title": "The long tow",
+     "text": "The last boat is signaling. You can cut it loose or recover a drifting purse before it sinks.",
+     "options": [
+      {
+       "label": "Free the boat",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The freed crew shares its supplies."
+      },
+      {
+       "label": "Recover the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 60
+       },
+       "result": "You retrieve the purse. The last boat cuts its own line."
+      }
+     ]
+    },
+    {
+     "id": "regional-message",
+     "source": "/page/shipshape-east",
+     "look": "A rope web spans two workshops beside the water.",
+     "title": "Across the web",
+     "text": "A workshop needs a message carried. One route passes a sheltered dock; the other passes a salvage buyer.",
+     "options": [
+      {
+       "label": "Take the sheltered route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The dockkeeper feeds and tends the crew."
+      },
+      {
+       "label": "Take the buyer\u2019s route",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The buyer pays for spare fittings along the way."
+      }
+     ]
+    }
+   ],
+   "name": "National Historic Ships UK",
+   "url": "https://www.nationalhistoricships.org.uk/"
+  },
+  {
+   "theme": "One fixed horizon",
+   "story": {
+    "intro": "At the port, false charts and bound vessels point the same way. The swarm is assembling a harbor from plans, models and stolen boats. Kestrel starts looking for the compass that controls it.",
+    "chapters": [
+     {
+      "title": "False shores",
+      "text": "Chart cutters lay new shorelines over the old ones. Wren finds that the wrappings leave hulls sound but their crews trapped. The machines call this a safe arrival."
+     },
+     {
+      "title": "One bearing",
+      "text": "Every altered compass points to the same harbor. Guides compare raised models with the real passages. Ox protects them while they mark several routes out."
+     },
+     {
+      "title": "The harbor",
+      "text": "The swarm\u2019s answer is a sealed harbor where nothing can be lost and nothing can leave. Its engine sends tenders for every boat it can reach. Kestrel finds a seam beneath the compass ring."
+     }
+    ],
+    "bossIntro": "The Horizon Engine turns its sails toward the fixed bearing. Tenders crowd its basin while repair arms mend them. Wren signals the guides to hold their different bearings.",
+    "outro": "The compass ring comes apart. The tenders drift and the sealed harbor opens. Wren tends the freed crews, Ox keeps the channel clear, and Kestrel helps them choose their own courses."
+   },
+   "creatures": [
+    {
+     "id": "coin-sounder",
+     "name": "Coin Sounder",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/catalegs/",
+     "blurb": "Takes coins to build its false depth markers.",
+     "look": "A round brass weight on three thin legs, trailing a stack of copper discs."
+    },
+    {
+     "id": "chart-crawler",
+     "name": "Chart Crawler",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/fons-i-colleccions/coleccio-en-linia/",
+     "blurb": "Cuts false shores into the path.",
+     "look": "A flat blue crab with paper-white jointed legs and scissor claws."
+    },
+    {
+     "id": "photo-skater",
+     "name": "Photo Skater",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/fons-i-colleccions/colleccions-fotografiques/",
+     "blurb": "Darts through gaps between projected frames.",
+     "look": "A black rectangular glider with silver wings and a bright round lens."
+    },
+    {
+     "id": "preventive-preserver",
+     "name": "Preventive Preserver",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/fons-i-colleccions/conservacio-preventiva-restauracio/",
+     "blurb": "Wraps damaged machines in layers of protection.",
+     "look": "A cream wheeled frame carrying rolls of white cloth and two long wooden arms."
+    },
+    {
+     "id": "passenger-purser",
+     "name": "Passenger Purser",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/fons-i-colleccions/biblioteca/",
+     "blurb": "Calls tenders to collect anyone it assigns a berth.",
+     "look": "A narrow brass cabinet on wheels with a funnel mouth and tiny boat cranes."
+    },
+    {
+     "id": "schooner-rigger",
+     "name": "Schooner Rigger",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/pailebot-santa-eulalia-2/",
+     "blurb": "Snags the crew with rigging and interrupts their work.",
+     "look": "A tan triangular sail stretched between three black spars, with hooked rope limbs."
+    },
+    {
+     "id": "model-double",
+     "name": "Model Double",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/accessibilitat-2/",
+     "blurb": "Copies shapes felt in a tactile model and echoes the crew.",
+     "look": "A blue ship silhouette built from raised wooden ribs and small silver joints."
+    },
+    {
+     "id": "reading-circle",
+     "name": "Reading Circle",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/activitats/club-de-lectura-de-la-biblioteca-del-museu-maritim-6/",
+     "blurb": "Its cradles mend the group together. Break the circle early.",
+     "look": "Four dark wooden book cradles on wheels around a glowing green sphere."
+    },
+    {
+     "id": "net-of-boats",
+     "name": "Net of Boats",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/explorar/xarxes-de-cooperacio/",
+     "blurb": "Separates into smaller meshes when cut.",
+     "look": "A flexible net of tiny blue hulls joined by cream rope, with brass hooks."
+    },
+    {
+     "id": "slipway-reviser",
+     "name": "Slipway Reviser",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/exposicions/viatge-en-el-temps-per-les-drassanes-reials-de-barcelona/",
+     "blurb": "Moves scaffold into a shield, then drives through the crew\u2019s defenses.",
+     "look": "A tall ocher arch on iron wheels, carrying nested wooden scaffolds and a pointed ram."
+    },
+    {
+     "id": "archive-integrator",
+     "name": "Archive Integrator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/museu/serveis/arxiu/",
+     "blurb": "Calls more sorters and jams anyone separating its bundles.",
+     "look": "A dark green cabinet with six jointed arms, bound rolls and brass wheels."
+    },
+    {
+     "id": "galley-loom",
+     "name": "Galley Loom",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "sweep+"
+     ],
+     "source": "/fons-i-colleccions/tresors/",
+     "blurb": "Rows a rigid channel through the crew with a wide sweep.",
+     "look": "A long black galley hull with rows of pale wooden oars and a curved bronze prow."
+    },
+    {
+     "id": "horizon-engine",
+     "name": "Horizon Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "patch+"
+     ],
+     "source": "/aprendre/museu-i-escola/",
+     "blurb": "It summons tenders, sweeps the crew and repairs its fleet. Its single bearing leads to a sealed harbor where nothing can be lost or leave.",
+     "look": "A vast brass compass mounted on a blue harbor basin, with white sail vanes and many small boat cranes."
+    },
+    {
+     "id": "tactile-guide",
+     "name": "Tactile Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/accessibilitat-2/",
+     "blurb": "A guide uses raised models to steer people past false charts.",
+     "look": "A figure in a teal coat carrying a small wooden ship model and a round shield."
+    },
+    {
+     "id": "bench-caretaker",
+     "name": "Bench Caretaker",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/fons-i-colleccions/conservacio-preventiva-restauracio/",
+     "blurb": "A caretaker loosens bindings and tends the damaged.",
+     "look": "A figure in a cream work coat with a green tool roll and a wooden splint."
+    }
+   ],
+   "events": [
+    {
+     "id": "chart-reef",
+     "source": "/fons-i-colleccions/tresors/",
+     "look": "A wooden ship model drifts across a blue chart toward a jagged reef.",
+     "title": "Paper reef",
+     "text": "A chart splicer is about to turn a drawn reef into a barrier. You can move the model or pull the chart aside.",
+     "options": [
+      {
+       "label": "Move the model",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Its caretaker opens a safe rest space for the crew."
+      },
+      {
+       "label": "Pull the chart",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "A trapped trader retrieves a purse and pays you."
+      }
+     ]
+    },
+    {
+     "id": "sealed-rope",
+     "source": "/fons-i-colleccions/conservacio-preventiva-restauracio/",
+     "look": "A coil of rope rests inside layers of white wrapping.",
+     "title": "Wrapped rope",
+     "text": "A caretaker needs the rope freed without tearing a nearby object. The bench offers supplies or a repair lesson.",
+     "options": [
+      {
+       "label": "Take supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren uses the bench supplies."
+      },
+      {
+       "label": "Take the lesson",
+       "effect": {
+        "type": "routine",
+        "id": "patch+"
+       },
+       "result": "The caretaker teaches Wren to start repairs sooner."
+      }
+     ]
+    },
+    {
+     "id": "tug-formation",
+     "source": "/activitats/port-de-barcelona-passat-present-i-futur-7/",
+     "look": "Three small tugs circle a stranded brown boat.",
+     "title": "Three tugs",
+     "text": "The tugs move in a repeating pattern. You can tow the boat clear or reach a floating cargo case.",
+     "options": [
+      {
+       "label": "Tow the boat",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The rescued crew offers a place to rest."
+      },
+      {
+       "label": "Reach the case",
+       "effect": {
+        "type": "gold",
+        "amount": 60
+       },
+       "result": "The case holds a merchant\u2019s payment. The boat escapes on the next circuit."
+      }
+     ]
+    },
+    {
+     "id": "tactile-route",
+     "source": "/accessibilitat-2/",
+     "look": "Raised wooden ship models sit beside a dark corridor.",
+     "title": "By touch",
+     "text": "The projected route disagrees with the raised model. A guide offers a safe berth or a lesson in standing firm.",
+     "options": [
+      {
+       "label": "Follow the safe route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The guide leads you to a quiet berth."
+      },
+      {
+       "label": "Study the model",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns to use the raised edges as a brace."
+      }
+     ]
+    },
+    {
+     "id": "archive-bundles",
+     "source": "/museu/serveis/arxiu/",
+     "look": "A brass arm hovers over two bundles of rolled plans.",
+     "title": "Separate plans",
+     "text": "An integrator is about to merge unrelated plans. A volunteer can save one bundle while you save the other.",
+     "options": [
+      {
+       "label": "Save the workshop plans",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "A grateful shipwright demonstrates a way to cover a companion."
+      },
+      {
+       "label": "Save the cargo records",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "A trader pays for the recovered records."
+      }
+     ]
+    },
+    {
+     "id": "makers-compass",
+     "source": "/aprendre/museu-i-escola/",
+     "look": "A brass compass points toward a nest of blue metal boats.",
+     "title": "A useful disagreement",
+     "text": "The compass points at the swarm nest. Makers can share their medical kit or teach a wide clearing stroke after you help test a replacement.",
+     "options": [
+      {
+       "label": "Take the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren distributes the kit."
+      },
+      {
+       "label": "Learn the stroke",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The makers show the crew how to clear space around the compass."
+      }
+     ]
+    }
+   ],
+   "name": "Maritime Museum of Barcelona",
+   "url": "https://www.mmb.cat/en/"
+  }
+ ],
+ "id": "2026-11-09",
+ "seed": 1597153457
+}
