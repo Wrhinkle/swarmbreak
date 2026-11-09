@@ -110,6 +110,16 @@ it('renders a ready fighter, records a selected target, and offers Auto after re
     expect(reloadedAuto.atb!.pending).toBeNull();
     expect(reloadedAuto.atb!.choices.at(-1)).toEqual({ actorId: 'c0', routineId: 'auto' });
     expect(step(reloadedAuto)).toEqual(step(autoBattle));
+    // Switching back to manual before the queued Auto action executes must
+    // preserve that action, then ask for the next one after a reload.
+    const manualAgain = setAutoBattle(reloadedAuto, false);
+    save.today!.combat = manualAgain; writeSave(save);
+    let resumed = step(loadSave().today!.combat!);
+    expect(resumed.atb!.choices.at(-1)?.routineId).toBe('auto');
+    expect(resumed.atb!.choice).toBeNull();
+    expect(resumed.fighters[0].nextAction).toBeGreaterThan(resumed.t);
+    while (!resumed.result && !resumed.atb!.pending) resumed = step(resumed);
+    expect(resumed.atb!.pending).toBe('c0');
     render(); panel.children[2].click?.();
     expect(combat.atb!.choices.at(-1)?.routineId).toBe('auto');
     expect(setAutoBattle(combat, true).atb!.autoBattle).toBe(true);
