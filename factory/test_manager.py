@@ -624,7 +624,7 @@ with tempfile.TemporaryDirectory() as d:
             (tree / 'work').write_text('preserved')
     finding = {'id': '1', 'title': 'defect', 'attribution_status': 'pending'}
     with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=pr_sh), \
-         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
          patch.object(pr_team, 'findings', return_value={'findings': [finding]}), \
          patch.object(pr_team, 'bot', side_effect=pr_bot), \
          patch.object(pr_team, 'sandbox_works', side_effect=PermissionError('fixture denied')), \
@@ -891,15 +891,46 @@ with tempfile.TemporaryDirectory() as d:
     assert json.loads(state_path.read_text())['cooldown_until'] > 0
 print('ok foreman Qodo head pause')
 
-# Fixer rounds survive a WAITING restart: they're counted from the PR's own commits.
+# Only host-recorded fixer commits consume rounds, across restarts and interrupted pushes.
 with tempfile.TemporaryDirectory() as d:
-    def g(*a): subprocess.run(['git', *a], cwd=d, check=True, capture_output=True)
+    root = Path(d)
+    repo = root / 'repo'
+    repo.mkdir()
+    def g(*a):
+        return subprocess.run(['git', *a], cwd=repo, check=True, capture_output=True, text=True).stdout.strip()
     g('init', '-q', '-b', 'main'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
     g('commit', '-q', '--allow-empty', '-m', 'base'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
-    assert pr_team.fixer_rounds(Path(d), '7', 'main') == 0
-    g('commit', '-q', '--allow-empty', '-m', 'Fix Qodo findings on PR #7')
-    g('commit', '-q', '--allow-empty', '-m', 'Fix Qodo findings on PR #8')
-    assert pr_team.fixer_rounds(Path(d), '7', 'main') == 1
-    for _ in range(3): g('commit', '-q', '--allow-empty', '-m', 'Fix Qodo findings on PR #7')
-    assert pr_team.fixer_rounds(Path(d), '7', 'main') == pr_team.ROUNDS
+    with patch.object(Path, 'home', return_value=root):
+        g('commit', '-q', '--allow-empty', '-m', 'Fix Qodo findings on PR #7')
+        assert pr_team.fixer_rounds(repo, '7', 'main') == 0
+        ledger, commits = pr_team.begin_fixer_commit('7')
+        g('commit', '-q', '--allow-empty', '-m', 'factory fix')
+        pr_team.record_fixer_commit(repo, '7', ledger, commits)
+        assert pr_team.fixer_rounds(repo, '7', 'main') == 1
+        # A push can fail before the remote receives the commit; it still uses a round.
+        g('reset', '--hard', 'HEAD^')
+        assert pr_team.fixer_rounds(repo, '7', 'main') == 1
+        ledger, commits = pr_team.begin_fixer_commit('7')
+        g('commit', '-q', '--allow-empty', '-m', 'second factory fix')
+        pr_team.record_fixer_commit(repo, '7', ledger, commits)
+        assert pr_team.fixer_rounds(repo, '7', 'main') == pr_team.ROUNDS
+        ledger.write_text('broken')
+        try:
+            pr_team.fixer_rounds(repo, '7', 'main')
+            assert False, 'corrupt ledger must stop'
+        except SystemExit:
+            pass
+        ledger2, _ = pr_team.begin_fixer_commit('8')
+        try:
+            pr_team.fixer_rounds(repo, '8', 'main')
+            assert False, 'interrupted recording must stop'
+        except SystemExit:
+            pass
+        (ledger2.parent / 'pending').unlink()
+        ledger2.unlink()
+        try:
+            pr_team.fixer_rounds(repo, '8', 'main')
+            assert False, 'missing ledger must stop'
+        except SystemExit:
+            pass
 print('ok fixer rounds persist across restarts')

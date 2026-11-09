@@ -4,7 +4,7 @@
 Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
-import fcntl, hashlib, json, os, subprocess, sys, tempfile, time
+import fcntl, hashlib, json, os, re, subprocess, sys, tempfile, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -245,10 +245,54 @@ def wait_for_review(url, sha):
     sys.exit(WAITING)
 
 
+def fixer_state(number):
+    """Host-owned ledger, separate for each repository and PR."""
+    key = hashlib.sha256(f'{REPO}\0{number}'.encode()).hexdigest()
+    directory = Path.home() / '.cache' / 'swarmbreak-fixer-rounds' / key
+    path = directory / 'commits.json'
+    try:
+        directory.mkdir(parents=True)
+    except FileExistsError:
+        pass
+    else:
+        save_rerequest(path, [])
+    try:
+        commits = json.loads(path.read_text())
+        if (not isinstance(commits, list) or len(commits) > ROUNDS
+                or any(not isinstance(c, str) or not re.fullmatch(r'[0-9a-f]{40,64}', c) for c in commits)
+                or len(set(commits)) != len(commits)):
+            raise ValueError('invalid commit ledger')
+    except (OSError, ValueError, UnicodeError) as exc:
+        sys.exit(f'Fixer ledger for PR {number} is missing or corrupt; stopping: {exc}')
+    if (directory / 'pending').exists():
+        sys.exit(f'Fixer commit for PR {number} was interrupted while recording; stopping for inspection.')
+    return path, commits
+
+
 def fixer_rounds(tree, number, base):
-    """Fixer rounds this PR has already used. Read from its commits, so a run that exits WAITING and restarts doesn't get a fresh budget."""
-    log = sh('git', 'log', '--format=%s', f'origin/{base}..HEAD', cwd=tree).stdout.splitlines()
-    return min(ROUNDS, sum(l == f'Fix Qodo findings on PR #{number}' for l in log))
+    """Count recorded commits, including attempts interrupted before or during a push."""
+    _, commits = fixer_state(number)
+    history = set(sh('git', 'rev-list', f'origin/{base}..HEAD', cwd=tree).stdout.splitlines())
+    missing = [sha for sha in commits if sha not in history]
+    if missing:
+        print(f'{len(missing)} recorded fixer commit(s) are absent from PR history; retaining their budget.', flush=True)
+    return len(commits)
+
+
+def begin_fixer_commit(number):
+    path, commits = fixer_state(number)
+    if len(commits) >= ROUNDS:
+        sys.exit(f'Fixer budget for PR {number} is exhausted.')
+    (path.parent / 'pending').touch(exist_ok=False)
+    return path, commits
+
+
+def record_fixer_commit(tree, number, path, commits):
+    sha = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+    if not re.fullmatch(r'[0-9a-f]{40,64}', sha) or sha in commits or len(commits) >= ROUNDS:
+        sys.exit(f'Cannot record fixer commit for PR {number}; stopping before push.')
+    save_rerequest(path, commits + [sha])
+    (path.parent / 'pending').unlink()
 
 
 def main():
@@ -330,7 +374,9 @@ def main():
                 sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
             titles = '\n'.join(f'- {f["title"]}' for f in fixes)
             attribution = 'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'
+            ledger, commits = begin_fixer_commit(number)
             sh('git', 'commit', '-q', '-m', f'Fix Qodo findings on PR #{number}\n\n{titles}\n\n{attribution}', cwd=tree)
+            record_fixer_commit(tree, number, ledger, commits)
             # Qodo checks the fixes before anything leaves this Mac.
             r = sh(QODO, 'review', '--base', f'origin/{head}', '--json', cwd=tree, check=False)
             try:
