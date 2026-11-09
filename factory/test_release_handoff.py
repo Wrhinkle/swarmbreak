@@ -1,10 +1,27 @@
 import unittest
+import json
+import tempfile
+from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import manager
 
 
-class ReleaseHandoffTest(unittest.TestCase):
+class MarkerTestCase(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.marker = Path(self.tmp.name) / 'marker.json'
+        self.legacy = Path(self.tmp.name) / 'log' / '.handoff-failure.json'
+        self.legacy.parent.mkdir()
+        for name, value in [('handoff_marker_path', self.marker), ('LOG', self.legacy.parent / 'decisions.jsonl')]:
+            patcher = patch.object(manager, name, return_value=value) if name == 'handoff_marker_path' else patch.object(manager, name, value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+
+class ReleaseHandoffTest(MarkerTestCase):
     def test_open_then_merge_actual_pr(self):
         pr = {'number': 42, 'headRefName': 'run/2026-11-07', 'baseRefName': 'main'}
         calls = []
@@ -37,13 +54,13 @@ class ReleaseHandoffTest(unittest.TestCase):
                 result = manager.act({'type': 'open_and_merge', 'id': '2026-11-07'}, {}, False)
             self.assertIn('Failed to find exactly one open PR', result)
 
-class ScheduledHandoffTest(unittest.TestCase):
+class ScheduledHandoffTest(MarkerTestCase):
     def test_release_check_starts_built_run_handoff(self):
         with patch('manager.handoff_candidate', return_value=('2026-11-07', 'fingerprint')), \
              patch('manager.act', return_value='Opened and merged.') as action, \
              patch('manager.record'), patch('manager.handoff_fingerprint', return_value='fingerprint'):
             failures = []
-            blocker = manager.handoff_step(failures, previous='')
+            blocker = manager.handoff_step(failures, previous={})
         action.assert_called_once_with({'type': 'open_and_merge', 'id': '2026-11-07'}, {}, False)
         self.assertEqual(failures, [])
         self.assertEqual(blocker, '')
@@ -63,6 +80,63 @@ class ScheduledHandoffTest(unittest.TestCase):
             with patch('manager.handoff_candidate', return_value=('2026-11-07', 'b')):
                 manager.handoff_step([])
             self.assertEqual(action.call_count, 2)
+
+    def test_review_timeout_only_retries_for_completed_exact_head(self):
+        result = "Handoff failed: PR team on 42 exited 1. Last output: Qodo hasn't reviewed abcdef0 after 25 minutes. Not merging."
+        self.marker.write_text(json.dumps({'id': '2026-11-07', 'fingerprint': 'a', 'result': result}))
+        pr = {'number': 42, 'headRefName': 'run/2026-11-07', 'baseRefName': 'main', 'headRefOid': 'abcdef012345', 'url': 'pr-url'}
+        with patch('manager.handoff_candidate', return_value=('2026-11-07', 'a')), \
+             patch('manager.handoff_fingerprint', return_value='a'), patch('manager.open_prs', return_value=[pr]), \
+             patch('manager.findings') as findings, patch('manager.open_run', return_value='Not opening: test') as opening, \
+             patch('manager.record'):
+            for session in ({'commit_sha': pr['headRefOid'], 'review_complete': False},
+                            {'commit_sha': 'abcdef099999', 'review_complete': True}):
+                findings.return_value = {'review_session': session}
+                manager.handoff_step([])
+                for kind in ('open_run', 'open_and_merge'):
+                    self.assertIn('unchanged handoff failure', manager.act({'type': kind, 'id': '2026-11-07'}, {}, False))
+            opening.assert_not_called()
+            findings.return_value = {'review_session': {'commit_sha': pr['headRefOid'], 'review_complete': True}}
+            for kind in ('open_run', 'open_and_merge'):
+                manager.act({'type': kind, 'id': '2026-11-07'}, {}, False)
+            self.assertEqual(opening.call_count, 2)
+            manager.handoff_step([])
+            self.assertEqual(opening.call_count, 3)
+
+    def test_damaged_marker_blocks_both_callers_without_followup(self):
+        for content in ('{', '[]', '{}', '{"id": 4}'):
+            self.marker.write_text(content)
+            with patch('manager.handoff_candidate', return_value=('2026-11-07', 'a')), \
+                 patch('manager.open_run') as opening, patch('manager.record'):
+                failures = []
+                manager.handoff_step(failures)
+                manager.handoff_step(failures)
+                for kind in ('open_run', 'open_and_merge'):
+                    self.assertIn('damaged handoff marker', manager.act({'type': kind, 'id': '2026-11-07'}, {}, False))
+                self.assertEqual(failures, [])
+                opening.assert_not_called()
+
+    def test_atomic_write_preserves_previous_marker_on_interruption(self):
+        self.marker.write_text('old')
+        with patch('manager.os.replace', side_effect=OSError('interrupted')):
+            with self.assertRaises(OSError):
+                manager.write_handoff_marker(self.marker, 'new')
+        self.assertEqual(self.marker.read_text(), 'old')
+        self.assertEqual(list(self.marker.parent.glob('tmp*')), [])
+
+    def test_legacy_marker_survives_keep_run_and_is_excluded(self):
+        data = {'id': '2026-11-07', 'fingerprint': 'a', 'result': 'review rejected'}
+        self.legacy.write_text(json.dumps(data))
+        commands = []
+        def git(*args, **kwargs):
+            commands.append(args)
+            return SimpleNamespace(stdout='run/2026-11-08', returncode=0)
+        with patch('manager.sh', side_effect=git), patch('manager.switch_keeping_log', return_value=SimpleNamespace(returncode=0)):
+            manager.keep_run('2026-11-08', 'checkpoint')
+        self.assertIn(':(exclude)factory/log/.handoff-failure.json', next(c for c in commands if c[:2] == ('git', 'add')))
+        self.legacy.unlink()  # Branch switch removes the old branch-local file.
+        self.assertEqual(manager.read_handoff_marker(), data)
+        self.assertIn('unchanged handoff failure', manager.handoff_blocked('2026-11-07', 'a'))
 
     def test_candidate_uses_next_opening_and_existing_branch(self):
         from datetime import datetime, timezone
@@ -102,7 +176,7 @@ class ScheduledHandoffTest(unittest.TestCase):
         from pathlib import Path
         with tempfile.TemporaryDirectory() as d, patch('manager.LOG', Path(d) / 'log'), \
              patch('manager.handoff_fingerprint', return_value='a'), patch('manager.open_run') as opening:
-            (Path(d) / '.handoff-failure.json').write_text(json.dumps({'id': '2026-11-07', 'fingerprint': 'a', 'result': 'review rejected'}))
+            self.marker.write_text(json.dumps({'id': '2026-11-07', 'fingerprint': 'a', 'result': 'review rejected'}))
             result = manager.act({'type': 'open_and_merge', 'id': '2026-11-07'}, {}, False)
             self.assertIn('unchanged handoff failure', result)
             opening.assert_not_called()
