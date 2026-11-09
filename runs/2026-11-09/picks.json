@@ -1,0 +1,13 @@
+{
+  "thread": "Follow a waterway from canal locks to working boats and out into a busy maritime port. The swarm encounters the machinery that moves vessels, the vessels themselves, and the curious instruments and cargoes they carry.",
+  "candidates": [
+    {"name": "London Canal Museum", "url": "https://www.canalmuseum.org.uk/", "why": "Narrowboats, lock machinery, a squat Bantam tug, a Bolinder engine, and even the ice wells of a former warehouse give the swarm a mechanical canal-side beginning."},
+    {"name": "National Historic Ships UK", "url": "https://www.nationalhistoricships.org.uk/", "why": "A fleet of historic tugs, barges, fishing boats and other vessels offers hull shapes, propulsion systems, construction details and restoration crafts to inhabit."},
+    {"name": "Maritime Museum of Barcelona", "url": "https://www.mmb.cat/en/", "why": "At the port, ship models, anchors, binnacles, navigational instruments and a sailing schooner turn the swarm into a lively collection of seafaring objects."},
+    {"name": "Canal & River Trust", "url": "https://canalrivertrust.org.uk/", "why": "Canal routes, aqueducts, locks, working boats and the National Waterways Museum's dredgers and icebreakers provide another route from inland engineering toward the sea."},
+    {"name": "New Zealand Maritime Museum", "url": "https://www.maritimemuseum.co.nz/", "why": "Heritage boats, ship models, charts, maritime crafts and the Percy Vos boat shed give the swarm vessels to build and a harbour to explore."},
+    {"name": "Maritime Museum Tasmania", "url": "https://www.maritimetas.org/", "why": "Tasmanian ships, harbour history, nautical objects and maritime records offer island-flavoured vessels and portside creatures."},
+    {"name": "Australian National Maritime Museum", "url": "https://www.sea.museum/", "why": "Historic vessels, boats, nautical instruments and a large collection ranging from rocket boats to tiny maritime objects offer plenty of shapes for the swarm."},
+    {"name": "Dubrovnik Museums", "url": "https://dumus.hr/en/", "why": "The maritime collections and shipwrights' tools evoke a historic harbour filled with wooden ships, models and the implements that made them."}
+  ]
+}

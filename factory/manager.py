@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import GATES, REPO, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
+from pr_team import GATES, REPO, WAITING, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
 
 OWNER, CONTEST = 'Wrhinkle', ('qodo-hackathon', 'software-factory-hackathon')
 SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.com/{REPO}'
@@ -86,6 +86,8 @@ def gh(*args):
 def graphql(query, **fields):
     args = ['api', 'graphql', '-f', f'query={query}']
     for k, v in fields.items():
+        if v is None:
+            continue
         args += ['-F' if isinstance(v, int) else '-f', f'{k}={v}']
     return gh(*args)['data']
 
@@ -146,7 +148,7 @@ def posted_today(kind):
     return sum(1 for l in LOG.read_text().splitlines() if (e := json.loads(l)).get('kind') == kind and e['at'].startswith(today))
 
 
-def comms(number, task, dry):
+def comms(number, task, dry, *, require_post=False):
     t = thread(number)
     with tempfile.TemporaryDirectory() as work:
         w = Path(work)
@@ -161,7 +163,7 @@ def comms(number, task, dry):
             except (OSError, json.JSONDecodeError) as e:
                 problems = [f'post.json unreadable: {e}']
             else:
-                problems = check_post(out, t)
+                problems = check_post(out, t, require_post=require_post)
             if not problems:
                 break
             print(f'[comms] attempt {attempt + 1} refused: {problems}', flush=True)
@@ -188,9 +190,11 @@ def comms(number, task, dry):
     return f'Posted: {urls}' if urls else 'Nothing to post.'
 
 
-def check_post(out, t):
+def check_post(out, t, *, require_post=False):
     problems = []
     top, replies = out.get('top_level', ''), out.get('replies', [])
+    if require_post and not top.strip():
+        problems.append('required top-level post is empty')
     if top.strip():
         if t['ours']:
             problems.append('we already have a top-level comment on this thread; each challenge gets one')
@@ -233,13 +237,15 @@ def open_run(run_id, dry):
     problems = run_problems(run_id)
     if problems:
         return f'Not opening {run_id}: {problems}'
+    manifest = ROOT / 'public' / 'manifest.json'
+    try:
+        schedule = json.loads(sh('git', 'show', 'origin/main:public/manifest.json').stdout)
+        updated = opened(schedule, run_id, datetime.now(timezone.utc))
+    except ValueError as e:
+        return f'Not opening {run_id}: {e}'
     if dry:
         return f'{run_id} could open.'
-    opens = datetime.fromisoformat(f'{run_id}T13:00:00+00:00')
-    fmt = '%Y-%m-%dT%H:%M:%SZ'
-    manifest = ROOT / 'public' / 'manifest.json'
-    current = json.loads(manifest.read_text())
-    manifest.write_text(json.dumps({'runId': run_id, 'opensAt': opens.strftime(fmt), 'nextOpensAt': (opens + timedelta(days=1)).strftime(fmt), 'runUrl': f'/runs/{run_id}/run.json', 'voided': current.get('voided', [])}, indent=2) + '\n')
+    manifest.write_text(json.dumps(updated, indent=2) + '\n')
     branch = sh('git', 'branch', '--show-current').stdout.strip()
     if branch in ('', 'main'):
         return f'Not opening {run_id}: the checkout is on {branch or "no branch"}, and main only changes through a reviewed PR.'
@@ -297,11 +303,47 @@ def keep_run(run_id, message):
         sys.exit(f'Pushed {run_id} but could not return to main: {back.stderr[-300:]}')
 
 
-def deploy_problems(manifest, live, has_live_run, now):
-    """Why main can't go live. Players lose a run if it disappears or its replacement isn't open yet."""
+FMT = '%Y-%m-%dT%H:%M:%SZ'
+at = lambda m, k: datetime.fromisoformat(m[k].replace('Z', '+00:00'))
+
+
+def effective(m, now):
+    """The run players get now. Mirrors currentRun in src/save.ts: a prebuilt `next` takes over at its opensAt with no deploy."""
+    n = m.get('next')
+    if not n or now < at(n, 'opensAt'):
+        return m
+    return {k: v for k, v in m.items() if k != 'next'} | {'runId': n['runId'], 'opensAt': n['opensAt'], 'runUrl': n['runUrl'], 'nextOpensAt': (at(n, 'opensAt') + timedelta(days=1)).strftime(FMT)}
+
+
+def opened(current, run_id, now):
+    """The manifest after opening run_id. A run built before it opens rides along as `next`, so it goes live on time even if this host is down."""
+    base, opens = effective(current, now), datetime.fromisoformat(f'{run_id}T13:00:00+00:00')
+    entry = {'runId': run_id, 'opensAt': opens.strftime(FMT), 'runUrl': f'/runs/{run_id}/run.json'}
+    if opens < at(base, 'opensAt'):
+        raise ValueError(f"{run_id} is older than the current run {base['runId']}")
+    pending = base.get('next')
+    if pending:
+        if run_id in (base['runId'], pending['runId']):
+            return base
+        raise ValueError(f"reserve {pending['runId']} is already scheduled to open at {pending['opensAt']}")
+    if now < opens and base['runId'] != run_id and at(base, 'opensAt') < opens:
+        if opens != at(base, 'nextOpensAt'):
+            raise ValueError(f"reserve must open at {base['nextOpensAt']}")
+        return base | {'next': entry}
+    return {**entry, 'nextOpensAt': (opens + timedelta(days=1)).strftime(FMT), 'voided': current.get('voided', [])}
+
+
+def deploy_problems(manifest, live, has_live_run, now, has_next=True):
+    """Why main can't go live. Players lose a run if it disappears or its replacement isn't open yet.
+    A published reserve (`next`) counts too: clients switch to it on their own, so its file must ship and it can't be dropped."""
     problems = []
     if not has_live_run:
         problems.append(f'main does not have the live run {live["runId"]}')
+    nxt, published = manifest.get('next'), live.get('next')
+    if nxt and not has_next:
+        problems.append(f'main does not have the reserve run {nxt["runId"]}')
+    if published and nxt != published and manifest['runId'] != published['runId']:
+        problems.append(f'deploying would drop the published reserve {published["runId"]}')
     if manifest['runId'] != live['runId'] and datetime.fromisoformat(manifest['opensAt'].replace('Z', '+00:00')) - now > timedelta(hours=1):
         problems.append(f'{manifest["runId"]} opens at {manifest["opensAt"]}; deploying now would close the game until then')
     return problems
@@ -310,13 +352,15 @@ def deploy_problems(manifest, live, has_live_run, now):
 def release_due(main_m, live, now):
     """What the host must do about the live run: 'deploy', 'older', 'expired', or None. Not left to the model, since a run left undeployed closes the game.
     A run deploys only once it has opened: the client won't start a run before its opensAt, so publishing early would lock players out of the current one."""
-    at = lambda k, m: datetime.fromisoformat(m[k].replace('Z', '+00:00'))
+    main_m, live = effective(main_m, now), effective(live, now)
     if main_m['runId'] != live['runId']:
-        if at('opensAt', main_m) <= at('opensAt', live):
+        if at(main_m, 'opensAt') <= at(live, 'opensAt'):
             return 'older'
-        if now >= at('opensAt', main_m):
+        if now >= at(main_m, 'opensAt'):
             return 'deploy'
-    return 'expired' if now >= at('nextOpensAt', live) else None
+    if main_m['runId'] == live['runId'] and main_m.get('next') != live.get('next'):
+        return 'deploy'  # publish the prebuilt run early; players keep today's until it opens
+    return 'expired' if now >= at(live, 'nextOpensAt') else None
 
 
 def release_check():
@@ -324,8 +368,9 @@ def release_check():
         sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
         rev = sh('git', 'rev-parse', 'origin/main').stdout.strip()  # deploy exactly the commit that was checked
         main_m = json.loads(sh('git', 'show', f'{rev}:public/manifest.json').stdout)
-        live = live_manifest()
-        due = release_due(main_m, live, datetime.now(timezone.utc))
+        now = datetime.now(timezone.utc)
+        due = release_due(main_m, live_manifest(), now)
+        main_m, live = effective(main_m, now), effective(live_manifest(), now)
         if due == 'deploy':
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
@@ -353,8 +398,13 @@ def deploy(dry, rev=None):
         tree = Path(work) / 'main'
         sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
         try:
-            manifest, live = json.loads((tree / 'public/manifest.json').read_text()), live_manifest()
-            problems = deploy_problems(manifest, live, (tree / 'public' / live['runUrl'].lstrip('/')).exists(), datetime.now(timezone.utc))
+            now = datetime.now(timezone.utc)
+            raw_manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
+            manifest = effective(raw_manifest, now)
+            has = lambda m: (tree / 'public' / m['runUrl'].lstrip('/')).exists()
+            problems = deploy_problems(manifest, live, has(live), now, not manifest.get('next') or has(manifest['next']))
+            if not has(manifest):
+                problems.append(f'main does not have the selected run {manifest["runId"]}')
             if problems:
                 return f'Not deploying: {problems}'
             for cmd in (['npm', 'ci'], ['npm', 'run', 'build'], ['npm', 'test']):
@@ -367,11 +417,12 @@ def deploy(dry, rev=None):
             if r.returncode:
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
             for _ in range(6):  # the CDN can serve the old manifest for a few seconds
-                now_live = live_manifest()['runId']
-                if now_live == manifest['runId']:
+                served = live_manifest()
+                if served == raw_manifest:
                     break
                 time.sleep(10)
-            return f'Deployed. Live run is {now_live}.' if now_live == manifest['runId'] else f'Deploy failed verification: live run reads {now_live}, expected {manifest["runId"]}.'
+            reserve = f' Reserve run {manifest["next"]["runId"]} opens itself at {manifest["next"]["opensAt"]}.' if manifest.get('next') else ''
+            return f'Deployed. Live run is {manifest["runId"]}.{reserve}' if served == raw_manifest else f'Deploy failed verification: live manifest reads {served}, expected {raw_manifest}.'
         finally:
             sh('git', 'worktree', 'remove', '--force', tree, check=False)
 
@@ -394,7 +445,8 @@ def state():
         runs[b.parent.name] = {'problems': report.get('problems'), 'rates': [{'policy': r.get('policy'), 'winRate': r.get('winRate')} for r in report.get('rates', [])]}
     recent = LOG.read_text().splitlines()[-20:] if LOG.exists() else []
     strangers = any(i['author']['login'] != OWNER for i in issues) or any(t['replies_waiting'] for t in threads)  # ponytail: a stranger's issue pauses delegation; a screening agent can lift this
-    return {'strangers': strangers, 'now': datetime.now(timezone.utc).isoformat(timespec='minutes'), 'live': live_manifest(), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'run_branches': sh('git', 'branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split(), 'recent_decisions': [json.loads(l) for l in recent]}
+    now = datetime.now(timezone.utc)
+    return {'strangers': strangers, 'now': now.isoformat(timespec='minutes'), 'live': effective(live_manifest(), now), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'run_branches': sh('git', 'branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split(), 'recent_decisions': [json.loads(l) for l in recent]}
 
 
 def gate_rejected(number, sha):
@@ -422,6 +474,8 @@ def act(a, s, dry):
             print(line, end='', flush=True)
             tail.append(line)
         code = r.wait()
+        if code == WAITING:
+            return f'PR {pr["number"]} is waiting on Qodo; the foreman rechecks it.'
         return f'PR team on {pr["number"]} exited {code}.' + (f' Last output: {"".join(tail)[-600:]}' if code else '')
     if kind == 'comms':
         return comms(int(a['discussion']), str(a.get('task', '')), dry)
@@ -468,6 +522,8 @@ def act(a, s, dry):
         if r.returncode or dry or not last.isdigit():
             return f'Builder on issue {issue["number"]} exited {r.returncode}: {(r.stdout + r.stderr)[-500:]}'
         team = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', last, '--merge'], cwd=ROOT)
+        if team.returncode == WAITING:
+            return f'Builder opened PR {last}. It is waiting on Qodo; the foreman rechecks it.'
         return f'Builder opened PR {last}. PR team exited {team.returncode}.'
     if kind == 'deploy':
         return deploy(dry)
@@ -550,6 +606,7 @@ def main():
         record({'kind': 'action', 'action': a, 'result': result if len(result) <= 1000 else f'{result[:300]} ... {result[-700:]}', 'dry': dry})
         if FAILED.search(result) and result != 'Not deploying: unchanged missing-run release blocker remains.':
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
+    failures += post_missing(dry)
     if not dry:
         blocker = release_step(failures, previous=previous)
         lock.seek(0)
@@ -557,6 +614,47 @@ def main():
         lock.write(blocker)
         lock.flush()
     follow_up(failures, round_, note, dry, blocker)
+
+
+def unposted(threads):
+    """Challenge threads ('Day N: ...') with no top-level post from us. Each gets one, late or not."""
+    return [t for t in threads if re.match(r'Day \d+\b', t['title']) and not t['we_posted']]
+
+
+def post_missing(dry):
+    """Posts every unposted challenge the pass's own actions didn't cover. Returns failed results."""
+    failures, today = [], datetime.now(timezone.utc).date().isoformat()
+    cursor = ''
+    while True:
+        try:
+            page = graphql('''query($o:String!,$r:String!,$cursor:String){repository(owner:$o,name:$r){discussions(first:100,after:$cursor,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt} pageInfo{hasNextPage endCursor}}}}''', o=CONTEST[0], r=CONTEST[1], cursor=cursor or None)['repository']['discussions']
+        except SystemExit as e:
+            result = f'Discussion discovery failed: {e}'
+            record({'kind': 'action', 'action': {'type': 'comms', 'forced': True}, 'result': result[-1000:], 'dry': dry})
+            failures.append(result[-700:])
+            break
+        for t in page['nodes']:
+            if not re.match(r'Day \d+\b', t['title']):
+                continue
+            number = t['number']
+            try:
+                if thread(number)['ours']:
+                    continue  # this pass's comms action already posted it
+                late = t['createdAt'][:10] < today
+                task = (f'Post our entry for discussion #{number}. It is required and nothing has been posted for it yet. '
+                        + (f'It opened on {t["createdAt"][:10]}, so this post is late: say so in one plain sentence. ' if late else '')
+                        + 'Follow the thread\'s template and point to real PRs, issues and commits from facts.md.')
+                result = comms(number, task, dry, require_post=True)
+            except SystemExit as e:
+                result = f'Action failed: {e}'
+            print(f'comms (unposted #{number}): {result}', flush=True)
+            record({'kind': 'action', 'action': {'type': 'comms', 'discussion': number, 'forced': True}, 'result': result[-1000:], 'dry': dry})
+            if FAILED.search(result):
+                failures.append(f'comms #{number} -> {result[-700:]}')
+        if not page['pageInfo']['hasNextPage']:
+            break
+        cursor = page['pageInfo']['endCursor']
+    return failures
 
 
 def missing_run_blocker(result, previous):

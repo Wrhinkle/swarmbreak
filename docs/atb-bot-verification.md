@@ -157,3 +157,13 @@ A fixed independent sample of 100 unsigned 32-bit seeds, drawn with Python `secr
 Reproduce current results with `npx vite-node tools/compare-atb.ts public/runs/2026-11-07/run.json 1 1 <policy> docs/atb-independent-seeds.json`. For historical results, use the extraction method above and iterate the saved seed array instead of consecutive seeds. This is one released run; independent samples on other representative runs and the future run's unchanged balance gate remain outstanding.
 
 For no-build on the same sample, current Auto won 0/100 and manual won 28/100 (28 manual-only, 0 Auto-only); the conservative paired 95% bound for manual minus Auto is [0.8%, 55.2%]. This bound is for this fixed sample and run, and does not establish the next run's balance.
+
+The same fixed independent 100-seed sample on the November 6 run produced:
+
+| Policy | Auto wins | Manual wins | Manual-only | Auto-only | Paired 95% bound, manual minus Auto |
+| --- | ---: | ---: | ---: | ---: | --- |
+| typical | 17/100 | 43/100 | 31 | 5 | [-1.2%, 53.2%] |
+| expert | 5/100 | 58/100 | 55 | 2 | [25.8%, 80.2%] |
+| no-build | 2/100 | 15/100 | 14 | 1 | [-14.2%, 40.2%] |
+
+Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-06/run.json 1 1 <policy> docs/atb-independent-seeds.json`. These bounds compare the current policies on this run, using the same current equipment heuristic. They do not compare historical equipment search or establish the future run's balance. The typical and no-build bounds include zero; the expert sample supports an advantage for manual play on this run. The historical expert's outcome lookahead and divergent paths still prevent attributing its earlier advantage to ATB alone.

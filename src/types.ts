@@ -10,6 +10,7 @@ export interface Manifest {
   nextOpensAt: string; // ISO time the next run is due
   runUrl: string; // for example /runs/2026-11-02/run.json
   voided: string[]; // runs where a confirmed bug gives losing players their attempt back
+  next?: { runId: string; opensAt: string; runUrl: string }; // a prebuilt run that takes over at its opensAt, no deploy needed
 }
 
 // Identity comes from the site. Behavior comes from the library, by id.

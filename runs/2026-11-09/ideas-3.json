@@ -1,0 +1,236 @@
+{
+  "reading": "Barcelona's maritime museum treats the sea as lived history, material heritage, and a subject to investigate together. Its Royal Shipyards, schooner and fleet anchor collections of vessels, models, figureheads, maps, navigational instruments, photographs, documents and ship portraits. It preserves and restores objects while researching, publishing and opening archives; schools, families, adults, volunteers and cooperation networks make the museum a working community. Its vocabulary moves between drassanes (shipyards), galeres (galleys), pailebot (schooner), fons (holdings), conservació, recerca and the sea as a horizon for learning. Distinctive tensions include a building that is itself maritime heritage, a navigable vessel alongside miniature ones, tactile access and digital collections, and histories that reach beyond shipbuilding to women at sea, colonial slavery and the environmental life of the ocean. Much of this crawl consists of titles and links rather than article text, so the ideas extrapolate from those named subjects.",
+  "enemies": [
+    {
+      "idea": "Royal Galley Loom: swarm oars stitch the air into a rigid channel; anything caught between strokes is dragged toward an invisible slipway.",
+      "source": "/fons-i-colleccions/tresors/",
+      "why": "The crew can interrupt its rhythm or use a captured oar to steer the moving channel."
+    },
+    {
+      "idea": "Figurehead Choir: carved prow faces worn by drones sing conflicting bearings; the loudest face pulls every loose vessel toward it.",
+      "source": "/fons-i-colleccions/tresors/",
+      "why": "Silencing one voice changes the navigational puzzle instead of merely reducing health."
+    },
+    {
+      "idea": "Portrait Frigate: a ship-portrait machine turns sideways into a flat silhouette to slip through narrow gaps, then unfolds its broadside.",
+      "source": "/fons-i-colleccions/tresors/",
+      "why": "Its safe profile becomes its attack wind-up, making orientation matter."
+    },
+    {
+      "idea": "Chart Splicer: a cartography crawler cuts coastlines from maps and stitches them across the floor, creating false shores that divert pursuers.",
+      "source": "/fons-i-colleccions/coleccio-en-linia/",
+      "why": "Players can rearrange its scraps to trap it on an island of its own making."
+    },
+    {
+      "idea": "Coin Sounder: a numismatic scavenger drops stacks of coins as depth markers and declares anything taller than the stack a navigational obstruction to be flattened.",
+      "source": "/catalegs/",
+      "why": "Its absurd survey leaves a visible, rearrangeable warning before each strike."
+    },
+    {
+      "idea": "Preventive Preserver: a restoration machine wraps moving things in protective layers until they cannot move, then guards them from all further contact.",
+      "source": "/fons-i-colleccions/conservacio-preventiva-restauracio/",
+      "why": "Rescue is a race to loosen the wrapping while avoiding the machine’s next protective pass."
+    },
+    {
+      "idea": "Passenger-list Purser: an archive drone reads a roll of names and tries to assign every passerby to a departure, corralling them aboard an empty swarm tender.",
+      "source": "/fons-i-colleccions/biblioteca/",
+      "why": "A false passenger or an interrupted roll can draw the tender away from a trapped crew."
+    },
+    {
+      "idea": "Contact-sheet Skater: a photographic collector projects successive ship images onto the ground and moves only through the dark gaps between frames.",
+      "source": "/fons-i-colleccions/colleccions-fotografiques/",
+      "why": "Light and timing turn the room into a shifting route puzzle."
+    },
+    {
+      "idea": "The Slipway Reviser: a shipyard-time machine overlays successive eras of the building, replacing a safe arch with a moving construction scaffold.",
+      "source": "/exposicions/viatge-en-el-temps-per-les-drassanes-reials-de-barcelona/",
+      "why": "Its attacks alter the arena visibly, letting observant crews use an earlier layout as cover."
+    },
+    {
+      "idea": "Three-Tense Harbor Master: one swarm tug predicts where a boat will be, another attacks where it was, and a third blocks where it is.",
+      "source": "/activitats/port-de-barcelona-passat-present-i-futur-7/",
+      "why": "Breaking the trio’s past-present-future coordination creates a window to pass."
+    },
+    {
+      "idea": "Neighborhood Surveyor: a mapping crawler reassigns familiar streets between the shipyards and the neighboring district, dragging rope boundaries behind it.",
+      "source": "/activitats/del-barri-de-les-drassanes-al-barri-xino/",
+      "why": "Crossing a boundary changes its patrol route; crews can lure it into a loop."
+    },
+    {
+      "idea": "Reading Circle: mechanical book cradles gather around a maritime volume and recite in sequence; each finished passage tightens their ring.",
+      "source": "/activitats/club-de-lectura-de-la-biblioteca-del-museu-maritim-6/",
+      "why": "A misplaced book or a well-timed interruption breaks the circle before it closes."
+    },
+    {
+      "idea": "Schooner Rigger: a swarm cluster wears spare rigging and shifts its sails to catch breath, fan gusts and tug equipment out of reach.",
+      "source": "/pailebot-santa-eulalia-2/",
+      "why": "Cutting or redirecting a line changes the wind for everyone on deck."
+    },
+    {
+      "idea": "Touch-Model Doppelganger: a drone copies the raised outlines of a tactile ship model, then assembles those outlines into a full-sized obstacle in the dark.",
+      "source": "/accessibilitat-2/",
+      "why": "The same tactile clues that reveal its next shape also give the crew a way through."
+    },
+    {
+      "idea": "Lesson Compass: a classroom navigation instrument has decided every learner must find the same answer, and rotates all nearby compasses toward its chosen point.",
+      "source": "/activitats/centres-educatius/",
+      "why": "A crew can use landmarks and disagreement between instruments to find the real route."
+    },
+    {
+      "idea": "Archive Integrator: a multi-armed filing machine combines separate records into a single enormous bundle and sweeps up any object it considers related.",
+      "source": "/museu/serveis/arxiu/",
+      "why": "Removing a key document causes its overgrown bundle to come apart in stages."
+    },
+    {
+      "idea": "Seven-Ship Composite: a digital exhibition drone assembles a vessel from mismatched ship-story fragments; each fragment gives it a different movement.",
+      "source": "/visita/mmb-digital/",
+      "why": "Recognizing and separating the fragments changes its abilities mid-encounter."
+    },
+    {
+      "idea": "Lantern Examiner: a lighthouse-conservation machine tests every light for deterioration by eclipsing it, leaving only its own sweeping beam.",
+      "source": "/blog/",
+      "why": "Crews can move in the beam’s shadow or reflect it back to expose the examiner."
+    },
+    {
+      "idea": "Ocean Classroom Probe: a homemade navigation instrument rebuilt by the swarm measures distance in unanswered questions and fires a tether whenever someone guesses.",
+      "source": "/blog/educacio/comunicat-de-professionals-de-leducacio-dequipaments-culturals-sobre-la-situacio-del-sistema-educatiu-a-catalunya/",
+      "why": "The crew can experiment with the instrument rather than needing a single secret answer."
+    },
+    {
+      "idea": "Collection Indexer: a cataloguing machine assigns objects to material categories and pulls the metal fittings off mixed-material tools to make them easier to classify.",
+      "source": "/fons-i-colleccions/coleccio-en-linia/",
+      "why": "The crew can bait it with a deliberately ambiguous object and retrieve its sorted parts."
+    },
+    {
+      "idea": "Space-Hire Hauler: a machine moving equipment between the great hall, auditorium and gardens ropes off a rolling volume of space and sweeps everything inside along with it.",
+      "source": "/museu/serveis/lloguer-despais/",
+      "why": "Its moving boundary is both a hazard and a conveyance the crew can ride."
+    },
+    {
+      "idea": "Cooperation Net: a swarm of tiny boats links itself into a flexible mesh, surrounding anything that cuts one strand by joining its neighbors closer.",
+      "source": "/explorar/xarxes-de-cooperacio/",
+      "why": "Its coordinated shape invites diversion and untangling instead of simple cutting."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Tactile navigators: intact raised ship models and sensory guides let survivors map safe routes by touch when the swarm darkens the halls.",
+      "source": "/accessibilitat-2/",
+      "why": "They give the crew a practical way to navigate without relying on sight."
+    },
+    {
+      "idea": "Conservation bench: a surviving team of caretakers can stabilize damaged gear and teach crews how to undo the Preserver’s wrappings.",
+      "source": "/fons-i-colleccions/conservacio-preventiva-restauracio/",
+      "why": "Care work becomes a useful countermeasure with its own material puzzle."
+    },
+    {
+      "idea": "Friends and volunteers: a loose human network carries warnings between isolated galleries using agreed knots and hand signals.",
+      "source": "/explorar/amics-voluntaris-i-collaboradors/",
+      "why": "Their messages build a living map of swarm movement."
+    },
+    {
+      "idea": "School-and-museum makers: learners and educators build simple navigation instruments from salvaged parts and compare readings to expose false bearings.",
+      "source": "/aprendre/museu-i-escola/",
+      "why": "Their testable, collaborative method can defeat a single corrupted compass."
+    },
+    {
+      "idea": "The reading circle: survivors trade maritime stories from memory to reconstruct routes that the archive machines have scrambled.",
+      "source": "/activitats/club-de-lectura-de-la-biblioteca-del-museu-maritim-6/",
+      "why": "Different accounts provide clues that only make sense when brought together."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Shipyard That Builds Itself: a swarm intelligence inhabits the Royal Shipyards, treating the building, its surviving fleet and every intruder as parts of one unfinished vessel. Moving slipways feed it salvaged rigging while its ribs shift through different eras.",
+      "source": "/exposicions/viatge-en-el-temps-per-les-drassanes-reials-de-barcelona/",
+      "why": "The crew must interrupt construction at several connected workstations while navigating a changing historic building."
+    },
+    {
+      "idea": "The Total Collection: an enormous archivist assembles maps, models, photographs and instruments into a single supposedly complete maritime history, absorbing anything that contradicts its classification.",
+      "source": "/fons-i-colleccions/tresors/",
+      "why": "Its weaknesses emerge when incompatible objects and independent accounts are returned to their own contexts."
+    },
+    {
+      "idea": "The Horizon Engine: a schoolroom compass, port model and schooner rig merge into a machine that tries to make every voyage end at one fixed horizon.",
+      "source": "/aprendre/museu-i-escola/",
+      "why": "Multiple crews can reset instruments to different bearings, turning cooperation and exploration against enforced sameness."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A loose ship model drifts across a floor chart toward a painted reef. A nearby chart splicer will turn the reef into a real barrier unless the crew moves either the model or the map.",
+      "source": "/fons-i-colleccions/tresors/",
+      "why": "A small tabletop-looking scene can abruptly become an obstacle at human scale."
+    },
+    {
+      "idea": "A conservation station has sealed a useful rope in protective wrapping; its caretaker asks for help freeing the rope without damaging the neighboring artifact.",
+      "source": "/fons-i-colleccions/conservacio-preventiva-restauracio/",
+      "why": "The reward depends on patient handling rather than smashing a container."
+    },
+    {
+      "idea": "Three tug drones rehearse the harbor’s past, present and future around a stranded boat. Their changing formation offers a brief opening to tow it clear.",
+      "source": "/activitats/port-de-barcelona-passat-present-i-futur-7/",
+      "why": "The patrol itself supplies a readable timing puzzle."
+    },
+    {
+      "idea": "In the reading room, a survivor remembers the start of a sea story while a book cradle recites its ending. Putting the accounts together reveals a safe bearing.",
+      "source": "/activitats/club-de-lectura-de-la-biblioteca-del-museu-maritim-6/",
+      "why": "Listening and reconciliation unlock a useful route."
+    },
+    {
+      "idea": "A schooner line snags a swarm rigger and a survivor’s pack at once. The crew must choose how to release tension before either is hauled aloft.",
+      "source": "/pailebot-santa-eulalia-2/",
+      "why": "A familiar knot becomes a tense, physical rescue."
+    },
+    {
+      "idea": "Tactile ship models disagree with the corridors projected by a corrupted guide. Feeling their outlines reveals which route is an illusion.",
+      "source": "/accessibilitat-2/",
+      "why": "An accessible resource provides the decisive information."
+    },
+    {
+      "idea": "An archive integrator is about to merge a bundle of unrelated plans; a volunteer needs a second pair of hands to separate them before the machine returns.",
+      "source": "/museu/serveis/arxiu/",
+      "why": "Sorting under time pressure produces a useful plan and a recurring machine threat."
+    },
+    {
+      "idea": "A classroom compass points at a metal swarm nest instead of north. Local makers offer a replacement if the crew helps compare it against fixed landmarks.",
+      "source": "/aprendre/museu-i-escola/",
+      "why": "The repair is a little investigation with an immediately useful payoff."
+    },
+    {
+      "idea": "A photograph-identification gathering has mistaken a swarm vessel for a historical ship. The crew can compare silhouettes before the false identification sends a rescue boat astray.",
+      "source": "/activitats/port-de-barcelona-passat-present-i-futur-7/",
+      "why": "Close looking at ship shapes matters to a concrete rescue."
+    },
+    {
+      "idea": "A moving boundary rope separates two neighboring streets. People on either side can pass supplies through only when the surveyor rounds a corner.",
+      "source": "/activitats/del-barri-de-les-drassanes-al-barri-xino/",
+      "why": "A simple delivery becomes a stealth-and-timing challenge."
+    },
+    {
+      "idea": "The great hall is slowly being cleared by a space-hire hauler. A stranded volunteer offers a shortcut through the garden if the crew helps shift a cart out of its path.",
+      "source": "/museu/serveis/lloguer-despais/",
+      "why": "A moving hazard and a modest favor reveal a new route."
+    },
+    {
+      "idea": "A lighthouse examiner sweeps its beam over a collection of damaged instruments. A reflective surface can redirect the beam long enough for caretakers to recover one.",
+      "source": "/blog/",
+      "why": "The crew turns the enemy’s inspection into an improvised rescue tool."
+    },
+    {
+      "idea": "A volunteer signal line has gone slack between two galleries. Following its knots leads to a trapped courier and a choice of where to reconnect the warning network.",
+      "source": "/explorar/amics-voluntaris-i-collaboradors/",
+      "why": "Restoring communication changes what the crew can learn later."
+    },
+    {
+      "idea": "A shipyard passage flickers between two construction eras; a dropped tool appears only in one while the exit opens in the other.",
+      "source": "/exposicions/viatge-en-el-temps-per-les-drassanes-reials-de-barcelona/",
+      "why": "The crew can learn the shifting architecture through a low-stakes spatial puzzle."
+    },
+    {
+      "idea": "A catalogue machine keeps sorting a combined wooden-and-metal instrument into two piles. An improvised decoy buys enough time to reclaim its pieces.",
+      "source": "/catalegs/",
+      "why": "An ordinary classification rule becomes a comic opportunity for misdirection."
+    }
+  ]
+}
