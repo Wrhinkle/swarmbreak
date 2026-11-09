@@ -245,6 +245,12 @@ def wait_for_review(url, sha):
     sys.exit(WAITING)
 
 
+def fixer_rounds(tree, number, base):
+    """Fixer rounds this PR has already used. Read from its commits, so a run that exits WAITING and restarts doesn't get a fresh budget."""
+    log = sh('git', 'log', '--format=%s', f'origin/{base}..HEAD', cwd=tree).stdout.splitlines()
+    return min(ROUNDS, sum(l == f'Fix Qodo findings on PR #{number}' for l in log))
+
+
 def main():
     number, merge = sys.argv[1], '--merge' in sys.argv
     pr = json.loads(sh('gh', 'pr', 'view', number, '--repo', REPO, '--json', 'url,headRefName,baseRefName,state,headRefOid').stdout)
@@ -268,7 +274,7 @@ def main():
         sh('npm', 'ci', '--silent', cwd=tree)
     # An unfinished review lists no findings yet, which isn't the same as a clean one.
     wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip())
-    for round_no in range(ROUNDS + 1):
+    for round_no in range(fixer_rounds(tree, number, base), ROUNDS + 1):
         data = findings(url)
         session = data.get('review_session') or {}
         current = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()

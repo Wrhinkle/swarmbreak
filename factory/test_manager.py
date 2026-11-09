@@ -890,3 +890,16 @@ with tempfile.TemporaryDirectory() as d:
     assert run_foreman('') == (1, 0)
     assert json.loads(state_path.read_text())['cooldown_until'] > 0
 print('ok foreman Qodo head pause')
+
+# Fixer rounds survive a WAITING restart: they're counted from the PR's own commits.
+with tempfile.TemporaryDirectory() as d:
+    def g(*a): subprocess.run(['git', *a], cwd=d, check=True, capture_output=True)
+    g('init', '-q', '-b', 'main'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
+    g('commit', '-q', '--allow-empty', '-m', 'base'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    assert pr_team.fixer_rounds(Path(d), '7', 'main') == 0
+    g('commit', '-q', '--allow-empty', '-m', 'Fix Qodo findings on PR #7')
+    g('commit', '-q', '--allow-empty', '-m', 'Fix Qodo findings on PR #8')
+    assert pr_team.fixer_rounds(Path(d), '7', 'main') == 1
+    for _ in range(3): g('commit', '-q', '--allow-empty', '-m', 'Fix Qodo findings on PR #7')
+    assert pr_team.fixer_rounds(Path(d), '7', 'main') == pr_team.ROUNDS
+print('ok fixer rounds persist across restarts')
