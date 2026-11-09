@@ -133,10 +133,98 @@ class ScheduledHandoffTest(MarkerTestCase):
             return SimpleNamespace(stdout='run/2026-11-08', returncode=0)
         with patch('manager.sh', side_effect=git), patch('manager.switch_keeping_log', return_value=SimpleNamespace(returncode=0)):
             manager.keep_run('2026-11-08', 'checkpoint')
-        self.assertIn(':(exclude)factory/log/.handoff-failure.json', next(c for c in commands if c[:2] == ('git', 'add')))
+        self.assertTrue(any(':(exclude)factory/log/.handoff-failure.json' in c for c in commands if c[:2] == ('git', 'add')))
         self.legacy.unlink()  # Branch switch removes the old branch-local file.
         self.assertEqual(manager.read_handoff_marker(), data)
         self.assertIn('unchanged handoff failure', manager.handoff_blocked('2026-11-07', 'a'))
+
+    def test_reviewed_handoff_retry_keeps_head_until_run_or_manifest_changes(self):
+        run_id = '2026-11-07'
+        root = Path(self.tmp.name)
+        run = root / 'runs' / run_id / 'run.json'
+        manifest = root / 'public' / 'manifest.json'
+        log = root / 'factory' / 'log' / 'decisions.jsonl'
+        for path in (run, manifest, log):
+            path.parent.mkdir(parents=True, exist_ok=True)
+        run.write_text('run one')
+        manifest.write_text(json.dumps({'voided': []}))
+        log.write_text('initial log\n')
+        branch, head, committed, staged = ['main'], ['0' * 40], {}, {}
+        review = {'commit_sha': '', 'review_complete': False}
+
+        def snapshot(paths):
+            result = {}
+            for name in paths:
+                if name.startswith(':'):
+                    continue
+                path = root / name
+                for file in ([path] if path.is_file() else path.rglob('*')):
+                    if file.is_file() and file.name != '.handoff-failure.json':
+                        result[str(file.relative_to(root))] = file.read_bytes()
+            return result
+
+        def git(*args, **kwargs):
+            cmd = args[1:]
+            if cmd[:2] == ('branch', '--show-current'):
+                return SimpleNamespace(stdout=branch[0], returncode=0)
+            if cmd[0] == 'add':
+                staged.update(snapshot(cmd[1:]))
+            if cmd[:3] == ('diff', '--cached', '--quiet'):
+                selected = snapshot(cmd[4:])
+                changed = any(staged.get(k) != committed.get(k) for k in selected)
+                return SimpleNamespace(stdout='', returncode=int(changed))
+            if cmd[0] == 'commit':
+                committed.update(staged)
+                staged.clear()
+                head[0] = f'{int(head[0], 16) + 1:040x}'
+            return SimpleNamespace(stdout='', stderr='', returncode=0)
+
+        def switch(target):
+            branch[0] = target
+            return SimpleNamespace(returncode=0, stderr='')
+
+        def prs():
+            return [{'number': 42, 'headRefName': f'run/{run_id}', 'baseRefName': 'main',
+                     'headRefOid': head[0], 'url': 'pr-url'}]
+
+        def dispatch(action, state, dry):
+            if action['type'] == 'merge_pr':
+                if review['review_complete'] and review['commit_sha'] == head[0]:
+                    return 'PR team on 42 exited 0.'
+                return f"PR team on 42 exited 1. Qodo hasn't reviewed {head[0][:7]} after 25 minutes. Not merging."
+            return real_act(action, state, dry)
+
+        def record(entry):
+            with log.open('a') as out:
+                out.write(json.dumps(entry) + '\n')
+
+        real_act = manager.act
+        with patch('manager.ROOT', root), patch('manager.LOG', log), patch('manager.sh', side_effect=git), \
+             patch('manager.switch_keeping_log', side_effect=switch), patch('manager.run_problems', return_value=[]), \
+             patch('manager.gh', return_value=[{'number': 42}]), patch('manager.open_prs', side_effect=prs), \
+             patch('manager.findings', side_effect=lambda url: {'review_session': review}), \
+             patch('manager.handoff_candidate', return_value=(run_id, 'fingerprint')), \
+             patch('manager.handoff_fingerprint', return_value='fingerprint'), patch('manager.record', side_effect=record), \
+             patch('manager.act', side_effect=dispatch):
+            failures = []
+            manager.handoff_step(failures)
+            self.assertEqual(len(failures), 1)
+            reviewed_head = head[0]
+            self.assertIn('Handoff failed', log.read_text())
+            review.update(commit_sha=reviewed_head, review_complete=True)
+            manager.handoff_step([])
+            self.assertEqual(head[0], reviewed_head)
+            self.assertIn('exited 0', log.read_text())
+            for changed in ('run', 'manifest'):
+                if changed == 'run':
+                    run.write_text('run two')
+                else:
+                    manifest.write_text(json.dumps({'voided': ['old']}))
+                result = manager.act({'type': 'open_and_merge', 'id': run_id}, {}, False)
+                self.assertNotEqual(head[0], reviewed_head)
+                self.assertIn("Qodo hasn't reviewed", result)
+                reviewed_head = head[0]
+                review['commit_sha'] = reviewed_head
 
     def test_candidate_uses_next_opening_and_existing_branch(self):
         from datetime import datetime, timezone

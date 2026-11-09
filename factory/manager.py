@@ -243,7 +243,7 @@ def open_run(run_id, dry):
     branch = sh('git', 'branch', '--show-current').stdout.strip()
     if branch in ('', 'main'):
         return f'Not opening {run_id}: the checkout is on {branch or "no branch"}, and main only changes through a reviewed PR.'
-    keep_run(run_id, f'Open run {run_id}')
+    keep_run(run_id, f'Open run {run_id}', log_only=False)
     found = gh('pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number')
     if found:
         return f'{run_id} is in PR {found[0]["number"]}. It goes live after merge_pr and deploy.'
@@ -284,13 +284,19 @@ def sync():
         os.execv(sys.executable, [sys.executable, *sys.argv])
 
 
-def keep_run(run_id, message):
+def keep_run(run_id, message, log_only=True):
     """Commits and pushes one run's files and the decision log, and nothing else in the checkout."""
     read_handoff_marker()  # Preserve any legacy marker before staging or switching branches.
-    paths = [p for p in (f'runs/{run_id}', f'public/runs/{run_id}', f'public/art/{run_id}', 'public/manifest.json', 'factory/log') if (ROOT / p).exists()]
+    paths = [p for p in (f'runs/{run_id}', f'public/runs/{run_id}', f'public/art/{run_id}', 'public/manifest.json') if (ROOT / p).exists()]
+    changed = False
+    if paths:
+        sh('git', 'add', *paths)
+        changed = sh('git', 'diff', '--cached', '--quiet', '--', *paths, check=False).returncode
+    if (log_only or changed) and (ROOT / 'factory/log').exists():
+        paths.append('factory/log')
     paths.append(':(exclude)factory/log/.handoff-failure.json')
     sh('git', 'add', *paths)
-    if sh('git', 'diff', '--cached', '--quiet', check=False).returncode:
+    if sh('git', 'diff', '--cached', '--quiet', '--', *paths, check=False).returncode:
         sh('git', 'commit', '-q', '-m', message, '--', *paths)
     sh('git', 'push', '-q', '-u', 'origin', sh('git', 'branch', '--show-current').stdout.strip())
     # launchd loads manager.py from this checkout, so leaving it on a run branch would run that branch's older code next pass.
