@@ -1,5 +1,12 @@
 import { expect, it } from 'vitest';
-import { comparisonCheckpoint, comparisonPolicies, comparisonRange, pairedWinInterval } from './compare-atb-range';
+import { comparisonCheckpoint, comparisonPolicies, comparisonRange, comparisonSeeds, pairedWinInterval } from './compare-atb-range';
+
+it('accepts a fixed list of independently sampled seeds for paired comparisons', () => {
+  expect(comparisonSeeds('[0, 4294967295, 42, 42]')).toEqual([0, 4294967295, 42, 42]);
+  for (const value of ['[]', '[1, -1]', '[4294967296]', '[1.5]', '["1"]', '{}']) {
+    expect(() => comparisonSeeds(value)).toThrow();
+  }
+});
 
 it('splits paired comparisons into distinct reproducible seed ranges', () => {
   expect(comparisonRange()).toEqual({ count: 800, start: 1 });

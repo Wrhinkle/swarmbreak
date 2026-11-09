@@ -14,6 +14,16 @@ export function comparisonPolicies(policy?: string): string[] {
   return [policy];
 }
 
+// An externally sampled, fixed list lets the same independent seeds be used
+// for every policy and historical baseline. Repeated values are valid draws.
+export function comparisonSeeds(json: string): number[] {
+  const seeds: unknown = JSON.parse(json);
+  if (!Array.isArray(seeds) || !seeds.length || seeds.some(seed => !Number.isInteger(seed) || seed < 0 || seed > 0xffffffff)) {
+    throw new Error('Seed file must contain a nonempty JSON array of unsigned 32-bit integers');
+  }
+  return seeds;
+}
+
 // Emit cumulative totals during long comparisons so an interrupted batch can
 // be resumed at the next seed without losing completed evidence.
 export function comparisonCheckpoint(completed: number, count: number): boolean {

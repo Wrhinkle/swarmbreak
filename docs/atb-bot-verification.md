@@ -46,6 +46,8 @@ Reproduce each row with `npx vite-node tools/compare-atb.ts public/runs/<run>/ru
 
 The comparison tool also prints a conservative Hoeffding bound on the paired win-rate difference. Its 95% coverage requires independent random seeds and a fixed sample size; the consecutive seeds and intermediate checkpoints here do not establish those assumptions and are not a confidence claim.
 
+For a future fixed-size independent sample, save the sampled unsigned 32-bit seeds as a JSON array and run `npx vite-node tools/compare-atb.ts public/runs/<run>/run.json 1 1 <policy> <seed-file.json>`. The two numeric arguments are placeholders in seed-file mode. The tool uses the entire list, including repeated draws, for both Auto and manual; retain the same file for each policy and the historical comparison. Generate the list independently before examining results, choose the sample size in advance, and do not treat intermediate checkpoints as fixed-sample confidence bounds. This option supplies a way to run the comparison; it does not make the existing consecutive samples independent or establish balance.
+
 ## Preliminary pre-ATB baseline
 
 On 2026-11-04, seeds 11–20, the pre-ATB simulator at commit `ad7ca5c` won 6/10 as typical, 9/10 as expert, and 0/10 with no routine edits. The typical and expert policies use the former fight-result equipment search, so this is a historical comparison, not a player-feasible policy. For those same seeds, current Auto/manual won 2/10 and 3/10 for typical, 1/10 and 5/10 for expert, and 0/10 and 5/10 for no-build. The sample is too small to establish relative strength; route and equipment decisions can diverge after fights.
