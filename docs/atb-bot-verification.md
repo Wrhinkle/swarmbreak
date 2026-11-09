@@ -171,3 +171,13 @@ Reproduce with `npx vite-node tools/compare-atb.ts public/runs/2026-11-06/run.js
 The historical simulator at `ad7ca5c` was also run on the same fixed independent November 6 sample. Its typical, expert, and no-build policies won 48/100, 98/100, and 2/100 games respectively, compared with the current manual results of 43/100, 58/100, and 15/100 in the preceding table. The historical expert's 40-win advantage includes its fight-result equipment lookahead, and the policies may take different routes, so this comparison does not isolate the cause or establish a player-feasible expert win rate. It does not substitute for the future run's balance gate.
 
 To reproduce, extract `src` and `tools/sim.ts` from `ad7ca5c` as described above, load `public/runs/2026-11-06/run.json` and `docs/atb-independent-seeds.json`, and count `play(run, rng(seed), policy).won` for each of `TYPICAL`, `EXPERT`, and `NO_BUILD`. The same seed list was used for both the historical and current results; it was drawn independently before the comparisons, but is shared across runs.
+
+The same fixed 100-seed sample on the November 5 run gives a third matched comparison:
+
+| Policy | Historical wins | Current Auto wins | Current manual wins | Manual-only | Auto-only | Paired 95% bound, manual minus Auto |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| typical | 48/100 | 12/100 | 74/100 | 65 | 3 | [34.8%, 89.2%] |
+| expert | 91/100 | 10/100 | 81/100 | 73 | 2 | [43.8%, 98.2%] |
+| no-build | 13/100 | 13/100 | 64/100 | 51 | 0 | [23.8%, 78.2%] |
+
+Reproduce current results with `npx vite-node tools/compare-atb.ts public/runs/2026-11-05/run.json 1 1 <policy> docs/atb-independent-seeds.json`; reproduce the historical results using the extraction method above with this run and seed list. The paired bounds compare current Auto and manual choices on this run, with the same equipment heuristic. The historical editing policies used fight-result lookahead, and routes can diverge; their results do not isolate the effects of ATB. These three released runs are not a substitute for the next run's unchanged balance gate.
