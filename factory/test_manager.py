@@ -562,6 +562,13 @@ with tempfile.TemporaryDirectory() as d:
             result = subprocess.run([sys.executable, str(factory / 'foreman.py')], cwd=root, capture_output=True, text=True)
             assert result.returncode and 'untrusted import' not in result.stderr
         path.unlink()
+    # The run lane also refuses npm inputs main lacks: npm ci would run their install scripts.
+    run_paths = (*foreman.RUN_TRUSTED, '.npmrc')
+    assert foreman.factory_clean(root, run_paths)
+    for name in ('.npmrc', 'package.json'):
+        (root / name).write_text('{"scripts": {"preinstall": "untrusted"}}')
+        assert not foreman.factory_clean(root, run_paths), name
+        (root / name).unlink()
     with patch('foreman.subprocess.run', side_effect=OSError('git unavailable')):
         assert not foreman.factory_clean(root)
     with patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=2, stdout=b'')):

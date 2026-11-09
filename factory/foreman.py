@@ -137,6 +137,9 @@ def resume_stage(d, built=False):
     return STAGES[done.index(False)] if False in done else None if built else 'art'
 
 
+RUN_TRUSTED = ('factory', 'tools', 'package.json', 'package-lock.json')
+
+
 def build_run(run_id):
     """Builds, checkpoints and opens one run in its own worktree, leaving this checkout on main for the code lane."""
     tree, branch = ROOT.parent / f'swarmbreak-run-{run_id}', f'run/{run_id}'
@@ -150,11 +153,13 @@ def build_run(run_id):
         sh('git', 'checkout', 'origin/main', '--', 'public/manifest.json', cwd=tree)  # open_run rewrites it from main's anyway
         sh('git', 'commit', '-q', '--no-edit', cwd=tree)
     # The merge keeps factory edits made only on the branch; this lane runs only code that matches main.
-    sh('git', 'checkout', 'origin/main', '--', 'factory', 'tools', cwd=tree)
+    # npm ci runs install scripts, so the package files come from main too.
+    sh('git', 'checkout', 'origin/main', '--', *RUN_TRUSTED, cwd=tree)
     if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode:
         sh('git', 'commit', '-q', '-m', f'Use main\'s factory for run {run_id}', cwd=tree)
-    if not factory_clean(tree, ('factory', 'tools')):
-        return SimpleNamespace(returncode=1, stdout=f'{tree} has factory or tools files main lacks; not running them.', stderr='', moved=False)
+    # .npmrc isn't on main, so one in the tree fails this check.
+    if not factory_clean(tree, (*RUN_TRUSTED, '.npmrc')):
+        return SimpleNamespace(returncode=1, stdout=f'{tree} has factory, tools or npm files main lacks; not running them.', stderr='', moved=False)
     venv = tree / 'factory' / '.venv'
     if not venv.exists():
         venv.symlink_to(ROOT / 'factory' / '.venv')
