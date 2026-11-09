@@ -401,6 +401,26 @@ assert failure in host_log.getvalue()
 checks_after_failed_probe.assert_not_called()
 print('ok isolation probe failure recorded')
 
+# A newly opened PR waiting for Qodo is left for the foreman, not retried as a failure.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), \
+     patch('manager.sync'), patch('manager.record') as log, patch('manager.release_step', return_value=''), \
+     patch('manager.state', return_value={'issues': [{'number': 14, 'author': {'login': manager.OWNER}}]}), \
+     patch('manager.open_prs', return_value=[]), patch('manager.post_missing', return_value=[]), patch('manager.os.execv') as execv:
+    def decide_build(role, work, prompt, **kwargs):
+        Path(work, 'decisions.json').write_text(json.dumps({'actions': [{'type': 'build_fix', 'issue': 14}]}))
+    builder_result = SimpleNamespace(returncode=0, stdout='10\n', stderr='')
+    with patch.object(sys, 'argv', ['manager.py']), patch.dict(os.environ), \
+         patch('manager.bot', side_effect=decide_build), \
+         patch('manager.subprocess.run', side_effect=[builder_result, SimpleNamespace(returncode=manager.WAITING)]):
+        os.environ.pop('SWARMBREAK_LOCK_FD', None)
+        manager.main()
+    result = log.call_args.args[0]['result']
+    assert 'PR 10' in result and 'waiting on Qodo' in result and 'foreman' in result
+    assert not FAILED.search(result)
+    execv.assert_not_called()
+    with patch('manager.subprocess.run', side_effect=[builder_result, SimpleNamespace(returncode=1)]):
+        assert FAILED.search(act({'type': 'build_fix', 'issue': 14}, {'issues': [{'number': 14, 'author': {'login': manager.OWNER}}]}, False))
+
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
 with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
     previous = ['release -> Missing run: live run x closed']
@@ -718,7 +738,7 @@ with tempfile.TemporaryDirectory() as d:
             (tree / 'work').write_text('preserved')
     finding = {'id': '1', 'title': 'defect', 'attribution_status': 'pending'}
     with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=pr_sh), \
-         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
          patch.object(pr_team, 'findings', return_value={'findings': [finding]}), \
          patch.object(pr_team, 'bot', side_effect=pr_bot), \
          patch.object(pr_team, 'sandbox_works', side_effect=PermissionError('fixture denied')), \
@@ -928,3 +948,162 @@ with tempfile.TemporaryDirectory() as d:
     problems, _ = builder.problems_in(Path(d), {'live', 'reserve'}, {'reserve'})
     assert all(any(path in problem for problem in problems) for path in paths)
 print('ok nested run.json rejected')
+# Qodo waits: an unreviewed head is waiting, not a failure. The merge check stays exact-head and review_complete.
+import pr_team
+a, b = 'a' * 40, 'b' * 40
+assert pr_team.reviewed({'commit_sha': a, 'review_complete': True}, a)
+assert not pr_team.reviewed({'commit_sha': a, 'status': 'completed', 'review_complete': False}, a)
+assert not pr_team.reviewed({'commit_sha': a, 'review_complete': True}, b)  # even with identical content
+with patch.object(pr_team, 'QODO_WAIT', 0):
+    try:
+        pr_team.wait_for_review('url', a); assert False
+    except SystemExit as e:
+        assert e.code == pr_team.WAITING
+with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
+        patch.object(pr_team, 'QODO_WAIT', 1), patch.object(pr_team, 'REREQUEST_START_WAIT', 100), \
+        patch.object(pr_team, 'sh') as run:
+    now = [1000]
+    session = {'commit_sha': a, 'status': 'completed', 'review_complete': False}
+    def tick():
+        try:
+            pr_team.wait_for_review('url', a)
+            return 'reviewed'
+        except SystemExit as e:
+            return e.code
+    def sleep(seconds):
+        now[0] += seconds
+    with patch.object(pr_team.time, 'time', side_effect=lambda: now[0]), \
+            patch.object(pr_team.time, 'sleep', side_effect=sleep), \
+            patch.object(pr_team, 'findings', side_effect=lambda url: {'review_session': session}):
+        assert tick() == pr_team.WAITING  # request once
+        assert tick() == pr_team.WAITING  # old session persists on the next foreman pass
+        assert run.call_count == 1 and '/review' in run.call_args.args
+        session['status'] = 'running'
+        assert tick() == pr_team.WAITING  # remember the new review across passes
+        session.update(status='completed', review_complete=True)
+        assert tick() == 'reviewed'
+
+        # A separate request that starts and then ends incomplete must fail.
+        session.update(commit_sha=b, status='completed', review_complete=False)
+        a, b = b, a
+        assert tick() == pr_team.WAITING
+        session['status'] = 'queued'
+        assert tick() == pr_team.WAITING
+        session['status'] = 'completed'
+        assert 'incomplete again' in tick()
+
+        # A delayed request remains outstanding without another comment.
+        a = 'c' * 40
+        session.update(commit_sha=a, status='completed')
+        assert tick() == pr_team.WAITING
+        now[0] += 101
+        count = run.call_count
+        assert tick() == pr_team.WAITING
+        assert run.call_count == count
+# Interrupted and malformed state must not cause a duplicate request; a complete review still clears the gate.
+with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
+        patch.object(pr_team, 'QODO_WAIT', 1), patch.object(pr_team, 'sh') as comment:
+    path, _ = pr_team.rerequest_state('url', a)
+    path.parent.mkdir(parents=True)
+    for corrupt in ('{', '{}', '{"started": false}', 'null'):
+        path.write_text(corrupt)
+        with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'completed'}}), \
+                patch.object(pr_team.time, 'sleep'):
+            try:
+                pr_team.wait_for_review('url', a)
+                assert False
+            except SystemExit as e:
+                assert e.code == pr_team.WAITING
+        assert not comment.called
+    state = {'requested_at': 123, 'started': True}
+    pr_team.save_rerequest(path, state)
+    assert pr_team.rerequest_state('url', a)[1] == state
+    with patch.object(pr_team.os, 'replace', side_effect=OSError('interrupted')):
+        try:
+            pr_team.save_rerequest(path, {'requested_at': 456, 'started': False})
+            assert False
+        except OSError:
+            pass
+    assert pr_team.rerequest_state('url', a)[1] == state
+    assert list(path.parent.iterdir()) == [path]
+    with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'review_complete': True}}):
+        pr_team.wait_for_review('url', a)
+
+with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'failed'}}):
+    try:
+        pr_team.wait_for_review('url', a); assert False
+    except SystemExit as e:
+        assert e.code != pr_team.WAITING
+print('ok Qodo waiting versus failed')
+
+# A WAITING worker reports the head it actually reviewed, including after a fixer push.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    (root / 'factory' / 'log').mkdir(parents=True)
+    state_path = root / 'factory' / 'log' / 'state.json'
+    old, new, later = 'a' * 40, 'b' * 40, 'c' * 40
+    pr = {'number': 55, 'author': me, 'headRefName': 'fix', 'headRefOid': old, 'labels': []}
+    def run_foreman(output):
+        with patch.object(foreman, 'ROOT', root), patch.object(foreman, 'STATE', state_path), \
+                patch.object(foreman, 'on_run_branch', return_value=False), \
+                patch.object(foreman, 'gh', side_effect=lambda *args: [pr] if args[0] == 'pr' else []), \
+                patch.object(foreman, 'sh', return_value=SimpleNamespace(stdout='')), \
+                patch.object(foreman, 'gate_rejected', return_value=False), \
+                patch.object(foreman, 'learn') as learn, \
+                patch.object(foreman.subprocess, 'run', return_value=SimpleNamespace(returncode=pr_team.WAITING, stdout=output, stderr='')) as worker, \
+                patch.object(foreman.sys, 'argv', ['foreman']):
+            foreman.main()
+            return worker.call_count, learn.call_count
+    assert run_foreman(f'Qodo waiting head: {new}\n') == (1, 0)
+    state = json.loads(state_path.read_text())
+    assert list(state['qodo']) == [f'pr-55@{new[:7]}']
+    pr['headRefOid'] = new
+    assert run_foreman('') == (0, 0)
+    pr['headRefOid'] = later
+    assert run_foreman('') == (1, 0)
+    assert json.loads(state_path.read_text())['cooldown_until'] > 0
+print('ok foreman Qodo head pause')
+
+# Only host-recorded fixer commits consume rounds, across restarts and interrupted pushes.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    repo = root / 'repo'
+    repo.mkdir()
+    def g(*a):
+        return subprocess.run(['git', *a], cwd=repo, check=True, capture_output=True, text=True).stdout.strip()
+    g('init', '-q', '-b', 'main'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
+    g('commit', '-q', '--allow-empty', '-m', 'base'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    with patch.object(Path, 'home', return_value=root):
+        g('commit', '-q', '--allow-empty', '-m', 'Fix Qodo findings on PR #7')
+        assert pr_team.fixer_rounds(repo, '7', 'main') == 0
+        ledger, commits = pr_team.begin_fixer_commit('7')
+        g('commit', '-q', '--allow-empty', '-m', 'factory fix')
+        pr_team.record_fixer_commit(repo, '7', ledger, commits)
+        assert pr_team.fixer_rounds(repo, '7', 'main') == 1
+        # A push can fail before the remote receives the commit; it still uses a round.
+        g('reset', '--hard', 'HEAD^')
+        assert pr_team.fixer_rounds(repo, '7', 'main') == 1
+        ledger, commits = pr_team.begin_fixer_commit('7')
+        g('commit', '-q', '--allow-empty', '-m', 'second factory fix')
+        pr_team.record_fixer_commit(repo, '7', ledger, commits)
+        assert pr_team.fixer_rounds(repo, '7', 'main') == pr_team.ROUNDS
+        ledger.write_text('broken')
+        try:
+            pr_team.fixer_rounds(repo, '7', 'main')
+            assert False, 'corrupt ledger must stop'
+        except SystemExit:
+            pass
+        ledger2, _ = pr_team.begin_fixer_commit('8')
+        try:
+            pr_team.fixer_rounds(repo, '8', 'main')
+            assert False, 'interrupted recording must stop'
+        except SystemExit:
+            pass
+        (ledger2.parent / 'pending').unlink()
+        ledger2.unlink()
+        try:
+            pr_team.fixer_rounds(repo, '8', 'main')
+            assert False, 'missing ledger must stop'
+        except SystemExit:
+            pass
+print('ok fixer rounds persist across restarts')
