@@ -650,17 +650,44 @@ with patch.object(pr_team, 'QODO_WAIT', 0):
     except SystemExit as e:
         assert e.code == pr_team.WAITING
 with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
-        patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'completed', 'review_complete': False}}), \
+        patch.object(pr_team, 'QODO_WAIT', 1), patch.object(pr_team, 'REREQUEST_START_WAIT', 100), \
         patch.object(pr_team, 'sh') as run:
-    codes = []
-    for _ in range(2):
+    now = [1000]
+    session = {'commit_sha': a, 'status': 'completed', 'review_complete': False}
+    def tick():
         try:
-            pr_team.wait_for_review('url', a); assert False
+            pr_team.wait_for_review('url', a)
+            return 'reviewed'
         except SystemExit as e:
-            codes.append(e.code)
-    # A stalled review is re-requested once and waited on; stalling again is a failure, not another wait.
-    assert codes[0] == pr_team.WAITING and codes[1] != pr_team.WAITING and 'incomplete again' in codes[1]
-    assert run.call_count == 1 and '/review' in run.call_args.args
+            return e.code
+    def sleep(seconds):
+        now[0] += seconds
+    with patch.object(pr_team.time, 'time', side_effect=lambda: now[0]), \
+            patch.object(pr_team.time, 'sleep', side_effect=sleep), \
+            patch.object(pr_team, 'findings', side_effect=lambda url: {'review_session': session}):
+        assert tick() == pr_team.WAITING  # request once
+        assert tick() == pr_team.WAITING  # old session persists on the next foreman pass
+        assert run.call_count == 1 and '/review' in run.call_args.args
+        session['status'] = 'running'
+        assert tick() == pr_team.WAITING  # remember the new review across passes
+        session.update(status='completed', review_complete=True)
+        assert tick() == 'reviewed'
+
+        # A separate request that starts and then ends incomplete must fail.
+        session.update(commit_sha=b, status='completed', review_complete=False)
+        a, b = b, a
+        assert tick() == pr_team.WAITING
+        session['status'] = 'queued'
+        assert tick() == pr_team.WAITING
+        session['status'] = 'completed'
+        assert 'incomplete again' in tick()
+
+        # An unchanged old session cannot keep the foreman waiting forever.
+        a = 'c' * 40
+        session.update(commit_sha=a, status='completed')
+        assert tick() == pr_team.WAITING
+        now[0] += 101
+        assert 'did not start' in tick()
 with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'failed'}}):
     try:
         pr_team.wait_for_review('url', a); assert False
