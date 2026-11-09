@@ -473,7 +473,7 @@ with tempfile.TemporaryDirectory() as d:
         (tree / builder.RESULT).write_text(json.dumps({'outcome': 'not_reproduced', 'summary': 's', 'evidence': 'e'}))
     response = MagicMock()
     response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
-    with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+    with patch.object(builder, 'ROOT', root), patch.object(builder, 'investigate', return_value=[]), patch.object(builder, 'sh', side_effect=fake_sh), \
          patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
          patch.object(builder.urllib.request, 'urlopen', return_value=response), patch.object(builder, 'notes', return_value=[]), \
          patch.object(builder, 'checkpoint', return_value=''):
@@ -557,7 +557,7 @@ for failing_check in (None, 1, 'probe'):
             return SimpleNamespace(returncode=int(failed), stdout='host test failed' if failed else '', stderr='')
         response = MagicMock()
         response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
-        with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+        with patch.object(builder, 'ROOT', root), patch.object(builder, 'investigate', return_value=[]), patch.object(builder, 'sh', side_effect=fake_sh), \
              patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
              patch.object(builder.urllib.request, 'urlopen', return_value=response), \
              patch.object(builder, 'checkpoint', return_value=''), \
@@ -617,3 +617,19 @@ with tempfile.TemporaryDirectory() as d:
     assert workers == ['pr-fixer'] and (tree / 'work').read_text() == 'preserved'
     assert not (tree / '.git-fixes.json').exists()
 print('ok PR fixer stops on host failure')
+
+# The builder asks Qodo before building; an outage is recorded, not fatal, and the PR says what was asked.
+import builder
+calls = []
+def fake_qodo(*a, check=True, **k):
+    calls.append(a)
+    if 'similar' in a:
+        return SimpleNamespace(stdout='{"prs": [{"number": 55}]}', stderr='', returncode=0)
+    return SimpleNamespace(stdout='{"error":{"code":"MT-UPSTREAM-DOWN"}}', stderr='', returncode=1)
+with patch.object(builder, 'sh', side_effect=fake_qodo):
+    found = builder.investigate({'title': 'ATB', 'body': 'The bug is in `src/combat.ts:104` and src/main.ts.'})
+assert [f['ok'] for f in found] == [True, False, False] and any('src/combat.ts' in c for c in calls[1])
+section = builder.investigated_section(found, 'Reused PR #55 card layout')
+assert 'answered' in section and 'unavailable' in section and 'PR #55' in section
+assert 'Investigated before building' in builder.pr_body('1', '## Acceptance criteria\n- x', 's', 'e', section)
+print('ok builder investigates before building')
