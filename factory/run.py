@@ -49,6 +49,7 @@ def agent(name, output, inputs, check, search=False):
         if not problems:
             return
         print(f'[{name}] problems:\n{problems}', flush=True)
+    Path(output).unlink(missing_ok=True)  # the runner resumes from the first missing output, so a failed one mustn't stay
     sys.exit(f'{name} failed after {RETRIES + 1} attempts. Stopping; nothing was opened.')
 
 

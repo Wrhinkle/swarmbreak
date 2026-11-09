@@ -8,3 +8,5 @@ __pycache__/
 factory/log/.lock
 factory/log/.foreman.json
 factory/log/.foreman.lock
+factory/log/.runner.json
+factory/log/.runner.lock

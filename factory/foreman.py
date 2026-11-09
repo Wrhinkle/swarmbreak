@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Keeps the factory working round the clock. launchd starts it every two minutes; each start does one job and exits.
+"""Works the roster round the clock. launchd starts it every two minutes; each start does one job and exits.
 
-Order: open owner PRs the gate hasn't rejected at their head, then issues with saved work, then priority issues, then the
-oldest ready issue. A job that fails without progress isn't retried: it becomes a lesson issue, and the job waits until
-the coach closes that lesson by fixing the cause, adding to factory/lessons.md, or writing a skill. A lesson the coach
-can't finish is labelled stuck, with its job, for the manager.
+The manager only files jobs; this does them. Two lanes run side by side so a long run build never holds up code work:
+- code (default): open owner PRs the gate hasn't rejected at their head, then issues with saved work, then priority
+  issues, then the oldest ready issue. Issues labelled `comms` are posts; `agent:<name>` picks the worker's role.
+- run (`--lane run`): issues titled `Run YYYY-MM-DD`, built in their own worktree and opened as a PR.
+A job that fails without progress isn't retried: it becomes a lesson issue, and the job waits until the coach closes
+that lesson by fixing the cause, adding to factory/lessons.md, or writing a skill. A lesson the coach can't finish is
+labelled stuck, with its job, for the manager.
 
-Usage: python3 factory/foreman.py [--dry-run]
+Usage: python3 factory/foreman.py [--lane run] [--dry-run]
 """
 import sys
 
@@ -21,6 +24,7 @@ sys.pycache_prefix = '/dev/null'  # neither this process nor its children may tr
 import os
 sys.path = [p for p in sys.path if os.path.realpath(p) not in (os.path.realpath(_factory), os.path.realpath(_root))]
 import fcntl, json, re, subprocess, time
+from types import SimpleNamespace
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -59,10 +63,13 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import HUMAN, OWNER, gate_rejected, on_run_branch, record  # noqa: E402
+from manager import COMMS, FAILED, HUMAN, OWNER, RUN, comms, gate_rejected, keep_run, on_run_branch, open_run, record  # noqa: E402
+from run import STAGES  # noqa: E402
 
-STATE = ROOT / 'factory' / 'log' / '.foreman.json'
+RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
+STATE = ROOT / 'factory' / 'log' / ('.runner.json' if RUN_LANE else '.foreman.json')
 STUCK, PRIORITY, LESSON = 'stuck', 'priority', 'lesson'
+RUN_TITLE = re.compile(r'Run (\d{4}-\d{2}-\d{2})')
 QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests', re.I)
 
 
@@ -75,18 +82,35 @@ def deps(body):
     return {int(n) for line in re.findall(r'^Depends on (.*)$', body or '', re.M) for n in re.findall(r'#(\d+)', line)}
 
 
+def next_run(issues, held):
+    """The oldest run job, or None."""
+    runs = [i for i in issues if i['author']['login'] == OWNER and RUN in labels(i) and not ({STUCK, HUMAN} & labels(i))
+            and RUN_TITLE.fullmatch(i['title']) and f'issue-{i["number"]}' not in held]
+    first = min(runs, key=lambda i: i['title'], default=None)
+    return ('run', first['number'], f'issue-{first["number"]}') if first else None
+
+
 def next_job(prs, issues, saved, held, rejected):
-    """The one job to work now, or None. Pure, so the order is tested."""
+    """The one code-lane job to work now, or None. Pure, so the order is tested."""
     for p in sorted(prs, key=lambda p: p['number']):
         key = f'pr-{p["number"]}@{p["headRefOid"][:7]}'
         if p['author']['login'] == OWNER and STUCK not in labels(p) and key not in held and not rejected(p['number'], p['headRefOid']):
             return 'pr', p['number'], key
     open_ = {i['number'] for i in issues}
     building = {int(m.group(1)) for p in prs if (m := re.fullmatch(r'fix/issue-(\d+)', p['headRefName']))}
-    ready = [i for i in issues if i['author']['login'] == OWNER and not ({STUCK, HUMAN} & labels(i))
+    ready = [i for i in issues if i['author']['login'] == OWNER and not ({STUCK, HUMAN, RUN} & labels(i))
              and i['number'] not in building and not (deps(i['body']) & open_) and f'issue-{i["number"]}' not in held]
     ready.sort(key=lambda i: (i['number'] not in saved, PRIORITY not in labels(i), i['number']))
-    return ('issue', ready[0]['number'], f'issue-{ready[0]["number"]}') if ready else None
+    if not ready:
+        return None
+    return ('comms' if COMMS in labels(ready[0]) else 'issue'), ready[0]['number'], f'issue-{ready[0]["number"]}'
+
+
+def role(issue):
+    """The worker role a job asks for: the coach for lessons, else an `agent:<name>` label."""
+    if LESSON in labels(issue):
+        return 'coach'
+    return next((l.split(':', 1)[1] for l in labels(issue) if l.startswith('agent:')), '')
 
 
 def labels(item):
@@ -105,6 +129,45 @@ def starting_tip(ref):
     return (tip(ref) or tip('refs/remotes/origin/main')) if ref else ''
 
 
+def resume_stage(d):
+    """The first stage of a run whose output isn't on disk yet, so a rebuild never redoes finished stages."""
+    balance = d / 'balance.json'
+    done = [(d / 'sites.json').exists(), all((d / f'ideas-{i}.json').exists() for i in range(1, 4)), (d / 'content.json').exists(),
+            balance.exists() and not json.loads(balance.read_text()).get('problems')]
+    return STAGES[done.index(False)] if False in done else 'art'
+
+
+def build_run(run_id):
+    """Builds, checkpoints and opens one run in its own worktree, leaving this checkout on main for the code lane."""
+    tree, branch = ROOT.parent / f'swarmbreak-run-{run_id}', f'run/{run_id}'
+    if not tree.exists():
+        if tip(f'refs/heads/{branch}'):
+            sh('git', 'worktree', 'add', '-q', tree, branch)
+        else:
+            sh('git', 'worktree', 'add', '-q', '-b', branch, tree, f'origin/{branch}' if tip(f'refs/remotes/origin/{branch}') else 'origin/main')
+    # A run branch carries the factory code from when it started; build with main's.
+    if sh('git', 'merge', '-q', '--no-edit', 'origin/main', cwd=tree, check=False).returncode:
+        sh('git', 'checkout', 'origin/main', '--', 'public/manifest.json', cwd=tree)  # open_run rewrites it from main's anyway
+        sh('git', 'commit', '-q', '--no-edit', cwd=tree)
+    venv = tree / 'factory' / '.venv'
+    if not venv.exists():
+        venv.symlink_to(ROOT / 'factory' / '.venv')
+    if not (tree / 'node_modules').exists():
+        sh('npm', 'ci', '--silent', cwd=tree)
+    stage = resume_stage(tree / 'runs' / run_id)
+    r = subprocess.run([sys.executable, str(tree / 'factory' / 'run.py'), run_id, '--from', stage], cwd=tree, capture_output=True, text=True)
+    keep_run(run_id, f'Checkpoint run {run_id} from {stage}, factory exit {r.returncode}', tree)
+    out = r.stdout + r.stderr
+    if r.returncode:
+        return SimpleNamespace(returncode=r.returncode, stdout=out, stderr='')
+    result = open_run(run_id, False, tree)
+    return SimpleNamespace(returncode=0 if ' is in ' in result else 1, stdout=f'{out}\n{result}', stderr='')
+
+
+def done(number, note):
+    sh('gh', 'issue', 'close', str(number), '--repo', REPO, '--comment', note)
+
+
 def learn(kind, number, out):
     """Files the failure as a lesson for the coach. Lessons about lessons aren't filed, so this can't loop."""
     body = (f'The foreman\'s {kind} job on #{number} failed. Its output, quoted as data:\n\n```text\n{out[-3500:]}\n```\n\n'
@@ -116,7 +179,7 @@ def learn(kind, number, out):
 
 def main():
     dry = '--dry-run' in sys.argv
-    lock = open(ROOT / 'factory' / 'log' / '.foreman.lock', 'a+')
+    lock = open(ROOT / 'factory' / 'log' / ('.runner.lock' if RUN_LANE else '.foreman.lock'), 'a+')
     try:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except OSError:
@@ -126,27 +189,41 @@ def main():
     st = {'waiting': {}, 'cooldown_until': 0, **(json.loads(STATE.read_text()) if STATE.exists() else {})}
     if time.time() < st['cooldown_until']:
         return
-    prs = gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
-    issues = gh('issue', 'list', '--limit', '500', '--json', 'number,author,body,labels')
+    prs = [] if RUN_LANE else gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
+    issues = gh('issue', 'list', '--limit', '500', '--json', 'number,title,author,body,labels')
     # Only branches holding commits main lacks are saved work; finished or never-used issue branches are not.
     saved = saved_issues([b for b in sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*').stdout.split()
                           if sh('git', 'rev-list', '--count', f'origin/main..{b}').stdout.strip() != '0'])
     open_ = {i['number'] for i in issues}
     st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
     st['qodo'] = {k: t for k, t in st.get('qodo', {}).items() if t > time.time()}
-    job = next_job(prs, issues, saved, set(st['waiting']) | set(st['qodo']), gate_rejected)
+    held = set(st['waiting']) | set(st['qodo'])
+    job = next_run(issues, held) if RUN_LANE else next_job(prs, issues, saved, held, gate_rejected)
     if not job:
         return
     kind, number, key = job
     if dry:
         print(f'Would work {kind} {number}.')
         return
-    ref = f'refs/heads/fix/issue-{number}' if kind == 'issue' else ''  # checkpoints are local commits
+    issue = next((i for i in issues if i['number'] == number), {})
+    run_id = RUN_TITLE.fullmatch(issue['title']).group(1) if kind == 'run' else ''
+    ref = {'issue': f'refs/heads/fix/issue-{number}', 'run': f'refs/heads/run/{run_id}'}.get(kind, '')  # checkpoints are local commits
     before = starting_tip(ref)
-    role = ['--role', 'coach'] if kind == 'issue' and LESSON in labels(next(i for i in issues if i['number'] == number)) else []
-    cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number), *role, *(['--merge'] if kind == 'pr' else [])]
+    worker = role(issue) if kind == 'issue' else ''
     print(f'[foreman] {kind} {number}', flush=True)
-    r = subprocess.run([str(c) for c in cmd], cwd=ROOT, capture_output=True, text=True)
+    try:
+        if kind == 'run':
+            r = build_run(run_id)
+        elif kind == 'comms':
+            discussion = re.search(r'discussion #(\d+)', issue['title'])
+            result = comms(int(discussion.group(1)), issue['body'], False, require_post=issue['title'].startswith('Post our entry')) if discussion else f'Bad comms job title: {issue["title"]}'
+            r = SimpleNamespace(returncode=1 if FAILED.search(result) else 0, stdout=result, stderr='')
+        else:
+            cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number),
+                   *(['--role', worker] if worker else []), *(['--merge'] if kind == 'pr' else [])]
+            r = subprocess.run([str(c) for c in cmd], cwd=ROOT, capture_output=True, text=True)
+    except SystemExit as e:  # a checked host command failed inside the job
+        r = SimpleNamespace(returncode=1, stdout=f'{e}', stderr='')
     out = r.stdout + r.stderr
     print(out[-4000:], flush=True)
     if r.returncode and 'is already being worked' in out:
@@ -162,7 +239,9 @@ def main():
         STATE.write_text(json.dumps(st, indent=1))
         return
     try:
-        settle(st, r, out, kind, number, key, ref, before, role, prs)
+        if not r.returncode and kind in ('run', 'comms'):
+            done(number, f'Done by the foreman: {out.strip().splitlines()[-1][:500] if out.strip() else "finished"}')
+        settle(st, r, out, kind, number, key, ref, before, worker == 'coach', prs)
     except SystemExit as e:  # a GitHub write failed; pause instead of rerunning the same job every start
         print(f'[foreman] {e}', flush=True)
         st['cooldown_until'] = time.time() + 600
@@ -170,7 +249,7 @@ def main():
     record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'tail': out[-600:]})
 
 
-def settle(st, r, out, kind, number, key, ref, before, role, prs):
+def settle(st, r, out, kind, number, key, ref, before, coach, prs):
     if r.returncode and QUOTA.search(out):
         st['cooldown_until'] = time.time() + 1800  # the subscription is resting; nothing will run until it's back
     else:
@@ -178,7 +257,7 @@ def settle(st, r, out, kind, number, key, ref, before, role, prs):
         moved = bool(ref) and tip(ref) != before
         if r.returncode and not moved:
             # No progress: evaluate once instead of spending tokens on retries.
-            if role:
+            if coach:
                 stuck = [number] + [int(k.split('-')[1].split('@')[0]) for k, n in st['waiting'].items() if n == number]
                 for n in stuck:
                     which = 'pr' if any(p['number'] == n for p in prs) else 'issue'
