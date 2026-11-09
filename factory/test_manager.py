@@ -40,6 +40,11 @@ live, soon, later = {'runId': 'a'}, {'runId': 'b', 'opensAt': '2026-11-04T13:00:
 assert deploy_problems(soon, live, True, now) == []
 assert deploy_problems(later, live, True, now)
 assert deploy_problems(soon, live, False, now)
+reserve = {'runId': 'c', 'opensAt': '2026-11-05T13:00:00Z', 'runUrl': '/runs/c/run.json'}
+assert deploy_problems({'runId': 'a', 'next': reserve}, live, True, now) == []
+assert 'reserve run c' in deploy_problems({'runId': 'a', 'next': reserve}, live, True, now, has_next=False)[0]
+assert 'drop the published reserve c' in deploy_problems({'runId': 'a'}, {**live, 'next': reserve}, True, now)[0]
+assert deploy_problems({'runId': 'a', 'next': reserve}, {**live, 'next': reserve}, True, now) == []
 tpl = '```markdown\nAGENTS.md link:\n```'
 assert unfilled_links('AGENTS.md link: Not available.', tpl)
 assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
@@ -201,12 +206,121 @@ assert release_due(m5, m4, datetime(2026, 11, 5, 12, 30, tzinfo=timezone.utc)) i
 assert release_due(m4, m5, n) == 'older'
 m7 = {'runId': '2026-11-07', 'opensAt': '2026-11-07T13:00:00Z', 'nextOpensAt': '2026-11-08T13:00:00Z'}
 assert release_due(m7, m4, n) == 'expired'  # main skipped a day; live has closed
-assert FAILED.search('Deploy failed verification: live run reads 2026-11-04, expected 2026-11-05.')
+assert FAILED.search('Deploy failed verification: live manifest reads {}, expected {}.')
 assert release_due(m4, m4, n) == 'expired'
 assert release_due(m5, m5, n) is None
+# Reserve run: built a day early, it rides along as `next` and opens itself, so a dead host never closes the game.
+from manager import opened, effective
+m5['runUrl'], m5['voided'] = '/runs/2026-11-05/run.json', []
+r = opened(m5, '2026-11-06', n)
+assert r['runId'] == '2026-11-05' and r['next'] == {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}
+assert release_due(r, m5, n) == 'deploy'  # publish the reserve early
+assert release_due(r, r, n) is None  # already published
+after = datetime(2026, 11, 6, 14, tzinfo=timezone.utc)
+assert release_due(r, r, after) is None  # host was down all day: the reserve opened by itself
+assert effective(r, after) == {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'nextOpensAt': '2026-11-07T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json', 'voided': []}
+assert release_due(r, r, datetime(2026, 11, 7, 13, tzinfo=timezone.utc)) == 'expired'  # nothing built behind the reserve
+assert opened(r, '2026-11-07', after)['next']['runId'] == '2026-11-07' and opened(r, '2026-11-07', after)['runId'] == '2026-11-06'
+assert opened(r, '2026-11-06', n) == r and opened(r, '2026-11-05', n) == r
+try:
+    opened(r, '2026-11-07', n)
+    assert False, 'a pending reserve must not be replaced'
+except ValueError as e:
+    assert '2026-11-06' in str(e)
+assert release_due(m5, r, n) == 'deploy'  # cancel before opening
+assert release_due(m5, r, datetime(2026, 11, 6, 13, tzinfo=timezone.utc)) == 'older'
+assert release_due(m5, r, after) == 'older'
+for schedule, requested, moment in [(m5, '2026-11-07', n), (r, '2026-11-05', after)]:
+    try:
+        opened(schedule, requested, moment)
+        assert False, 'invalid schedule accepted'
+    except ValueError:
+        pass
+assert opened(m5, '2026-11-06', n) == r
+assert 'next' not in opened(m5, '2026-11-05', n)  # opening a run that is already due replaces the manifest as before
+from builder import blocked_paths
+for moment, active in [(n, '2026-11-05'), (after, '2026-11-06')]:
+    live_id = effective(r, moment)['runId']
+    assert live_id == active
+    assert blocked_paths([f'runs/{active}/content.json'], live_id)
+    assert not blocked_paths([f'runs/{"2026-11-06" if active == "2026-11-05" else "2026-11-05"}/content.json'], live_id)
+    import builder, tempfile
+    from types import SimpleNamespace
+    with tempfile.TemporaryDirectory() as tmp:
+        tree = Path(tmp)
+        path = f'public/runs/{active}/run.json'
+        (tree / path).parent.mkdir(parents=True)
+        (tree / path).write_text('{"seed": 2}')
+        with patch.object(builder, 'changed_from_main', return_value=[path]), \
+             patch.object(builder, 'conflicted', return_value=[]), \
+             patch.object(builder, 'sh', return_value=SimpleNamespace(stdout='{"seed": 1}')):
+            assert any('only wording' in p for p in builder.problems_in(tree, live_id)[0])
+# Both the effective run and its published reserve are protected, including after opening.
+from builder import protected_runs
+with patch('builder.datetime') as clock:
+    for moment, expected in [(n, {'2026-11-05', '2026-11-06'}), (after, {'2026-11-06'})]:
+        clock.now.return_value = moment
+        ids = protected_runs(r)
+        assert ids == expected
+        assert blocked_paths(['runs/2026-11-06/content.json'], ids)
+# A reserve appearing after work began must be included in the next host check.
+with patch('builder.datetime') as clock:
+    clock.now.return_value = n
+    initially = protected_runs(m5)
+    later = protected_runs(r)
+    assert not blocked_paths(['runs/2026-11-06/content.json'], initially)
+    assert blocked_paths(['runs/2026-11-06/content.json'], initially | later)
+# Publication while verification is running triggers another guard pass.
+with patch('builder.published_runs', side_effect=[({'2026-11-05'}, set()),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'}),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'}),
+                                                  ({'2026-11-05', '2026-11-06'}, {'2026-11-06'})]), \
+     patch('builder.problems_in', side_effect=lambda tree, ids, pending: (blocked_paths(['runs/2026-11-06/content.json'], ids), [])) as guard:
+    bad, _ = builder.check_published(None, {'2026-11-05'}, set())
+    assert bad and guard.call_count == 2
 print('ok release')
 
 import manager, json
+# Deploy an already-open reserve from a simulated worktree, without invoking git or Firebase.
+for selected_exists, served_manifest, expected in [
+    (False, r, 'Not deploying:'),
+    (True, r, 'Deployed. Live run is 2026-11-06.'),
+    (True, m5, 'Deploy failed verification:'),
+]:
+    commands = []
+    def deploy_sh(*args, **kwargs):
+        commands.append(args)
+        if args[:3] == ('git', 'worktree', 'add'):
+            tree = Path(args[4])
+            (tree / 'public/runs/2026-11-05').mkdir(parents=True)
+            (tree / 'public/manifest.json').write_text(json.dumps(r))
+            (tree / 'public/runs/2026-11-05/run.json').write_text('{}')
+            if selected_exists:
+                (tree / 'public/runs/2026-11-06').mkdir(parents=True)
+                (tree / 'public/runs/2026-11-06/run.json').write_text('{}')
+        return SimpleNamespace(returncode=0, stdout='', stderr='')
+    with patch('manager.sh', side_effect=deploy_sh), \
+         patch('manager.live_manifest', side_effect=[m5] + [served_manifest] * 6), \
+         patch('manager.datetime') as deploy_clock, patch('manager.time.sleep'):
+        deploy_clock.now.return_value = after
+        deploy_clock.fromisoformat.side_effect = datetime.fromisoformat
+        result = manager.deploy(False, 'checked-revision')
+    assert result.startswith(expected), result
+    if not selected_exists:
+        assert 'selected run 2026-11-06' in result
+        assert not any(cmd[0] in ('npm', 'firebase') for cmd in commands)
+    else:
+        assert any(cmd[0] == 'firebase' for cmd in commands)
+with patch('manager.open_prs', return_value=[]), patch('manager.gh', return_value=[]), \
+     patch('manager.graphql', return_value={'repository': {'discussions': {'nodes': []}}}), \
+     patch('manager.live_manifest', return_value=r), patch('manager.sh') as state_sh, \
+     patch('manager.datetime') as state_clock:
+    state_sh.return_value.stdout = ''
+    state_clock.fromisoformat.side_effect = datetime.fromisoformat
+    state_clock.now.return_value = after
+    assert manager.state()['live']['runId'] == '2026-11-06'
+    state_clock.now.return_value = n
+    assert manager.state()['live']['next']['runId'] == '2026-11-06'
 calls = []
 manager.sh = lambda *a, **k: type('R', (), {'stdout': 'abc123' if a[1] == 'rev-parse' else json.dumps(m5) if a[1] == 'show' else '', 'returncode': 0})()
 manager.live_manifest = lambda: m4
@@ -688,7 +802,7 @@ with tempfile.TemporaryDirectory() as d:
         result = {'outcome': 'partial' if len(contexts) == 1 else 'fixed', 'summary': 's', 'evidence': 'e',
                   'investigated': [{'answer_index': 0, 'item': 'PR #55' if len(contexts) == 1 else 'PR #56'}, {'answer_index': 1, 'item': 'failed item'}]}
         (tree / builder.RESULT).write_text(json.dumps(result))
-    def save_checkpoint(number, tree, branch, live, result, bad):
+    def save_checkpoint(number, tree, branch, live, result, bad, reserves=frozenset()):
         git('add', '-A', cwd=tree); git('commit', '-qm', 'Builder checkpoint on #42 (unfinished)', cwd=tree)
         return 'saved'
     response = MagicMock()
@@ -755,3 +869,62 @@ with patch.object(manager, 'thread', return_value=t), patch.object(manager, 'fac
     assert len(attempts) == 3 and 'required top-level post is empty' in attempts[-1]
     assert manager.comms(9, 'task', True) == 'Dry run, nothing posted.'
 print('ok forced post validation and discovery')
+
+# A stale build must use main's schedule, not its own manifest.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    (root / 'public').mkdir()
+    (root / 'public/manifest.json').write_text(json.dumps(m5))
+    def schedule_sh(*args, **kwargs):
+        if args[:2] == ('git', 'branch'):
+            return SimpleNamespace(stdout='run/2026-11-05', returncode=0, stderr='')
+        if args[:2] == ('git', 'show'):
+            return SimpleNamespace(stdout=json.dumps(r), returncode=0, stderr='')
+        raise AssertionError(args)
+    with patch.object(_m, 'ROOT', root), patch.object(_m, 'sh', side_effect=schedule_sh), \
+         patch.object(_m, 'run_problems', return_value=[]), patch.object(_m, 'datetime') as clock:
+        clock.now.return_value = datetime(2026, 11, 6, 14, tzinfo=timezone.utc)
+        clock.fromisoformat.side_effect = datetime.fromisoformat
+        assert 'older' in _m.open_run('2026-11-05', False)
+        assert json.loads((root / 'public/manifest.json').read_text()) == m5
+
+# Each publication lookup failure stops verification; the next pass must recheck.
+for failure in (0, 1):
+    calls = [({'x'}, set()), ({'x'}, set())]
+    calls[failure] = OSError('offline')
+    with patch.object(builder, 'published_runs', side_effect=calls), \
+         patch.object(builder, 'problems_in', return_value=([], ['file'])):
+        try:
+            builder.check_published(None, set(), set())
+            assert False, 'offline lookup accepted'
+        except OSError:
+            pass
+    with patch.object(builder, 'published_runs', return_value=({'x'}, set())), \
+         patch.object(builder, 'problems_in', return_value=([], ['file'])):
+        assert builder.check_published(None, set(), set()) == ([], ['file'])
+
+# Unknown publication state must not restore or delete any run files at checkpoint.
+with tempfile.TemporaryDirectory() as d:
+    tree = Path(d)
+    paths = ['runs/2026-11-06/content.json', 'public/runs/2026-11-07/run.json']
+    commands = []
+    def checkpoint_sh(*args, **kwargs):
+        commands.append(args)
+        return SimpleNamespace(returncode=0, stdout='', stderr='')
+    with patch.object(builder, 'changed_from_main', return_value=paths), patch.object(builder, 'sh', side_effect=checkpoint_sh):
+        builder.checkpoint('42', tree, 'fix/issue-42', {'2026-11-06'}, {}, ['offline'], preserve_runs=True)
+    assert not any('checkout' in c for c in commands)
+print('ok publication outage and stale schedule')
+
+# Nested run.json files are generated even under live or published reserve directories.
+with tempfile.TemporaryDirectory() as d:
+    def g(*a): subprocess.run(['git', *a], cwd=d, check=True, capture_output=True)
+    g('init', '-q', '-b', 'main'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
+    g('commit', '-q', '--allow-empty', '-m', 'base'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    paths = [f'public/runs/{run_id}/sub/run.json' for run_id in ('live', 'reserve', 'other')]
+    for path in paths:
+        Path(d, path).parent.mkdir(parents=True); Path(d, path).write_text('{}')
+    g('add', '-A'); g('commit', '-qm', 'nested')
+    problems, _ = builder.problems_in(Path(d), {'live', 'reserve'}, {'reserve'})
+    assert all(any(path in problem for problem in problems) for path in paths)
+print('ok nested run.json rejected')
