@@ -916,12 +916,15 @@ with tempfile.TemporaryDirectory() as d:
     assert not any('checkout' in c for c in commands)
 print('ok publication outage and stale schedule')
 
-# Any non-live run.json under public/runs is generated, including nested ones (gate on #89).
+# Nested run.json files are generated even under live or published reserve directories.
 with tempfile.TemporaryDirectory() as d:
     def g(*a): subprocess.run(['git', *a], cwd=d, check=True, capture_output=True)
     g('init', '-q', '-b', 'main'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
     g('commit', '-q', '--allow-empty', '-m', 'base'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
-    Path(d, 'public/runs/x/sub').mkdir(parents=True); Path(d, 'public/runs/x/sub/run.json').write_text('{}')
+    paths = [f'public/runs/{run_id}/sub/run.json' for run_id in ('live', 'reserve', 'other')]
+    for path in paths:
+        Path(d, path).parent.mkdir(parents=True); Path(d, path).write_text('{}')
     g('add', '-A'); g('commit', '-qm', 'nested')
-    assert any('run.json' in p for p in builder.problems_in(Path(d), {'live'})[0])
+    problems, _ = builder.problems_in(Path(d), {'live', 'reserve'}, {'reserve'})
+    assert all(any(path in problem for problem in problems) for path in paths)
 print('ok nested run.json rejected')
