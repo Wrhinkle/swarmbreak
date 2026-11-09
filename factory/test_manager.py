@@ -179,7 +179,7 @@ _m.sh, _m.run_problems, _m.switch_keeping_log = real_sh, real_problems, real_swi
 
 # A run built on its own branch counts as used before it merges; a run doesn't count against itself.
 from run import other_branch_json
-# A worker gets only the inputs that exist: the last failed plan and its report appear after a failed attempt.
+# A worker can start without the optional retry plan and report.
 import run as run_mod
 from types import SimpleNamespace
 with tempfile.TemporaryDirectory() as d:
@@ -187,12 +187,12 @@ with tempfile.TemporaryDirectory() as d:
     here.write_text('{}')
     def fake_codex(cmd, **k):
         work = Path(cmd[cmd.index('-C') + 1])
-        seen.append((sorted(p.name for p in work.iterdir()), 'later.json' in cmd[-1]))
+        seen.append((sorted(p.name for p in work.iterdir()), 'Input files in this folder: here.json.' in cmd[-1]))
         (work / 'out.json').write_text('{}')
         return SimpleNamespace(stdout='', stderr='')
     with patch('run.subprocess.run', side_effect=fake_codex):
-        run_mod.agent('gameplay', Path(d, 'out.json'), {'here.json': here, 'later.json': Path(d, 'later.json')}, lambda: '')
-    assert seen == [(['here.json'], False)], seen
+        run_mod.agent('gameplay', Path(d, 'out.json'), {'here.json': here, 'last-assembly.json': Path(d, 'plan.json'), 'balance.json': Path(d, 'report.json')}, lambda: '', optional_pair=('last-assembly.json', 'balance.json'))
+    assert seen == [(['here.json'], True)], seen
 with tempfile.TemporaryDirectory() as d:
     git = ('git', '-c', 'user.name=t', '-c', 'user.email=t@example.com')
     sh('git', 'init', '-q', '-b', 'main', d, cwd=d)

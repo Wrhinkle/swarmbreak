@@ -23,12 +23,18 @@ def tool(*args):
     return r.returncode == 0, (r.stdout + r.stderr).strip()
 
 
-def agent(name, output, inputs, check, search=False):
+def agent(name, output, inputs, check, search=False, optional_pair=()):
     """Runs one agent in an empty folder holding only its inputs. Returns once `check` finds no problems."""
     problems = ''
     for attempt in range(RETRIES + 1):
         with tempfile.TemporaryDirectory() as work:
-            given = {dest: src for dest, src in inputs.items() if Path(src).exists()}  # some inputs only exist after a failed attempt
+            missing = [dest for dest, src in inputs.items() if dest not in optional_pair and not Path(src).is_file()]
+            if missing:
+                sys.exit(f'{name} missing required inputs: {", ".join(missing)}')
+            present = [dest for dest in optional_pair if Path(inputs[dest]).is_file()]
+            if present and len(present) != len(optional_pair):
+                sys.exit(f'{name} requires optional retry inputs as a pair: {", ".join(optional_pair)}')
+            given = {dest: src for dest, src in inputs.items() if dest not in optional_pair or dest in present}
             for dest, src in given.items():
                 shutil.copy(src, Path(work) / dest)
             prompt = (AGENTS / f'{name}.md').read_text() + f'\n\nInput files in this folder: {", ".join(given) or "none"}. Write {Path(output).name} here and nothing else.'
@@ -143,9 +149,20 @@ def main():
 
         if want('gameplay'):
             report = d / 'balance.json'
-            report.unlink(missing_ok=True)
             # The last plan that failed balance and its report. Without them each retry was a fresh guess.
             tried, tried_report = d / 'assembly-tried.json', d / 'balance-tried.json'
+            provenance = d / 'balance-tried-provenance.json'
+
+            def hashes():
+                return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in (content, tried, tried_report)}
+
+            try:
+                valid = json.loads(provenance.read_text()) == hashes()
+            except (OSError, ValueError):
+                valid = False
+            if not valid:
+                for p in (tried, tried_report, provenance):
+                    p.unlink(missing_ok=True)
 
             def check_plan():
                 bad = result(tool('tools/checks.ts', 'assembly', rel(assembly), rel(content)))
@@ -154,16 +171,20 @@ def main():
                 ok, out = tool('tools/build-run.ts', rel(d))
                 if not ok:
                     return out
+                report.unlink(missing_ok=True)
                 ok, out = tool('tools/balance.ts', f'public/runs/{run_id}/run.json', '--tune', '--report', rel(report))
                 print(out, flush=True)
                 if not ok and report.exists():
+                    provenance.unlink(missing_ok=True)
                     shutil.copy(assembly, tried)
                     shutil.copy(report, tried_report)
+                    provenance.write_text(json.dumps(hashes()))
                 return '' if ok else out
 
-            agent('gameplay', assembly, {'content.json': content, 'library.json': library, 'last-assembly.json': tried, 'balance.json': tried_report}, check_plan)
+            agent('gameplay', assembly, {'content.json': content, 'library.json': library, 'last-assembly.json': tried, 'balance.json': tried_report}, check_plan, optional_pair=('last-assembly.json', 'balance.json'))
             tried.unlink(missing_ok=True)
             tried_report.unlink(missing_ok=True)
+            provenance.unlink(missing_ok=True)
 
         if want('art'):
             agent('art', brief, {'content.json': content}, lambda: '' if len(json.loads(brief.read_text()).get('acts', [])) == ACTS else f'Write {ACTS} acts.')
