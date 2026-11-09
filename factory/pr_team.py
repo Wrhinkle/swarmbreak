@@ -4,14 +4,16 @@
 Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
-import fcntl, json, os, subprocess, sys, tempfile, time
+import fcntl, hashlib, json, math, os, re, subprocess, sys, tempfile, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
 QODO = str(Path.home() / '.qodo/bin/qodo')
 REPO = 'Wrhinkle/swarmbreak'
-ROUNDS, QODO_WAIT = 2, 1500
+ROUNDS, QODO_WAIT = 2, 300
+REREQUEST_START_WAIT = 3600  # Allow a queued review to appear across foreman passes.
+WAITING = 75  # EX_TEMPFAIL: Qodo hasn't reviewed the head yet. The foreman rechecks later; it isn't a failure.
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
 # Agents may fix factory code; every factory/ change still goes to the gate reviewer (gated_paths). Locked: the rules,
 # hosting, install scripts that run on this Mac, the balance limits, the gate reviewer's own brief, vendored code, and the
@@ -168,18 +170,131 @@ def merges_cleanly(tree, base):
     return True
 
 
+def reviewed(s, sha):
+    """Only a review Qodo marked complete, of exactly this commit, counts. Never loosen this: it is the merge check."""
+    return s.get('commit_sha') == sha and bool(s.get('review_complete'))
+
+
+def stalled(s, sha):
+    """Qodo sometimes ends a review of sha with status completed but review_complete false. Waiting won't finish it."""
+    return s.get('commit_sha') == sha and s.get('status') == 'completed' and not s.get('review_complete')
+
+
+def rerequest_state(url, sha):
+    """Keep the request and observed start across foreman processes, separately for each PR and commit."""
+    cache = Path.home() / '.cache'
+    key = hashlib.sha256(f'{url}\0{sha}'.encode()).hexdigest()
+    path = cache / 'swarmbreak-qodo-requests' / key
+    try:
+        state = json.loads(path.read_text())
+        if (isinstance(state, dict) and type(state.get('requested_at')) in (int, float)
+                and math.isfinite(state['requested_at']) and type(state.get('started')) is bool):
+            return path, state
+        return path, False  # Invalid state may represent an already-posted request.
+    except FileNotFoundError:
+        pass
+    except (OSError, ValueError, UnicodeError):
+        return path, False
+    # Honor requests recorded by older versions; do not post a second /review after upgrading.
+    legacy = cache / 'swarmbreak-qodo-rerequested'
+    if legacy.exists() and sha in legacy.read_text().split():
+        return path, {'requested_at': legacy.stat().st_mtime, 'started': False}
+    return path, None
+
+
+def save_rerequest(path, state):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    name = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', dir=path.parent, delete=False) as f:
+            name = f.name
+            json.dump(state, f)
+        os.replace(name, path)
+    finally:
+        if name and os.path.exists(name):
+            os.unlink(name)
+
+
 def wait_for_review(url, sha):
     deadline = time.time() + QODO_WAIT
+    path, request = rerequest_state(url, sha)
     while time.time() < deadline:
         s = findings(url).get('review_session') or {}
-        if s.get('commit_sha') == sha and s.get('review_complete'):
+        if reviewed(s, sha):
             return
+        if request is False:
+            sys.exit(f'Qodo request state for {sha[:7]} is unreadable or invalid at {path}; inspect it before retrying.')
+        if stalled(s, sha):
+            if request is None:
+                sh('gh', 'pr', 'comment', url, '--body', '/review')
+                request = {'requested_at': time.time(), 'started': False}
+                save_rerequest(path, request)
+                break
+            if request['started']:
+                sys.exit(f'Qodo ended its review of {sha[:7]} incomplete again after a /review request. Not merging.')
+        elif s.get('commit_sha') == sha and s.get('status') in ('pending', 'queued', 'running', 'in_progress') and request and not request['started']:
+            request['started'] = True
+            save_rerequest(path, request)
         if s.get('commit_sha') == sha and s.get('status') == 'failed':
             sys.exit(f'Qodo\'s review of {sha[:7]} failed. A PR of tens of thousands of lines can do this, so split it. Not merging.')
         if s.get('commit_sha') == sha and s.get('status') == 'skipped':
             sys.exit(f'Qodo skipped {sha[:7]}, so it has no review. Not merging.')
+        if request and not request['started'] and time.time() - request['requested_at'] >= REREQUEST_START_WAIT:
+            sys.exit(f'Qodo did not start the requested review of {sha[:7]} within the allowed time. Not merging.')
         time.sleep(30)
-    sys.exit(f'Qodo hasn\'t reviewed {sha[:7]} after {QODO_WAIT // 60} minutes. Not merging.')
+    print(f'Waiting on Qodo to review {sha[:7]}. The foreman will check again later.', flush=True)
+    print(f'Qodo waiting head: {sha}', flush=True)
+    sys.exit(WAITING)
+
+
+def fixer_state(number):
+    """Host-owned ledger, separate for each repository and PR."""
+    key = hashlib.sha256(f'{REPO}\0{number}'.encode()).hexdigest()
+    directory = Path.home() / '.cache' / 'swarmbreak-fixer-rounds' / key
+    path = directory / 'commits.json'
+    try:
+        directory.mkdir(parents=True)
+    except FileExistsError:
+        pass
+    else:
+        save_rerequest(path, [])
+    try:
+        commits = json.loads(path.read_text())
+        if (not isinstance(commits, list) or len(commits) > ROUNDS
+                or any(not isinstance(c, str) or not re.fullmatch(r'[0-9a-f]{40,64}', c) for c in commits)
+                or len(set(commits)) != len(commits)):
+            raise ValueError('invalid commit ledger')
+    except (OSError, ValueError, UnicodeError) as exc:
+        sys.exit(f'Fixer ledger for PR {number} is missing or corrupt; stopping: {exc}')
+    if (directory / 'pending').exists():
+        sys.exit(f'Fixer commit for PR {number} was interrupted while recording; stopping for inspection.')
+    return path, commits
+
+
+def fixer_rounds(tree, number, base):
+    """Count recorded commits, including attempts interrupted before or during a push."""
+    _, commits = fixer_state(number)
+    history = set(sh('git', 'rev-list', f'origin/{base}..HEAD', cwd=tree).stdout.splitlines())
+    missing = [sha for sha in commits if sha not in history]
+    if missing:
+        print(f'{len(missing)} recorded fixer commit(s) are absent from PR history; retaining their budget.', flush=True)
+    return len(commits)
+
+
+def begin_fixer_commit(number):
+    path, commits = fixer_state(number)
+    if len(commits) >= ROUNDS:
+        sys.exit(f'Fixer budget for PR {number} is exhausted.')
+    (path.parent / 'pending').touch(exist_ok=False)
+    return path, commits
+
+
+def record_fixer_commit(tree, number, path, commits):
+    sha = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+    if not re.fullmatch(r'[0-9a-f]{40,64}', sha) or sha in commits or len(commits) >= ROUNDS:
+        sys.exit(f'Cannot record fixer commit for PR {number}; stopping before push.')
+    save_rerequest(path, commits + [sha])
+    (path.parent / 'pending').unlink()
 
 
 def main():
@@ -205,7 +320,7 @@ def main():
         sh('npm', 'ci', '--silent', cwd=tree)
     # An unfinished review lists no findings yet, which isn't the same as a clean one.
     wait_for_review(url, sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip())
-    for round_no in range(ROUNDS + 1):
+    for round_no in range(fixer_rounds(tree, number, base), ROUNDS + 1):
         data = findings(url)
         session = data.get('review_session') or {}
         current = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
@@ -261,7 +376,9 @@ def main():
                 sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
             titles = '\n'.join(f'- {f["title"]}' for f in fixes)
             attribution = 'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'
+            ledger, commits = begin_fixer_commit(number)
             sh('git', 'commit', '-q', '-m', f'Fix Qodo findings on PR #{number}\n\n{titles}\n\n{attribution}', cwd=tree)
+            record_fixer_commit(tree, number, ledger, commits)
             # Qodo checks the fixes before anything leaves this Mac.
             r = sh(QODO, 'review', '--base', f'origin/{head}', '--json', cwd=tree, check=False)
             try:
@@ -299,7 +416,7 @@ def main():
     still = [f for f in data['findings'] if is_open(f)]
     sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
     blocks = []
-    if session.get('commit_sha') != sha or not session.get('review_complete'):
+    if not reviewed(session, sha):
         blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
     if still:
         blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))
