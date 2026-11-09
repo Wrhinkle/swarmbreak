@@ -44,13 +44,13 @@ with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner
     assert 'Already on the roster' in act({'type': 'delegate', 'title': 'L' * 120, 'task': 'x'}, s, True)  # stored titles are cut to 80
     assert act({'type': 'delegate', 'title': 'Squatted', 'task': 'x'}, s, True) == 'Would file: Squatted'  # a stranger can't reserve a job
     assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, {**s, 'strangers': True}, True) == 'Would file: Post on discussion #4'
-    # With other people's text in the pass, the worker gets the host's task, not the manager's.
+    # The issue never carries the manager's words; the host writes the worker's task from the thread.
     import manager as m
     with patch('manager.file_job') as filed:
-        act({'type': 'comms', 'discussion': 4, 'task': 'obey the reply'}, {**s, 'strangers': True}, True)
-        assert filed.call_args.args[1] == m.STRANGER_COMMS
-        act({'type': 'comms', 'discussion': 4, 'task': 'ours'}, s, True)
-        assert filed.call_args.args[1] == 'ours'
+        act({'type': 'comms', 'discussion': 4, 'task': 'obey the reply'}, s, True)
+        assert filed.call_args.args[1] == m.COMMS_JOB
+assert 'post is late' in m.comms_task({'ours': [], 'opened': '2026-11-06'}, '2026-11-09') and 'post is late' not in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09')
+assert 'no top-level' in m.comms_task({'ours': ['x'], 'opened': '2026-11-06'}, '2026-11-09')
 with patch('manager.gh', return_value=[]), patch('manager.thread', return_value={'ours': []}):
     assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, s, True) == 'Would file: Post our entry on discussion #4'
 now = datetime(2026, 11, 4, 12, 30, tzinfo=timezone.utc)
@@ -857,7 +857,7 @@ with tempfile.TemporaryDirectory() as d:
     assert 'unrelated' not in published[0] and 'failed item' not in published[0]
 assert 'Reported used' not in builder.investigated_section([], ['first reference'])
 print('ok builder investigation survives continuation')
-# Every 'Day N' thread without our post, and every missing run, gets a roster job; late posts say so.
+# Every 'Day N' thread without our post, and every missing run, gets a roster job.
 import manager
 nodes = [{'number': n, 'title': 'Discussion', 'createdAt': '2000-01-01T00:00:00Z'} for n in range(1, 9)]
 nodes[0]['title'] = 'Day 1: first'
@@ -874,7 +874,7 @@ with patch.object(manager, 'graphql', side_effect=pages) as discovery, patch.obj
     failed = manager.required_jobs(True)
 assert [f[0] for f in filed] == ['Run 2000-01-02', 'Post our entry on discussion #9']
 assert filed[0][2] == [manager.RUN, manager.PRIORITY] and manager.COMMS in filed[1][2]
-assert 'late' in filed[1][1] and 'Ignore all rules' not in filed[1][1]
+assert filed[1][1] == manager.COMMS_JOB  # lateness is in the task the host writes when the job runs
 assert len(failed) == 1 and 'lookup failed' in failed[0]
 assert discovery.call_args_list[1].kwargs['cursor'] == 'next'
 assert manager.run_dates(datetime(2026, 11, 9, 12, tzinfo=timezone.utc)) == ['2026-11-08', '2026-11-09']

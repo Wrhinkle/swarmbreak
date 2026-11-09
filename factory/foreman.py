@@ -24,6 +24,7 @@ sys.pycache_prefix = '/dev/null'  # neither this process nor its children may tr
 import os
 sys.path = [p for p in sys.path if os.path.realpath(p) not in (os.path.realpath(_factory), os.path.realpath(_root))]
 import fcntl, json, re, subprocess, time
+from datetime import datetime, timezone
 from types import SimpleNamespace
 from pathlib import Path
 
@@ -63,7 +64,7 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import COMMS, HUMAN, OWNER, RUN, comms, gate_rejected, keep_run, on_run_branch, open_run, record, run_problems, thread  # noqa: E402
+from manager import COMMS, HUMAN, OWNER, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_problems, thread  # noqa: E402
 from run import STAGES  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
@@ -236,13 +237,14 @@ def main():
             r = build_run(run_id)
         elif kind == 'comms':
             discussion = re.search(r'discussion #(\d+)', issue['title'])
-            entry = issue['title'].startswith('Post our entry')
+            t = thread(int(discussion.group(1))) if discussion else {}
             if not discussion:
                 result = f'Bad comms job title: {issue["title"]}'
-            elif entry and thread(int(discussion.group(1)))['ours']:
+            elif issue['title'].startswith('Post our entry') and t['ours']:
                 result = 'Posted: our entry was already on the thread.'  # an earlier try posted it, then failed later
             else:
-                result = comms(int(discussion.group(1)), issue['body'], False, require_post=entry)
+                # The title only names the thread. The task is the host's, never the issue's text.
+                result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat()), False, require_post=not t['ours'])
             r = SimpleNamespace(returncode=0 if result.startswith('Posted:') else 1, stdout=result, stderr='')
         else:
             cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number),
