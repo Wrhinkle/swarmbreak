@@ -48,6 +48,10 @@ assert deploy_problems({'runId': 'a', 'next': reserve}, {**live, 'next': reserve
 tpl = '```markdown\nAGENTS.md link:\n```'
 assert unfilled_links('AGENTS.md link: Not available.', tpl)
 assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
+# The link check stays exact; a refusal for a link that ends a sentence says how to fix it.
+with patch('manager.dead_links', return_value=['https://x.test/a.', 'https://x.test/b']), patch('manager.unfilled_links', return_value=[]):
+    told = [p for p in check_post({'top_level': good}, {'ours': [], 'waiting': [], 'challenge': ''}) if p.startswith('dead link')]
+    assert len(told) == 2 and '[text](url)' in told[0] and told[1] == 'dead link: https://x.test/b', told
 from builder import blocked_paths, only_wording
 from manager import touches_gates
 assert touches_gates([{'path': 'factory/manager.py'}]) and touches_gates([{'path': 'tools/sim.ts'}]) and touches_gates([{'path': 'factory/agents/comms.md'}])
