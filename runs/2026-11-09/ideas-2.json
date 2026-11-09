@@ -1,0 +1,236 @@
+{
+  "reading": "National Historic Ships UK is an independent, government-funded adviser and advocate for UK historic vessels. It records ships and their histories, supports conservation and practical skills, connects owners, craftspeople, volunteers and facilities through regional Shipshape zones, and promotes projects, events, funding and awards. It cares about vessels as working objects with long, costly lives and about the people and skills needed to keep them afloat. Its vocabulary is specific: register, archive, replica, National Historic Fleet, vessel at risk, statement of significance, propulsion, shipwright, conservation and through-life costs. The unusual texture is the collision of careful classification with living, locally rooted craft: a coal-and-limestone Tamar barge, an early electric launch and a ring-net fishing boat sit alongside training, harbour gatherings and contemporary restoration. The crawl supplies short excerpts rather than complete histories, and some register dates differ between pages.",
+  "enemies": [
+    {
+      "idea": "Register measurers clamp calipers to passing craft, then bolt on extra plating until their dimensions match an old record.",
+      "source": "/registers",
+      "why": "The crew can slip free by changing shape or feeding the machine a more accurate measurement."
+    },
+    {
+      "idea": "An archive dredger declares moving boats historical entries and drags them into a silent underwater filing ground.",
+      "source": "/the-registers/about-the-registers",
+      "why": "Its mistaken distinction between archive and living fleet turns rescue into a race against classification."
+    },
+    {
+      "idea": "A replica pilot-cutter swarm copies Freja’s lines but has no history; each false pilot demands a tale before leading ships onto shoals.",
+      "source": "/register/2777/freja",
+      "why": "Inventing or uncovering a plausible history becomes a way to identify and distract the impostors."
+    },
+    {
+      "idea": "Ring-net drones patterned on Kess spread a tightening mechanical purse around crews and haul them aboard as the catch.",
+      "source": "/register/3927/sv-kess",
+      "why": "A visible closing seam offers a cooperative escape before the net is fully drawn."
+    },
+    {
+      "idea": "A Tamar cargo barge automaton shovels coal, limestone, sand and manure into any open hold, making ships too heavy to flee.",
+      "source": "/register/1137/lynher",
+      "why": "Its varied cargo gives crews several messy ways to clog its conveyors or tip the balance."
+    },
+    {
+      "idea": "An early electric launch, its teak-and-oak silhouette threaded with coils, drains nearby batteries to keep its antique motor running.",
+      "source": "/register/1836/mary-gordon",
+      "why": "Cutting its power supply turns a fast pursuer into a drifting obstacle."
+    },
+    {
+      "idea": "A narrowboat carrier occupies an entire canal lock and demands every vessel join its numbered fleet before it will release the gates.",
+      "source": "/register/3928/banbury",
+      "why": "The lock itself becomes a puzzle with a slow-moving, territorial adversary."
+    },
+    {
+      "idea": "A yacht-shaped inspection machine tests every plank against an impossible 100A1 ideal, replacing useful repairs with rigid metal ribs.",
+      "source": "/register/3926/isla-rose",
+      "why": "The players can exploit its fixation on a perfect specification while protecting flexible wooden joints."
+    },
+    {
+      "idea": "Five schooner doubles exchange previous names mid-pursuit, making it difficult to tell which one carries the swarm controller.",
+      "source": "/register/2805/pickle",
+      "why": "Tracking changing identities creates a moving shell game on the water."
+    },
+    {
+      "idea": "Conservation apprentices made of tool arms restore damaged hulls indefinitely, sealing doors and occupants inside in pursuit of completeness.",
+      "source": "/DistanceLearning",
+      "why": "A repair job becomes a timed rescue where convincing the machines the work is finished matters."
+    },
+    {
+      "idea": "A significance assessor assigns crews historic importance and strips away anything it considers irrelevant to their vessel’s story.",
+      "source": "/FundingGuidelines",
+      "why": "Crews must defend the value of their oddest equipment before it is confiscated."
+    },
+    {
+      "idea": "A flagship drone crowns the largest nearby vessel and forces every smaller craft into a dangerous parade behind it.",
+      "source": "/flagship-award",
+      "why": "The crown can be passed to a decoy to redirect an entire formation."
+    },
+    {
+      "idea": "A photographic judge projects competing views of a vessel onto the water and attacks anything that spoils its chosen composition.",
+      "source": "/photocomp",
+      "why": "Moving props and creating a better scene can lure its aim away from the crew."
+    },
+    {
+      "idea": "A sealant-and-anchor specialist sprays decks sticky, then fires anchor chains to immobilise its newly acquired work.",
+      "source": "/ship-shape/company",
+      "why": "Its own supplies can be turned against it by sealing the chain feed."
+    },
+    {
+      "idea": "A crew-bank press gang swaps people between vessels to fill vacancies, without asking whether they can sail the assigned craft.",
+      "source": "/ship-shape/crew",
+      "why": "Recovering a missing crewmate requires outwitting a whole network of reassignment boats."
+    },
+    {
+      "idea": "An insurer patrols both static and operating vessels and immobilises them all to eliminate every possible risk.",
+      "source": "/about-insurance",
+      "why": "The safer a ship appears, the more aggressively the patrol tries to keep it stationary."
+    },
+    {
+      "idea": "A practical surveying machine taps hulls for defects but mistakes heartbeats and footsteps for dangerous rot.",
+      "source": "/events",
+      "why": "Players can manipulate noise and hollow spaces to draw its attention elsewhere."
+    },
+    {
+      "idea": "Working-boat constructs stage the harbour’s fishing past on the beach, dragging every passing hull ashore to complete the tableau.",
+      "source": "/news/shipshape/cornish-maritime-trust-brings-newlyns-old-harbour-life-first-ever-boats-beach",
+      "why": "The tide sets a natural deadline and the stranded boats make a shifting obstacle course."
+    },
+    {
+      "idea": "A through-life cost collector follows a restored vessel, claiming tools and timber as payment for all future maintenance at once.",
+      "source": "/about-us/our-objectives",
+      "why": "A prediction of future needs becomes a bargaining and resource-management encounter."
+    },
+    {
+      "idea": "A UK-waters boundary patrol repeatedly pushes boats back across an invisible line so it can continue registering them.",
+      "source": "/the-registers/register-faqs",
+      "why": "The crew can exploit the patrol’s narrow jurisdiction to escape or trap it."
+    },
+    {
+      "idea": "A regional hub spider threads mooring lines between local projects until the whole harbour becomes a single immobilised network.",
+      "source": "/page/shipshape-east",
+      "why": "Severing the right lines frees allies while cutting the wrong ones brings a mast down."
+    },
+    {
+      "idea": "A competition shortlister produces near-identical mechanical views of the same ship and refuses to stop until only one remains.",
+      "source": "/photography-competition/shortlist",
+      "why": "The crew can use the small differences between copies to misdirect its selection."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A volunteer repair flotilla shares tools and skilled hands between damaged vessels, asking the crew to carry spares to the next harbour.",
+      "source": "/volunteer-award",
+      "why": "Its practical aid creates an ongoing relationship and small delivery missions."
+    },
+    {
+      "idea": "A traditional boatbuilding workshop teaches crews to cut a replacement plank by hand, beyond the swarm’s electronic reach.",
+      "source": "/event/shipshape/boat-restoration-experience-days-pioneer-sailing-trust",
+      "why": "A learned skill becomes a durable countermeasure rather than a single consumable."
+    },
+    {
+      "idea": "A surviving regional network links boats with specialist help through hand-carried messages and discreet moorings.",
+      "source": "/ship-shape",
+      "why": "Local knowledge opens alternate routes and allies across the map."
+    },
+    {
+      "idea": "An uninfected lifeboat crew continues its rescue work, towing stranded vessels while the players hold off the swarm.",
+      "source": "/register/3730/sarah-townsend-porritt",
+      "why": "Its rescue heritage gives the crew a concrete ally to protect without turning real rescues into a joke."
+    },
+    {
+      "idea": "A conservation manual’s illustrated techniques help a shipwright identify where a machine has substituted metal for sound timber.",
+      "source": "/manualtobuy",
+      "why": "The clues make repair an investigation with visible results."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Registrar is a floating composite of measuring arms and borrowed hulls: it tries to fit every vessel into one permanent record, rebuilding anything that changes.",
+      "source": "/registers",
+      "why": "Its phases switch between measuring, classification and forced reconstruction; contradictory evidence makes its many arms fight each other."
+    },
+    {
+      "idea": "The Shipshape Nexus has fused regional workshops, crew banks and specialist services into a vast self-repairing dockyard that recruits every vessel it catches.",
+      "source": "/ship-shape",
+      "why": "Disabling different workshops changes its attacks, while rescued specialists can turn its own repair machinery against it."
+    },
+    {
+      "idea": "The Eternal Flagship wears fragments of many historic vessels and demands a perfect, motionless fleet for an endless celebration.",
+      "source": "/flagship-award",
+      "why": "Crews can undermine its authority by freeing the boats forced to parade in its wake."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A ring of net drones closes around a small boat; the crew has moments to cut its draw line before the catch is winched away.",
+      "source": "/register/3927/sv-kess",
+      "why": "A quick rescue has a clear physical weak point."
+    },
+    {
+      "idea": "Two nearly identical pilot cutters offer safe passage, but only one admits that its history is incomplete.",
+      "source": "/register/2777/freja",
+      "why": "Honest uncertainty becomes a clue instead of a weakness."
+    },
+    {
+      "idea": "A narrowboat is wedged across a lock, its carrier machinery still trying to assign fleet numbers to every arrival.",
+      "source": "/register/3928/banbury",
+      "why": "The crew can negotiate, divert water or work the gates by hand."
+    },
+    {
+      "idea": "A barge spills coal, sand and limestone at a junction; its loading machine will trade a clear channel for help sorting the cargo.",
+      "source": "/register/1137/lynher",
+      "why": "A peaceful solution is available if the crew can satisfy a simple, physical task."
+    },
+    {
+      "idea": "A restored harbour gathering is trapped by mechanical working boats reenacting a fishing scene as the tide returns.",
+      "source": "/news/shipshape/cornish-maritime-trust-brings-newlyns-old-harbour-life-first-ever-boats-beach",
+      "why": "Saving the grounded craft requires choosing which moorings to free first."
+    },
+    {
+      "idea": "A shipwright offers to repair the crew’s hull if they recover a traditional tool from an overzealous restoration machine.",
+      "source": "/event/shipshape/boat-restoration-experience-days-pioneer-sailing-trust",
+      "why": "A small retrieval directly improves the crew’s vessel."
+    },
+    {
+      "idea": "An electric launch is drifting after its motor exhausted the local batteries; a stranded passenger offers directions in exchange for a tow.",
+      "source": "/register/1836/mary-gordon",
+      "why": "The crew must decide whether to spend time and power helping."
+    },
+    {
+      "idea": "A machine jury demands a photograph of a vessel in its best setting, then begins rearranging the harbour to improve the view.",
+      "source": "/photocomp",
+      "why": "Staging a convincing alternative picture can save the moorings without a fight."
+    },
+    {
+      "idea": "A vessel with a damaged record is about to be moved to the archive; its crew has one tide to supply evidence that it is still active.",
+      "source": "/the-registers/about-the-registers",
+      "why": "Evidence gathering and a departure deadline make a compact investigation."
+    },
+    {
+      "idea": "A conservation assessor finds a useful modern patch and prepares to remove it; the crew can demonstrate its significance before the hull floods.",
+      "source": "/FundingGuidelines",
+      "why": "The conflict puts the meaning of preservation under pressure."
+    },
+    {
+      "idea": "A regional hub needs a message and a replacement part carried to another workshop, but swarm lines have turned the direct route into a snare.",
+      "source": "/page/shipshape-east",
+      "why": "It gives travel a purpose and a choice between speed and stealth."
+    },
+    {
+      "idea": "A newly crowned flagship drags a line of unwilling boats through a narrow channel; the last boat’s crew signals for someone to cut the tow.",
+      "source": "/flagship-award",
+      "why": "Freeing one boat without fouling the others is a satisfying seamanship problem."
+    },
+    {
+      "idea": "A replica schooner’s old and current names are being shouted by different drones, each demanding the vessel follow it.",
+      "source": "/register/2805/pickle",
+      "why": "The crew can exploit the confusion to separate the escort from its target."
+    },
+    {
+      "idea": "A practical surveying automaton has declared a berth unsafe after hearing knocking from inside a sealed compartment.",
+      "source": "/events",
+      "why": "The tapping could be a trapped survivor, a loose tool or a lure, rewarding careful inspection."
+    },
+    {
+      "idea": "A crew bank has exchanged two willing sailors between incompatible boats; both crews need a quiet rendezvous to reverse the swap.",
+      "source": "/ship-shape/crew",
+      "why": "A nonviolent exchange can spiral into a chase if the patrol notices."
+    }
+  ]
+}
