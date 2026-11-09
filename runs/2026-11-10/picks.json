@@ -1,0 +1,45 @@
+{
+  "thread": "Follow a sheet of paper from the papermaker's vat through a print shop and into a book that takes on a life of its own. Along the way the swarm meets watermarks, metal letters, mechanical presses, bindings, and inventive books.",
+  "candidates": [
+    {
+      "name": "Robert C. Williams Museum of Papermaking",
+      "url": "https://paper.gatech.edu/",
+      "why": "Start with handmade sheets, watermarks, papermaking tools, and paper artifacts; the museum's exhibits and resources trace how fibers become pages."
+    },
+    {
+      "name": "National Print Museum",
+      "url": "https://www.nationalprintmuseum.ie/",
+      "why": "Move into a working print shop full of wooden and metal type, typecasters, and elaborate hand and cylinder presses that could become mechanical creatures."
+    },
+    {
+      "name": "Center for Book Arts",
+      "url": "https://centerforbookarts.org/",
+      "why": "Finish among artists' books, bindings, printmaking, and paper engineering, where a printed sheet can fold into surprising new forms."
+    },
+    {
+      "name": "Melbourne Museum of Printing",
+      "url": "https://www.mmop.org.au/",
+      "why": "Its sprawling collections cover type, typesetting machines, printing presses, and bookbinding hand tools, with many peculiar mechanisms to inhabit."
+    },
+    {
+      "name": "The Printing Museum",
+      "url": "https://printingmuseum.org/",
+      "why": "Papermaking and bookbinding studios sit alongside stone lithography presses, engraving equipment, and collections of letterpress type."
+    },
+    {
+      "name": "Museum of Printing",
+      "url": "https://www.museumofprinting.org/",
+      "why": "Collections and resources explore printing machinery, typography, typewriters, and graphic arts, offering the swarm a workshop of expressive mechanisms."
+    },
+    {
+      "name": "International Printing Museum",
+      "url": "https://www.printmuseum.org/",
+      "why": "Antique printing machinery, wood type, and book arts workshops offer more ways for letters and presses to come alive."
+    },
+    {
+      "name": "Hamilton Wood Type & Printing Museum",
+      "url": "https://woodtype.org/",
+      "why": "Wooden letters, type-making equipment, printing history, and an online gallery give the swarm a whole alphabet of shapes to inhabit."
+    }
+  ]
+}

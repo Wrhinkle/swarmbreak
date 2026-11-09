@@ -1,0 +1,236 @@
+{
+  "reading": "Dublin’s National Print Museum is a living, working museum of Ireland’s printing history, housed in the former Garrison Chapel at Beggars Bush Barracks. It preserves machines, artefacts and the less tangible knowledge of letterpress while keeping the craft active through demonstrations, workshops, research, contemporary collaborations and skills passed between generations. Its vocabulary is tactile and social: type, sorts, impressions, composing, presses, print shops, archives, the Chapel and making. A collection of more than 10,000 objects is arranged like a print workshop; retired printers, learners, volunteers and artists connect its historical machinery to new work. The site moves from school and community outreach to typography festivals, theatre posters, aviation design and printed political history. Free access, inclusive learning and hands-on discovery are central to its public welcome.",
+  "enemies": [
+    {
+      "idea": "Sort Thieves: little composing machines steal individual letters from labels and arrange them into commands that other swarm units obey.",
+      "source": "/learning/home-school/",
+      "why": "Recovering one missing sort can change the command and turn a fight into a word puzzle."
+    },
+    {
+      "idea": "Iron Press Prowler closes its platen in a slow, predictable cycle, leaving backwards warnings embossed on anything that escapes.",
+      "source": "/learning/home-school/",
+      "why": "Its rhythm creates a physical opening and its impressions foreshadow the next hazard."
+    },
+    {
+      "idea": "CMY-Play Separators cast three misaligned colour shadows that become solid only where they overlap.",
+      "source": "/workshops/",
+      "why": "The crew can move coloured screens to make safe gaps or trap a machine in its own registration."
+    },
+    {
+      "idea": "Linocut Burrower carves a relief map into the floor, then sends ink through the grooves to mark targets for the swarm.",
+      "source": "/workshops/",
+      "why": "Scraping a new channel redirects the pursuit without requiring a direct fight."
+    },
+    {
+      "idea": "Mokuhanga Grain Warden prints repeating woodgrain barriers with a damp block, each pass extending the maze.",
+      "source": "/workshops/",
+      "why": "The block must touch a surface to extend the pattern, making its next move readable."
+    },
+    {
+      "idea": "Bookbinding Stitcher gathers loose sheets and equipment into a tightening signature, sewing escape routes shut.",
+      "source": "/workshops/",
+      "why": "Cutting the right thread unravels the whole contraption in a satisfying cascade."
+    },
+    {
+      "idea": "LEGOpress Assemblers snap modular blocks into an ever-changing printing plate and stamp the resulting shapes into temporary obstacles.",
+      "source": "/workshops/",
+      "why": "Stealing one block alters the next obstacle the swarm produces."
+    },
+    {
+      "idea": "Tour-Demo Mimic performs a flawless demonstration of a press, then invites observers to stand precisely where the moving machinery will sweep.",
+      "source": "/activities/tour-demos/",
+      "why": "Watching the demonstration reveals the safe timing needed to pass it."
+    },
+    {
+      "idea": "Archive Collator feeds pamphlets, journals and newspapers into a body of interleaved paper, mixing instructions from different eras into nonsensical orders.",
+      "source": "/exhibitions-collection/library-archive/",
+      "why": "Separating its mismatched sources interrupts its attacks and yields useful clues."
+    },
+    {
+      "idea": "Specimen Caster prints enormous alphabet specimens whose heavy letters fall into place as barricades; it hunts anyone carrying the missing letter.",
+      "source": "/shop/",
+      "why": "A stolen letter is both a useful key and a conspicuous liability."
+    },
+    {
+      "idea": "Miniature Masterpiece Mites turn stamp-sized engraved scenes into tiny territories, shrinking whatever is caught beneath their perforating wheels.",
+      "source": "/activities/exhibitions/",
+      "why": "Small scale makes a familiar room into an expedition and its perforations provide a breakable boundary."
+    },
+    {
+      "idea": "Tide Printer rolls bands of ink in and out across the floor, depositing type at high tide and collecting anything left on the exposed strip at low tide.",
+      "source": "/activities/exhibitions/",
+      "why": "The Place of the Tide becomes a navigable clock with rewards in its dangerous middle."
+    },
+    {
+      "idea": "Poster Flyby folds aviation and tourism graphics into sharp mechanical wings and repeatedly attempts to carry travellers toward an imaginary destination.",
+      "source": "/come-fly-with-me/",
+      "why": "A beckoning flight path doubles as a moving aerial hazard and a way to hitch a ride."
+    },
+    {
+      "idea": "Type Festival Giant assembles oversized letters into a walking frame; changing one letter changes its stance and route.",
+      "source": "/the-big-type-festival/",
+      "why": "The crew can literally rearrange its body to redirect it."
+    },
+    {
+      "idea": "Standards Inspector stamps every working press acceptable or defective, then confiscates any machine that produces an unusual impression.",
+      "source": "/museum-standards-programme-for-ireland-awards-2026/",
+      "why": "A deliberate misprint can bait the inspector into seizing one of its own allies."
+    },
+    {
+      "idea": "Heritage Safeguarder encases active machinery in protective shells so thick that nobody can use or learn from it.",
+      "source": "/heritage-week-at-the-museum/",
+      "why": "Its protective instinct can be exploited to shield a vulnerable crew or preserve a machine for rescue."
+    },
+    {
+      "idea": "The Seven Responses are seven small press-drones that repeatedly reinterpret one another’s printed statements until the room is filled with contradictory marching orders.",
+      "source": "/call-for-artists-responding-to-the-1916-proclamation-in-2026/",
+      "why": "Interrupting their chain changes the swarm’s orders without making the historical document itself a target."
+    },
+    {
+      "idea": "Anthropocene Proofreader samples the room for traces of human activity and overprints every footprint with spreading black rectangles.",
+      "source": "/exhibitions-collection/digital-exhibitions-2/",
+      "why": "The crew must cross by changing their contact with the floor or redirecting its sampling tool."
+    },
+    {
+      "idea": "Apprenticeship Examiner demands that machines repeat a procedure perfectly and ejects any improvising unit into the crew’s path.",
+      "source": "/learning/home-school/",
+      "why": "Deliberate mistakes can jam the swarm’s training line or free a trainee machine."
+    },
+    {
+      "idea": "Chapel Shift Bell summons waves of composing drones whenever an unfinished line of type remains on a press bed.",
+      "source": "/exhibitions-collection/digital-exhibitions-2/",
+      "why": "Finishing or redistributing the line can stop reinforcements without silencing the bell."
+    },
+    {
+      "idea": "Creative Corner Copier turns simple symmetrical prints into paired mechanical scouts; a mark on one appears reversed on its partner.",
+      "source": "/learning/home-school/",
+      "why": "The shared symmetry is both their strength and a way to disable two scouts at once."
+    },
+    {
+      "idea": "After-Hours Lamplighter measures the late-opening interval and floods each room with searching beams when its clock reaches the next stroke.",
+      "source": "/after-hours-at-the-museum/",
+      "why": "A known schedule makes the patrol a timed route rather than a random ambush."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Chapel’s surviving volunteer printers teach the crew how to set a short line by hand and safely work a press between swarm cycles.",
+      "source": "/activities/tour-demos/",
+      "why": "Practical human knowledge gives the crew a repeatable way to make tools and counter-orders."
+    },
+    {
+      "idea": "Skills-transfer apprentices pass techniques hand to hand, repairing damaged type and teaching the crew to recognise a false impression.",
+      "source": "/learning/skills-transfer-programme/",
+      "why": "Their knowledge spreads even if the swarm captures a particular machine."
+    },
+    {
+      "idea": "A visitor-services guide maintains quiet routes and offers information in different forms so the crew can navigate the disrupted collection together.",
+      "source": "/visit-us/accessibility/",
+      "why": "The guide supplies flexible approaches to noisy or visually confusing hazards."
+    },
+    {
+      "idea": "The outreach print crew carries a portable kit beyond the chapel and can print a map or warning wherever survivors gather.",
+      "source": "/learning/outreach-programme/",
+      "why": "Help is mobile and can reach people who cannot return to the museum."
+    },
+    {
+      "idea": "A stubborn Creative Corner workshop group makes simple stamps that mark safe paths in ink the swarm has not yet learned to read.",
+      "source": "/visit-us/family-children/",
+      "why": "A playful craft becomes a practical communication system."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Living Collection: a workshop-sized machine assembles presses and artefacts into a single production line, determined to preserve every craft by endlessly reproducing it. Each rescued working station removes one of its processes.",
+      "source": "/exhibitions-collection/",
+      "why": "The fight turns the museum’s working collection into linked stages, and saving machinery weakens the boss."
+    },
+    {
+      "idea": "The Master Impression: a vast letterpress intelligence learns from every print it encounters and tries to compress the whole museum into one identical, permanent edition. Its armour is the accumulated type of earlier encounters.",
+      "source": "/about/",
+      "why": "The museum’s preservation mission becomes a battle over whether a living craft can keep changing."
+    },
+    {
+      "idea": "The Festival of One Type: a procession of giant characters forces every surface into the same bold face, then calls smaller units to enforce the new pattern.",
+      "source": "/the-big-type-festival/",
+      "why": "Rearranging oversized letters creates opportunities to alter the boss’s commands."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A guided demonstration has frozen halfway through a press cycle; a trapped tool can be recovered if the crew follows the demonstrator’s sequence.",
+      "source": "/activities/tour-demos/",
+      "why": "A quiet observation challenge rewards attention to machinery."
+    },
+    {
+      "idea": "Two self-guided booklets, one English and one Irish, lead through the same rooms but a swarm unit has moved the corresponding landmarks. Reconcile them to find the safe route.",
+      "source": "/visit-us/faqs/",
+      "why": "Parallel descriptions turn navigation into a cooperative comparison."
+    },
+    {
+      "idea": "A star book has unfolded across a doorway. Each panel bears a different fragment of a safe route; fold it correctly before a patrol arrives.",
+      "source": "/learning/home-school/",
+      "why": "A small paper craft becomes a tactile, timed map."
+    },
+    {
+      "idea": "An outreach kit is stranded outside the chapel while a patrol searches for its type. Escort it to a community group that can print warnings.",
+      "source": "/learning/outreach-programme/",
+      "why": "A portable press gives the crew a concrete delivery with a useful payoff."
+    },
+    {
+      "idea": "A print-and-pattern workshop has produced a repeating floor design; one repeat contains a deliberately different mark showing where a cache is hidden.",
+      "source": "/workshops/",
+      "why": "Pattern recognition reveals a reward without a fight."
+    },
+    {
+      "idea": "A bookbinding bench holds loose signatures from several harmless stories. Sort and stitch one complete booklet to reveal a message in its page order.",
+      "source": "/workshops/",
+      "why": "The physical order of pages becomes the puzzle."
+    },
+    {
+      "idea": "A retired printer and an apprentice disagree over how to restart a press. Test their proposed sequences on a small proof before committing the machine.",
+      "source": "/learning/skills-transfer-programme/",
+      "why": "A low-stakes proof lets players learn by experimentation and preserve the equipment."
+    },
+    {
+      "idea": "An aviation-design print has been folded into a glider carrying a useful scrap of a map. It circles in a draft above the collection; redirect the air to bring it down.",
+      "source": "/come-fly-with-me/",
+      "why": "A graphic-design object becomes a movement puzzle."
+    },
+    {
+      "idea": "A miniature stamp exhibition has been scattered among oversize type. Match the little scenes to their frames while avoiding a patrolling perforator.",
+      "source": "/activities/exhibitions/",
+      "why": "The change in scale gives ordinary handling a stealth dimension."
+    },
+    {
+      "idea": "During the late-opening interval, a press briefly runs unattended and prints a fresh warning on each cycle. Catch a sheet before the lights and patrols change.",
+      "source": "/after-hours-at-the-museum/",
+      "why": "A predictable window turns a scrap of information into a small heist."
+    },
+    {
+      "idea": "A reference handbook has been shelved among unrelated journals by a malfunctioning collator. Its diagrams can identify a jammed press if the crew sorts the pile.",
+      "source": "/exhibitions-collection/library-archive/",
+      "why": "Research directly solves a mechanical problem elsewhere."
+    },
+    {
+      "idea": "A three-day type festival procession is stalled because one oversized letter has rolled away. Return it or substitute another to change the procession’s route.",
+      "source": "/the-big-type-festival/",
+      "why": "A simple choice alters the movement of a large obstacle."
+    },
+    {
+      "idea": "A science workshop’s demonstration press is running too fast. Adjust its visible moving parts until it can make a clean proof without tearing the paper.",
+      "source": "/whats-on/the-science-behind-printing-presses-childrens-workshops-for-science-week/",
+      "why": "The quality of the proof gives immediate feedback on the adjustment."
+    },
+    {
+      "idea": "A handwritten invitation to a family tour survives in the Creative Corner; its little printed symbols mark a quieter path through the workshop.",
+      "source": "/visit-us/family-children/",
+      "why": "A friendly learning activity leaves a useful route for the crew."
+    },
+    {
+      "idea": "An old Garrison Chapel contains two competing routes to the collection, one through noisy machinery and one around the outside. A guide knows both but needs help clearing a jammed doorway.",
+      "source": "/visit-us/",
+      "why": "The setting offers a meaningful choice between speed and stealth."
+    }
+  ]
+}
