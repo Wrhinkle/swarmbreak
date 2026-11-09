@@ -287,6 +287,26 @@ assert failure in host_log.getvalue()
 checks_after_failed_probe.assert_not_called()
 print('ok isolation probe failure recorded')
 
+# A newly opened PR waiting for Qodo is left for the foreman, not retried as a failure.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), \
+     patch('manager.sync'), patch('manager.record') as log, patch('manager.release_step', return_value=''), \
+     patch('manager.state', return_value={'issues': [{'number': 14, 'author': {'login': manager.OWNER}}]}), \
+     patch('manager.open_prs', return_value=[]), patch('manager.os.execv') as execv:
+    def decide_build(role, work, prompt, **kwargs):
+        Path(work, 'decisions.json').write_text(json.dumps({'actions': [{'type': 'build_fix', 'issue': 14}]}))
+    builder_result = SimpleNamespace(returncode=0, stdout='10\n', stderr='')
+    with patch.object(sys, 'argv', ['manager.py']), patch.dict(os.environ), \
+         patch('manager.bot', side_effect=decide_build), \
+         patch('manager.subprocess.run', side_effect=[builder_result, SimpleNamespace(returncode=manager.WAITING)]):
+        os.environ.pop('SWARMBREAK_LOCK_FD', None)
+        manager.main()
+    result = log.call_args.args[0]['result']
+    assert 'PR 10' in result and 'waiting on Qodo' in result and 'foreman' in result
+    assert not FAILED.search(result)
+    execv.assert_not_called()
+    with patch('manager.subprocess.run', side_effect=[builder_result, SimpleNamespace(returncode=1)]):
+        assert FAILED.search(act({'type': 'build_fix', 'issue': 14}, {'issues': [{'number': 14, 'author': {'login': manager.OWNER}}]}, False))
+
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
 with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
     previous = ['release -> Missing run: live run x closed']

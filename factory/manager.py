@@ -470,6 +470,8 @@ def act(a, s, dry):
         if r.returncode or dry or not last.isdigit():
             return f'Builder on issue {issue["number"]} exited {r.returncode}: {(r.stdout + r.stderr)[-500:]}'
         team = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', last, '--merge'], cwd=ROOT)
+        if team.returncode == WAITING:
+            return f'Builder opened PR {last}. It is waiting on Qodo; the foreman rechecks it.'
         return f'Builder opened PR {last}. PR team exited {team.returncode}.'
     if kind == 'deploy':
         return deploy(dry)
