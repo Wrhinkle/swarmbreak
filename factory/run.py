@@ -28,9 +28,10 @@ def agent(name, output, inputs, check, search=False):
     problems = ''
     for attempt in range(RETRIES + 1):
         with tempfile.TemporaryDirectory() as work:
-            for dest, src in inputs.items():
+            given = {dest: src for dest, src in inputs.items() if Path(src).exists()}  # some inputs only exist after a failed attempt
+            for dest, src in given.items():
                 shutil.copy(src, Path(work) / dest)
-            prompt = (AGENTS / f'{name}.md').read_text() + f'\n\nInput files in this folder: {", ".join(inputs) or "none"}. Write {Path(output).name} here and nothing else.'
+            prompt = (AGENTS / f'{name}.md').read_text() + f'\n\nInput files in this folder: {", ".join(given) or "none"}. Write {Path(output).name} here and nothing else.'
             if problems:
                 prompt += f'\n\nThe last attempt failed these checks. Fix each one:\n{problems}'
             cmd = ['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{EFFORT[name]}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', work]
@@ -143,6 +144,8 @@ def main():
         if want('gameplay'):
             report = d / 'balance.json'
             report.unlink(missing_ok=True)
+            # The last plan that failed balance and its report. Without them each retry was a fresh guess.
+            tried, tried_report = d / 'assembly-tried.json', d / 'balance-tried.json'
 
             def check_plan():
                 bad = result(tool('tools/checks.ts', 'assembly', rel(assembly), rel(content)))
@@ -153,11 +156,14 @@ def main():
                     return out
                 ok, out = tool('tools/balance.ts', f'public/runs/{run_id}/run.json', '--tune', '--report', rel(report))
                 print(out, flush=True)
+                if not ok and report.exists():
+                    shutil.copy(assembly, tried)
+                    shutil.copy(report, tried_report)
                 return '' if ok else out
 
-            def inputs():
-                return {'content.json': content, 'library.json': library}
-            agent('gameplay', assembly, inputs(), check_plan)
+            agent('gameplay', assembly, {'content.json': content, 'library.json': library, 'last-assembly.json': tried, 'balance.json': tried_report}, check_plan)
+            tried.unlink(missing_ok=True)
+            tried_report.unlink(missing_ok=True)
 
         if want('art'):
             agent('art', brief, {'content.json': content}, lambda: '' if len(json.loads(brief.read_text()).get('acts', [])) == ACTS else f'Write {ACTS} acts.')
