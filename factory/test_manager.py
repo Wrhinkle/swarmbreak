@@ -915,3 +915,13 @@ with tempfile.TemporaryDirectory() as d:
         builder.checkpoint('42', tree, 'fix/issue-42', {'2026-11-06'}, {}, ['offline'], preserve_runs=True)
     assert not any('checkout' in c for c in commands)
 print('ok publication outage and stale schedule')
+
+# Any non-live run.json under public/runs is generated, including nested ones (gate on #89).
+with tempfile.TemporaryDirectory() as d:
+    def g(*a): subprocess.run(['git', *a], cwd=d, check=True, capture_output=True)
+    g('init', '-q', '-b', 'main'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't')
+    g('commit', '-q', '--allow-empty', '-m', 'base'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    Path(d, 'public/runs/x/sub').mkdir(parents=True); Path(d, 'public/runs/x/sub/run.json').write_text('{}')
+    g('add', '-A'); g('commit', '-qm', 'nested')
+    assert any('run.json' in p for p in builder.problems_in(Path(d), {'live'})[0])
+print('ok nested run.json rejected')

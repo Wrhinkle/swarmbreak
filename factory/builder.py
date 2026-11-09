@@ -184,7 +184,7 @@ def problems_in(tree, live, published_reserves=frozenset()):
         if not only_wording(json.loads(before), json.loads((tree / live_file).read_text())):
             bad.append(f'{live_file} is live, so only wording can change')
     for path in changed:
-        if re.match(r'public/runs/[^/]+/run\.json$', path) and path.split('/')[2] not in live:
+        if path.startswith('public/runs/') and path.endswith('run.json') and not any(path.startswith(f'public/runs/{run_id}/') for run_id in live):
             bad.append(f"Edit runs/<id>/content.json rather than {path}; the host rebuilds it")
     if bad:
         return bad, changed
