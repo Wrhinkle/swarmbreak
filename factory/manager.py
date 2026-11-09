@@ -439,6 +439,13 @@ def act(a, s, dry):
         r = subprocess.run([sys.executable, ROOT / 'factory/run.py', a['date'], '--from', a.get('from', 'researcher')], cwd=ROOT)
         keep_run(a['date'], f'Checkpoint run {a["date"]}, factory exit {r.returncode}')
         return f'Factory on {a["date"]} exited {r.returncode}.'
+    if kind in ('open_run', 'open_and_merge') and not dry:
+        path = LOG.parent / '.handoff-failure.json'
+        if path.exists():
+            previous = json.loads(path.read_text())
+            run_id = str(a.get('id', ''))
+            if previous.get('id') == run_id and re.fullmatch(r'\d{4}-\d{2}-\d{2}', run_id) and previous.get('fingerprint') == handoff_fingerprint(run_id):
+                return f'Not opening {run_id}: unchanged handoff failure: {previous.get("result", "")}'
     if kind == 'open_run':
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(a.get('id'))):
             return f'Bad run id: {a}'
@@ -455,6 +462,8 @@ def act(a, s, dry):
         if len(matches) != 1:
             return f'Failed to find exactly one open PR for run/{run_id} against main after opening: found {len(matches)}. {opened}'
         merged = act({'type': 'merge_pr', 'pr': matches[0]['number']}, {'prs': prs}, False)
+        if not merged.startswith(f'PR team on {matches[0]["number"]} exited 0.'):
+            return f'Handoff failed: {opened} {merged}'
         return f'{opened} {merged}'
     if kind == 'delegate':
         agent, task = str(a.get('agent', '')), str(a.get('task', '')).strip()
@@ -508,6 +517,7 @@ def main():
         failures = []
         lock.seek(0)
         previous = [lock.read().strip()]
+        handoff_step(failures, dry)
         blocker = release_step(failures, dry, previous)
         if not dry:
             lock.seek(0)
@@ -570,6 +580,66 @@ def main():
         lock.write(blocker)
         lock.flush()
     follow_up(failures, round_, note, dry, blocker)
+
+
+def handoff_fingerprint(run_id):
+    """Changes to main or the built branch permit another attempt."""
+    return ':'.join(sh('git', 'rev-parse', ref).stdout.strip() for ref in ('origin/main', f'run/{run_id}'))
+
+
+def handoff_candidate(now=None):
+    """Find the next built branch in the 18 hours before opening, or after a missed opening."""
+    now = now or datetime.now(timezone.utc)
+    sh('git', 'fetch', 'origin')
+    main = json.loads(sh('git', 'show', 'origin/main:public/manifest.json').stdout)
+    live = live_manifest()
+    opens = datetime.fromisoformat(live['nextOpensAt'].replace('Z', '+00:00'))
+    if opens - now > timedelta(hours=18) or opens.hour != 13 or opens.minute or opens.second or opens.utcoffset() != timedelta(0):
+        return None
+    run_id = opens.date().isoformat()
+    main_opens = datetime.fromisoformat(main['opensAt'].replace('Z', '+00:00'))
+    if main_opens >= opens:
+        return None
+    branch = f'run/{run_id}'
+    if sh('git', 'rev-parse', '--verify', '-q', branch, check=False).returncode:
+        return None
+    if sh('git', 'cat-file', '-e', f'{branch}:public/runs/{run_id}/run.json', check=False).returncode:
+        return None
+    return run_id, handoff_fingerprint(run_id)
+
+
+def handoff_step(failures, dry=False, previous=None):
+    """Run the normal opening and PR checks once per unchanged branch and main."""
+    path = LOG.parent / '.handoff-failure.json'
+    try:
+        candidate = handoff_candidate()
+        if not candidate:
+            return ''
+        run_id, fingerprint = candidate
+        if previous is None:
+            previous = json.loads(path.read_text()) if path.exists() else {}
+        if isinstance(previous, dict) and previous.get('id') == run_id and previous.get('fingerprint') == fingerprint:
+            print(f'Handoff blocked: unchanged failure for {run_id}: {previous.get("result", "")}', flush=True)
+            return ''
+        action = {'type': 'open_and_merge', 'id': run_id}
+        result = act(action, {}, dry)
+        print(f'handoff: {result}', flush=True)
+        record({'kind': 'action', 'action': action, 'result': result[-1000:], 'dry': dry})
+        if FAILED.search(result):
+            failure = f'handoff {run_id} -> {result[-700:]}'
+            failures.append(failure)
+            if not dry:
+                path.write_text(json.dumps({'id': run_id, 'fingerprint': handoff_fingerprint(run_id), 'result': result[-700:]}))
+            return failure
+        if not dry and path.exists():
+            path.unlink()
+        return ''
+    except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:
+        failure = f'Handoff check failed: {e}'
+        print(failure, flush=True)
+        record({'kind': 'action', 'action': {'type': 'handoff'}, 'result': failure[-1000:], 'dry': dry})
+        failures.append(failure)
+        return failure
 
 
 def missing_run_blocker(result, previous):

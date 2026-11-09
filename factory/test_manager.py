@@ -306,7 +306,7 @@ with patch('manager.release', return_value='Missing run: live run x closed') as 
     assert failures == ['release -> Missing run: live run y closed']
 
 # Scheduled invocations retain a blocker through follow-ups and clear or replace it as conditions change.
-with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.handoff_step'), patch('manager.follow_up') as follow, patch('manager.release') as release:
     def scheduled(result):
         release.return_value = result
         with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
