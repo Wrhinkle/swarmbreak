@@ -51,7 +51,7 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
       const foes = state.fighters.filter(f => f.side !== actor.side && f.hp > 0);
       const finishers = actor.routines.flatMap(id => {
         const action = ROUTINES[id]?.action;
-        const multiplier = action === 'heavy' ? 1.8 : action === 'overflow' ? 1.5 : action === 'strike' ? 1 : 0;
+        const multiplier = action === 'charge' && actor.charging ? 3 : action === 'heavy' ? 1.8 : action === 'overflow' ? 1.5 : action === 'strike' ? 1 : 0;
         if (!multiplier) return [];
         return rankAttackTargets(atbTargets(state, actorId, id), id)
           .filter(foe => Math.round(actor.power * multiplier) >= foe.hp + (action === 'overflow' ? 0 : foe.shield))

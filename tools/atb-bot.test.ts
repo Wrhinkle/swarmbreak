@@ -51,6 +51,15 @@ describe('ATB bot decisions', () => {
     const end = playCombat(state, EXPERT);
     expect(end.atb!.choices[0].routineId).toBe('finish');
   });
+  it('finishes a prepared charge instead of canceling it with a weaker attack', () => {
+    const ally = { ...run.crew[0], routines: ['strike', 'charge'] };
+    const state = createCombat([{ creature: ally }], [enemy], run.seed);
+    state.fighters[0].charging = true;
+    state.fighters[0].nextAction = 1;
+    state.fighters[1].nextAction = 100;
+    state.fighters[1].hp = Math.round(state.fighters[0].power * 2);
+    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'charge', targetId: 'e0' });
+  });
   it('uses Sweep against three healthy enemies instead of Strike', () => {
     const ally = { ...run.crew[0], routines: ['strike', 'sweep'] };
     const state = createCombat([{ creature: ally }], [enemy, enemy, enemy], run.seed);
