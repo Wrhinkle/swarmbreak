@@ -7,9 +7,14 @@ from unittest.mock import patch
 
 import manager
 
+real_run_already_merged = manager.run_already_merged
+
 
 class MarkerTestCase(unittest.TestCase):
     def setUp(self):
+        merged_patch = patch.object(manager, 'run_already_merged', return_value=False)
+        merged_patch.start()
+        self.addCleanup(merged_patch.stop)
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.marker = Path(self.tmp.name) / 'marker.json'
@@ -22,6 +27,27 @@ class MarkerTestCase(unittest.TestCase):
 
 
 class ReleaseHandoffTest(MarkerTestCase):
+    def test_merged_retry_and_changed_branch(self):
+        run_id = '2026-11-07'
+        head, commit = 'a' * 40, 'b' * 40
+        pr = {'headRefName': f'run/{run_id}', 'baseRefName': 'main',
+              'headRefOid': head, 'mergeCommit': {'oid': commit}}
+        current_head = [head]
+        def git(*args, **kwargs):
+            if args[1] == 'rev-parse':
+                return SimpleNamespace(returncode=0, stdout=current_head[0])
+            if args[1] == 'show':
+                return SimpleNamespace(returncode=0, stdout=json.dumps({'runId': run_id}))
+            return SimpleNamespace(returncode=0, stdout='')
+        with patch('manager.sh', side_effect=git), patch('manager.gh', return_value=[pr]), \
+             patch('manager.run_already_merged', side_effect=real_run_already_merged), \
+             patch('manager.open_run', return_value='Not opening: test') as opening:
+            self.assertIn('already merged', manager.act({'type': 'open_and_merge', 'id': run_id}, {}, False))
+            opening.assert_not_called()
+            current_head[0] = 'c' * 40
+            self.assertIn('Not opening', manager.act({'type': 'open_and_merge', 'id': run_id}, {}, False))
+            opening.assert_called_once()
+
     def test_open_then_merge_actual_pr(self):
         pr = {'number': 42, 'headRefName': 'run/2026-11-07', 'baseRefName': 'main'}
         calls = []
@@ -91,6 +117,23 @@ class ScheduledHandoffTest(MarkerTestCase):
             with patch('manager.handoff_candidate', return_value=('2026-11-07', 'b')):
                 manager.handoff_step([])
             self.assertEqual(action.call_count, 2)
+
+    def test_long_timeout_output_retains_full_head(self):
+        head = 'abcdef0' + '1' * 33
+        pr = {'number': 42, 'headRefName': 'run/2026-11-07', 'baseRefName': 'main', 'headRefOid': head, 'url': 'pr-url'}
+        result = ('Handoff failed: ' + 'opening ' * 100 + ' PR team on 42 exited 1. Last output: '
+                  + 'x' * 700 + " Qodo hasn't reviewed abcdef0 after 25 minutes. Not merging.")
+        with patch('manager.handoff_candidate', return_value=('2026-11-07', 'a')), \
+             patch('manager.handoff_fingerprint', return_value='a'), patch('manager.open_prs', return_value=[pr]), \
+             patch('manager.findings', return_value={'review_session': {'commit_sha': head, 'review_complete': True}}), \
+             patch('manager.act', return_value=result), patch('manager.record'):
+            manager.handoff_step([])
+            marker = json.loads(self.marker.read_text())
+            self.assertNotIn('PR team on 42 exited', marker['result'])
+            self.assertEqual(marker['timeout'], {'pr': 42, 'head': head})
+            self.assertEqual(manager.handoff_blocked('2026-11-07', 'a', marker), '')
+            pr['headRefOid'] = 'abcdef0' + '2' * 33
+            self.assertIn('unchanged handoff failure', manager.handoff_blocked('2026-11-07', 'a', marker))
 
     def test_review_timeout_only_retries_for_completed_exact_head(self):
         result = "Handoff failed: PR team on 42 exited 1. Last output: Qodo hasn't reviewed abcdef0 after 25 minutes. Not merging."

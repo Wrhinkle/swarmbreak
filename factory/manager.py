@@ -411,6 +411,34 @@ def gate_rejected(number, sha):
     return any((c['author'] or {}).get('login') == OWNER and c['body'].startswith(f'Gate reviewer rejected {sha[:7]}') for c in comments)
 
 
+def run_already_merged(run_id):
+    """Require the current branch head and the actual merge on freshly fetched main."""
+    try:
+        if sh('git', 'fetch', '-q', 'origin', check=False).returncode:
+            return False
+        branch = f'run/{run_id}'
+        head = sh('git', 'rev-parse', '--verify', branch, check=False)
+        if head.returncode:
+            return False
+        prs = gh('pr', 'list', '--repo', REPO, '--state', 'merged', '--head', branch,
+                 '--base', 'main', '--limit', '100', '--json', 'headRefName,baseRefName,headRefOid,mergeCommit')
+        for pr in prs:
+            commit = (pr.get('mergeCommit') or {}).get('oid', '')
+            if (pr.get('headRefName') != branch or pr.get('baseRefName') != 'main'
+                    or pr.get('headRefOid') != head.stdout.strip()
+                    or not re.fullmatch(r'[0-9a-f]{40}', commit)):
+                continue
+            if sh('git', 'merge-base', '--is-ancestor', commit, 'origin/main', check=False).returncode:
+                continue
+            manifest = sh('git', 'show', f'{commit}:public/manifest.json', check=False)
+            run = sh('git', 'cat-file', '-e', f'{commit}:public/runs/{run_id}/run.json', check=False)
+            if not manifest.returncode and not run.returncode and json.loads(manifest.stdout).get('runId') == run_id:
+                return True
+    except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError):
+        pass
+    return False
+
+
 def act(a, s, dry):
     kind = a.get('type')
     if kind == 'merge_pr':
@@ -462,6 +490,8 @@ def act(a, s, dry):
         run_id = str(a.get('id', ''))
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', run_id):
             return f'Bad run id: {a}'
+        if not dry and run_already_merged(run_id):
+            return f'{run_id} is already merged into main.'
         opened = open_run(run_id, dry)
         if dry or FAILED.search(opened):
             return opened
@@ -664,13 +694,16 @@ def handoff_blocked(run_id, fingerprint, previous=None):
         return f'damaged handoff marker at {handoff_marker_path()}; inspect and repair it, or remove it and any legacy marker at {legacy} before retrying'
     if not previous or previous.get('id') != run_id or previous.get('fingerprint') != fingerprint:
         return ''
-    # Only a completed review of the exact PR head can unblock a timeout.
-    match = re.search(r"PR team on (\d+) exited [1-9]\d*\..*Qodo hasn't reviewed ([0-9a-f]{7}) after \d+ minutes\. Not merging\.", previous['result'], re.S)
-    if match:
+    # Legacy markers contain only a diagnostic tail; new markers retain the full head.
+    timeout = previous.get('timeout')
+    if timeout is None:
+        match = re.search(r"PR team on (\d+) exited [1-9]\d*\..*Qodo hasn't reviewed ([0-9a-f]{7}) after \d+ minutes\. Not merging\.", previous['result'], re.S)
+        timeout = {'pr': int(match[1]), 'head': match[2]} if match else None
+    if isinstance(timeout, dict) and isinstance(timeout.get('pr'), int) and isinstance(timeout.get('head'), str) and re.fullmatch(r'(?:[0-9a-f]{7}|[0-9a-f]{40})', timeout['head']):
         try:
-            prs = [p for p in open_prs() if p['number'] == int(match[1])
+            prs = [p for p in open_prs() if p['number'] == timeout['pr']
                    and p['headRefName'] == f'run/{run_id}' and p['baseRefName'] == 'main']
-            if len(prs) == 1 and prs[0]['headRefOid'].startswith(match[2]):
+            if len(prs) == 1 and (prs[0]['headRefOid'] == timeout['head'] if len(timeout['head']) == 40 else prs[0]['headRefOid'].startswith(timeout['head'])):
                 session = findings(prs[0]['url']).get('review_session') or {}
                 if session.get('commit_sha') == prs[0]['headRefOid'] and session.get('review_complete'):
                     return ''
@@ -701,7 +734,18 @@ def handoff_step(failures, dry=False, previous=None):
             failure = f'handoff {run_id} -> {result[-700:]}'
             failures.append(failure)
             if not dry:
-                write_handoff_marker(handoff_marker_path(), json.dumps({'id': run_id, 'fingerprint': handoff_fingerprint(run_id), 'result': result[-700:]}))
+                marker = {'id': run_id, 'fingerprint': handoff_fingerprint(run_id), 'result': result[-700:]}
+                match = re.search(r"PR team on (\d+) exited [1-9]\d*\..*Qodo hasn't reviewed ([0-9a-f]{7}) after \d+ minutes\. Not merging\.", result, re.S)
+                if match:
+                    try:
+                        prs = [p for p in open_prs() if p['number'] == int(match[1])
+                               and p['headRefName'] == f'run/{run_id}' and p['baseRefName'] == 'main'
+                               and re.fullmatch(r'[0-9a-f]{40}', p['headRefOid']) and p['headRefOid'].startswith(match[2])]
+                        if len(prs) == 1:
+                            marker['timeout'] = {'pr': int(match[1]), 'head': prs[0]['headRefOid']}
+                    except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError):
+                        pass
+                write_handoff_marker(handoff_marker_path(), json.dumps(marker))
             return failure
         if not dry:
             handoff_marker_path().unlink(missing_ok=True)
