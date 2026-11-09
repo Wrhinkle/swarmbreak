@@ -281,6 +281,36 @@ with patch('builder.published_runs', side_effect=[({'2026-11-05'}, set()),
 print('ok release')
 
 import manager, json
+# Deploy an already-open reserve from a simulated worktree, without invoking git or Firebase.
+for selected_exists, served_manifest, expected in [
+    (False, r, 'Not deploying:'),
+    (True, r, 'Deployed. Live run is 2026-11-06.'),
+    (True, m5, 'Deploy failed verification:'),
+]:
+    commands = []
+    def deploy_sh(*args, **kwargs):
+        commands.append(args)
+        if args[:3] == ('git', 'worktree', 'add'):
+            tree = Path(args[4])
+            (tree / 'public/runs/2026-11-05').mkdir(parents=True)
+            (tree / 'public/manifest.json').write_text(json.dumps(r))
+            (tree / 'public/runs/2026-11-05/run.json').write_text('{}')
+            if selected_exists:
+                (tree / 'public/runs/2026-11-06').mkdir(parents=True)
+                (tree / 'public/runs/2026-11-06/run.json').write_text('{}')
+        return SimpleNamespace(returncode=0, stdout='', stderr='')
+    with patch('manager.sh', side_effect=deploy_sh), \
+         patch('manager.live_manifest', side_effect=[m5] + [served_manifest] * 6), \
+         patch('manager.datetime') as deploy_clock, patch('manager.time.sleep'):
+        deploy_clock.now.return_value = after
+        deploy_clock.fromisoformat.side_effect = datetime.fromisoformat
+        result = manager.deploy(False, 'checked-revision')
+    assert result.startswith(expected), result
+    if not selected_exists:
+        assert 'selected run 2026-11-06' in result
+        assert not any(cmd[0] in ('npm', 'firebase') for cmd in commands)
+    else:
+        assert any(cmd[0] == 'firebase' for cmd in commands)
 with patch('manager.open_prs', return_value=[]), patch('manager.gh', return_value=[]), \
      patch('manager.graphql', return_value={'repository': {'discussions': {'nodes': []}}}), \
      patch('manager.live_manifest', return_value=r), patch('manager.sh') as state_sh, \

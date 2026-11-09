@@ -399,10 +399,12 @@ def deploy(dry, rev=None):
         sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
         try:
             now = datetime.now(timezone.utc)
-            manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
-            manifest = effective(manifest, now)
+            raw_manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
+            manifest = effective(raw_manifest, now)
             has = lambda m: (tree / 'public' / m['runUrl'].lstrip('/')).exists()
             problems = deploy_problems(manifest, live, has(live), now, not manifest.get('next') or has(manifest['next']))
+            if not has(manifest):
+                problems.append(f'main does not have the selected run {manifest["runId"]}')
             if problems:
                 return f'Not deploying: {problems}'
             for cmd in (['npm', 'ci'], ['npm', 'run', 'build'], ['npm', 'test']):
@@ -416,11 +418,11 @@ def deploy(dry, rev=None):
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
             for _ in range(6):  # the CDN can serve the old manifest for a few seconds
                 served = live_manifest()
-                if served == manifest:
+                if served == raw_manifest:
                     break
                 time.sleep(10)
             reserve = f' Reserve run {manifest["next"]["runId"]} opens itself at {manifest["next"]["opensAt"]}.' if manifest.get('next') else ''
-            return f'Deployed. Live run is {manifest["runId"]}.{reserve}' if served == manifest else f'Deploy failed verification: live manifest reads {served}, expected {manifest}.'
+            return f'Deployed. Live run is {manifest["runId"]}.{reserve}' if served == raw_manifest else f'Deploy failed verification: live manifest reads {served}, expected {raw_manifest}.'
         finally:
             sh('git', 'worktree', 'remove', '--force', tree, check=False)
 
