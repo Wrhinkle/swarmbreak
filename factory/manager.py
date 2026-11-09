@@ -69,12 +69,13 @@ def unfilled_links(body, challenge):
 
 def dead_links(body):
     dead = []
-    # A Markdown link goes to its target exactly as written, so that is what gets checked.
-    target = r'\]\(<?(https?://[^\s)>]+)>?\)'
-    urls = set(re.findall(target, body))
-    body = re.sub(target, '] ', body)
-    # In a bare URL, a sentence's closing punctuation isn't part of the link.
+    # Only a bare URL loses a sentence's closing punctuation. A link target written out in Markdown or HTML
+    # (after `](`, `]:`, `<` or `=`) goes exactly where it says, so it is checked as written.
+    urls = set()
     for match in re.finditer(r'https?://[^\s)\]>"]+', body):
+        if re.search(r'(\]\(<?|\]:\s*<?|<|=["\']?)$', body[:match.start()]):
+            urls.add(match.group())
+            continue
         url = match.group().rstrip('.,;:!?\'')
         before = body[:match.start()]
         for opening, closing in (('**', '**'), ('__', '__'), ('*', '*'), ('_', '_'), ('“', '”'), ('‘', '’')):
