@@ -233,10 +233,14 @@ def open_run(run_id, dry):
     problems = run_problems(run_id)
     if problems:
         return f'Not opening {run_id}: {problems}'
+    manifest = ROOT / 'public' / 'manifest.json'
+    try:
+        updated = opened(json.loads(manifest.read_text()), run_id, datetime.now(timezone.utc))
+    except ValueError as e:
+        return f'Not opening {run_id}: {e}'
     if dry:
         return f'{run_id} could open.'
-    manifest = ROOT / 'public' / 'manifest.json'
-    manifest.write_text(json.dumps(opened(json.loads(manifest.read_text()), run_id, datetime.now(timezone.utc)), indent=2) + '\n')
+    manifest.write_text(json.dumps(updated, indent=2) + '\n')
     branch = sh('git', 'branch', '--show-current').stdout.strip()
     if branch in ('', 'main'):
         return f'Not opening {run_id}: the checkout is on {branch or "no branch"}, and main only changes through a reviewed PR.'
@@ -310,6 +314,11 @@ def opened(current, run_id, now):
     """The manifest after opening run_id. A run built before it opens rides along as `next`, so it goes live on time even if this host is down."""
     base, opens = effective(current, now), datetime.fromisoformat(f'{run_id}T13:00:00+00:00')
     entry = {'runId': run_id, 'opensAt': opens.strftime(FMT), 'runUrl': f'/runs/{run_id}/run.json'}
+    pending = base.get('next')
+    if pending:
+        if run_id in (base['runId'], pending['runId']):
+            return base
+        raise ValueError(f"reserve {pending['runId']} is already scheduled to open at {pending['opensAt']}")
     if now < opens and base['runId'] != run_id and at(base, 'opensAt') < opens:
         return base | {'next': entry}
     return {**entry, 'nextOpensAt': (opens + timedelta(days=1)).strftime(FMT), 'voided': current.get('voided', [])}
@@ -417,7 +426,8 @@ def state():
         runs[b.parent.name] = {'problems': report.get('problems'), 'rates': [{'policy': r.get('policy'), 'winRate': r.get('winRate')} for r in report.get('rates', [])]}
     recent = LOG.read_text().splitlines()[-20:] if LOG.exists() else []
     strangers = any(i['author']['login'] != OWNER for i in issues) or any(t['replies_waiting'] for t in threads)  # ponytail: a stranger's issue pauses delegation; a screening agent can lift this
-    return {'strangers': strangers, 'now': datetime.now(timezone.utc).isoformat(timespec='minutes'), 'live': live_manifest(), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'run_branches': sh('git', 'branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split(), 'recent_decisions': [json.loads(l) for l in recent]}
+    now = datetime.now(timezone.utc)
+    return {'strangers': strangers, 'now': now.isoformat(timespec='minutes'), 'live': effective(live_manifest(), now), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'run_branches': sh('git', 'branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split(), 'recent_decisions': [json.loads(l) for l in recent]}
 
 
 def gate_rejected(number, sha):

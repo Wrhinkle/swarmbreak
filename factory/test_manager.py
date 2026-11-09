@@ -216,10 +216,43 @@ assert release_due(r, r, after) is None  # host was down all day: the reserve op
 assert effective(r, after) == {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'nextOpensAt': '2026-11-07T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json', 'voided': []}
 assert release_due(r, r, datetime(2026, 11, 7, 13, tzinfo=timezone.utc)) == 'expired'  # nothing built behind the reserve
 assert opened(r, '2026-11-07', after)['next']['runId'] == '2026-11-07' and opened(r, '2026-11-07', after)['runId'] == '2026-11-06'
+assert opened(r, '2026-11-06', n) == r and opened(r, '2026-11-05', n) == r
+try:
+    opened(r, '2026-11-07', n)
+    assert False, 'a pending reserve must not be replaced'
+except ValueError as e:
+    assert '2026-11-06' in str(e)
 assert 'next' not in opened(m5, '2026-11-05', n)  # opening a run that is already due replaces the manifest as before
+from builder import blocked_paths
+for moment, active in [(n, '2026-11-05'), (after, '2026-11-06')]:
+    live_id = effective(r, moment)['runId']
+    assert live_id == active
+    assert blocked_paths([f'runs/{active}/content.json'], live_id)
+    assert not blocked_paths([f'runs/{"2026-11-06" if active == "2026-11-05" else "2026-11-05"}/content.json'], live_id)
+    import builder, tempfile
+    from types import SimpleNamespace
+    with tempfile.TemporaryDirectory() as tmp:
+        tree = Path(tmp)
+        path = f'public/runs/{active}/run.json'
+        (tree / path).parent.mkdir(parents=True)
+        (tree / path).write_text('{"seed": 2}')
+        with patch.object(builder, 'changed_from_main', return_value=[path]), \
+             patch.object(builder, 'conflicted', return_value=[]), \
+             patch.object(builder, 'sh', return_value=SimpleNamespace(stdout='{"seed": 1}')):
+            assert any('only wording' in p for p in builder.problems_in(tree, live_id)[0])
 print('ok release')
 
 import manager, json
+with patch('manager.open_prs', return_value=[]), patch('manager.gh', return_value=[]), \
+     patch('manager.graphql', return_value={'repository': {'discussions': {'nodes': []}}}), \
+     patch('manager.live_manifest', return_value=r), patch('manager.sh') as state_sh, \
+     patch('manager.datetime') as state_clock:
+    state_sh.return_value.stdout = ''
+    state_clock.fromisoformat.side_effect = datetime.fromisoformat
+    state_clock.now.return_value = after
+    assert manager.state()['live']['runId'] == '2026-11-06'
+    state_clock.now.return_value = n
+    assert manager.state()['live']['next']['runId'] == '2026-11-06'
 calls = []
 manager.sh = lambda *a, **k: type('R', (), {'stdout': 'abc123' if a[1] == 'rev-parse' else json.dumps(m5) if a[1] == 'show' else '', 'returncode': 0})()
 manager.live_manifest = lambda: m4

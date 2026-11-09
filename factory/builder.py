@@ -5,11 +5,13 @@ Usage: python3 factory/builder.py <issue> [--dry-run]
 Prints the PR number on the last line when it opens one. Only issues filed by the repo owner qualify for now.
 """
 import json, re, subprocess, sys, urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import HostVerificationError, PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
+from manager import effective  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
 LOCKED = (*PROTECTED, '.gitignore', 'vite.config')
@@ -176,7 +178,7 @@ def main():
     if sh('gh', 'pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number', '--jq', 'length').stdout.strip() != '0':
         sys.exit(f'{branch} already has an open PR.')
     with urllib.request.urlopen(f'{SITE}/manifest.json', timeout=20) as r:
-        live = json.load(r)['runId']
+        live = effective(json.load(r), datetime.now(timezone.utc))['runId']
     _lock = hold(f'issue-{number}')  # noqa: F841 - held until exit, so a manager pass and the foreman can't build it at once
     tree = ROOT.parent / f'swarmbreak-issue-{number}{"-dry" if dry else ""}'
     sh('git', 'fetch', '-q', 'origin')
