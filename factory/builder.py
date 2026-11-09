@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import HostVerificationError, PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
+from pr_team import QODO, HostVerificationError, PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
 LOCKED = (*PROTECTED, '.gitignore', 'vite.config')
@@ -19,6 +19,7 @@ MARKERS = '^(<<<<<<<|>>>>>>>) '
 RETRIES = 2
 CRITERIA_MAX = 30000
 PR_BODY_MAX = 65536
+INVESTIGATION_TIMEOUT = 60
 TEXT_KEYS = {'name', 'blurb', 'title', 'theme', 'intro', 'outro', 'bossIntro', 'text', 'label', 'result'}
 
 
@@ -55,9 +56,31 @@ def criteria(body, max_length=PR_BODY_MAX):
     return quote(low)
 
 
-def pr_body(number, issue_body, summary, evidence):
+def investigate(issue):
+    """Asks Qodo's codebase tools about the issue before any code is written. Answers are data, kept short."""
+    body = issue['body'] or ''
+    asks = [('similar merged PRs', ['pull-request', 'similar', '--query', f'{issue["title"]}. {body[:400]}', '--similarity-top-k', '5'])]
+    paths = list(dict.fromkeys(re.findall(r'`?((?:src|factory|scripts|tests)/[\w./-]+?\.\w+)', body)))[:3]
+    asks += [(f'review history of {p}', ['pull-request', 'review-history', '--file-path', p, '--limit', '10']) for p in paths]
+    found = []
+    for what, args in asks:
+        try:
+            r = sh(QODO, 'read', *args, '--repo', REPO, '--json', check=False, timeout=INVESTIGATION_TIMEOUT)
+            out, ok = (r.stdout + r.stderr).strip(), r.returncode == 0 and '"error"' not in r.stdout[:40]
+        except (OSError, subprocess.TimeoutExpired) as e:
+            out, ok = str(e), False
+        found.append({'asked': what, 'ok': ok, 'answer': out[:6000]})
+    return found
+
+
+def investigated_section(found, cited):
+    lines = [f'- {f["asked"]}: ' + ('answered' if f['ok'] else 'unavailable') for f in found]
+    return '\n\n## Investigated before building\n' + '\n'.join(lines) + (f'\n\nUsed: {str(cited)[:3000]}' if cited else '')
+
+
+def pr_body(number, issue_body, summary, evidence, investigated=''):
     prefix = f'Fixes #{number}: https://github.com/{REPO}/issues/{number}\n\n## Acceptance criteria (from the issue)\n'
-    suffix = f'\n\n## Change\n{str(summary)[:15000]}\n\nEvidence: {str(evidence)[:15000]}\n\nWritten by the factory builder on GPT-6.1 Terra.'
+    suffix = f'{investigated[:4000]}\n\n## Change\n{str(summary)[:15000]}\n\nEvidence: {str(evidence)[:15000]}\n\nWritten by the factory builder on GPT-6.1 Terra.'
     body = prefix + criteria(issue_body, PR_BODY_MAX - len(prefix) - len(suffix)) + suffix
     if len(body) > PR_BODY_MAX:
         raise ValueError('PR body exceeds GitHub\'s character limit')
@@ -203,7 +226,17 @@ def main():
     conflicts = sorted(set(conflicts) | set(conflicted(tree)))
     sh('npm', 'ci', '--silent', cwd=tree)
     progress = notes(tree) if saved else []
-    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live, 'progress': progress, 'merge_conflicts': conflicts}, indent=1))
+    common = Path(sh('git', 'rev-parse', '--git-common-dir', cwd=tree).stdout.strip())
+    if not common.is_absolute():
+        common = tree / common
+    metadata = common / f'builder-investigation-{number}{"-dry" if dry else ""}.json'
+    if saved and metadata.exists():
+        investigation = json.loads(metadata.read_text())
+    else:
+        investigation = {'found': [] if progress else investigate(issue), 'references': []}
+    metadata.write_text(json.dumps(investigation))
+    found = investigation['found']
+    (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live, 'progress': progress, 'merge_conflicts': conflicts, 'investigation': found, 'investigation_references': investigation['references']}, indent=1))
 
     extra, result, bad = '', {}, []
     if progress or conflicts:
@@ -218,6 +251,10 @@ def main():
         except (OSError, json.JSONDecodeError) as e:
             bad, changed = [f'{RESULT} unreadable: {e}'], []
         else:
+            cited = result.get('investigated')
+            if cited and cited not in investigation['references']:
+                investigation['references'].append(cited)
+                metadata.write_text(json.dumps(investigation))
             if result.get('outcome') != 'fixed':
                 break
             try:
@@ -244,7 +281,7 @@ def main():
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         sys.exit(f'Builder stopped with outcome {outcome}' + (f'; saved {sha} on {branch} for the next pass.' if sha else '; nothing new to save.')
                  + (f'\n{str(bad)[:1500]}' if bad else ''))
-    body = pr_body(number, issue['body'], result['summary'], result['evidence'])
+    body = pr_body(number, issue['body'], result['summary'], result['evidence'], investigated_section(found, investigation['references']) if found or investigation['references'] else '')
     (tree / RESULT).unlink()
     if dry:
         print(f'Would open a PR for: {result.get("summary")}\nThe attempt is in {tree}.')
