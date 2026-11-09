@@ -86,6 +86,8 @@ def gh(*args):
 def graphql(query, **fields):
     args = ['api', 'graphql', '-f', f'query={query}']
     for k, v in fields.items():
+        if v is None:
+            continue
         args += ['-F' if isinstance(v, int) else '-f', f'{k}={v}']
     return gh(*args)['data']
 
@@ -146,7 +148,7 @@ def posted_today(kind):
     return sum(1 for l in LOG.read_text().splitlines() if (e := json.loads(l)).get('kind') == kind and e['at'].startswith(today))
 
 
-def comms(number, task, dry):
+def comms(number, task, dry, *, require_post=False):
     t = thread(number)
     with tempfile.TemporaryDirectory() as work:
         w = Path(work)
@@ -161,7 +163,7 @@ def comms(number, task, dry):
             except (OSError, json.JSONDecodeError) as e:
                 problems = [f'post.json unreadable: {e}']
             else:
-                problems = check_post(out, t)
+                problems = check_post(out, t, require_post=require_post)
             if not problems:
                 break
             print(f'[comms] attempt {attempt + 1} refused: {problems}', flush=True)
@@ -188,9 +190,11 @@ def comms(number, task, dry):
     return f'Posted: {urls}' if urls else 'Nothing to post.'
 
 
-def check_post(out, t):
+def check_post(out, t, *, require_post=False):
     problems = []
     top, replies = out.get('top_level', ''), out.get('replies', [])
+    if require_post and not top.strip():
+        problems.append('required top-level post is empty')
     if top.strip():
         if t['ours']:
             problems.append('we already have a top-level comment on this thread; each challenge gets one')
@@ -550,7 +554,7 @@ def main():
         record({'kind': 'action', 'action': a, 'result': result if len(result) <= 1000 else f'{result[:300]} ... {result[-700:]}', 'dry': dry})
         if FAILED.search(result) and result != 'Not deploying: unchanged missing-run release blocker remains.':
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
-    failures += post_missing(s.get('threads', []), dry)
+    failures += post_missing(dry)
     if not dry:
         blocker = release_step(failures, previous=previous)
         lock.seek(0)
@@ -565,21 +569,39 @@ def unposted(threads):
     return [t for t in threads if re.match(r'Day \d+\b', t['title']) and not t['we_posted']]
 
 
-def post_missing(threads, dry):
+def post_missing(dry):
     """Posts every unposted challenge the pass's own actions didn't cover. Returns failed results."""
     failures, today = [], datetime.now(timezone.utc).date().isoformat()
-    for t in unposted(threads):
-        if thread(t['number'])['ours']:
-            continue  # this pass's comms action already posted it
-        late = t['createdAt'][:10] < today
-        task = (f'Post our entry for "{t["title"]}". It is required and nothing has been posted for it yet. '
-                + (f'It opened on {t["createdAt"][:10]}, so this post is late: say so in one plain sentence. ' if late else '')
-                + 'Follow the thread\'s template and point to real PRs, issues and commits from facts.md.')
-        result = comms(t['number'], task, dry)
-        print(f'comms (unposted #{t["number"]}): {result}', flush=True)
-        record({'kind': 'action', 'action': {'type': 'comms', 'discussion': t['number'], 'forced': True}, 'result': result[-1000:], 'dry': dry})
-        if FAILED.search(result):
-            failures.append(f'comms #{t["number"]} -> {result[-700:]}')
+    cursor = ''
+    while True:
+        try:
+            page = graphql('''query($o:String!,$r:String!,$cursor:String){repository(owner:$o,name:$r){discussions(first:100,after:$cursor,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt} pageInfo{hasNextPage endCursor}}}}''', o=CONTEST[0], r=CONTEST[1], cursor=cursor or None)['repository']['discussions']
+        except SystemExit as e:
+            result = f'Discussion discovery failed: {e}'
+            record({'kind': 'action', 'action': {'type': 'comms', 'forced': True}, 'result': result[-1000:], 'dry': dry})
+            failures.append(result[-700:])
+            break
+        for t in page['nodes']:
+            if not re.match(r'Day \d+\b', t['title']):
+                continue
+            number = t['number']
+            try:
+                if thread(number)['ours']:
+                    continue  # this pass's comms action already posted it
+                late = t['createdAt'][:10] < today
+                task = (f'Post our entry for discussion #{number}. It is required and nothing has been posted for it yet. '
+                        + (f'It opened on {t["createdAt"][:10]}, so this post is late: say so in one plain sentence. ' if late else '')
+                        + 'Follow the thread\'s template and point to real PRs, issues and commits from facts.md.')
+                result = comms(number, task, dry, require_post=True)
+            except SystemExit as e:
+                result = f'Action failed: {e}'
+            print(f'comms (unposted #{number}): {result}', flush=True)
+            record({'kind': 'action', 'action': {'type': 'comms', 'discussion': number, 'forced': True}, 'result': result[-1000:], 'dry': dry})
+            if FAILED.search(result):
+                failures.append(f'comms #{number} -> {result[-700:]}')
+        if not page['pageInfo']['hasNextPage']:
+            break
+        cursor = page['pageInfo']['endCursor']
     return failures
 
 
