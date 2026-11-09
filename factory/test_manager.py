@@ -629,8 +629,12 @@ def fake_qodo(*a, check=True, **k):
 with patch.object(builder, 'sh', side_effect=fake_qodo):
     found = builder.investigate({'title': 'ATB', 'body': 'The bug is in `src/combat.ts:104` and src/main.ts.'})
 assert [f['ok'] for f in found] == [True, False, False] and any('src/combat.ts' in c for c in calls[1])
-section = builder.investigated_section(found, 'Reused PR #55 card layout')
-assert 'answered' in section and 'unavailable' in section and 'PR #55' in section
+section = builder.investigated_section(found, [{'answer_index': 0, 'item': '"number": 55'}])
+assert 'answered' in section and 'unavailable' in section and '"number": 55' in section
+assert 'Reported used' in section
+assert builder.valid_references(found, [{'answer_index': 0, 'item': 'unrelated'}, {'answer_index': 1, 'item': 'error'}, {'answer_index': True, 'item': 'error'}, 'legacy']) == []
+assert 'Reported used' not in builder.investigated_section(found, [{'answer_index': 1, 'item': 'error'}], 'Nothing applies')
+assert 'No applicable results reported: Nothing applies' in builder.investigated_section(found, [], 'Nothing applies')
 assert 'Investigated before building' in builder.pr_body('1', '## Acceptance criteria\n- x', 's', 'e', section)
 print('ok builder investigates before building')
 
@@ -682,14 +686,14 @@ with tempfile.TemporaryDirectory() as d:
         contexts.append(json.loads((tree / '.issue.json').read_text()))
         (tree / 'file').write_text('changed\n')
         result = {'outcome': 'partial' if len(contexts) == 1 else 'fixed', 'summary': 's', 'evidence': 'e',
-                  'investigated': 'first reference' if len(contexts) == 1 else 'second reference'}
+                  'investigated': [{'answer_index': 0, 'item': 'PR #55' if len(contexts) == 1 else 'PR #56'}, {'answer_index': 1, 'item': 'failed item'}]}
         (tree / builder.RESULT).write_text(json.dumps(result))
     def save_checkpoint(number, tree, branch, live, result, bad):
         git('add', '-A', cwd=tree); git('commit', '-qm', 'Builder checkpoint on #42 (unfinished)', cwd=tree)
         return 'saved'
     response = MagicMock()
     response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
-    lookup = [{'asked': 'similar merged PRs', 'ok': True, 'answer': 'PR #55'}]
+    lookup = [{'asked': 'similar merged PRs', 'ok': True, 'answer': 'PR #55 and PR #56'}, {'asked': 'history', 'ok': False, 'answer': 'failed item'}]
     with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
          patch.object(builder, 'investigate', return_value=lookup) as lookup_mock, patch.object(builder, 'bot', side_effect=fake_bot), \
          patch.object(builder, 'hold'), patch.object(builder.urllib.request, 'urlopen', return_value=response), \
@@ -700,11 +704,16 @@ with tempfile.TemporaryDirectory() as d:
             assert False, 'partial work should stop'
         except SystemExit:
             pass
+        metadata = root / '.git' / 'builder-investigation-42.json'
+        saved = json.loads(metadata.read_text())
+        saved['references'] += [{'answer_index': 0, 'item': 'unrelated'}, {'answer_index': 1, 'item': 'failed item'}, 'legacy']
+        metadata.write_text(json.dumps(saved))
         builder.main()
     assert lookup_mock.call_count == 1 and contexts[1]['investigation'] == lookup
-    assert contexts[1]['investigation_references'] == ['first reference']
-    assert all(x in published[0] for x in ['similar merged PRs', 'first reference', 'second reference'])
-assert 'first reference' in builder.investigated_section([], ['first reference'])
+    assert contexts[1]['investigation_references'] == [{'answer_index': 0, 'item': 'PR #55'}]
+    assert all(x in published[0] for x in ['similar merged PRs', 'PR #55', 'PR #56'])
+    assert 'unrelated' not in published[0] and 'failed item' not in published[0]
+assert 'Reported used' not in builder.investigated_section([], ['first reference'])
 print('ok builder investigation survives continuation')
 # Every 'Day N' thread without our post gets a forced comms action; late ones say so.
 import manager

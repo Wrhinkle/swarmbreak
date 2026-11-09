@@ -73,9 +73,32 @@ def investigate(issue):
     return found
 
 
-def investigated_section(found, cited):
+def valid_references(found, references):
+    """Keep only reported items quoted from a successful, retained answer."""
+    valid = []
+    if not isinstance(references, list):
+        return valid
+    for ref in references:
+        if not isinstance(ref, dict):
+            continue
+        index, item = ref.get('answer_index'), ref.get('item')
+        if (type(index) is int and 0 <= index < len(found) and isinstance(item, str)
+                and item.strip() and found[index].get('ok') is True
+                and isinstance(found[index].get('answer'), str) and item in found[index]['answer']):
+            clean = {'answer_index': index, 'item': item}
+            if clean not in valid:
+                valid.append(clean)
+    return valid
+
+
+def investigated_section(found, cited, no_applicable=''):
     lines = [f'- {f["asked"]}: ' + ('answered' if f['ok'] else 'unavailable') for f in found]
-    return '\n\n## Investigated before building\n' + '\n'.join(lines) + (f'\n\nUsed: {str(cited)[:3000]}' if cited else '')
+    cited = valid_references(found, cited)
+    if cited:
+        lines += [f'- Answer {r["answer_index"]} ({found[r["answer_index"]]["asked"]}): {r["item"]}' for r in cited]
+        return '\n\n## Investigated before building\n' + '\n'.join(lines[:len(found)]) + '\n\nReported used:\n' + '\n'.join(lines[len(found):])
+    explanation = f'\n\nNo applicable results reported: {no_applicable[:3000]}' if isinstance(no_applicable, str) and no_applicable.strip() else ''
+    return '\n\n## Investigated before building\n' + '\n'.join(lines) + explanation
 
 
 def pr_body(number, issue_body, summary, evidence, investigated=''):
@@ -234,8 +257,9 @@ def main():
         investigation = json.loads(metadata.read_text())
     else:
         investigation = {'found': [] if progress else investigate(issue), 'references': []}
-    metadata.write_text(json.dumps(investigation))
     found = investigation['found']
+    investigation['references'] = valid_references(found, investigation.get('references'))
+    metadata.write_text(json.dumps(investigation))
     (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': live, 'progress': progress, 'merge_conflicts': conflicts, 'investigation': found, 'investigation_references': investigation['references']}, indent=1))
 
     extra, result, bad = '', {}, []
@@ -251,10 +275,12 @@ def main():
         except (OSError, json.JSONDecodeError) as e:
             bad, changed = [f'{RESULT} unreadable: {e}'], []
         else:
-            cited = result.get('investigated')
-            if cited and cited not in investigation['references']:
-                investigation['references'].append(cited)
-                metadata.write_text(json.dumps(investigation))
+            cited = valid_references(found, result.get('investigated'))
+            investigation['references'] = valid_references(found, investigation['references'] + cited)
+            explanation = result.get('investigation_no_applicable')
+            if isinstance(explanation, str):
+                investigation['no_applicable'] = explanation[:3000]
+            metadata.write_text(json.dumps(investigation))
             if result.get('outcome') != 'fixed':
                 break
             try:
@@ -281,7 +307,7 @@ def main():
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         sys.exit(f'Builder stopped with outcome {outcome}' + (f'; saved {sha} on {branch} for the next pass.' if sha else '; nothing new to save.')
                  + (f'\n{str(bad)[:1500]}' if bad else ''))
-    body = pr_body(number, issue['body'], result['summary'], result['evidence'], investigated_section(found, investigation['references']) if found or investigation['references'] else '')
+    body = pr_body(number, issue['body'], result['summary'], result['evidence'], investigated_section(found, investigation['references'], investigation.get('no_applicable', '')) if found or investigation['references'] or investigation.get('no_applicable') else '')
     (tree / RESULT).unlink()
     if dry:
         print(f'Would open a PR for: {result.get("summary")}\nThe attempt is in {tree}.')
