@@ -146,3 +146,47 @@ it('keeps focused decision controls when the same paused fight is rendered again
     expect(panel.children[5]).not.toBe(target);
   } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
 });
+
+it('reloads between two crew decisions in the same tick and records the second target', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; type = ''; disabled = false;
+    click?: () => void;
+    setAttribute(_name: string, _value: string) {}
+    append(...children: Element[]) { this.children.push(...children); }
+    replaceChildren(...children: Element[]) { this.children = children; }
+    addEventListener(_name: string, handler: () => void) { this.click = handler; }
+    focus() {}
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  const oldStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+  let stored = '';
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: { getItem: () => stored, setItem: (_key: string, value: string) => { stored = value; } } });
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { renderCombatDecision } = await import('./main');
+    const creature = (id: string): Creature => ({ id, name: id, blurb: '', sprite: '', bodyPlan: 'construct', role: 'bruiser', tier: 'ally', routines: ['strike'], source: '/' });
+    const ally = creature('Ally'), enemy = creature('Enemy');
+    let combat = enableAtb(createCombat([{ creature: ally }, { creature: ally }], [enemy, enemy], 42));
+    combat.fighters.slice(0, 2).forEach(f => { f.nextAction = 1; });
+    combat.fighters.slice(2).forEach(f => { f.nextAction = 100; });
+    combat = step(combat);
+    expect(combat.atb!.pending).toBe('c0');
+    combat = step(chooseAtb(combat, 'c0', 'auto'));
+    expect(combat.atb!.pending).toBe('c1');
+    const save = newSave();
+    save.today = { runId: 'test', node: null, cleared: [], crew: [0, 1].map(() => ({ creature: ally, hp: 40, routines: ['strike'], slots: 3, recruited: false, active: true })), deck: ['strike'], gold: 0, seed: 42, result: null, combat };
+    writeSave(save);
+    combat = loadSave().today!.combat!;
+    expect(combat.atb!.choices).toEqual([{ actorId: 'c0', routineId: 'auto' }]);
+    const panel = new Element(); let selected = '';
+    const render = () => renderCombatDecision(panel as unknown as HTMLElement, combat, selected, id => { selected = id; render(); }, (id, target) => { combat = chooseAtb(combat, combat.atb!.pending!, id, target); selected = ''; render(); });
+    render();
+    expect(panel.children[0].textContent).toBe('Ally (2) is ready');
+    panel.children[3].click?.();
+    panel.children[6].click?.();
+    expect(combat.atb!.choices).toEqual([{ actorId: 'c0', routineId: 'auto' }, { actorId: 'c1', routineId: 'strike', targetId: 'e1' }]);
+    save.today!.combat = combat; writeSave(save);
+    expect(step(loadSave().today!.combat!)).toEqual(step(combat));
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; if (oldStorage) Object.defineProperty(globalThis, 'localStorage', oldStorage); else Reflect.deleteProperty(globalThis, 'localStorage'); }
+});
