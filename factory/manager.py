@@ -104,7 +104,8 @@ def thread(number):
         d = graphql('''query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){discussion(number:$n){id title body createdAt
           comments(first:100){nodes{id url author{login} body replies(first:50){nodes{id author{login} body}}}}}}}''', o=CONTEST[0], r=CONTEST[1], n=number)['repository']['discussion']
     except SystemExit as e:
-        if 'Could not resolve' not in str(e):
+        # Only this exact message means the thread is gone. A failed lookup of the contest repository is an outage, and the job stays open.
+        if f'Could not resolve to a Discussion with the number of {number}' not in str(e):
             raise
         d = None
     if not d:

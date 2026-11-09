@@ -61,6 +61,18 @@ with patch('manager.gh', return_value={'data': {'repository': {'discussion': Non
         m.thread(4); raise AssertionError('a missing discussion must exit')
     except SystemExit as e:
         assert m.GONE in str(e)
+def gh_says(msg):
+    return patch('manager.gh', side_effect=SystemExit(f'gh api graphql failed:\ngh: {msg}'))
+with gh_says('Could not resolve to a Discussion with the number of 4.'):
+    try:
+        m.thread(4); raise AssertionError('a missing discussion must exit')
+    except SystemExit as e:
+        assert m.GONE in str(e)
+with gh_says("Could not resolve to a Repository with the name 'qodo-hackathon/software-factory-hackathon'."):
+    try:
+        m.thread(4); raise AssertionError('a failed repository lookup must exit')
+    except SystemExit as e:
+        assert m.GONE not in str(e)  # an outage keeps the job open
 import foreman as fm
 quiet = {'number': 4, 'ours': ['x'], 'waiting': [], 'opened': '2026-11-06'}
 with patch('foreman.thread', side_effect=SystemExit(f'Discussion #4 {m.GONE}.')):
