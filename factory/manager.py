@@ -550,6 +550,7 @@ def main():
         record({'kind': 'action', 'action': a, 'result': result if len(result) <= 1000 else f'{result[:300]} ... {result[-700:]}', 'dry': dry})
         if FAILED.search(result) and result != 'Not deploying: unchanged missing-run release blocker remains.':
             failures.append(f'{json.dumps(a)} -> {result[-700:]}')
+    failures += post_missing(s.get('threads', []), dry)
     if not dry:
         blocker = release_step(failures, previous=previous)
         lock.seek(0)
@@ -557,6 +558,29 @@ def main():
         lock.write(blocker)
         lock.flush()
     follow_up(failures, round_, note, dry, blocker)
+
+
+def unposted(threads):
+    """Challenge threads ('Day N: ...') with no top-level post from us. Each gets one, late or not."""
+    return [t for t in threads if re.match(r'Day \d+\b', t['title']) and not t['we_posted']]
+
+
+def post_missing(threads, dry):
+    """Posts every unposted challenge the pass's own actions didn't cover. Returns failed results."""
+    failures, today = [], datetime.now(timezone.utc).date().isoformat()
+    for t in unposted(threads):
+        if thread(t['number'])['ours']:
+            continue  # this pass's comms action already posted it
+        late = t['createdAt'][:10] < today
+        task = (f'Post our entry for "{t["title"]}". It is required and nothing has been posted for it yet. '
+                + (f'It opened on {t["createdAt"][:10]}, so this post is late: say so in one plain sentence. ' if late else '')
+                + 'Follow the thread\'s template and point to real PRs, issues and commits from facts.md.')
+        result = comms(t['number'], task, dry)
+        print(f'comms (unposted #{t["number"]}): {result}', flush=True)
+        record({'kind': 'action', 'action': {'type': 'comms', 'discussion': t['number'], 'forced': True}, 'result': result[-1000:], 'dry': dry})
+        if FAILED.search(result):
+            failures.append(f'comms #{t["number"]} -> {result[-700:]}')
+    return failures
 
 
 def missing_run_blocker(result, previous):

@@ -617,3 +617,16 @@ with tempfile.TemporaryDirectory() as d:
     assert workers == ['pr-fixer'] and (tree / 'work').read_text() == 'preserved'
     assert not (tree / '.git-fixes.json').exists()
 print('ok PR fixer stops on host failure')
+
+# Every 'Day N' thread without our post gets a forced comms action; late ones say so.
+import manager
+threads = [{'number': 8, 'title': 'Day 6: Ask your codebase', 'createdAt': '2000-01-01T00:00:00Z', 'we_posted': False},
+           {'number': 6, 'title': 'Day 4: Automate', 'createdAt': '2000-01-01T00:00:00Z', 'we_posted': True},
+           {'number': 1, 'title': 'Start here: how to submit', 'createdAt': '2000-01-01T00:00:00Z', 'we_posted': False}]
+assert [t['number'] for t in manager.unposted(threads)] == [8]
+tasks = []
+with patch.object(manager, 'thread', return_value={'ours': []}), patch.object(manager, 'record'), \
+     patch.object(manager, 'comms', side_effect=lambda n, task, dry: tasks.append((n, task)) or 'Comms refused after 3 attempts: x'):
+    failed = manager.post_missing(threads, True)
+assert [n for n, _ in tasks] == [8] and 'late' in tasks[0][1] and len(failed) == 1
+print('ok unposted challenge days are forced')
