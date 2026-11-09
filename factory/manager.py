@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import GATES, REPO, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
+from pr_team import GATES, REPO, bot, findings, gate_verdict, sh, touches_gates  # noqa: E402,F401
 
 OWNER, CONTEST = 'Wrhinkle', ('qodo-hackathon', 'software-factory-hackathon')
 SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.com/{REPO}'
@@ -243,7 +243,7 @@ def open_run(run_id, dry):
     branch = sh('git', 'branch', '--show-current').stdout.strip()
     if branch in ('', 'main'):
         return f'Not opening {run_id}: the checkout is on {branch or "no branch"}, and main only changes through a reviewed PR.'
-    keep_run(run_id, f'Open run {run_id}')
+    keep_run(run_id, f'Open run {run_id}', log_only=False)
     found = gh('pr', 'list', '--repo', REPO, '--head', branch, '--json', 'number')
     if found:
         return f'{run_id} is in PR {found[0]["number"]}. It goes live after merge_pr and deploy.'
@@ -284,11 +284,19 @@ def sync():
         os.execv(sys.executable, [sys.executable, *sys.argv])
 
 
-def keep_run(run_id, message):
+def keep_run(run_id, message, log_only=True):
     """Commits and pushes one run's files and the decision log, and nothing else in the checkout."""
-    paths = [p for p in (f'runs/{run_id}', f'public/runs/{run_id}', f'public/art/{run_id}', 'public/manifest.json', 'factory/log') if (ROOT / p).exists()]
+    read_handoff_marker()  # Preserve any legacy marker before staging or switching branches.
+    paths = [p for p in (f'runs/{run_id}', f'public/runs/{run_id}', f'public/art/{run_id}', 'public/manifest.json') if (ROOT / p).exists()]
+    changed = False
+    if paths:
+        sh('git', 'add', *paths)
+        changed = sh('git', 'diff', '--cached', '--quiet', '--', *paths, check=False).returncode
+    if (log_only or changed) and (ROOT / 'factory/log').exists():
+        paths.append('factory/log')
+    paths.append(':(exclude)factory/log/.handoff-failure.json')
     sh('git', 'add', *paths)
-    if sh('git', 'diff', '--cached', '--quiet', check=False).returncode:
+    if sh('git', 'diff', '--cached', '--quiet', '--', *paths, check=False).returncode:
         sh('git', 'commit', '-q', '-m', message, '--', *paths)
     sh('git', 'push', '-q', '-u', 'origin', sh('git', 'branch', '--show-current').stdout.strip())
     # launchd loads manager.py from this checkout, so leaving it on a run branch would run that branch's older code next pass.
@@ -439,10 +447,32 @@ def act(a, s, dry):
         r = subprocess.run([sys.executable, ROOT / 'factory/run.py', a['date'], '--from', a.get('from', 'researcher')], cwd=ROOT)
         keep_run(a['date'], f'Checkpoint run {a["date"]}, factory exit {r.returncode}')
         return f'Factory on {a["date"]} exited {r.returncode}.'
+    if kind in ('open_run', 'open_and_merge') and not dry:
+        run_id = str(a.get('id', ''))
+        if re.fullmatch(r'\d{4}-\d{2}-\d{2}', run_id):
+            marker = read_handoff_marker()
+            blocked = handoff_blocked(run_id, handoff_fingerprint(run_id) if isinstance(marker, dict) else '', marker) if marker is not None else ''
+            if blocked:
+                return f'Not opening {run_id}: {blocked}'
     if kind == 'open_run':
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(a.get('id'))):
             return f'Bad run id: {a}'
         return open_run(a['id'], dry)
+    if kind == 'open_and_merge':
+        run_id = str(a.get('id', ''))
+        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', run_id):
+            return f'Bad run id: {a}'
+        opened = open_run(run_id, dry)
+        if dry or FAILED.search(opened):
+            return opened
+        prs = open_prs()
+        matches = [p for p in prs if p['headRefName'] == f'run/{run_id}' and p['baseRefName'] == 'main']
+        if len(matches) != 1:
+            return f'Failed to find exactly one open PR for run/{run_id} against main after opening: found {len(matches)}. {opened}'
+        merged = act({'type': 'merge_pr', 'pr': matches[0]['number']}, {'prs': prs}, False)
+        if not merged.startswith(f'PR team on {matches[0]["number"]} exited 0.'):
+            return f'Handoff failed: {opened} {merged}'
+        return f'{opened} {merged}'
     if kind == 'delegate':
         agent, task = str(a.get('agent', '')), str(a.get('task', '')).strip()
         if s.get('strangers'):
@@ -495,6 +525,7 @@ def main():
         failures = []
         lock.seek(0)
         previous = [lock.read().strip()]
+        handoff_step(failures, dry)
         blocker = release_step(failures, dry, previous)
         if not dry:
             lock.seek(0)
@@ -557,6 +588,128 @@ def main():
         lock.write(blocker)
         lock.flush()
     follow_up(failures, round_, note, dry, blocker)
+
+
+def handoff_fingerprint(run_id):
+    """Changes to main or the built branch permit another attempt."""
+    return ':'.join(sh('git', 'rev-parse', ref).stdout.strip() for ref in ('origin/main', f'run/{run_id}'))
+
+
+def handoff_candidate(now=None):
+    """Find the next built branch in the 18 hours before opening, or after a missed opening."""
+    now = now or datetime.now(timezone.utc)
+    sh('git', 'fetch', 'origin')
+    main = json.loads(sh('git', 'show', 'origin/main:public/manifest.json').stdout)
+    live = live_manifest()
+    opens = datetime.fromisoformat(live['nextOpensAt'].replace('Z', '+00:00'))
+    if opens - now > timedelta(hours=18) or opens.hour != 13 or opens.minute or opens.second or opens.utcoffset() != timedelta(0):
+        return None
+    run_id = opens.date().isoformat()
+    main_opens = datetime.fromisoformat(main['opensAt'].replace('Z', '+00:00'))
+    if main_opens >= opens:
+        return None
+    branch = f'run/{run_id}'
+    if sh('git', 'rev-parse', '--verify', '-q', branch, check=False).returncode:
+        return None
+    if sh('git', 'cat-file', '-e', f'{branch}:public/runs/{run_id}/run.json', check=False).returncode:
+        return None
+    return run_id, handoff_fingerprint(run_id)
+
+
+def handoff_marker_path():
+    # The common Git directory survives branch switches and is never staged by keep_run.
+    path = Path(sh('git', 'rev-parse', '--git-common-dir').stdout.strip())
+    return (ROOT / path).resolve() / 'swarmbreak-handoff-failure.json'
+
+
+def write_handoff_marker(path, content):
+    # A failed or interrupted write leaves the previous marker intact.
+    name = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='wb', dir=path.parent, delete=False) as f:
+            name = f.name
+            f.write(content.encode() if isinstance(content, str) else content)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(name, path)
+    finally:
+        if name and os.path.exists(name):
+            os.unlink(name)
+
+
+def read_handoff_marker():
+    path = handoff_marker_path()
+    legacy = LOG.parent / '.handoff-failure.json'
+    if not path.exists() and legacy.exists():
+        # Copy even damaged data: it must remain blocking until manually repaired.
+        write_handoff_marker(path, legacy.read_bytes())
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text())
+        if (not isinstance(data, dict) or not isinstance(data.get('id'), str)
+                or not re.fullmatch(r'\d{4}-\d{2}-\d{2}', data['id'])
+                or not isinstance(data.get('fingerprint'), str) or not data['fingerprint']
+                or not isinstance(data.get('result'), str)):
+            raise ValueError('invalid fields')
+        return data
+    except (ValueError, UnicodeError):
+        return False
+
+
+def handoff_blocked(run_id, fingerprint, previous=None):
+    previous = read_handoff_marker() if previous is None else previous
+    if previous is False or (previous is not None and not isinstance(previous, dict)):
+        legacy = LOG.parent / '.handoff-failure.json'
+        return f'damaged handoff marker at {handoff_marker_path()}; inspect and repair it, or remove it and any legacy marker at {legacy} before retrying'
+    if not previous or previous.get('id') != run_id or previous.get('fingerprint') != fingerprint:
+        return ''
+    # Only a completed review of the exact PR head can unblock a timeout.
+    match = re.search(r"PR team on (\d+) exited [1-9]\d*\..*Qodo hasn't reviewed ([0-9a-f]{7}) after \d+ minutes\. Not merging\.", previous['result'], re.S)
+    if match:
+        try:
+            prs = [p for p in open_prs() if p['number'] == int(match[1])
+                   and p['headRefName'] == f'run/{run_id}' and p['baseRefName'] == 'main']
+            if len(prs) == 1 and prs[0]['headRefOid'].startswith(match[2]):
+                session = findings(prs[0]['url']).get('review_session') or {}
+                if session.get('commit_sha') == prs[0]['headRefOid'] and session.get('review_complete'):
+                    return ''
+        except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError):
+            pass  # A failed lookup is not evidence that the review completed.
+    return f'unchanged handoff failure: {previous["result"]}'
+
+
+def handoff_step(failures, dry=False, previous=None):
+    """Run the normal opening and PR checks once per unchanged branch and main."""
+    try:
+        candidate = handoff_candidate()
+        if not candidate:
+            return ''
+        run_id, fingerprint = candidate
+        blocked = handoff_blocked(run_id, fingerprint, previous)
+        if blocked:
+            print(f'Handoff blocked: {blocked}', flush=True)
+            return ''
+        action = {'type': 'open_and_merge', 'id': run_id}
+        result = act(action, {}, dry)
+        print(f'handoff: {result}', flush=True)
+        record({'kind': 'action', 'action': action, 'result': result[-1000:], 'dry': dry})
+        if FAILED.search(result):
+            failure = f'handoff {run_id} -> {result[-700:]}'
+            failures.append(failure)
+            if not dry:
+                write_handoff_marker(handoff_marker_path(), json.dumps({'id': run_id, 'fingerprint': handoff_fingerprint(run_id), 'result': result[-700:]}))
+            return failure
+        if not dry:
+            handoff_marker_path().unlink(missing_ok=True)
+            (LOG.parent / '.handoff-failure.json').unlink(missing_ok=True)
+        return ''
+    except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:
+        failure = f'Handoff check failed: {e}'
+        print(failure, flush=True)
+        record({'kind': 'action', 'action': {'type': 'handoff'}, 'result': failure[-1000:], 'dry': dry})
+        failures.append(failure)
+        return failure
 
 
 def missing_run_blocker(result, previous):
