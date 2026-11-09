@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import GATES, REPO, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
+from pr_team import GATES, REPO, WAITING, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
 
 OWNER, CONTEST = 'Wrhinkle', ('qodo-hackathon', 'software-factory-hackathon')
 SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.com/{REPO}'
@@ -426,6 +426,8 @@ def act(a, s, dry):
             print(line, end='', flush=True)
             tail.append(line)
         code = r.wait()
+        if code == WAITING:
+            return f'PR {pr["number"]} is waiting on Qodo; the foreman rechecks it.'
         return f'PR team on {pr["number"]} exited {code}.' + (f' Last output: {"".join(tail)[-600:]}' if code else '')
     if kind == 'comms':
         return comms(int(a['discussion']), str(a.get('task', '')), dry)
@@ -472,6 +474,8 @@ def act(a, s, dry):
         if r.returncode or dry or not last.isdigit():
             return f'Builder on issue {issue["number"]} exited {r.returncode}: {(r.stdout + r.stderr)[-500:]}'
         team = subprocess.run([sys.executable, ROOT / 'factory/pr_team.py', last, '--merge'], cwd=ROOT)
+        if team.returncode == WAITING:
+            return f'Builder opened PR {last}. It is waiting on Qodo; the foreman rechecks it.'
         return f'Builder opened PR {last}. PR team exited {team.returncode}.'
     if kind == 'deploy':
         return deploy(dry)

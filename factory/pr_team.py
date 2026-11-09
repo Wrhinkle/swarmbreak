@@ -4,14 +4,16 @@
 Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
-import fcntl, json, os, subprocess, sys, tempfile, time
+import fcntl, hashlib, json, os, subprocess, sys, tempfile, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
 QODO = str(Path.home() / '.qodo/bin/qodo')
 REPO = 'Wrhinkle/swarmbreak'
-ROUNDS, QODO_WAIT = 2, 1500
+ROUNDS, QODO_WAIT = 2, 300
+REREQUEST_START_WAIT = 3600  # Allow a queued review to appear across foreman passes.
+WAITING = 75  # EX_TEMPFAIL: Qodo hasn't reviewed the head yet. The foreman rechecks later; it isn't a failure.
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
 # Agents may fix factory code; every factory/ change still goes to the gate reviewer (gated_paths). Locked: the rules,
 # hosting, install scripts that run on this Mac, the balance limits, the gate reviewer's own brief, vendored code, and the
@@ -168,18 +170,62 @@ def merges_cleanly(tree, base):
     return True
 
 
+def reviewed(s, sha):
+    """Only a review Qodo marked complete, of exactly this commit, counts. Never loosen this: it is the merge check."""
+    return s.get('commit_sha') == sha and bool(s.get('review_complete'))
+
+
+def stalled(s, sha):
+    """Qodo sometimes ends a review of sha with status completed but review_complete false. Waiting won't finish it."""
+    return s.get('commit_sha') == sha and s.get('status') == 'completed' and not s.get('review_complete')
+
+
+def rerequest_state(url, sha):
+    """Keep the request and observed start across foreman processes, separately for each PR and commit."""
+    cache = Path.home() / '.cache'
+    key = hashlib.sha256(f'{url}\0{sha}'.encode()).hexdigest()
+    path = cache / 'swarmbreak-qodo-requests' / key
+    if path.exists():
+        return path, json.loads(path.read_text())
+    # Honor requests recorded by older versions; do not post a second /review after upgrading.
+    legacy = cache / 'swarmbreak-qodo-rerequested'
+    if legacy.exists() and sha in legacy.read_text().split():
+        return path, {'requested_at': legacy.stat().st_mtime, 'started': False}
+    return path, None
+
+
+def save_rerequest(path, state):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(state))
+
+
 def wait_for_review(url, sha):
     deadline = time.time() + QODO_WAIT
+    path, request = rerequest_state(url, sha)
     while time.time() < deadline:
         s = findings(url).get('review_session') or {}
-        if s.get('commit_sha') == sha and s.get('review_complete'):
+        if reviewed(s, sha):
             return
+        if stalled(s, sha):
+            if request is None:
+                sh('gh', 'pr', 'comment', url, '--body', '/review')
+                request = {'requested_at': time.time(), 'started': False}
+                save_rerequest(path, request)
+                break
+            if request['started']:
+                sys.exit(f'Qodo ended its review of {sha[:7]} incomplete again after a /review request. Not merging.')
+        elif s.get('commit_sha') == sha and s.get('status') in ('pending', 'queued', 'running', 'in_progress') and request and not request['started']:
+            request['started'] = True
+            save_rerequest(path, request)
         if s.get('commit_sha') == sha and s.get('status') == 'failed':
             sys.exit(f'Qodo\'s review of {sha[:7]} failed. A PR of tens of thousands of lines can do this, so split it. Not merging.')
         if s.get('commit_sha') == sha and s.get('status') == 'skipped':
             sys.exit(f'Qodo skipped {sha[:7]}, so it has no review. Not merging.')
+        if request and not request['started'] and time.time() - request['requested_at'] >= REREQUEST_START_WAIT:
+            sys.exit(f'Qodo did not start the requested review of {sha[:7]} within {REREQUEST_START_WAIT} seconds. Not merging.')
         time.sleep(30)
-    sys.exit(f'Qodo hasn\'t reviewed {sha[:7]} after {QODO_WAIT // 60} minutes. Not merging.')
+    print(f'Waiting on Qodo to review {sha[:7]}. The foreman will check again later.', flush=True)
+    sys.exit(WAITING)
 
 
 def main():
@@ -299,7 +345,7 @@ def main():
     still = [f for f in data['findings'] if is_open(f)]
     sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
     blocks = []
-    if session.get('commit_sha') != sha or not session.get('review_complete'):
+    if not reviewed(session, sha):
         blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
     if still:
         blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))

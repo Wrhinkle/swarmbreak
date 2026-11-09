@@ -287,6 +287,26 @@ assert failure in host_log.getvalue()
 checks_after_failed_probe.assert_not_called()
 print('ok isolation probe failure recorded')
 
+# A newly opened PR waiting for Qodo is left for the foreman, not retried as a failure.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), \
+     patch('manager.sync'), patch('manager.record') as log, patch('manager.release_step', return_value=''), \
+     patch('manager.state', return_value={'issues': [{'number': 14, 'author': {'login': manager.OWNER}}]}), \
+     patch('manager.open_prs', return_value=[]), patch('manager.post_missing', return_value=[]), patch('manager.os.execv') as execv:
+    def decide_build(role, work, prompt, **kwargs):
+        Path(work, 'decisions.json').write_text(json.dumps({'actions': [{'type': 'build_fix', 'issue': 14}]}))
+    builder_result = SimpleNamespace(returncode=0, stdout='10\n', stderr='')
+    with patch.object(sys, 'argv', ['manager.py']), patch.dict(os.environ), \
+         patch('manager.bot', side_effect=decide_build), \
+         patch('manager.subprocess.run', side_effect=[builder_result, SimpleNamespace(returncode=manager.WAITING)]):
+        os.environ.pop('SWARMBREAK_LOCK_FD', None)
+        manager.main()
+    result = log.call_args.args[0]['result']
+    assert 'PR 10' in result and 'waiting on Qodo' in result and 'foreman' in result
+    assert not FAILED.search(result)
+    execv.assert_not_called()
+    with patch('manager.subprocess.run', side_effect=[builder_result, SimpleNamespace(returncode=1)]):
+        assert FAILED.search(act({'type': 'build_fix', 'issue': 14}, {'issues': [{'number': 14, 'author': {'login': manager.OWNER}}]}, False))
+
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
 with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
     previous = ['release -> Missing run: live run x closed']
@@ -755,3 +775,59 @@ with patch.object(manager, 'thread', return_value=t), patch.object(manager, 'fac
     assert len(attempts) == 3 and 'required top-level post is empty' in attempts[-1]
     assert manager.comms(9, 'task', True) == 'Dry run, nothing posted.'
 print('ok forced post validation and discovery')
+# Qodo waits: an unreviewed head is waiting, not a failure. The merge check stays exact-head and review_complete.
+import pr_team
+a, b = 'a' * 40, 'b' * 40
+assert pr_team.reviewed({'commit_sha': a, 'review_complete': True}, a)
+assert not pr_team.reviewed({'commit_sha': a, 'status': 'completed', 'review_complete': False}, a)
+assert not pr_team.reviewed({'commit_sha': a, 'review_complete': True}, b)  # even with identical content
+with patch.object(pr_team, 'QODO_WAIT', 0):
+    try:
+        pr_team.wait_for_review('url', a); assert False
+    except SystemExit as e:
+        assert e.code == pr_team.WAITING
+with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
+        patch.object(pr_team, 'QODO_WAIT', 1), patch.object(pr_team, 'REREQUEST_START_WAIT', 100), \
+        patch.object(pr_team, 'sh') as run:
+    now = [1000]
+    session = {'commit_sha': a, 'status': 'completed', 'review_complete': False}
+    def tick():
+        try:
+            pr_team.wait_for_review('url', a)
+            return 'reviewed'
+        except SystemExit as e:
+            return e.code
+    def sleep(seconds):
+        now[0] += seconds
+    with patch.object(pr_team.time, 'time', side_effect=lambda: now[0]), \
+            patch.object(pr_team.time, 'sleep', side_effect=sleep), \
+            patch.object(pr_team, 'findings', side_effect=lambda url: {'review_session': session}):
+        assert tick() == pr_team.WAITING  # request once
+        assert tick() == pr_team.WAITING  # old session persists on the next foreman pass
+        assert run.call_count == 1 and '/review' in run.call_args.args
+        session['status'] = 'running'
+        assert tick() == pr_team.WAITING  # remember the new review across passes
+        session.update(status='completed', review_complete=True)
+        assert tick() == 'reviewed'
+
+        # A separate request that starts and then ends incomplete must fail.
+        session.update(commit_sha=b, status='completed', review_complete=False)
+        a, b = b, a
+        assert tick() == pr_team.WAITING
+        session['status'] = 'queued'
+        assert tick() == pr_team.WAITING
+        session['status'] = 'completed'
+        assert 'incomplete again' in tick()
+
+        # An unchanged old session cannot keep the foreman waiting forever.
+        a = 'c' * 40
+        session.update(commit_sha=a, status='completed')
+        assert tick() == pr_team.WAITING
+        now[0] += 101
+        assert 'did not start' in tick()
+with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'failed'}}):
+    try:
+        pr_team.wait_for_review('url', a); assert False
+    except SystemExit as e:
+        assert e.code != pr_team.WAITING
+print('ok Qodo waiting versus failed')

@@ -58,7 +58,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import REPO, sh  # noqa: E402
+from pr_team import REPO, WAITING, sh  # noqa: E402
 from manager import HUMAN, OWNER, gate_rejected, on_run_branch, record  # noqa: E402
 
 STATE = ROOT / 'factory' / 'log' / '.foreman.json'
@@ -133,7 +133,8 @@ def main():
                           if sh('git', 'rev-list', '--count', f'origin/main..{b}').stdout.strip() != '0'])
     open_ = {i['number'] for i in issues}
     st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
-    job = next_job(prs, issues, saved, set(st['waiting']), gate_rejected)
+    st['qodo'] = {k: t for k, t in st.get('qodo', {}).items() if t > time.time()}
+    job = next_job(prs, issues, saved, set(st['waiting']) | set(st['qodo']), gate_rejected)
     if not job:
         return
     kind, number, key = job
@@ -150,6 +151,10 @@ def main():
     print(out[-4000:], flush=True)
     if r.returncode and 'is already being worked' in out:
         return  # a manager pass has it; not a failure
+    if r.returncode == WAITING:
+        st['qodo'][key] = time.time() + 600  # Qodo is still reviewing; let other jobs run and recheck in 10 minutes
+        STATE.write_text(json.dumps(st, indent=1))
+        return
     try:
         settle(st, r, out, kind, number, key, ref, before, role, prs)
     except SystemExit as e:  # a GitHub write failed; pause instead of rerunning the same job every start
