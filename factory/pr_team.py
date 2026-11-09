@@ -21,8 +21,8 @@ PROTECTED = ('AGENTS.md', 'firebase.json', 'public/manifest.json', '.github/', '
 GATES = ('AGENTS.md', '.github/', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
 
 
-def sh(*cmd, cwd=ROOT, check=True):
-    r = subprocess.run([str(c) for c in cmd], cwd=cwd, capture_output=True, text=True, stdin=subprocess.DEVNULL)
+def sh(*cmd, cwd=ROOT, check=True, timeout=None):
+    r = subprocess.run([str(c) for c in cmd], cwd=cwd, capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=timeout)
     if check and r.returncode:
         sys.exit(f'{" ".join(map(str, cmd))[:200]} failed:\n{(r.stdout + r.stderr)[-1500:]}')
     return r

@@ -633,3 +633,76 @@ section = builder.investigated_section(found, 'Reused PR #55 card layout')
 assert 'answered' in section and 'unavailable' in section and 'PR #55' in section
 assert 'Investigated before building' in builder.pr_body('1', '## Acceptance criteria\n- x', 's', 'e', section)
 print('ok builder investigates before building')
+
+# Lookup failures never expose diagnostics in the published section, and a null body is valid.
+with patch.object(builder, 'sh', side_effect=OSError('/private/host/qodo missing')):
+    missing = builder.investigate({'title': 'bodyless', 'body': None})
+assert len(missing) == 1 and not missing[0]['ok']
+assert '/private/host' not in builder.investigated_section(missing, None)
+with patch.object(builder, 'sh', return_value=SimpleNamespace(stdout='', stderr='secret command output', returncode=1)):
+    failed = builder.investigate({'title': 'failure', 'body': ''})
+assert 'secret command output' not in builder.investigated_section(failed, None)
+
+# subprocess.run kills and waits for a timed-out lookup before returning to the builder.
+import time
+with tempfile.TemporaryDirectory() as d:
+    executable = Path(d) / 'qodo'
+    executable.write_text('#!/bin/sh\nexec sleep 10\n')
+    executable.chmod(0o755)
+    start = time.monotonic()
+    with patch.object(builder, 'QODO', str(executable)), patch.object(builder, 'INVESTIGATION_TIMEOUT', 0.1):
+        stalled = builder.investigate({'title': 'stall', 'body': None})
+    assert time.monotonic() - start < 3 and not stalled[0]['ok']
+print('ok builder lookup failures and timeout')
+
+# A partial pass's lookup and references reach the next worker and the final PR.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    def git(*args, cwd=root, check=True):
+        return subprocess.run(['git', *map(str, args)], cwd=cwd, check=check, capture_output=True, text=True)
+    git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+    (root / 'file').write_text('base\n')
+    git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    published, contexts = [], []
+    def fake_sh(*args, cwd=None, check=True):
+        if args[:3] == ('git', 'fetch', '-q') or args[0] == 'npm' or args[:2] == ('git', 'push'):
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        if args[0] == 'git':
+            return git(*args[1:], cwd=cwd or root, check=check)
+        if args[:3] == ('gh', 'issue', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'author': {'login': builder.OWNER}, 'state': 'OPEN', 'title': 't', 'body': None}))
+        if args[:3] == ('gh', 'pr', 'list'):
+            return SimpleNamespace(stdout='0')
+        if args[:3] == ('gh', 'pr', 'create'):
+            published.append(args[args.index('--body') + 1])
+            return SimpleNamespace(stdout='https://example.test/1')
+        raise AssertionError(args)
+    def fake_bot(role, tree, prompt, **kwargs):
+        contexts.append(json.loads((tree / '.issue.json').read_text()))
+        (tree / 'file').write_text('changed\n')
+        result = {'outcome': 'partial' if len(contexts) == 1 else 'fixed', 'summary': 's', 'evidence': 'e',
+                  'investigated': 'first reference' if len(contexts) == 1 else 'second reference'}
+        (tree / builder.RESULT).write_text(json.dumps(result))
+    def save_checkpoint(number, tree, branch, live, result, bad):
+        git('add', '-A', cwd=tree); git('commit', '-qm', 'Builder checkpoint on #42 (unfinished)', cwd=tree)
+        return 'saved'
+    response = MagicMock()
+    response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
+    lookup = [{'asked': 'similar merged PRs', 'ok': True, 'answer': 'PR #55'}]
+    with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+         patch.object(builder, 'investigate', return_value=lookup) as lookup_mock, patch.object(builder, 'bot', side_effect=fake_bot), \
+         patch.object(builder, 'hold'), patch.object(builder.urllib.request, 'urlopen', return_value=response), \
+         patch.object(builder, 'checkpoint', side_effect=save_checkpoint), patch.object(builder, 'problems_in', return_value=([], ['file'])), \
+         patch.object(sys, 'argv', ['builder.py', '42']):
+        try:
+            builder.main()
+            assert False, 'partial work should stop'
+        except SystemExit:
+            pass
+        builder.main()
+    assert lookup_mock.call_count == 1 and contexts[1]['investigation'] == lookup
+    assert contexts[1]['investigation_references'] == ['first reference']
+    assert all(x in published[0] for x in ['similar merged PRs', 'first reference', 'second reference'])
+assert 'first reference' in builder.investigated_section([], ['first reference'])
+print('ok builder investigation survives continuation')
