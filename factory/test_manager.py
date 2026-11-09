@@ -652,12 +652,15 @@ with patch.object(pr_team, 'QODO_WAIT', 0):
 with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
         patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'completed', 'review_complete': False}}), \
         patch.object(pr_team, 'sh') as run:
+    codes = []
     for _ in range(2):
         try:
             pr_team.wait_for_review('url', a); assert False
         except SystemExit as e:
-            assert e.code == pr_team.WAITING
-    assert run.call_count == 1 and '/review' in run.call_args.args  # a stalled review is re-requested once, then waited on
+            codes.append(e.code)
+    # A stalled review is re-requested once and waited on; stalling again is a failure, not another wait.
+    assert codes[0] == pr_team.WAITING and codes[1] != pr_team.WAITING and 'incomplete again' in codes[1]
+    assert run.call_count == 1 and '/review' in run.call_args.args
 with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'failed'}}):
     try:
         pr_team.wait_for_review('url', a); assert False

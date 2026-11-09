@@ -180,14 +180,15 @@ def stalled(s, sha):
 
 
 def rerequest(url, sha):
-    """Ask Qodo once per commit to review again. The foreman's next tick picks up the fresh review."""
+    """Ask Qodo once per commit to review again. False if it was already asked, so a second stall is a failure."""
     mark = Path.home() / '.cache' / 'swarmbreak-qodo-rerequested'
-    done = mark.read_text().split() if mark.exists() else []
-    if sha in done:
-        return
+    if mark.exists() and sha in mark.read_text().split():
+        return False
     sh('gh', 'pr', 'comment', url, '--body', '/review')
     mark.parent.mkdir(parents=True, exist_ok=True)
-    mark.write_text(' '.join(done[-50:] + [sha]))
+    with mark.open('a') as f:  # one short appended line per request, so parallel PR jobs don't drop each other's
+        f.write(sha + '\n')
+    return True
 
 
 def wait_for_review(url, sha):
@@ -197,8 +198,9 @@ def wait_for_review(url, sha):
         if reviewed(s, sha):
             return
         if stalled(s, sha):
-            rerequest(url, sha)
-            break
+            if rerequest(url, sha):
+                break
+            sys.exit(f'Qodo ended its review of {sha[:7]} incomplete again after a /review request. Not merging.')
         if s.get('commit_sha') == sha and s.get('status') == 'failed':
             sys.exit(f'Qodo\'s review of {sha[:7]} failed. A PR of tens of thousands of lines can do this, so split it. Not merging.')
         if s.get('commit_sha') == sha and s.get('status') == 'skipped':
