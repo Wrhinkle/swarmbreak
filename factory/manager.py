@@ -95,10 +95,20 @@ def graphql(query, **fields):
     return gh(*args)['data']
 
 
+GONE = 'no longer exists'
+
+
 def thread(number):
     """The challenge, our comments, and replies to them that we haven't answered."""
-    d = graphql('''query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){discussion(number:$n){id title body createdAt
-      comments(first:100){nodes{id url author{login} body replies(first:50){nodes{id author{login} body}}}}}}}''', o=CONTEST[0], r=CONTEST[1], n=number)['repository']['discussion']
+    try:
+        d = graphql('''query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){discussion(number:$n){id title body createdAt
+          comments(first:100){nodes{id url author{login} body replies(first:50){nodes{id author{login} body}}}}}}}''', o=CONTEST[0], r=CONTEST[1], n=number)['repository']['discussion']
+    except SystemExit as e:
+        if 'Could not resolve' not in str(e):
+            raise
+        d = None
+    if not d:
+        sys.exit(f'Discussion #{number} {GONE}.')  # deleted after a job was filed for it
     ours, waiting = [], []
     for c in d['comments']['nodes']:
         if (c['author'] or {}).get('login') != OWNER:
@@ -490,7 +500,10 @@ def act(a, s, dry):
         number = a.get('discussion')
         if not isinstance(number, int):
             return f'Bad comms: {a}'
-        title = f'Post on discussion #{number}' if thread(number)['ours'] else f'Post our entry on discussion #{number}'
+        t = thread(number)
+        if t['ours'] and not t['waiting']:
+            return f'Not filing: our entry is on discussion #{number} and no reply is waiting.'
+        title = f'Post on discussion #{number}' if t['ours'] else f'Post our entry on discussion #{number}'
         return file_job(title, COMMS_JOB, [COMMS], dry)
     if kind == 'priority':
         issue = next((i for i in s.get('issues', []) if i['number'] == a.get('issue')), None)

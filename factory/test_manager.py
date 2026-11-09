@@ -39,7 +39,7 @@ assert 'Bad comms' in act({'type': 'comms', 'discussion': '4', 'task': 'x'}, s, 
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strangers': True}, True)
 owner = {'login': 'Wrhinkle'}
 with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner}, {'title': 'Squatted', 'author': {'login': 'stranger'}},
-                                       {'title': 'L' * 80, 'author': owner}]), patch('manager.thread', return_value={'ours': ['x']}):
+                                       {'title': 'L' * 80, 'author': owner}]), patch('manager.thread', return_value={'ours': ['x'], 'waiting': ['r']}):
     assert 'Already on the roster' in act({'type': 'delegate', 'title': 'Already here', 'task': 'x'}, s, True)
     assert 'Already on the roster' in act({'type': 'delegate', 'title': 'L' * 120, 'task': 'x'}, s, True)  # stored titles are cut to 80
     assert act({'type': 'delegate', 'title': 'Squatted', 'task': 'x'}, s, True) == 'Would file: Squatted'  # a stranger can't reserve a job
@@ -51,8 +51,31 @@ with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner
         assert filed.call_args.args[1] == m.COMMS_JOB
 assert 'post is late' in m.comms_task({'ours': [], 'opened': '2026-11-06'}, '2026-11-09') and 'post is late' not in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09')
 assert 'no top-level' in m.comms_task({'ours': ['x'], 'opened': '2026-11-06'}, '2026-11-09')
-with patch('manager.gh', return_value=[]), patch('manager.thread', return_value={'ours': []}):
+with patch('manager.gh', return_value=[]), patch('manager.thread', return_value={'ours': [], 'waiting': []}):
     assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, s, True) == 'Would file: Post our entry on discussion #4'
+with patch('manager.thread', return_value={'ours': ['x'], 'waiting': []}):
+    assert 'Not filing' in act({'type': 'comms', 'discussion': 4}, s, True)  # no reply job for a thread with nothing waiting
+# A deleted thread exits with a message the foreman reads as a finished job, not a crash or a lesson.
+with patch('manager.gh', return_value={'data': {'repository': {'discussion': None}}}):
+    try:
+        m.thread(4); raise AssertionError('a missing discussion must exit')
+    except SystemExit as e:
+        assert m.GONE in str(e)
+import foreman as fm
+quiet = {'number': 4, 'ours': ['x'], 'waiting': [], 'opened': '2026-11-06'}
+with patch('foreman.thread', side_effect=SystemExit(f'Discussion #4 {m.GONE}.')):
+    assert fm.comms_job('Post on discussion #4').startswith('Done:')
+with patch('foreman.thread', side_effect=SystemExit('gh down')):
+    try:
+        fm.comms_job('Post on discussion #4'); raise AssertionError('other lookup failures stay failures')
+    except SystemExit:
+        pass
+with patch('foreman.thread', return_value=quiet), patch('foreman.comms') as posting:
+    assert fm.comms_job('Post on discussion #4').startswith('Done:') and fm.comms_job('Post our entry on discussion #4').startswith('Done:') and not posting.called
+with patch('foreman.thread', return_value={**quiet, 'waiting': ['r']}), patch('foreman.comms', return_value='Nothing to post.'):
+    assert fm.comms_job('Post on discussion #4').startswith('Done:')  # the worker rightly skipped every reply
+with patch('foreman.thread', return_value={**quiet, 'ours': []}), patch('foreman.comms', return_value='Nothing to post.') as posting:
+    assert not fm.comms_job('Post our entry on discussion #4').startswith(('Done:', 'Posted:')) and posting.call_args.kwargs['require_post']
 now = datetime(2026, 11, 4, 12, 30, tzinfo=timezone.utc)
 live, soon, later = {'runId': 'a'}, {'runId': 'b', 'opensAt': '2026-11-04T13:00:00Z'}, {'runId': 'b', 'opensAt': '2026-11-05T13:00:00Z'}
 assert deploy_problems(soon, live, True, now) == []
