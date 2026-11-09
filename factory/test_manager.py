@@ -36,10 +36,16 @@ for gone in ('merge_pr', 'open_run', 'factory_run', 'build_fix', 'deploy', 'run_
     assert 'unknown' in act({'type': gone}, s, True)
 assert 'not an open issue from the owner' in act({'type': 'priority', 'issue': 9}, s, True)
 assert 'Bad comms' in act({'type': 'comms', 'discussion': '4', 'task': 'x'}, s, True)
-assert 'Not filing' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strangers': True}, True)
-with patch('manager.gh', return_value=[{'title': 'Already here'}]):
+assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strangers': True}, True)
+owner = {'login': 'Wrhinkle'}
+with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner}, {'title': 'Squatted', 'author': {'login': 'stranger'}},
+                                       {'title': 'L' * 80, 'author': owner}]), patch('manager.thread', return_value={'ours': ['x']}):
     assert 'Already on the roster' in act({'type': 'delegate', 'title': 'Already here', 'task': 'x'}, s, True)
-    assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, s, True) == 'Would file: Post on discussion #4'
+    assert 'Already on the roster' in act({'type': 'delegate', 'title': 'L' * 120, 'task': 'x'}, s, True)  # stored titles are cut to 80
+    assert act({'type': 'delegate', 'title': 'Squatted', 'task': 'x'}, s, True) == 'Would file: Squatted'  # a stranger can't reserve a job
+    assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, {**s, 'strangers': True}, True) == 'Would file: Post on discussion #4'
+with patch('manager.gh', return_value=[]), patch('manager.thread', return_value={'ours': []}):
+    assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, s, True) == 'Would file: Post our entry on discussion #4'
 now = datetime(2026, 11, 4, 12, 30, tzinfo=timezone.utc)
 live, soon, later = {'runId': 'a'}, {'runId': 'b', 'opensAt': '2026-11-04T13:00:00Z'}, {'runId': 'b', 'opensAt': '2026-11-05T13:00:00Z'}
 assert deploy_problems(soon, live, True, now) == []
@@ -57,7 +63,7 @@ from builder import blocked_paths, only_wording
 from manager import touches_gates
 assert touches_gates([{'path': 'factory/manager.py'}]) and touches_gates([{'path': 'tools/sim.ts'}]) and touches_gates([{'path': 'factory/agents/comms.md'}])
 assert touches_gates([{'path': 'src/act.ts'}, {'path': 'factory/log/notes.md'}, {'path': 'public/manifest.json'}]) == []
-assert 'Not filing' in act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
+assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
 assert 'Bad' in act({'type': 'delegate', 'agent': 'manager', 'task': 'x'}, {}, True)
 assert blocked_paths(['factory/agents/new-role.md', 'factory/agents/comms.md', 'factory/run.py', 'factory/builder.py', 'tools/sim.ts'], 'z') == []  # the builder fixes factory code; the gate reviewer reads it
 assert blocked_paths(['factory/log/decisions.jsonl'], 'z') and blocked_paths(['factory/agents/gate-reviewer.md'], 'z') and blocked_paths(['factory/vendor/x.py'], 'z')
@@ -483,7 +489,7 @@ with tempfile.TemporaryDirectory() as d:
     Path(run, 'balance.json').write_text(json.dumps({'problems': ['too hard']}))
     assert resume_stage(run) == 'gameplay'
     Path(run, 'balance.json').write_text(json.dumps({'problems': []}))
-    assert resume_stage(run) == 'art'
+    assert resume_stage(run) == 'art' and resume_stage(run, built=True) is None
 print('ok foreman lanes')
 
 # Everything a branch changes against main counts, committed or not, and a rename shows both names.
@@ -844,7 +850,7 @@ pages = [{'repository': {'discussions': {'nodes': nodes, 'pageInfo': {'hasNextPa
          {'repository': {'discussions': {'nodes': second, 'pageInfo': {'hasNextPage': False, 'endCursor': None}}}}]
 filed = []
 on_main = lambda *a, **k: SimpleNamespace(returncode=0 if 'origin/main:public/runs/2000-01-01/run.json' in a else 1)
-with patch.object(manager, 'graphql', side_effect=pages) as discovery, patch.object(manager, 'open_prs', return_value=[{'title': 'Open run 2000-01-03'}]), \
+with patch.object(manager, 'graphql', side_effect=pages) as discovery, patch.object(manager, 'open_prs', return_value=[{'title': 'Open run 2000-01-03', 'author': {'login': 'Wrhinkle'}}, {'title': 'Open run 2000-01-02', 'author': {'login': 'stranger'}}]), \
      patch.object(manager, 'thread', side_effect=[SystemExit('lookup failed'), {'ours': ['x']}, {'ours': []}]), patch.object(manager, 'sh', side_effect=on_main), \
      patch.object(manager, 'run_dates', return_value=['2000-01-01', '2000-01-02', '2000-01-03']), patch.object(manager, 'record'), \
      patch.object(manager, 'file_job', side_effect=lambda title, body, labels, dry: filed.append((title, body, labels)) or f'Would file: {title}'):
@@ -857,6 +863,9 @@ assert discovery.call_args_list[1].kwargs['cursor'] == 'next'
 assert manager.run_dates(datetime(2026, 11, 9, 12, tzinfo=timezone.utc)) == ['2026-11-08', '2026-11-09']
 assert manager.run_dates(datetime(2026, 11, 9, 14, tzinfo=timezone.utc)) == ['2026-11-09', '2026-11-10']
 print('ok required runs and posts go on the roster')
+with patch.object(manager, 'open_prs', side_effect=SystemExit('gh down')), patch.object(manager, 'graphql', side_effect=SystemExit('gh down')), patch.object(manager, 'record'):
+    assert len(manager.required_jobs(True)) == 2  # filing errors come back as failures, so the pass still reaches its release step
+print('ok roster filing errors are failures, not crashes')
 
 # Required posts retry empty output even in dry runs; reply-only ordinary comms remains valid.
 t = {'id': 'D', 'ours': [], 'waiting': [], 'challenge': '', 'title': 'Day 9'}

@@ -449,8 +449,10 @@ def gate_rejected(number, sha):
 
 
 def file_job(title, body, labels=(), dry=False):
-    """Puts one job on the roster, unless an open issue already has that title."""
-    open_titles = {i['title'] for i in gh('issue', 'list', '--repo', REPO, '--state', 'open', '--limit', '500', '--json', 'title')}
+    """Puts one job on the roster, unless an open issue from the owner already has that title."""
+    title = title[:80]
+    open_titles = {i['title'] for i in gh('issue', 'list', '--repo', REPO, '--state', 'open', '--limit', '500', '--json', 'title,author')
+                   if i['author']['login'] == OWNER}
     if title in open_titles:
         return f'Already on the roster: {title}'
     if dry:
@@ -458,16 +460,16 @@ def file_job(title, body, labels=(), dry=False):
     for label in labels:
         sh('gh', 'label', 'create', label, '--repo', REPO, '--force')
     args = [x for label in labels for x in ('--label', label)]
-    return 'Filed ' + sh('gh', 'issue', 'create', '--repo', REPO, '--title', title[:80], *args, '--body', f'{body}\n\nFiled by the factory manager.').stdout.strip()
+    return 'Filed ' + sh('gh', 'issue', 'create', '--repo', REPO, '--title', title, *args, '--body', f'{body}\n\nFiled by the factory manager.').stdout.strip()
 
 
 def act(a, s, dry):
     """Every action files or labels roster work; the foreman's workers do it."""
     kind = a.get('type')
-    if kind in ('delegate', 'comms') and s.get('strangers'):
-        return 'Not filing work while issues or replies from other people are in this pass, because their text could have shaped the task.'
     if kind == 'delegate':
         agent, task = str(a.get('agent', '')), str(a.get('task', '')).strip()
+        if s.get('strangers'):
+            return 'Not delegating while issues or replies from other people are in this pass, because their text could have shaped the task.'
         if not task or (agent and agent != 'new' and not (re.fullmatch(r'[a-z-]+', agent) and (ROOT / 'factory/agents' / f'{agent}.md').exists())) or agent in ('manager', 'comms'):
             return f'Bad delegate: {a}'
         labels = ([f'agent:{agent}'] if agent and agent != 'new' else []) + ([PRIORITY] if a.get('priority') else [])
@@ -476,7 +478,8 @@ def act(a, s, dry):
         number = a.get('discussion')
         if not isinstance(number, int) or not str(a.get('task', '')).strip():
             return f'Bad comms: {a}'
-        return file_job(f'Post on discussion #{number}', str(a['task']), [COMMS], dry)
+        title = f'Post on discussion #{number}' if thread(number)['ours'] else f'Post our entry on discussion #{number}'
+        return file_job(title, str(a['task']), [COMMS], dry)
     if kind == 'priority':
         issue = next((i for i in s.get('issues', []) if i['number'] == a.get('issue')), None)
         if not issue or issue['author']['login'] != OWNER:
@@ -498,11 +501,14 @@ def run_dates(now):
 def required_jobs(dry):
     """Files the jobs that must always be on the roster. Returns failed results."""
     failures, results = [], []
-    open_prs_titles = {p['title'] for p in open_prs()}
-    for day in run_dates(datetime.now(timezone.utc)):
-        if sh('git', 'cat-file', '-e', f'origin/main:public/runs/{day}/run.json', check=False).returncode == 0 or f'Open run {day}' in open_prs_titles:
-            continue
-        results.append(file_job(f'Run {day}', f'Build, checkpoint and open the {day} run. The runner does this; it needs no code change.', [RUN, PRIORITY], dry))
+    try:
+        opening = {p['title'] for p in open_prs() if p['author']['login'] == OWNER}
+        for day in run_dates(datetime.now(timezone.utc)):
+            if sh('git', 'cat-file', '-e', f'origin/main:public/runs/{day}/run.json', check=False).returncode == 0 or f'Open run {day}' in opening:
+                continue
+            results.append(file_job(f'Run {day}', f'Build, checkpoint and open the {day} run. The runner does this; it needs no code change.', [RUN, PRIORITY], dry))
+    except SystemExit as e:
+        results.append(f'Run job filing failed: {e}')
     try:
         found, cursor = [], None
         while True:

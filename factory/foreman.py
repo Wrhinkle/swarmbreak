@@ -31,16 +31,16 @@ ROOT = Path(__file__).resolve().parent.parent
 os.environ['PYTHONPYCACHEPREFIX'] = '/dev/null'
 
 
-def factory_clean(root):
+def factory_clean(root, paths=('factory',)):
     """Fail closed on changed, untracked or ignored factory inputs, leaving them in place."""
     def git(*args):
         return subprocess.run(['git', *args], cwd=root, capture_output=True)
 
     try:
-        if git('diff', '--quiet', 'origin/main', '--', 'factory', ':(exclude)factory/log').returncode:
+        if git('diff', '--quiet', 'origin/main', '--', *paths, ':(exclude)factory/log').returncode:
             return False
         for extra in ((), ('--ignored',)):
-            result = git('ls-files', '--others', '--exclude-standard', *extra, '-z', '--', 'factory',
+            result = git('ls-files', '--others', '--exclude-standard', *extra, '-z', '--', *paths,
                          ':(exclude)factory/log', ':(exclude)factory/.venv')
             if result.returncode:
                 return False
@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import COMMS, FAILED, HUMAN, OWNER, RUN, comms, gate_rejected, keep_run, on_run_branch, open_run, record  # noqa: E402
+from manager import COMMS, HUMAN, OWNER, RUN, comms, gate_rejected, keep_run, on_run_branch, open_run, record, run_problems, thread  # noqa: E402
 from run import STAGES  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
@@ -129,12 +129,12 @@ def starting_tip(ref):
     return (tip(ref) or tip('refs/remotes/origin/main')) if ref else ''
 
 
-def resume_stage(d):
-    """The first stage of a run whose output isn't on disk yet, so a rebuild never redoes finished stages."""
+def resume_stage(d, built=False):
+    """The first stage of a run whose output isn't on disk yet, or None once `built`, so a rebuild never redoes finished stages."""
     balance = d / 'balance.json'
     done = [(d / 'sites.json').exists(), all((d / f'ideas-{i}.json').exists() for i in range(1, 4)), (d / 'content.json').exists(),
             balance.exists() and not json.loads(balance.read_text()).get('problems')]
-    return STAGES[done.index(False)] if False in done else 'art'
+    return STAGES[done.index(False)] if False in done else None if built else 'art'
 
 
 def build_run(run_id):
@@ -149,19 +149,32 @@ def build_run(run_id):
     if sh('git', 'merge', '-q', '--no-edit', 'origin/main', cwd=tree, check=False).returncode:
         sh('git', 'checkout', 'origin/main', '--', 'public/manifest.json', cwd=tree)  # open_run rewrites it from main's anyway
         sh('git', 'commit', '-q', '--no-edit', cwd=tree)
+    # The merge keeps factory edits made only on the branch; this lane runs only code that matches main.
+    sh('git', 'checkout', 'origin/main', '--', 'factory', 'tools', cwd=tree)
+    if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode:
+        sh('git', 'commit', '-q', '-m', f'Use main\'s factory for run {run_id}', cwd=tree)
+    if not factory_clean(tree, ('factory', 'tools')):
+        return SimpleNamespace(returncode=1, stdout=f'{tree} has factory or tools files main lacks; not running them.', stderr='', moved=False)
     venv = tree / 'factory' / '.venv'
     if not venv.exists():
         venv.symlink_to(ROOT / 'factory' / '.venv')
     if not (tree / 'node_modules').exists():
         sh('npm', 'ci', '--silent', cwd=tree)
-    stage = resume_stage(tree / 'runs' / run_id)
-    r = subprocess.run([sys.executable, str(tree / 'factory' / 'run.py'), run_id, '--from', stage], cwd=tree, capture_output=True, text=True)
-    keep_run(run_id, f'Checkpoint run {run_id} from {stage}, factory exit {r.returncode}', tree)
-    out = r.stdout + r.stderr
-    if r.returncode:
-        return SimpleNamespace(returncode=r.returncode, stdout=out, stderr='')
+    d = tree / 'runs' / run_id
+    left = lambda: resume_stage(d, not run_problems(run_id, tree))
+    order = lambda stage: STAGES.index(stage) if stage else len(STAGES)
+    stage, out = left(), ''
+    if stage:
+        r = subprocess.run([sys.executable, str(tree / 'factory' / 'run.py'), run_id, '--from', stage], cwd=tree, capture_output=True, text=True)
+        keep_run(run_id, f'Checkpoint run {run_id} from {stage}, factory exit {r.returncode}', tree)
+        out = r.stdout + r.stderr
+        # Progress is a stage finished, not a new commit: merging main moves the branch on every try.
+        moved = order(left()) > order(stage)
+        if r.returncode:
+            return SimpleNamespace(returncode=r.returncode, stdout=out, stderr='', moved=moved)
     result = open_run(run_id, False, tree)
-    return SimpleNamespace(returncode=0 if ' is in ' in result else 1, stdout=f'{out}\n{result}', stderr='')
+    opened = ' is in ' in result
+    return SimpleNamespace(returncode=0 if opened else 1, stdout=f'{out}\n{result}', stderr='', moved=opened or bool(stage))
 
 
 def done(number, note):
@@ -216,8 +229,14 @@ def main():
             r = build_run(run_id)
         elif kind == 'comms':
             discussion = re.search(r'discussion #(\d+)', issue['title'])
-            result = comms(int(discussion.group(1)), issue['body'], False, require_post=issue['title'].startswith('Post our entry')) if discussion else f'Bad comms job title: {issue["title"]}'
-            r = SimpleNamespace(returncode=1 if FAILED.search(result) else 0, stdout=result, stderr='')
+            entry = issue['title'].startswith('Post our entry')
+            if not discussion:
+                result = f'Bad comms job title: {issue["title"]}'
+            elif entry and thread(int(discussion.group(1)))['ours']:
+                result = 'Posted: our entry was already on the thread.'  # an earlier try posted it, then failed later
+            else:
+                result = comms(int(discussion.group(1)), issue['body'], False, require_post=entry)
+            r = SimpleNamespace(returncode=0 if result.startswith('Posted:') else 1, stdout=result, stderr='')
         else:
             cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number),
                    *(['--role', worker] if worker else []), *(['--merge'] if kind == 'pr' else [])]
@@ -254,11 +273,18 @@ def settle(st, r, out, kind, number, key, ref, before, coach, prs):
         st['cooldown_until'] = time.time() + 1800  # the subscription is resting; nothing will run until it's back
     else:
         sh('git', 'fetch', '-q', 'origin')
-        moved = bool(ref) and tip(ref) != before
+        moved = getattr(r, 'moved', None)
+        if moved is None:
+            moved = bool(ref) and tip(ref) != before
         if r.returncode and not moved:
             # No progress: evaluate once instead of spending tokens on retries.
             if coach:
-                stuck = [number] + [int(k.split('-')[1].split('@')[0]) for k, n in st['waiting'].items() if n == number]
+                parked = {**st['waiting']}
+                for other in ('.runner.json', '.foreman.json'):
+                    path = ROOT / 'factory' / 'log' / other
+                    if path != STATE and path.exists():
+                        parked.update(json.loads(path.read_text()).get('waiting', {}))
+                stuck = [number] + [int(k.split('-')[1].split('@')[0]) for k, n in parked.items() if n == number]
                 for n in stuck:
                     which = 'pr' if any(p['number'] == n for p in prs) else 'issue'
                     sh('gh', which, 'edit', str(n), '--repo', REPO, '--add-label', STUCK)
