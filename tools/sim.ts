@@ -64,11 +64,17 @@ export function playCombat(initial: CombatState, policy: Policy): CombatState {
       // If Sweep removes the same target, it also damages the other foes.
       const sweepSameKill = sweepKill && foes.length > 1 && finishers.length &&
         finishers[0].foe.hp + finishers[0].foe.shield <= Math.round(actor.power * .6);
+      const preparedCharge = actor.charging && actor.routines.find(id => ROUTINES[id]?.action === 'charge');
+      const chargeTarget = preparedCharge && rankAttackTargets(atbTargets(state, actorId, preparedCharge), preparedCharge)[0];
+      const breach = actor.routines.find(id => ROUTINES[id]?.action === 'overflow');
       if (sweepFinisher || sweepSameKill) { routineId = (sweepFinisher || sweepKill)!; }
       else if (finishers.length) { routineId = finishers[0].id; targetId = finishers[0].foe.id; }
       else if (sweepKill) { routineId = sweepKill; }
       else if (groupHeal && patients.length && groupHealing > singleHealing) { routineId = groupHeal; }
       else if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
+      else if (preparedCharge && chargeTarget && (!breach || chargeTarget.shield <= Math.round(actor.power * 3) - Math.round(actor.power * 1.5))) {
+        routineId = preparedCharge; targetId = chargeTarget.id;
+      }
       else {
         const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
         // Start with the strongest unshielded hit; consider Breach against shields below.
