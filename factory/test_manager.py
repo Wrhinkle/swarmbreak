@@ -473,7 +473,7 @@ with tempfile.TemporaryDirectory() as d:
         (tree / builder.RESULT).write_text(json.dumps({'outcome': 'not_reproduced', 'summary': 's', 'evidence': 'e'}))
     response = MagicMock()
     response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
-    with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+    with patch.object(builder, 'ROOT', root), patch.object(builder, 'investigate', return_value=[]), patch.object(builder, 'sh', side_effect=fake_sh), \
          patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
          patch.object(builder.urllib.request, 'urlopen', return_value=response), patch.object(builder, 'notes', return_value=[]), \
          patch.object(builder, 'checkpoint', return_value=''):
@@ -557,7 +557,7 @@ for failing_check in (None, 1, 'probe'):
             return SimpleNamespace(returncode=int(failed), stdout='host test failed' if failed else '', stderr='')
         response = MagicMock()
         response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
-        with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+        with patch.object(builder, 'ROOT', root), patch.object(builder, 'investigate', return_value=[]), patch.object(builder, 'sh', side_effect=fake_sh), \
              patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
              patch.object(builder.urllib.request, 'urlopen', return_value=response), \
              patch.object(builder, 'checkpoint', return_value=''), \
@@ -618,6 +618,103 @@ with tempfile.TemporaryDirectory() as d:
     assert not (tree / '.git-fixes.json').exists()
 print('ok PR fixer stops on host failure')
 
+# The builder asks Qodo before building; an outage is recorded, not fatal, and the PR says what was asked.
+import builder
+calls = []
+def fake_qodo(*a, check=True, **k):
+    calls.append(a)
+    if 'similar' in a:
+        return SimpleNamespace(stdout='{"prs": [{"number": 55}]}', stderr='', returncode=0)
+    return SimpleNamespace(stdout='{"error":{"code":"MT-UPSTREAM-DOWN"}}', stderr='', returncode=1)
+with patch.object(builder, 'sh', side_effect=fake_qodo):
+    found = builder.investigate({'title': 'ATB', 'body': 'The bug is in `src/combat.ts:104` and src/main.ts.'})
+assert [f['ok'] for f in found] == [True, False, False] and any('src/combat.ts' in c for c in calls[1])
+section = builder.investigated_section(found, [{'answer_index': 0, 'item': '"number": 55'}])
+assert 'answered' in section and 'unavailable' in section and '"number": 55' in section
+assert 'Reported used' in section
+assert builder.valid_references(found, [{'answer_index': 0, 'item': 'unrelated'}, {'answer_index': 1, 'item': 'error'}, {'answer_index': True, 'item': 'error'}, 'legacy']) == []
+assert 'Reported used' not in builder.investigated_section(found, [{'answer_index': 1, 'item': 'error'}], 'Nothing applies')
+assert 'No applicable results reported: Nothing applies' in builder.investigated_section(found, [], 'Nothing applies')
+assert 'Investigated before building' in builder.pr_body('1', '## Acceptance criteria\n- x', 's', 'e', section)
+print('ok builder investigates before building')
+
+# Lookup failures never expose diagnostics in the published section, and a null body is valid.
+with patch.object(builder, 'sh', side_effect=OSError('/private/host/qodo missing')):
+    missing = builder.investigate({'title': 'bodyless', 'body': None})
+assert len(missing) == 1 and not missing[0]['ok']
+assert '/private/host' not in builder.investigated_section(missing, None)
+with patch.object(builder, 'sh', return_value=SimpleNamespace(stdout='', stderr='secret command output', returncode=1)):
+    failed = builder.investigate({'title': 'failure', 'body': ''})
+assert 'secret command output' not in builder.investigated_section(failed, None)
+
+# subprocess.run kills and waits for a timed-out lookup before returning to the builder.
+import time
+with tempfile.TemporaryDirectory() as d:
+    executable = Path(d) / 'qodo'
+    executable.write_text('#!/bin/sh\nexec sleep 10\n')
+    executable.chmod(0o755)
+    start = time.monotonic()
+    with patch.object(builder, 'QODO', str(executable)), patch.object(builder, 'INVESTIGATION_TIMEOUT', 0.1):
+        stalled = builder.investigate({'title': 'stall', 'body': None})
+    assert time.monotonic() - start < 3 and not stalled[0]['ok']
+print('ok builder lookup failures and timeout')
+
+# A partial pass's lookup and references reach the next worker and the final PR.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    def git(*args, cwd=root, check=True):
+        return subprocess.run(['git', *map(str, args)], cwd=cwd, check=check, capture_output=True, text=True)
+    git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+    (root / 'file').write_text('base\n')
+    git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    published, contexts = [], []
+    def fake_sh(*args, cwd=None, check=True):
+        if args[:3] == ('git', 'fetch', '-q') or args[0] == 'npm' or args[:2] == ('git', 'push'):
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        if args[0] == 'git':
+            return git(*args[1:], cwd=cwd or root, check=check)
+        if args[:3] == ('gh', 'issue', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'author': {'login': builder.OWNER}, 'state': 'OPEN', 'title': 't', 'body': None}))
+        if args[:3] == ('gh', 'pr', 'list'):
+            return SimpleNamespace(stdout='0')
+        if args[:3] == ('gh', 'pr', 'create'):
+            published.append(args[args.index('--body') + 1])
+            return SimpleNamespace(stdout='https://example.test/1')
+        raise AssertionError(args)
+    def fake_bot(role, tree, prompt, **kwargs):
+        contexts.append(json.loads((tree / '.issue.json').read_text()))
+        (tree / 'file').write_text('changed\n')
+        result = {'outcome': 'partial' if len(contexts) == 1 else 'fixed', 'summary': 's', 'evidence': 'e',
+                  'investigated': [{'answer_index': 0, 'item': 'PR #55' if len(contexts) == 1 else 'PR #56'}, {'answer_index': 1, 'item': 'failed item'}]}
+        (tree / builder.RESULT).write_text(json.dumps(result))
+    def save_checkpoint(number, tree, branch, live, result, bad):
+        git('add', '-A', cwd=tree); git('commit', '-qm', 'Builder checkpoint on #42 (unfinished)', cwd=tree)
+        return 'saved'
+    response = MagicMock()
+    response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
+    lookup = [{'asked': 'similar merged PRs', 'ok': True, 'answer': 'PR #55 and PR #56'}, {'asked': 'history', 'ok': False, 'answer': 'failed item'}]
+    with patch.object(builder, 'ROOT', root), patch.object(builder, 'sh', side_effect=fake_sh), \
+         patch.object(builder, 'investigate', return_value=lookup) as lookup_mock, patch.object(builder, 'bot', side_effect=fake_bot), \
+         patch.object(builder, 'hold'), patch.object(builder.urllib.request, 'urlopen', return_value=response), \
+         patch.object(builder, 'checkpoint', side_effect=save_checkpoint), patch.object(builder, 'problems_in', return_value=([], ['file'])), \
+         patch.object(sys, 'argv', ['builder.py', '42']):
+        try:
+            builder.main()
+            assert False, 'partial work should stop'
+        except SystemExit:
+            pass
+        metadata = root / '.git' / 'builder-investigation-42.json'
+        saved = json.loads(metadata.read_text())
+        saved['references'] += [{'answer_index': 0, 'item': 'unrelated'}, {'answer_index': 1, 'item': 'failed item'}, 'legacy']
+        metadata.write_text(json.dumps(saved))
+        builder.main()
+    assert lookup_mock.call_count == 1 and contexts[1]['investigation'] == lookup
+    assert contexts[1]['investigation_references'] == [{'answer_index': 0, 'item': 'PR #55'}]
+    assert all(x in published[0] for x in ['similar merged PRs', 'PR #55', 'PR #56'])
+    assert 'unrelated' not in published[0] and 'failed item' not in published[0]
+assert 'Reported used' not in builder.investigated_section([], ['first reference'])
+print('ok builder investigation survives continuation')
 # Every 'Day N' thread without our post gets a forced comms action; late ones say so.
 import manager
 threads = [{'number': 8, 'title': 'Day 6: Ask your codebase', 'createdAt': '2000-01-01T00:00:00Z', 'we_posted': False},
