@@ -29,10 +29,17 @@ export async function loadManifest(): Promise<Manifest> {
   return value;
 }
 
+export class RunOpeningError extends Error {}
+
 export async function refreshRun(active: Manifest, now: number): Promise<{ manifest: Manifest; run: Run | null }> {
   const published = await loadManifest();
   const candidate = currentRun(published, now);
   if (candidate.runId === active.runId) return { manifest: candidate, run: null };
-  if (Date.parse(candidate.opensAt) <= Date.parse(active.opensAt)) return { manifest: active, run: null };
-  return { manifest: candidate, run: await loadRun(candidate) };
+  if (Date.parse(candidate.opensAt) > now || Date.parse(candidate.opensAt) <= Date.parse(active.opensAt)) return { manifest: active, run: null };
+  try { return { manifest: candidate, run: await loadRun(candidate) }; }
+  catch { throw new RunOpeningError('Could not load the open run'); }
+}
+
+export function openingDue(manifest: Manifest, now: number): boolean {
+  return now >= Date.parse(manifest.next?.opensAt ?? manifest.nextOpensAt);
 }

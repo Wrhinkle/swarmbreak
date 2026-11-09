@@ -4,7 +4,7 @@ import { CREW_MAX, ROLE_STATS, ROUTINES, SLOTS_MAX, SLOTS_START, TICK_MS, TIER_S
 import type { Routine } from './library';
 import { createCombat, order, step } from './combat';
 import type { CombatState } from './combat';
-import { loadManifest, loadRun, openedRun, refreshRun } from './live-run';
+import { loadManifest, loadRun, openedRun, refreshRun, openingDue, RunOpeningError } from './live-run';
 import { currentRun, exportSave, finishRun, importSave, loadSave, rollover, writeSave } from './save';
 import type { CrewMember, Save } from './save';
 import type { Creature, EventEffect, Manifest, MapNode, Run, RunAct } from './types';
@@ -123,9 +123,9 @@ async function checkOpening() {
     if (refreshed.run) openingReady = { manifest: refreshed.manifest, run: refreshed.run };
     else manifest = refreshed.manifest;
     openingError = '';
-  } catch {
+  } catch (error) {
     try { openingReady = await openedRun(manifest, Date.now()); } catch { /* retry below */ }
-    openingError = openingReady ? '' : 'The new run could not be loaded. Retrying shortly.';
+    openingError = openingReady || (!(error instanceof RunOpeningError) && !openingDue(manifest, Date.now())) ? '' : 'The new run could not be loaded. Retrying shortly.';
   }
   finally { checkingOpening = false; }
   if (openingReady && (!save.today || save.today.result)) applyOpening();

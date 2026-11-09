@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { openedRun, refreshRun } from './live-run';
+import { openedRun, refreshRun, openingDue, RunOpeningError } from './live-run';
 import type { Manifest } from './types';
 
 const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8'));
@@ -38,4 +38,21 @@ it('discovers later reserves before and after opening, and retains the active ru
   fetcher.mockResolvedValueOnce({ ok: false, json: async () => ({}) });
   await expect(refreshRun(promoted, Date.parse('2026-11-07T14:00:00Z'))).rejects.toThrow();
   expect(promoted.runId).toBe('b');
+});
+
+
+it('waits for a future published current run and flags only due openings', async () => {
+  const active = { ...manifest, next: undefined };
+  const future = { ...active, runId: run.id, runUrl: '/next', opensAt: '2026-11-06T13:00:00Z' };
+  const fetcher = vi.fn(async (url: string) => ({ ok: true, json: async () => url === '/manifest.json' ? future : run }));
+  vi.stubGlobal('fetch', fetcher);
+  const before = Date.parse('2026-11-06T12:59:59Z'), at = before + 1000;
+  for (const player of ['idle', 'unfinished']) {
+    expect((await refreshRun(active, before)).manifest).toEqual(active);
+    expect((await refreshRun(active, at)).run?.id, player).toBe(run.id);
+  }
+  expect(openingDue(active, before)).toBe(false);
+  expect(openingDue(active, at)).toBe(true);
+  fetcher.mockImplementation(async (url: string) => url === '/manifest.json' ? { ok: true, json: async () => future } : { ok: false, json: async () => ({}) });
+  await expect(refreshRun(active, at)).rejects.toBeInstanceOf(RunOpeningError);
 });

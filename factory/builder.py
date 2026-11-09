@@ -226,12 +226,14 @@ def notes(tree):
     return [m.strip() for m in log if m.strip().startswith(CHECKPOINT)][::-1] + [sh('git', 'diff', '--stat', 'origin/main', cwd=tree).stdout[-3000:]]
 
 
-def checkpoint(number, tree, branch, live, result, bad, reserves=frozenset()):
+def checkpoint(number, tree, branch, live, result, bad, reserves=frozenset(), preserve_runs=False):
     """Saves an unfinished pass as a local commit on the issue's branch and notes what's left. The next pass starts from it.
     Nothing is pushed: code leaves this Mac only after every host check passes."""
     # Locked files go back to main's version, and so do built runs, which the host rebuilds from content.json.
     built = [p for p in changed_from_main(tree) if re.match(r'public/runs/[^/]+/run\.json$', p) and (p.split('/')[2] not in live or p.split('/')[2] in reserves)]
     for p in blocked_paths(changed_from_main(tree), live) + built:
+        if preserve_runs and (p.startswith('runs/') or p.startswith('public/runs/')):
+            continue
         if sh('git', 'cat-file', '-e', f'origin/main:{p}', cwd=tree, check=False).returncode:
             (tree / p).unlink(missing_ok=True)
         else:
@@ -319,7 +321,7 @@ def main():
                 break
             try:
                 bad, changed = check_published(tree, live, reserves)
-            except HostVerificationError as exc:
+            except (HostVerificationError, OSError, ValueError, KeyError, TypeError) as exc:
                 bad = [str(exc)]
                 break
             bad += [] if changed else ['outcome is fixed, but nothing changed']
@@ -337,10 +339,15 @@ def main():
     if outcome != 'fixed' or bad:
         # Unfinished work is kept and continued, never thrown away.
         (tree / RESULT).unlink(missing_ok=True)
-        latest, pending = published_runs()
-        live |= latest
-        reserves |= pending
-        sha = '' if dry else checkpoint(number, tree, branch, live, result, bad, reserves)
+        try:
+            latest, pending = published_runs()
+            live |= latest
+            reserves |= pending
+            preserve_runs = False
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            bad.append(f'Publication lookup failed; retry before publishing: {exc}')
+            preserve_runs = True
+        sha = '' if dry else checkpoint(number, tree, branch, live, result, bad, reserves, preserve_runs=True) if preserve_runs else checkpoint(number, tree, branch, live, result, bad, reserves)
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         sys.exit(f'Builder stopped with outcome {outcome}' + (f'; saved {sha} on {branch} for the next pass.' if sha else '; nothing new to save.')
                  + (f'\n{str(bad)[:1500]}' if bad else ''))

@@ -222,6 +222,16 @@ try:
     assert False, 'a pending reserve must not be replaced'
 except ValueError as e:
     assert '2026-11-06' in str(e)
+assert release_due(m5, r, n) == 'deploy'  # cancel before opening
+assert release_due(m5, r, datetime(2026, 11, 6, 13, tzinfo=timezone.utc)) == 'older'
+assert release_due(m5, r, after) == 'older'
+for schedule, requested, moment in [(m5, '2026-11-07', n), (r, '2026-11-05', after)]:
+    try:
+        opened(schedule, requested, moment)
+        assert False, 'invalid schedule accepted'
+    except ValueError:
+        pass
+assert opened(m5, '2026-11-06', n) == r
 assert 'next' not in opened(m5, '2026-11-05', n)  # opening a run that is already due replaces the manifest as before
 from builder import blocked_paths
 for moment, active in [(n, '2026-11-05'), (after, '2026-11-06')]:
@@ -824,3 +834,49 @@ with patch.object(manager, 'thread', return_value=t), patch.object(manager, 'fac
     assert len(attempts) == 3 and 'required top-level post is empty' in attempts[-1]
     assert manager.comms(9, 'task', True) == 'Dry run, nothing posted.'
 print('ok forced post validation and discovery')
+
+# A stale build must use main's schedule, not its own manifest.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    (root / 'public').mkdir()
+    (root / 'public/manifest.json').write_text(json.dumps(m5))
+    def schedule_sh(*args, **kwargs):
+        if args[:2] == ('git', 'branch'):
+            return SimpleNamespace(stdout='run/2026-11-05', returncode=0, stderr='')
+        if args[:2] == ('git', 'show'):
+            return SimpleNamespace(stdout=json.dumps(r), returncode=0, stderr='')
+        raise AssertionError(args)
+    with patch.object(_m, 'ROOT', root), patch.object(_m, 'sh', side_effect=schedule_sh), \
+         patch.object(_m, 'run_problems', return_value=[]), patch.object(_m, 'datetime') as clock:
+        clock.now.return_value = datetime(2026, 11, 6, 14, tzinfo=timezone.utc)
+        clock.fromisoformat.side_effect = datetime.fromisoformat
+        assert 'older' in _m.open_run('2026-11-05', False)
+        assert json.loads((root / 'public/manifest.json').read_text()) == m5
+
+# Each publication lookup failure stops verification; the next pass must recheck.
+for failure in (0, 1):
+    calls = [({'x'}, set()), ({'x'}, set())]
+    calls[failure] = OSError('offline')
+    with patch.object(builder, 'published_runs', side_effect=calls), \
+         patch.object(builder, 'problems_in', return_value=([], ['file'])):
+        try:
+            builder.check_published(None, set(), set())
+            assert False, 'offline lookup accepted'
+        except OSError:
+            pass
+    with patch.object(builder, 'published_runs', return_value=({'x'}, set())), \
+         patch.object(builder, 'problems_in', return_value=([], ['file'])):
+        assert builder.check_published(None, set(), set()) == ([], ['file'])
+
+# Unknown publication state must not restore or delete any run files at checkpoint.
+with tempfile.TemporaryDirectory() as d:
+    tree = Path(d)
+    paths = ['runs/2026-11-06/content.json', 'public/runs/2026-11-07/run.json']
+    commands = []
+    def checkpoint_sh(*args, **kwargs):
+        commands.append(args)
+        return SimpleNamespace(returncode=0, stdout='', stderr='')
+    with patch.object(builder, 'changed_from_main', return_value=paths), patch.object(builder, 'sh', side_effect=checkpoint_sh):
+        builder.checkpoint('42', tree, 'fix/issue-42', {'2026-11-06'}, {}, ['offline'], preserve_runs=True)
+    assert not any('checkout' in c for c in commands)
+print('ok publication outage and stale schedule')

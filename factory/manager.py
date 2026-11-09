@@ -239,7 +239,8 @@ def open_run(run_id, dry):
         return f'Not opening {run_id}: {problems}'
     manifest = ROOT / 'public' / 'manifest.json'
     try:
-        updated = opened(json.loads(manifest.read_text()), run_id, datetime.now(timezone.utc))
+        schedule = json.loads(sh('git', 'show', 'origin/main:public/manifest.json').stdout)
+        updated = opened(schedule, run_id, datetime.now(timezone.utc))
     except ValueError as e:
         return f'Not opening {run_id}: {e}'
     if dry:
@@ -318,12 +319,16 @@ def opened(current, run_id, now):
     """The manifest after opening run_id. A run built before it opens rides along as `next`, so it goes live on time even if this host is down."""
     base, opens = effective(current, now), datetime.fromisoformat(f'{run_id}T13:00:00+00:00')
     entry = {'runId': run_id, 'opensAt': opens.strftime(FMT), 'runUrl': f'/runs/{run_id}/run.json'}
+    if opens < at(base, 'opensAt'):
+        raise ValueError(f"{run_id} is older than the current run {base['runId']}")
     pending = base.get('next')
     if pending:
         if run_id in (base['runId'], pending['runId']):
             return base
         raise ValueError(f"reserve {pending['runId']} is already scheduled to open at {pending['opensAt']}")
     if now < opens and base['runId'] != run_id and at(base, 'opensAt') < opens:
+        if opens != at(base, 'nextOpensAt'):
+            raise ValueError(f"reserve must open at {base['nextOpensAt']}")
         return base | {'next': entry}
     return {**entry, 'nextOpensAt': (opens + timedelta(days=1)).strftime(FMT), 'voided': current.get('voided', [])}
 
@@ -341,13 +346,13 @@ def deploy_problems(manifest, live, has_live_run, now):
 def release_due(main_m, live, now):
     """What the host must do about the live run: 'deploy', 'older', 'expired', or None. Not left to the model, since a run left undeployed closes the game.
     A run deploys only once it has opened: the client won't start a run before its opensAt, so publishing early would lock players out of the current one."""
-    main_m, live_next, live = effective(main_m, now), live.get('next'), effective(live, now)
+    main_m, live = effective(main_m, now), effective(live, now)
     if main_m['runId'] != live['runId']:
         if at(main_m, 'opensAt') <= at(live, 'opensAt'):
             return 'older'
         if now >= at(main_m, 'opensAt'):
             return 'deploy'
-    if main_m.get('next') and main_m['next'] != live_next:
+    if main_m['runId'] == live['runId'] and main_m.get('next') != live.get('next'):
         return 'deploy'  # publish the prebuilt run early; players keep today's until it opens
     return 'expired' if now >= at(live, 'nextOpensAt') else None
 
