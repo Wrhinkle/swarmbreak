@@ -1,0 +1,43 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [["ice-sawyer"], ["basin-pusher"], ["scrap-skimmer"], ["ice-sawyer", "scrap-skimmer"], ["basin-pusher", "scrap-skimmer"]],
+        "mid": [["frost-wrapper"], ["well-eye", "scrap-skimmer"], ["ice-churn"], ["route-surveyor"], ["mooring-claimant", "basin-pusher"], ["echo-splicer", "scrap-skimmer"]],
+        "late": [["frost-wrapper", "ice-sawyer"], ["route-surveyor", "scrap-skimmer"], ["ice-churn", "basin-pusher"], ["well-eye", "ice-sawyer"], ["mooring-claimant", "scrap-skimmer"], ["echo-splicer", "basin-pusher"]]
+      },
+      "elites": [
+        {"id": "union-coupler", "reward": "bantam-helper"},
+        {"id": "railway-porter", "reward": "canal-mender"},
+        {"id": "basin-curator", "reward": "bantam-helper"}
+      ],
+      "shop": ["breach", "sweep", "patch", "brace", "purge", "jam", "finish", "charge"]
+    },
+    {
+      "packs": {
+        "early": [["net-drone"], ["caliper-tick"], ["electric-skipper"], ["net-drone", "caliper-tick"], ["electric-skipper", "caliper-tick"]],
+        "mid": [["hull-apprentice"], ["lock-carrier"], ["archive-dredger"], ["tamar-loader"], ["replica-pilot", "caliper-tick"], ["inspection-yacht", "caliper-tick"]],
+        "late": [["hull-apprentice", "caliper-tick"], ["lock-carrier", "net-drone"], ["archive-dredger", "caliper-tick"], ["tamar-loader", "net-drone"], ["replica-pilot", "electric-skipper"], ["inspection-yacht", "net-drone"]]
+      },
+      "elites": [
+        {"id": "flagship-crown", "reward": "workshop-mender"},
+        {"id": "harbour-webber", "reward": "lifeboat-rescuer"},
+        {"id": "cost-collector", "reward": "lifeboat-rescuer"}
+      ],
+      "shop": ["breach", "sweep", "patch+", "brace", "purge", "jam", "strike+", "finish"]
+    },
+    {
+      "packs": {
+        "early": [["coin-sounder"], ["chart-crawler"], ["photo-skater"], ["coin-sounder", "chart-crawler"], ["coin-sounder", "photo-skater"]],
+        "mid": [["preventive-preserver"], ["passenger-purser"], ["schooner-rigger"], ["model-double", "coin-sounder"], ["reading-circle"], ["net-of-boats"]],
+        "late": [["preventive-preserver", "coin-sounder"], ["passenger-purser", "coin-sounder"], ["schooner-rigger", "chart-crawler"], ["model-double", "photo-skater"], ["reading-circle"], ["net-of-boats", "coin-sounder"]]
+      },
+      "elites": [
+        {"id": "slipway-reviser", "reward": "tactile-guide"},
+        {"id": "archive-integrator", "reward": "bench-caretaker"},
+        {"id": "galley-loom", "reward": "tactile-guide"}
+      ],
+      "shop": ["sweep+", "patch+", "triage", "brace", "breach", "jam", "strike+", "purge"]
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "reading": "London Canal Museum is a volunteer-run educational charity telling the intertwined stories of London's constructed waterways and the natural-ice trade, in a Victorian ice warehouse beside Battlebridge Basin. Its interests run from engineering and trade routes to boat families, horses, cargoes, oral memories and the preservation of working craft. It makes history tangible through a narrowboat cabin, a surviving pusher tug, an ice well, trips, family activities and community boats; accessibility and environmental care are recurring commitments. Its vocabulary is practical and waterside: navigation, towpath, basin, wharf, mooring, pusher tug, narrowboat, ice well and cargo. The unusual combination of Norwegian ice harvested, shipped and stored underground with the everyday social life and infrastructure of London's canals gives the place its character. It is also a living gathering place, hosting exhibitions, learning, celebrations and excursions, not simply a storehouse of objects.",
+  "enemies": [
+    {
+      "idea": "Harvest Sawyers score the canal surface into neat squares, then hoist anything inside each square into an ice-railway wagon.",
+      "source": "/ice/iceimport.htm",
+      "why": "The grid telegraphs their attack and lets a crew cut a route through it or redirect the wagons."
+    },
+    {
+      "idea": "A chain of ice-railway porters passes frozen cargo hand to hand; the last one launches the accumulated blocks at a target.",
+      "source": "/ice/iceimport.htm",
+      "why": "Breaking or rerouting the chain turns an industrial process into a cooperative puzzle."
+    },
+    {
+      "idea": "Warehouse Insulators wrap doors and machines in thick frost-packed layers to preserve the stock, sealing escape routes as well.",
+      "source": "/ice/ice-house.htm",
+      "why": "Their protective instinct reshapes the arena and can be exploited to isolate other machines."
+    },
+    {
+      "idea": "The Waking Eye scans the ice well slowly, marking movement for submerged machines only after its sluggish mechanism has warmed up.",
+      "source": "/ice/icewell-camera.htm",
+      "why": "A patient sweep creates a readable stealth window and a reason to move during its blind arc."
+    },
+    {
+      "idea": "Churners spin anything they catch into a hardening spiral of frozen foam, convinced the whole basin is an unfinished batch.",
+      "source": "/ice/icecream.htm",
+      "why": "Their spinning creates slippery cover and a chance to jam the churn with debris."
+    },
+    {
+      "idea": "Lee-Lea Sorters split the water into rigid navigation and natural-river lanes, attacking anything that crosses their moving boundary.",
+      "source": "/history/lee.htm",
+      "why": "The distinction gives the fight a shifting line that clever crews can lure enemies across."
+    },
+    {
+      "idea": "Lost Route Surveyors lay ghostly canal channels through solid ground toward a vanished basin, dragging boats and equipment off course.",
+      "source": "/history/croydon.htm",
+      "why": "Their temporary channels create shortcuts as well as hazards."
+    },
+    {
+      "idea": "Union Couplers clamp two unrelated waterways together with mechanical jaws, pulling whatever floats in each toward the junction.",
+      "source": "/history/minor.htm",
+      "why": "A crew can sever the jaws or use their pull to swing around an obstacle."
+    },
+    {
+      "idea": "Linkwrights extend jointed canal sections between the Paddington arm and an imagined Thames, blocking paths whenever their alignment is disturbed.",
+      "source": "/history/regents.htm",
+      "why": "The pieces can be rotated into bridges or turned back on the swarm."
+    },
+    {
+      "idea": "Long-Distance Carriers assemble into a moving freight train of narrow hulls, collecting every loose object as cargo for an endless journey.",
+      "source": "/history/grandjun.htm",
+      "why": "Each loaded hull changes the convoy and offers a tempting opportunity to steal supplies back."
+    },
+    {
+      "idea": "Lineage Clerks demand a boat, canal and company for every traveller, binding uncertain answers together into a family tree of grasping cables.",
+      "source": "/collection/family-history.htm",
+      "why": "Incomplete clues become a social puzzle; false connections can tangle the clerks themselves."
+    },
+    {
+      "idea": "Echo Splicers steal fragments of conversation and replay them out of order to lure crews into crossing routes.",
+      "source": "/collection/oralhistory.htm",
+      "why": "Players can identify the trick by listening for impossible edits and use sound as a decoy."
+    },
+    {
+      "idea": "Pusher Brood crowd behind a vessel and shove it toward the nearest swarm-controlled wharf.",
+      "source": "/collection/bantam-tug.htm",
+      "why": "Small attackers become dangerous through coordinated positioning, and a sharp turn scatters them."
+    },
+    {
+      "idea": "Mooring Claimants cast lines around passing craft and declare them permanent residents, tightening each time the craft tries to leave.",
+      "source": "/moorings.htm",
+      "why": "Cutting, slackening or fastening the lines to something heavier gives several ways out."
+    },
+    {
+      "idea": "Tunnel Timetakers patrol a sightseeing route and insist every vessel complete its scheduled passage, towing reluctant boats into the dark.",
+      "source": "/visit/boat-trips.htm",
+      "why": "Their predictable circuit offers safe intervals and a moving platform to board."
+    },
+    {
+      "idea": "Basin Curators collect one object from each year they encounter, trapping anything they cannot date in a rotating exhibit.",
+      "source": "/whatson/exhibition.htm",
+      "why": "The crew can confuse their chronology or bargain with a dated artifact."
+    },
+    {
+      "idea": "Recycling Skimmers dismantle any loose metal for reuse, including tools a crew has just set down.",
+      "source": "/green-museum.htm",
+      "why": "Their hunger for scrap can be baited into clearing a passage or attacking other machines."
+    },
+    {
+      "idea": "Ceremony Riggers lash boats together in a rigid procession and move through phases of arrival, speeches and cake-cutting with mechanical precision.",
+      "source": "/venue/weddings.htm",
+      "why": "Each phase changes the formation, providing a distinctive opening to slip through."
+    },
+    {
+      "idea": "Mapmakers project old waterway alignments onto the present and send digging machines to enforce the obsolete routes.",
+      "source": "/history/maps.htm",
+      "why": "Overlapping eras create visible warning lines and terrain the crew can turn to its advantage."
+    },
+    {
+      "idea": "Itinerary Herdsmen corral travellers through a compulsory sequence of towpath walk, boat trip and refreshments, closing each route behind them.",
+      "source": "/visit/groups.htm",
+      "why": "The fixed sequence makes a chase legible and offers opportunities to switch groups or skip a stage."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Bantam IV, a stubborn preserved pusher tug, nudges stranded craft clear of the swarm when its crew can coax the engine into life.",
+      "source": "/collection/bantam-tug.htm",
+      "why": "Its pushing role supports rescues and makes a fragile engine a practical objective."
+    },
+    {
+      "idea": "A protected listening post preserves unaltered canal memories; volunteers compare them with swarm echoes to identify safe routes and false voices.",
+      "source": "/collection/oralhistory.htm",
+      "why": "Human memory becomes a useful counter to the Echo Splicers without turning real people into characters."
+    },
+    {
+      "idea": "A network of community narrowboats evacuates neighbours and shares accessible boarding points along the canal.",
+      "source": "/community-boats.htm",
+      "why": "Mobile refuge gives the crew people and routes to protect."
+    },
+    {
+      "idea": "Access stewards maintain step-free routes and alternate ways to communicate through the occupied museum.",
+      "source": "/visit/access-summary.htm",
+      "why": "Their practical knowledge opens multiple approaches for different crews."
+    },
+    {
+      "idea": "Volunteer repair crews pool different skills to keep lights, boats and mechanical barriers working.",
+      "source": "/volunteering/index.html",
+      "why": "They turn recovered parts into persistent improvements and make the museum feel inhabited."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Ice-Well Admiral is a swarm-built warehouse and fleet in one: it pulls cargo from the canal into its deep refrigerated hold, then sends ice-armoured boats back out for more.",
+      "source": "/",
+      "why": "It fuses the two defining histories; severing cargo lines and opening the well changes the battlefield in stages."
+    },
+    {
+      "idea": "The Perpetual Custodian has interpreted the charity educational mission as a mandate to preserve every boat, story and visitor in a motionless collection.",
+      "source": "/trust.htm",
+      "why": "The final confrontation can challenge its idea of preservation by restoring moving boats and living testimony."
+    },
+    {
+      "idea": "The Navigation Engine tries to join every London waterway into one flawless, controllable channel, regardless of the people and habitats in its path.",
+      "source": "/history/index.html",
+      "why": "Its linked gates make a canal-scale puzzle where opening one route affects another."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A runaway ice block is travelling down a mechanical railway toward a boat full of salvaged supplies.",
+      "source": "/ice/iceimport.htm",
+      "why": "The crew can switch the track, stop the block or use it to seal a pursuing machine in place."
+    },
+    {
+      "idea": "At a fork, two sorter machines argue over whether the water is river or navigation while a stranded boat drifts toward their boundary.",
+      "source": "/history/lee.htm",
+      "why": "The dispute provides a brief opening for a rescue or a distraction."
+    },
+    {
+      "idea": "A clerk has tangled a boat-name clue with a canal-name clue and is filing a supply crate under the wrong lineage.",
+      "source": "/collection/family-history.htm",
+      "why": "Untangling the clues frees the crate and may reveal a useful route."
+    },
+    {
+      "idea": "A familiar-sounding warning repeats from two listening posts, but one contains a splice that reverses the safe direction.",
+      "source": "/collection/oralhistory.htm",
+      "why": "Careful listening rewards investigation without requiring a fight."
+    },
+    {
+      "idea": "A rotating basin exhibition has trapped a recent photograph beneath a moving display; its background shows a route before the swarm blocked it.",
+      "source": "/whatson/exhibition.htm",
+      "why": "Retrieving the image provides a concrete navigation advantage."
+    },
+    {
+      "idea": "A group of tiny pusher machines is trying to move a craft far too large for them, leaving a clear gap behind their formation.",
+      "source": "/collection/bantam-tug.htm",
+      "why": "The crew can slip by, redirect the push or help the boat escape."
+    },
+    {
+      "idea": "A recycling skimmer has carried off a vital repair part along with genuine scrap.",
+      "source": "/green-museum.htm",
+      "why": "A trail of sorted metal leads to a swap, chase or improvised trap."
+    },
+    {
+      "idea": "A scheduled sightseeing boat emerges from the tunnel empty, then patiently waits for passengers before returning to swarm territory.",
+      "source": "/visit/boat-trips.htm",
+      "why": "It offers a risky ride and a chance to explore the tunnel without fighting the current."
+    },
+    {
+      "idea": "An automated mooring line catches both a refuge boat and a passing carrier, drawing them together.",
+      "source": "/moorings.htm",
+      "why": "The crew must choose where to secure or cut the line before either hull is damaged."
+    },
+    {
+      "idea": "The slow camera in the well wakes and pans across a submerged cache just as something moves below it.",
+      "source": "/ice/icewell-camera.htm",
+      "why": "Timing the camera sweep can reveal the cache and the threat without descending blindly."
+    },
+    {
+      "idea": "A ghost channel briefly traces the lost Croydon route across a dry floor, carrying a crate toward a wall.",
+      "source": "/history/croydon.htm",
+      "why": "Following it reveals a temporary shortcut; rescuing the crate requires quick improvisation."
+    },
+    {
+      "idea": "A candle-and-choir gathering continues in a sheltered corner, but the light is drawing patrols across the basin.",
+      "source": "/whatson/index.html",
+      "why": "The crew can protect the gathering or guide its light and sound into a diversion."
+    },
+    {
+      "idea": "A mechanical dinner service sets twelve round tables beneath the timber roof, using recovered parts as place settings.",
+      "source": "/venue/dinners.htm",
+      "why": "A needed component can be retrieved by navigating a quietly moving obstacle course."
+    },
+    {
+      "idea": "A trip boat responds to two old names as well as its current one, changing course when each is called.",
+      "source": "/long-tom.htm",
+      "why": "Discovering the names offers a playful way to steer it away from a hazard."
+    },
+    {
+      "idea": "A coupler joins two channels and begins pulling a floating footbridge apart.",
+      "source": "/history/minor.htm",
+      "why": "The crew can brace the bridge, release the jaws or ride the pull across."
+    }
+  ]
+}
