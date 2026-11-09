@@ -51,6 +51,8 @@ assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
 from manager import dead_links
 with patch('manager.urllib.request.urlopen', side_effect=OSError):
     assert sorted(dead_links('See https://x.test/a. Also (https://x.test/b), done.')) == ['https://x.test/a', 'https://x.test/b']
+    # A Markdown link's target is checked exactly as written.
+    assert sorted(dead_links('[release](https://x.test/release!) and [b](https://x.test/b).')) == ['https://x.test/b', 'https://x.test/release!']
 response = MagicMock()
 response.__enter__.return_value.status = 200
 with patch('manager.urllib.request.urlopen', return_value=response) as open_url:

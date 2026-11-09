@@ -69,8 +69,11 @@ def unfilled_links(body, challenge):
 
 def dead_links(body):
     dead = []
-    # A sentence's closing punctuation isn't part of the link.
-    urls = set()
+    # A Markdown link goes to its target exactly as written, so that is what gets checked.
+    target = r'\]\(<?(https?://[^\s)>]+)>?\)'
+    urls = set(re.findall(target, body))
+    body = re.sub(target, '] ', body)
+    # In a bare URL, a sentence's closing punctuation isn't part of the link.
     for match in re.finditer(r'https?://[^\s)\]>"]+', body):
         url = match.group().rstrip('.,;:!?\'')
         before = body[:match.start()]
