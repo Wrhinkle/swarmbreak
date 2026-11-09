@@ -40,6 +40,11 @@ live, soon, later = {'runId': 'a'}, {'runId': 'b', 'opensAt': '2026-11-04T13:00:
 assert deploy_problems(soon, live, True, now) == []
 assert deploy_problems(later, live, True, now)
 assert deploy_problems(soon, live, False, now)
+reserve = {'runId': 'c', 'opensAt': '2026-11-05T13:00:00Z', 'runUrl': '/runs/c/run.json'}
+assert deploy_problems({'runId': 'a', 'next': reserve}, live, True, now) == []
+assert 'reserve run c' in deploy_problems({'runId': 'a', 'next': reserve}, live, True, now, has_next=False)[0]
+assert 'drop the published reserve c' in deploy_problems({'runId': 'a'}, {**live, 'next': reserve}, True, now)[0]
+assert deploy_problems({'runId': 'a', 'next': reserve}, {**live, 'next': reserve}, True, now) == []
 tpl = '```markdown\nAGENTS.md link:\n```'
 assert unfilled_links('AGENTS.md link: Not available.', tpl)
 assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []

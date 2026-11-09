@@ -333,11 +333,17 @@ def opened(current, run_id, now):
     return {**entry, 'nextOpensAt': (opens + timedelta(days=1)).strftime(FMT), 'voided': current.get('voided', [])}
 
 
-def deploy_problems(manifest, live, has_live_run, now):
-    """Why main can't go live. Players lose a run if it disappears or its replacement isn't open yet."""
+def deploy_problems(manifest, live, has_live_run, now, has_next=True):
+    """Why main can't go live. Players lose a run if it disappears or its replacement isn't open yet.
+    A published reserve (`next`) counts too: clients switch to it on their own, so its file must ship and it can't be dropped."""
     problems = []
     if not has_live_run:
         problems.append(f'main does not have the live run {live["runId"]}')
+    nxt, published = manifest.get('next'), live.get('next')
+    if nxt and not has_next:
+        problems.append(f'main does not have the reserve run {nxt["runId"]}')
+    if published and nxt != published and manifest['runId'] != published['runId']:
+        problems.append(f'deploying would drop the published reserve {published["runId"]}')
     if manifest['runId'] != live['runId'] and datetime.fromisoformat(manifest['opensAt'].replace('Z', '+00:00')) - now > timedelta(hours=1):
         problems.append(f'{manifest["runId"]} opens at {manifest["opensAt"]}; deploying now would close the game until then')
     return problems
@@ -394,7 +400,9 @@ def deploy(dry, rev=None):
         try:
             now = datetime.now(timezone.utc)
             manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
-            problems = deploy_problems(effective(manifest, now), live, (tree / 'public' / live['runUrl'].lstrip('/')).exists(), now)
+            manifest = effective(manifest, now)
+            has = lambda m: (tree / 'public' / m['runUrl'].lstrip('/')).exists()
+            problems = deploy_problems(manifest, live, has(live), now, not manifest.get('next') or has(manifest['next']))
             if problems:
                 return f'Not deploying: {problems}'
             for cmd in (['npm', 'ci'], ['npm', 'run', 'build'], ['npm', 'test']):
