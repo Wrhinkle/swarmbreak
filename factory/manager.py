@@ -70,7 +70,16 @@ def unfilled_links(body, challenge):
 def dead_links(body):
     dead = []
     # A sentence's closing punctuation isn't part of the link.
-    for url in {u.rstrip('.,;:!?\'') for u in re.findall(r'https?://[^\s)\]>"]+', body)}:
+    urls = set()
+    for match in re.finditer(r'https?://[^\s)\]>"]+', body):
+        url = match.group().rstrip('.,;:!?\'')
+        before = body[:match.start()]
+        for opening, closing in (('**', '**'), ('__', '__'), ('*', '*'), ('_', '_'), ('“', '”'), ('‘', '’')):
+            if before.endswith(opening) and url.endswith(closing):
+                url = url[:-len(closing)].rstrip('.,;:!?\'')
+                break
+        urls.add(url)
+    for url in urls:
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': 'swarmbreak-factory'}), timeout=20) as r:
                 if r.status >= 400:

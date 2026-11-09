@@ -23,7 +23,7 @@ t = {'ours': [{'url': 'u', 'body': 'b'}], 'waiting': [{'id': 'R1', 'parent': 'C1
 assert any('already' in p for p in check_post({'top_level': good}, t))
 assert any('unknown id' in p for p in check_post({'replies': [{'to': 'R9', 'body': 'ok'}]}, t))
 assert check_post({'replies': [{'to': 'R1', 'body': 'ok'}]}, t) == []
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 with patch('manager.posted_today', return_value=0):
     reply = {'to': 'R1', 'body': 'We could not determine what occurred.'}
     assert check_post({'replies': [reply]}, t) == []
@@ -51,6 +51,14 @@ assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
 from manager import dead_links
 with patch('manager.urllib.request.urlopen', side_effect=OSError):
     assert sorted(dead_links('See https://x.test/a. Also (https://x.test/b), done.')) == ['https://x.test/a', 'https://x.test/b']
+response = MagicMock()
+response.__enter__.return_value.status = 200
+with patch('manager.urllib.request.urlopen', return_value=response) as open_url:
+    assert dead_links('**https://x.test/bold** __https://x.test/under__ “https://x.test/double” ‘https://x.test/single’ https://x.test/a_b*?x=1&y=2') == []
+    assert {call.args[0].full_url for call in open_url.call_args_list} == {
+        'https://x.test/bold', 'https://x.test/under', 'https://x.test/double',
+        'https://x.test/single', 'https://x.test/a_b*?x=1&y=2',
+    }
 from builder import blocked_paths, only_wording
 from manager import touches_gates
 assert touches_gates([{'path': 'factory/manager.py'}]) and touches_gates([{'path': 'tools/sim.ts'}]) and touches_gates([{'path': 'factory/agents/comms.md'}])
@@ -583,7 +591,6 @@ print('ok foreman factory guard')
 # A dry-run branch can be reused to close an unreproduced issue, while saved work survives.
 import builder
 import json
-from unittest.mock import MagicMock
 with tempfile.TemporaryDirectory() as d:
     root = Path(d) / 'repo'
     root.mkdir()
