@@ -152,7 +152,13 @@ def main():
     if r.returncode and 'is already being worked' in out:
         return  # a manager pass has it; not a failure
     if r.returncode == WAITING:
-        st['qodo'][key] = time.time() + 600  # Qodo is still reviewing; let other jobs run and recheck in 10 minutes
+        # The worker may have pushed a fix. Its final marker names the exact head it awaits.
+        match = re.search(r'^Qodo waiting head: ([0-9a-f]{40}|[0-9a-f]{64})$', out, re.M)
+        if kind == 'pr' and match:
+            st['qodo'][f'pr-{number}@{match.group(1)[:7]}'] = time.time() + 600
+        else:
+            # Without a reliable head, avoid immediately repeating the job.
+            st['cooldown_until'] = time.time() + 600
         STATE.write_text(json.dumps(st, indent=1))
         return
     try:

@@ -819,15 +819,74 @@ with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', retu
         session['status'] = 'completed'
         assert 'incomplete again' in tick()
 
-        # An unchanged old session cannot keep the foreman waiting forever.
+        # A delayed request remains outstanding without another comment.
         a = 'c' * 40
         session.update(commit_sha=a, status='completed')
         assert tick() == pr_team.WAITING
         now[0] += 101
-        assert 'did not start' in tick()
+        count = run.call_count
+        assert tick() == pr_team.WAITING
+        assert run.call_count == count
+# Interrupted and malformed state must not cause a duplicate request; a complete review still clears the gate.
+with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
+        patch.object(pr_team, 'QODO_WAIT', 1), patch.object(pr_team, 'sh') as comment:
+    path, _ = pr_team.rerequest_state('url', a)
+    path.parent.mkdir(parents=True)
+    for corrupt in ('{', '{}', '{"started": false}', 'null'):
+        path.write_text(corrupt)
+        with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'completed'}}), \
+                patch.object(pr_team.time, 'sleep'):
+            try:
+                pr_team.wait_for_review('url', a)
+                assert False
+            except SystemExit as e:
+                assert e.code == pr_team.WAITING
+        assert not comment.called
+    state = {'requested_at': 123, 'started': True}
+    pr_team.save_rerequest(path, state)
+    assert pr_team.rerequest_state('url', a)[1] == state
+    with patch.object(pr_team.os, 'replace', side_effect=OSError('interrupted')):
+        try:
+            pr_team.save_rerequest(path, {'requested_at': 456, 'started': False})
+            assert False
+        except OSError:
+            pass
+    assert pr_team.rerequest_state('url', a)[1] == state
+    assert list(path.parent.iterdir()) == [path]
+    with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'review_complete': True}}):
+        pr_team.wait_for_review('url', a)
+
 with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'failed'}}):
     try:
         pr_team.wait_for_review('url', a); assert False
     except SystemExit as e:
         assert e.code != pr_team.WAITING
 print('ok Qodo waiting versus failed')
+
+# A WAITING worker reports the head it actually reviewed, including after a fixer push.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    (root / 'factory' / 'log').mkdir(parents=True)
+    state_path = root / 'factory' / 'log' / 'state.json'
+    old, new, later = 'a' * 40, 'b' * 40, 'c' * 40
+    pr = {'number': 55, 'author': me, 'headRefName': 'fix', 'headRefOid': old, 'labels': []}
+    def run_foreman(output):
+        with patch.object(foreman, 'ROOT', root), patch.object(foreman, 'STATE', state_path), \
+                patch.object(foreman, 'on_run_branch', return_value=False), \
+                patch.object(foreman, 'gh', side_effect=lambda *args: [pr] if args[0] == 'pr' else []), \
+                patch.object(foreman, 'sh', return_value=SimpleNamespace(stdout='')), \
+                patch.object(foreman, 'gate_rejected', return_value=False), \
+                patch.object(foreman, 'learn') as learn, \
+                patch.object(foreman.subprocess, 'run', return_value=SimpleNamespace(returncode=pr_team.WAITING, stdout=output, stderr='')) as worker, \
+                patch.object(foreman.sys, 'argv', ['foreman']):
+            foreman.main()
+            return worker.call_count, learn.call_count
+    assert run_foreman(f'Qodo waiting head: {new}\n') == (1, 0)
+    state = json.loads(state_path.read_text())
+    assert list(state['qodo']) == [f'pr-55@{new[:7]}']
+    pr['headRefOid'] = new
+    assert run_foreman('') == (0, 0)
+    pr['headRefOid'] = later
+    assert run_foreman('') == (1, 0)
+    assert json.loads(state_path.read_text())['cooldown_until'] > 0
+print('ok foreman Qodo head pause')

@@ -186,7 +186,15 @@ def rerequest_state(url, sha):
     key = hashlib.sha256(f'{url}\0{sha}'.encode()).hexdigest()
     path = cache / 'swarmbreak-qodo-requests' / key
     if path.exists():
-        return path, json.loads(path.read_text())
+        try:
+            state = json.loads(path.read_text())
+            if (isinstance(state, dict) and type(state.get('requested_at')) in (int, float)
+                    and type(state.get('started')) is bool):
+                return path, state
+        except (OSError, ValueError, UnicodeError):
+            pass
+        # The file may represent an already-posted request. Wait for Qodo rather than post again.
+        return path, {'requested_at': time.time(), 'started': False}
     # Honor requests recorded by older versions; do not post a second /review after upgrading.
     legacy = cache / 'swarmbreak-qodo-rerequested'
     if legacy.exists() and sha in legacy.read_text().split():
@@ -196,7 +204,15 @@ def rerequest_state(url, sha):
 
 def save_rerequest(path, state):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(state))
+    name = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', dir=path.parent, delete=False) as f:
+            name = f.name
+            json.dump(state, f)
+        os.replace(name, path)
+    finally:
+        if name and os.path.exists(name):
+            os.unlink(name)
 
 
 def wait_for_review(url, sha):
@@ -222,9 +238,10 @@ def wait_for_review(url, sha):
         if s.get('commit_sha') == sha and s.get('status') == 'skipped':
             sys.exit(f'Qodo skipped {sha[:7]}, so it has no review. Not merging.')
         if request and not request['started'] and time.time() - request['requested_at'] >= REREQUEST_START_WAIT:
-            sys.exit(f'Qodo did not start the requested review of {sha[:7]} within {REREQUEST_START_WAIT} seconds. Not merging.')
+            break  # Still outstanding; a later foreman pass will check again.
         time.sleep(30)
     print(f'Waiting on Qodo to review {sha[:7]}. The foreman will check again later.', flush=True)
+    print(f'Qodo waiting head: {sha}', flush=True)
     sys.exit(WAITING)
 
 
