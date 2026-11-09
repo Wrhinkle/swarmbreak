@@ -69,7 +69,8 @@ def unfilled_links(body, challenge):
 
 def dead_links(body):
     dead = []
-    for url in set(re.findall(r'https?://[^\s)\]>"]+', body)):
+    # A sentence's closing punctuation isn't part of the link.
+    for url in {u.rstrip('.,;:!?\'') for u in re.findall(r'https?://[^\s)\]>"]+', body)}:
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': 'swarmbreak-factory'}), timeout=20) as r:
                 if r.status >= 400:

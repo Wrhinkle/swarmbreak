@@ -48,6 +48,9 @@ assert deploy_problems({'runId': 'a', 'next': reserve}, {**live, 'next': reserve
 tpl = '```markdown\nAGENTS.md link:\n```'
 assert unfilled_links('AGENTS.md link: Not available.', tpl)
 assert unfilled_links('AGENTS.md link: https://github.com/x', tpl) == []
+from manager import dead_links
+with patch('manager.urllib.request.urlopen', side_effect=OSError):
+    assert sorted(dead_links('See https://x.test/a. Also (https://x.test/b), done.')) == ['https://x.test/a', 'https://x.test/b']
 from builder import blocked_paths, only_wording
 from manager import touches_gates
 assert touches_gates([{'path': 'factory/manager.py'}]) and touches_gates([{'path': 'tools/sim.ts'}]) and touches_gates([{'path': 'factory/agents/comms.md'}])
