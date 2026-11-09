@@ -200,7 +200,9 @@ def check_post(out, t, *, require_post=False):
             problems.append('we already have a top-level comment on this thread; each challenge gets one')
         problems += post_problems(top, template_headings(t['challenge']), challenge=True)
         problems += unfilled_links(top, t['challenge'])
-        problems += [f'dead link: {u}' for u in dead_links(top)]
+        # The check reads a URL up to the next space, bracket or quote. Three Day 5 drafts ended a sentence on a link and the worker couldn't tell why they were refused.
+        problems += [f'dead link: {u}' + (' (the punctuation touching the end is read as part of the link: write it as [text](url) or put a space after it)' if u[-1] in '.,;:!?' else '')
+                     for u in dead_links(top)]
     known = {w['id'] for w in t['waiting']}
     if posted_today('reply') + len(replies) > MAX_REPLIES_PER_DAY:
         problems.append(f'over {MAX_REPLIES_PER_DAY} replies a day')

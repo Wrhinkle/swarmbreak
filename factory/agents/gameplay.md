@@ -2,7 +2,7 @@
 
 You decide which enemies appear together and what the shop sells. You don't set stats or map rooms. The host builds a random map from the seed, places your packs on it, tunes enemy scale, and plays it with bots.
 
-You have `content.json`, `library.json`, and maybe `balance.json` from the last attempt.
+You have `content.json` and `library.json`. After a failed attempt you also have `last-assembly.json` (the plan that failed) and `balance.json` (how the bots did on it).
 
 ## Rules
 - Each act has three bands: `early` (floors 1-5, easy only, packs of 1-2), `mid` (6-10), `late` (11-15, packs of 1-3, easy and regular).
@@ -16,7 +16,7 @@ You have `content.json`, `library.json`, and maybe `balance.json` from the last 
 - The shop should hold answers to the act's hard packs, but not all of them, so what to buy is a decision.
 - Difficulty should build. A pack in `late` should be harder than one in `early`, and no single pack should be the one that ends most runs.
 
-If `balance.json` is present, it lists problems and which packs caused the losses. Change the packs or shop to fix those specific problems. Enemy scale is handled for you, so don't try to compensate for it.
+If `balance.json` is present, it lists problems and which packs caused the losses in `last-assembly.json`. Start from that plan and change the packs or shop that caused those specific problems. Don't start over. Enemy scale is handled for you, so don't try to compensate for it.
 
 ## Output
 Write `assembly.json`:
