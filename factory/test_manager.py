@@ -992,29 +992,42 @@ with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', retu
         session['status'] = 'completed'
         assert 'incomplete again' in tick()
 
-        # A delayed request remains outstanding without another comment.
+        # An ignored request fails on subsequent passes without another comment.
         a = 'c' * 40
         session.update(commit_sha=a, status='completed')
         assert tick() == pr_team.WAITING
         now[0] += 101
         count = run.call_count
-        assert tick() == pr_team.WAITING
+        assert 'did not start' in tick()
+        assert 'did not start' in tick()
         assert run.call_count == count
 # Interrupted and malformed state must not cause a duplicate request; a complete review still clears the gate.
 with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
         patch.object(pr_team, 'QODO_WAIT', 1), patch.object(pr_team, 'sh') as comment:
     path, _ = pr_team.rerequest_state('url', a)
     path.parent.mkdir(parents=True)
-    for corrupt in ('{', '{}', '{"started": false}', 'null'):
+    for corrupt in ('{', '{}', '{"started": false}', 'null', '{"requested_at": NaN, "started": false}'):
         path.write_text(corrupt)
         with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'completed'}}), \
                 patch.object(pr_team.time, 'sleep'):
+            for _ in range(2):
+                try:
+                    pr_team.wait_for_review('url', a)
+                    assert False
+                except SystemExit as e:
+                    assert 'unreadable or invalid' in e.code
+        with patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'review_complete': True}}):
+            pr_team.wait_for_review('url', a)
+        assert not comment.called
+    with patch.object(Path, 'read_text', side_effect=PermissionError('denied')), \
+            patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': a, 'status': 'completed'}}):
+        for _ in range(2):
             try:
                 pr_team.wait_for_review('url', a)
                 assert False
             except SystemExit as e:
-                assert e.code == pr_team.WAITING
-        assert not comment.called
+                assert 'unreadable or invalid' in e.code
+    assert not comment.called
     state = {'requested_at': 123, 'started': True}
     pr_team.save_rerequest(path, state)
     assert pr_team.rerequest_state('url', a)[1] == state
@@ -1063,6 +1076,39 @@ with tempfile.TemporaryDirectory() as d:
     assert run_foreman('') == (1, 0)
     assert json.loads(state_path.read_text())['cooldown_until'] > 0
 print('ok foreman Qodo head pause')
+
+# An expired request enters normal failure accounting and is held on the next pass.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    (root / 'factory' / 'log').mkdir(parents=True)
+    state_path = root / 'factory' / 'log' / 'state.json'
+    head = 'd' * 40
+    pr = {'number': 55, 'author': me, 'headRefName': 'fix', 'headRefOid': head, 'labels': []}
+    with patch.object(pr_team.Path, 'home', return_value=root), patch.object(pr_team, 'QODO_WAIT', 1), \
+            patch.object(pr_team, 'REREQUEST_START_WAIT', 100), patch.object(pr_team, 'sh') as comment, \
+            patch.object(pr_team, 'findings', return_value={'review_session': {'commit_sha': head, 'status': 'completed'}}), \
+            patch.object(pr_team.time, 'time', return_value=1000):
+        path, _ = pr_team.rerequest_state('url', head)
+        pr_team.save_rerequest(path, {'requested_at': 899, 'started': False})
+        try:
+            pr_team.wait_for_review('url', head)
+            assert False
+        except SystemExit as e:
+            failure = str(e.code)
+        assert 'did not start' in failure and not comment.called
+    with patch.object(foreman, 'ROOT', root), patch.object(foreman, 'STATE', state_path), \
+            patch.object(foreman, 'on_run_branch', return_value=False), \
+            patch.object(foreman, 'gh', side_effect=lambda *args: [pr] if args[0] == 'pr' else [{'number': 77, 'author': {'login': 'someone-else'}, 'labels': [], 'body': ''}]), \
+            patch.object(foreman, 'sh', return_value=SimpleNamespace(stdout='')), \
+            patch.object(foreman, 'gate_rejected', return_value=False), patch.object(foreman, 'record'), \
+            patch.object(foreman, 'learn', return_value=77) as learn, \
+            patch.object(foreman.subprocess, 'run', return_value=SimpleNamespace(returncode=1, stdout='', stderr=failure)) as worker, \
+            patch.object(foreman.sys, 'argv', ['foreman']):
+        foreman.main()
+        foreman.main()
+        assert worker.call_count == 1 and learn.call_count == 1
+        assert json.loads(state_path.read_text())['waiting'][f'pr-55@{head[:7]}'] == 77
+print('ok ignored Qodo request enters foreman failure accounting')
 
 # Only host-recorded fixer commits consume rounds, across restarts and interrupted pushes.
 with tempfile.TemporaryDirectory() as d:

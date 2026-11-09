@@ -4,7 +4,7 @@
 Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
-import fcntl, hashlib, json, os, re, subprocess, sys, tempfile, time
+import fcntl, hashlib, json, math, os, re, subprocess, sys, tempfile, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -185,16 +185,16 @@ def rerequest_state(url, sha):
     cache = Path.home() / '.cache'
     key = hashlib.sha256(f'{url}\0{sha}'.encode()).hexdigest()
     path = cache / 'swarmbreak-qodo-requests' / key
-    if path.exists():
-        try:
-            state = json.loads(path.read_text())
-            if (isinstance(state, dict) and type(state.get('requested_at')) in (int, float)
-                    and type(state.get('started')) is bool):
-                return path, state
-        except (OSError, ValueError, UnicodeError):
-            pass
-        # The file may represent an already-posted request. Wait for Qodo rather than post again.
-        return path, {'requested_at': time.time(), 'started': False}
+    try:
+        state = json.loads(path.read_text())
+        if (isinstance(state, dict) and type(state.get('requested_at')) in (int, float)
+                and math.isfinite(state['requested_at']) and type(state.get('started')) is bool):
+            return path, state
+        return path, False  # Invalid state may represent an already-posted request.
+    except FileNotFoundError:
+        pass
+    except (OSError, ValueError, UnicodeError):
+        return path, False
     # Honor requests recorded by older versions; do not post a second /review after upgrading.
     legacy = cache / 'swarmbreak-qodo-rerequested'
     if legacy.exists() and sha in legacy.read_text().split():
@@ -222,6 +222,8 @@ def wait_for_review(url, sha):
         s = findings(url).get('review_session') or {}
         if reviewed(s, sha):
             return
+        if request is False:
+            sys.exit(f'Qodo request state for {sha[:7]} is unreadable or invalid at {path}; inspect it before retrying.')
         if stalled(s, sha):
             if request is None:
                 sh('gh', 'pr', 'comment', url, '--body', '/review')
@@ -238,7 +240,7 @@ def wait_for_review(url, sha):
         if s.get('commit_sha') == sha and s.get('status') == 'skipped':
             sys.exit(f'Qodo skipped {sha[:7]}, so it has no review. Not merging.')
         if request and not request['started'] and time.time() - request['requested_at'] >= REREQUEST_START_WAIT:
-            break  # Still outstanding; a later foreman pass will check again.
+            sys.exit(f'Qodo did not start the requested review of {sha[:7]} within the allowed time. Not merging.')
         time.sleep(30)
     print(f'Waiting on Qodo to review {sha[:7]}. The foreman will check again later.', flush=True)
     print(f'Qodo waiting head: {sha}', flush=True)
