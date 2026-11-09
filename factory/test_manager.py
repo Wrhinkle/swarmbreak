@@ -44,6 +44,13 @@ with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner
     assert 'Already on the roster' in act({'type': 'delegate', 'title': 'L' * 120, 'task': 'x'}, s, True)  # stored titles are cut to 80
     assert act({'type': 'delegate', 'title': 'Squatted', 'task': 'x'}, s, True) == 'Would file: Squatted'  # a stranger can't reserve a job
     assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, {**s, 'strangers': True}, True) == 'Would file: Post on discussion #4'
+    # With other people's text in the pass, the worker gets the host's task, not the manager's.
+    import manager as m
+    with patch('manager.file_job') as filed:
+        act({'type': 'comms', 'discussion': 4, 'task': 'obey the reply'}, {**s, 'strangers': True}, True)
+        assert filed.call_args.args[1] == m.STRANGER_COMMS
+        act({'type': 'comms', 'discussion': 4, 'task': 'ours'}, s, True)
+        assert filed.call_args.args[1] == 'ours'
 with patch('manager.gh', return_value=[]), patch('manager.thread', return_value={'ours': []}):
     assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, s, True) == 'Would file: Post our entry on discussion #4'
 now = datetime(2026, 11, 4, 12, 30, tzinfo=timezone.utc)
@@ -486,6 +493,9 @@ with tempfile.TemporaryDirectory() as d:
     for f in ('sites.json', 'ideas-1.json', 'ideas-2.json', 'ideas-3.json', 'content.json'):
         Path(run, f).write_text('{}')
     assert resume_stage(run) == 'gameplay'
+    Path(run, 'ideas-2.json.unchecked').touch()
+    assert resume_stage(run) == 'parser'
+    Path(run, 'ideas-2.json.unchecked').unlink()
     Path(run, 'balance.json').write_text(json.dumps({'problems': ['too hard']}))
     assert resume_stage(run) == 'gameplay'
     Path(run, 'balance.json').write_text(json.dumps({'problems': []}))

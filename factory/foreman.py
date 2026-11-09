@@ -130,9 +130,11 @@ def starting_tip(ref):
 
 
 def resume_stage(d, built=False):
-    """The first stage of a run whose output isn't on disk yet, or None once `built`, so a rebuild never redoes finished stages."""
+    """The first stage of a run whose checked output isn't on disk yet, or None once `built`, so a rebuild never redoes finished stages."""
     balance = d / 'balance.json'
-    done = [(d / 'sites.json').exists(), all((d / f'ideas-{i}.json').exists() for i in range(1, 4)), (d / 'content.json').exists(),
+    # run.py marks an agent's output `.unchecked` until its check passes; a run killed in between left unchecked content.
+    have = lambda name: (d / name).exists() and not (d / f'{name}.unchecked').exists()
+    done = [have('sites.json'), all(have(f'ideas-{i}.json') for i in range(1, 4)), have('content.json'),
             balance.exists() and not json.loads(balance.read_text()).get('problems')]
     return STAGES[done.index(False)] if False in done else None if built else 'art'
 

@@ -26,6 +26,7 @@ def tool(*args):
 def agent(name, output, inputs, check, search=False):
     """Runs one agent in an empty folder holding only its inputs. Returns once `check` finds no problems."""
     problems = ''
+    unchecked = Path(f'{output}.unchecked')
     for attempt in range(RETRIES + 1):
         with tempfile.TemporaryDirectory() as work:
             for dest, src in inputs.items():
@@ -40,6 +41,7 @@ def agent(name, output, inputs, check, search=False):
             r = subprocess.run([*cmd, prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=clean_env(), timeout=1800)
             made = Path(work) / Path(output).name
             if made.exists():
+                unchecked.touch()  # before the copy: a run killed between copy and check redoes this stage
                 shutil.copy(made, output)
             else:
                 problems = f'{Path(output).name} was not written.'
@@ -47,9 +49,11 @@ def agent(name, output, inputs, check, search=False):
                 continue
         problems = check()
         if not problems:
+            unchecked.unlink(missing_ok=True)
             return
         print(f'[{name}] problems:\n{problems}', flush=True)
     Path(output).unlink(missing_ok=True)  # the runner resumes from the first missing output, so a failed one mustn't stay
+    unchecked.unlink(missing_ok=True)
     sys.exit(f'{name} failed after {RETRIES + 1} attempts. Stopping; nothing was opened.')
 
 
