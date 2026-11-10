@@ -113,7 +113,7 @@ export function routinePicker(label: string, ids: string[], value: string, onCha
   picker.append(btn('Clear slot',()=>onChange(''),!value));
   for(const id of ids) {
     const r=ROUTINES[id]; if(!r) continue;
-    const card=routineOffer(r,id===value?'Equipped':'Equip',()=>onChange(id),id===value);
+    const card=routineOffer(r,id===value?'Equipped':'Equip',()=>onChange(id),id===value,'Free');
     picker.append(card);
   }
   return picker;

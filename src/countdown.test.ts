@@ -166,6 +166,7 @@ it('opens a routine slot picker with named cards and selects a routine', async (
     const card = picker.children[2];
     expect(card.className).toContain('card');
     expect(card.children[1].children[0].textContent).toBe(ROUTINES[id].name);
+    expect(card.children[1].children[1].textContent).toBe('Free');
     card.children[2].click?.();
     expect(selected).toBe(id);
   } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
