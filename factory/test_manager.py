@@ -1225,17 +1225,23 @@ with tempfile.TemporaryDirectory() as d:
 assert 'Reported used' not in builder.investigated_section([], ['first reference'])
 print('ok builder investigation survives continuation')
 
-# A partial pass whose work passes the host's checks ships as one part: its PR and commit can't close the issue, both say
-# what's left, and the next pass reads that from the commit. Notes alone ship nothing, and the worker isn't asked again.
-for changed, ships in [(['file'], True), (['docs/plan.md', 'notes.md'], False), ([], False)]:
+# A partial pass whose work passes the host's checks ships as one part: nothing in its PR or commit can close the issue,
+# both say what's left, and the next pass reads that from the commit. A pass that itself changed only notes ships nothing,
+# even on top of saved code, and the worker isn't asked again. Saved checkpoints don't block a part unless one would close the issue.
+checkpoint_of = lambda done: f'{builder.CHECKPOINT} on #42 (unfinished)\n\nDone: {done}'
+for writes, saved, ships in [({'file': 'one piece\n'}, None, True), ({'docs/plan.md': 'p', 'notes.md': 'n'}, None, False), ({}, None, False),
+                             ({'notes.md': 'n'}, checkpoint_of('half of #42'), False), ({'file': 'one piece\n'}, checkpoint_of('half of #42'), True),
+                             ({'file': 'one piece\n'}, checkpoint_of('this Fixes: Wrhinkle/swarmbreak#42'), False)]:
     with tempfile.TemporaryDirectory() as d:
         root = Path(d) / 'repo'
         root.mkdir()
         def git(*args, cwd=root, check=True):
             return subprocess.run(['git', *map(str, args)], cwd=cwd, check=check, capture_output=True, text=True)
         git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
-        (root / 'file').write_text('base\n')
+        (root / 'file').write_text('base\n'); (root / 'other').write_text('base\n')
         git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+        if saved:
+            git('checkout', '-q', '-b', 'fix/issue-42'); (root / 'other').write_text('saved code\n'); git('commit', '-qam', saved); git('checkout', '-q', '-')
         published, asked = [], []
         def fake_sh(*args, cwd=None, check=True):
             if args[:3] == ('git', 'fetch', '-q') or args[0] == 'npm':
@@ -1246,34 +1252,52 @@ for changed, ships in [(['file'], True), (['docs/plan.md', 'notes.md'], False), 
             if args[0] == 'git':
                 return git(*args[1:], cwd=cwd or root, check=check)
             if args[:3] == ('gh', 'issue', 'view'):
-                return SimpleNamespace(stdout=json.dumps({'author': {'login': builder.OWNER}, 'state': 'OPEN', 'title': 't', 'body': 'b'}))
+                return SimpleNamespace(stdout=json.dumps({'author': {'login': builder.OWNER}, 'state': 'OPEN', 'title': 't (closes #42)', 'body': 'b. Resolves #42 and #420.'}))
             if args[:3] == ('gh', 'pr', 'list'):
                 return SimpleNamespace(stdout='0')
             raise AssertionError(args)
         def fake_bot(role, tree, prompt, **kwargs):
             asked.append(prompt)
-            (tree / 'file').write_text('one piece\n')
-            (tree / builder.RESULT).write_text(json.dumps({'outcome': 'partial', 'summary': 'First piece. Fixes #42 in part.', 'remaining': 'the rest of #42', 'evidence': 'e'}))
+            for name, text in writes.items():
+                (tree / name).parent.mkdir(exist_ok=True)
+                (tree / name).write_text(text)
+            (tree / builder.RESULT).write_text(json.dumps({'outcome': 'partial', 'summary': 'First piece. Fixes #42 in part.', 'remaining': 'the rest of #42',
+                                                           'evidence': 'Closes https://github.com/Wrhinkle/swarmbreak/issues/42 once done'}))
         response = MagicMock()
         response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
         with patch.object(builder, 'ROOT', root), patch.object(builder, 'investigate', return_value=[]), patch.object(builder, 'sh', side_effect=fake_sh), \
              patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
              patch.object(builder.urllib.request, 'urlopen', return_value=response), patch.object(builder, 'checkpoint', return_value='') as kept, \
-             patch.object(builder, 'problems_in', return_value=([], changed)), patch.object(sys, 'argv', ['builder.py', '42']):
+             patch.object(builder, 'problems_in', side_effect=lambda tree, *_: ([], builder.changed_from_main(tree))), patch.object(sys, 'argv', ['builder.py', '42']):
             try:
                 builder.main()
             except SystemExit as e:
-                assert not ships and 'no code changed' in str(e), e
+                assert not ships and ('closes this issue' if 'file' in writes else 'changed no code') in str(e), e
                 assert kept.called and not published and len(asked) == 1
                 continue
-            assert ships and not kept.called
+            assert ships and not kept.called, (writes, saved)
             title, body = (published[1][published[1].index(flag) + 1] for flag in ('--title', '--body'))
-            assert title == 'Part of issue 42: t' and body.startswith('Part of #42: ') and '## Still to do\nthe rest of issue 42' in body
-            assert 'ixes #42' not in body and 'ixes issue 42 in part' in body, body
+            assert title == 'Part of issue 42: t (closes issue 42)' and '## Still to do\nthe rest of issue 42' in body
+            assert body.startswith(f'Part of #42: https://github.com/{builder.REPO}/issues/42\n') and not builder.closes(body, 42) and 'Resolves issue 42 and #420' in body, body
             tree = root.parent / 'swarmbreak-issue-42'
             message = git('log', '-1', '--format=%B', cwd=tree).stdout
-            assert message.startswith('Part of issue 42: t\n\nFirst piece. Fixes issue 42 in part.\n\nStill to do: the rest of issue 42'), message
-            assert builder.notes(tree, '42')[0] == message.strip()
+            assert message.startswith('Part of issue 42: t (closes issue 42)\n\nFirst piece. Fixes issue 42 in part.\n\nStill to do: the rest of issue 42'), message
+            assert builder.notes(tree, '42')[-2] == message.strip()
+for form in ('#42', 'Wrhinkle/swarmbreak#42', 'https://github.com/Wrhinkle/swarmbreak/issues/42'):
+    for keyword in ('Fixes', 'CLOSED:', 'resolve'):
+        assert builder.closes(f'It {keyword} {form}.', 42) and not builder.closes(builder.unlinked(f'It {keyword} {form}.', 42), 42), (keyword, form)
+assert not builder.closes('Checkpoint on #42. Fixes #420, see #42', 42) and builder.unlinked('#420 #42', 42) == '#420 issue 42'
+# A checkpoint's own words are unlinked when it's written.
+with tempfile.TemporaryDirectory() as d:
+    def git(*args):
+        return subprocess.run(['git', '-C', d, *args], check=True, capture_output=True, text=True)
+    git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+    Path(d, 'f').write_text('a'); git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    Path(d, 'f').write_text('b')
+    with patch.object(builder, 'sh', side_effect=lambda *a, cwd=None, check=True: SimpleNamespace(returncode=0, stdout='') if a[0] == 'gh' else subprocess.run(a, cwd=cwd, capture_output=True, text=True)):
+        assert builder.checkpoint('42', Path(d), 'fix/issue-42', set(), {'summary': 'Fixes #42', 'remaining': 'closes #42'}, ['resolves #42'])
+    said = git('log', '-1', '--format=%B').stdout
+    assert said.startswith(f'{builder.CHECKPOINT} on #42 (unfinished)\n\nDone: Fixes issue 42') and not builder.closes(said, 42), said
 print('ok builder ships a part')
 # Every 'Day N' thread without our post, and every missing run, gets a roster job.
 import manager
