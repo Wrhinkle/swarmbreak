@@ -15,7 +15,7 @@ Same method as below. "Before" is the bot the entry below measured (c3b386d); "a
 | 2026-11-10 | before | 50.4% | 100.0% | 0.6% | 41.6% | 8.8 | pass |
 | 2026-11-10 | after | 50.0% | 98.3% | 0.6% | 41.6% | 8.4 | pass |
 
-Strength: typical moves -2.4 and -0.4 points and no edits -2.5 and 0.0, at or inside the 2.5-point noise. Expert moves +6.7 and -1.7 on 60 games, where one game is 1.7 points. No clear change in strength. Against the bot before PR #123, typical is +2.8 and -1.5.
+Strength: typical moves -2.4 and -0.4 points and no edits -2.5 and 0.0. Expert moves +6.7 and -1.7 on 60 games, where one game is 1.7 points. These observed changes do not establish how much strength changed: the uncertainty in the before/after differences has not been measured, including the effect of shared seeds. Against the bot before PR #123, typical is +2.8 and -1.5.
 
 ## 2026-11-10: smart routes avoid fights that look heavier than usual
 
@@ -30,7 +30,7 @@ Clear rates at each run's shipped difficulty, `npx vite-node tools/balance.ts <r
 | 2026-11-10 | before | 51.5% | 98.3% | 0.4% | 41.6% | 9.9 | pass |
 | 2026-11-10 | after | 50.4% | 100.0% | 0.6% | 41.6% | 8.8 | pass |
 
-Strength: typical moves +5.2 and -1.1 points, expert +3.3 and +1.7, no edits -2.9 and +0.2. Noise on a difference is about 2.5 points at 800 games and larger for expert at 60. The gain comes from skipping heavy packs the old bot walked into blind. The random-route bot doesn't route, so it is unchanged.
+Strength: typical moves +5.2 and -1.1 points, expert +3.3 and +1.7, no edits -2.9 and +0.2. The uncertainty in these before/after differences has not been measured, including the effect of shared seeds; the expert results use fewer games. Skipping heavy packs the old bot walked into blind may explain the observed gain. The random-route bot doesn't route, so it is unchanged.
 
 Effect on the checks: the typical bot sets the difficulty, and a stronger typical bot makes `--tune` raise enemy scale. On nine candidate maps for 2026-11-10, each tuned with `--tune`, the average scale went from 0.809 to 0.827, so new runs come out slightly harder, not easier. The route check (typical beats random route by 8 points) passed on 1 of the 9 before and 5 of the 9 after, and all checks passed on 0 before and 4 after. No threshold changed. The route check passes more often because the bot now uses what a player can see, which is the reason for the change.
 
