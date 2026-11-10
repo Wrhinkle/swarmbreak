@@ -626,6 +626,16 @@ with tempfile.TemporaryDirectory() as d:
     assert resume_stage(run) == 'researcher'
     other.write_text(json.dumps({'sites': [{'host': 'elsewhere.org'}]}))
     assert resume_stage(run) == 'parser'
+    # So does a run that is still on its own branch and holds the site there only.
+    g = lambda *c, **k: subprocess.run(['git', '-c', 'user.name=t', '-c', 'user.email=t@example.com', *c], cwd=d, capture_output=True, text=True, check=True, **k).stdout.strip()
+    index = {**os.environ, 'GIT_INDEX_FILE': str(Path(d, '.git', 'branch-index'))}
+    def on_branch(text):
+        g('update-index', '--add', '--cacheinfo', f"100644,{g('hash-object', '-w', '--stdin', input=text)},runs/2026-01-02/sites.json", env=index)
+        g('update-ref', 'refs/heads/run/2026-01-02', g('commit-tree', g('write-tree', env=index), '-m', 'run'))
+    on_branch(json.dumps({'sites': [{'host': 'EXAMPLE.org.'}]}))
+    assert resume_stage(run) == 'researcher'
+    on_branch(json.dumps({'sites': [{'host': 'elsewhere.org'}]}))
+    assert resume_stage(run) == 'parser'
     passed(*ideas, content)
     assert resume_stage(run) == 'gameplay'
     ideas[1].write_text('{"edited": 1}')  # changed after its check

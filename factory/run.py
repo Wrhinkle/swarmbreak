@@ -85,11 +85,15 @@ def checked(output):
 
 def clashes(d):
     """Whether run folder `d` uses a site another run's sites.json also has: what the picks check in tools/checks.ts refuses.
-    The ledger records what a pass was built from, and a run added or changed later isn't in it, so a resumed run asks again."""
+    The ledger records what a pass was built from, and a run added or changed later isn't in it, so a resumed run asks again.
+    Other runs are the ones in this checkout and the ones still on their own branch, the same two places the researcher's used-hosts list reads."""
     norm = lambda host: re.sub(r'^www\.', '', re.sub(r'\.$', '', re.sub(r':\d+$', '', host).lower()))  # normalizeHost in tools/checks.ts
-    hosts = lambda p: {norm(s['host']) for s in json.loads(p.read_text()).get('sites', [])}
+    hosts = lambda x: {norm(s['host']) for s in x.get('sites', [])}
+    read = lambda p: json.loads(p.read_text())
     try:
-        return bool(hosts(d / 'sites.json') & {h for p in d.parent.glob('*/sites.json') if p.parent != d for h in hosts(p)})
+        used = {h for p in d.parent.glob('*/sites.json') if p.parent != d for h in hosts(read(p))}
+        used |= {h for x in other_branch_json('sites.json', d.name, cwd=d.parent.parent) if isinstance(x, dict) for h in hosts(x)}
+        return bool(hosts(read(d / 'sites.json')) & used)
     except (OSError, ValueError, KeyError, TypeError, AttributeError):
         return True  # the picks check can't read it either
 
