@@ -4,7 +4,7 @@
 Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
-import fcntl, hashlib, json, math, os, re, subprocess, sys, tempfile, time
+import fcntl, hashlib, json, math, os, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -18,9 +18,9 @@ OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edi
 # Agents may fix factory code; every factory/ change still goes to the gate reviewer (gated_paths). Locked: the rules,
 # hosting, install scripts that run on this Mac, the balance limits, the gate reviewer's own brief, vendored code, and the
 # decision log (reply caps and failure history are counted from it, and gated_paths skips it).
-PROTECTED = ('AGENTS.md', 'firebase.json', 'public/manifest.json', '.github/', 'package.json', 'package-lock.json',
+PROTECTED = ('AGENTS.md', 'firebase.json', 'public/manifest.json', '.github/', '.pr_agent.toml', 'package.json', 'package-lock.json',
              'tools/balance.ts', 'tools/checks.ts', 'factory/agents/gate-reviewer.md', 'factory/vendor/', 'factory/log/')
-GATES = ('AGENTS.md', '.github/', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
+GATES = ('AGENTS.md', '.github/', '.pr_agent.toml', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
 
 
 def sh(*cmd, cwd=ROOT, check=True, timeout=None):
@@ -90,16 +90,19 @@ def gate_review(diff):
         return gate_verdict(Path(work, 'verdict.json'))
 
 
-def sandboxed(cmd, tree):
+def sandboxed(cmd, tree, dist_to=None):
     """Checks run code an agent wrote. They run on a throwaway clone of the tree, so nothing they write can end up in
     the commit, with no network, writes only inside that throwaway folder, and no reads of home-folder files (gh, git
-    and codex tokens live there) apart from the clone."""
+    and codex tokens live there) apart from the clone. `dist_to` gets a copy of the built site for the screen check."""
     with tempfile.TemporaryDirectory(prefix='sbx-') as box:
         box = Path(box).resolve()
         copy, fake = box / 'tree', box / 'home'
         fake.mkdir()
-        # cp -c clones on APFS, so even node_modules copies in moments.
-        subprocess.run(['cp', '-cR', f'{Path(tree).resolve()}/', str(copy)], check=True, capture_output=True)
+        # cp -c clones on APFS, so even node_modules copies in moments. A failed copy raises with cp's own words:
+        # without them the lesson filed for the failure can't name a cause.
+        copied = subprocess.run(['cp', '-cR', f'{Path(tree).resolve()}/', str(copy)], capture_output=True, text=True)
+        if copied.returncode:
+            raise OSError(f'copying the tree failed (exit {copied.returncode}): {copied.stderr.strip()[-300:]}')
         home = Path.home().resolve()
         profile = ('(version 1)(allow default)(deny network*)'
                    '(deny mach-lookup (global-name "com.apple.SecurityServer") (global-name "com.apple.securityd.xpc"))'
@@ -110,7 +113,10 @@ def sandboxed(cmd, tree):
                'XDG_CACHE_HOME': str(fake), 'npm_config_cache': str(fake / 'npm'),
                'npm_config_update_notifier': 'false', 'PYTHONDONTWRITEBYTECODE': '1',
                'SWARMBREAK_SANDBOX': '1'}
-        return subprocess.run(['sandbox-exec', '-p', profile, *cmd], cwd=copy, capture_output=True, text=True, stdin=subprocess.DEVNULL, env=env)
+        r = subprocess.run(['sandbox-exec', '-p', profile, *cmd], cwd=copy, capture_output=True, text=True, stdin=subprocess.DEVNULL, env=env)
+        if dist_to and not r.returncode:
+            shutil.copytree(copy / 'dist', dist_to, symlinks=True, dirs_exist_ok=True)  # links stay links; screens.mjs won't follow one out
+        return r
 
 
 def sandbox_works():
@@ -159,7 +165,57 @@ def verified(tree):
             print(f'Host verification: {" ".join(cmd)} failed (exit {r.returncode})', flush=True)
             return (r.stdout + r.stderr)[-2000:] or f'{" ".join(cmd)} failed with exit {r.returncode} (no output)'
         print(f'Host verification: {" ".join(cmd)} passed', flush=True)
-    return ''
+    failed = screens(tree)
+    print('Host verification: screens failed' if failed else f'Host verification: screens passed (screenshots in {shots_dir(tree)})', flush=True)
+    return failed
+
+
+def screen_problems(shots):
+    """What the screen check refuses in the screens factory/screens.mjs measured: a screen it couldn't open, a page
+    error, a `select`, sideways page scroll, or a visible button under 40px either way."""
+    problems = []
+    for s in shots:
+        where = f'{s["screen"]} at {s["width"]}px'
+        if s.get('missing'):
+            problems.append(f'{where}: the run has no such room, so nothing looked at this screen')
+            continue
+        problems += [f'{where}: page error: {e}' for e in s['errors']]
+        if s['selects']:
+            problems.append(f'{where}: {s["selects"]} select element(s)')
+        if s['scrollWidth'] > s['width']:
+            problems.append(f'{where}: the page scrolls sideways ({s["scrollWidth"]}px wide)')
+        problems += [f'{where}: button "{text}" is {w}x{h}, under 40px' for text, w, h in s['buttons'] if min(w, h) < 40]
+    return problems
+
+
+def shots_dir(tree):
+    return ROOT / 'factory' / 'log' / 'screens' / Path(tree).resolve().name
+
+
+def screens(tree):
+    """Looks at the built game in a headless browser on the host, since no worker's sandbox can start one. The driver
+    is this checkout's factory/screens.mjs, never the tree's, and it keeps the page off the network. Screenshots land in
+    factory/log/screens/<tree name>/. Returns what to refuse, or ''."""
+    browsers = sorted(Path.home().glob('Library/Caches/ms-playwright/chromium_headless_shell-*/*/chrome-headless-shell'))
+    exe = os.environ.get('SWARMBREAK_CHROME') or (str(browsers[-1]) if browsers else '')
+    if not exe:
+        raise HostVerificationError('Host verification: no headless browser on this host. Set SWARMBREAK_CHROME to a headless Chrome binary.')
+    out = shots_dir(tree)
+    try:
+        with tempfile.TemporaryDirectory() as dist:
+            # ponytail: a second build, a few seconds; pass dist_to from the build above if verification time matters.
+            built = sandboxed(['npm', 'run', 'build'], tree, dist_to=dist)
+            if built.returncode:
+                return (built.stdout + built.stderr)[-2000:] or 'npm run build failed for the screen check'
+            r = subprocess.run(['node', str(ROOT / 'factory' / 'screens.mjs'), exe, dist, str(out)], capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=300)
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise HostVerificationError(f'Host verification: could not run the screen check ({type(exc).__name__}: {exc})') from exc
+    try:
+        shots = [] if r.returncode else json.loads(r.stdout)
+        problems = screen_problems(shots) if shots else [f'the check looked at no screens: {r.stderr.strip()[-500:]}']
+    except (ValueError, KeyError, TypeError):
+        problems = ['the check printed no readable result']
+    return f'Screen check failed (screenshots in {out}):\n' + '\n'.join(problems) if problems else ''
 
 
 def merges_cleanly(tree, base):
@@ -449,6 +505,9 @@ def main():
         if sh('git', 'ls-remote', 'origin', f'refs/heads/{base}').stdout.split()[:1] != [base_sha]:
             sys.exit(f'{base} moved during the gate review. Not merging; rerun to check against the new {base}.')
     sh('gh', 'pr', 'merge', number, '--repo', REPO, '--merge', '--match-head-commit', sha)
+    # Names what the host looked at, for whoever reads the PR. Said only once merged: a later check of an open PR
+    # overwrites the folder, and a merged PR is never checked again, so the folder stays what this comment says it is.
+    sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Host screen check passed at {sha[:7]} with {base} merged in. Screenshots on the factory host: {shots_dir(tree)}', check=False)
     print(f'Merged PR {number} at {sha[:7]}.')
 
 

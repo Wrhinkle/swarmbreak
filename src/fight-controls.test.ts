@@ -200,3 +200,21 @@ it('reloads between two crew decisions in the same tick and records the second t
     expect(step(loadSave().today!.combat!)).toEqual(step(combat));
   } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; if (oldStorage) Object.defineProperty(globalThis, 'localStorage', oldStorage); else Reflect.deleteProperty(globalThis, 'localStorage'); }
 });
+
+it('uses complete routine descriptions on the merged routine cards', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; style: Record<string, string> = {};
+    append(...children: Element[]) { this.children.push(...children); }
+    setAttribute() {}
+    addEventListener() {}
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { routineOffer } = await import('./main');
+    const { ROUTINES } = await import('./library');
+    const card = routineOffer(ROUTINES.jam, 'Equip', () => {}, false) as unknown as Element;
+    expect(card.children[1].children[2].textContent).toBe('Every third action: Stun');
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});

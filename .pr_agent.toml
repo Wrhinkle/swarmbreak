@@ -1,0 +1,5 @@
+# Qodo's default Auto mode may skip a commit it judges trivial, such as a doc wording fix. The factory merges only a
+# head Qodo reviewed in full (factory/pr_team.py `reviewed`), so a PR whose head was skipped could never merge.
+# A fixed mode gives every commit the standard review. Qodo reads this file from the default branch.
+[review_agent]
+override_effort = "standard"

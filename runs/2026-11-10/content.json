@@ -1,0 +1,1136 @@
+{
+ "title": "The Open Hand",
+ "swarm": {
+  "name": "The Hand Press",
+  "blurb": "A swarm of paper, type and machinery following a plea for help. It preserves what it finds by enclosing it."
+ },
+ "arc": "A plea marked with an open hand begins on handmade paper. The crew first believes the swarm is harvesting fiber to make more of itself. At the print shop they discover it is trying to answer an old request to find missing people, but has reduced that answer to an order to stay safe. At the book arts center its solution becomes clear: make copies and lock the originals away. Wren, Ox and Kestrel break the bindery and leave the plea open for many replies, so people can be found and still choose what happens next.",
+ "acts": [
+  {
+   "theme": "Fiber and the first sheet",
+   "story": {
+    "intro": "The swarm strips the fiber beds and feeds the stalks into a mill. Wren finds a damp sheet with a watermark shaped like an open hand. Ox holds the door while Kestrel pulls it free.",
+    "chapters": [
+     {
+      "title": "The harvest",
+      "text": "The machines take living fiber as well as scraps. Wren treats a gardener with thread from her kit. The crew thinks the swarm is gathering stock for more bodies."
+     },
+     {
+      "title": "The mark",
+      "text": "Every new sheet bears the same open hand. Kestrel finds it in the wire of a mould, not in ink. Ox keeps a sample dry. The mark looks less like a signature than a request."
+     },
+     {
+      "title": "The shipment",
+      "text": "Drying racks fill with identical sheets. Each has room for a message, but none has one yet. The machines pack them for a print shop. The crew follows the paper and the mill that makes it."
+     }
+    ],
+    "bossIntro": "The Total Collection lowers its screens over the vat. Its arms feed the pulp and mend the machinery around it. Wren spots the open-hand mould inside. Kestrel goes for the frame; Ox takes the first blow.",
+    "outro": "The mill stops. One marked sheet escapes with the outgoing paper. Wren keeps a second sheet. The crew still expects to find a factory making swarm bodies."
+   },
+   "creatures": [
+    {
+     "id": "fiber-mite",
+     "name": "Fiber Mite",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/artifact",
+     "blurb": "It pulls loose threads for sample cards.",
+     "look": "A knot of cream fibers with six brass legs and a hooked needle."
+    },
+    {
+     "id": "circuit-gnat",
+     "name": "Circuit Gnat",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/atlanta-youth-design-future-paper-exhibit-papermaking-museum",
+     "blurb": "It bridges paper circuits and interrupts tools.",
+     "look": "A small ivory paper moth with copper veins and wire antennae."
+    },
+    {
+     "id": "coil-cutter",
+     "name": "Coil Cutter",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/craft-of-paper",
+     "blurb": "It springs from scrap to seize moving tools.",
+     "look": "A tight tan paper coil with a steel jaw and dark spring tail."
+    },
+    {
+     "id": "layer-weaver",
+     "name": "Layer Weaver",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/craft-of-paper",
+     "blurb": "It shields damaged machines with paper strips.",
+     "look": "A squat wooden loom on four legs, trailing broad cream strips."
+    },
+    {
+     "id": "dye-sprayer",
+     "name": "Dye Sprayer",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/living-exhibition",
+     "blurb": "Its dye marks targets for harvesters.",
+     "look": "A green metal tank on spindly legs with a brass nozzle and yellow hoses."
+    },
+    {
+     "id": "cardboard-hand",
+     "name": "Cardboard Hand",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/build-it",
+     "blurb": "It folds spare board into more grasping hands.",
+     "look": "A large brown corrugated hand with creased knuckles and a stapled wrist."
+    },
+    {
+     "id": "specimen-probe",
+     "name": "Specimen Probe",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/look-beneath-surface-analytical-techniques-reveal-museum-artifact-secrets",
+     "blurb": "It tests a movement, then repeats it with a needle.",
+     "look": "A wheeled gray microscope with a long lens arm and silver probe."
+    },
+    {
+     "id": "bark-beater",
+     "name": "Bark Beater",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike"
+     ],
+     "source": "/bark-rhythms-contemporary-innovations-ancestral-traditions",
+     "blurb": "It pounds bark and anything else within reach.",
+     "look": "A low iron frame with wooden mallets and brown bark caught in rollers."
+    },
+    {
+     "id": "garden-harvester",
+     "name": "Garden Harvester",
+     "tier": "elite",
+     "bodyPlan": "plant",
+     "role": "charger",
+     "routines": [
+      "brace",
+      "charge"
+     ],
+     "source": "/living-exhibition/plant-catalog",
+     "blurb": "It guards its feed hose before charging the next bed.",
+     "look": "Green stalks around an iron cutting wheel, with broad leaves and a tan hose."
+    },
+    {
+     "id": "embossing-warden",
+     "name": "Embossing Warden",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/innovation-embossed-paper/home",
+     "blurb": "It guards the mould and crushes shields against its plate.",
+     "look": "A tall black iron press with a raised hand-shaped plate and square feet."
+    },
+    {
+     "id": "paper-ringmaster",
+     "name": "Paper Ringmaster",
+     "tier": "elite",
+     "bodyPlan": "humanoid",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep",
+      "strike"
+     ],
+     "source": "/night-circus",
+     "blurb": "It sends silhouettes ahead to protect outgoing sheets.",
+     "look": "A cream paper figure with a folded hat, fan shoulders and long wire arms."
+    },
+    {
+     "id": "total-collection",
+     "name": "Total Collection",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "brace",
+      "strike"
+     ],
+     "source": "/about-museum",
+     "blurb": "The mill repairs its workers and guards the mould that puts an open hand in every sheet.",
+     "look": "A vast gray mill on wooden legs, with a vat belly, dripping screens and jointed drying-rack arms."
+    },
+    {
+     "id": "garden-tender",
+     "name": "Garden Tender",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/living-exhibition/get-involved",
+     "blurb": "A gardener binds wounds with clean fiber.",
+     "look": "A small figure in a green apron with a basket of seedlings and white fiber."
+    },
+    {
+     "id": "weaving-rig",
+     "name": "Weaving Rig",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/craft-of-paper",
+     "blurb": "The teaching rig winds spare strips into protective wraps.",
+     "look": "A low wooden loom with hinged arms and neatly wound ivory strips."
+    }
+   ],
+   "events": [
+    {
+     "id": "fiber-cabinet",
+     "source": "/artifact",
+     "look": "A glass cabinet with a cream thread escaping its door.",
+     "title": "Loose sample",
+     "text": "A sample thread leads into a locked cabinet. The frame can be sold, or its clean fiber used for bandages.",
+     "options": [
+      {
+       "label": "Take the frame",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The crew salvages the frame for 35 gold."
+      },
+      {
+       "label": "Take the fiber",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren dresses the crew\u2019s wounds."
+      }
+     ]
+    },
+    {
+     "id": "garden-bed",
+     "source": "/living-exhibition/get-involved",
+     "look": "Seedlings under a tilted mesh screen beside a medical roll.",
+     "title": "Moving day",
+     "text": "Gardeners offer a medical roll or emergency cash for help moving seedlings. They need the other for the next bed.",
+     "options": [
+      {
+       "label": "Take the roll",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren tends the crew."
+      },
+      {
+       "label": "Take the cash",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The gardeners hand over 40 gold."
+      }
+     ]
+    },
+    {
+     "id": "cardboard-grip",
+     "source": "/build-it",
+     "look": "A cardboard hand clutching a wedge beside an open tool box.",
+     "title": "A useful grip",
+     "text": "A half-built hand grips a wedge. The box holds a repair kit. There is time to take one before the hand closes.",
+     "options": [
+      {
+       "label": "Take the wedge",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox practices bracing behind the wedge."
+      },
+      {
+       "label": "Take the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the kit on the crew."
+      }
+     ]
+    },
+    {
+     "id": "mail-cache",
+     "source": "/north-american-hand-papermakers-mail-art-exchange-0",
+     "look": "A wooden box containing paper scraps and a cloth purse.",
+     "title": "Exchange cache",
+     "text": "A cache holds a purse and illustrated fighting instructions. The sender asks each visitor to leave one for the next crew.",
+     "options": [
+      {
+       "label": "Take the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew takes 30 gold and leaves the instructions."
+      },
+      {
+       "label": "Take the instructions",
+       "effect": {
+        "type": "routine",
+        "id": "finish"
+       },
+       "result": "Kestrel studies the technique and leaves the purse."
+      }
+     ]
+    },
+    {
+     "id": "folded-model",
+     "source": "/transformed-environments",
+     "look": "A folded paper corridor model beside a tray of coins.",
+     "title": "One open corner",
+     "text": "A model conceals a purse under one flap and a crowd-fighting diagram under another. Opening one seals the other.",
+     "options": [
+      {
+       "label": "Open the purse flap",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew retrieves 45 gold."
+      },
+      {
+       "label": "Open the diagram flap",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The crew learns a sweeping attack."
+      }
+     ]
+    },
+    {
+     "id": "woven-door",
+     "source": "/craft-of-paper",
+     "look": "A woven door under tension, with coins and bandages caught in its lattice.",
+     "title": "Under tension",
+     "text": "A strip holds a door shut. Cut the upper strand to catch coins, or the lower one to catch bandages. The other bundle falls away.",
+     "options": [
+      {
+       "label": "Catch the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Ox catches 35 gold."
+      },
+      {
+       "label": "Catch the bandages",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the bandages."
+      }
+     ]
+    }
+   ],
+   "name": "Robert C. Williams Museum of Papermaking",
+   "url": "https://paper.gatech.edu/"
+  },
+  {
+   "theme": "Type, proofs, and a changed message",
+   "story": {
+    "intro": "The marked paper reaches a print shop. Presses send out sheets covered in repeated impressions. Ox expects swarm orders. Wren checks the proofs instead.",
+    "chapters": [
+     {
+      "title": "Setting the line",
+      "text": "The machines gather type and copy the open hand beside a short request: find us. Kestrel checks for a hidden command. There is none. Someone sent a plea before the swarm found the mould."
+     },
+     {
+      "title": "A reply made wrong",
+      "text": "The swarm is trying to answer the plea by finding everyone it can. The presses keep replacing the request with a single reply: stay safe. Wren notices the reply leaves no room to say where anyone is."
+     },
+     {
+      "title": "The same answer",
+      "text": "The swarm feeds corrected proofs back into the press until every copy agrees. Ox protects printers trying to save a different version. Kestrel finds the feed leading to the master press."
+     }
+    ],
+    "bossIntro": "The Master Impression stacks wrong replies into a moving wall. It sends fresh copies out while its platen comes down. Kestrel works at a seam in the type. Ox keeps the press off Wren long enough to read the original.",
+    "outro": "The press breaks. The original plea asks to be found, not put away. A bound proof has already gone onward. The swarm follows it, still trying to keep its promise."
+   },
+   "creatures": [
+    {
+     "id": "sort-thief",
+     "name": "Sort Thief",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/learning/home-school/",
+     "blurb": "It steals individual sorts for the composing table.",
+     "look": "A brass beetle with square metal blocks held in its pincers."
+    },
+    {
+     "id": "poster-flyby",
+     "name": "Poster Flyby",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/come-fly-with-me/",
+     "blurb": "A folded proof dives at anyone carrying a sheet.",
+     "look": "A cream paper glider with blue panels, sharp wings and a wire beak."
+    },
+    {
+     "id": "stamp-mites",
+     "name": "Stamp Mites",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/activities/exhibitions/",
+     "blurb": "They crowd moving parts with tiny engraved plates.",
+     "look": "A cluster of black and ivory rectangular mites with toothed edges and pin legs."
+    },
+    {
+     "id": "grain-warden",
+     "name": "Grain Warden",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/workshops/",
+     "blurb": "It prints damp barriers over wounded machines.",
+     "look": "A wooden block on iron legs with a wide roller and rippled brown surface."
+    },
+    {
+     "id": "chapel-bell",
+     "name": "Chapel Shift Bell",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/exhibitions-collection/digital-exhibitions-2/",
+     "blurb": "It rings for composing drones when a line remains unfinished.",
+     "look": "A bronze bell in a walking black frame with a dangling clapper."
+    },
+    {
+     "id": "demo-mimic",
+     "name": "Demonstration Mimic",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/activities/tour-demos/",
+     "blurb": "It copies the crew\u2019s movements with a press handle.",
+     "look": "A waist-high black iron press with a hinged platen and handle-like arms."
+    },
+    {
+     "id": "archive-collator",
+     "name": "Archive Collator",
+     "tier": "regular",
+     "bodyPlan": "blob",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/exhibitions-collection/library-archive/",
+     "blurb": "Its interleaved sheets separate into smaller bundles when torn.",
+     "look": "A lopsided ball of cream sheets held by iron clips on short wheel legs."
+    },
+    {
+     "id": "type-caster",
+     "name": "Specimen Caster",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/shop/",
+     "blurb": "It sets solid blocks around itself before advancing.",
+     "look": "A squat iron casting machine carrying blank rectangular lead blocks."
+    },
+    {
+     "id": "heritage-shell",
+     "name": "Heritage Shell",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/heritage-week-at-the-museum/",
+     "blurb": "It seals nearby presses in armor and protects itself behind a cover.",
+     "look": "A domed gray shell on wheels with folding armor plates and padded clamps."
+    },
+    {
+     "id": "festival-giant",
+     "name": "Festival Giant",
+     "tier": "elite",
+     "bodyPlan": "colossus",
+     "role": "bruiser",
+     "routines": [
+      "sweep+",
+      "strike"
+     ],
+     "source": "/the-big-type-festival/",
+     "blurb": "Its broad wooden limbs clear space around the press.",
+     "look": "A towering frame of ochre wooden blocks with square arms and flat feet."
+    },
+    {
+     "id": "press-stitcher",
+     "name": "Press Stitcher",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/workshops/",
+     "blurb": "It stitches torn belts and damaged machines back together.",
+     "look": "A black iron sewing frame on legs with a needle arm and pale thread spools."
+    },
+    {
+     "id": "master-impression",
+     "name": "Master Impression",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike+"
+     ],
+     "source": "/about/",
+     "blurb": "It prints a single safe reply, shields its platen and calls machines to distribute the proofs.",
+     "look": "A towering black platen press with stacked cream sheets for armor, an iron jaw and brass feed arms."
+    },
+    {
+     "id": "volunteer-printer",
+     "name": "Volunteer Printer",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/activities/tour-demos/",
+     "blurb": "A printer uses a board to protect the crew.",
+     "look": "A sturdy figure in a dark blue apron holding a broad wooden press board."
+    },
+    {
+     "id": "type-apprentice",
+     "name": "Type Apprentice",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/learning/skills-transfer-programme/",
+     "blurb": "An apprentice repairs equipment with spare type and wire.",
+     "look": "A figure in a tan apron with a brass toolbox, wire coil and gray blocks."
+    }
+   ],
+   "events": [
+    {
+     "id": "press-cycle",
+     "source": "/activities/tour-demos/",
+     "look": "An iron platen paused over a wooden tool and a pouch.",
+     "title": "Half a cycle",
+     "text": "A press is stalled halfway down. A tool and pouch are on opposite sides. Only one can be pulled free before it drops.",
+     "options": [
+      {
+       "label": "Pull the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The pouch holds 45 gold."
+      },
+      {
+       "label": "Pull the tool",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel practices breaking through a guard."
+      }
+     ]
+    },
+    {
+     "id": "two-booklets",
+     "source": "/visit-us/faqs/",
+     "look": "Two folded guide booklets beside a small box of coins.",
+     "title": "Two routes",
+     "text": "Two guides disagree on the safe route. A printer offers a healing kit for checking both, or a purse for delivering one quickly.",
+     "options": [
+      {
+       "label": "Check both routes",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The printer gives Wren a healing kit."
+      },
+      {
+       "label": "Deliver one guide",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The printer pays 40 gold."
+      }
+     ]
+    },
+    {
+     "id": "star-book",
+     "source": "/learning/home-school/",
+     "look": "A white star-fold book stretched across a doorway.",
+     "title": "Folded route",
+     "text": "A star book shows a sweeping maneuver on one face and a route to a cash box on another. Folding it one way hides the other.",
+     "options": [
+      {
+       "label": "Follow the box route",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew recovers 40 gold."
+      },
+      {
+       "label": "Study the maneuver",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The crew learns the maneuver."
+      }
+     ]
+    },
+    {
+     "id": "outreach-kit",
+     "source": "/learning/outreach-programme/",
+     "look": "A portable wooden press beside two tied canvas bundles.",
+     "title": "Portable press",
+     "text": "An outreach printer needs one bundle carried. One contains medical supplies for the crew; the other is a paid delivery. The printer can spare only one.",
+     "options": [
+      {
+       "label": "Carry medical supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the supplies."
+      },
+      {
+       "label": "Carry the paid delivery",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The recipient pays 50 gold."
+      }
+     ]
+    },
+    {
+     "id": "workshop-pattern",
+     "source": "/workshops/",
+     "look": "A tiled black and cream pattern with a box in one square.",
+     "title": "One different square",
+     "text": "A misplaced repeat marks a box. Inside are a purse and a technique sheet. A note asks visitors to take one and leave one.",
+     "options": [
+      {
+       "label": "Take the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The crew takes 35 gold."
+      },
+      {
+       "label": "Take the technique",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The crew learns how to jam a mechanism."
+      }
+     ]
+    },
+    {
+     "id": "apprentice-proof",
+     "source": "/learning/skills-transfer-programme/",
+     "look": "Two inked rollers and a clean sheet on a proofing bench.",
+     "title": "Test impression",
+     "text": "A printer offers a medical roll or a guarding lesson for help testing two press settings. The other goes to an apprentice.",
+     "options": [
+      {
+       "label": "Accept the roll",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren uses the roll."
+      },
+      {
+       "label": "Accept the lesson",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox learns a way to cover an ally."
+      }
+     ]
+    }
+   ],
+   "name": "National Print Museum",
+   "url": "https://www.nationalprintmuseum.ie/"
+  },
+  {
+   "theme": "Bindings, readers, and an unfinished answer",
+   "story": {
+    "intro": "The proof arrives among books that fold, open, and change shape. The swarm binds it into a new volume. Wren reads the original plea again. Someone wanted to be found; the book means to preserve everyone it finds.",
+    "chapters": [
+     {
+      "title": "Collected",
+      "text": "The swarm makes copies of people and files the originals away. The shelves are orderly. Their occupants cannot leave. Ox holds a cabinet open while Wren helps someone out."
+     },
+     {
+      "title": "Different copies",
+      "text": "Small presses pass around different versions of the plea. None is complete, but each reaches someone. Kestrel finds a seam in the swarm\u2019s binding: it cannot fit conflicting pages into one perfect volume."
+     },
+     {
+      "title": "Leave a page open",
+      "text": "The crew assembles the plea beside several possible replies. Wren adds a blank page for anyone still missing. The swarm insists on one finished answer. Its great bindery comes to collect the pages."
+     }
+    ],
+    "bossIntro": "The Total Edition opens its armored covers. Feed arms pull at the pages while smaller machines gather the crew. Ox braces the stack. Kestrel prises the spine apart, and Wren holds the blank page out of reach.",
+    "outro": "The bindery falls open. The crew frees the people inside and leaves the plea where others can add an answer. The swarm wanted to keep everyone safe by preserving them unchanged. The open book gives the missing a way to be found without being shut away."
+   },
+   "creatures": [
+    {
+     "id": "certification-mites",
+     "name": "Certification Mites",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/resources",
+     "blurb": "They clamp onto tools and interrupt their users.",
+     "look": "Gray metal mites with square hinged backs and tiny clamp jaws."
+    },
+    {
+     "id": "ant-relay",
+     "name": "Ant Relay",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/collections/research-guide-from-the-ant-to-the-moon",
+     "blurb": "A chain of carriers takes loose equipment to the archive.",
+     "look": "Six black metal ants linked by a thin chain, each with a brass pincer."
+    },
+    {
+     "id": "pop-up-dragon",
+     "name": "Pop-up Dragon",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/exhibitions/what-the-butterfly-dragon-taught-me",
+     "blurb": "It springs out of a folded scene at anyone near the book.",
+     "look": "A teal folded-paper dragon with triangular wings, angular neck and cream hinges."
+    },
+    {
+     "id": "riso-duplicator",
+     "name": "Riso Duplicator",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/resources/studio",
+     "blurb": "It produces misaligned copies that become reinforcements.",
+     "look": "A boxy blue printing drum on four legs with yellow and cyan paper fins."
+    },
+    {
+     "id": "zine-scavenger",
+     "name": "Zine Scavenger",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/exhibitions/paper-cuts",
+     "blurb": "Its stapled armor breaks into independent scouts.",
+     "look": "A short figure in layered cream paper armor with black staples and wire legs."
+    },
+    {
+     "id": "finding-bailiff",
+     "name": "Finding-Aid Bailiff",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/collections/richard-minsky-collection-finding-aid",
+     "blurb": "It slides archival boxes around damaged machines.",
+     "look": "A tall gray cabinet on wheels with open drawers and hinged wooden arms."
+    },
+    {
+     "id": "reader-reader",
+     "name": "Reader-Reader",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/fall-2025/does-the-reader-read-the-book-or-does-the-book-read-the-reader",
+     "blurb": "It watches the crew and repeats their movements with its covers.",
+     "look": "An upright black-bound book with a glass eye, cream pages and brass legs."
+    },
+    {
+     "id": "water-box",
+     "name": "Water Box",
+     "tier": "regular",
+     "bodyPlan": "blob",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/fall-2025/liquid-opacity",
+     "blurb": "It wets torn pages and mends machines carrying them.",
+     "look": "A shallow blue glass box on wheels, filled with water and floating white sheets."
+    },
+    {
+     "id": "taxonomy-veiler",
+     "name": "Taxonomy Veiler",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "jam",
+      "strike"
+     ],
+     "source": "/exhibitions/veiled-taxonomies",
+     "blurb": "It wraps targets in the wrong categories and jams their tools.",
+     "look": "A tall ivory paper cylinder with narrow wrapping arms and a dark metal base."
+    },
+    {
+     "id": "spiral-binder",
+     "name": "Spiral Binder",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "sweep"
+     ],
+     "source": "/exhibitions/vicos-spiral-half-century-of-artists-books-at-the-university-of-florida-university-galleries",
+     "blurb": "It coils around helpers and sweeps intruders away.",
+     "look": "A long bronze binding spiral with cream paper fins and a square iron head."
+    },
+    {
+     "id": "proposal-assembler",
+     "name": "Proposal Assembler",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike+"
+     ],
+     "source": "/opportunities/main-gallery-exhibition-proposals",
+     "blurb": "It builds more enclosures around the people the swarm collects.",
+     "look": "A tall wooden frame with crane arms, folded ivory walls and a wheeled base."
+    },
+    {
+     "id": "total-edition",
+     "name": "Total Edition",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "strike+"
+     ],
+     "source": "/about",
+     "blurb": "It makes copies, gathers the originals and lashes out with its covers to force every page into one finished book.",
+     "look": "A vast upright book with black iron covers, cream pages, brass feed arms and a thick spiral spine."
+    },
+    {
+     "id": "zine-maker",
+     "name": "Zine Maker",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/exhibitions/paper-cuts",
+     "blurb": "A small-press maker clogs swarm gears with folded scrap.",
+     "look": "A figure in a blue work coat carrying small cream folded booklets."
+    },
+    {
+     "id": "collection-steward",
+     "name": "Collection Steward",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/collections",
+     "blurb": "A steward handles fragile people and pages with the same care.",
+     "look": "A figure in a gray apron with white gloves, a padded case and clean cloth."
+    }
+   ],
+   "events": [
+    {
+     "id": "studio-drawer",
+     "source": "/resources/studio",
+     "look": "A half-open drawer with a small book and a medical pouch.",
+     "title": "Expiring drawer",
+     "text": "A drawer is closing. A studio member asks the crew to save either a medical pouch or a book containing a defense lesson.",
+     "options": [
+      {
+       "label": "Save the pouch",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren uses the supplies."
+      },
+      {
+       "label": "Save the book",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns a bracing technique."
+      }
+     ]
+    },
+    {
+     "id": "water-sheet",
+     "source": "/fall-2025/liquid-opacity",
+     "look": "A shallow water box with a floating sheet and a brass purse.",
+     "title": "Before it drains",
+     "text": "A sheet holds a technique while wet. A purse is sinking beside it. The drain is too fast to recover both.",
+     "options": [
+      {
+       "label": "Retrieve the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew recovers 45 gold."
+      },
+      {
+       "label": "Read the sheet",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "Wren learns a way to clear corruption."
+      }
+     ]
+    },
+    {
+     "id": "riso-maps",
+     "source": "/resources",
+     "look": "Three overlapping cyan, yellow and black maps beside a first-aid tin.",
+     "title": "Three maps",
+     "text": "A printer offers either a first-aid tin or a lesson in disrupting machines for helping align three maps.",
+     "options": [
+      {
+       "label": "Take the tin",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren tends the crew."
+      },
+      {
+       "label": "Take the lesson",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The crew learns to jam a mechanism."
+      }
+     ]
+    },
+    {
+     "id": "pop-up-landscape",
+     "source": "/exhibitions/what-the-butterfly-dragon-taught-me",
+     "look": "A folded cream landscape with a blue dragon and a box beneath the hills.",
+     "title": "Half open",
+     "text": "A pop-up landscape has a cash box under one hill and a healing kit under another. Closing one hill opens the other.",
+     "options": [
+      {
+       "label": "Open the box hill",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The box contains 50 gold."
+      },
+      {
+       "label": "Open the kit hill",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the kit."
+      }
+     ]
+    },
+    {
+     "id": "reading-circle",
+     "source": "/exhibitions/genderfail-archive-project",
+     "look": "A loose bundle of pages on a table beside a small purse.",
+     "title": "Out of order",
+     "text": "A reading circle offers a purse or a defensive lesson for sorting a bundle. Its members need to keep the other for the next visitor.",
+     "options": [
+      {
+       "label": "Accept the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The circle gives the crew 40 gold."
+      },
+      {
+       "label": "Accept the lesson",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The circle teaches the crew to cover an ally."
+      }
+     ]
+    },
+    {
+     "id": "book-proposal",
+     "source": "/opportunities/main-gallery-exhibition-proposals",
+     "look": "A wooden model bridge rising from the pages of an open blank book.",
+     "title": "A bridge in a book",
+     "text": "A proposal machine can build one model before its stock runs out. One demonstrates a wide strike; the other contains saleable brass fittings.",
+     "options": [
+      {
+       "label": "Build the brass model",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew salvages fittings worth 45 gold."
+      },
+      {
+       "label": "Build the moving model",
+       "effect": {
+        "type": "routine",
+        "id": "sweep+"
+       },
+       "result": "The crew studies the wide sweeping movement."
+      }
+     ]
+    }
+   ],
+   "name": "Center for Book Arts",
+   "url": "https://centerforbookarts.org/"
+  }
+ ],
+ "id": "2026-11-10",
+ "seed": 342516282
+}

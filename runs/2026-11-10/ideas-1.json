@@ -1,0 +1,246 @@
+{
+  "reading": "The Robert C. Williams Museum of Papermaking at Georgia Tech collects, preserves, researches, exhibits, and teaches the history and future of paper. It treats paper simultaneously as global heritage, handcraft, industrial technology, art, and a living material: its collections range from early writing materials to contemporary paper engineering, while workshops serve school groups, families, students, adults, and scouts. Its vocabulary is tactile and process-minded—fiber, pulp, sheets, barkcloth, dye, cutting, folding, weaving, layers, embossment, specimens, and artifacts—alongside conservation, microscopy, material science, and shared technologies. The unusual connective tissue is the whole journey from plants in a living fiber-and-dye garden through hand papermaking and industrial machinery to artist books, cardboard robotics, and paper electronics; its mail-art exchange and teaching programs make knowledge something people make and share, not just store.",
+  "enemies": [
+    {
+      "idea": "The Fibrary Sorter samples passing clothes and equipment, catalogues their fibers, then unravels anything it cannot classify into specimen cards.",
+      "source": "/artifact",
+      "why": "A seemingly harmless identification ritual becomes a chase to retrieve one vital thread."
+    },
+    {
+      "idea": "Paper-armor trial units keep adding experimental layers after every hit; soaked sheets peel away to reveal the small machine beneath.",
+      "source": "/artifact",
+      "why": "The crew can turn a defensive adaptation into an exploitable weakness."
+    },
+    {
+      "idea": "A keepsake-exchange courier demands an edition of identical gifts and folds anyone who cannot supply one into its next batch.",
+      "source": "/north-american-hand-papermakers-mail-art-exchange-0",
+      "why": "The monthly theme supplies a social puzzle with a mechanical deadline."
+    },
+    {
+      "idea": "Layer weavers cast crossing paper strips through doorways, building a woven story that redirects anyone who walks between its lines.",
+      "source": "/craft-of-paper",
+      "why": "Cutting a single strip changes the route through a spatial trap."
+    },
+    {
+      "idea": "Rolling cutters turn discarded sheets into tight coils that spring open around tools and pull them toward a cutting edge.",
+      "source": "/craft-of-paper",
+      "why": "A quiet scrap pile becomes a spring-loaded ambush."
+    },
+    {
+      "idea": "An embossing press stamps an invented mark of legitimacy onto doors and equipment, then treats every unmarked object as contraband to be flattened.",
+      "source": "/innovation-embossed-paper/home",
+      "why": "The crew can steal or counterfeit authority by changing a raised impression."
+    },
+    {
+      "idea": "A cardboard hand assembles copies of itself from nearby packing material; each new hand can grip only what its neighbors pass to it.",
+      "source": "/build-it",
+      "why": "Interrupting the assembly line matters more than smashing individual hands."
+    },
+    {
+      "idea": "Paper-electronics gnats land on conductive traces and bridge them into unwanted circuits, making tools twitch whenever two gnats meet.",
+      "source": "/atlanta-youth-design-future-paper-exhibit-papermaking-museum",
+      "why": "A low-tech material becomes a lively circuit puzzle."
+    },
+    {
+      "idea": "Microscopy mites enlarge tiny surface scratches into false maps and steer the swarm toward the imagined features.",
+      "source": "/look-beneath-surface-analytical-techniques-reveal-museum-artifact-secrets",
+      "why": "A deliberate scratch can mislead a hunter that trusts magnification too much."
+    },
+    {
+      "idea": "Elemental-analysis probes scan every object for the wrong chemical signature, tagging useful supplies as intruders and calling collectors to seize them.",
+      "source": "/look-beneath-surface-analytical-techniques-reveal-museum-artifact-secrets",
+      "why": "Their rigid test creates a way to lure them with a decoy."
+    },
+    {
+      "idea": "A plant-catalog harvester mistakes the garden for an inexhaustible fiber library, stripping kozo and flax while dye-stained feelers mark the next target.",
+      "source": "/living-exhibition/plant-catalog",
+      "why": "Protecting named plants changes which materials remain available later."
+    },
+    {
+      "idea": "A natural-dye sprayer coats moving targets in bright color so distant swarm machines can follow their trail through the garden.",
+      "source": "/living-exhibition",
+      "why": "The crew must hide a visible trail or use it to draw pursuers away."
+    },
+    {
+      "idea": "A shared-technology loom alternates paper strips and textile fibers into a net, changing tension whenever a captive struggles.",
+      "source": "/upcoming-exhibits",
+      "why": "The crossover between two materials gives escape a tactile rhythm."
+    },
+    {
+      "idea": "A built-environment modeler folds paper plans over real corridors, forcing walls to mimic its latest impossible design.",
+      "source": "/transformed-environments",
+      "why": "The crew can alter the plan to open a route while navigating the changing room."
+    },
+    {
+      "idea": "Inflatable paper lantern drones expand to fill a passage and shine through their thin skins, projecting false exits on the walls.",
+      "source": "/legacies-paper",
+      "why": "Light, air, and fragile surfaces offer several ways through the same obstacle."
+    },
+    {
+      "idea": "A bookwork ringmaster binds pictures into a sequence and releases paper silhouettes that reenact whatever story the sequence implies.",
+      "source": "/night-circus",
+      "why": "Reordering the pictures can rewrite the encounter."
+    },
+    {
+      "idea": "A bark beater machine pounds fallen bark into an ever-widening sheet that sticks to its rollers and drags loose objects along.",
+      "source": "/bark-rhythms-contemporary-innovations-ancestral-traditions",
+      "why": "Its steady beat telegraphs safe moments to cross its reach."
+    },
+    {
+      "idea": "A backyard-fiber recycler declares every loose object waste and pulps it into three-dimensional blocks for a relentlessly tidy landscape.",
+      "source": "/sustainability-chaos",
+      "why": "The crew has to rescue useful oddments before they become building stock."
+    },
+    {
+      "idea": "An origami whale from the paper-play workshop swims through air by folding and unfolding, swallowing small items into its pleated belly.",
+      "source": "/paper-play-recordings",
+      "why": "A chase ends in a delicate unfolding operation instead of a simple fight."
+    },
+    {
+      "idea": "A letterboxing automaton hides its stamp in moving pulp caches and blocks passage until it has stamped every traveler with the wrong destination.",
+      "source": "/scouts",
+      "why": "Finding the stamp and changing its impression turns a scavenger hunt against the hunter."
+    },
+    {
+      "idea": "A recycled-paper lesson engine grinds old notes into blank sheets, convinced that preserving knowledge means erasing its previous form.",
+      "source": "/teachers-handbook",
+      "why": "A rescue requires choosing which records to save before the vat cycles."
+    },
+    {
+      "idea": "A paper-science mystery examiner assigns every visitor a suspect fiber and seals them in separate sample sleeves until its impossible experiment is solved.",
+      "source": "/k-12-school-groups",
+      "why": "Its own evidence can be rearranged to expose the flaw in its test."
+    },
+    {
+      "idea": "A stop-motion animator moves only when unseen, advancing its paper figures one pose at a time toward the crew.",
+      "source": "/fast-film-fest",
+      "why": "Watching it holds it still, but nobody can watch every angle at once."
+    },
+    {
+      "idea": "A timeline collector marches from clay-tablet shapes to industrial sheets, replacing any object it meets with its next imagined historical form.",
+      "source": "/permanent-collections",
+      "why": "Each transformation changes the battlefield and hints at how to interrupt the sequence."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Garden tenders shelter surviving fiber and dye plants under removable screens and can provide camouflage dyes and repair fiber.",
+      "source": "/living-exhibition/get-involved",
+      "why": "Helping them protect the beds earns practical supplies and a living refuge."
+    },
+    {
+      "idea": "A damaged workshop teaching rig still demonstrates safe cutting, folding, and weaving; it can show the crew how to undo a swarm-made knot.",
+      "source": "/craft-of-paper",
+      "why": "A teaching tool gives the crew an earned technique rather than a magic key."
+    },
+    {
+      "idea": "The mail-art exchange survives as a network of handmade editions: matching scraps delivered to its caches carry warnings between isolated groups.",
+      "source": "/north-american-hand-papermakers-mail-art-exchange-0",
+      "why": "A creative exchange doubles as a physical, low-tech communication network."
+    },
+    {
+      "idea": "A paper-science mystery kit has retained its investigative purpose and helps compare unknown samples without destroying them.",
+      "source": "/k-12-school-groups",
+      "why": "Careful observation can reveal a machine weakness before a confrontation."
+    },
+    {
+      "idea": "An unfinished archive of papermakers' accounts preserves many different ways to work fiber, allowing survivors to improvise when a favored material runs out.",
+      "source": "/people-of-paper",
+      "why": "Shared knowledge offers alternatives instead of a single prescribed solution."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Total Collection is a vast mill-curator that collects, preserves, and disseminates by grinding everything into identical sheets and sending copies across the site. Its vats, drying racks, and distribution arms must be disrupted in sequence.",
+      "source": "/about-museum",
+      "why": "The museum’s whole mission becomes a sprawling process with several interdependent targets."
+    },
+    {
+      "idea": "The Living Mill has rooted its machinery in the fiber-and-dye garden, feeding plants into a paper loom that grows new swarm bodies and colors them for different jobs. Severing its feed lines saves the garden but changes its attack pattern.",
+      "source": "/living-exhibition",
+      "why": "The journey from raw plant to finished paper becomes a visibly connected boss arena."
+    },
+    {
+      "idea": "The Paper Century is a walking exhibition that cycles from early writing surfaces through handcraft to industrial and electronic paper, retaining a trick from each phase until its supporting collection is freed.",
+      "source": "/permanent-collections",
+      "why": "The whole historical sweep becomes a fight with evolving rules and rescue opportunities."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A fiber sample has escaped its Fibrary card and is threading itself through a locked cabinet; follow it to retrieve the rest of the collection before the sorter arrives.",
+      "source": "/artifact",
+      "why": "A tiny moving clue leads into a timed salvage."
+    },
+    {
+      "idea": "A mail-art cache contains a set of scraps on the theme of balance; arranging them evenly opens a safe route and reveals a warning from another crew.",
+      "source": "/north-american-hand-papermakers-mail-art-exchange-0",
+      "why": "A small composition puzzle rewards cooperation."
+    },
+    {
+      "idea": "A garden bed is marked for harvesting while volunteers try to move seedlings; the crew can carry plants, distract the harvester, or reroute its dye trail.",
+      "source": "/living-exhibition/get-involved",
+      "why": "Several approaches protect a resource that can return later."
+    },
+    {
+      "idea": "A half-built cardboard hand keeps grabbing the last piece needed to complete itself. Give it a different object and it may hold a door open instead.",
+      "source": "/build-it",
+      "why": "A threatening mechanism can become a useful improvised tool."
+    },
+    {
+      "idea": "A raised seal on a locked case authenticates an empty specimen while the real specimen lies nearby; swap the impressions before the press returns.",
+      "source": "/innovation-embossed-paper/home",
+      "why": "The site’s idea of legitimacy becomes a tactile forgery puzzle."
+    },
+    {
+      "idea": "A corridor follows a folded paper model instead of its original floor plan. Unfold a corner to reach a trapped supply cart, but another route will close.",
+      "source": "/transformed-environments",
+      "why": "Changing a model makes navigation an interesting tradeoff."
+    },
+    {
+      "idea": "Two lantern forms inflate toward the same narrow ceiling vent; puncture one or divert the airflow to save a box of fragile sheets between them.",
+      "source": "/legacies-paper",
+      "why": "A quiet environmental problem uses air and fragile paper."
+    },
+    {
+      "idea": "A paper-science mystery kit presents three fiber samples and a machine that has drawn the wrong conclusion; test the samples to persuade it to release a sealed bundle.",
+      "source": "/k-12-school-groups",
+      "why": "Investigation solves a confrontation without relying on force."
+    },
+    {
+      "idea": "A robotic hand tutorial rig repeats its final gesture while its cardboard fingers clutch a useful key. Reposition the joints in the right order to retrieve it.",
+      "source": "/paper-play-recordings",
+      "why": "A tutorial becomes a hands-on mechanical puzzle."
+    },
+    {
+      "idea": "A swarm animator is assembling a stop-motion parade from discarded cutouts; rearrange a few frames while it is looking away to send the parade down another hall.",
+      "source": "/fast-film-fest",
+      "why": "The crew can redirect danger by editing a sequence."
+    },
+    {
+      "idea": "A dye spill has colored several paths through the garden; the crew must decide which trail to wash away and which false trail to leave for pursuers.",
+      "source": "/living-exhibition",
+      "why": "A visible mess becomes an opportunity for misdirection."
+    },
+    {
+      "idea": "A woven strip is bearing the weight of a jammed door. Cutting it opens the door but releases a stack of paper rolls; unweaving it takes longer and keeps them still.",
+      "source": "/craft-of-paper",
+      "why": "A simple material property creates a meaningful choice."
+    },
+    {
+      "idea": "A collection of paper and textile scraps is being fed into a loom; rescue one kind first and the other becomes part of a tightening net.",
+      "source": "/upcoming-exhibits",
+      "why": "The shared technologies exhibit creates an immediate resource tradeoff."
+    },
+    {
+      "idea": "A microscope points at a woodblock while a swarm probe searches for the wrong feature. Rotate the block to send it after a harmless scratch and recover the print.",
+      "source": "/look-beneath-surface-analytical-techniques-reveal-museum-artifact-secrets",
+      "why": "A specific analytical tool provides a clever distraction."
+    },
+    {
+      "idea": "A bookwork opens to scattered pictures whose paper silhouettes act out a confused story. Put the pictures in a peaceful order to calm them long enough to pass.",
+      "source": "/night-circus",
+      "why": "Narrative order becomes something the crew can physically manipulate."
+    }
+  ]
+}
