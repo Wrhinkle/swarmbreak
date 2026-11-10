@@ -56,6 +56,12 @@ with patch('manager.gh', return_value=[]), patch('manager.sh') as closed:
     closed.return_value.stdout = ''
     assert act({'type': 'close', 'issue': 2, 'reason': 'split'}, board, False) == 'Closed.'
     assert closed.call_args.args[:4] == ('gh', 'issue', 'close', '2') and closed.call_args.args[-1] == 'Closed by the factory manager: split'
+# Saved work isn't stranded: an issue whose branch holds unmerged work closes only once it's stuck. A PR holds no entry, so its title can name a thread.
+with patch('manager.gh', return_value=[]):
+    kept = {'issues': [{**mine(17), 'saved': True}, {**mine(18, 'stuck'), 'saved': True}], 'prs': [mine(19, title='Fix issue 149: tracker for discussion #9')]}
+    assert act({'type': 'close', 'issue': 17, 'reason': 'r'}, kept, True).startswith('Not closing')
+    assert act({'type': 'close', 'issue': 18, 'reason': 'r'}, kept, True) == 'Would close.'
+    assert act({'type': 'close', 'pr': 19, 'reason': 'r'}, kept, True) == 'Would close.'
 # Splitting a job cannot release its open dependent before the replacements finish.
 from foreman import next_job
 split = [mine(2), mine(10), mine(11), {**mine(20), 'body': 'Depends on #2'}]
