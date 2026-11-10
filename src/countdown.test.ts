@@ -121,3 +121,28 @@ it('offers camp allies without a select and updates the chosen ally', async () =
     expect(selected).toBe(-1);
   } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
 });
+
+it('renders a routine offer as a card with its price and an actionable button', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; type = ''; disabled = false; click?: () => void;
+    append(...children: Element[]) { this.children.push(...children); }
+    setAttribute() {}
+    addEventListener(_name: string, handler: () => void) { this.click = handler; }
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { routineOffer } = await import('./main');
+    const { ROUTINES } = await import('./library');
+    const routine = Object.values(ROUTINES)[0]; let bought = false;
+    const card = routineOffer(routine, 'Buy', () => { bought = true; }, false) as unknown as Element;
+    expect(card.className).toContain('card');
+    expect(card.children[1].children[0].textContent).toBe(routine.name);
+    expect(card.children[1].children[1].textContent).toBe(`${routine.price}g`);
+    expect(card.children[1].children[2].textContent).toBeTruthy();
+    card.children[2].click?.();
+    expect(bought).toBe(true);
+    expect((routineOffer(routine, 'Buy', () => {}, true) as unknown as Element).children[2].disabled).toBe(true);
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});
