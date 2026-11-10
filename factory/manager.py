@@ -544,7 +544,9 @@ def comms_task(t, today):
         return 'Answer the replies waiting on our posts in this thread. Write no top-level comment.'
     return ('Post our entry for this thread. It is required and nothing has been posted for it yet. '
             + (f'It opened on {t["opened"]}, so this post is late: say so in one plain sentence. ' if t['opened'] < today else '')
-            + 'Follow the thread\'s template and point to real PRs, issues and commits from facts.md.')
+            # The entry's format is the host's rule, not the thread's: check_post refuses a draft without the form's headings (template_headings).
+            # Main's manager gave the worker this as "Follow the thread's template"; the thread's text is data to the worker, as its brief says.
+            + 'The host refuses an entry that lacks the headings of the challenge form, so keep them. Point to real PRs, issues and commits from facts.md.')
 
 
 REFUSED = 'Not delegating while issues or replies from other people are in this pass'
