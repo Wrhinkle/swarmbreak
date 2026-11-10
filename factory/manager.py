@@ -482,20 +482,60 @@ def effort(log, subjects, other=()):
     return {n: cost for n, cost in out.items() if n not in other}
 
 
+def prepare_main(tree):
+    """Export the pinned origin/main commit without changing the active checkout."""
+    commit = subprocess.run(['git', 'rev-parse', '--verify', 'origin/main^{commit}'], cwd=ROOT,
+                            capture_output=True, text=True, check=True).stdout.strip()
+    archive = tree / 'main.tar'
+    subprocess.run(['git', 'archive', '--format=tar', f'--output={archive}', commit], cwd=ROOT,
+                   capture_output=True, text=True, check=True)
+    subprocess.run(['tar', '-xf', str(archive), '-C', str(tree)], capture_output=True, text=True, check=True)
+    archive.unlink()
+    # The exported tree has no installed dependencies. Copy them; the screen build itself runs in isolation.
+    subprocess.run(['cp', '-cR', str(ROOT / 'node_modules'), str(tree / 'node_modules')],
+                   capture_output=True, text=True, check=True)
+
+
+def usable_screenshot(path):
+    if path.is_symlink() or not path.is_file() or path.suffix != '.png':
+        return False
+    with path.open('rb') as image:
+        header = image.read(24)
+        if (len(header) != 24 or header[:8] != b'\x89PNG\r\n\x1a\n' or
+                header[8:16] != b'\x00\x00\x00\rIHDR' or
+                not int.from_bytes(header[16:20], 'big') or not int.from_bytes(header[20:24], 'big')):
+            return False
+        image.seek(-12, os.SEEK_END)
+        return image.read(12) == b'\x00\x00\x00\x00IEND\xaeB`\x82'
+
+
 def critique():
-    """What a new player would say about the game on main. The host takes the pictures, and a critic that sees nothing
-    else names up to three defects. It's advice for the manager, who alone decides what becomes a job, so nothing here
-    stops a pass: a failure comes back as `error`."""
+    """Capture origin/main without changing the active checkout, then ask the critic about those images."""
+    refused = ''
     try:
-        shutil.rmtree(shots_dir(ROOT), ignore_errors=True)  # never judge an older build's pictures
-        refused = screens(ROOT)
-        with tempfile.TemporaryDirectory() as work:
-            shutil.copytree(shots_dir(ROOT), Path(work) / 'screens')
-            bot('critic', work, 'The screenshots are in screens/. Write critique.json in the current folder.')
+        with tempfile.TemporaryDirectory() as source, tempfile.TemporaryDirectory() as work:
+            tree = Path(source)
+            prepare_main(tree)
+            shots = shots_dir(tree)
+            shutil.rmtree(shots, ignore_errors=True)
+            try:
+                refused = screens(tree)
+                shutil.copytree(shots, Path(work) / 'screens')
+            finally:
+                shutil.rmtree(shots, ignore_errors=True)
+            images = sorted(p.name for p in (Path(work) / 'screens').iterdir()
+                            if usable_screenshot(p))
+            if not images:
+                raise ValueError('The screen check produced no usable screenshots.')
+            bot('critic', work, 'The available screenshots are: ' + ', '.join(images) +
+                '. Look at these images in screens/ and write critique.json in the current folder.')
             found = json.loads((Path(work) / 'critique.json').read_text())['defects']
-        return {'host_check': refused[:1500], 'defects': [{k: str(d.get(k, ''))[:500] for k in ('screen', 'player_sees', 'should_be', 'done_when')} for d in found[:3]]}
+        return {'host_check': refused[:1500], 'defects': [{k: str(d.get(k, ''))[:500] for k in ('screen', 'player_sees', 'should_be', 'done_when')} for d in found if d.get('screen') in images][:3]}
     except Exception as exc:  # noqa: BLE001
-        return {'error': f'{type(exc).__name__}: {exc}'[:500]}
+        result = {'error': f'{type(exc).__name__}: {exc}'[:500]}
+        if refused:
+            result['host_check'] = refused[:1500]
+        return result
 
 
 def state():
