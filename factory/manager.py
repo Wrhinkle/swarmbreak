@@ -591,14 +591,18 @@ def act(a, s, dry):
         if bad := post_problems(comment):  # the reason is posted in public, like any other post
             return f'Not closing {which} {number}: the reason {"; ".join(bad)}.'
         if which == 'issue':  # entry holds, saved branches and dependencies all hang on the open issue, never on a PR
-            # Challenge work holds our entry, and the manager can't see whether it's finished. A builder pass can: it closes
-            # a job it finds done on main.
-            if re.search(r'discussion #\d', f"{item.get('title', '')}\n{item.get('body') or ''}"):
-                return f'Not closing issue {number}: it names a challenge thread and holds our entry there. Prioritise it: the next builder pass checks it against main and closes it when nothing is left.'
+            issues = [i for i in gh('issue', 'list', '--repo', REPO, '--state', 'open', '--limit', '500', '--json', 'number,title,body,author,labels') if i['number'] != number]
+            # Challenge work holds our entry, and the manager can't see whether it's finished. So its close never lifts the
+            # hold, only moves it: another job a worker can take must name the same thread. The same test the foreman's
+            # challenge_work makes, less stuck jobs, which no worker takes.
+            threads = lambda i: set(re.findall(r'discussion #(\d+)\b', f"{i.get('title', '')}\n{i.get('body') or ''}"))
+            moved = {t for i in issues if i['author']['login'] == OWNER and not {COMMS, 'lesson', HUMAN, 'stuck'} & {l['name'] for l in i['labels']} for t in threads(i)}
+            if left := sorted(threads(item) - moved):
+                return (f'Not closing issue {number}: it holds our entry on discussion #{", #".join(left)}. Replaced, it closes once an open job for the builder that is not stuck names that thread; a lesson, entry or escalation does not count. '
+                        'Finished, it is the builder\'s to close: prioritise it, and the next pass checks it against main.')
             if item.get('saved') and 'stuck' not in names:
                 return f'Not closing issue {number}: its branch holds unmerged work. Prioritise it; it can be replaced once it is stuck.'
-            issues = gh('issue', 'list', '--repo', REPO, '--state', 'open', '--limit', '500', '--json', 'number,body')
-            dependents = sorted(i['number'] for i in issues if i['number'] != number and number in deps(i.get('body')))
+            dependents = sorted(i['number'] for i in issues if number in deps(i.get('body')))
             if dependents:
                 return f'Not closing issue {number}: open issues depend on it: {dependents}.'
         return 'Would close.' if dry else sh('gh', which, 'close', str(number), '--repo', REPO, '--comment', comment).stdout.strip() or 'Closed.'
