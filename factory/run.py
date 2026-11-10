@@ -56,9 +56,9 @@ MADE = {'parser': [f'ideas-{i}.json' for i in range(1, ACTS + 1)], 'storymaker':
 
 
 def begin(d, stage):
-    """Starting a stage makes everything built from its output stale. A run stopped partway must not resume past it on old work."""
-    for later in STAGES[STAGES.index(stage) + 1:]:
-        for name in MADE.get(later, []):
+    """Starting a stage makes its old output, and everything built from it, stale. A run stopped partway must not resume past it on old work."""
+    for redo in STAGES[STAGES.index(stage):]:
+        for name in MADE.get(redo, []):
             mark(d / name, False)
     if stage == 'researcher':
         (d / 'sites.json').unlink(missing_ok=True)

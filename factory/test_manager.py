@@ -563,8 +563,13 @@ with tempfile.TemporaryDirectory() as d:
     begin(run, 'gameplay')  # a new plan is coming, so the old pass says nothing
     assert resume_stage(run) == 'gameplay'
     Path(run, 'balance.json').write_text(json.dumps({'problems': []}))
-    begin(run, 'parser')  # new ideas are coming: the story and balance built from the old ones are stale
-    assert resume_stage(run) == 'storymaker' and not Path(run, 'balance.json').exists()
+    begin(run, 'parser')  # new ideas are coming: the old ones, and the story and balance built from them, are stale
+    assert resume_stage(run) == 'parser' and not Path(run, 'balance.json').exists()
+    mark(Path(run, 'ideas-1.json'), True)  # stopped after the first new idea: the other two are still the old ones
+    assert resume_stage(run) == 'parser'
+    for i in (2, 3):
+        mark(Path(run, f'ideas-{i}.json'), True)
+    assert resume_stage(run) == 'storymaker'
     Path(run, 'checked.json').write_text('{"ideas-1.json": "ab')  # a write cut short
     assert resume_stage(run) == 'parser'
     mark(Path(run, 'ideas-1.json'), True)  # and the next attempt still records its pass
