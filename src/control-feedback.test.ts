@@ -19,3 +19,13 @@ it('keeps map pin hover feedback on the marker instead of filling its transparen
   const css = readFileSync('index.html', 'utf8');
   expect(css).toMatch(/\.pin:hover:not\(:disabled\)\s*\{\s*background:\s*(?:none|transparent)/);
 });
+
+it('keeps press feedback stationary when reduced motion is requested', () => {
+  const css = readFileSync('index.html', 'utf8');
+  expect(css).toMatch(/\.reduce-motion button:active:not\(:disabled\):not\(\.pin\)[^{]*\{[^}]*transform:none/);
+  expect(css).toMatch(/@media\(prefers-reduced-motion:reduce\)\{[^}]*button:active:not\(:disabled\):not\(\.pin\)[^{]*\{[^}]*transform:none/);
+  for (const selector of ['.hud-menu summary:active', '.routine-picker summary:active']) {
+    expect(css).toContain(`.reduce-motion ${selector}`);
+    expect(css).toMatch(new RegExp(`@media\\(prefers-reduced-motion:reduce\\)\\{[^}]*${selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^{]*\\{[^}]*transform:none`));
+  }
+});
