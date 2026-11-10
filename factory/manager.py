@@ -462,7 +462,7 @@ def deploy(dry, rev=None):
 
 
 def open_prs():
-    return gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,labels,headRefName,baseRefName,headRefOid,mergeable,url')
+    return gh('pr', 'list', '--repo', REPO, '--limit', '500', '--json', 'number,title,author,labels,headRefName,baseRefName,headRefOid,mergeable,url')
 
 
 def effort(log, subjects, other=()):
@@ -501,7 +501,8 @@ def critique():
 def state():
     prs = open_prs()
     log = LOG.read_text().splitlines() if LOG.exists() else []
-    issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
+    # Every open issue: gh lists 30 unless told, and the manager can only close what it sees.
+    issues = gh('issue', 'list', '--repo', REPO, '--limit', '500', '--json', 'number,title,body,author,labels,createdAt')
     spent = effort(log, sh('git', 'log', '--format=%s', '-F', '--grep=Part of issue ', 'origin/main').stdout.splitlines(),
                    {i['number'] for i in issues if {RUN, COMMS} & {l['name'] for l in i['labels']}})
     # Unmerged work on an issue's branch, which closing the issue would strand.
@@ -606,8 +607,10 @@ def act(a, s, dry):
         if bad := post_problems(comment):  # the reason is posted in public, like any other post
             return f'Not closing {which} {number}: the reason {"; ".join(bad)}.'
         if which == 'issue':  # entry holds, saved branches and dependencies all hang on the open issue, never on a PR
+            # Challenge work holds our entry, and the manager can't see whether it's finished. A builder pass can: it closes
+            # a job it finds done on main.
             if re.search(r'discussion #\d', f"{item.get('title', '')}\n{item.get('body') or ''}"):
-                return f'Not closing issue {number}: it names a challenge thread, so it holds our entry there until the work is finished.'
+                return f'Not closing issue {number}: it names a challenge thread and holds our entry there. Prioritise it: the next builder pass checks it against main and closes it when nothing is left.'
             if item.get('saved') and 'stuck' not in names:
                 return f'Not closing issue {number}: its branch holds unmerged work. Prioritise it; it can be replaced once it is stuck.'
             issues = gh('issue', 'list', '--repo', REPO, '--state', 'open', '--limit', '500', '--json', 'number,body')

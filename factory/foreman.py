@@ -122,7 +122,7 @@ def unfiled(lines, now):
 
 def entry_waits(i, issues, unfiled=()):
     """Whether an entry job stays unposted for now: work planned for its challenge is open or couldn't be filed yet.
-    No entry goes out ahead of that work. Only finishing the work lifts the hold: the manager can't close it."""
+    No entry goes out ahead of that work. Only finishing the work lifts the hold: the manager can't close it. A builder pass that finds it done on main does."""
     m = ENTRY.fullmatch(i.get('title', ''))
     return bool(m and COMMS in labels(i) and (challenge_work(issues, m.group(1)) or m.group(1) in unfiled))
 
