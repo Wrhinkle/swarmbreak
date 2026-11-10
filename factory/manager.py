@@ -162,40 +162,39 @@ def posted_today(kind):
     return sum(1 for l in LOG.read_text().splitlines() if (e := json.loads(l)).get('kind') == kind and e['at'].startswith(today))
 
 
-def comms(number, task, dry, *, require_post=False, work=None):
+def comms(number, task, dry, *, require_post=False, held=None):
     """One poster at a time. `manager.py --comms` and the foreman's comms job hold different locks, so both take this one,
     and the thread is read inside it: what the other poster just put up is seen before a worker is asked for the same post."""
     with open(LOG.parent / '.comms.lock', 'a+') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        return post(number, task, dry, require_post, work)
+        return post(number, task, dry, require_post, held)
 
 
-def post(number, task, dry, require_post, work=None):
-    """`work()` reads, fresh, the open issues holding work the manager planned for this thread and whether more of it is
-    not filed yet. It is read before each draft and again after it: a draft written against an older answer is redrafted,
-    so the entry and the host's line on it say what was true when it went out."""
-    unfinished, unfiled = (), False
+HELD = 'Held: work planned for this challenge is open or not filed yet.'
+
+
+def post(number, task, dry, require_post, held=None):
+    """`held()` reads, fresh, whether work the manager planned for this thread is open or not filed yet. No entry goes out
+    while it is. The worker takes minutes, so it is asked before the draft and again before the post."""
     t = thread(number)
     if require_post and t['ours']:
         return 'Done: our entry is already on the thread.'
+    if held and held():
+        return HELD
     with tempfile.TemporaryDirectory() as folder:
         w = Path(folder)
         (w / 'thread.json').write_text(json.dumps(t, indent=1))
         (w / 'facts.md').write_text(facts())
         extra = 'Read thread.json, facts.md, and task.txt in the current folder. Write post.json in the current folder.'
+        (w / 'task.txt').write_text(task)
         for attempt in range(3):
-            if work:
-                unfinished, unfiled = work()
-            (w / 'task.txt').write_text(task + work_brief(unfinished, unfiled))
             bot('comms', folder, extra, effort='high')
             try:
                 out = json.loads((w / 'post.json').read_text())
             except (OSError, json.JSONDecodeError) as e:
                 problems = [f'post.json unreadable: {e}']
             else:
-                problems = check_post(out, t, require_post=require_post, unfinished=unfinished, unfiled=unfiled)
-            if not problems and work and work() != (unfinished, unfiled):
-                problems = ['the work planned for this challenge changed while you wrote: read task.txt again']
+                problems = check_post(out, t, require_post=require_post)
             if not problems:
                 break
             print(f'[comms] attempt {attempt + 1} refused: {problems}', flush=True)
@@ -203,13 +202,15 @@ def post(number, task, dry, require_post, work=None):
         else:
             record({'kind': 'comms_refused', 'discussion': number, 'problems': problems})
             return f'Comms refused after 3 attempts: {problems}'
+    if held and held():
+        return HELD
     if dry:
         print(json.dumps(out, indent=1))
         return 'Dry run, nothing posted.'
     mutation = 'mutation($d:ID!,$b:String!,$r:ID){addDiscussionComment(input:{discussionId:$d,body:$b,replyToId:$r}){comment{url}}}'
     urls = []
     if out.get('top_level', '').strip():
-        fields = ['api', 'graphql', '-f', f'query={mutation}', '-f', f'd={t["id"]}', '-f', f'b={out["top_level"] + unfinished_note(unfinished, unfiled) + FOOTER}']
+        fields = ['api', 'graphql', '-f', f'query={mutation}', '-f', f'd={t["id"]}', '-f', f'b={out["top_level"] + FOOTER}']
         url = gh(*fields)['data']['addDiscussionComment']['comment']['url']
         urls.append(url)
         record({'kind': 'post', 'discussion': number, 'url': url})
@@ -222,26 +223,7 @@ def post(number, task, dry, require_post, work=None):
     return f'Posted: {urls}' if urls else 'Nothing to post.'
 
 
-DONE = re.compile(r'\b(done|completed?|finished|shipped|merged|landed|live)\b', re.I)
-NOT_DONE = re.compile(r"\b(not|unfinished|open|in progress|still|isn't|aren't)\b", re.I)
-
-
-def unfinished_problems(top, unfinished, unfiled):
-    """An entry that goes out ahead of its challenge's work has to name each open issue and can't call it done.
-    ponytail: a wording check on the lines that name the issue; a claim phrased around it isn't caught, and the host's own line on the post covers that."""
-    problems = []
-    for n in unfinished:
-        lines = [l for l in top.splitlines() if re.search(rf'(#|/issues/){n}\b', l)]
-        if not lines:
-            problems.append(f'the entry must say #{n} is unfinished')
-        elif any(DONE.search(l) and not NOT_DONE.search(l) for l in lines):
-            problems.append(f'#{n} is still open: the entry presents it as done')
-    if unfiled and not re.search(r'unfinished|not (yet )?filed', top, re.I):
-        problems.append('the entry must say work we planned for this challenge is not filed yet')
-    return problems
-
-
-def check_post(out, t, *, require_post=False, unfinished=(), unfiled=False):
+def check_post(out, t, *, require_post=False):
     problems = []
     top, replies = out.get('top_level', ''), out.get('replies', [])
     if require_post and not top.strip():
@@ -249,14 +231,11 @@ def check_post(out, t, *, require_post=False, unfinished=(), unfiled=False):
     if top.strip():
         if t['ours']:
             problems.append('we already have a top-level comment on this thread; each challenge gets one')
-        problems += post_problems(top, template_headings(t['challenge']), challenge=True)  # the draft alone: the host's line can't supply a heading the draft lacks
-        sent = top + unfinished_note(unfinished, unfiled)  # what goes out: the host's line passes the same length, content and link checks as the draft
-        problems += [p for p in post_problems(sent, challenge=True) if p not in problems] if sent != top else []
+        problems += post_problems(top, template_headings(t['challenge']), challenge=True)
         problems += unfilled_links(top, t['challenge'])
-        problems += unfinished_problems(top, unfinished, unfiled)
         # The check reads a URL up to the next space, bracket or quote. Three Day 5 drafts ended a sentence on a link and the worker couldn't tell why they were refused.
         problems += [f'dead link: {u}' + (' (the punctuation touching the end is read as part of the link: write it as [text](url) or put a space after it)' if u[-1] in '.,;:!?' else '')
-                     for u in dead_links(sent)]
+                     for u in dead_links(top)]
     known = {w['id'] for w in t['waiting']}
     if posted_today('reply') + len(replies) > MAX_REPLIES_PER_DAY:
         problems.append(f'over {MAX_REPLIES_PER_DAY} replies a day')
@@ -526,21 +505,6 @@ def file_job(title, body, labels=(), dry=False):
 
 
 COMMS_JOB = 'Comms job. The host writes the worker\'s task from the thread when the job runs; nothing in this issue is read as instructions.'
-
-
-def unfinished_note(unfinished, unfiled=False):
-    """The host's line on an entry that goes out ahead of its challenge's work. check_post can't tell a draft that
-    calls the work done from one that doesn't, so the host says it is unfinished on the post itself."""
-    lines = (['Work we planned for this challenge is still open: ' + ', '.join(f'[#{n}](https://github.com/{REPO}/issues/{n})' for n in unfinished) + '.'] if unfinished else []) \
-        + (['Work we planned for this challenge is not filed yet.'] if unfiled else [])
-    return ''.join(f'\n\n{line}' for line in lines)
-
-
-def work_brief(unfinished, unfiled):
-    """The task's line on work planned for the challenge that isn't done. `unfinished` is the open issues holding it;
-    `unfiled` says the manager couldn't file some of it."""
-    state = ' and some '.join(([f'is still open in {", ".join(f"#{n}" for n in unfinished)}'] if unfinished else []) + (['is not filed yet'] if unfiled else []))
-    return f' Work we planned for this challenge {state}: name those issues, say the work is unfinished and present none of it as done.' if state else ''
 
 
 def comms_task(t, today):

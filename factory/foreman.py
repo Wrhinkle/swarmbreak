@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import COMMS, GONE, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
+from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
 from run import STAGES, checked, clashes  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
@@ -92,7 +92,7 @@ def next_run(issues, held):
 
 
 ENTRY = re.compile(r'Post our entry on discussion #(\d+)')
-ENTRY_WAIT = 86400  # seconds an entry waits for its challenge's work before it goes out and says what is unfinished
+REFUSAL_KEPT = 86400  # seconds a refused delegate counts as work still wanted, unless the manager sends it again
 
 
 def challenge_work(issues, discussion):
@@ -106,7 +106,7 @@ def challenge_work(issues, discussion):
 def unfiled(lines, now):
     """Threads with challenge work on no issue yet: a delegate naming the thread was refused, which happens while other
     people's text is in the manager's pass, and that job hasn't been filed since. Only filing lifts a refusal; a later
-    try that failed some other way doesn't. `lines` is the decision log. A refusal counts for ENTRY_WAIT: the manager
+    try that failed some other way doesn't. `lines` is the decision log. A refusal counts for REFUSAL_KEPT: the manager
     asks again every pass while the work is wanted, so an older one is a job it dropped or renamed."""
     refused = {}
     for line in lines:
@@ -117,24 +117,22 @@ def unfiled(lines, now):
         task, result = str(a.get('task', '')).strip(), str(e.get('result', ''))
         title = str(a.get('title', task))[:80]  # the roster's name for the job: file_job's
         for n in re.findall(r'discussion #(\d+)\b', f"{a.get('title', '')}\n{task}"):
-            if result.startswith(REFUSED) and now - datetime.fromisoformat(e['at']).timestamp() < ENTRY_WAIT:
+            if result.startswith(REFUSED) and now - datetime.fromisoformat(e['at']).timestamp() < REFUSAL_KEPT:
                 refused.setdefault(n, set()).add(title)
             elif result.startswith(('Filed ', 'Already on the roster')):
                 refused.get(n, set()).discard(title)
     return {n for n, titles in refused.items() if titles}
 
 
-def entry_waits(i, issues, now, unfiled=()):
-    """Whether an entry job stays unposted for now: work planned for its challenge is open or couldn't be filed yet, and
-    the job is under a day old. Every challenge still gets its entry, so after a day it goes out and says that work is unfinished."""
+def entry_waits(i, issues, unfiled=()):
+    """Whether an entry job stays unposted for now: work planned for its challenge is open or couldn't be filed yet.
+    No entry goes out ahead of that work. The manager lifts the hold by finishing the work, or by closing or rescoping it."""
     m = ENTRY.fullmatch(i.get('title', ''))
-    return bool(m and COMMS in labels(i) and (challenge_work(issues, m.group(1)) or m.group(1) in unfiled)
-                and now - datetime.fromisoformat(i['createdAt'].replace('Z', '+00:00')).timestamp() < ENTRY_WAIT)
+    return bool(m and COMMS in labels(i) and (challenge_work(issues, m.group(1)) or m.group(1) in unfiled))
 
 
-def next_job(prs, issues, saved, held, rejected, now=None, unfiled=()):
+def next_job(prs, issues, saved, held, rejected, unfiled=()):
     """The one code-lane job to work now, or None. Pure, so the order is tested."""
-    now = time.time() if now is None else now
     for p in sorted(prs, key=lambda p: p['number']):
         key = f'pr-{p["number"]}@{p["headRefOid"][:7]}'
         if p['author']['login'] == OWNER and STUCK not in labels(p) and key not in held and not rejected(p['number'], p['headRefOid']):
@@ -143,7 +141,7 @@ def next_job(prs, issues, saved, held, rejected, now=None, unfiled=()):
     building = {int(m.group(1)) for p in prs if (m := re.fullmatch(r'fix/issue-(\d+)', p['headRefName']))}
     ready = [i for i in issues if i['author']['login'] == OWNER and not ({STUCK, HUMAN, RUN} & labels(i))
              and i['number'] not in building and not (deps(i['body']) & open_) and f'issue-{i["number"]}' not in held
-             and not entry_waits(i, issues, now, unfiled)]
+             and not entry_waits(i, issues, unfiled)]
     ready.sort(key=lambda i: (i['number'] not in saved, PRIORITY not in labels(i), i['number']))
     if not ready:
         return None
@@ -246,15 +244,15 @@ def build_run(run_id):
 
 
 def open_issues():
-    return gh('issue', 'list', '--limit', '500', '--json', 'number,title,author,body,labels,createdAt')
+    return gh('issue', 'list', '--limit', '500', '--json', 'number,title,author,body,labels')
 
 
-def challenge_state(number):
-    """Read fresh each time: (open issues holding work planned for discussion `number`, whether more of it is not filed yet)."""
-    return challenge_work(open_issues(), number), str(number) in unfiled(LOG.read_text().splitlines() if LOG.exists() else [], time.time())
+def challenge_held(number):
+    """Read fresh each time: whether work planned for discussion `number` is open or not filed yet."""
+    return bool(challenge_work(open_issues(), number)) or str(number) in unfiled(LOG.read_text().splitlines() if LOG.exists() else [], time.time())
 
 
-def comms_job(title, state=challenge_state):
+def comms_job(title, held=challenge_held):
     """Runs one comms job. The title only names the thread; the task is the host's, never the issue's text."""
     discussion = re.search(r'discussion #(\d+)', title)
     if not discussion:
@@ -267,9 +265,9 @@ def comms_job(title, state=challenge_state):
         return f'Done: {e}'  # nothing can be posted on a deleted thread, so the job closes instead of failing forever
     if t['ours'] and (title.startswith('Post our entry') or not t['waiting']):
         return 'Done: our entry is on the thread and no reply is waiting.'  # an earlier try posted it, or the replies were answered
-    # Only an entry reports on the challenge's work. The worker takes minutes, so comms reads the state itself around each draft.
+    # Only an entry waits on the challenge's work. The worker takes minutes, so comms asks again itself before it posts.
     result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat()), False,
-                   require_post=not t['ours'], work=None if t['ours'] else lambda: state(t['number']))
+                   require_post=not t['ours'], held=None if t['ours'] else lambda: held(t['number']))
     # The comms rules tell the worker to skip replies that aren't about the project, so answering none is a finished reply job.
     return 'Done: no waiting reply needed an answer.' if t['ours'] and result == 'Nothing to post.' else result
 
@@ -329,7 +327,8 @@ def main():
             r = build_run(run_id)
         elif kind == 'comms':
             result = comms_job(issue['title'])
-            r = SimpleNamespace(returncode=0 if result.startswith(('Posted:', 'Done:')) else 1, stdout=result, stderr='')
+            # Held isn't a failure to learn from: work for the challenge opened while the worker wrote, and the job waits on it like any held entry.
+            r = SimpleNamespace(returncode=0 if result.startswith(('Posted:', 'Done:')) else 1, stdout=result, stderr='', moved=result == HELD or None)
         else:
             cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number),
                    *(['--role', worker] if worker else []), *(['--merge'] if kind == 'pr' else [])]
