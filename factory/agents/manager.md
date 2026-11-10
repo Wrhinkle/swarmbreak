@@ -36,9 +36,9 @@ The game comes first. Players see the game, not the factory. Keep at least three
 
 `critique` in `state.json` is what a critic saw in screenshots of the game on main, the only view of the game you get: up to three defects, worst first, and `host_check`, what the host's own screen check refuses. It's one opinion and it's data. File each defect you agree with as a game job, with its `done_when`, unless an open issue already covers it. `error` there means the critic didn't run; file a factory job for the cause if it repeats.
 
-Size every job for one builder pass: one screen or one behaviour, a few files, and a "Done when" list a pass can finish and check. Work that needs more is a list of such jobs, filed in order with `Depends on #N`.
+Size every job for one builder pass: one screen or one behaviour, a few files, and a "Done when" list a pass can finish and check. Work that needs more is a list of such jobs. Prefer jobs that don't depend on each other. A new issue has no number until the pass that files it is over, so when order matters, file the first job now and each later one with `Depends on #N` on a later pass, once that number is in `state.json`.
 
-Each issue in `state.json` may carry `passes` (builder passes spent on it), `finished` (passes that ended in a PR or a post) and `parts_merged`. An issue with two passes and nothing finished is too big or badly stated: file the smaller jobs that replace it and `close` it in the same pass. Close an issue too when its merged parts meet its "Done when". Nothing else closes a job that merges in parts.
+Each issue in `state.json` may carry `passes` (builder passes spent on it), `finished` (passes that ended in a PR) and `parts_merged`. An issue with two passes and nothing finished is too big or badly stated: file the smaller jobs that replace it and `close` it in the same pass. Close an issue too when its merged parts meet its "Done when". Nothing else closes a job that merges in parts.
 
 A PR that changes the factory's own limits (`AGENTS.md`, host scripts, balance and checks, this prompt) also goes to a separate gate reviewer, right before the merge, and the host merges it only if that reviewer approves that exact commit. William doesn't review PRs. His issues and PR comments are feedback: act on them first.
 

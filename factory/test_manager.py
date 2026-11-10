@@ -39,13 +39,17 @@ assert 'Bad comms' in act({'type': 'comms', 'discussion': '4', 'task': 'x'}, s, 
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strangers': True}, True)
 # It can close what it replaced: the owner's issue or PR, with a reason, and never a run, lesson or escalation.
 mine = lambda n, *l, title='t': {'number': n, 'title': title, 'author': {'login': 'Wrhinkle'}, 'labels': [{'name': x} for x in l]}
-board = {'issues': [*s['issues'], mine(2), mine(3, 'lesson'), mine(4, 'run'), mine(5, 'needs-william')], 'prs': [mine(7), mine(8, title='Open run 2026-11-10')]}
+board = {'issues': [*s['issues'], mine(2), mine(3, 'lesson'), mine(4, 'run'), mine(5, 'needs-william')], 'prs': [mine(7), mine(8, title='Open run 2026-11-10'), mine(12, 'run'), mine(13, 'lesson'), mine(14, 'needs-william')]}
 assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, True) == 'Would close.'
 assert act({'type': 'close', 'pr': 7, 'reason': 'replaced'}, board, True) == 'Would close.'
 for bad in ({'issue': 2}, {'issue': 2, 'reason': ' '}, {'issue': 9, 'reason': 'r'}, {'issue': 3, 'reason': 'r'}, {'issue': 4, 'reason': 'r'},
-            {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}):
+            {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}, {'pr': 12, 'reason': 'r'}, {'pr': 13, 'reason': 'r'}, {'pr': 14, 'reason': 'r'},
+            *({'issue': 2, 'reason': r} for r in ('token ghp_' + 'a' * 24, 'ask me@example.com', 'see @someone', 'see https://example.com/x'))):
     assert act({'type': 'close', **bad}, board, True).startswith('Not closing'), bad
 assert act({'type': 'close', 'issue': 2, 'reason': 'r'}, {**board, 'strangers': True}, True).startswith('Not closing')
+with patch('manager.gh', return_value=[]) as listed:  # a PR's labels reach the manager, or the label check above sees nothing
+    __import__('manager').open_prs()
+    assert 'labels' in listed.call_args.args[-1].split(',')
 with patch('manager.sh') as closed:
     closed.return_value.stdout = ''
     assert act({'type': 'close', 'issue': 2, 'reason': 'split'}, board, False) == 'Closed.'
@@ -57,6 +61,7 @@ spent = lambda job, exit_: json.dumps({'kind': 'foreman', 'job': job, 'exit': ex
 assert effort([spent('issue-37', 1)] * 3 + [spent('issue-37', 0), spent('pr-37@abc', 1), spent('issue-5', 0), json.dumps({'kind': 'manager'})],
               ['Part of issue 37: fights', 'Part of issue 37: more', 'Fix issue 5: x', 'Merge: Part of issue 9: y', 'Part of issue 8: z']) == {
     37: {'passes': 4, 'finished': 1, 'parts_merged': 2}, 5: {'passes': 1, 'finished': 1, 'parts_merged': 0}, 8: {'passes': 0, 'finished': 0, 'parts_merged': 1}}
+assert effort([spent('issue-5', 0), spent('issue-37', 1)], [], {5}) == {37: {'passes': 1, 'finished': 0, 'parts_merged': 0}}  # issue 5 is an entry, not a builder job
 print('ok manager closes and sees effort')
 # The critic looks at the host's pictures of main and hands the manager at most three clipped defects. It can't stop a pass.
 import manager, tempfile
