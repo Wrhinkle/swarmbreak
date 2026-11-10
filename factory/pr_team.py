@@ -5,6 +5,7 @@ Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
 import fcntl, hashlib, json, math, os, re, shutil, subprocess, sys, tempfile, time
+from contextlib import contextmanager
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -226,8 +227,32 @@ def merges_cleanly(tree, base):
     return True
 
 
+@contextmanager
+def fixer_report(tree, findings):
+    """Create only a new report; never follow or remove a pre-existing worktree path."""
+    report = tree / '.git-fixes.json'
+    try:
+        f = report.open('x')
+    except FileExistsError:
+        sys.exit(f'Fixer report already exists at {report}; inspect it before continuing.')
+    identity = os.fstat(f.fileno())
+    try:
+        with f:
+            json.dump(findings, f, indent=1)
+        yield
+    finally:
+        try:
+            current = report.lstat()
+            if (current.st_dev, current.st_ino) == (identity.st_dev, identity.st_ino):
+                report.unlink()
+        except FileNotFoundError:
+            pass
+
+
 def resolve_conflicts(tree, number, head, base):
     """Resolve a real conflict in the PR worktree; leave every failed attempt in place for inspection."""
+    if fixer_rounds(tree, number, base) >= ROUNDS:
+        sys.exit(f'Fixer budget for PR {number} is exhausted.')
     if not sh('git', 'merge', '--no-commit', '--no-edit', f'origin/{base}', cwd=tree, check=False).returncode:
         sys.exit('The conflict disappeared; the uncommitted merge remains in the worktree for inspection.')
     conflicts = [p for p in sh('git', 'diff', '--name-only', '--diff-filter=U', '-z', cwd=tree).stdout.split('\0') if p]
@@ -243,12 +268,8 @@ def resolve_conflicts(tree, number, head, base):
         return (sh('git', 'diff', '--binary', '--', '.', *exclusions, cwd=tree).stdout,
                 sh('git', 'ls-files', '--others', '--exclude-standard', '-z', '--', '.', *exclusions, cwd=tree).stdout)
     before = outside_changes()
-    report = tree / '.git-fixes.json'
-    report.write_text(json.dumps([{'title': 'Resolve merge conflicts', 'description': 'Resolve the listed files while preserving both sides of the change.', 'plan': 'Resolve only these files: ' + json.dumps(conflicts)}], indent=1))
-    try:
+    with fixer_report(tree, [{'title': 'Resolve merge conflicts', 'description': 'Resolve the listed files while preserving both sides of the change.', 'plan': 'Resolve only these files: ' + json.dumps(conflicts)}]):
         result = bot('pr-fixer', tree, 'The findings are in .git-fixes.json. Resolve the merge conflicts listed there; edit only those files. Do not run git.', effort='high')
-    finally:
-        report.unlink(missing_ok=True)
     markers = sh('git', 'grep', '--untracked', '-l', '-z', '-E', r'^(<<<<<<< |=======|>>>>>>> )', cwd=tree, check=False)
     if (result or index.read_bytes() != original_index or outside_changes() != before
             or sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip() != original_head
@@ -266,7 +287,9 @@ def resolve_conflicts(tree, number, head, base):
         sys.exit(f'Conflict verification failed; nothing was pushed. The attempt remains in {tree}.\n{failed[-1500:]}')
     pending = Path(git_path) / 'swarmbreak-conflict-pending'
     pending.write_text('Conflict resolution in progress; inspect the worktree before removing this marker.\n')
+    ledger, commits = begin_fixer_commit(number)
     sh('git', 'commit', '-q', '--no-edit', cwd=tree)
+    record_fixer_commit(tree, number, ledger, commits)
     r = sh(QODO, 'review', '--base', f'origin/{head}', '--json', cwd=tree, check=False)
     try:
         local = json.loads(r.stdout)
@@ -471,24 +494,22 @@ def main():
 
         if fixes:
             problems = ''
-            (tree / '.git-fixes.json').write_text(json.dumps(fixes, indent=1))
-            for attempt in range(2):
-                bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
-                changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
-                touched = [c for c in changed if c.startswith(PROTECTED)]
-                problems = f'Don\'t edit these: {touched}. ' if touched else ''
-                if touched:
-                    sh('git', 'checkout', '--', *touched, cwd=tree)
-                try:
-                    failed = verified(tree)
-                except HostVerificationError as exc:
-                    (tree / '.git-fixes.json').unlink()
-                    sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
-                if failed:
-                    problems += f'Build or tests fail:\n{failed}'
-                if not problems:
-                    break
-            (tree / '.git-fixes.json').unlink()
+            with fixer_report(tree, fixes):
+                for attempt in range(2):
+                    bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
+                    changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
+                    touched = [c for c in changed if c.startswith(PROTECTED)]
+                    problems = f'Don\'t edit these: {touched}. ' if touched else ''
+                    if touched:
+                        sh('git', 'checkout', '--', *touched, cwd=tree)
+                    try:
+                        failed = verified(tree)
+                    except HostVerificationError as exc:
+                        sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
+                    if failed:
+                        problems += f'Build or tests fail:\n{failed}'
+                    if not problems:
+                        break
             if problems:
                 sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{problems[:1500]}')
             sh('git', 'add', '-A', cwd=tree)
