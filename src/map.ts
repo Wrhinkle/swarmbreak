@@ -1,5 +1,10 @@
 import type { MapNode } from './types';
 
+/** Legal pins travel; other pins only reveal their already-visible map details. */
+export function mapPinAction(node: MapNode, legal: string[], choose: (node: MapNode) => void, inspect: (node: MapNode) => void) {
+  if (legal.includes(node.id)) choose(node); else inspect(node);
+}
+
 /** A saved destination must be entered before another map action can run. */
 export function lockTravelControls(root: Pick<HTMLElement, 'querySelectorAll'>) {
   root.querySelectorAll<HTMLButtonElement>('button').forEach(button => { button.disabled = true; });

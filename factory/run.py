@@ -4,8 +4,9 @@
 Usage: python3 factory/run.py 2026-11-04 [--from researcher|parser|storymaker|gameplay|art] [--no-images]
 Stage output lands in runs/<id>/. Nothing here commits, pushes, deploys, or opens a run.
 """
-import hashlib, json, os, shutil, subprocess, sys, tempfile
+import hashlib, json, os, re, shutil, subprocess, sys, tempfile
 from pathlib import Path
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
@@ -23,8 +24,110 @@ def tool(*args):
     return r.returncode == 0, (r.stdout + r.stderr).strip()
 
 
-def agent(name, output, inputs, check, search=False, optional_pair=()):
-    """Runs one agent in an empty folder holding only its inputs. Returns once `check` finds no problems."""
+def ledger_file(d):
+    """Where run folder `d`'s passed checks are recorded: the repository's own git folder, which every worktree shares.
+    It is in no commit and in no worker's workspace, so a branch, a PR or an agent can't hand the host a pass."""
+    d = Path(d)
+    common = subprocess.run(['git', 'rev-parse', '--path-format=absolute', '--git-common-dir'], cwd=d, capture_output=True, text=True, check=True)
+    return Path(common.stdout.strip()) / 'swarmbreak-checked' / f'{d.name}.json'
+
+
+def ledger(d):
+    """The run's ledger as a dict. A missing or half-written one is empty, so its outputs get checked again."""
+    try:
+        seen = json.loads(ledger_file(d).read_text())
+    except (OSError, ValueError, subprocess.CalledProcessError):
+        return {}
+    return seen if isinstance(seen, dict) else {}
+
+
+def basis(root, built_from):
+    """One hash of what a passed check rested on: the files the output was built from, and the code that checked it
+    (this file, the package lock, every tool, and whatever the tools import). A change to any of them and the old pass says nothing."""
+    todo, code = [root / 'factory' / 'run.py', root / 'package-lock.json', *(root / 'tools').glob('*.ts')], set()
+    while todo:
+        f = Path(os.path.normpath(todo.pop()))
+        if f in code or f.name.endswith('.test.ts') or not f.is_file():
+            continue
+        code.add(f)
+        todo += [f.parent / f'{m}.ts' for m in re.findall(r"""from ['"](\.[^'"]+)['"]""", f.read_text())]
+    h = hashlib.sha256()
+    for f in sorted({*code, *(root / p for p in built_from)}):
+        h.update(str(f.relative_to(root)).encode() + b'\0' + f.read_bytes() + b'\0')
+    return h.hexdigest()
+
+
+def mark(output, passed, built_from=()):
+    """Keeps the run's ledger: for each output that passed its check, its hash, the files it was built from, and their basis().
+    A resumed run trusts nothing else. Files outside the repo are the host's own, made fresh each run from code basis() covers."""
+    output = Path(output)
+    root, seen = output.parents[2], ledger(output.parent)
+    seen.pop(output.name, None)
+    if passed:
+        used = sorted(str(Path(p).relative_to(root)) for p in built_from if Path(p).is_relative_to(root))
+        seen[output.name] = {'sha': hashlib.sha256(output.read_bytes()).hexdigest(), 'from': used, 'basis': basis(root, used)}
+    file = ledger_file(output.parent)
+    file.parent.mkdir(exist_ok=True)
+    fresh = file.with_suffix('.tmp')
+    fresh.write_text(json.dumps(seen, indent=1) + '\n')
+    os.replace(fresh, file)  # whole file or none: a run killed mid-write leaves the old ledger
+
+
+def checked(output):
+    """True only when `output` is byte for byte what passed its check, what it was built from is unchanged, and so is the checking code.
+    A file from before the ledger, a failed attempt, a later edit, or a pass under older checks is not."""
+    output = Path(output)
+    entry = ledger(output.parent).get(output.name)
+    try:
+        return entry['sha'] == hashlib.sha256(output.read_bytes()).hexdigest() and entry['basis'] == basis(output.parents[2], entry['from'])
+    except (OSError, TypeError, KeyError, ValueError):
+        return False
+
+
+def clashes(d):
+    """Whether run folder `d` picked a site, or lists a backup candidate in picks.json, that another run's sites.json has:
+    what the picks check in tools/checks.ts refuses. It reads every candidate, not just the ones chosen, so this does too.
+    The ledger records what a pass was built from, and a run added or changed later isn't in it, so a resumed run asks again.
+    Other runs are the ones in this checkout and the ones still on their own branch, the same two places the researcher's used-hosts list reads."""
+    norm = lambda host: re.sub(r'^www\.', '', re.sub(r'\.$', '', re.sub(r':\d+$', '', host).lower()))  # normalizeHost in tools/checks.ts
+    hosts = lambda x: {norm(s['host']) for s in x.get('sites', [])}
+    read = lambda p: json.loads(p.read_text())
+    try:
+        used = {h for p in d.parent.glob('*/sites.json') if p.parent != d for h in hosts(read(p))}
+        # A branch can hold a failed build's half-written file. The researcher's list skips entries it can't read there, so this does too:
+        # one broken branch must not send every finished run back to the start.
+        used |= {norm(s['host']) for x in other_branch_json('sites.json', d.name, cwd=d.parent.parent) if isinstance(x, dict)
+                 for s in (x.get('sites') if isinstance(x.get('sites'), list) else []) if isinstance(s, dict) and isinstance(s.get('host'), str)}
+        mine = hosts(read(d / 'sites.json')) | {norm(urlparse(c['url']).hostname or '') for c in read(d / 'picks.json')['candidates']}
+        return bool(mine & used)
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return True  # the picks check can't read it either
+
+
+def played(d):
+    """What a passing balance report in run folder `d` rests on: the story, the plan, the shared crew, and the playable file
+    the build made from them and the bots played. Change any and the gameplay stage builds and checks the run again."""
+    root = Path(d).parents[1]
+    return [d / 'content.json', d / 'assembly.json', root / 'runs' / 'shared' / 'crew.json', root / 'public' / 'runs' / Path(d).name / 'run.json']
+
+
+MADE = {'parser': [f'ideas-{i}.json' for i in range(1, ACTS + 1)], 'storymaker': ['content.json']}
+
+
+def begin(d, stage):
+    """Starting a stage makes its old output, and everything built from it, stale. A run stopped partway must not resume past it on old work."""
+    for redo in STAGES[STAGES.index(stage):]:
+        for name in MADE.get(redo, []):
+            mark(d / name, False)
+    if stage == 'researcher':
+        (d / 'sites.json').unlink(missing_ok=True)  # a missing file is never checked(), whatever the ledger says
+    if stage != 'art':
+        (d / 'balance.json').unlink(missing_ok=True)
+
+
+def agent(name, output, inputs, check, search=False, optional_pair=(), rests_on=()):
+    """Runs one agent in an empty folder holding only its inputs. Returns once `check` finds no problems.
+    `rests_on` names files the check reads that the agent doesn't get. The pass is recorded against them, the inputs and the agent's rules."""
     problems = ''
     for attempt in range(RETRIES + 1):
         with tempfile.TemporaryDirectory() as work:
@@ -47,6 +150,7 @@ def agent(name, output, inputs, check, search=False, optional_pair=()):
             r = subprocess.run([*cmd, prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=clean_env(), timeout=1800)
             made = Path(work) / Path(output).name
             if made.exists():
+                mark(output, False)  # before the copy: a run killed between copy and check redoes this stage
                 shutil.copy(made, output)
             else:
                 problems = f'{Path(output).name} was not written.'
@@ -54,8 +158,10 @@ def agent(name, output, inputs, check, search=False, optional_pair=()):
                 continue
         problems = check()
         if not problems:
+            mark(output, True, [AGENTS / f'{name}.md', *(src for dest, src in inputs.items() if dest not in optional_pair), *rests_on])
             return
         print(f'[{name}] problems:\n{problems}', flush=True)
+    Path(output).unlink(missing_ok=True)
     sys.exit(f'{name} failed after {RETRIES + 1} attempts. Stopping; nothing was opened.')
 
 
@@ -100,6 +206,7 @@ def main():
             return '' if ok_out[0] else ok_out[1]
 
         if want('researcher'):
+            begin(d, 'researcher')
             used = Path(shared) / 'used-hosts.json'
             hosts = [s['host'] for p in (ROOT / 'runs').glob('*/sites.json') for s in json.loads(p.read_text())['sites']]
             hosts += [s['host'] for x in other_branch_json('sites.json', run_id) if isinstance(x, dict) for s in x.get('sites', []) if 'host' in s]
@@ -124,14 +231,17 @@ def main():
             if len(sites) < ACTS:
                 sys.exit(f'Only {len(sites)} candidates passed the crawl screen. Stopping.')
             sites_file.write_text(json.dumps({'sites': sites}, indent=1) + '\n')
+            mark(sites_file, True, [AGENTS / 'researcher.md', picks, *(ROOT / s['file'] for s in sites)])
         sites = json.loads(sites_file.read_text())['sites']
 
         if want('parser'):
+            begin(d, 'parser')
             for i, s in enumerate(sites, 1):
                 out_file = d / f'ideas-{i}.json'
-                agent('parser', out_file, {'site.json': ROOT / s['file']}, lambda f=out_file, s=s: result(tool('tools/checks.ts', 'ideas', rel(f), s['file'])))
+                agent('parser', out_file, {'site.json': ROOT / s['file']}, lambda f=out_file, s=s: result(tool('tools/checks.ts', 'ideas', rel(f), s['file'])), rests_on=[sites_file])
 
         if want('storymaker'):
+            begin(d, 'storymaker')
             inputs = {'picks.json': picks, 'library.json': library, 'crew.json': ROOT / 'runs/shared/crew.json'}
             for i, s in enumerate(sites, 1):
                 inputs[f'ideas-{i}.json'] = d / f'ideas-{i}.json'
@@ -145,9 +255,10 @@ def main():
                     act['name'], act['url'] = s['name'], s['url']
                 content.write_text(json.dumps(c, indent=1) + '\n')
                 return result(tool('tools/checks.ts', 'content', rel(content), rel(sites_file)))
-            agent('storymaker', content, inputs, check_content)
+            agent('storymaker', content, inputs, check_content, rests_on=[sites_file])
 
         if want('gameplay'):
+            begin(d, 'gameplay')
             report = d / 'balance.json'
             # The last plan that failed balance and its report. Without them each retry was a fresh guess.
             tried, tried_report = d / 'assembly-tried.json', d / 'balance-tried.json'
@@ -179,6 +290,8 @@ def main():
                     shutil.copy(assembly, tried)
                     shutil.copy(report, tried_report)
                     provenance.write_text(json.dumps(hashes()))
+                if ok:
+                    mark(report, True, [AGENTS / 'gameplay.md', *played(d)])
                 return '' if ok else out
 
             agent('gameplay', assembly, {'content.json': content, 'library.json': library, 'last-assembly.json': tried, 'balance.json': tried_report}, check_plan, optional_pair=('last-assembly.json', 'balance.json'))

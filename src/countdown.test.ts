@@ -25,7 +25,11 @@ describe('readable game labels', () => {
     globalThis.document = { querySelector: () => null } as unknown as Document;
     globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
     try {
-      const { roomType, fighterHealth } = await import('./main');
+      const { roomType, fighterHealth, roomFoes } = await import('./main');
+      const mite = { id: 'mite', name: 'Mite', role: 'bruiser', tier: 'regular', routines: [] } as unknown as Parameters<typeof roomFoes>[0][number];
+      expect(roomFoes([mite], { encounter: ['mite', 'mite'] }, false)).toBe('Mite ×2 · threat 73');
+      expect(roomFoes([mite], { encounter: ['mite'] }, true)).toBe('');
+      expect(roomFoes([mite], {}, false)).toBe('');
       expect(roomType('elite', false)).toBe('Elite');
       expect(roomType('elite', true)).toBe('Mystery');
       expect(fighterHealth('Ally', 12.2, 30, 3.1)).toBe('Ally: 13 / 30 HP · 4 shield');
