@@ -533,7 +533,7 @@ print('ok foreman order')
 
 # Run and comms jobs: runs only go to the run lane, comms is its own kind, roles come from labels.
 from foreman import next_run, role, resume_stage
-from run import mark
+from run import begin, mark
 roster = [issue(70, 'run', 'priority') | {'title': 'Run 2026-11-10'}, issue(69, 'run') | {'title': 'Run 2026-11-09'},
           issue(71, 'run') | {'title': 'Run anything'}, issue(72, 'comms') | {'title': 'Post on discussion #4'}, issue(73, 'agent:art')]
 assert next_run(roster, set()) == ('run', 69, 'issue-69')
@@ -560,6 +560,17 @@ with tempfile.TemporaryDirectory() as d:
     assert resume_stage(run) == 'gameplay'
     Path(run, 'balance.json').write_text(json.dumps({'problems': []}))
     assert resume_stage(run) == 'art' and resume_stage(run, built=True) is None
+    begin(run, 'gameplay')  # a new plan is coming, so the old pass says nothing
+    assert resume_stage(run) == 'gameplay'
+    Path(run, 'balance.json').write_text(json.dumps({'problems': []}))
+    begin(run, 'parser')  # new ideas are coming: the story and balance built from the old ones are stale
+    assert resume_stage(run) == 'storymaker' and not Path(run, 'balance.json').exists()
+    Path(run, 'checked.json').write_text('{"ideas-1.json": "ab')  # a write cut short
+    assert resume_stage(run) == 'parser'
+    mark(Path(run, 'ideas-1.json'), True)  # and the next attempt still records its pass
+    assert json.loads(Path(run, 'checked.json').read_text()) and not Path(run, 'checked.json.tmp').exists()
+    begin(run, 'researcher')
+    assert resume_stage(run) == 'researcher'
 print('ok foreman lanes')
 
 # Everything a branch changes against main counts, committed or not, and a rename shows both names.

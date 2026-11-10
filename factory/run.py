@@ -23,23 +23,47 @@ def tool(*args):
     return r.returncode == 0, (r.stdout + r.stderr).strip()
 
 
+def ledger(d):
+    """checked.json as a dict. A missing or half-written one is empty, so its outputs get checked again."""
+    try:
+        seen = json.loads((Path(d) / 'checked.json').read_text())
+    except (OSError, ValueError):
+        return {}
+    return seen if isinstance(seen, dict) else {}
+
+
 def mark(output, passed):
     """Keeps checked.json: the hash of each agent output as it was when its check passed. A resumed run trusts nothing else."""
-    ledger = Path(output).parent / 'checked.json'
-    seen = json.loads(ledger.read_text()) if ledger.exists() else {}
-    seen.pop(Path(output).name, None)
+    output = Path(output)
+    seen = ledger(output.parent)
+    seen.pop(output.name, None)
     if passed:
-        seen[Path(output).name] = hashlib.sha256(Path(output).read_bytes()).hexdigest()
-    ledger.write_text(json.dumps(seen, indent=1) + '\n')
+        seen[output.name] = hashlib.sha256(output.read_bytes()).hexdigest()
+    fresh = output.parent / 'checked.json.tmp'
+    fresh.write_text(json.dumps(seen, indent=1) + '\n')
+    os.replace(fresh, output.parent / 'checked.json')  # whole file or none: a run killed mid-write leaves the old ledger
 
 
 def checked(output):
     """True only when `output` is byte for byte what passed its check. A file from before the ledger, a failed attempt, or a later edit is not."""
-    ledger = Path(output).parent / 'checked.json'
     try:
-        return json.loads(ledger.read_text()).get(Path(output).name) == hashlib.sha256(Path(output).read_bytes()).hexdigest()
-    except (OSError, ValueError, AttributeError):
+        return ledger(Path(output).parent).get(Path(output).name) == hashlib.sha256(Path(output).read_bytes()).hexdigest()
+    except OSError:
         return False
+
+
+MADE = {'parser': [f'ideas-{i}.json' for i in range(1, ACTS + 1)], 'storymaker': ['content.json']}
+
+
+def begin(d, stage):
+    """Starting a stage makes everything built from its output stale. A run stopped partway must not resume past it on old work."""
+    for later in STAGES[STAGES.index(stage) + 1:]:
+        for name in MADE.get(later, []):
+            mark(d / name, False)
+    if stage == 'researcher':
+        (d / 'sites.json').unlink(missing_ok=True)
+    if stage != 'art':
+        (d / 'balance.json').unlink(missing_ok=True)
 
 
 def agent(name, output, inputs, check, search=False, optional_pair=()):
@@ -122,6 +146,7 @@ def main():
             return '' if ok_out[0] else ok_out[1]
 
         if want('researcher'):
+            begin(d, 'researcher')
             used = Path(shared) / 'used-hosts.json'
             hosts = [s['host'] for p in (ROOT / 'runs').glob('*/sites.json') for s in json.loads(p.read_text())['sites']]
             hosts += [s['host'] for x in other_branch_json('sites.json', run_id) if isinstance(x, dict) for s in x.get('sites', []) if 'host' in s]
@@ -149,11 +174,13 @@ def main():
         sites = json.loads(sites_file.read_text())['sites']
 
         if want('parser'):
+            begin(d, 'parser')
             for i, s in enumerate(sites, 1):
                 out_file = d / f'ideas-{i}.json'
                 agent('parser', out_file, {'site.json': ROOT / s['file']}, lambda f=out_file, s=s: result(tool('tools/checks.ts', 'ideas', rel(f), s['file'])))
 
         if want('storymaker'):
+            begin(d, 'storymaker')
             inputs = {'picks.json': picks, 'library.json': library, 'crew.json': ROOT / 'runs/shared/crew.json'}
             for i, s in enumerate(sites, 1):
                 inputs[f'ideas-{i}.json'] = d / f'ideas-{i}.json'
@@ -170,6 +197,7 @@ def main():
             agent('storymaker', content, inputs, check_content)
 
         if want('gameplay'):
+            begin(d, 'gameplay')
             report = d / 'balance.json'
             # The last plan that failed balance and its report. Without them each retry was a fresh guess.
             tried, tried_report = d / 'assembly-tried.json', d / 'balance-tried.json'
