@@ -94,3 +94,30 @@ it('renders cards and selectable options with their supplied content', async () 
     expect(selected).toBe('b');
   } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
 });
+
+it('offers camp allies without a select and updates the chosen ally', async () => {
+  class Element {
+    tag: string; textContent = ''; className = ''; children: Element[] = []; attributes: Record<string, string> = {};
+    type = ''; disabled = false; click?: () => void;
+    constructor(tag: string) { this.tag = tag; }
+    append(...children: Element[]) { this.children.push(...children); }
+    setAttribute(name: string, value: string) { this.attributes[name] = value; }
+    addEventListener(_name: string, handler: () => void) { this.click = handler; }
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: (tag: string) => new Element(tag) } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { campChoices } = await import('./main');
+    let selected = -1;
+    const group = campChoices([{ name: 'Ally', runId: 'yesterday' }], -1, value => { selected = value; }) as unknown as Element;
+    expect(group.tag).toBe('fieldset');
+    expect(group.children[1].attributes['aria-pressed']).toBe('true');
+    group.children[2].click?.();
+    expect(selected).toBe(0);
+    expect(group.children[1].attributes['aria-pressed']).toBe('false');
+    expect(group.children[2].attributes['aria-pressed']).toBe('true');
+    group.children[1].click?.();
+    expect(selected).toBe(-1);
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});

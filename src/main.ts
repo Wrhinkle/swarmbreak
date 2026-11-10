@@ -72,8 +72,18 @@ function showTitle() {
   if(result) controls.append(el('p',`Official result: ${result}.`));
   else if(save.today?.runId===manifest.runId) controls.append(btn('Continue',resumeRun,false,'plate'));
   else if(!(Date.parse(manifest.opensAt)<=Date.now())) controls.append(btn('Run not open yet',start,true,'plate'));
-  else { if(save.camp.length) { const select=el('select'); select.setAttribute('aria-label','Bring a camp ally'); select.append(new Option('Bring no camp ally','-1')); save.camp.forEach((c,i)=>select.append(new Option(`${c.ally.name} · ${c.runId}`,String(i)))); select.value=String(selectedCamp); select.onchange=()=>selectedCamp=Number(select.value); hero.append(select); } controls.append(btn('Play',start,false,'plate')); }
+  else { if(save.camp.length) hero.append(campChoices(save.camp.map(c=>({name:c.ally.name,runId:c.runId})),selectedCamp,value=>{selectedCamp=value;})); controls.append(btn('Play',start,false,'plate')); }
   append(controls,btn(`Camp · ${save.camp.length}`,showCamp,false,'plate'),btn('How to play',()=>showHelp(showTitle),false,'plate'),btn('Save / import',showTransfer)); append(hero,controls,countdownLine('Next run opens in')); root.append(hero); credit(run.acts[0]); root.append(el('p','The swarm is fiction and says nothing about the real organization.','credit'));
+}
+export function campChoices(allies: { name: string; runId: string }[], selected: number, onChange: (value: number) => void) {
+  const group=el('fieldset',undefined,'option-buttons'); group.append(el('legend','Bring a camp ally'));
+  const choices=[{label:'Bring no camp ally',value:-1},...allies.map((ally,i)=>({label:`${ally.name} · ${ally.runId}`,value:i}))];
+  const buttons: HTMLButtonElement[]=[];
+  for(const choice of choices) {
+    const button=btn(choice.label,()=>{ selected=choice.value; buttons.forEach((b,i)=>b.setAttribute('aria-pressed',String(choices[i].value===selected))); onChange(selected); },false,'option');
+    button.setAttribute('aria-pressed',String(choice.value===selected)); buttons.push(button); group.append(button);
+  }
+  return group;
 }
 function start() { if (save.results[manifest.runId] || save.today || !(Date.parse(manifest.opensAt) <= Date.now())) return; const crew = run.crew.map(c => member(c,false)); if (selectedCamp >= 0 && save.camp[selectedCamp]) crew.push(member(save.camp[selectedCamp].ally,false,crew.length < CREW_MAX)); crew.forEach((c,i) => c.active = i < CREW_MAX); save.today = { runId: run.id, node: null, cleared: [], crew, deck: crew.flatMap(c => c.routines), gold: 0, seed: run.seed, result: null, act: 0, pending: null }; persist(); loadArt(act()); showMap(); }
 function showCamp() { screen = 'camp'; clear(); heading('The survivors', 'Camp', 'Allies kept from victorious runs can join a future attempt.'); if (!save.camp.length) { const empty=el('section',undefined,'paper'); empty.append(el('p','Your camp is quiet. Recruit an ally and win a run to bring one home.')); root.append(empty); } for (const [i,c] of save.camp.entries()) { const s = renderCard({name:c.ally.name, art:c.ally.sprite, effect:c.ally.routines.map(r => routineText(ROUTINES[r])).join(' / ')}); append(s,el('p',c.ally.blurb),el('p',`Earned in ${c.runId} · ${c.wonAt} · ${c.sites.join(', ')}`),btn(selectedCamp === i ? 'Selected for next run' : 'Bring on next run',() => { selectedCamp=i; showCamp(); },selectedCamp === i)); root.append(s); } root.append(btn('Back',showTitle,false,'primary')); }
