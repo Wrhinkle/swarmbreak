@@ -37,6 +37,27 @@ for gone in ('merge_pr', 'open_run', 'factory_run', 'build_fix', 'deploy', 'run_
 assert 'not an open issue from the owner' in act({'type': 'priority', 'issue': 9}, s, True)
 assert 'Bad comms' in act({'type': 'comms', 'discussion': '4', 'task': 'x'}, s, True)
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strangers': True}, True)
+# It can close what it replaced: the owner's issue or PR, with a reason, and never a run, lesson or escalation.
+mine = lambda n, *l, title='t': {'number': n, 'title': title, 'author': {'login': 'Wrhinkle'}, 'labels': [{'name': x} for x in l]}
+board = {'issues': [*s['issues'], mine(2), mine(3, 'lesson'), mine(4, 'run'), mine(5, 'needs-william')], 'prs': [mine(7), mine(8, title='Open run 2026-11-10')]}
+assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, True) == 'Would close.'
+assert act({'type': 'close', 'pr': 7, 'reason': 'replaced'}, board, True) == 'Would close.'
+for bad in ({'issue': 2}, {'issue': 2, 'reason': ' '}, {'issue': 9, 'reason': 'r'}, {'issue': 3, 'reason': 'r'}, {'issue': 4, 'reason': 'r'},
+            {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}):
+    assert act({'type': 'close', **bad}, board, True).startswith('Not closing'), bad
+assert act({'type': 'close', 'issue': 2, 'reason': 'r'}, {**board, 'strangers': True}, True).startswith('Not closing')
+with patch('manager.sh') as closed:
+    closed.return_value.stdout = ''
+    assert act({'type': 'close', 'issue': 2, 'reason': 'split'}, board, False) == 'Closed.'
+    assert closed.call_args.args[:4] == ('gh', 'issue', 'close', '2') and closed.call_args.args[-1] == 'Closed by the factory manager: split'
+# The manager sees what each issue has cost: passes, the ones that finished, and merged parts.
+import json
+from manager import effort
+spent = lambda job, exit_: json.dumps({'kind': 'foreman', 'job': job, 'exit': exit_})
+assert effort([spent('issue-37', 1)] * 3 + [spent('issue-37', 0), spent('pr-37@abc', 1), spent('issue-5', 0), json.dumps({'kind': 'manager'})],
+              ['Part of issue 37: fights', 'Part of issue 37: more', 'Fix issue 5: x', 'Merge: Part of issue 9: y', 'Part of issue 8: z']) == {
+    37: {'passes': 4, 'finished': 1, 'parts_merged': 2}, 5: {'passes': 1, 'finished': 1, 'parts_merged': 0}, 8: {'passes': 0, 'finished': 0, 'parts_merged': 1}}
+print('ok manager closes and sees effort')
 owner = {'login': 'Wrhinkle'}
 with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner}, {'title': 'Squatted', 'author': {'login': 'stranger'}},
                                        {'title': 'L' * 80, 'author': owner}]), patch('manager.thread', return_value={'ours': ['x'], 'waiting': ['r']}):
@@ -603,7 +624,7 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert full(x, ['--follow-up', '1', '--release-blocker', '']) == ['release -> ' + x]
     assert seen[-1] == []
 
-# The foreman works PRs first, then saved work, then priority, then oldest; it skips stuck, blocked-on-deps and building issues.
+# The foreman works PRs first, then priority, then saved work, then oldest; it skips stuck, blocked-on-deps and building issues.
 from foreman import next_job, deps
 assert deps('x\nDepends on #51, #52\n') == {51, 52}
 me = {'login': 'Wrhinkle'}
@@ -611,7 +632,8 @@ issue = lambda n, *l, body='': {'number': n, 'author': me, 'body': body, 'labels
 never = lambda n, sha: False
 issues = [issue(14), issue(52, body='Depends on #51'), issue(51), issue(53, 'priority'), issue(60, 'stuck'), issue(61)]
 assert next_job([], issues, set(), set(), never) == ('issue', 53, 'issue-53')
-assert next_job([], issues, {61}, set(), never) == ('issue', 61, 'issue-61')
+assert next_job([], issues, {61}, set(), never) == ('issue', 53, 'issue-53')  # the manager's order beats saved work
+assert next_job([], issues, {61}, {'issue-53'}, never) == ('issue', 61, 'issue-61')
 building = [{'number': 55, 'author': me, 'headRefName': 'fix/issue-53', 'headRefOid': 'abcdef1', 'labels': []}]
 assert next_job(building, issues, set(), set(), never) == ('pr', 55, 'pr-55@abcdef1')
 assert next_job(building, issues, set(), set(), lambda n, sha: True) == ('issue', 14, 'issue-14')

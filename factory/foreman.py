@@ -2,8 +2,8 @@
 """Works the roster round the clock. launchd starts it every two minutes; each start does one job and exits.
 
 The manager only files jobs; this does them. Two lanes run side by side so a long run build never holds up code work:
-- code (default): open owner PRs the gate hasn't rejected at their head, then issues with saved work, then priority
-  issues, then the oldest ready issue. Issues labelled `comms` are posts; `agent:<name>` picks the worker's role.
+- code (default): open owner PRs the gate hasn't rejected at their head, then priority issues, then issues with saved
+  work, then the oldest ready issue. Priority is the manager's order, so it comes before what a worker happened to start. Issues labelled `comms` are posts; `agent:<name>` picks the worker's role.
 - run (`--lane run`): issues titled `Run YYYY-MM-DD`, built in their own worktree and opened as a PR.
 A failed job isn't retried: it becomes a lesson issue, and the job waits until the coach closes that lesson by fixing
 the cause, adding to factory/lessons.md, or writing a skill. For the builder, failing means the pass opened no PR,
@@ -143,7 +143,7 @@ def next_job(prs, issues, saved, held, rejected, unfiled=()):
     ready = [i for i in issues if i['author']['login'] == OWNER and not ({STUCK, HUMAN, RUN} & labels(i))
              and i['number'] not in building and not (deps(i['body']) & open_) and f'issue-{i["number"]}' not in held
              and not entry_waits(i, issues, unfiled)]
-    ready.sort(key=lambda i: (i['number'] not in saved, PRIORITY not in labels(i), i['number']))
+    ready.sort(key=lambda i: (PRIORITY not in labels(i), i['number'] not in saved, i['number']))
     if not ready:
         return None
     return ('comms' if COMMS in labels(ready[0]) else 'issue'), ready[0]['number'], f'issue-{ready[0]["number"]}'

@@ -465,9 +465,27 @@ def open_prs():
     return gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,headRefName,baseRefName,headRefOid,mergeable,url')
 
 
+def effort(log, subjects):
+    """What each issue has cost and shipped: builder passes, the ones that finished, and parts merged to main.
+    From the foreman's own records and main's commit subjects, so the manager can see a job that eats passes."""
+    out = {}
+    count = lambda n, k: out.setdefault(int(n), {'passes': 0, 'finished': 0, 'parts_merged': 0}).__setitem__(k, out[int(n)][k] + 1)
+    for e in map(json.loads, log):
+        if e.get('kind') == 'foreman' and (m := re.fullmatch(r'issue-(\d+)', str(e.get('job')))):
+            count(m.group(1), 'passes')
+            if not e.get('exit'):
+                count(m.group(1), 'finished')
+    for subject in subjects:
+        if m := re.match(r'Part of issue (\d+):', subject):
+            count(m.group(1), 'parts_merged')
+    return out
+
+
 def state():
     prs = open_prs()
-    issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
+    log = LOG.read_text().splitlines() if LOG.exists() else []
+    spent = effort(log, sh('git', 'log', '--format=%s', '-F', '--grep=Part of issue ', 'origin/main').stdout.splitlines())
+    issues = [{**i, **spent.get(i['number'], {})} for i in gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')]
     found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
     threads = []
     for d in found:
@@ -477,7 +495,7 @@ def state():
     for b in sorted((ROOT / 'runs').glob('20*/balance.json'))[-3:]:
         report = json.loads(b.read_text())
         runs[b.parent.name] = {'problems': report.get('problems'), 'rates': [{'policy': r.get('policy'), 'winRate': r.get('winRate')} for r in report.get('rates', [])]}
-    recent = LOG.read_text().splitlines()[-20:] if LOG.exists() else []
+    recent = log[-20:]
     strangers = any(i['author']['login'] != OWNER for i in issues) or any(t['replies_waiting'] for t in threads)  # ponytail: a stranger's issue pauses delegation; a screening agent can lift this
     now = datetime.now(timezone.utc)
     return {'strangers': strangers, 'now': now.isoformat(timespec='minutes'), 'live': effective(live_manifest(), now), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'run_branches': sh('git', 'branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split(), 'recent_decisions': [json.loads(l) for l in recent]}
@@ -547,6 +565,17 @@ def act(a, s, dry):
         if not issue or issue['author']['login'] != OWNER:
             return f'Issue {a.get("issue")} is not an open issue from the owner.'
         return 'Would prioritise.' if dry else sh('gh', 'issue', 'edit', str(issue['number']), '--repo', REPO, '--add-label', PRIORITY).stdout.strip() or 'Prioritised.'
+    if kind == 'close':
+        which = 'pr' if 'pr' in a else 'issue'
+        number, reason = a.get(which), str(a.get('reason', '')).strip()
+        item = next((i for i in s.get(f'{which}s', []) if i['number'] == number), None)
+        if s.get('strangers'):
+            return 'Not closing while issues or replies from other people are in this pass, because their text could have shaped the choice.'
+        # Runs and entries are the host's to file, lessons the coach's to close, and escalations William's.
+        kept = {RUN, 'lesson', HUMAN} & {l['name'] for l in (item or {}).get('labels', [])} or str((item or {}).get('title', '')).startswith('Open run ')
+        if not item or item['author']['login'] != OWNER or not reason or kept:
+            return f'Not closing {which} {number}: it must be open, the owner\'s, not a run, lesson or escalation, and have a reason.'
+        return 'Would close.' if dry else sh('gh', which, 'close', str(number), '--repo', REPO, '--comment', f'Closed by the factory manager: {reason[:1500]}').stdout.strip() or 'Closed.'
     if kind == 'escalate':
         if dry:
             return 'Would file an issue for William.'
