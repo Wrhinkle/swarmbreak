@@ -464,46 +464,55 @@ def main():
         print(f'Pushed {pushed[:7]}. Waiting for Qodo to review it', flush=True)
         wait_for_review(url, pushed)
 
-    # The merge decision. Only evidence tied to the exact head commit counts.
-    sh('git', 'fetch', '-q', 'origin')
-    data, sha = findings(url), sh('git', 'rev-parse', f'origin/{head}').stdout.strip()
-    base_sha = sh('git', 'rev-parse', f'origin/{base}').stdout.strip()
-    session = data.get('review_session') or {}
-    still = [f for f in data['findings'] if is_open(f)]
-    sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
-    blocks = []
-    if not reviewed(session, sha):
-        blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
-    if still:
-        blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))
-    # Build and test what main would become, so a PR behind main can't overwrite newer work.
-    # ponytail: main can still move before the merge call below; a merge queue closes that gap if merges get frequent.
-    if not merges_cleanly(tree, base):
-        blocks.append(f'{head} conflicts with {base}')
-    else:
-        try:
-            failed = verified(tree)
-        except HostVerificationError as exc:
-            sys.exit(f'Not ready to merge: {exc}')
-        if failed:
-            blocks.append(f'Build or tests fail with {base} merged in: {failed[-500:]}')
-    if blocks:
-        sys.exit('Not ready to merge:\n- ' + '\n- '.join(blocks))
-    if not merge:
-        print(f'PR {number} passes every check at {sha[:7]}. Run with --merge to merge it.')
-        return
-    # Reviewed last and merged by commit, so the reviewer's approval covers exactly what lands.
-    gates = touches_gates([{'path': n} for n in changed_paths(f'origin/{base}', sha)])
-    if gates:
-        approved, why = gate_review(sh('git', 'diff', '--no-renames', f'origin/{base}...{sha}').stdout)
-        print(f'Gate review of {sha[:7]}: {"approved" if approved else "rejected" if approved is False else "did not run"}. {why[:400]}', flush=True)
-        if approved is None:  # an outage isn't a decision, so it leaves no rejection comment to skip on
-            sys.exit(f'Gate review of PR {number} did not run: {why}. Not merging.')
-        if not approved:
-            sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Gate reviewer rejected {sha[:7]}:\n\n{why[:3000]}')
-            sys.exit(f'Gate reviewer rejected PR {number}. Not merging.')
-        if sh('git', 'ls-remote', 'origin', f'refs/heads/{base}').stdout.split()[:1] != [base_sha]:
-            sys.exit(f'{base} moved during the gate review. Not merging; rerun to check against the new {base}.')
+    previous_base = None
+    for base_attempt in range(3):  # Initial check and at most two retries, each against a changed base.
+        # The merge decision. Only evidence tied to the exact head commit counts.
+        sh('git', 'fetch', '-q', 'origin')
+        data, sha = findings(url), sh('git', 'rev-parse', f'origin/{head}').stdout.strip()
+        base_sha = sh('git', 'rev-parse', f'origin/{base}').stdout.strip()
+        if base_sha == previous_base:
+            sys.exit(f'{base} did not update after moving during gate review. Not merging.')
+        session = data.get('review_session') or {}
+        still = [f for f in data['findings'] if is_open(f)]
+        sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
+        blocks = []
+        if not reviewed(session, sha):
+            blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
+        if still:
+            blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))
+        # Build and test what main would become, so a PR behind main can't overwrite newer work.
+        # ponytail: main can still move before the merge call below; a merge queue closes that gap if merges get frequent.
+        if not merges_cleanly(tree, base):
+            blocks.append(f'{head} conflicts with {base}')
+        else:
+            try:
+                failed = verified(tree)
+            except HostVerificationError as exc:
+                sys.exit(f'Not ready to merge: {exc}')
+            if failed:
+                blocks.append(f'Build or tests fail with {base} merged in: {failed[-500:]}')
+        if blocks:
+            sys.exit('Not ready to merge:\n- ' + '\n- '.join(blocks))
+        if not merge:
+            print(f'PR {number} passes every check at {sha[:7]}. Run with --merge to merge it.')
+            return
+        # Reviewed last and merged by commit, so the reviewer's approval covers exactly what lands.
+        gates = touches_gates([{'path': n} for n in changed_paths(f'origin/{base}', sha)])
+        if gates:
+            approved, why = gate_review(sh('git', 'diff', '--no-renames', f'origin/{base}...{sha}').stdout)
+            print(f'Gate review of {sha[:7]}: {"approved" if approved else "rejected" if approved is False else "did not run"}. {why[:400]}', flush=True)
+            if approved is None:  # an outage isn't a decision, so it leaves no rejection comment to skip on
+                sys.exit(f'Gate review of PR {number} did not run: {why}. Not merging.')
+            if not approved:
+                sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Gate reviewer rejected {sha[:7]}:\n\n{why[:3000]}')
+                sys.exit(f'Gate reviewer rejected PR {number}. Not merging.')
+            if sh('git', 'ls-remote', 'origin', f'refs/heads/{base}').stdout.split()[:1] != [base_sha]:
+                if base_attempt == 2:
+                    sys.exit(f'{base} kept moving during gate review. Not merging.')
+                print(f'{base} moved during the gate review; checking the new base.', flush=True)
+                previous_base = base_sha
+                continue
+        break
     sh('gh', 'pr', 'merge', number, '--repo', REPO, '--merge', '--match-head-commit', sha)
     # Names what the host looked at, for whoever reads the PR. Said only once merged: a later check of an open PR
     # overwrites the folder, and a merged PR is never checked again, so the folder stays what this comment says it is.

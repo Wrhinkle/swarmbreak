@@ -1753,3 +1753,43 @@ with tempfile.TemporaryDirectory() as d:
         except SystemExit:
             pass
 print('ok fixer rounds persist across restarts')
+
+# A moving base requires fresh merge verification and a fresh gate review before merging.
+for conflict_after_move in (False, True):
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d) / 'repo'
+        root.mkdir()
+        tree = Path(d) / 'swarmbreak-pr-42'
+        (tree / 'node_modules').mkdir(parents=True)
+        calls, base_reads = [], []
+        def moving_sh(*args, cwd=None, check=True):
+            calls.append(args)
+            if args[:3] == ('gh', 'pr', 'view'):
+                return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
+            if args[:3] == ('git', 'status', '--porcelain'):
+                return SimpleNamespace(stdout='', returncode=0)
+            if args[:3] == ('git', 'rev-parse', 'origin/main'):
+                base_reads.append(1)
+                return SimpleNamespace(stdout='base1' if len(base_reads) == 1 else 'base2', returncode=0)
+            if args[:2] == ('git', 'ls-remote'):
+                return SimpleNamespace(stdout='base2 refs/heads/main', returncode=0)
+            return SimpleNamespace(stdout='sha', returncode=0)
+        with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=moving_sh), \
+             patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+             patch.object(pr_team, 'findings', return_value={'findings': [], 'review_session': {'commit_sha': 'sha', 'review_complete': True}}), \
+             patch.object(pr_team, 'merges_cleanly', side_effect=[True, not conflict_after_move]) as clean, \
+             patch.object(pr_team, 'verified', return_value='') as verify, patch.object(pr_team, 'changed_paths', return_value=['factory/pr_team.py']), \
+             patch.object(pr_team, 'gate_review', return_value=(True, 'ok')) as gate, \
+             patch.object(sys, 'argv', ['pr_team.py', '42', '--merge']), redirect_stdout(StringIO()):
+            if conflict_after_move:
+                try:
+                    pr_team.main()
+                    assert False, 'a new conflict must block the merge'
+                except SystemExit as exc:
+                    assert 'conflicts' in str(exc)
+            else:
+                pr_team.main()
+        assert clean.call_count == 2 and verify.call_count == (1 if conflict_after_move else 2)
+        assert gate.call_count == (1 if conflict_after_move else 2)
+        assert any(a[:3] == ('gh', 'pr', 'merge') for a in calls) != conflict_after_move
+print('ok moving base repeats merge verification and gate review')
