@@ -6,6 +6,7 @@ Stage output lands in runs/<id>/. Nothing here commits, pushes, deploys, or open
 """
 import hashlib, json, os, re, shutil, subprocess, sys, tempfile
 from pathlib import Path
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
@@ -84,7 +85,8 @@ def checked(output):
 
 
 def clashes(d):
-    """Whether run folder `d` uses a site another run's sites.json also has: what the picks check in tools/checks.ts refuses.
+    """Whether run folder `d` picked a site, or lists a backup candidate in picks.json, that another run's sites.json has:
+    what the picks check in tools/checks.ts refuses. It reads every candidate, not just the ones chosen, so this does too.
     The ledger records what a pass was built from, and a run added or changed later isn't in it, so a resumed run asks again.
     Other runs are the ones in this checkout and the ones still on their own branch, the same two places the researcher's used-hosts list reads."""
     norm = lambda host: re.sub(r'^www\.', '', re.sub(r'\.$', '', re.sub(r':\d+$', '', host).lower()))  # normalizeHost in tools/checks.ts
@@ -96,7 +98,8 @@ def clashes(d):
         # one broken branch must not send every finished run back to the start.
         used |= {norm(s['host']) for x in other_branch_json('sites.json', d.name, cwd=d.parent.parent) if isinstance(x, dict)
                  for s in (x.get('sites') if isinstance(x.get('sites'), list) else []) if isinstance(s, dict) and isinstance(s.get('host'), str)}
-        return bool(hosts(read(d / 'sites.json')) & used)
+        mine = hosts(read(d / 'sites.json')) | {norm(urlparse(c['url']).hostname or '') for c in read(d / 'picks.json')['candidates']}
+        return bool(mine & used)
     except (OSError, ValueError, KeyError, TypeError, AttributeError):
         return True  # the picks check can't read it either
 

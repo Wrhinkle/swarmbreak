@@ -602,6 +602,9 @@ with tempfile.TemporaryDirectory() as d:
         f.write_text('{}')
     assert resume_stage(run) == 'researcher'  # outputs nobody recorded as checked, like a run from before the ledger
     passed(sites)
+    assert resume_stage(run) == 'researcher'  # no picks.json: the picks check couldn't read its candidates either
+    picks = run / 'picks.json'
+    picks.write_text(json.dumps({'candidates': [{'url': 'https://www.Backup.org:8443/a'}]}))
     assert resume_stage(run) == 'parser'
     # Another run that now uses one of this run's sites sends it back to the researcher: the picks check would refuse it today.
     sites.write_text(json.dumps({'sites': [{'host': 'www.Example.org'}]}))
@@ -611,6 +614,8 @@ with tempfile.TemporaryDirectory() as d:
     other.write_text(json.dumps({'sites': [{'host': 'example.org:443'}]}))
     assert resume_stage(run) == 'researcher'
     other.write_text('not json')
+    assert resume_stage(run) == 'researcher'
+    other.write_text(json.dumps({'sites': [{'host': 'backup.org'}]}))  # a backup candidate this run never chose: the picks check refuses it too
     assert resume_stage(run) == 'researcher'
     other.write_text(json.dumps({'sites': [{'host': 'elsewhere.org'}]}))
     assert resume_stage(run) == 'parser'
