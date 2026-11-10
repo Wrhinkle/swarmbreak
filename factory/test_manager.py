@@ -51,6 +51,7 @@ with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner
         assert filed.call_args.args[1] == m.COMMS_JOB
 assert 'post is late' in m.comms_task({'ours': [], 'opened': '2026-11-06'}, '2026-11-09') and 'post is late' not in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09')
 assert 'no top-level' in m.comms_task({'ours': ['x'], 'opened': '2026-11-06'}, '2026-11-09')
+assert 'unfinished' not in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09') and 'still open in #7, #9' in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09', [7, 9])
 with patch('manager.gh', return_value=[]), patch('manager.thread', return_value={'ours': [], 'waiting': []}):
     assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, s, True) == 'Would file: Post our entry on discussion #4'
 with patch('manager.thread', return_value={'ours': ['x'], 'waiting': []}):
@@ -540,6 +541,16 @@ assert next_run(roster, set()) == ('run', 69, 'issue-69')
 assert next_run(roster, {'issue-69'}) == ('run', 70, 'issue-70')
 assert next_job([], roster, set(), set(), never) == ('comms', 72, 'issue-72')
 assert next_job([], roster, set(), {'issue-72'}, never) == ('issue', 73, 'issue-73')
+# An entry waits while work its challenge asked for is open, for a day at most; replies, lessons and other threads don't hold it.
+entry = issue(80, 'comms', 'priority') | {'title': 'Post our entry on discussion #9', 'createdAt': '2026-11-10T00:00:00Z'}
+work, t0 = issue(81, body='Build the Day 6 demo for discussion #9.'), datetime(2026, 11, 10, tzinfo=timezone.utc).timestamp()
+assert next_job([], [entry, work], set(), set(), never, t0 + 3600) == ('issue', 81, 'issue-81')
+assert next_job([], [entry, work], set(), set(), never, t0 + 86400) == ('comms', 80, 'issue-80')
+for other in (issue(81, body='For discussion #90.'), issue(81, 'lesson', body='discussion #9 failed'), issue(81, 'comms', body='discussion #9') | {'title': 'Post on discussion #9'}):
+    assert next_job([], [entry, other], set(), set(), never, t0 + 3600) == ('comms', 80, 'issue-80')
+with patch('foreman.thread', return_value={'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10'}), patch('foreman.comms', return_value='Posted: x') as posting:
+    fm.comms_job('Post our entry on discussion #9', [entry, work])
+    assert 'still open in #81' in posting.call_args.args[1]
 assert role(roster[4]) == 'art' and role(issue(5, 'lesson')) == 'coach' and role(issue(6)) == ''
 with tempfile.TemporaryDirectory() as d:
     root, run = Path(d), Path(d, 'runs', 'x')

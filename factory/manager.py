@@ -494,12 +494,14 @@ def file_job(title, body, labels=(), dry=False):
 COMMS_JOB = 'Comms job. The host writes the worker\'s task from the thread when the job runs; nothing in this issue is read as instructions.'
 
 
-def comms_task(t, today):
-    """The host writes every comms task from the thread itself, so no issue or model text reaches the worker as instructions."""
+def comms_task(t, today, unfinished=()):
+    """The host writes every comms task from the thread itself, so no issue or model text reaches the worker as instructions.
+    `unfinished` is the open issues holding work this challenge asked for."""
     if t['ours']:
         return 'Answer the replies waiting on our posts in this thread. Write no top-level comment.'
     return ('Post our entry for this thread. It is required and nothing has been posted for it yet. '
             + (f'It opened on {t["opened"]}, so this post is late: say so in one plain sentence. ' if t['opened'] < today else '')
+            + (f'Work this challenge asked for is still open in {", ".join(f"#{n}" for n in unfinished)}: say it is unfinished and present none of it as done. ' if unfinished else '')
             + 'Follow the thread\'s template and point to real PRs, issues and commits from facts.md.')
 
 

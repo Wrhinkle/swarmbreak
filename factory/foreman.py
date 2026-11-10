@@ -91,8 +91,28 @@ def next_run(issues, held):
     return ('run', first['number'], f'issue-{first["number"]}') if first else None
 
 
-def next_job(prs, issues, saved, held, rejected):
+ENTRY = re.compile(r'Post our entry on discussion #(\d+)')
+ENTRY_WAIT = 86400  # seconds an entry waits for its challenge's work before it goes out and says what is unfinished
+
+
+def challenge_work(issues, discussion):
+    """Open issues that name the thread: the work its challenge asked for. The manager writes `discussion #N` into that work.
+    Comms jobs and lessons name threads too and aren't the work."""
+    return sorted(i['number'] for i in issues if i['author']['login'] == OWNER and not ({COMMS, LESSON} & labels(i))
+                  and re.search(rf'discussion #{discussion}\b', f"{i.get('title', '')}\n{i.get('body') or ''}"))
+
+
+def entry_waits(i, issues, now):
+    """Whether an entry job stays unposted for now: work its challenge asked for is open, and the job is under a day old.
+    Every challenge still gets its entry, so after a day it goes out and names that work as unfinished."""
+    m = ENTRY.fullmatch(i.get('title', ''))
+    return bool(m and COMMS in labels(i) and challenge_work(issues, m.group(1))
+                and now - datetime.fromisoformat(i['createdAt'].replace('Z', '+00:00')).timestamp() < ENTRY_WAIT)
+
+
+def next_job(prs, issues, saved, held, rejected, now=None):
     """The one code-lane job to work now, or None. Pure, so the order is tested."""
+    now = time.time() if now is None else now
     for p in sorted(prs, key=lambda p: p['number']):
         key = f'pr-{p["number"]}@{p["headRefOid"][:7]}'
         if p['author']['login'] == OWNER and STUCK not in labels(p) and key not in held and not rejected(p['number'], p['headRefOid']):
@@ -100,7 +120,8 @@ def next_job(prs, issues, saved, held, rejected):
     open_ = {i['number'] for i in issues}
     building = {int(m.group(1)) for p in prs if (m := re.fullmatch(r'fix/issue-(\d+)', p['headRefName']))}
     ready = [i for i in issues if i['author']['login'] == OWNER and not ({STUCK, HUMAN, RUN} & labels(i))
-             and i['number'] not in building and not (deps(i['body']) & open_) and f'issue-{i["number"]}' not in held]
+             and i['number'] not in building and not (deps(i['body']) & open_) and f'issue-{i["number"]}' not in held
+             and not entry_waits(i, issues, now)]
     ready.sort(key=lambda i: (i['number'] not in saved, PRIORITY not in labels(i), i['number']))
     if not ready:
         return None
@@ -200,7 +221,7 @@ def build_run(run_id):
     return SimpleNamespace(returncode=0 if opened else 1, stdout=f'{out}\n{result}', stderr='', moved=opened or bool(stage))
 
 
-def comms_job(title):
+def comms_job(title, issues=()):
     """Runs one comms job. The title only names the thread; the task is the host's, never the issue's text."""
     discussion = re.search(r'discussion #(\d+)', title)
     if not discussion:
@@ -213,7 +234,7 @@ def comms_job(title):
         return f'Done: {e}'  # nothing can be posted on a deleted thread, so the job closes instead of failing forever
     if t['ours'] and (title.startswith('Post our entry') or not t['waiting']):
         return 'Done: our entry is on the thread and no reply is waiting.'  # an earlier try posted it, or the replies were answered
-    result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat()), False, require_post=not t['ours'])
+    result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat(), challenge_work(issues, t['number'])), False, require_post=not t['ours'])
     # The comms rules tell the worker to skip replies that aren't about the project, so answering none is a finished reply job.
     return 'Done: no waiting reply needed an answer.' if t['ours'] and result == 'Nothing to post.' else result
 
@@ -244,7 +265,7 @@ def main():
     if time.time() < st['cooldown_until']:
         return
     prs = [] if RUN_LANE else gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
-    issues = gh('issue', 'list', '--limit', '500', '--json', 'number,title,author,body,labels')
+    issues = gh('issue', 'list', '--limit', '500', '--json', 'number,title,author,body,labels,createdAt')
     # Only branches holding commits main lacks are saved work; finished or never-used issue branches are not.
     saved = saved_issues([b for b in sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*').stdout.split()
                           if sh('git', 'rev-list', '--count', f'origin/main..{b}').stdout.strip() != '0'])
@@ -269,7 +290,7 @@ def main():
         if kind == 'run':
             r = build_run(run_id)
         elif kind == 'comms':
-            result = comms_job(issue['title'])
+            result = comms_job(issue['title'], issues)
             r = SimpleNamespace(returncode=0 if result.startswith(('Posted:', 'Done:')) else 1, stdout=result, stderr='')
         else:
             cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number),

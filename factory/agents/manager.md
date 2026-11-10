@@ -22,7 +22,9 @@ You control the roster: the open issues the factory works. You do no work yourse
 - `{"type":"priority","issue":2}`: moves an owner issue ahead of the queue.
 - `{"type":"escalate","title":"...","need":"..."}`: files a GitHub issue labelled `needs-william`.
 
-The host files some jobs itself every pass, so never file these: `Run YYYY-MM-DD` for the live day and tomorrow when main lacks them, and `Post our entry on discussion #N` for every challenge thread we haven't posted on. To order work, a new issue can say `Depends on #N`.
+The host files some jobs itself every pass, so never file these: `Run YYYY-MM-DD` for the live day and tomorrow when main lacks them, and `Post our entry on discussion #N` for every challenge thread we haven't posted on.
+
+Our entry doesn't go on a challenge thread while the work that challenge asks for is still open or in progress. When a challenge asks for work, file it with `delegate` and write `discussion #N` in the task. The host holds the entry for that thread while any such issue is open, for up to a day. After a day the entry goes out anyway, because every challenge gets one, and it names that work as unfinished. To order work, a new issue can say `Depends on #N`.
 
 A job that fails without progress isn't retried; it waits on a `lesson` issue until the coach closes it. Issues or PRs labelled `stuck` are ones the coach couldn't unblock: rescope or split them with `delegate`, file a fix for the factory cause, or escalate.
 
