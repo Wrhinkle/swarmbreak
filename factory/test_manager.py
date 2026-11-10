@@ -40,7 +40,7 @@ assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strange
 # It can close what it replaced: the owner's issue or PR, with a reason, and never a run, lesson or escalation.
 mine = lambda n, *l, title='t': {'number': n, 'title': title, 'author': {'login': 'Wrhinkle'}, 'labels': [{'name': x} for x in l]}
 board = {'issues': [*s['issues'], mine(2), mine(3, 'lesson'), mine(4, 'run'), mine(5, 'needs-william')], 'prs': [mine(7), mine(8, title='Open run 2026-11-10'), mine(12, 'run'), mine(13, 'lesson'), mine(14, 'needs-william')]}
-board['issues'] += [{**mine(15), 'body': 'Build the thing.\n\ndiscussion #9'}, {**mine(16, title='Feedback tracker for discussion #9'), 'parts_merged': 2}]  # each holds our entry on that thread, merged parts or not: only a builder pass can tell it's finished
+board['issues'] += [{**mine(15), 'body': 'Build the thing.\n\ndiscussion #9'}, {**mine(16, title='Feedback tracker for discussion #9'), 'parts_merged': 2}]  # each holds our entry on that thread, merged parts or not: only a builder pass can tell it's finished, and nothing else names the thread
 with patch('manager.gh', return_value=[]):
     assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, True) == 'Would close.'
 assert act({'type': 'close', 'pr': 7, 'reason': 'replaced'}, board, True) == 'Would close.'
@@ -62,6 +62,15 @@ with patch('manager.gh', return_value=[]):
     assert act({'type': 'close', 'issue': 17, 'reason': 'r'}, kept, True).startswith('Not closing')
     assert act({'type': 'close', 'issue': 18, 'reason': 'r'}, kept, True) == 'Would close.'
     assert act({'type': 'close', 'pr': 19, 'reason': 'r'}, kept, True) == 'Would close.'
+# Challenge work closes only when the hold on our entry moves: another job a worker can take names the same thread. Stuck work
+# would otherwise hold the entry for good. A stuck job, a lesson or the entry job itself is no replacement.
+held = {'issues': [mine(23, 'stuck', title='Tracker for discussion #9 and discussion #12')]}
+for others, closes in (([mine(24, title='Smaller tracker for discussion #9'), {**mine(25), 'body': 'Rest of it.\n\ndiscussion #12'}], True), ([mine(24, title='Smaller tracker for discussion #9')], False),
+                       ([mine(24, 'stuck', title='discussion #9 and discussion #12')], False), ([mine(24, title='discussion #9abc and discussion #12')], False), ([mine(24, 'lesson', title='discussion #9 and discussion #12')], False),
+                       ([mine(24, 'comms', title='Post our entry on discussion #9'), mine(25, 'comms', title='Post our entry on discussion #12')], False),
+                       ([mine(23, 'stuck', title='Tracker for discussion #9 and discussion #12')], False), ([{**mine(24, title='discussion #9 and discussion #12'), 'author': {'login': 'stranger'}}], False)):
+    with patch('manager.gh', return_value=others):
+        assert (act({'type': 'close', 'issue': 23, 'reason': 'r'}, held, True) == 'Would close.') == closes, others
 # Splitting a job cannot release its open dependent before the replacements finish.
 from foreman import next_job
 split = [mine(2), mine(10), mine(11), {**mine(20), 'body': 'Depends on #2'}]
