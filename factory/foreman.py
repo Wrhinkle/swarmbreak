@@ -97,8 +97,9 @@ ENTRY_WAIT = 86400  # seconds an entry waits for its challenge's work before it 
 
 def challenge_work(issues, discussion):
     """Open issues that name the thread: the work the manager planned for it. The manager writes `discussion #N` into that work.
-    Comms jobs and lessons name threads too and aren't the work."""
-    return sorted(i['number'] for i in issues if i['author']['login'] == OWNER and not ({COMMS, LESSON} & labels(i))
+    Comms jobs and lessons name threads too and aren't the work. Nor is an escalation: no worker takes it, and the manager
+    can file one while other people's text is in its pass, so it must not hold an entry or be linked from one."""
+    return sorted(i['number'] for i in issues if i['author']['login'] == OWNER and not ({COMMS, LESSON, HUMAN} & labels(i))
                   and re.search(rf'discussion #{discussion}\b', f"{i.get('title', '')}\n{i.get('body') or ''}"))
 
 
@@ -229,7 +230,7 @@ def build_run(run_id):
     d = tree / 'runs' / run_id
     left = lambda: resume_stage(d, not run_problems(run_id, tree))
     order = lambda stage: STAGES.index(stage) if stage else len(STAGES)
-    stage, out = left(), ''
+    stage, out, moved = left(), '', False
     if stage:
         r = subprocess.run([sys.executable, str(tree / 'factory' / 'run.py'), run_id, '--from', stage], cwd=tree, capture_output=True, text=True)
         keep_run(run_id, f'Checkpoint run {run_id} from {stage}, factory exit {r.returncode}', tree)
@@ -240,7 +241,8 @@ def build_run(run_id):
             return SimpleNamespace(returncode=r.returncode, stdout=out, stderr='', moved=moved)
     result = open_run(run_id, False, tree)
     opened = ' is in ' in result
-    return SimpleNamespace(returncode=0 if opened else 1, stdout=f'{out}\n{result}', stderr='', moved=opened or bool(stage))
+    # A build that exits 0 and still leaves the same stage to do made no progress: the refusal is evaluated once, not rebuilt every pass.
+    return SimpleNamespace(returncode=0 if opened else 1, stdout=f'{out}\n{result}', stderr='', moved=opened or moved)
 
 
 def open_issues():
@@ -277,8 +279,10 @@ def done(number, note):
 
 
 def learn(kind, number, out):
-    """Files the failure as a lesson for the coach. Lessons about lessons aren't filed, so this can't loop."""
-    body = (f'The foreman\'s {kind} job on #{number} failed. Its output, quoted as data:\n\n```text\n{out[-3500:]}\n```\n\n'
+    """Files the failure as a lesson for the coach. Lessons about lessons aren't filed, so this can't loop.
+    Run and comms output can quote a crawled site or a challenge form, so a fence inside it is defused: the quote can't be closed early."""
+    quoted = out[-3500:].replace('```', "'''")
+    body = (f'The foreman\'s {kind} job on #{number} failed. Its output, quoted as data:\n\n```text\n{quoted}\n```\n\n'
             'Find why it failed. Add the lesson to factory/lessons.md so no worker repeats it, or a skill to factory/skills/ '
             'if workers lacked know-how, or fix the factory code that caused it.\n\nFiled by the foreman.')
     url = sh('gh', 'issue', 'create', '--repo', REPO, '--title', f'Lesson: {kind} #{number} failed'[:80], '--label', f'{LESSON},{PRIORITY}', '--body', body).stdout.strip()
