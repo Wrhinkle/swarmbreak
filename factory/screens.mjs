@@ -5,9 +5,10 @@
 // server below, which answers only for http://game.test from the built folder. So the page can't reach the network
 // or another service on this machine. WebRTC would send UDP past a proxy, so it is held to the proxy too, and the
 // server refuses the CONNECT it then tries. The host reads the manifest and the run itself, and only inside the build.
-// It reaches a room by writing the room id to `today.pending` in the save and pressing Continue. A change to the save
-// key, or to the Play, Continue or Crew buttons, needs this file changed first in its own PR: the host runs its own
-// copy, never the one in the tree under review.
+// It reaches a room by writing the room id to `today.pending` in the save and pressing Continue, then checks the page's
+// main heading is that room's label, so a screenshot is never of some other screen. A change to the save key, to the
+// Play, Continue or Crew buttons, or to the room heading needs this file changed first in its own PR: the host runs its
+// own copy, never the one in the tree under review.
 // usage: node screens.mjs <chrome> <dist> <outDir>
 import { spawn } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
@@ -28,7 +29,12 @@ const inside = path => {
   return file;
 };
 let acts; // read before the browser starts, so a build that points outside itself opens nothing
-try { acts = JSON.parse(readFileSync(inside(JSON.parse(readFileSync(inside('manifest.json'))).runUrl))).acts; } catch (e) { console.error(String(e.message ?? e)); process.exit(1); }
+try {
+  const manifest = JSON.parse(readFileSync(inside('manifest.json')));
+  // The page plays the next run once it has opened (currentRun in src/save.ts). Room ids must come from the same run.
+  const live = manifest.next && Date.parse(manifest.next.opensAt) <= Date.now() ? manifest.next : manifest;
+  acts = JSON.parse(readFileSync(inside(live.runUrl))).acts;
+} catch (e) { console.error(String(e.message ?? e)); process.exit(1); }
 
 const server = createServer((req, res) => {
   try {
@@ -95,10 +101,14 @@ try {
     const resume = async kind => {
       const act = kind ? acts.findIndex(a => a.nodes.some(n => n.kind === kind)) : 0;
       if (act < 0) return false;
-      await js((k, act, pending) => { const s = JSON.parse(localStorage.getItem(k)); Object.assign(s.today, { act, pending, gold: 200 }); localStorage.setItem(k, JSON.stringify(s)); },
-        KEY, act, kind ? acts[act].nodes.find(n => n.kind === kind).id : null);
+      const node = kind ? acts[act].nodes.find(n => n.kind === kind) : null;
+      // A fight on the page saves on every tick. Once the save is edited, the page being left may not write over it.
+      await js((k, act, pending) => { const s = JSON.parse(localStorage.getItem(k)); Object.assign(s.today, { act, pending, gold: 200 }); localStorage.setItem(k, JSON.stringify(s)); Storage.prototype.setItem = () => {}; },
+        KEY, act, node?.id ?? null);
       await cdp('Page.navigate', { url: SITE });
       await press('^Continue$');
+      const title = node && await js(() => document.querySelector('[role=heading][aria-level="1"]')?.textContent ?? '');
+      if (node && title !== node.label) throw new Error(`asked for the ${kind} room "${node.label}", the page shows "${title}"`);
       return true;
     };
     await cdp('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
