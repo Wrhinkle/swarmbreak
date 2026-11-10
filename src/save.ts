@@ -5,9 +5,9 @@ import { ROUTINES, ROLE_STATS, TIER_SCALE } from './library';
 export interface CrewMember { creature: Creature; hp: number; routines: string[]; slots: number; recruited: boolean; active: boolean }
 export interface CampEntry { ally: Creature; runId: string; wonAt: string; sites: string[] }
 export interface Today { runId: string; node: string | null; cleared: string[]; crew: CrewMember[]; deck: string[]; gold: number; seed: number; result: 'win' | 'loss' | null; act?: number; pending?: string | null; combat?: CombatState }
-export interface Save { version: 1; camp: CampEntry[]; today: Today | null; results: Record<string, 'win' | 'loss'>; restored?: string[] }
+export interface Save { version: 2; walkthroughSeen: boolean; camp: CampEntry[]; today: Today | null; results: Record<string, 'win' | 'loss'>; restored?: string[] }
 const KEY = 'swarmbreak-save-v1';
-export const newSave = (): Save => ({ version: 1, camp: [], today: null, results: {} });
+export const newSave = (): Save => ({ version: 2, walkthroughSeen: false, camp: [], today: null, results: {} });
 const obj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x);
 const str = (x: unknown): x is string => typeof x === 'string';
 const strings = (x: unknown): x is string[] => Array.isArray(x) && x.every(str);
@@ -16,7 +16,7 @@ export function isCreature(x: unknown): x is Creature {
 }
 export function parseSave(text: string): Save {
   const x: unknown = JSON.parse(text);
-  if (!obj(x) || x.version !== 1 || !Array.isArray(x.camp) || !obj(x.results)) throw new Error('Invalid save format');
+  if (!obj(x) || (x.version !== 1 && x.version !== 2) || (x.version === 2 && typeof x.walkthroughSeen !== 'boolean') || !Array.isArray(x.camp) || !obj(x.results)) throw new Error('Invalid save format');
   if (!Object.values(x.results).every(v => v === 'win' || v === 'loss')) throw new Error('Invalid results');
   for (const c of x.camp) if (!obj(c) || !isCreature(c.ally) || !str(c.runId) || !str(c.wonAt) || !strings(c.sites)) throw new Error('Invalid camp');
   if (x.today !== null) {
@@ -30,6 +30,7 @@ export function parseSave(text: string): Save {
     }
     for (const c of t.crew) if (!obj(c) || !isCreature(c.creature) || typeof c.hp !== 'number' || !Number.isFinite(c.hp) || c.hp < 0 || !strings(c.routines) || !c.routines.every(r => Object.hasOwn(ROUTINES, r)) || !Number.isInteger(c.slots) || (c.slots as number) < 1 || (c.slots as number) > 8 || typeof c.recruited !== 'boolean' || typeof c.active !== 'boolean') throw new Error('Invalid crew');
   }
+  if (x.version === 1) { x.version = 2; x.walkthroughSeen = false; }
   return x as unknown as Save;
 }
 let memory = newSave();
