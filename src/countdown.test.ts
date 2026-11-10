@@ -170,3 +170,27 @@ it('opens a routine slot picker with named cards and selects a routine', async (
     expect(selected).toBe(id);
   } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
 });
+
+it('presents a recruited ally as a free reward card and keeps the chosen ally', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; type = ''; disabled = false; style: Record<string, string> = {}; click?: () => void;
+    append(...children: Element[]) { this.children.push(...children); }
+    setAttribute() {}
+    addEventListener(_name: string, handler: () => void) { this.click = handler; }
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { allyReward } = await import('./main');
+    const ally = { name: 'Ally', blurb: 'A brave companion.', sprite: '/ally.png' } as import('./types').Creature;
+    let chosen = false;
+    const card = allyReward(ally, () => { chosen = true; }) as unknown as Element;
+    expect(card.className).toContain('card');
+    expect(card.children[0].style.backgroundImage).toContain('/ally.png');
+    expect(card.children[1].children.map(c => c.textContent)).toEqual(['Ally', 'Free', 'A brave companion.']);
+    expect(card.children[2].textContent).toContain('Ally');
+    card.children[2].click?.();
+    expect(chosen).toBe(true);
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});
