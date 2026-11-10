@@ -12,6 +12,8 @@ Choose one:
 
 Code under `factory/vendor/` is unmodified third-party code, and nothing there gets edited. Check whether `factory/art.py` reaches the problem through the command it runs. If it doesn't, `dismiss` as `intentional` with what you read. If it does, `fix` it in `factory/art.py`. The fixer can edit `factory/` host scripts and prompts; a gate reviewer reads those changes before merge.
 
+For findings about bot decisions, read `factory/agents/bot-visibility.md` and check the current UI for what a player can see at each decision point.
+
 Write `decisions.json`:
 
 { "decisions": [ { "id": "finding id", "action": "fix", "plan": "..." }, { "id": "finding id", "action": "dismiss", "reason": "false_positive", "evidence": "..." } ] }

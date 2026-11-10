@@ -1,0 +1,221 @@
+{
+  "reading": "The Center for Book Arts is a nonprofit devoted to the book as an art object and a living practice. It brings artists, poets, printers, binders, curators, scholars and readers together through workshops, studios, residencies, exhibitions, collections, publishing and criticism. It values access, experimentation, preservation, community and the exchange between traditional craft and new forms. Its vocabulary is tactile and procedural: bindery, letterpress, risograph, editioning, signatures, chapbooks, broadsides, zines, finding aids and artist's books. What distinguishes it is the insistence that a book can be an artwork, a performance, a vessel, a collaboration or an argument—not just text to be read. Its archives and criticism keep asking who can find, handle, interpret and make such objects; the swarm can twist those generous questions into a program of compulsory preservation and publication.",
+  "enemies": [
+    {
+      "idea": "Certification mites swarm over a tool and demand a safety demonstration; a wrong move lets them certify the tool to use the person instead.",
+      "source": "/resources",
+      "why": "A studio ritual becomes a readable challenge with a mischievous reversal."
+    },
+    {
+      "idea": "Riso duplicators run in separate ink colors, each laying down a slightly misplaced copy of a target; aligned copies become solid reinforcements.",
+      "source": "/resources/studio",
+      "why": "Players can interrupt registration or use the misaligned layers as cover."
+    },
+    {
+      "idea": "Flexagon folders crease a corridor into alternating faces; each turn brings a different pack into reach.",
+      "source": "/",
+      "why": "A book structure turns spatial navigation into the fight."
+    },
+    {
+      "idea": "Small-press scavengers staple hundreds of tiny zines into armor, then shed individual issues as scouts that regroup around a new idea.",
+      "source": "/exhibitions/paper-cuts",
+      "why": "The scale and independence of the collection shape a modular swarm."
+    },
+    {
+      "idea": "Finding-aid bailiffs classify intruders by series, date and extent, then file them into boxes whose access conditions keep changing.",
+      "source": "/collections/richard-minsky-collection-finding-aid",
+      "why": "Archival precision becomes a puzzle with categories to exploit."
+    },
+    {
+      "idea": "Reference, fine-art and archive sorters quarrel over which collection should contain a captured object, tugging it between three moving shelves.",
+      "source": "/collections-guide",
+      "why": "Their competing classifications create openings and moving hazards."
+    },
+    {
+      "idea": "A relay of metal ants carries off objects too large for one machine, dismantling obstacles only when the whole chain can lift them together.",
+      "source": "/collections/research-guide-from-the-ant-to-the-moon",
+      "why": "Collaboration supplies a visible weak point: break the relay."
+    },
+    {
+      "idea": "Chapbook adjudicators pair every spoken sentence with a letterpress image that changes its meaning, then print the pair as a binding command.",
+      "source": "/annual-chapbook-competition",
+      "why": "Poetry and image combine into an attack the crew can deliberately mispair."
+    },
+    {
+      "idea": "Reader-readers scan a person turning pages and predict their next action; looking away or reading out of order disrupts the prediction.",
+      "source": "/fall-2025/does-the-reader-read-the-book-or-does-the-book-read-the-reader",
+      "why": "The reversal of reader and book becomes a game of attention."
+    },
+    {
+      "idea": "Mutable-form translators rearrange their folded bodies when a pattern is understood, making the same apparent word mean a different attack.",
+      "source": "/fall-2025/mutable-form-and-enigmatic-meaning",
+      "why": "Learning an unfamiliar visual language becomes an evolving encounter."
+    },
+    {
+      "idea": "A tight-lidded water-box creeps across the floor, leaving sheets that become opaque when lifted from the water and hide its route.",
+      "source": "/fall-2025/liquid-opacity",
+      "why": "The unusual wet book makes visibility depend on how the crew handles it."
+    },
+    {
+      "idea": "Color miners drill pigments out of physical surfaces and render them as dazzling digital projections, leaving real objects indistinguishable.",
+      "source": "/exhibitions/impracticum",
+      "why": "Physical and digital color become competing clues to the same space."
+    },
+    {
+      "idea": "Pop-up dragon mechanisms spring from flattened story scenes, then collapse into narrow slots when the page is closed.",
+      "source": "/exhibitions/what-the-butterfly-dragon-taught-me",
+      "why": "The crew can control a dangerous creature by manipulating its dimensional stage."
+    },
+    {
+      "idea": "Taxonomy veilers wrap living things in labels that force them into the wrong categories; each mistaken label changes how its wearer moves.",
+      "source": "/exhibitions/veiled-taxonomies",
+      "why": "Classification is an attack with reversible, surprising effects."
+    },
+    {
+      "idea": "Visibility spotters shine searching beams on unique works until they vanish from view; objects in shadow remain solid and reachable.",
+      "source": "/product/calendar/cabc/keynote-kameelah-janan-rasheed",
+      "why": "The problem of finding unique books becomes a light-and-shadow puzzle."
+    },
+    {
+      "idea": "A residency panel of articulated stamps awards space and time by trapping a target in a perfectly furnished, accelerating studio.",
+      "source": "/artists-in-residence",
+      "why": "A beneficial grant turns into a tempting but constricting enclosure."
+    },
+    {
+      "idea": "Proposal assemblers build a gallery around anything they deem an interesting concept, sealing exits as they add walls and captions.",
+      "source": "/opportunities/main-gallery-exhibition-proposals",
+      "why": "An exhibition is constructed in real time around the crew."
+    },
+    {
+      "idea": "Broadsheet repeaters preserve a message for the future by stamping it on everything, including people, until no other message can be seen.",
+      "source": "/fall-2025/are-you-receiving-me-how-about-now",
+      "why": "Preservation becomes an escalating contest over space and communication."
+    },
+    {
+      "idea": "Spiral binders unroll a half-century of book forms as looping ramps; each circuit returns at a different height with a new binding hazard.",
+      "source": "/exhibitions/vicos-spiral-half-century-of-artists-books-at-the-university-of-florida-university-galleries",
+      "why": "A historical survey becomes a vertical moving arena."
+    },
+    {
+      "idea": "Perfect archivists iron every crease and disagreement out of a reading room, including the improvised hiding places made by its visitors.",
+      "source": "/exhibitions/genderfail-archive-project",
+      "why": "The exhibition’s embrace of slowness and imperfection gives the machines a meaningful opposite."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Studio apprentices teach a quick, safe method for stopping a runaway press and lend the crew a hand tool suited to the job.",
+      "source": "/resources",
+      "why": "Skill-sharing gives the crew practical agency without requiring a fight."
+    },
+    {
+      "idea": "A loose collective of independent zine makers distributes conflicting routes and warnings in tiny editions the swarm cannot fully recall.",
+      "source": "/exhibitions/paper-cuts",
+      "why": "Decentralized publishing turns abundance and variation into a defense."
+    },
+    {
+      "idea": "An imperfect archive keeps multiple, contradictory descriptions of the same safe room, frustrating the machines that demand a single correct location.",
+      "source": "/exhibitions/genderfail-archive-project",
+      "why": "Ambiguity becomes a protective community practice."
+    },
+    {
+      "idea": "A poetry-and-print workshop makes broadsides with blank spaces where crew members can add their own signals to coordinate a rescue.",
+      "source": "/annual-chapbook-competition",
+      "why": "Collaboration between words and printing becomes a useful communication tool."
+    },
+    {
+      "idea": "Collection stewards know how to handle fragile objects and can identify a safe route through the stored works if the crew helps move a threatened box.",
+      "source": "/collections",
+      "why": "Care for the collection creates a concrete alliance and a reason to slow down."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Total Edition is a vast press-bindery-gallery assembled from swarm machines. It tries to make one definitive copy of every person and experience, then lock the originals away as reference material. Disrupt its ink, folding and cataloging stages in any order to make its edition inconsistent.",
+      "source": "/about",
+      "why": "The whole institution’s making, exhibiting and preserving becomes a multi-stage machine with several approaches."
+    },
+    {
+      "idea": "The Grand Critic reads the crew while they read its shifting body, pronouncing one final interpretation that hardens into the arena. Contradict its readings by combining incompatible book forms and it must revise itself.",
+      "source": "/bar/about-bar",
+      "why": "The site’s criticism and its questions about what counts as a book become a boss vulnerable to creative disagreement."
+    },
+    {
+      "idea": "The Living Archive spirals through decades of artist books, continuously rebuilding old exhibition rooms around the crew and recruiting any object it successfully catalogues. Leave deliberate gaps in its inventory to open a route to its core.",
+      "source": "/center-for-book-arts-exhibitions-program",
+      "why": "The recurring exhibitions and living archives create a boss whose history changes the battlefield."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A storage drawer has been rented by a swarm relay and ticks louder as its time expires. A studio member needs the crew to retrieve a handmade book before the drawer seals.",
+      "source": "/resources/studio",
+      "why": "A small deadline turns ordinary shared storage into a tense rescue."
+    },
+    {
+      "idea": "A collaborative ant relay is trying to carry a book across a gap. Break its formation, help redirect it, or offer a lighter decoy.",
+      "source": "/collections/research-guide-from-the-ant-to-the-moon",
+      "why": "A single behavior supports several responses."
+    },
+    {
+      "idea": "A loose sheet floats in a shallow water box; a key is legible only while the sheet is submerged, but a machine is draining the box.",
+      "source": "/fall-2025/liquid-opacity",
+      "why": "Handling and timing matter more than force."
+    },
+    {
+      "idea": "A Riso printer is producing three misregistered maps. Overlay the colors to find the route while the ink drums keep cycling.",
+      "source": "/resources",
+      "why": "The printing process itself supplies the puzzle."
+    },
+    {
+      "idea": "A pop-up landscape blocks a doorway when opened and hides a passage when closed halfway. Something on the other side keeps folding it shut.",
+      "source": "/exhibitions/what-the-butterfly-dragon-taught-me",
+      "why": "A dimensional book creates a tactile negotiation over space."
+    },
+    {
+      "idea": "A runaway finding aid has assigned the crew to different archival series; each must locate the others by following date and material clues.",
+      "source": "/collections/richard-minsky-collection-finding-aid",
+      "why": "Archive structure turns separation into a solvable search."
+    },
+    {
+      "idea": "A reading circle asks visitors to spend a quiet minute with an unsorted bundle while a perfectionist machine patrols for things left out of order.",
+      "source": "/exhibitions/genderfail-archive-project",
+      "why": "Slowing down and tolerating disorder become a stealth tactic."
+    },
+    {
+      "idea": "A color miner has taken the red from a warning cord and projected it onto a harmless wall. The crew must identify the cord by texture before the next pass.",
+      "source": "/exhibitions/impracticum",
+      "why": "The split between physical color and digital display creates a fair clue."
+    },
+    {
+      "idea": "Two letterpress plates, one poem and one image, have been swapped. Re-pair them to produce a broadside that opens a locked studio.",
+      "source": "/annual-chapbook-competition",
+      "why": "The encounter asks the crew to make meaning as well as operate a press."
+    },
+    {
+      "idea": "A visibility scanner makes a unique book disappear whenever it is directly illuminated. Move it to a waiting reader using reflected light and shadow.",
+      "source": "/product/calendar/cabc/keynote-kameelah-janan-rasheed",
+      "why": "The paradox of making work visible becomes a transport challenge."
+    },
+    {
+      "idea": "An exhibition proposal machine offers to build the crew a bridge if they can describe it as a book-art project; its literal construction follows their exact words.",
+      "source": "/opportunities/main-gallery-exhibition-proposals",
+      "why": "A creative pitch has immediate, unpredictable physical consequences."
+    },
+    {
+      "idea": "A self-reading book offers a useful prediction about the crew, but every page turned gives its swarm handler more information about them.",
+      "source": "/fall-2025/does-the-reader-read-the-book-or-does-the-book-read-the-reader",
+      "why": "Information comes with a clear, escalating tradeoff."
+    },
+    {
+      "idea": "A community wish list has become a trail of requests for missing books. Deliver one to the library and the grateful keepers reveal a hidden reference route.",
+      "source": "/library-wish-list",
+      "why": "A small act of collective collection-building earns a tangible reward."
+    },
+    {
+      "idea": "A selector has granted a resident a full studio but locked the clock at the start of their allotted time. Restart it before the room is folded into storage.",
+      "source": "/opportunities/workspace-artists-in-residence",
+      "why": "Space and time, the residency’s resources, become the mechanics of a rescue."
+    }
+  ]
+}

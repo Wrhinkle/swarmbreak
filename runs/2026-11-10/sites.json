@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "paper.gatech.edu",
+   "name": "Robert C. Williams Museum of Papermaking",
+   "url": "https://paper.gatech.edu/",
+   "file": "runs/2026-11-10/sites/paper.gatech.edu.json"
+  },
+  {
+   "host": "www.nationalprintmuseum.ie",
+   "name": "National Print Museum",
+   "url": "https://www.nationalprintmuseum.ie/",
+   "file": "runs/2026-11-10/sites/www.nationalprintmuseum.ie.json"
+  },
+  {
+   "host": "centerforbookarts.org",
+   "name": "Center for Book Arts",
+   "url": "https://centerforbookarts.org/",
+   "file": "runs/2026-11-10/sites/centerforbookarts.org.json"
+  }
+ ]
+}
