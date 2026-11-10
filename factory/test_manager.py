@@ -178,7 +178,9 @@ with tempfile.TemporaryDirectory() as d:
         assert (gate_verdict(v)[0] is True) is ok, text
 
 # New agent prompts, saves and the verify scripts all count as limits; the log and ordinary source don't.
-from pr_team import touches_gates
+from pr_team import PROTECTED, touches_gates
+assert touches_gates([{'path': '.pr_agent.toml'}]) == ['.pr_agent.toml']
+assert [p for p in ['.pr_agent.toml'] if p.startswith(PROTECTED)] == ['.pr_agent.toml']
 for path in ('factory/agents/brand-new.md', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'package.json', 'tools/build-run.ts', 'factory/art.py'):
     assert touches_gates([{'path': path}]), path
 for path in ('factory/log/notes.md', 'src/main.ts', 'runs/2026-11-05/content.json'):
