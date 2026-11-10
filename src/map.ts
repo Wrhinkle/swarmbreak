@@ -1,5 +1,10 @@
 import type { MapNode } from './types';
 
+/** A saved destination must be entered before another map action can run. */
+export function lockTravelControls(root: Pick<HTMLElement, 'querySelectorAll'>) {
+  root.querySelectorAll<HTMLButtonElement>('button').forEach(button => { button.disabled = true; });
+}
+
 /** Stable presentation coordinates; never consume the run's random seed. */
 export function mapPositions(nodes: MapNode[]): Map<string, {x: number; y: number}> {
   const top=Math.max(1,...nodes.map(n=>n.floor)), wide=Math.max(1,...nodes.map(n=>n.x));

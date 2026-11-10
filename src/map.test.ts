@@ -1,8 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { mapIconPaths, mapPositions } from './map';
+import { lockTravelControls, mapIconPaths, mapPositions } from './map';
 import type { MapNode } from './types';
 
 describe('map presentation', () => {
+  it('locks navigation, settings, routes and pins while a saved trip completes', () => {
+    const buttons = Array.from({ length: 5 }, () => ({ disabled: false }));
+    const root = { querySelectorAll: (selector: string) => { expect(selector).toBe('button'); return buttons; } };
+    lockTravelControls(root as unknown as HTMLElement);
+    expect(buttons.every(button => button.disabled)).toBe(true);
+  });
   it('keeps coordinates stable and puts the final room above the start', () => {
     const nodes = [{id:'a',floor:0,x:0},{id:'b',floor:1,x:1}] as MapNode[];
     const first = mapPositions(nodes);
