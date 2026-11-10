@@ -46,4 +46,20 @@ describe('simulation reserves', () => {
     expect(fought([room('light', 1), room('heavy', 3)])).toBe(1);
     expect(fought([room('even', 2), room('unseen', 1, true)])).toBe(1); // the mystery room wins on its own bonus, not on its enemies
   });
+
+  it('avoids a forced heavy successor but treats its hidden contents as unknown', () => {
+    const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
+    run.acts = [run.acts[0]];
+    const act = run.acts[0], fight = act.nodes.find(n => n.kind === 'fight' && n.encounter?.length)!, foe = fight.encounter![0];
+    const heavy = { ...fight, id: 'heavy', floor: 1, next: [], reward: undefined, hidden: false, encounter: Array<string>(3).fill(foe) };
+    const light = { ...heavy, id: 'light', encounter: [foe] };
+    const start = (id: string, next: string) => ({ ...fight, id, floor: 0, kind: 'rest' as const, next: [next], hidden: false, encounter: undefined, reward: undefined });
+    const choose = () => play(run, () => 0, { ...EXPERT, build: 'none' }).route[0];
+    act.nodes = [start('toward-heavy', heavy.id), start('toward-light', light.id), heavy, light];
+    expect(choose()).toBe('toward-light');
+    heavy.hidden = true;
+    expect(choose()).toBe('toward-heavy');
+    heavy.encounter = [foe];
+    expect(choose()).toBe('toward-heavy');
+  });
 });
