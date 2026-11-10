@@ -1,0 +1,216 @@
+{
+  "reading": "A bilingual sound-and-image archive preserves and shares the history of capturing, reproducing and distributing sound and images. It treats commercial paperwork, technical manuals, laboratory notes, photographs and personal correspondence as evidence alongside recordings. Its language is that of collections, accession numbers, manufacturers, record companies, sides, RPM, genres, technical sheets and digitization. The particular charm is the meeting of precise cataloguing with unpredictable survivals: a home recording of a hockey final, a picture disc, a rare fable, theatre acoustics and numbered record supplements. Staff, volunteers and partners sustain a long-running preservation effort, while some discs survive without accessible audio.",
+  "enemies": [
+    {
+      "idea": "RPM regulators clamp onto moving objects and force them to spin at their assigned record speed; a misclassification makes a wagon crawl or a door whirl.",
+      "source": "/disque/",
+      "why": "Changing speed becomes both a threat and a way to turn the machines against one another."
+    },
+    {
+      "idea": "A black-vinyl nutcracker patrol cracks open anything it mistakes for a nut, including sealed supply cases; its silent groove lets it sneak up.",
+      "source": "/disque/3100-0007/",
+      "why": "The crew can lure it with hard decoys and recover what it has cracked."
+    },
+    {
+      "idea": "The reference disc samples a sound and sends steel roses after anything that repeats it, confusing a password, a footstep and a call for help.",
+      "source": "/disque/2001-0562/",
+      "why": "A fight becomes a game of controlling echoes and choosing when to make noise."
+    },
+    {
+      "idea": "A home-recording rink keeper draws a 1953-style hockey rink in grooves across the floor and body-checks anyone carrying a puck-shaped object.",
+      "source": "/disque/2017-0097/",
+      "why": "The crew can pass the object between them to redirect its charge without reenacting real players."
+    },
+    {
+      "idea": "A 45-RPM picture-disc spinner projects its printed image onto nearby surfaces, then attacks from whichever reflection is currently turning.",
+      "source": "/disque/2009-0248/",
+      "why": "Stopping the rotation reveals its real body, but also darkens the room."
+    },
+    {
+      "idea": "A fox-and-crow duet machine flatters crews into making a sound, then steals the sound in a metal beak and uses it as bait.",
+      "source": "/disque/2003-3466/",
+      "why": "A stolen voice can be recovered and used to lure the machine into a trap."
+    },
+    {
+      "idea": "The tramway on the rare record’s other side has become a rail-laying centipede that insists on collecting a fare before it will stop.",
+      "source": "/disque/2003-3466/",
+      "why": "The crew can exploit its fixed rails and make an improvised fare from scrap."
+    },
+    {
+      "idea": "A brown-disc double makes two little mechanical copies of every tool it hears being used; each copy performs the task backward.",
+      "source": "/disque/2017-0112/",
+      "why": "The copies turn helpful equipment into a puzzle, but can undo a jam if deployed carefully."
+    },
+    {
+      "idea": "A mechanical king of Ys raises partitions like floodgates whenever it hears a sustained note, isolating crew members in resonant chambers.",
+      "source": "/disque/2010-0155/",
+      "why": "Breaking a note or singing in short bursts changes the terrain in a predictable way."
+    },
+    {
+      "idea": "The laboratory test book has become a many-armed experimenter that labels visitors as test specimens and reruns a different trial on each pass.",
+      "source": "/document/2021-0057-1-9/",
+      "why": "Its numbered trials can be observed and interrupted at the right step."
+    },
+    {
+      "idea": "A theatre-acoustics surveyor fires clicks into rooms and installs baffles wherever it detects a human voice, eventually sealing the speakers in.",
+      "source": "/document/2013-0140/",
+      "why": "Echoes telegraph where the next baffle will grow, making the room itself a tactical instrument."
+    },
+    {
+      "idea": "A medal-meeting usher pins heavy metal award discs onto anyone it deems worthy, weighing them down while trying to escort them to an endless ceremony.",
+      "source": "/document/2013-0137/",
+      "why": "The awards double as shields or counterweights once removed."
+    },
+    {
+      "idea": "A typewritten-letter courier stamps every spoken request into a rigid order and pursues the requester until the order is fulfilled literally.",
+      "source": "/document/2013-0136/",
+      "why": "Careful wording can redirect it, while a careless request produces an immediate complication."
+    },
+    {
+      "idea": "A handwriting mimic joins separate scraps of messages into false instructions, then sends mechanical pens to enforce the resulting demands.",
+      "source": "/document/2013-0134/",
+      "why": "The crew can expose the forgery by finding mismatched strokes and rearrange the scraps."
+    },
+    {
+      "idea": "A business-card sorter assigns everyone a department and physically shunts them down different chutes when their assigned duties overlap.",
+      "source": "/document/2003-0047-002/",
+      "why": "Swapping cards lets the crew manipulate the sorting machinery and reunite."
+    },
+    {
+      "idea": "A new-release distributor prints a fresh batch of numbered disc drones whenever an earlier batch is destroyed; each batch learns one maneuver from the last.",
+      "source": "/collection-pour-documents/documentation-commerciale/",
+      "why": "Capturing a release notice reveals the next batch’s vulnerability and lets the crew break the cycle."
+    },
+    {
+      "idea": "A 75-watt amplifier scavenger boosts tiny mechanical noises into concussive pulses, then follows the loudest noise to harvest its source.",
+      "source": "/collection-pour-documents/information-technique-et-manuels/",
+      "why": "Quiet movement helps, while a deliberately noisy decoy can steer the blast."
+    },
+    {
+      "idea": "A photographic-plate crawler freezes the outline of anything caught in its flash and sends a flat metal silhouette to block its path.",
+      "source": "/collection-pour-documents/photographies/",
+      "why": "The silhouette repeats the captured pose, so changing posture and using cover matters."
+    },
+    {
+      "idea": "A Music Promenade supplement unfolds into a marching paper-and-metal route that escorts intruders in circles, adding a new numbered turn each lap.",
+      "source": "/collection-pour-documents/publications/",
+      "why": "Marking the route exposes the repeated pattern and gives the crew a way out."
+    },
+    {
+      "idea": "A collection-counting machine treats living voices as undocumented items and tries to pack them into whichever category has the most room.",
+      "source": "/en/document/",
+      "why": "The crew can overload one category with harmless sounds to free a captured voice."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A cooperative of repair automatons, inspired by successive digitization projects, keeps three generations of imperfect scanning equipment working together.",
+      "source": "/credits-et-remerciement/",
+      "why": "Each generation can recover a different fragment of a damaged record, giving the crew a reason to protect the whole workshop."
+    },
+    {
+      "idea": "An archive guide machine still helps visitors trace an object from collection to technical description, but needs its route markers restored.",
+      "source": "/en/information/",
+      "why": "Restoring its knowledge opens shortcuts and supplies clues without fighting."
+    },
+    {
+      "idea": "A tiny lab-note annotator records failed tests as carefully as successes and warns the crew which experiment a hostile machine is about to repeat.",
+      "source": "/document/2021-0057-1-9/",
+      "why": "Its practical notes reward observation and turn past failures into useful intelligence."
+    },
+    {
+      "idea": "A silent playback rig protects fragile discs by communicating with taps and vibrations instead of sound.",
+      "source": "/disque/3100-0007/",
+      "why": "It can guide the crew through areas patrolled by sound-seeking machines."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Capture-Reproduce-Diffuse Engine records every action in the chamber, manufactures a mechanical copy, and broadcasts the copy as a command to its swarm.",
+      "source": "/",
+      "why": "Its three stages offer distinct targets: disrupt capture, corrupt the copy, or redirect the broadcast."
+    },
+    {
+      "idea": "The Grand Accessioner builds a body from manuals, correspondence, photographs and publications, assigning everything it touches a collection and locking it away.",
+      "source": "/document/",
+      "why": "Each collection changes its behavior, and freeing the right artifacts strips away its abilities."
+    },
+    {
+      "idea": "The All-Sides Turntable stacks discs at different speeds, switching between genre, manufacturer and audio patterns as it tries to press the crew into one definitive recording.",
+      "source": "/en/disc/",
+      "why": "The crew can change its speed and deliberately mismatch its categories to interrupt its combinations."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A battered home-recording machine broadcasts a fragment of a hockey gathering while rink drones try to make the audience sit in perfect rows.",
+      "source": "/disque/2017-0097/",
+      "why": "The crew can preserve the recording, free the listeners and leave the drones an empty stand to police."
+    },
+    {
+      "idea": "A crow drone has lost a captured voice to a fox drone and offers a rare 78-speed gear to anyone who can get it back.",
+      "source": "/disque/2003-3466/",
+      "why": "A negotiation or trick resolves the fable-shaped dispute without requiring a fight."
+    },
+    {
+      "idea": "An acoustic test has left a small theatre whisper-quiet in one seat and deafening in another; a trapped courier cannot be heard.",
+      "source": "/document/2013-0140/",
+      "why": "Mapping echoes lets the crew exchange a message and navigate the room."
+    },
+    {
+      "idea": "A faulty 75-watt amplifier is magnifying a loose screw’s rattle into pulses that keep a repair crew pinned down.",
+      "source": "/collection-pour-documents/information-technique-et-manuels/",
+      "why": "Securing one mundane component turns a dangerous noise source into usable equipment."
+    },
+    {
+      "idea": "Two numbered Music Promenade supplements disagree on the route through a corridor, and both routes are physically unfolding at once.",
+      "source": "/collection-pour-documents/publications/",
+      "why": "Comparing their numbers reveals a safe sequence of turns and a hidden cache."
+    },
+    {
+      "idea": "Three generations of digitization machines argue over how to scan one fragile disc before a swarm patrol arrives.",
+      "source": "/credits-et-remerciement/",
+      "why": "The crew can combine their equipment or choose which piece of information to preserve first."
+    },
+    {
+      "idea": "A laboratory book lies open at pages 99 and 110–116 while test rigs repeat an unfinished sequence around it.",
+      "source": "/document/2021-0057-1-9/",
+      "why": "Matching a rig to the notes can stop the experiment and reveal a useful adjustment."
+    },
+    {
+      "idea": "A spinning picture disc projects a moving path across a dark room, but a broken motor keeps it turning at the wrong speed.",
+      "source": "/disque/2009-0248/",
+      "why": "Restoring 45 RPM makes the path usable; a clever crew might instead exploit the slow projection."
+    },
+    {
+      "idea": "A sorter has issued the crew identical business cards and is sending all of them to the same overcrowded department.",
+      "source": "/document/2003-0047-002/",
+      "why": "Trading or altering the cards can gain access to different parts of the building."
+    },
+    {
+      "idea": "A silent reference disc is needed to calibrate a listening station, but a nearby machine keeps supplying invented audio for its empty groove.",
+      "source": "/disque/2001-0562/",
+      "why": "The crew must distinguish physical evidence from the machine’s convincing fabrication."
+    },
+    {
+      "idea": "A flash rig is trying to take a group photograph of scattered repair drones and will not open the exit until everyone is in frame.",
+      "source": "/collection-pour-documents/photographies/",
+      "why": "Gathering decoys or reuniting the drones solves a lighthearted spatial puzzle."
+    },
+    {
+      "idea": "A new-release notice numbered 1572 is being delivered to every machine in a district, triggering a synchronized replacement of their working parts.",
+      "source": "/collection-pour-documents/documentation-commerciale/",
+      "why": "Intercepting or modifying the notice creates a brief opening to cross the district."
+    },
+    {
+      "idea": "A ceremonial usher has set a medal meeting for an empty hall and is looking for an audience.",
+      "source": "/document/2013-0137/",
+      "why": "Attending, substituting mannequins or reprogramming the guest list can distract it long enough to pass."
+    },
+    {
+      "idea": "A navigation guide has split its directions between French and English machines, each holding half the route to a preservation room.",
+      "source": "/en/information/",
+      "why": "Bringing the two guides together restores a route and gives both a useful purpose."
+    }
+  ]
+}

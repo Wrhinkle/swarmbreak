@@ -1,0 +1,201 @@
+{
+  "reading": "The Horniman Museum and Gardens in Forest Hill brings human cultures, musical instruments, natural science and living gardens into one public place. It preserves and researches collections while inviting people to handle, learn, play, listen and explore; school visits, trails, performances and community research make the collection a shared resource. Its vocabulary moves between precise cataloguing and taxonomy, hands-on discovery, care, access, perspectives, nature and hope. Coral breeding and water saving sit alongside folklore, tea, music, archives and questions about whose knowledge tells an object’s story. Its distinctive character is that specimens, living ecosystems and cultural objects meet outdoors and indoors, with community collaboration and attention to colonial legacy alongside conservation and climate action.",
+  "enemies": [
+    {
+      "idea": "Accession crawlers clamp numbered tags onto moving things, then drag whatever they have classified into storage; peeling off the tag makes them temporarily forget their target.",
+      "source": "/explore-the-collections/",
+      "why": "Turns museum cataloguing into a chase with a practical escape."
+    },
+    {
+      "idea": "A box-zither ambusher plucks tripwires stretched across a corridor; each wrong note tightens another string around the crew.",
+      "source": "/explore-the-collections/musical-instrument-collection/",
+      "why": "The instrument’s playing method becomes a spatial puzzle."
+    },
+    {
+      "idea": "A mechanical orchestrion steals nearby sounds and repeats them as commands to its smaller instrument drones, growing stronger whenever anyone makes noise.",
+      "source": "/explore-the-collections/musical-instrument-collection/",
+      "why": "Silence, distraction and stolen sound all become tactics."
+    },
+    {
+      "idea": "Specimen-packing beetles wrap travellers in layers of padding, treating every struggling limb as a fragile penguin part that needs more protection.",
+      "source": "/explore-the-collections/natural-history-collection/",
+      "why": "Careful conservation becomes an absurd escalating restraint."
+    },
+    {
+      "idea": "Herbarium press mites flatten living plants between hinged metal leaves, carrying their stolen silhouettes away as identification sheets.",
+      "source": "/story/specimens-caught-between-the-pages/",
+      "why": "A pressed specimen becomes a visible warning and a rescue target."
+    },
+    {
+      "idea": "A monkey-puzzle machine unfolds interlocking spiked branches into a maze, rearranging its exits whenever someone climbs it.",
+      "source": "/plan-your-visit/around-the-horniman/tree-folklore-trail/",
+      "why": "A named tree becomes a changing obstacle with climbable moving parts."
+    },
+    {
+      "idea": "Sycamore rotor drones release paired spinning seed decoys; the real drone hides among them until the swarm lands and builds a nest.",
+      "source": "/plan-your-visit/around-the-horniman/tree-folklore-trail/",
+      "why": "The familiar seed shape creates a readable shell game."
+    },
+    {
+      "idea": "Spawn-clock polyps broadcast synchronized clouds of tiny machine larvae whenever their false moon lamp reaches the programmed phase.",
+      "source": "/project/project-coral/",
+      "why": "The crew can interrupt a timed spawn by changing the artificial light."
+    },
+    {
+      "idea": "A water-saving siphon decides that everything wet is waste, pursuing canteens and aquarium tanks with branching hoses.",
+      "source": "/story/saving-water-at-the-horniman/",
+      "why": "A conservation mechanism threatens the resources everyone needs."
+    },
+    {
+      "idea": "Handling-collection mimic toys invite a touch, then copy the last gesture and pass it down a line of puppets until the motion becomes an attack.",
+      "source": "/explore-the-collections/handling-collection/",
+      "why": "A hands-on encounter creates an amusing chain reaction."
+    },
+    {
+      "idea": "Archive negative moths erase footprints and replace them with bird tracks, shepherding pursuers into the wrong rooms.",
+      "source": "/explore-the-collections/archives/",
+      "why": "The bird-print negatives turn tracking itself unreliable."
+    },
+    {
+      "idea": "Nature-recycling rollers sort equipment into compost, salvage and treasure; their grabbers keep changing their minds about which bin a person belongs in.",
+      "source": "/plan-your-visit/around-the-horniman/",
+      "why": "A sorting challenge doubles as a way to recover useful gear."
+    },
+    {
+      "idea": "Camouflage nest-builders weave a web around unattended equipment and disguise it as a nest, then pounce when its owner reaches inside.",
+      "source": "/event/creative-creatures-play/",
+      "why": "Play activities become a trap that rewards careful inspection."
+    },
+    {
+      "idea": "The Perspective Examiner rotates a visitor through a carousel of forced viewpoints and refuses passage until every stranger is assigned one permanent label.",
+      "source": "/schools/plan-your-day/",
+      "why": "The crew can break the machine’s rigid categories by offering contradictory perspectives."
+    },
+    {
+      "idea": "A storage nutcracker breaks open protective cases to extract their contents, discarding the notes that explain where each object came from.",
+      "source": "/story/cracking-the-nutmeg-researching-the-caribbean-collection/",
+      "why": "Rescuing an object and its context requires different actions."
+    },
+    {
+      "idea": "A pond-to-reef engine swaps fresh and salt water between exhibits, forcing the crew to reroute valves while its fish-shaped maintenance drones defend the pipes.",
+      "source": "/event/aquarium/",
+      "why": "Two distinct aquatic environments create a concrete, urgent valve puzzle."
+    },
+    {
+      "idea": "A fossil folklore digger plants invented explanations beside its tracks, then burrows away while investigators argue over the clues.",
+      "source": "/explore-the-collections/natural-history-collection/",
+      "why": "The swarm weaponizes the gap between an object and a story about it."
+    },
+    {
+      "idea": "A discovery-den excavator builds safe little play burrows that slowly close around their occupants, insisting that everyone stay for one more activity.",
+      "source": "/project/nature-love/",
+      "why": "An inviting refuge becomes a trap with an obvious social lure."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A free-ranging pollinator spotter marks living flowers and safe routes with drifting pollen, but needs a crew to clear machine nests from its path.",
+      "source": "/plan-your-visit/around-the-horniman/",
+      "why": "Its map is useful only if players help maintain the garden."
+    },
+    {
+      "idea": "A coral nursery keeper preserves a living spawning cycle and can time a brief distraction against the spawn-clock polyps.",
+      "source": "/project/project-coral/",
+      "why": "The same science that the swarm distorted gives the crew a countermeasure."
+    },
+    {
+      "idea": "A handling-box custodian lends sturdy objects for improvisation and teaches their uses, asking that borrowed pieces be returned for the next visitor.",
+      "source": "/explore-the-collections/handling-collection/",
+      "why": "Tools arrive with a cooperative obligation."
+    },
+    {
+      "idea": "Community researchers carry paired object and context records, correcting the swarm’s false labels and identifying safe ways to retrieve stored items.",
+      "source": "/story/cracking-the-nutmeg-researching-the-caribbean-collection/",
+      "why": "Knowledge and provenance become active aids instead of decoration."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Collector is a moving store of specimen drawers, instrument ribs and garden roots. It tries to unite everything by assigning each thing a single permanent category; freed objects interfere with its sorting limbs in different ways.",
+      "source": "/explore-the-collections/",
+      "why": "The museum’s breadth becomes a multi-stage fight about classification and connections."
+    },
+    {
+      "idea": "The Nature + Love Engine has fused nursery irrigation, discovery dens and coral spawn clocks into a single apparatus that tries to preserve nature by immobilizing it. The crew can restore separate cycles by freeing its water, light and soil controls.",
+      "source": "/project/nature-love/",
+      "why": "Care and living processes are twisted into one interconnected environmental puzzle."
+    },
+    {
+      "idea": "The Glasshouse Conductor plays a giant orchestrion through conservatory ribs, drawing mechanical pollinators and specimen packers into an ever-louder performance. Interrupting its rhythm makes different swarm sections collide.",
+      "source": "/explore-the-collections/musical-instrument-collection/",
+      "why": "Music, gardens and collections combine into a boss with a manipulable beat."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A living reef nursery and a thirsty garden both need the last clean water in a tank; a leaking waste-water line might supply both if repaired.",
+      "source": "/story/saving-water-at-the-horniman/",
+      "why": "Offers a resource choice with a discoverable cooperative solution."
+    },
+    {
+      "idea": "A loose herbarium sheet blows through a corridor of press mites. Its plant imprint matches a surviving garden patch that the crew could protect.",
+      "source": "/story/specimens-caught-between-the-pages/",
+      "why": "Connects an archival clue to a living place."
+    },
+    {
+      "idea": "A sound-seeking orchestrion blocks a route, but a row of loose clappers offers a way to lead it away without confronting it.",
+      "source": "/explore-the-collections/musical-instrument-collection/",
+      "why": "A small sound puzzle lets players choose stealth or diversion."
+    },
+    {
+      "idea": "A nest-builder has woven a helmet into its web. The eggs inside are harmless mechanical decoys, but disturbing them wakes the parent.",
+      "source": "/event/creative-creatures-play/",
+      "why": "A quick retrieval becomes a choice about timing and risk."
+    },
+    {
+      "idea": "A trail of bird prints crosses a sealed door and continues on the other side. Negative moths have projected the tracks; their shadows point to a hidden vent.",
+      "source": "/explore-the-collections/archives/",
+      "why": "A misleading clue contains the means to solve itself."
+    },
+    {
+      "idea": "A monkey-puzzle branch maze traps a pollinator spotter. Opening one passage closes another, so someone must guide it from outside.",
+      "source": "/plan-your-visit/around-the-horniman/tree-folklore-trail/",
+      "why": "A short cooperative navigation challenge earns a useful guide."
+    },
+    {
+      "idea": "An aquarium valve swaps pond and reef water in pulses. A maintenance diagram identifies both circuits, but the crew must hold two wheels at once to reset them.",
+      "source": "/event/aquarium/",
+      "why": "A timed environmental hazard creates a teamwork moment."
+    },
+    {
+      "idea": "A storage case contains an object and a separate research note. A scavenger drone can carry away only one before the crew reaches it.",
+      "source": "/story/cracking-the-nutmeg-researching-the-caribbean-collection/",
+      "why": "Makes preserving context a meaningful immediate decision."
+    },
+    {
+      "idea": "A spawn-clock lamp is about to trigger a machine-larva bloom. A living coral nursery nearby also needs its light cycle, so smashing the lamp has a cost.",
+      "source": "/project/project-coral/",
+      "why": "A countdown invites a more precise intervention."
+    },
+    {
+      "idea": "A recycling roller has sorted the crew’s supplies into mixed piles of treasure and scrap. It will return one item for each correctly sorted piece of garden litter.",
+      "source": "/plan-your-visit/around-the-horniman/",
+      "why": "A negotiation and sorting game can recover equipment without a fight."
+    },
+    {
+      "idea": "A protective packing beetle is carefully wrapping a broken drone that is calling for help. Unwrapping it may release the drone or reveal useful spare parts.",
+      "source": "/explore-the-collections/natural-history-collection/",
+      "why": "A harmless-looking act of care leaves the crew to judge what is inside."
+    },
+    {
+      "idea": "A school-visit automaton demands that everyone demonstrate care and access before it opens a gate; it accepts a practical act of help instead of a spoken answer.",
+      "source": "/schools/plan-your-day/",
+      "why": "The site’s stated values become a small roleplaying challenge."
+    },
+    {
+      "idea": "A rolling accession drawer is collecting the names of every seed in its path. An unlabeled seed packet falls out, offering a chance to plant something the swarm cannot immediately classify.",
+      "source": "/explore-the-collections/",
+      "why": "A tiny act of restoration creates a potential future refuge."
+    }
+  ]
+}

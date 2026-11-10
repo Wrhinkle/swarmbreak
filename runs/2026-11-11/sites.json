@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "archive.moeb.ca",
+   "name": "Sound and Image Archive Emile Berliner",
+   "url": "https://archive.moeb.ca/en/",
+   "file": "runs/2026-11-11/sites/archive.moeb.ca.json"
+  },
+  {
+   "host": "www.mim.be",
+   "name": "Musical Instruments Museum Brussels",
+   "url": "https://www.mim.be/en",
+   "file": "runs/2026-11-11/sites/www.mim.be.json"
+  },
+  {
+   "host": "www.horniman.ac.uk",
+   "name": "Horniman Museum and Gardens",
+   "url": "https://www.horniman.ac.uk/",
+   "file": "runs/2026-11-11/sites/www.horniman.ac.uk.json"
+  }
+ ]
+}

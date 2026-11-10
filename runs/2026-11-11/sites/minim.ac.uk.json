@@ -1,0 +1,237 @@
+{
+  "host": "minim.ac.uk",
+  "url": "https://minim.ac.uk/",
+  "crawledAt": "2026-11-10T22:20:04.631Z",
+  "pages": [
+    {
+      "path": "/",
+      "title": "Musical Instruments Interface for Museums and Collections | MINIM-UK",
+      "section": "home",
+      "excerpt": "The UK’s largest online collection of historical musical instruments.",
+      "headings": [
+        "1. Contrast",
+        "2. Font size",
+        "Highlights",
+        "Collection Spotlight Special: Hunan Museum",
+        "Digital Humanities and Musical Heritage: presentations",
+        "Digital Humanities and Musical Heritage workshop",
+        "Bringing instruments in the Royal Collection to life",
+        "Watch and listen",
+        "Search local collections"
+      ],
+      "links": [
+        "/",
+        "/index.php/about/",
+        "/index.php/about/project-outputs/",
+        "/index.php/about/faqs/",
+        "/index.php/about/resources/",
+        "/index.php/about/the-project-group/",
+        "/index.php/articles/",
+        "/index.php/map/",
+        "/index.php/2020/05/15/collection-spotlight-special-hunan-museum/",
+        "/index.php/2018/11/04/digital-humanities-and-musical-heritage-presentations/",
+        "/index.php/2018/05/14/digital-humanities-and-musical-heritage-workshop/",
+        "/index.php/2018/01/11/bringing-instruments-in-the-royal-collection-to-life/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    },
+    {
+      "path": "/index.php/about/",
+      "title": "About | MINIM-UK",
+      "section": "index.php",
+      "excerpt": "MINIM-UK (Musical Instruments Interface for Museums and Collections) is the largest virtual collection of historically significant musical instruments in the UK, led by the Royal College of Music in m",
+      "headings": [
+        "1. Contrast",
+        "2. Font size"
+      ],
+      "links": [
+        "/index.php/about/",
+        "/",
+        "/index.php/about/project-outputs/",
+        "/index.php/about/faqs/",
+        "/index.php/about/resources/",
+        "/index.php/about/the-project-group/",
+        "/index.php/articles/",
+        "/index.php/map/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    },
+    {
+      "path": "/index.php/about/project-outputs/",
+      "title": "Project outputs | MINIM-UK",
+      "section": "index.php",
+      "excerpt": "Development of the MINIM-UK project has been supported by the Higher Education Funding Council for England (HEFCE) Catalyst Fund . The project is supported by the Royal College of Music until at least",
+      "headings": [
+        "Cataloguing standards",
+        "Cataloguing visits",
+        "Directory of collections",
+        "Instrument recordings",
+        "Instrument browser",
+        "References and further reading"
+      ],
+      "links": [
+        "/index.php/about/project-outputs/",
+        "/",
+        "/index.php/about/",
+        "/index.php/about/faqs/",
+        "/index.php/about/resources/",
+        "/index.php/about/the-project-group/",
+        "/index.php/articles/",
+        "/index.php/map/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    },
+    {
+      "path": "/index.php/about/faqs/",
+      "title": "FAQs | MINIM-UK",
+      "section": "index.php",
+      "excerpt": "The project aims to provide a new online database of historic instruments that will allow the public to find out about 20,000 individual instruments held in more than 100 musical instrument collection",
+      "headings": [
+        "1. Contrast",
+        "2. Font size"
+      ],
+      "links": [
+        "/index.php/about/faqs/",
+        "/",
+        "/index.php/about/",
+        "/index.php/about/project-outputs/",
+        "/index.php/about/resources/",
+        "/index.php/about/the-project-group/",
+        "/index.php/articles/",
+        "/index.php/map/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    },
+    {
+      "path": "/index.php/about/resources/",
+      "title": "Resources | MINIM-UK",
+      "section": "index.php",
+      "excerpt": "MIMO is the world’s largest freely accessible database for information on musical instruments held in public collections. MINIM-UK aggregates a subset of its data, where licensing terms allow, to the ",
+      "headings": [
+        "For researchers, teachers, and students",
+        "Musical Instrument Museums Online (MIMO)",
+        "For museum professionals",
+        "CIMCIM",
+        "Musical Instruments Resource Network (MIRN)",
+        "Cataloguing and Digitisation Standards"
+      ],
+      "links": [
+        "/index.php/about/resources/",
+        "/",
+        "/index.php/about/",
+        "/index.php/about/project-outputs/",
+        "/index.php/about/faqs/",
+        "/index.php/about/the-project-group/",
+        "/index.php/articles/",
+        "/index.php/map/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    },
+    {
+      "path": "/index.php/about/the-project-group/",
+      "title": "The project group | MINIM-UK",
+      "section": "index.php",
+      "excerpt": "MINIM-UK has been led by the Royal College of Music, in a core Steering Group of representatives from four UK institutions holding musical instrument collections. MINIM-UK has also been supported by e",
+      "headings": [
+        "Steering Group"
+      ],
+      "links": [
+        "/index.php/about/the-project-group/",
+        "/",
+        "/index.php/about/",
+        "/index.php/about/project-outputs/",
+        "/index.php/about/faqs/",
+        "/index.php/about/resources/",
+        "/index.php/articles/",
+        "/index.php/map/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    },
+    {
+      "path": "/index.php/articles/",
+      "title": "Articles | MINIM-UK",
+      "section": "index.php",
+      "excerpt": "Discovering musical treasures from the Hunan Museum, China. Watch proceedings from the Digital Humanities and Musical Heritage event, held at the Royal College of Music, London, 2nd July 2018. Attend ",
+      "headings": [
+        "1. Contrast",
+        "2. Font size"
+      ],
+      "links": [
+        "/index.php/articles/",
+        "/",
+        "/index.php/about/",
+        "/index.php/about/project-outputs/",
+        "/index.php/about/faqs/",
+        "/index.php/about/resources/",
+        "/index.php/about/the-project-group/",
+        "/index.php/map/",
+        "/index.php/2020/05/15/collection-spotlight-special-hunan-museum/",
+        "/index.php/author/richard/",
+        "/index.php/2018/11/04/digital-humanities-and-musical-heritage-presentations/",
+        "/index.php/2018/05/14/digital-humanities-and-musical-heritage-workshop/",
+        "/index.php/2018/01/11/bringing-instruments-in-the-royal-collection-to-life/",
+        "/index.php/2017/11/13/our-musical-heritage-3000-years-of-british-music-through-musical-instruments-part-3/",
+        "/index.php/2017/11/06/our-musical-heritage-3000-years-of-british-music-through-musical-instruments-part-2/",
+        "/index.php/2017/10/23/our-musical-britain-through-objects/",
+        "/index.php/2017/10/20/hidden-treasures-of-musical-britain/",
+        "/index.php/2017/10/20/unusual-materials-and-richly-decorated-instruments/",
+        "/index.php/2017/10/20/unexpected-sounds/",
+        "/index.php/articles/page/2/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    },
+    {
+      "path": "/index.php/map/",
+      "title": "Collections map | MINIM-UK",
+      "section": "index.php",
+      "excerpt": "Use the map below to explore musical instrument collections around the UK.",
+      "headings": [
+        "1. Contrast",
+        "2. Font size"
+      ],
+      "links": [
+        "/index.php/map/",
+        "/",
+        "/index.php/about/",
+        "/index.php/about/project-outputs/",
+        "/index.php/about/faqs/",
+        "/index.php/about/resources/",
+        "/index.php/about/the-project-group/",
+        "/index.php/articles/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    },
+    {
+      "path": "/index.php/2020/05/15/collection-spotlight-special-hunan-museum/",
+      "title": "Collection Spotlight Special: Hunan Museum | MINIM-UK",
+      "section": "index.php",
+      "excerpt": "Share [TheChamp-Sharing] In the first two years of the MINIM-UK project, cataloguers visited museums and heritage sites across the UK to help improve and create documentation about their musical instr",
+      "headings": [
+        "1. Contrast",
+        "2. Font size"
+      ],
+      "links": [
+        "/index.php/2020/05/15/collection-spotlight-special-hunan-museum/",
+        "/",
+        "/index.php/about/",
+        "/index.php/about/project-outputs/",
+        "/index.php/about/faqs/",
+        "/index.php/about/resources/",
+        "/index.php/about/the-project-group/",
+        "/index.php/articles/",
+        "/index.php/map/",
+        "/index.php/2018/11/04/digital-humanities-and-musical-heritage-presentations/",
+        "/index.php/contact/",
+        "/index.php/disclaimer/"
+      ]
+    }
+  ]
+}
