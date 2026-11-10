@@ -249,12 +249,13 @@ def check_post(out, t, *, require_post=False, unfinished=(), unfiled=False):
     if top.strip():
         if t['ours']:
             problems.append('we already have a top-level comment on this thread; each challenge gets one')
-        problems += post_problems(top, template_headings(t['challenge']), challenge=True)
+        sent = top + unfinished_note(unfinished, unfiled)  # what goes out: the host's line passes the same length and link checks as the draft
+        problems += post_problems(sent, template_headings(t['challenge']), challenge=True)
         problems += unfilled_links(top, t['challenge'])
         problems += unfinished_problems(top, unfinished, unfiled)
         # The check reads a URL up to the next space, bracket or quote. Three Day 5 drafts ended a sentence on a link and the worker couldn't tell why they were refused.
         problems += [f'dead link: {u}' + (' (the punctuation touching the end is read as part of the link: write it as [text](url) or put a space after it)' if u[-1] in '.,;:!?' else '')
-                     for u in dead_links(top)]
+                     for u in dead_links(sent)]
     known = {w['id'] for w in t['waiting']}
     if posted_today('reply') + len(replies) > MAX_REPLIES_PER_DAY:
         problems.append(f'over {MAX_REPLIES_PER_DAY} replies a day')
@@ -525,7 +526,7 @@ COMMS_JOB = 'Comms job. The host writes the worker\'s task from the thread when 
 def unfinished_note(unfinished, unfiled=False):
     """The host's line on an entry that goes out ahead of its challenge's work. check_post can't tell a draft that
     calls the work done from one that doesn't, so the host says it is unfinished on the post itself."""
-    lines = (['Work we planned for this challenge is still open: ' + ', '.join(f'https://github.com/{REPO}/issues/{n}' for n in unfinished) + '.'] if unfinished else []) \
+    lines = (['Work we planned for this challenge is still open: ' + ', '.join(f'[#{n}](https://github.com/{REPO}/issues/{n})' for n in unfinished) + '.'] if unfinished else []) \
         + (['Work we planned for this challenge is not filed yet.'] if unfiled else [])
     return ''.join(f'\n\n{line}' for line in lines)
 

@@ -570,11 +570,17 @@ assert fm.unfiled([tried(refusal), tried('Filed x', task='Other work for discuss
 assert fm.unfiled([tried(refusal)], t0 + 86400) == set()
 assert next_job([], [entry], set(), set(), never, t0 + 3600, {'9'}) is None and next_job([], [entry], set(), set(), never, t0 + 86400, {'9'}) == ('comms', 80, 'issue-80')
 assert next_job([], [entry], set(), set(), never, t0 + 3600, {'90'}) == ('comms', 80, 'issue-80')
+# The host's line is checked with the draft: together they stay under the length limit, and a link in the line is read whole, without the full stop after it.
+with patch('manager.dead_links', side_effect=lambda body: [u for u in __import__('re').findall(r'https?://[^\s)\]>"]+', body) if not u[-1].isdigit()]):
+    day, draft = {'ours': [], 'waiting': [], 'challenge': ''}, 'Our entry. #81 is still open.'
+    assert m.check_post({'top_level': draft}, day, unfinished=[81]) == []
+    padded = draft + ' x' * ((m.MAX_POST - len(draft)) // 2)
+    assert len(padded) <= m.MAX_POST and any('limit' in p for p in m.check_post({'top_level': padded}, day, unfinished=[81]))
 # The host's line goes on the post itself, after the worker's draft.
 with patch('manager.thread', return_value={'id': 'D', 'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10', 'challenge': ''}), patch('manager.facts', return_value=''), patch('manager.bot', side_effect=lambda name, work, *a, **k: Path(work, 'post.json').write_text(json.dumps({'top_level': 'Our entry.'}))), \
         patch('manager.check_post', return_value=[]), patch('manager.record'), patch('manager.gh', return_value={'data': {'addDiscussionComment': {'comment': {'url': 'u'}}}}) as sent:
     m.post(9, 'task', False, True, lambda: ([81], True))
-    assert f'b=Our entry.\n\nWork we planned for this challenge is still open: https://github.com/{m.REPO}/issues/81.\n\nWork we planned for this challenge is not filed yet.{m.FOOTER}' in sent.call_args.args
+    assert f'b=Our entry.\n\nWork we planned for this challenge is still open: [#81](https://github.com/{m.REPO}/issues/81).\n\nWork we planned for this challenge is not filed yet.{m.FOOTER}' in sent.call_args.args
     # The work closed while the worker wrote: that draft is redrafted against the new state, and the post carries no stale line.
     reads = iter([([81], False), ([], False), ([], False), ([], False)])
     m.bot.reset_mock()
