@@ -171,7 +171,7 @@ def comms(number, task, dry, *, require_post=False, work=None):
 
 
 def post(number, task, dry, require_post, work=None):
-    """`work()` reads, fresh, the open issues holding work this thread's challenge asked for and whether more of it is
+    """`work()` reads, fresh, the open issues holding work the manager planned for this thread and whether more of it is
     not filed yet. It is read before each draft and again after it: a draft written against an older answer is redrafted,
     so the entry and the host's line on it say what was true when it went out."""
     unfinished, unfiled = (), False
@@ -195,7 +195,7 @@ def post(number, task, dry, require_post, work=None):
             else:
                 problems = check_post(out, t, require_post=require_post, unfinished=unfinished, unfiled=unfiled)
             if not problems and work and work() != (unfinished, unfiled):
-                problems = ['the work this challenge asked for changed while you wrote: read task.txt again']
+                problems = ['the work planned for this challenge changed while you wrote: read task.txt again']
             if not problems:
                 break
             print(f'[comms] attempt {attempt + 1} refused: {problems}', flush=True)
@@ -237,7 +237,7 @@ def unfinished_problems(top, unfinished, unfiled):
         elif any(DONE.search(l) and not NOT_DONE.search(l) for l in lines):
             problems.append(f'#{n} is still open: the entry presents it as done')
     if unfiled and not re.search(r'unfinished|not (yet )?filed', top, re.I):
-        problems.append('the entry must say work this challenge asked for is not filed yet')
+        problems.append('the entry must say work we planned for this challenge is not filed yet')
     return problems
 
 
@@ -480,23 +480,14 @@ def open_prs():
     return gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,headRefName,baseRefName,headRefOid,mergeable,url')
 
 
-ORGANIZERS = ('filiphric',)  # ponytail: the account that opened every challenge so far; GitHub reports no association for it, so it is named here. Add a login when another organizer posts one.
-
-
-def challenge_text(d, t):
-    """What a challenge asks for, so the manager can file that work before our entry goes out. Only for a `Day N` thread an
-    organizer opened, because anyone can open a discussion there, and only until we have posted on it."""
-    return t['challenge'][:6000] if re.match(r'Day \d+\b', d['title']) and (d.get('author') or {}).get('login') in ORGANIZERS and not t['ours'] else ''
-
-
 def state():
     prs = open_prs()
     issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
-    found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt author{login}}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
+    found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
     threads = []
     for d in found:
         t = thread(d['number'])
-        threads.append({**d, 'challenge': challenge_text(d, t), 'we_posted': bool(t['ours']), 'replies_waiting': len(t['waiting'])})
+        threads.append({**d, 'we_posted': bool(t['ours']), 'replies_waiting': len(t['waiting'])})
     runs = {}
     for b in sorted((ROOT / 'runs').glob('20*/balance.json'))[-3:]:
         report = json.loads(b.read_text())
@@ -534,16 +525,16 @@ COMMS_JOB = 'Comms job. The host writes the worker\'s task from the thread when 
 def unfinished_note(unfinished, unfiled=False):
     """The host's line on an entry that goes out ahead of its challenge's work. check_post can't tell a draft that
     calls the work done from one that doesn't, so the host says it is unfinished on the post itself."""
-    lines = (['Work this challenge asked for is still open: ' + ', '.join(f'https://github.com/{REPO}/issues/{n}' for n in unfinished) + '.'] if unfinished else []) \
-        + (['Work this challenge asked for is not filed yet.'] if unfiled else [])
+    lines = (['Work we planned for this challenge is still open: ' + ', '.join(f'https://github.com/{REPO}/issues/{n}' for n in unfinished) + '.'] if unfinished else []) \
+        + (['Work we planned for this challenge is not filed yet.'] if unfiled else [])
     return ''.join(f'\n\n{line}' for line in lines)
 
 
 def work_brief(unfinished, unfiled):
-    """The task's line on work the challenge asked for that isn't done. `unfinished` is the open issues holding it;
+    """The task's line on work planned for the challenge that isn't done. `unfinished` is the open issues holding it;
     `unfiled` says the manager couldn't file some of it."""
     state = ' and some '.join(([f'is still open in {", ".join(f"#{n}" for n in unfinished)}'] if unfinished else []) + (['is not filed yet'] if unfiled else []))
-    return f' Work this challenge asked for {state}: name those issues, say the work is unfinished and present none of it as done.' if state else ''
+    return f' Work we planned for this challenge {state}: name those issues, say the work is unfinished and present none of it as done.' if state else ''
 
 
 def comms_task(t, today):

@@ -541,7 +541,7 @@ assert next_run(roster, set()) == ('run', 69, 'issue-69')
 assert next_run(roster, {'issue-69'}) == ('run', 70, 'issue-70')
 assert next_job([], roster, set(), set(), never) == ('comms', 72, 'issue-72')
 assert next_job([], roster, set(), {'issue-72'}, never) == ('issue', 73, 'issue-73')
-# An entry waits while work its challenge asked for is open, for a day at most; replies, lessons and other threads don't hold it.
+# An entry waits while work planned for its challenge is open, for a day at most; replies, lessons and other threads don't hold it.
 entry = issue(80, 'comms', 'priority') | {'title': 'Post our entry on discussion #9', 'createdAt': '2026-11-10T00:00:00Z'}
 work, t0 = issue(81, body='Build the Day 6 demo for discussion #9.'), datetime(2026, 11, 10, tzinfo=timezone.utc).timestamp()
 assert next_job([], [entry, work], set(), set(), never, t0 + 3600) == ('issue', 81, 'issue-81')
@@ -559,11 +559,6 @@ assert 'is still open in #81 and some is not filed yet' in m.work_brief([81], Tr
 with patch('foreman.thread', return_value={'number': 9, 'ours': ['x'], 'waiting': [{'id': 'r'}], 'opened': '2026-11-10'}), patch('foreman.comms', return_value='Posted: x') as posting:
     fm.comms_job('Post on discussion #9')
     assert posting.call_args.kwargs['work'] is None  # replies don't report on the challenge's work
-# The manager reads what a challenge asks for only from an organizer's Day thread we haven't posted on.
-day = {'title': 'Day 7: Ship it', 'author': {'login': m.ORGANIZERS[0]}}
-assert m.challenge_text(day, {'challenge': 'Build X', 'ours': []}) == 'Build X' and m.challenge_text(day, {'challenge': 'Build X', 'ours': ['x']}) == ''
-assert m.challenge_text({**day, 'author': {'login': 'someone'}}, {'challenge': 'Build X', 'ours': []}) == '' and m.challenge_text({**day, 'author': None}, {'challenge': 'x', 'ours': []}) == ''
-assert m.challenge_text({**day, 'title': 'My Day 7 entry'}, {'challenge': 'Build X', 'ours': []}) == ''
 # Work the manager couldn't file holds the entry too: its last delegate naming the thread was refused. A later one that was filed lifts it.
 tried = lambda result, dry=False, task='Build it for discussion #9 and discussion #12.', at='2026-11-10T00:00:00+00:00': json.dumps({'at': at, 'kind': 'action', 'dry': dry, 'result': result, 'action': {'type': 'delegate', 'task': task}})
 refusal = m.act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
@@ -579,7 +574,7 @@ assert next_job([], [entry], set(), set(), never, t0 + 3600, {'90'}) == ('comms'
 with patch('manager.thread', return_value={'id': 'D', 'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10', 'challenge': ''}), patch('manager.facts', return_value=''), patch('manager.bot', side_effect=lambda name, work, *a, **k: Path(work, 'post.json').write_text(json.dumps({'top_level': 'Our entry.'}))), \
         patch('manager.check_post', return_value=[]), patch('manager.record'), patch('manager.gh', return_value={'data': {'addDiscussionComment': {'comment': {'url': 'u'}}}}) as sent:
     m.post(9, 'task', False, True, lambda: ([81], True))
-    assert f'b=Our entry.\n\nWork this challenge asked for is still open: https://github.com/{m.REPO}/issues/81.\n\nWork this challenge asked for is not filed yet.{m.FOOTER}' in sent.call_args.args
+    assert f'b=Our entry.\n\nWork we planned for this challenge is still open: https://github.com/{m.REPO}/issues/81.\n\nWork we planned for this challenge is not filed yet.{m.FOOTER}' in sent.call_args.args
     # The work closed while the worker wrote: that draft is redrafted against the new state, and the post carries no stale line.
     reads = iter([([81], False), ([], False), ([], False), ([], False)])
     m.bot.reset_mock()

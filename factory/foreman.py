@@ -96,7 +96,7 @@ ENTRY_WAIT = 86400  # seconds an entry waits for its challenge's work before it 
 
 
 def challenge_work(issues, discussion):
-    """Open issues that name the thread: the work its challenge asked for. The manager writes `discussion #N` into that work.
+    """Open issues that name the thread: the work the manager planned for it. The manager writes `discussion #N` into that work.
     Comms jobs and lessons name threads too and aren't the work."""
     return sorted(i['number'] for i in issues if i['author']['login'] == OWNER and not ({COMMS, LESSON} & labels(i))
                   and re.search(rf'discussion #{discussion}\b', f"{i.get('title', '')}\n{i.get('body') or ''}"))
@@ -124,7 +124,7 @@ def unfiled(lines, now):
 
 
 def entry_waits(i, issues, now, unfiled=()):
-    """Whether an entry job stays unposted for now: work its challenge asked for is open or couldn't be filed yet, and
+    """Whether an entry job stays unposted for now: work planned for its challenge is open or couldn't be filed yet, and
     the job is under a day old. Every challenge still gets its entry, so after a day it goes out and says that work is unfinished."""
     m = ENTRY.fullmatch(i.get('title', ''))
     return bool(m and COMMS in labels(i) and (challenge_work(issues, m.group(1)) or m.group(1) in unfiled)
@@ -247,7 +247,7 @@ def open_issues():
 
 
 def challenge_state(number):
-    """Read fresh each time: (open issues holding work discussion `number` asked for, whether more of it is not filed yet)."""
+    """Read fresh each time: (open issues holding work planned for discussion `number`, whether more of it is not filed yet)."""
     return challenge_work(open_issues(), number), str(number) in unfiled(LOG.read_text().splitlines() if LOG.exists() else [], time.time())
 
 
