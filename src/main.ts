@@ -9,6 +9,7 @@ import { loadManifest, loadRun, openedRun, refreshRun, openingDue, RunOpeningErr
 import { currentRun, exportSave, finishRun, importSave, loadSave, rollover, writeSave } from './save';
 import type { CrewMember, Save } from './save';
 import type { Creature, EventEffect, Manifest, MapNode, Run, RunAct } from './types';
+import { markWalkthroughSeen } from './walkthrough';
 
 /** What the map says about a fight before the player picks it: who is there and how strong the pack is. Empty for a mystery room. */
 export function roomFoes(creatures: Creature[], n: Pick<MapNode, 'encounter'>, masked: boolean): string {
@@ -58,6 +59,8 @@ function countdownLine(prefix: string) { const p = el('p', countdownLineText(pre
 const time = () => performance.now();
 function resumeRun() { loadArt(act()); if (!save.walkthroughSeen && !today().node && !today().pending) { showHelp(resumeRun); return; } if (today().pending === 'win') showEndChoice(); else if (today().pending?.startsWith('victory:')) { room = act().nodes.find(n => n.id === today().pending!.slice(8)) ?? null; room ? showVictory('Your victory is saved.') : showMap(); } else if (today().pending) { room = act().nodes.find(n => n.id === today().pending) ?? null; room ? enterRoom(room, true) : showMap(); } else showMap(); }
 function showHelp(back: () => void) {
+  markWalkthroughSeen(save);
+  persist();
   const steps = [
     { title: 'The daily run', text: 'Everyone gets the same daily run, inspired by three public sites. You have one official attempt each day.', art: run.acts[0].art?.backdrops[0] },
     { title: 'Choose your route', text: 'Follow the map through fights and harder elite fights to the boss. Events offer choices, shops sell routines, rest rooms help you prepare, and treasure offers rewards. Mystery rooms hide their type until you enter.', art: run.acts[0].art?.map },
@@ -66,7 +69,7 @@ function showHelp(back: () => void) {
     { title: 'Bring an ally home', text: 'Recruit allies along the way. Win the run and choose one recruited ally to keep in your camp for a future attempt.', art: run.acts[0].art?.backdrops[0] },
   ];
   let index = 0;
-  const done = () => { save.walkthroughSeen = true; persist(); back(); };
+  const done = () => { back(); };
   const show = () => { screen='help'; clear(); root.scrollTop=0; const step=steps[index]; const panel=el('section',undefined,'paper walkthrough'); if(step.art) { const art=el('div',undefined,index===2?'walkthrough-art walkthrough-sprite':'walkthrough-art'); art.style.backgroundImage=`url("${step.art}")`; art.setAttribute('aria-hidden','true'); panel.append(art); } append(panel,el('div',`How to play · ${index+1} / ${steps.length}`,'eyebrow'),el('h1',step.title),el('p',step.text)); const controls=el('div',undefined,'bar'); append(controls,btn(index===steps.length-1?'Finish':'Next',()=>{ if(++index===steps.length) done(); else show(); }),btn('Skip',done)); panel.append(controls); root.append(panel); };
   show();
 }
