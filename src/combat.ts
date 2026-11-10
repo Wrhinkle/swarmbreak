@@ -15,6 +15,9 @@ export function fighter(creature: Creature, side: Fighter['side'], id: string, h
   const k = creature.scale ?? 1, maxHp = Math.round(base.hp * scale.hp * k);
   return { id, creature, side, hp: Math.max(0, Math.min(hp ?? maxHp, maxHp)), maxHp, power: base.power * scale.power * k, speed: base.speed, shield: 0, corrupted: 0, stunned: false, routines: [...creature.routines], nextAction: base.speed, summons: 0, splitDone: false, charging: false };
 }
+/** How strong a pack looks before the fight: each enemy's health times its power, added up, in hundreds. The map shows this number
+ *  on every fight the player can see, and the balance bots route on the same number. */
+export const threat = (enemies: Creature[]) => Math.round(enemies.reduce((t, c) => { const f = fighter(c, 'enemy', 'x'); return t + f.maxHp * f.power; }, 0) / 100);
 export function createCombat(crew: { creature: Creature; hp?: number }[], enemies: Creature[], seed: number): CombatState {
   return { t: 0, seed: seed >>> 0, fighters: [...crew.map((c, i) => fighter(c.creature, 'crew', `c${i}`, c.hp)), ...enemies.map((c, i) => fighter(c, 'enemy', `e${i}`))], events: [], result: null, goldStolen: 0, cooldown: 0, queued: null, serial: 0 };
 }

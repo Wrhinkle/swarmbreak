@@ -16,7 +16,7 @@ vi.mock('../src/combat', async importOriginal => {
 });
 
 import { createCombat } from '../src/combat';
-import { NO_BUILD, play } from './sim';
+import { EXPERT, NO_BUILD, play } from './sim';
 
 describe('simulation reserves', () => {
   it('brings a healthy recruit into the next fight without routine edits', () => {
@@ -34,5 +34,16 @@ describe('simulation reserves', () => {
     const fights = vi.mocked(createCombat).mock.calls;
     expect(fights).toHaveLength(2);
     expect(fights[1][0].map(member => member.creature.id)).toEqual(['starter-1', 'starter-2', 'starter-3', 'recruit']);
+  });
+
+  it('routes to the lighter of two fights the map shows, and ignores a mystery room\'s enemies', () => {
+    const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
+    run.acts = [run.acts[0]];
+    const act = run.acts[0], fight = act.nodes.find(n => n.kind === 'fight' && n.encounter?.length)!, foe = fight.encounter![0];
+    const room = (id: string, count: number, hidden = false) => ({ ...fight, id, floor: 0, next: [], hidden, reward: undefined, encounter: Array<string>(count).fill(foe) });
+    const fought = (nodes: typeof act.nodes) => { act.nodes = nodes; vi.mocked(createCombat).mockClear(); play(run, () => 0, { ...EXPERT, build: 'none' }); return vi.mocked(createCombat).mock.calls[0][1].length; };
+    expect(fought([room('heavy', 3), room('light', 1)])).toBe(1);
+    expect(fought([room('light', 1), room('heavy', 3)])).toBe(1);
+    expect(fought([room('even', 2), room('unseen', 1, true)])).toBe(1); // the mystery room wins on its own bonus, not on its enemies
   });
 });
