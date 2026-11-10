@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import COMMS, GONE, HUMAN, OWNER, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
+from manager import COMMS, GONE, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread, unfinished_note  # noqa: E402
 from run import STAGES, checked  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
@@ -102,15 +102,28 @@ def challenge_work(issues, discussion):
                   and re.search(rf'discussion #{discussion}\b', f"{i.get('title', '')}\n{i.get('body') or ''}"))
 
 
-def entry_waits(i, issues, now):
-    """Whether an entry job stays unposted for now: work its challenge asked for is open, and the job is under a day old.
-    Every challenge still gets its entry, so after a day it goes out and names that work as unfinished."""
+def unfiled(lines):
+    """Threads whose challenge work is on no issue yet: the manager's last delegate naming the thread was refused,
+    which happens while other people's text is in its pass. `lines` is the decision log."""
+    last = {}
+    for line in lines:
+        e = json.loads(line)
+        a = e.get('action')
+        if e.get('kind') == 'action' and not e.get('dry') and isinstance(a, dict) and a.get('type') == 'delegate':
+            for n in re.findall(r'discussion #(\d+)\b', f"{a.get('title', '')}\n{a.get('task', '')}"):
+                last[n] = str(e.get('result', '')).startswith(REFUSED)
+    return {n for n, refused in last.items() if refused}
+
+
+def entry_waits(i, issues, now, unfiled=()):
+    """Whether an entry job stays unposted for now: work its challenge asked for is open or couldn't be filed yet, and
+    the job is under a day old. Every challenge still gets its entry, so after a day it goes out and says that work is unfinished."""
     m = ENTRY.fullmatch(i.get('title', ''))
-    return bool(m and COMMS in labels(i) and challenge_work(issues, m.group(1))
+    return bool(m and COMMS in labels(i) and (challenge_work(issues, m.group(1)) or m.group(1) in unfiled)
                 and now - datetime.fromisoformat(i['createdAt'].replace('Z', '+00:00')).timestamp() < ENTRY_WAIT)
 
 
-def next_job(prs, issues, saved, held, rejected, now=None):
+def next_job(prs, issues, saved, held, rejected, now=None, unfiled=()):
     """The one code-lane job to work now, or None. Pure, so the order is tested."""
     now = time.time() if now is None else now
     for p in sorted(prs, key=lambda p: p['number']):
@@ -121,7 +134,7 @@ def next_job(prs, issues, saved, held, rejected, now=None):
     building = {int(m.group(1)) for p in prs if (m := re.fullmatch(r'fix/issue-(\d+)', p['headRefName']))}
     ready = [i for i in issues if i['author']['login'] == OWNER and not ({STUCK, HUMAN, RUN} & labels(i))
              and i['number'] not in building and not (deps(i['body']) & open_) and f'issue-{i["number"]}' not in held
-             and not entry_waits(i, issues, now)]
+             and not entry_waits(i, issues, now, unfiled)]
     ready.sort(key=lambda i: (i['number'] not in saved, PRIORITY not in labels(i), i['number']))
     if not ready:
         return None
@@ -221,7 +234,7 @@ def build_run(run_id):
     return SimpleNamespace(returncode=0 if opened else 1, stdout=f'{out}\n{result}', stderr='', moved=opened or bool(stage))
 
 
-def comms_job(title, issues=()):
+def comms_job(title, issues=(), unfiled=()):
     """Runs one comms job. The title only names the thread; the task is the host's, never the issue's text."""
     discussion = re.search(r'discussion #(\d+)', title)
     if not discussion:
@@ -234,7 +247,9 @@ def comms_job(title, issues=()):
         return f'Done: {e}'  # nothing can be posted on a deleted thread, so the job closes instead of failing forever
     if t['ours'] and (title.startswith('Post our entry') or not t['waiting']):
         return 'Done: our entry is on the thread and no reply is waiting.'  # an earlier try posted it, or the replies were answered
-    result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat(), challenge_work(issues, t['number'])), False, require_post=not t['ours'])
+    work, late = challenge_work(issues, t['number']), str(t['number']) in unfiled
+    result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat(), work, late), False,
+                   require_post=not t['ours'], note=unfinished_note(work, late))
     # The comms rules tell the worker to skip replies that aren't about the project, so answering none is a finished reply job.
     return 'Done: no waiting reply needed an answer.' if t['ours'] and result == 'Nothing to post.' else result
 
@@ -273,7 +288,8 @@ def main():
     st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
     st['qodo'] = {k: t for k, t in st.get('qodo', {}).items() if t > time.time()}
     held = set(st['waiting']) | set(st['qodo'])
-    job = next_run(issues, held) if RUN_LANE else next_job(prs, issues, saved, held, gate_rejected)
+    waiting_on = unfiled(LOG.read_text().splitlines() if LOG.exists() else [])
+    job = next_run(issues, held) if RUN_LANE else next_job(prs, issues, saved, held, gate_rejected, unfiled=waiting_on)
     if not job:
         return
     kind, number, key = job
@@ -290,7 +306,7 @@ def main():
         if kind == 'run':
             r = build_run(run_id)
         elif kind == 'comms':
-            result = comms_job(issue['title'], issues)
+            result = comms_job(issue['title'], issues, waiting_on)
             r = SimpleNamespace(returncode=0 if result.startswith(('Posted:', 'Done:')) else 1, stdout=result, stderr='')
         else:
             cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number),

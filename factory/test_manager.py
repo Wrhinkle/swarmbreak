@@ -550,7 +550,23 @@ for other in (issue(81, body='For discussion #90.'), issue(81, 'lesson', body='d
     assert next_job([], [entry, other], set(), set(), never, t0 + 3600) == ('comms', 80, 'issue-80')
 with patch('foreman.thread', return_value={'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10'}), patch('foreman.comms', return_value='Posted: x') as posting:
     fm.comms_job('Post our entry on discussion #9', [entry, work])
-    assert 'still open in #81' in posting.call_args.args[1]
+    assert 'still open in #81' in posting.call_args.args[1] and posting.call_args.kwargs['note'].endswith('/issues/81.')
+    fm.comms_job('Post our entry on discussion #9', [entry], {'9'})
+    assert 'not filed yet' in posting.call_args.args[1] and 'not filed yet' in posting.call_args.kwargs['note']
+    fm.comms_job('Post our entry on discussion #9', [entry])
+    assert posting.call_args.kwargs['note'] == ''
+# Work the manager couldn't file holds the entry too: its last delegate naming the thread was refused. A later one that was filed lifts it.
+tried = lambda result, dry=False: json.dumps({'kind': 'action', 'dry': dry, 'result': result, 'action': {'type': 'delegate', 'task': 'Build it for discussion #9 and discussion #12.'}})
+refusal = m.act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
+assert fm.unfiled([tried(refusal)]) == {'9', '12'} and fm.unfiled([tried(refusal), tried('Filed https://x/issues/81')]) == set()
+assert fm.unfiled([tried('Filed x'), tried(refusal)]) == {'9', '12'} and fm.unfiled([tried(refusal, dry=True), json.dumps({'kind': 'action', 'action': {'type': 'roster'}, 'result': refusal})]) == set()
+assert next_job([], [entry], set(), set(), never, t0 + 3600, {'9'}) is None and next_job([], [entry], set(), set(), never, t0 + 86400, {'9'}) == ('comms', 80, 'issue-80')
+assert next_job([], [entry], set(), set(), never, t0 + 3600, {'90'}) == ('comms', 80, 'issue-80')
+# The host's line goes on the post itself, after the worker's draft.
+with patch('manager.thread', return_value={'id': 'D', 'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10', 'challenge': ''}), patch('manager.facts', return_value=''), patch('manager.bot', side_effect=lambda name, work, *a, **k: Path(work, 'post.json').write_text(json.dumps({'top_level': 'Our entry.'}))), \
+        patch('manager.check_post', return_value=[]), patch('manager.record'), patch('manager.gh', return_value={'data': {'addDiscussionComment': {'comment': {'url': 'u'}}}}) as sent:
+    m.post(9, 'task', False, True, m.unfinished_note([81]))
+    assert f'b=Our entry.\n\nWork this challenge asked for is still open: https://github.com/{m.REPO}/issues/81.{m.FOOTER}' in sent.call_args.args
 assert role(roster[4]) == 'art' and role(issue(5, 'lesson')) == 'coach' and role(issue(6)) == ''
 with tempfile.TemporaryDirectory() as d:
     root, run = Path(d), Path(d, 'runs', 'x')

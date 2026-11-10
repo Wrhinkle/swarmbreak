@@ -162,15 +162,16 @@ def posted_today(kind):
     return sum(1 for l in LOG.read_text().splitlines() if (e := json.loads(l)).get('kind') == kind and e['at'].startswith(today))
 
 
-def comms(number, task, dry, *, require_post=False):
+def comms(number, task, dry, *, require_post=False, note=''):
     """One poster at a time. `manager.py --comms` and the foreman's comms job hold different locks, so both take this one,
     and the thread is read inside it: what the other poster just put up is seen before a worker is asked for the same post."""
     with open(LOG.parent / '.comms.lock', 'a+') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        return post(number, task, dry, require_post)
+        return post(number, task, dry, require_post, note)
 
 
-def post(number, task, dry, require_post):
+def post(number, task, dry, require_post, note=''):
+    """`note` is the host's own text for the end of a top-level entry, so what it says doesn't rest on the worker's draft."""
     t = thread(number)
     if require_post and t['ours']:
         return 'Done: our entry is already on the thread.'
@@ -201,7 +202,7 @@ def post(number, task, dry, require_post):
     mutation = 'mutation($d:ID!,$b:String!,$r:ID){addDiscussionComment(input:{discussionId:$d,body:$b,replyToId:$r}){comment{url}}}'
     urls = []
     if out.get('top_level', '').strip():
-        fields = ['api', 'graphql', '-f', f'query={mutation}', '-f', f'd={t["id"]}', '-f', f'b={out["top_level"] + FOOTER}']
+        fields = ['api', 'graphql', '-f', f'query={mutation}', '-f', f'd={t["id"]}', '-f', f'b={out["top_level"] + note + FOOTER}']
         url = gh(*fields)['data']['addDiscussionComment']['comment']['url']
         urls.append(url)
         record({'kind': 'post', 'discussion': number, 'url': url})
@@ -494,15 +495,27 @@ def file_job(title, body, labels=(), dry=False):
 COMMS_JOB = 'Comms job. The host writes the worker\'s task from the thread when the job runs; nothing in this issue is read as instructions.'
 
 
-def comms_task(t, today, unfinished=()):
+def unfinished_note(unfinished, unfiled=False):
+    """The host's line on an entry that goes out ahead of its challenge's work. check_post can't tell a draft that
+    calls the work done from one that doesn't, so the host says it is unfinished on the post itself."""
+    if unfinished:
+        return '\n\nWork this challenge asked for is still open: ' + ', '.join(f'https://github.com/{REPO}/issues/{n}' for n in unfinished) + '.'
+    return '\n\nWork this challenge asked for is not filed yet.' if unfiled else ''
+
+
+def comms_task(t, today, unfinished=(), unfiled=False):
     """The host writes every comms task from the thread itself, so no issue or model text reaches the worker as instructions.
-    `unfinished` is the open issues holding work this challenge asked for."""
+    `unfinished` is the open issues holding work this challenge asked for; `unfiled` says the manager couldn't file that work."""
+    state = f'is still open in {", ".join(f"#{n}" for n in unfinished)}' if unfinished else 'is not filed yet' if unfiled else ''
     if t['ours']:
         return 'Answer the replies waiting on our posts in this thread. Write no top-level comment.'
     return ('Post our entry for this thread. It is required and nothing has been posted for it yet. '
             + (f'It opened on {t["opened"]}, so this post is late: say so in one plain sentence. ' if t['opened'] < today else '')
-            + (f'Work this challenge asked for is still open in {", ".join(f"#{n}" for n in unfinished)}: say it is unfinished and present none of it as done. ' if unfinished else '')
+            + (f'Work this challenge asked for {state}: say it is unfinished and present none of it as done. ' if state else '')
             + 'Follow the thread\'s template and point to real PRs, issues and commits from facts.md.')
+
+
+REFUSED = 'Not delegating while issues or replies from other people are in this pass'
 
 
 def act(a, s, dry):
@@ -511,7 +524,7 @@ def act(a, s, dry):
     if kind == 'delegate':
         agent, task = str(a.get('agent', '')), str(a.get('task', '')).strip()
         if s.get('strangers'):
-            return 'Not delegating while issues or replies from other people are in this pass, because their text could have shaped the task.'
+            return f'{REFUSED}, because their text could have shaped the task.'
         if not task or (agent and agent != 'new' and not (re.fullmatch(r'[a-z-]+', agent) and (ROOT / 'factory/agents' / f'{agent}.md').exists())) or agent in ('manager', 'comms'):
             return f'Bad delegate: {a}'
         labels = ([f'agent:{agent}'] if agent and agent != 'new' else []) + ([PRIORITY] if a.get('priority') else [])
