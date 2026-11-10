@@ -238,7 +238,7 @@ with tempfile.TemporaryDirectory() as d:
         seen.append((sorted(p.name for p in work.iterdir()), 'Input files in this folder: here.json.' in cmd[-1]))
         (work / 'out.json').write_text('{}')
         return SimpleNamespace(stdout='', stderr='')
-    with patch('run.subprocess.run', side_effect=fake_codex):
+    with patch('run.subprocess.run', side_effect=fake_codex), patch('run.mark'):  # this folder is no repository; the ledger has its own tests below
         run_mod.agent('gameplay', Path(d, 'out.json'), {'here.json': here, 'last-assembly.json': Path(d, 'plan.json'), 'balance.json': Path(d, 'report.json')}, lambda: '', optional_pair=('last-assembly.json', 'balance.json'))
     assert seen == [(['here.json'], True)], seen
 with tempfile.TemporaryDirectory() as d:
@@ -533,7 +533,7 @@ print('ok foreman order')
 
 # Run and comms jobs: runs only go to the run lane, comms is its own kind, roles come from labels.
 from foreman import next_run, role, resume_stage
-from run import begin, mark
+from run import begin, ledger_file, mark
 roster = [issue(70, 'run', 'priority') | {'title': 'Run 2026-11-10'}, issue(69, 'run') | {'title': 'Run 2026-11-09'},
           issue(71, 'run') | {'title': 'Run anything'}, issue(72, 'comms') | {'title': 'Post on discussion #4'}, issue(73, 'agent:art')]
 assert next_run(roster, set()) == ('run', 69, 'issue-69')
@@ -544,6 +544,7 @@ assert role(roster[4]) == 'art' and role(issue(5, 'lesson')) == 'coach' and role
 with tempfile.TemporaryDirectory() as d:
     root, run = Path(d), Path(d, 'runs', 'x')
     run.mkdir(parents=True)
+    subprocess.run(['git', 'init', '-q', d], check=True)
     Path(root, 'tools').mkdir()
     Path(root, 'src').mkdir()
     Path(root, 'tools', 'checks.ts').write_text("import { A } from '../src/library';\n")
@@ -607,11 +608,17 @@ with tempfile.TemporaryDirectory() as d:
     assert resume_stage(run) == 'parser'
     passed(*ideas[1:])
     assert resume_stage(run) == 'storymaker'
-    Path(run, 'checked.json').write_text('{"ideas-1.json": {"sha": "ab')  # a write cut short
+    # The ledger is the host's, outside every commit and workspace. One a branch or a worker left in the run folder proves nothing.
+    assert ledger_file(run).parent.parent == Path(subprocess.run(['git', 'rev-parse', '--path-format=absolute', '--git-common-dir'], cwd=d, capture_output=True, text=True).stdout.strip())
+    os.replace(ledger_file(run), run / 'checked.json')
+    assert resume_stage(run) == 'researcher'
+    os.replace(run / 'checked.json', ledger_file(run))
+    assert resume_stage(run) == 'storymaker'
+    ledger_file(run).write_text('{"ideas-1.json": {"sha": "ab')  # a write cut short
     assert resume_stage(run) == 'researcher'
     passed(sites)  # and the next attempt still records its pass
-    assert resume_stage(run) == 'parser' and not Path(run, 'checked.json.tmp').exists()
-    Path(run, 'checked.json').write_text(json.dumps({'sites.json': 'an old ledger line'}))
+    assert resume_stage(run) == 'parser' and not ledger_file(run).with_suffix('.tmp').exists()
+    ledger_file(run).write_text(json.dumps({'sites.json': 'an old ledger line'}))
     assert resume_stage(run) == 'researcher'
     passed(sites, *ideas)
     begin(run, 'researcher')

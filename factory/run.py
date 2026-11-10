@@ -23,11 +23,19 @@ def tool(*args):
     return r.returncode == 0, (r.stdout + r.stderr).strip()
 
 
+def ledger_file(d):
+    """Where run folder `d`'s passed checks are recorded: the repository's own git folder, which every worktree shares.
+    It is in no commit and in no worker's workspace, so a branch, a PR or an agent can't hand the host a pass."""
+    d = Path(d)
+    common = subprocess.run(['git', 'rev-parse', '--path-format=absolute', '--git-common-dir'], cwd=d, capture_output=True, text=True, check=True)
+    return Path(common.stdout.strip()) / 'swarmbreak-checked' / f'{d.name}.json'
+
+
 def ledger(d):
-    """checked.json as a dict. A missing or half-written one is empty, so its outputs get checked again."""
+    """The run's ledger as a dict. A missing or half-written one is empty, so its outputs get checked again."""
     try:
-        seen = json.loads((Path(d) / 'checked.json').read_text())
-    except (OSError, ValueError):
+        seen = json.loads(ledger_file(d).read_text())
+    except (OSError, ValueError, subprocess.CalledProcessError):
         return {}
     return seen if isinstance(seen, dict) else {}
 
@@ -49,7 +57,7 @@ def basis(root, built_from):
 
 
 def mark(output, passed, built_from=()):
-    """Keeps checked.json: for each output that passed its check, its hash, the files it was built from, and their basis().
+    """Keeps the run's ledger: for each output that passed its check, its hash, the files it was built from, and their basis().
     A resumed run trusts nothing else. Files outside the repo are the host's own, made fresh each run from code basis() covers."""
     output = Path(output)
     root, seen = output.parents[2], ledger(output.parent)
@@ -57,9 +65,11 @@ def mark(output, passed, built_from=()):
     if passed:
         used = sorted(str(Path(p).relative_to(root)) for p in built_from if Path(p).is_relative_to(root))
         seen[output.name] = {'sha': hashlib.sha256(output.read_bytes()).hexdigest(), 'from': used, 'basis': basis(root, used)}
-    fresh = output.parent / 'checked.json.tmp'
+    file = ledger_file(output.parent)
+    file.parent.mkdir(exist_ok=True)
+    fresh = file.with_suffix('.tmp')
     fresh.write_text(json.dumps(seen, indent=1) + '\n')
-    os.replace(fresh, output.parent / 'checked.json')  # whole file or none: a run killed mid-write leaves the old ledger
+    os.replace(fresh, file)  # whole file or none: a run killed mid-write leaves the old ledger
 
 
 def checked(output):
