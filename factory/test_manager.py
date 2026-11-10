@@ -615,6 +615,17 @@ with tempfile.TemporaryDirectory() as d:
     assert resume_stage(run) == 'researcher'  # outputs nobody recorded as checked, like a run from before the ledger
     passed(sites)
     assert resume_stage(run) == 'parser'
+    # Another run that now uses one of this run's sites sends it back to the researcher: the picks check would refuse it today.
+    sites.write_text(json.dumps({'sites': [{'host': 'www.Example.org'}]}))
+    passed(sites)
+    other = run.parent / '2026-01-01' / 'sites.json'
+    other.parent.mkdir()
+    other.write_text(json.dumps({'sites': [{'host': 'example.org:443'}]}))
+    assert resume_stage(run) == 'researcher'
+    other.write_text('not json')
+    assert resume_stage(run) == 'researcher'
+    other.write_text(json.dumps({'sites': [{'host': 'elsewhere.org'}]}))
+    assert resume_stage(run) == 'parser'
     passed(*ideas, content)
     assert resume_stage(run) == 'gameplay'
     ideas[1].write_text('{"edited": 1}')  # changed after its check

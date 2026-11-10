@@ -65,7 +65,7 @@ if __name__ == '__main__':
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
 from manager import COMMS, GONE, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
-from run import STAGES, checked  # noqa: E402
+from run import STAGES, checked, clashes  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
 STATE = ROOT / 'factory' / 'log' / ('.runner.json' if RUN_LANE else '.foreman.json')
@@ -177,8 +177,9 @@ def resume_stage(d, built=False):
     balance = d / 'balance.json'
     # An output counts only if run.py recorded it as passing its check, and neither it, the files it was built from,
     # nor the checking code has changed since. A merge of main that changes a check sends the run back to that stage.
+    # The sites also have to be ones no other run uses today: a run merged since the check can't be in that record.
     have = lambda name: checked(d / name)
-    done = [have('sites.json'), all(have(f'ideas-{i}.json') for i in range(1, 4)), have('content.json'),
+    done = [have('sites.json') and not clashes(d), all(have(f'ideas-{i}.json') for i in range(1, 4)), have('content.json'),
             have('balance.json') and not json.loads(balance.read_text()).get('problems')]
     return STAGES[done.index(False)] if False in done else None if built else 'art'
 

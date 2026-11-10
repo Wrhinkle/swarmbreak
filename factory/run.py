@@ -83,6 +83,17 @@ def checked(output):
         return False
 
 
+def clashes(d):
+    """Whether run folder `d` uses a site another run's sites.json also has: what the picks check in tools/checks.ts refuses.
+    The ledger records what a pass was built from, and a run added or changed later isn't in it, so a resumed run asks again."""
+    norm = lambda host: re.sub(r'^www\.', '', re.sub(r'\.$', '', re.sub(r':\d+$', '', host).lower()))  # normalizeHost in tools/checks.ts
+    hosts = lambda p: {norm(s['host']) for s in json.loads(p.read_text()).get('sites', [])}
+    try:
+        return bool(hosts(d / 'sites.json') & {h for p in d.parent.glob('*/sites.json') if p.parent != d for h in hosts(p)})
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return True  # the picks check can't read it either
+
+
 def played(d):
     """What a passing balance report in run folder `d` rests on: the story, the plan, the shared crew, and the playable file
     the build made from them and the bots played. Change any and the gameplay stage builds and checks the run again."""
