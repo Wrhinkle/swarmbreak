@@ -242,7 +242,16 @@ def build_run(run_id):
     return SimpleNamespace(returncode=0 if opened else 1, stdout=f'{out}\n{result}', stderr='', moved=opened or bool(stage))
 
 
-def comms_job(title, issues=(), unfiled=()):
+def open_issues():
+    return gh('issue', 'list', '--limit', '500', '--json', 'number,title,author,body,labels,createdAt')
+
+
+def challenge_state(number):
+    """Read fresh each time: (open issues holding work discussion `number` asked for, whether more of it is not filed yet)."""
+    return challenge_work(open_issues(), number), str(number) in unfiled(LOG.read_text().splitlines() if LOG.exists() else [], time.time())
+
+
+def comms_job(title, state=challenge_state):
     """Runs one comms job. The title only names the thread; the task is the host's, never the issue's text."""
     discussion = re.search(r'discussion #(\d+)', title)
     if not discussion:
@@ -255,9 +264,9 @@ def comms_job(title, issues=(), unfiled=()):
         return f'Done: {e}'  # nothing can be posted on a deleted thread, so the job closes instead of failing forever
     if t['ours'] and (title.startswith('Post our entry') or not t['waiting']):
         return 'Done: our entry is on the thread and no reply is waiting.'  # an earlier try posted it, or the replies were answered
-    work, late = challenge_work(issues, t['number']), str(t['number']) in unfiled
-    result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat(), work, late), False,
-                   require_post=not t['ours'], unfinished=work, unfiled=late)
+    # Only an entry reports on the challenge's work. The worker takes minutes, so comms reads the state itself around each draft.
+    result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat()), False,
+                   require_post=not t['ours'], work=None if t['ours'] else lambda: state(t['number']))
     # The comms rules tell the worker to skip replies that aren't about the project, so answering none is a finished reply job.
     return 'Done: no waiting reply needed an answer.' if t['ours'] and result == 'Nothing to post.' else result
 
@@ -288,7 +297,7 @@ def main():
     if time.time() < st['cooldown_until']:
         return
     prs = [] if RUN_LANE else gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
-    issues = gh('issue', 'list', '--limit', '500', '--json', 'number,title,author,body,labels,createdAt')
+    issues = open_issues()
     # Only branches holding commits main lacks are saved work; finished or never-used issue branches are not.
     saved = saved_issues([b for b in sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*').stdout.split()
                           if sh('git', 'rev-list', '--count', f'origin/main..{b}').stdout.strip() != '0'])
@@ -314,7 +323,7 @@ def main():
         if kind == 'run':
             r = build_run(run_id)
         elif kind == 'comms':
-            result = comms_job(issue['title'], issues, waiting_on)
+            result = comms_job(issue['title'])
             r = SimpleNamespace(returncode=0 if result.startswith(('Posted:', 'Done:')) else 1, stdout=result, stderr='')
         else:
             cmd = [sys.executable, ROOT / 'factory' / ('builder.py' if kind == 'issue' else 'pr_team.py'), str(number),

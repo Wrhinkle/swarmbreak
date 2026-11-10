@@ -162,33 +162,40 @@ def posted_today(kind):
     return sum(1 for l in LOG.read_text().splitlines() if (e := json.loads(l)).get('kind') == kind and e['at'].startswith(today))
 
 
-def comms(number, task, dry, *, require_post=False, unfinished=(), unfiled=False):
+def comms(number, task, dry, *, require_post=False, work=None):
     """One poster at a time. `manager.py --comms` and the foreman's comms job hold different locks, so both take this one,
     and the thread is read inside it: what the other poster just put up is seen before a worker is asked for the same post."""
     with open(LOG.parent / '.comms.lock', 'a+') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        return post(number, task, dry, require_post, unfinished, unfiled)
+        return post(number, task, dry, require_post, work)
 
 
-def post(number, task, dry, require_post, unfinished=(), unfiled=False):
-    """`unfinished` and `unfiled` describe work the thread's challenge asked for that isn't done: see unfinished_note."""
+def post(number, task, dry, require_post, work=None):
+    """`work()` reads, fresh, the open issues holding work this thread's challenge asked for and whether more of it is
+    not filed yet. It is read before each draft and again after it: a draft written against an older answer is redrafted,
+    so the entry and the host's line on it say what was true when it went out."""
+    unfinished, unfiled = (), False
     t = thread(number)
     if require_post and t['ours']:
         return 'Done: our entry is already on the thread.'
-    with tempfile.TemporaryDirectory() as work:
-        w = Path(work)
+    with tempfile.TemporaryDirectory() as folder:
+        w = Path(folder)
         (w / 'thread.json').write_text(json.dumps(t, indent=1))
         (w / 'facts.md').write_text(facts())
-        (w / 'task.txt').write_text(task)
         extra = 'Read thread.json, facts.md, and task.txt in the current folder. Write post.json in the current folder.'
         for attempt in range(3):
-            bot('comms', work, extra, effort='high')
+            if work:
+                unfinished, unfiled = work()
+            (w / 'task.txt').write_text(task + work_brief(unfinished, unfiled))
+            bot('comms', folder, extra, effort='high')
             try:
                 out = json.loads((w / 'post.json').read_text())
             except (OSError, json.JSONDecodeError) as e:
                 problems = [f'post.json unreadable: {e}']
             else:
                 problems = check_post(out, t, require_post=require_post, unfinished=unfinished, unfiled=unfiled)
+            if not problems and work and work() != (unfinished, unfiled):
+                problems = ['the work this challenge asked for changed while you wrote: read task.txt again']
             if not problems:
                 break
             print(f'[comms] attempt {attempt + 1} refused: {problems}', flush=True)
@@ -473,14 +480,23 @@ def open_prs():
     return gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,headRefName,baseRefName,headRefOid,mergeable,url')
 
 
+ORGANIZERS = ('filiphric',)  # ponytail: the account that opened every challenge so far; GitHub reports no association for it, so it is named here. Add a login when another organizer posts one.
+
+
+def challenge_text(d, t):
+    """What a challenge asks for, so the manager can file that work before our entry goes out. Only for a `Day N` thread an
+    organizer opened, because anyone can open a discussion there, and only until we have posted on it."""
+    return t['challenge'][:6000] if re.match(r'Day \d+\b', d['title']) and (d.get('author') or {}).get('login') in ORGANIZERS and not t['ours'] else ''
+
+
 def state():
     prs = open_prs()
     issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
-    found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
+    found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt author{login}}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
     threads = []
     for d in found:
         t = thread(d['number'])
-        threads.append({**d, 'we_posted': bool(t['ours']), 'replies_waiting': len(t['waiting'])})
+        threads.append({**d, 'challenge': challenge_text(d, t), 'we_posted': bool(t['ours']), 'replies_waiting': len(t['waiting'])})
     runs = {}
     for b in sorted((ROOT / 'runs').glob('20*/balance.json'))[-3:]:
         report = json.loads(b.read_text())
@@ -523,15 +539,19 @@ def unfinished_note(unfinished, unfiled=False):
     return ''.join(f'\n\n{line}' for line in lines)
 
 
-def comms_task(t, today, unfinished=(), unfiled=False):
-    """The host writes every comms task from the thread itself, so no issue or model text reaches the worker as instructions.
-    `unfinished` is the open issues holding work this challenge asked for; `unfiled` says the manager couldn't file that work."""
+def work_brief(unfinished, unfiled):
+    """The task's line on work the challenge asked for that isn't done. `unfinished` is the open issues holding it;
+    `unfiled` says the manager couldn't file some of it."""
     state = ' and some '.join(([f'is still open in {", ".join(f"#{n}" for n in unfinished)}'] if unfinished else []) + (['is not filed yet'] if unfiled else []))
+    return f' Work this challenge asked for {state}: name those issues, say the work is unfinished and present none of it as done.' if state else ''
+
+
+def comms_task(t, today):
+    """The host writes every comms task from the thread itself, so no issue or model text reaches the worker as instructions."""
     if t['ours']:
         return 'Answer the replies waiting on our posts in this thread. Write no top-level comment.'
     return ('Post our entry for this thread. It is required and nothing has been posted for it yet. '
             + (f'It opened on {t["opened"]}, so this post is late: say so in one plain sentence. ' if t['opened'] < today else '')
-            + (f'Work this challenge asked for {state}: name those issues, say the work is unfinished and present none of it as done. ' if state else '')
             + 'Follow the thread\'s template and point to real PRs, issues and commits from facts.md.')
 
 

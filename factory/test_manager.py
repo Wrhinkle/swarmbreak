@@ -51,7 +51,7 @@ with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner
         assert filed.call_args.args[1] == m.COMMS_JOB
 assert 'post is late' in m.comms_task({'ours': [], 'opened': '2026-11-06'}, '2026-11-09') and 'post is late' not in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09')
 assert 'no top-level' in m.comms_task({'ours': ['x'], 'opened': '2026-11-06'}, '2026-11-09')
-assert 'unfinished' not in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09') and 'still open in #7, #9' in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09', [7, 9])
+assert 'unfinished' not in m.comms_task({'ours': [], 'opened': '2026-11-09'}, '2026-11-09') and 'still open in #7, #9' in m.work_brief([7, 9], False) and m.work_brief([], False) == ''
 with patch('manager.gh', return_value=[]), patch('manager.thread', return_value={'ours': [], 'waiting': []}):
     assert act({'type': 'comms', 'discussion': 4, 'task': 'x'}, s, True) == 'Would file: Post our entry on discussion #4'
 with patch('manager.thread', return_value={'ours': ['x'], 'waiting': []}):
@@ -549,12 +549,21 @@ assert next_job([], [entry, work], set(), set(), never, t0 + 86400) == ('comms',
 for other in (issue(81, body='For discussion #90.'), issue(81, 'lesson', body='discussion #9 failed'), issue(81, 'comms', body='discussion #9') | {'title': 'Post on discussion #9'}):
     assert next_job([], [entry, other], set(), set(), never, t0 + 3600) == ('comms', 80, 'issue-80')
 with patch('foreman.thread', return_value={'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10'}), patch('foreman.comms', return_value='Posted: x') as posting:
-    fm.comms_job('Post our entry on discussion #9', [entry, work])
-    assert 'still open in #81' in posting.call_args.args[1] and posting.call_args.kwargs['unfinished'] == [81] and not posting.call_args.kwargs['unfiled']
-    fm.comms_job('Post our entry on discussion #9', [entry, work], {'9'})
-    assert 'is still open in #81 and some is not filed yet' in posting.call_args.args[1] and posting.call_args.kwargs['unfiled']
-    fm.comms_job('Post our entry on discussion #9', [entry])
-    assert posting.call_args.kwargs['unfinished'] == [] and not posting.call_args.kwargs['unfiled']
+    # The job hands comms a reader, not a snapshot: the state is read fresh around each draft.
+    with patch('foreman.open_issues', return_value=[entry, work]), patch('foreman.unfiled', return_value={'9'}):
+        fm.comms_job('Post our entry on discussion #9')
+        assert posting.call_args.kwargs['work']() == ([81], True)
+    with patch('foreman.open_issues', return_value=[entry]), patch('foreman.unfiled', return_value=set()):
+        assert posting.call_args.kwargs['work']() == ([], False)
+assert 'is still open in #81 and some is not filed yet' in m.work_brief([81], True)
+with patch('foreman.thread', return_value={'number': 9, 'ours': ['x'], 'waiting': [{'id': 'r'}], 'opened': '2026-11-10'}), patch('foreman.comms', return_value='Posted: x') as posting:
+    fm.comms_job('Post on discussion #9')
+    assert posting.call_args.kwargs['work'] is None  # replies don't report on the challenge's work
+# The manager reads what a challenge asks for only from an organizer's Day thread we haven't posted on.
+day = {'title': 'Day 7: Ship it', 'author': {'login': m.ORGANIZERS[0]}}
+assert m.challenge_text(day, {'challenge': 'Build X', 'ours': []}) == 'Build X' and m.challenge_text(day, {'challenge': 'Build X', 'ours': ['x']}) == ''
+assert m.challenge_text({**day, 'author': {'login': 'someone'}}, {'challenge': 'Build X', 'ours': []}) == '' and m.challenge_text({**day, 'author': None}, {'challenge': 'x', 'ours': []}) == ''
+assert m.challenge_text({**day, 'title': 'My Day 7 entry'}, {'challenge': 'Build X', 'ours': []}) == ''
 # Work the manager couldn't file holds the entry too: its last delegate naming the thread was refused. A later one that was filed lifts it.
 tried = lambda result, dry=False, task='Build it for discussion #9 and discussion #12.', at='2026-11-10T00:00:00+00:00': json.dumps({'at': at, 'kind': 'action', 'dry': dry, 'result': result, 'action': {'type': 'delegate', 'task': task}})
 refusal = m.act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
@@ -569,8 +578,13 @@ assert next_job([], [entry], set(), set(), never, t0 + 3600, {'90'}) == ('comms'
 # The host's line goes on the post itself, after the worker's draft.
 with patch('manager.thread', return_value={'id': 'D', 'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10', 'challenge': ''}), patch('manager.facts', return_value=''), patch('manager.bot', side_effect=lambda name, work, *a, **k: Path(work, 'post.json').write_text(json.dumps({'top_level': 'Our entry.'}))), \
         patch('manager.check_post', return_value=[]), patch('manager.record'), patch('manager.gh', return_value={'data': {'addDiscussionComment': {'comment': {'url': 'u'}}}}) as sent:
-    m.post(9, 'task', False, True, [81], True)
+    m.post(9, 'task', False, True, lambda: ([81], True))
     assert f'b=Our entry.\n\nWork this challenge asked for is still open: https://github.com/{m.REPO}/issues/81.\n\nWork this challenge asked for is not filed yet.{m.FOOTER}' in sent.call_args.args
+    # The work closed while the worker wrote: that draft is redrafted against the new state, and the post carries no stale line.
+    reads = iter([([81], False), ([], False), ([], False), ([], False)])
+    m.bot.reset_mock()
+    m.post(9, 'task', False, True, lambda: next(reads))
+    assert m.bot.call_count == 2 and 'changed while you wrote' in m.bot.call_args.args[2] and f'b=Our entry.{m.FOOTER}' in sent.call_args.args
 # A draft has to name each open issue and can't call it done.
 assert m.unfinished_problems('The demo (#81) is done.', [81], False) and m.unfinished_problems('We built a demo.', [81], False) and m.unfinished_problems('All done.', [], True)
 assert not m.unfinished_problems('The demo in #81 is not done yet.', [81], False) and not m.unfinished_problems('#81 is unfinished; the rest is not filed yet.', [81], True) and not m.unfinished_problems('All done.', [], False)
