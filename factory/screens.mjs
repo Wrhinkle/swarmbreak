@@ -3,7 +3,8 @@
 // No dependencies: Chrome's DevTools protocol over Node's own WebSocket.
 // The page is code an agent wrote. Chrome gets a fresh profile and sends every request, loopback included, to the
 // server below, which answers only for http://game.test from the built folder. So the page can't reach the network
-// or another service on this machine.
+// or another service on this machine. WebRTC would send UDP past a proxy, so it is held to the proxy too, and the
+// server refuses the CONNECT it then tries. The host reads the manifest and the run itself, and only inside the build.
 // It reaches a room by writing the room id to `today.pending` in the save and pressing Continue. A change to the save
 // key, or to the Play, Continue or Crew buttons, needs this file changed first in its own PR: the host runs its own
 // copy, never the one in the tree under review.
@@ -20,13 +21,20 @@ const SIZES = [[390, 844], [1280, 800]], ROOMS = ['fight', 'shop', 'treasure', '
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' };
 const root = realpathSync(dist);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+// A file of the build. A symlink or a `..` in a path the build names must not make the host read anything else.
+const inside = path => {
+  const file = realpathSync(join(root, path));
+  if (!file.startsWith(root + sep)) throw new Error(`${path} is outside the built folder`);
+  return file;
+};
+let acts; // read before the browser starts, so a build that points outside itself opens nothing
+try { acts = JSON.parse(readFileSync(inside(JSON.parse(readFileSync(inside('manifest.json'))).runUrl))).acts; } catch (e) { console.error(String(e.message ?? e)); process.exit(1); }
 
 const server = createServer((req, res) => {
   try {
     const url = new URL(req.url, SITE);
     if (url.origin + '/' !== SITE) throw new Error('not the game');
-    const file = realpathSync(join(root, url.pathname === '/' ? 'index.html' : decodeURIComponent(url.pathname)));
-    if (!file.startsWith(root + sep)) throw new Error('outside the built folder'); // a symlink in dist must not serve a host file
+    const file = inside(url.pathname === '/' ? 'index.html' : decodeURIComponent(url.pathname));
     res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' }).end(readFileSync(file));
   } catch { res.writeHead(404).end(); }
 });
@@ -34,7 +42,7 @@ await new Promise(ok => server.listen(0, '127.0.0.1', ok));
 
 const profile = mkdtempSync(join(tmpdir(), 'screens-'));
 const chrome = spawn(exe, ['--headless', '--remote-debugging-port=0', `--user-data-dir=${profile}`, `--proxy-server=http://127.0.0.1:${server.address().port}`,
-  '--proxy-bypass-list=<-loopback>', '--no-first-run', '--disable-gpu', 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'] });
+  '--proxy-bypass-list=<-loopback>', '--force-webrtc-ip-handling-policy=disable_non_proxied_udp', '--no-first-run', '--disable-gpu', 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'] });
 const stop = () => { chrome.kill('SIGKILL'); rmSync(profile, { recursive: true, force: true }); };
 setTimeout(() => { console.error('timed out after 120 s'); stop(); process.exit(1); }, 120_000).unref(); // a page that hangs must not leave Chrome running
 let code = 0;
@@ -72,8 +80,6 @@ try {
     }
     throw new Error(`no visible button matching ${pattern}`);
   };
-  const manifest = JSON.parse(readFileSync(join(root, 'manifest.json')));
-  const acts = JSON.parse(readFileSync(join(root, manifest.runUrl))).acts;
   const shots = [];
   mkdirSync(out, { recursive: true });
   for (const [width, height] of SIZES) {

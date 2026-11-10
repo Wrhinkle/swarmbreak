@@ -185,6 +185,10 @@ def screen_problems(shots):
     return problems
 
 
+def shots_dir(tree):
+    return ROOT / 'factory' / 'log' / 'screens' / Path(tree).resolve().name
+
+
 def screens(tree):
     """Looks at the built game in a headless browser on the host, since no worker's sandbox can start one. The driver
     is this checkout's factory/screens.mjs, never the tree's, and it keeps the page off the network. Screenshots land in
@@ -193,7 +197,7 @@ def screens(tree):
     exe = os.environ.get('SWARMBREAK_CHROME') or (str(browsers[-1]) if browsers else '')
     if not exe:
         raise HostVerificationError('Host verification: no headless browser on this host. Set SWARMBREAK_CHROME to a headless Chrome binary.')
-    out = ROOT / 'factory' / 'log' / 'screens' / Path(tree).resolve().name
+    out = shots_dir(tree)
     try:
         with tempfile.TemporaryDirectory() as dist:
             # ponytail: a second build, a few seconds; pass dist_to from the build above if verification time matters.
@@ -497,6 +501,8 @@ def main():
             sys.exit(f'Gate reviewer rejected PR {number}. Not merging.')
         if sh('git', 'ls-remote', 'origin', f'refs/heads/{base}').stdout.split()[:1] != [base_sha]:
             sys.exit(f'{base} moved during the gate review. Not merging; rerun to check against the new {base}.')
+    # Names what the host looked at, for whoever reads the PR. A comment that fails to post doesn't hold the merge.
+    sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Host screen check passed at {sha[:7]} with {base} merged in. Screenshots on the factory host: {shots_dir(tree)}', check=False)
     sh('gh', 'pr', 'merge', number, '--repo', REPO, '--merge', '--match-head-commit', sha)
     print(f'Merged PR {number} at {sha[:7]}.')
 
