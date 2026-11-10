@@ -501,9 +501,10 @@ def main():
             sys.exit(f'Gate reviewer rejected PR {number}. Not merging.')
         if sh('git', 'ls-remote', 'origin', f'refs/heads/{base}').stdout.split()[:1] != [base_sha]:
             sys.exit(f'{base} moved during the gate review. Not merging; rerun to check against the new {base}.')
-    # Names what the host looked at, for whoever reads the PR. A comment that fails to post doesn't hold the merge.
-    sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Host screen check passed at {sha[:7]} with {base} merged in. Screenshots on the factory host: {shots_dir(tree)}', check=False)
     sh('gh', 'pr', 'merge', number, '--repo', REPO, '--merge', '--match-head-commit', sha)
+    # Names what the host looked at, for whoever reads the PR. Said only once merged: a later check of an open PR
+    # overwrites the folder, and a merged PR is never checked again, so the folder stays what this comment says it is.
+    sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Host screen check passed at {sha[:7]} with {base} merged in. Screenshots on the factory host: {shots_dir(tree)}', check=False)
     print(f'Merged PR {number} at {sha[:7]}.')
 
 
