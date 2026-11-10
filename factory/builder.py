@@ -6,7 +6,7 @@ Anything else is saved on the issue's branch and the pass fails, for the foreman
 Usage: python3 factory/builder.py <issue> [--dry-run]
 Prints the PR number on the last line when it opens one. Only issues filed by the repo owner qualify for now.
 """
-import json, re, subprocess, sys, urllib.request
+import hashlib, json, re, subprocess, sys, urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -119,9 +119,30 @@ def investigated_section(found, cited, no_applicable=''):
     return '\n\n## Investigated before building\n' + '\n'.join(lines) + explanation
 
 
+REFERENCE = r'(?:#|https?://github\.com/[^\s/]+/[^\s/]+/issues/){}(?!\d)'
+
+
+def unlinked(text, number):
+    """The text with every reference to this issue turned into plain words, so nothing in it can close the issue on merge."""
+    return re.sub(REFERENCE.format(number), f'issue {number}', str(text))
+
+
+def closes(text, number):
+    """Whether this text would close the issue once on main: a GitHub closing keyword right before a reference to it."""
+    return bool(re.search(r'\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?):?\s+(?:[\w.-]+/[\w.-]+)?' + REFERENCE.format(number), text, re.I))
+
+
+def fingerprint(tree, paths):
+    """What these files hold now, to tell what one pass changed from what earlier passes saved."""
+    return {p: hashlib.sha256((tree / p).read_bytes()).hexdigest() if (tree / p).is_file() else None for p in paths}
+
+
 def pr_body(number, issue_body, summary, evidence, investigated='', remaining=None):
-    """`remaining` is given for one part of a bigger job: the PR then says so, and merging it leaves the issue open."""
+    """`remaining` is given for one part of a bigger job: the PR then says so, and merging it leaves the issue open.
+    Only the first line of a part links the issue; the issue's and the worker's own words can't close it."""
     part = remaining is not None
+    if part:
+        issue_body, summary, evidence, investigated, remaining = (unlinked(t, number) for t in (issue_body, summary, evidence, investigated, remaining))
     prefix = f'{"Part of" if part else "Fixes"} #{number}: https://github.com/{REPO}/issues/{number}\n\n## Acceptance criteria (from the issue)\n'
     left = f'\n\n## Still to do\n{str(remaining)[:5000]}' if part else ''
     suffix = f'{investigated[:4000]}\n\n## Change\n{str(summary)[:15000]}{left}\n\nEvidence: {str(evidence)[:15000]}\n\nWritten by the factory builder on GPT-6.1 Terra.'
@@ -251,7 +272,9 @@ def checkpoint(number, tree, branch, live, result, bad, reserves=frozenset(), pr
     if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0 and sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
         return ''
     left = '\n'.join(f'- {b}'[:600] for b in bad)
-    sh('git', 'commit', '-q', '-m', f'{CHECKPOINT} on #{number} (unfinished)\n\nDone: {str(result.get("summary"))[:3000]}\n\nStill to do: {str(result.get("remaining") or "see below")[:3000]}' + (f'\n\nHost checks that failed:\n{left}' if left else '') + '\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
+    # A checkpoint may reach main inside a part, so its words can't close the issue either.
+    said = unlinked(f'Done: {str(result.get("summary"))[:3000]}\n\nStill to do: {str(result.get("remaining") or "see below")[:3000]}' + (f'\n\nHost checks that failed:\n{left}' if left else ''), number)
+    sh('git', 'commit', '-q', '-m', f'{CHECKPOINT} on #{number} (unfinished)\n\n{said}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
     sha = sh('git', 'rev-parse', '--short', 'HEAD', cwd=tree).stdout.strip()
     # Status for people only; the next pass reads the commit above, not this comment.
     sh('gh', 'issue', 'comment', number, '--repo', REPO, '--body', f'{CHECKPOINT} {sha}, saved locally on `{branch}` (not pushed until it passes every check).')
@@ -308,6 +331,7 @@ def main():
     (tree / '.issue.json').write_text(json.dumps({'title': issue['title'], 'body': issue['body'], 'live_run': sorted(live), 'progress': progress, 'merge_conflicts': conflicts, 'investigation': found, 'investigation_references': investigation['references']}, indent=1))
 
     extra, result, bad = '', {}, []
+    before = fingerprint(tree, changed_from_main(tree))
     if progress or conflicts:
         extra = ('Earlier passes did part of this job. `progress` in .issue.json says what they did and what is left. Continue from there. '
                  + (f'Merging main left conflict markers in {conflicts}; resolve them first. ' if conflicts else ''))
@@ -333,10 +357,18 @@ def main():
             except (HostVerificationError, OSError, ValueError, KeyError, TypeError) as exc:
                 bad = [str(exc)]
                 break
-            if result['outcome'] == 'partial' and all(c.endswith('.md') or c.startswith('docs/') for c in changed):
-                # Notes are no part of a job. Issue 37 saved a hundred passes of them; this one is evaluated instead of asked again.
-                bad.append('outcome is partial, but no code changed')
-                break
+            if result['outcome'] == 'partial':
+                now = fingerprint(tree, {*changed, *before})
+                # Notes are no part of a job, and work an earlier pass saved isn't this pass's. Issue 37 saved a hundred
+                # passes of notes; a pass like those is evaluated instead of asked again.
+                if all(p.endswith('.md') or p.startswith('docs/') for p in now if p not in before or now[p] != before[p]):
+                    bad.append('outcome is partial, but this pass changed no code')
+                    break
+                # ponytail: a checkpoint from before checkpoints were unlinked can't be reworded without rewriting saved
+                # work, so the part is refused and the job is evaluated. None of the saved branches has one.
+                if closes(sh('git', 'log', '--format=%B', 'origin/main..HEAD', cwd=tree).stdout, number):
+                    bad.append('a saved commit says it closes this issue, so the branch can\'t merge as one part')
+                    break
             bad += [] if changed else ['outcome is fixed, but nothing changed']
         if not bad:
             break
@@ -366,14 +398,14 @@ def main():
                  + (f'\n{str(bad)[:1500]}' if bad else ''))
     # One part of a bigger job merges without closing its issue, so its own words can't say "fixes #<n>" either.
     part = outcome == 'partial'
-    summary, remaining = (str(result.get(k) or '').replace(f'#{number}', f'issue {number}') if part else result.get(k) for k in ('summary', 'remaining'))
+    summary, remaining, about = (unlinked(t or '', number) if part else t for t in (result.get('summary'), result.get('remaining'), issue['title']))
     body = pr_body(number, issue['body'], summary, result['evidence'], investigated_section(found, investigation['references'], investigation.get('no_applicable', '')) if found or investigation['references'] or investigation.get('no_applicable') else '', remaining if part else None)
     (tree / RESULT).unlink()
     if dry:
         print(f'Would open a PR for: {result.get("summary")}\nThe attempt is in {tree}.')
         return
     sh('git', 'add', '-A', cwd=tree)
-    title = f'{"Part of" if part else "Fix"} issue {number}: {issue["title"]}'[:90]
+    title = f'{"Part of" if part else "Fix"} issue {number}: {about}'[:90]
     staged = sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode
     if staged or not sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
         sh('git', 'commit', '-q', '-m', f'{title}\n\n{summary}' + (f'\n\nStill to do: {remaining[:3000]}' if part else '') + '\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
