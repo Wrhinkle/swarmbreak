@@ -272,9 +272,13 @@ def run_problems(run_id, root=ROOT):
     run = root / 'public' / 'runs' / run_id / 'run.json'
     if not run.exists():
         return [f'{run_id} has no run.json']
-    data, problems = json.loads(run.read_text()), []
-    refs = [c['sprite'] for a in data['acts'] for c in a['creatures']] + [c['sprite'] for c in data['crew']]
-    refs += [a['art']['map'] for a in data['acts']] + [b for a in data['acts'] for b in a['art']['backdrops']]
+    problems = []
+    try:
+        data = json.loads(run.read_text())
+        refs = [c['sprite'] for a in data['acts'] for c in a['creatures']] + [c['sprite'] for c in data['crew']]
+        refs += [a['art']['map'] for a in data['acts']] + [b for a in data['acts'] for b in a['art']['backdrops']]
+    except (ValueError, KeyError, TypeError):
+        return [f'{run_id} has an unreadable run.json']  # a build cut off mid-write: a problem to rebuild from, not a crash on every pass
     problems += [f'missing art {r}' for r in set(refs) if not (root / 'public' / r.lstrip('/')).exists()]
     r = sh('npx', 'vite-node', 'tools/balance.ts', run.relative_to(root), cwd=root, check=False)
     if r.returncode:
