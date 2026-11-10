@@ -226,6 +226,66 @@ def merges_cleanly(tree, base):
     return True
 
 
+def resolve_conflicts(tree, number, head, base):
+    """Resolve a real conflict in the PR worktree; leave every failed attempt in place for inspection."""
+    if not sh('git', 'merge', '--no-commit', '--no-edit', f'origin/{base}', cwd=tree, check=False).returncode:
+        sys.exit('The conflict disappeared; the uncommitted merge remains in the worktree for inspection.')
+    conflicts = [p for p in sh('git', 'diff', '--name-only', '--diff-filter=U', '-z', cwd=tree).stdout.split('\0') if p]
+    if not conflicts or any(p.startswith(PROTECTED) for p in conflicts):
+        sys.exit(f'Cannot automatically resolve these conflicts: {conflicts}. The merge remains in {tree}.')
+    git_path = sh('git', 'rev-parse', '--absolute-git-dir', cwd=tree).stdout.strip()
+    index = Path(git_path) / 'index'
+    original_index = index.read_bytes()
+    original_head = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+    merge_head = sh('git', 'rev-parse', 'MERGE_HEAD', cwd=tree).stdout.strip()
+    exclusions = [f':(exclude,literal){p}' for p in conflicts]
+    def outside_changes():
+        return (sh('git', 'diff', '--binary', '--', '.', *exclusions, cwd=tree).stdout,
+                sh('git', 'ls-files', '--others', '--exclude-standard', '-z', '--', '.', *exclusions, cwd=tree).stdout)
+    before = outside_changes()
+    report = tree / '.git-fixes.json'
+    report.write_text(json.dumps([{'title': 'Resolve merge conflicts', 'description': 'Resolve the listed files while preserving both sides of the change.', 'plan': 'Resolve only these files: ' + json.dumps(conflicts)}], indent=1))
+    try:
+        result = bot('pr-fixer', tree, 'The findings are in .git-fixes.json. Resolve the merge conflicts listed there; edit only those files. Do not run git.', effort='high')
+    finally:
+        report.unlink(missing_ok=True)
+    markers = sh('git', 'grep', '--untracked', '-l', '-z', '-E', r'^(<<<<<<< |=======|>>>>>>> )', cwd=tree, check=False)
+    if (result or index.read_bytes() != original_index or outside_changes() != before
+            or sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip() != original_head
+            or sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).stdout.strip() != merge_head
+            or markers.returncode != 1):
+        sys.exit(f'Conflict resolution failed validation. Nothing was pushed; the attempt remains in {tree}.')
+    sh('git', 'add', '-A', '--', *conflicts, cwd=tree)
+    if sh('git', 'diff', '--name-only', '--diff-filter=U', cwd=tree).stdout.strip():
+        sys.exit(f'Unresolved conflicts remain in {tree}; nothing was pushed.')
+    try:
+        failed = verified(tree)
+    except HostVerificationError as exc:
+        sys.exit(f'Conflict verification stopped; nothing was pushed. The attempt remains in {tree}.\n{exc}')
+    if failed:
+        sys.exit(f'Conflict verification failed; nothing was pushed. The attempt remains in {tree}.\n{failed[-1500:]}')
+    pending = Path(git_path) / 'swarmbreak-conflict-pending'
+    pending.write_text('Conflict resolution in progress; inspect the worktree before removing this marker.\n')
+    sh('git', 'commit', '-q', '--no-edit', cwd=tree)
+    r = sh(QODO, 'review', '--base', f'origin/{head}', '--json', cwd=tree, check=False)
+    try:
+        local = json.loads(r.stdout)
+        blockers = [f for f in local['findings'] if f.get('action_level') == 'action_required']
+    except (ValueError, KeyError, TypeError):
+        sys.exit(f'Qodo local review failed; nothing was pushed. The commit remains in {tree}.')
+    if r.returncode or blockers:
+        sys.exit(f'Qodo local review blocked the resolution; nothing was pushed. The commit remains in {tree}.')
+    sh('git', 'fetch', '-q', 'origin')
+    if (sh('git', 'rev-parse', f'origin/{head}', cwd=tree).stdout.strip() != original_head
+            or sh('git', 'rev-parse', f'origin/{base}', cwd=tree).stdout.strip() != merge_head):
+        sys.exit(f'The PR or base moved; nothing was pushed. The commit remains in {tree}.')
+    sh('git', 'push', '-q', 'origin', f'HEAD:refs/heads/{head}', cwd=tree)
+    pending.unlink()
+    sha = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+    wait_for_review(f'https://github.com/{REPO}/pull/{number}', sha)
+    sys.exit(WAITING)  # Re-enter the normal findings and exact-head merge checks on the next pass.
+
+
 def reviewed(s, sha):
     """Only a review Qodo marked complete, of exactly this commit, counts. Never loosen this: it is the merge check."""
     return s.get('commit_sha') == sha and bool(s.get('review_complete'))
@@ -364,6 +424,10 @@ def main():
     sh('git', 'fetch', '-q', 'origin')
     if not tree.exists():
         sh('git', 'worktree', 'add', '-q', '--detach', tree, f'origin/{head}')
+    git_dir = Path(sh('git', 'rev-parse', '--absolute-git-dir', cwd=tree).stdout.strip())
+    if ((git_dir / 'swarmbreak-conflict-pending').exists()
+            or sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode == 0):
+        sys.exit(f'An unfinished conflict resolution remains in {tree}; inspect it before continuing.')
     if sh('git', 'status', '--porcelain', cwd=tree).stdout.strip():
         # A fixer that didn't get to green leaves its attempt here. Keep it on a local branch and start this run clean.
         keep = f'leftover/pr-{number}-{int(time.time())}'
@@ -479,7 +543,10 @@ def main():
     # Build and test what main would become, so a PR behind main can't overwrite newer work.
     # ponytail: main can still move before the merge call below; a merge queue closes that gap if merges get frequent.
     if not merges_cleanly(tree, base):
-        blocks.append(f'{head} conflicts with {base}')
+        if blocks:
+            blocks.append(f'{head} conflicts with {base}')
+        else:
+            resolve_conflicts(tree, number, head, base)
     else:
         try:
             failed = verified(tree)

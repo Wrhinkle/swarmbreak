@@ -963,6 +963,54 @@ with tempfile.TemporaryDirectory() as d:
         assert 'Conflict marker scan failed' in str(e)
 print('ok conflict scan')
 
+# An open PR conflict is retained on failure and a verified resolution is pushed for a fresh review.
+for outcome in ('failure', 'markers', 'success'):
+    with tempfile.TemporaryDirectory() as d:
+        tree = Path(d)
+        def conflict_git(*args):
+            return subprocess.run(['git', '-c', 'user.name=t', '-c', 'user.email=t@t', *args], cwd=tree, check=True, capture_output=True, text=True).stdout.strip()
+        conflict_git('init', '-q', '-b', 'main')
+        (tree / 'a').write_text('base\n')
+        conflict_git('add', 'a'); conflict_git('commit', '-qm', 'base')
+        conflict_git('checkout', '-qb', 'pr')
+        (tree / 'a').write_text('pr\n')
+        conflict_git('commit', '-qam', 'pr')
+        conflict_git('update-ref', 'refs/remotes/origin/pr', 'HEAD')
+        conflict_git('checkout', '-q', 'main')
+        (tree / 'a').write_text('main\n')
+        conflict_git('commit', '-qam', 'main')
+        conflict_git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+        conflict_git('checkout', '-q', 'pr')
+        assert not pr_team.merges_cleanly(tree, 'main')
+        original_sh = pr_team.sh
+        pushed = []
+        def conflict_sh(*args, **kwargs):
+            if args[:2] == ('git', 'fetch'):
+                return SimpleNamespace(returncode=0, stdout='', stderr='')
+            if args[:2] == ('git', 'push'):
+                pushed.append(args); return SimpleNamespace(returncode=0, stdout='', stderr='')
+            if args[0] == pr_team.QODO:
+                return SimpleNamespace(returncode=0, stdout='{"findings": []}', stderr='')
+            return original_sh(*args, **kwargs)
+        def conflict_bot(*args, **kwargs):
+            if outcome != 'markers':
+                (tree / 'a').write_text('resolved\n')
+            return int(outcome == 'failure')
+        with patch.object(pr_team, 'sh', side_effect=conflict_sh), patch.object(pr_team, 'bot', side_effect=conflict_bot), \
+                patch.object(pr_team, 'verified', return_value=''), patch.object(pr_team, 'wait_for_review') as waited:
+            try:
+                pr_team.resolve_conflicts(tree, '42', 'pr', 'main')
+                assert False
+            except SystemExit as exc:
+                if outcome == 'success':
+                    assert exc.code == pr_team.WAITING and len(pushed) == 1 and waited.call_count == 1
+                    assert len(conflict_git('rev-list', '--parents', '-n', '1', 'HEAD').split()) == 3
+                else:
+                    assert not pushed and not waited.called
+                    assert conflict_git('rev-parse', '--verify', 'MERGE_HEAD')
+                    assert (tree / 'a').exists()
+print('ok PR conflict recovery')
+
 # Only exact issue branch names count. A failed pass is evaluated once, whatever it saved: a lesson, and the job waits.
 # A job that fails again after that lesson closed goes to the manager as stuck instead of to another lesson.
 import foreman
@@ -1217,6 +1265,8 @@ with tempfile.TemporaryDirectory() as d:
     (tree / 'node_modules').mkdir()
     workers = []
     def pr_sh(*args, cwd=None, check=True):
+        if args == ('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD'):
+            return SimpleNamespace(stdout='', returncode=1)
         if args[:3] == ('gh', 'pr', 'view'):
             return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
         if args[:3] == ('git', 'status', '--porcelain'):
