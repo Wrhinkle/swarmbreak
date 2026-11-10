@@ -533,7 +533,7 @@ print('ok foreman order')
 
 # Run and comms jobs: runs only go to the run lane, comms is its own kind, roles come from labels.
 from foreman import next_run, role, resume_stage
-from run import begin, ledger_file, mark
+from run import begin, ledger_file, mark, played
 roster = [issue(70, 'run', 'priority') | {'title': 'Run 2026-11-10'}, issue(69, 'run') | {'title': 'Run 2026-11-09'},
           issue(71, 'run') | {'title': 'Run anything'}, issue(72, 'comms') | {'title': 'Post on discussion #4'}, issue(73, 'agent:art')]
 assert next_run(roster, set()) == ('run', 69, 'issue-69')
@@ -558,7 +558,7 @@ with tempfile.TemporaryDirectory() as d:
 
     def passed(*files):
         for f in files:
-            mark(f, True, {content: [rules, *ideas, sites], sites: [site], balance: [content]}.get(f, [site, sites]))
+            mark(f, True, {content: [rules, *ideas, sites], sites: [site], balance: played(run)}.get(f, [site, sites]))
     assert resume_stage(run) == 'researcher'
     for f in (sites, *ideas, content):
         f.write_text('{}')
@@ -575,6 +575,10 @@ with tempfile.TemporaryDirectory() as d:
     mark(content, False)  # a new attempt landed and hasn't passed yet
     assert resume_stage(run) == 'storymaker'
     passed(content)
+    plan, crew, playable = played(run)[1:]
+    for f in (plan, crew, playable):
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text('{}')
     balance.write_text(json.dumps({'problems': []}))
     assert resume_stage(run) == 'gameplay'  # a report nobody recorded
     balance.write_text(json.dumps({'problems': ['too hard']}))
@@ -583,6 +587,12 @@ with tempfile.TemporaryDirectory() as d:
     balance.write_text(json.dumps({'problems': []}))
     passed(balance)
     assert resume_stage(run) == 'art' and resume_stage(run, built=True) is None
+    # The report is about one playable file. If that file, the plan or the crew changes, the build and its checks run again.
+    for f in (playable, plan, crew):
+        f.write_text('{"edited": 1}')
+        assert resume_stage(run, built=True) == 'gameplay', f
+        f.write_text('{}')
+    assert resume_stage(run, built=True) is None
     # A pass counts only under the checks that gave it: main changing a tool, or anything a tool imports, voids it.
     Path(root, 'src', 'screen.ts').write_text('export const B = 2;\n')  # no tool imports this
     assert resume_stage(run) == 'art'

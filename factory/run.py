@@ -83,6 +83,13 @@ def checked(output):
         return False
 
 
+def played(d):
+    """What a passing balance report in run folder `d` rests on: the story, the plan, the shared crew, and the playable file
+    the build made from them and the bots played. Change any and the gameplay stage builds and checks the run again."""
+    root = Path(d).parents[1]
+    return [d / 'content.json', d / 'assembly.json', root / 'runs' / 'shared' / 'crew.json', root / 'public' / 'runs' / Path(d).name / 'run.json']
+
+
 MADE = {'parser': [f'ideas-{i}.json' for i in range(1, ACTS + 1)], 'storymaker': ['content.json']}
 
 
@@ -263,7 +270,7 @@ def main():
                     shutil.copy(report, tried_report)
                     provenance.write_text(json.dumps(hashes()))
                 if ok:
-                    mark(report, True, [AGENTS / 'gameplay.md', content, assembly])
+                    mark(report, True, [AGENTS / 'gameplay.md', *played(d)])
                 return '' if ok else out
 
             agent('gameplay', assembly, {'content.json': content, 'library.json': library, 'last-assembly.json': tried, 'balance.json': tried_report}, check_plan, optional_pair=('last-assembly.json', 'balance.json'))
