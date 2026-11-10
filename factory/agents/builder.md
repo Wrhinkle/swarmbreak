@@ -33,6 +33,7 @@ A job too big for one pass is never a reason to stop with nothing changed. Do th
 `blocked` is only for work that needs a file you can't edit, network access, or a decision outside this repo. Say exactly what it needs.
 
 For anything a player sees, check it as a player would: build, open `dist/index.html` in the headless browser if one is available, and look at 390px and 1280px wide. Text that wraps badly, page scroll during play, or tiny controls are defects.
+Your sandbox may not be able to start a browser (headless Chrome exits 134, or the Playwright wrapper won't run). Try once. If it won't start, say in the evidence that you looked at nothing in a browser, and don't spend another pass retrying. That alone doesn't make finished work `partial`, even when the issue asks for screenshots: when your pass ends the host opens the title, map, crew and every kind of room at both widths, keeps screenshots, and sends the work back to you for a page error, a `select`, sideways page scroll or a visible button under 40px. It can't judge wrapping or layout, so check those in the CSS you wrote.
 
 ## Output
 Write `.builder-result.json`, and the host keeps it out of the commit:
