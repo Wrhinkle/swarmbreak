@@ -636,6 +636,13 @@ with tempfile.TemporaryDirectory() as d:
     assert resume_stage(run) == 'researcher'
     on_branch(json.dumps({'sites': [{'host': 'elsewhere.org'}]}))
     assert resume_stage(run) == 'parser'
+    # A branch with entries nobody can read doesn't count as a clash, and its readable entries still do.
+    for broken in ({'sites': [{}]}, {'sites': 'x'}, {'sites': [None, {'host': 3}]}):
+        on_branch(json.dumps(broken))
+        assert resume_stage(run) == 'parser', broken
+    on_branch(json.dumps({'sites': [{}, {'host': 'example.org'}]}))
+    assert resume_stage(run) == 'researcher'
+    on_branch(json.dumps({'sites': []}))
     passed(*ideas, content)
     assert resume_stage(run) == 'gameplay'
     ideas[1].write_text('{"edited": 1}')  # changed after its check

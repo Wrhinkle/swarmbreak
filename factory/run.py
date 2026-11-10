@@ -92,7 +92,10 @@ def clashes(d):
     read = lambda p: json.loads(p.read_text())
     try:
         used = {h for p in d.parent.glob('*/sites.json') if p.parent != d for h in hosts(read(p))}
-        used |= {h for x in other_branch_json('sites.json', d.name, cwd=d.parent.parent) if isinstance(x, dict) for h in hosts(x)}
+        # A branch can hold a failed build's half-written file. The researcher's list skips entries it can't read there, so this does too:
+        # one broken branch must not send every finished run back to the start.
+        used |= {norm(s['host']) for x in other_branch_json('sites.json', d.name, cwd=d.parent.parent) if isinstance(x, dict)
+                 for s in (x.get('sites') if isinstance(x.get('sites'), list) else []) if isinstance(s, dict) and isinstance(s.get('host'), str)}
         return bool(hosts(read(d / 'sites.json')) & used)
     except (OSError, ValueError, KeyError, TypeError, AttributeError):
         return True  # the picks check can't read it either
