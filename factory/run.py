@@ -23,10 +23,28 @@ def tool(*args):
     return r.returncode == 0, (r.stdout + r.stderr).strip()
 
 
+def mark(output, passed):
+    """Keeps checked.json: the hash of each agent output as it was when its check passed. A resumed run trusts nothing else."""
+    ledger = Path(output).parent / 'checked.json'
+    seen = json.loads(ledger.read_text()) if ledger.exists() else {}
+    seen.pop(Path(output).name, None)
+    if passed:
+        seen[Path(output).name] = hashlib.sha256(Path(output).read_bytes()).hexdigest()
+    ledger.write_text(json.dumps(seen, indent=1) + '\n')
+
+
+def checked(output):
+    """True only when `output` is byte for byte what passed its check. A file from before the ledger, a failed attempt, or a later edit is not."""
+    ledger = Path(output).parent / 'checked.json'
+    try:
+        return json.loads(ledger.read_text()).get(Path(output).name) == hashlib.sha256(Path(output).read_bytes()).hexdigest()
+    except (OSError, ValueError, AttributeError):
+        return False
+
+
 def agent(name, output, inputs, check, search=False, optional_pair=()):
     """Runs one agent in an empty folder holding only its inputs. Returns once `check` finds no problems."""
     problems = ''
-    unchecked = Path(f'{output}.unchecked')
     for attempt in range(RETRIES + 1):
         with tempfile.TemporaryDirectory() as work:
             missing = [dest for dest, src in inputs.items() if dest not in optional_pair and not Path(src).is_file()]
@@ -48,7 +66,7 @@ def agent(name, output, inputs, check, search=False, optional_pair=()):
             r = subprocess.run([*cmd, prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=clean_env(), timeout=1800)
             made = Path(work) / Path(output).name
             if made.exists():
-                unchecked.touch()  # before the copy: a run killed between copy and check redoes this stage
+                mark(output, False)  # before the copy: a run killed between copy and check redoes this stage
                 shutil.copy(made, output)
             else:
                 problems = f'{Path(output).name} was not written.'
@@ -56,11 +74,10 @@ def agent(name, output, inputs, check, search=False, optional_pair=()):
                 continue
         problems = check()
         if not problems:
-            unchecked.unlink(missing_ok=True)
+            mark(output, True)
             return
         print(f'[{name}] problems:\n{problems}', flush=True)
-    Path(output).unlink(missing_ok=True)  # the runner resumes from the first missing output, so a failed one mustn't stay
-    unchecked.unlink(missing_ok=True)
+    Path(output).unlink(missing_ok=True)
     sys.exit(f'{name} failed after {RETRIES + 1} attempts. Stopping; nothing was opened.')
 
 

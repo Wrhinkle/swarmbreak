@@ -533,6 +533,7 @@ print('ok foreman order')
 
 # Run and comms jobs: runs only go to the run lane, comms is its own kind, roles come from labels.
 from foreman import next_run, role, resume_stage
+from run import mark
 roster = [issue(70, 'run', 'priority') | {'title': 'Run 2026-11-10'}, issue(69, 'run') | {'title': 'Run 2026-11-09'},
           issue(71, 'run') | {'title': 'Run anything'}, issue(72, 'comms') | {'title': 'Post on discussion #4'}, issue(73, 'agent:art')]
 assert next_run(roster, set()) == ('run', 69, 'issue-69')
@@ -545,10 +546,16 @@ with tempfile.TemporaryDirectory() as d:
     assert resume_stage(run) == 'researcher'
     for f in ('sites.json', 'ideas-1.json', 'ideas-2.json', 'ideas-3.json', 'content.json'):
         Path(run, f).write_text('{}')
+    assert resume_stage(run) == 'parser'  # outputs nobody recorded as checked, like a run from before the ledger
+    for f in ('ideas-1.json', 'ideas-2.json', 'ideas-3.json', 'content.json'):
+        mark(Path(run, f), True)
     assert resume_stage(run) == 'gameplay'
-    Path(run, 'ideas-2.json.unchecked').touch()
+    Path(run, 'ideas-2.json').write_text('{"edited": 1}')  # changed after its check
     assert resume_stage(run) == 'parser'
-    Path(run, 'ideas-2.json.unchecked').unlink()
+    mark(Path(run, 'ideas-2.json'), True)
+    mark(Path(run, 'content.json'), False)  # a new attempt landed and hasn't passed yet
+    assert resume_stage(run) == 'storymaker'
+    mark(Path(run, 'content.json'), True)
     Path(run, 'balance.json').write_text(json.dumps({'problems': ['too hard']}))
     assert resume_stage(run) == 'gameplay'
     Path(run, 'balance.json').write_text(json.dumps({'problems': []}))

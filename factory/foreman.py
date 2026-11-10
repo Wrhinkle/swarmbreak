@@ -65,7 +65,7 @@ if __name__ == '__main__':
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
 from manager import COMMS, GONE, HUMAN, OWNER, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_problems, thread  # noqa: E402
-from run import STAGES  # noqa: E402
+from run import STAGES, checked  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
 STATE = ROOT / 'factory' / 'log' / ('.runner.json' if RUN_LANE else '.foreman.json')
@@ -133,9 +133,10 @@ def starting_tip(ref):
 def resume_stage(d, built=False):
     """The first stage of a run whose checked output isn't on disk yet, or None once `built`, so a rebuild never redoes finished stages."""
     balance = d / 'balance.json'
-    # run.py marks an agent's output `.unchecked` until its check passes; a run killed in between left unchecked content.
-    have = lambda name: (d / name).exists() and not (d / f'{name}.unchecked').exists()
-    done = [have('sites.json'), all(have(f'ideas-{i}.json') for i in range(1, 4)), have('content.json'),
+    # An agent's output counts only if run.py recorded it as passing its check and it hasn't changed since.
+    # sites.json is the host's own file, written only after every crawl check passed.
+    have = lambda name: checked(d / name)
+    done = [(d / 'sites.json').exists(), all(have(f'ideas-{i}.json') for i in range(1, 4)), have('content.json'),
             balance.exists() and not json.loads(balance.read_text()).get('problems')]
     return STAGES[done.index(False)] if False in done else None if built else 'art'
 
