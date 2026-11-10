@@ -431,7 +431,8 @@ screen_check.assert_called_once_with('/outside-home/checkout')
 assert host_log.getvalue().splitlines() == [
     'Host verification: checking sandbox isolation', 'Host verification: sandbox isolation passed',
     'Host verification: npm run build passed', 'Host verification: npm test passed',
-    'Host verification: python3 factory/test_manager.py passed', 'Host verification: screens passed']
+    'Host verification: python3 factory/test_manager.py passed',
+    f'Host verification: screens passed (screenshots in {pr_team.ROOT / "factory" / "log" / "screens" / "checkout"})']  # a pass says where the pictures are
 print('ok sandbox probe outside checkout')
 # Failed host checks are recorded and stop verification before later checks.
 verification_calls.clear()

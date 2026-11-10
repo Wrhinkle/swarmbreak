@@ -163,7 +163,7 @@ def verified(tree):
             return (r.stdout + r.stderr)[-2000:] or f'{" ".join(cmd)} failed with exit {r.returncode} (no output)'
         print(f'Host verification: {" ".join(cmd)} passed', flush=True)
     failed = screens(tree)
-    print(f'Host verification: screens {"failed" if failed else "passed"}', flush=True)
+    print('Host verification: screens failed' if failed else f'Host verification: screens passed (screenshots in {shots_dir(tree)})', flush=True)
     return failed
 
 
