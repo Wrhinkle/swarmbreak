@@ -1011,7 +1011,22 @@ with patch.object(manager, 'thread', return_value=t), patch.object(manager, 'fac
     assert 'refused' in manager.comms(9, 'task', True, require_post=True).lower()
     assert len(attempts) == 3 and 'required top-level post is empty' in attempts[-1]
     assert manager.comms(9, 'task', True) == 'Dry run, nothing posted.'
+# The manager's --comms and the foreman's comms job can run at once. Both post through one lock and read the thread inside it.
+import fcntl
+def while_posting(role, work, extra, **kwargs):
+    with open(manager.LOG.parent / '.comms.lock', 'a+') as other:
+        try:
+            fcntl.flock(other, fcntl.LOCK_EX | fcntl.LOCK_NB); raise AssertionError('a second poster got in while a worker was writing')
+        except OSError:
+            pass
+    Path(work, 'post.json').write_text(json.dumps({'top_level': '', 'replies': []}))
+with patch.object(manager, 'thread', return_value=t), patch.object(manager, 'facts', return_value=''), \
+     patch.object(manager, 'bot', side_effect=while_posting) as worker, patch.object(manager, 'record'):
+    assert manager.comms(9, 'task', True) == 'Dry run, nothing posted.' and worker.called
+with patch.object(manager, 'thread', return_value={**t, 'ours': ['x']}), patch.object(manager, 'bot') as worker:
+    assert manager.comms(9, 'task', False, require_post=True).startswith('Done:') and not worker.called  # the other poster got there first
 print('ok forced post validation and discovery')
+print('ok one poster at a time, and no second entry')
 
 # A stale build must use main's schedule, not its own manifest.
 with tempfile.TemporaryDirectory() as d:

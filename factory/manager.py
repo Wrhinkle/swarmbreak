@@ -163,7 +163,17 @@ def posted_today(kind):
 
 
 def comms(number, task, dry, *, require_post=False):
+    """One poster at a time. `manager.py --comms` and the foreman's comms job hold different locks, so both take this one,
+    and the thread is read inside it: what the other poster just put up is seen before a worker is asked for the same post."""
+    with open(LOG.parent / '.comms.lock', 'a+') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        return post(number, task, dry, require_post)
+
+
+def post(number, task, dry, require_post):
     t = thread(number)
+    if require_post and t['ours']:
+        return 'Done: our entry is already on the thread.'
     with tempfile.TemporaryDirectory() as work:
         w = Path(work)
         (w / 'thread.json').write_text(json.dumps(t, indent=1))
