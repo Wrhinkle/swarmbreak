@@ -58,6 +58,29 @@ assert effort([spent('issue-37', 1)] * 3 + [spent('issue-37', 0), spent('pr-37@a
               ['Part of issue 37: fights', 'Part of issue 37: more', 'Fix issue 5: x', 'Merge: Part of issue 9: y', 'Part of issue 8: z']) == {
     37: {'passes': 4, 'finished': 1, 'parts_merged': 2}, 5: {'passes': 1, 'finished': 1, 'parts_merged': 0}, 8: {'passes': 0, 'finished': 0, 'parts_merged': 1}}
 print('ok manager closes and sees effort')
+# The critic looks at the host's pictures of main and hands the manager at most three clipped defects. It can't stop a pass.
+import manager, tempfile
+from pathlib import Path
+with tempfile.TemporaryDirectory() as d:
+    shots = Path(d) / 'shots'
+    def take(tree):
+        assert not shots.exists(), 'an older build\'s pictures were left for the critic'
+        shots.mkdir()
+        (shots / 'fight-390.png').write_text('png')
+        return 'Screen check failed'
+    def look(role, work, prompt, **kwargs):
+        assert role == 'critic' and sorted(p.name for p in Path(work).rglob('*')) == ['fight-390.png', 'screens']
+        Path(work, 'critique.json').write_text(json.dumps({'defects': [{'screen': 'fight-390.png', 'player_sees': 'x' * 900, 'should_be': 'y', 'extra': 'z'}] * 5}))
+    shots.mkdir(); (shots / 'old.png').write_text('old')
+    with patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=take), patch('manager.bot', side_effect=look):
+        got = manager.critique()
+    assert got['host_check'] == 'Screen check failed' and len(got['defects']) == 3, got
+    assert got['defects'][0] == {'screen': 'fight-390.png', 'player_sees': 'x' * 500, 'should_be': 'y', 'done_when': ''}, got
+    with patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=OSError('no browser')):
+        assert manager.critique() == {'error': 'OSError: no browser'}
+    with patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=take), patch('manager.bot'):
+        assert manager.critique()['error'].startswith('FileNotFoundError')
+print('ok critic')
 owner = {'login': 'Wrhinkle'}
 with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner}, {'title': 'Squatted', 'author': {'login': 'stranger'}},
                                        {'title': 'L' * 80, 'author': owner}]), patch('manager.thread', return_value={'ours': ['x'], 'waiting': ['r']}):
@@ -599,9 +622,10 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert scheduled(x)[0] == ['release -> ' + x]
 
 # Full scheduled passes read the same lock.
-with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release, patch('manager.release_check') as check, patch('manager.state', return_value={'issues': []}), patch('manager.open_prs', return_value=[]), patch('manager.required_jobs', return_value=[]), patch('manager.act', return_value='Filed.') as action:
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.critique', return_value='seen'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release, patch('manager.release_check') as check, patch('manager.state', return_value={'issues': []}), patch('manager.open_prs', return_value=[]), patch('manager.required_jobs', return_value=[]), patch('manager.act', return_value='Filed.') as action:
     seen = []
     def decide(role, work, prompt, **kwargs):
+        assert json.loads(Path(work, 'state.json').read_text()).get('critique', 'seen') == 'seen'  # a first pass carries the critic's view, a follow-up none
         seen.append(json.loads(Path(work, 'state.json').read_text())['failed_last_pass'])
         Path(work, 'decisions.json').write_text(json.dumps({'actions': [{'type': 'delegate', 'task': 'x'}]}))
     def full(result, extra=()):

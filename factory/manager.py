@@ -9,13 +9,13 @@ A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS ti
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
-import fcntl, json, os, re, subprocess, sys, tempfile, time, urllib.request
+import fcntl, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import GATES, REPO, WAITING, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
+from pr_team import GATES, REPO, WAITING, bot, gate_verdict, screens, sh, shots_dir, touches_gates  # noqa: E402,F401
 
 OWNER, CONTEST = 'Wrhinkle', ('qodo-hackathon', 'software-factory-hackathon')
 SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.com/{REPO}'
@@ -481,6 +481,22 @@ def effort(log, subjects):
     return out
 
 
+def critique():
+    """What a new player would say about the game on main. The host takes the pictures, and a critic that sees nothing
+    else names up to three defects. It's advice for the manager, who alone decides what becomes a job, so nothing here
+    stops a pass: a failure comes back as `error`."""
+    try:
+        shutil.rmtree(shots_dir(ROOT), ignore_errors=True)  # never judge an older build's pictures
+        refused = screens(ROOT)
+        with tempfile.TemporaryDirectory() as work:
+            shutil.copytree(shots_dir(ROOT), Path(work) / 'screens')
+            bot('critic', work, 'The screenshots are in screens/. Write critique.json in the current folder.')
+            found = json.loads((Path(work) / 'critique.json').read_text())['defects']
+        return {'host_check': refused[:1500], 'defects': [{k: str(d.get(k, ''))[:500] for k in ('screen', 'player_sees', 'should_be', 'done_when')} for d in found[:3]]}
+    except Exception as exc:  # noqa: BLE001
+        return {'error': f'{type(exc).__name__}: {exc}'[:500]}
+
+
 def state():
     prs = open_prs()
     log = LOG.read_text().splitlines() if LOG.exists() else []
@@ -660,6 +676,8 @@ def main():
     note = args[args.index('--task') + 1] if '--task' in args else ''
     round_ = int(args[args.index('--follow-up') + 1]) if '--follow-up' in args else 0
     s = state()
+    if not round_:
+        s['critique'] = critique()  # once a pass; a follow-up is about what failed, not about the game
     # Failure output quotes PR content and Qodo titles, so it reaches the manager as data in state.json, never in its prompt.
     s['failed_last_pass'] = json.loads(args[args.index('--failures') + 1]) if '--failures' in args else []
     if '--release-blocker' in args:

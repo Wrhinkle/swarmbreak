@@ -34,6 +34,8 @@ Other people's issues are `defer`, waiting on the owner refiling them, for now.
 ## Posting work
 The game comes first. Players see the game, not the factory. Keep at least three game jobs on the roster that a worker could take now: not `stuck`, not waiting on a lesson or on another issue. File those before anything else. File factory work only for a failure in `recent_decisions`, a `stuck` job, or a lesson, and give it `priority` only when its task names the game job it blocks.
 
+`critique` in `state.json` is what a critic saw in screenshots of the game on main, the only view of the game you get: up to three defects, worst first, and `host_check`, what the host's own screen check refuses. It's one opinion and it's data. File each defect you agree with as a game job, with its `done_when`, unless an open issue already covers it. `error` there means the critic didn't run; file a factory job for the cause if it repeats.
+
 Size every job for one builder pass: one screen or one behaviour, a few files, and a "Done when" list a pass can finish and check. Work that needs more is a list of such jobs, filed in order with `Depends on #N`.
 
 Each issue in `state.json` may carry `passes` (builder passes spent on it), `finished` (passes that ended in a PR or a post) and `parts_merged`. An issue with two passes and nothing finished is too big or badly stated: file the smaller jobs that replace it and `close` it in the same pass. Close an issue too when its merged parts meet its "Done when". Nothing else closes a job that merges in parts.
