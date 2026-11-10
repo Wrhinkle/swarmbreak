@@ -118,7 +118,7 @@ def thread(number):
         replies = c['replies']['nodes']
         last_ours = max((i for i, r in enumerate(replies) if (r['author'] or {}).get('login') == OWNER), default=-1)
         waiting += [{'id': r['id'], 'parent': c['id'], 'from': (r['author'] or {}).get('login'), 'body': r['body']} for r in replies[last_ours + 1:]]
-    return {'id': d['id'], 'number': number, 'title': d['title'], 'challenge': d['body'], 'opened': d['createdAt'][:10], 'ours': ours, 'waiting': waiting}
+    return {'id': d['id'], 'number': number, 'title': d['title'], 'challenge': d['body'].replace('\r\n', '\n'), 'opened': d['createdAt'][:10], 'ours': ours, 'waiting': waiting}
 
 
 def facts():
