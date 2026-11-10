@@ -1,31 +1,323 @@
 {
-  "acts": [
+ "acts": [
+  {
+   "packs": {
+    "early": [
+     [
+      "fiber-mite"
+     ],
+     [
+      "circuit-gnat"
+     ],
+     [
+      "coil-cutter"
+     ],
+     [
+      "fiber-mite",
+      "circuit-gnat"
+     ],
+     [
+      "fiber-mite",
+      "coil-cutter"
+     ]
+    ],
+    "mid": [
+     [
+      "layer-weaver"
+     ],
+     [
+      "dye-sprayer"
+     ],
+     [
+      "cardboard-hand"
+     ],
+     [
+      "specimen-probe",
+      "fiber-mite"
+     ],
+     [
+      "bark-beater"
+     ],
+     [
+      "layer-weaver",
+      "circuit-gnat"
+     ]
+    ],
+    "late": [
+     [
+      "cardboard-hand",
+      "fiber-mite"
+     ],
+     [
+      "dye-sprayer",
+      "circuit-gnat"
+     ],
+     [
+      "layer-weaver",
+      "cardboard-hand"
+     ],
+     [
+      "bark-beater",
+      "coil-cutter"
+     ],
+     [
+      "specimen-probe",
+      "circuit-gnat"
+     ],
+     [
+      "layer-weaver",
+      "fiber-mite",
+      "coil-cutter"
+     ],
+     [
+      "layer-weaver",
+      "coil-cutter"
+     ],
+     [
+      "layer-weaver",
+      "fiber-mite",
+      "coil-cutter"
+     ]
+    ]
+   },
+   "elites": [
     {
-      "packs": {
-        "early": [["fiber-mite"], ["circuit-gnat"], ["coil-cutter"], ["fiber-mite", "coil-cutter"], ["circuit-gnat", "fiber-mite"]],
-        "mid": [["layer-weaver"], ["dye-sprayer", "fiber-mite"], ["cardboard-hand"], ["specimen-probe", "circuit-gnat"], ["bark-beater"]],
-        "late": [["layer-weaver", "cardboard-hand"], ["dye-sprayer", "coil-cutter"], ["specimen-probe", "bark-beater"], ["cardboard-hand", "circuit-gnat"], ["bark-beater", "fiber-mite"]]
-      },
-      "elites": [{"id": "garden-harvester", "reward": "garden-tender"}, {"id": "embossing-warden", "reward": "weaving-rig"}, {"id": "paper-ringmaster", "reward": "garden-tender"}],
-      "shop": ["breach", "sweep", "patch", "brace", "purge", "finish", "jam"]
+     "id": "embossing-warden",
+     "reward": "weaving-rig"
     },
     {
-      "packs": {
-        "early": [["sort-thief"], ["poster-flyby"], ["stamp-mites"], ["sort-thief", "poster-flyby"], ["stamp-mites", "sort-thief"]],
-        "mid": [["grain-warden"], ["chapel-bell", "sort-thief"], ["demo-mimic"], ["archive-collator"], ["type-caster", "poster-flyby"]],
-        "late": [["grain-warden", "chapel-bell"], ["archive-collator", "stamp-mites"], ["demo-mimic", "type-caster"], ["chapel-bell", "poster-flyby"], ["grain-warden", "sort-thief"]]
-      },
-      "elites": [{"id": "heritage-shell", "reward": "volunteer-printer"}, {"id": "festival-giant", "reward": "type-apprentice"}, {"id": "press-stitcher", "reward": "type-apprentice"}],
-      "shop": ["breach", "sweep", "patch", "cover", "finish", "corrupt", "charge"]
+     "id": "embossing-warden",
+     "reward": "weaving-rig"
     },
     {
-      "packs": {
-        "early": [["certification-mites"], ["ant-relay"], ["pop-up-dragon"], ["ant-relay", "pop-up-dragon"], ["certification-mites", "ant-relay"]],
-        "mid": [["riso-duplicator"], ["zine-scavenger"], ["finding-bailiff"], ["reader-reader", "ant-relay"], ["water-box", "pop-up-dragon"]],
-        "late": [["finding-bailiff", "zine-scavenger"], ["water-box", "pop-up-dragon"], ["riso-duplicator", "certification-mites"], ["reader-reader", "water-box"], ["zine-scavenger", "ant-relay"]]
-      },
-      "elites": [{"id": "taxonomy-veiler", "reward": "zine-maker"}, {"id": "spiral-binder", "reward": "collection-steward"}, {"id": "proposal-assembler", "reward": "zine-maker"}],
-      "shop": ["breach", "sweep", "triage", "brace", "jam", "finish", "strike+"]
+     "id": "paper-ringmaster",
+     "reward": "garden-tender"
+    },
+    {
+     "id": "garden-harvester",
+     "reward": "garden-tender"
     }
-  ]
+   ],
+   "shop": [
+    "breach",
+    "finish",
+    "sweep",
+    "strike+",
+    "patch+",
+    "jam",
+    "purge"
+   ]
+  },
+  {
+   "packs": {
+    "early": [
+     [
+      "sort-thief"
+     ],
+     [
+      "poster-flyby"
+     ],
+     [
+      "stamp-mites"
+     ],
+     [
+      "sort-thief",
+      "stamp-mites"
+     ],
+     [
+      "sort-thief",
+      "poster-flyby"
+     ]
+    ],
+    "mid": [
+     [
+      "grain-warden"
+     ],
+     [
+      "chapel-bell"
+     ],
+     [
+      "demo-mimic"
+     ],
+     [
+      "archive-collator"
+     ],
+     [
+      "type-caster"
+     ],
+     [
+      "chapel-bell",
+      "stamp-mites"
+     ]
+    ],
+    "late": [
+     [
+      "grain-warden",
+      "sort-thief"
+     ],
+     [
+      "chapel-bell",
+      "sort-thief"
+     ],
+     [
+      "demo-mimic",
+      "poster-flyby"
+     ],
+     [
+      "archive-collator",
+      "stamp-mites"
+     ],
+     [
+      "type-caster",
+      "stamp-mites"
+     ],
+     [
+      "grain-warden",
+      "sort-thief",
+      "poster-flyby"
+     ],
+     [
+      "grain-warden",
+      "poster-flyby"
+     ],
+     [
+      "grain-warden",
+      "sort-thief",
+      "poster-flyby"
+     ]
+    ]
+   },
+   "elites": [
+    {
+     "id": "heritage-shell",
+     "reward": "volunteer-printer"
+    },
+    {
+     "id": "heritage-shell",
+     "reward": "volunteer-printer"
+    },
+    {
+     "id": "press-stitcher",
+     "reward": "type-apprentice"
+    },
+    {
+     "id": "festival-giant",
+     "reward": "type-apprentice"
+    }
+   ],
+   "shop": [
+    "breach",
+    "finish",
+    "sweep",
+    "strike+",
+    "patch+",
+    "jam",
+    "triage"
+   ]
+  },
+  {
+   "packs": {
+    "early": [
+     [
+      "certification-mites"
+     ],
+     [
+      "ant-relay"
+     ],
+     [
+      "pop-up-dragon"
+     ],
+     [
+      "ant-relay",
+      "certification-mites"
+     ],
+     [
+      "ant-relay",
+      "pop-up-dragon"
+     ]
+    ],
+    "mid": [
+     [
+      "riso-duplicator"
+     ],
+     [
+      "zine-scavenger"
+     ],
+     [
+      "finding-bailiff"
+     ],
+     [
+      "reader-reader",
+      "ant-relay"
+     ],
+     [
+      "water-box"
+     ],
+     [
+      "water-box",
+      "certification-mites"
+     ]
+    ],
+    "late": [
+     [
+      "riso-duplicator",
+      "ant-relay"
+     ],
+     [
+      "zine-scavenger",
+      "certification-mites"
+     ],
+     [
+      "finding-bailiff",
+      "ant-relay"
+     ],
+     [
+      "water-box",
+      "pop-up-dragon"
+     ],
+     [
+      "reader-reader",
+      "certification-mites"
+     ],
+     [
+      "finding-bailiff",
+      "ant-relay",
+      "pop-up-dragon"
+     ],
+     [
+      "finding-bailiff",
+      "pop-up-dragon"
+     ],
+     [
+      "finding-bailiff",
+      "ant-relay",
+      "pop-up-dragon"
+     ]
+    ]
+   },
+   "elites": [
+    {
+     "id": "taxonomy-veiler",
+     "reward": "zine-maker"
+    },
+    {
+     "id": "spiral-binder",
+     "reward": "collection-steward"
+    },
+    {
+     "id": "proposal-assembler",
+     "reward": "collection-steward"
+    }
+   ],
+   "shop": [
+    "breach",
+    "finish",
+    "sweep",
+    "strike+",
+    "purge",
+    "patch+",
+    "jam"
+   ]
+  }
+ ]
 }
