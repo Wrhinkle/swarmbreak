@@ -18,9 +18,9 @@ OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edi
 # Agents may fix factory code; every factory/ change still goes to the gate reviewer (gated_paths). Locked: the rules,
 # hosting, install scripts that run on this Mac, the balance limits, the gate reviewer's own brief, vendored code, and the
 # decision log (reply caps and failure history are counted from it, and gated_paths skips it).
-PROTECTED = ('AGENTS.md', 'firebase.json', 'public/manifest.json', '.github/', 'package.json', 'package-lock.json',
+PROTECTED = ('AGENTS.md', 'firebase.json', 'public/manifest.json', '.github/', '.pr_agent.toml', 'package.json', 'package-lock.json',
              'tools/balance.ts', 'tools/checks.ts', 'factory/agents/gate-reviewer.md', 'factory/vendor/', 'factory/log/')
-GATES = ('AGENTS.md', '.github/', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
+GATES = ('AGENTS.md', '.github/', '.pr_agent.toml', 'firebase.json', 'package.json', 'package-lock.json', 'src/combat.ts', 'src/library.ts', 'src/save.ts', 'src/types.ts', 'tools/balance.ts', 'tools/build-run.ts', 'tools/checks.ts', 'tools/sim.ts')
 
 
 def sh(*cmd, cwd=ROOT, check=True, timeout=None):
