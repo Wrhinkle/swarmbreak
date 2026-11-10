@@ -133,11 +133,11 @@ def starting_tip(ref):
 def resume_stage(d, built=False):
     """The first stage of a run whose checked output isn't on disk yet, or None once `built`, so a rebuild never redoes finished stages."""
     balance = d / 'balance.json'
-    # An agent's output counts only if run.py recorded it as passing its check and it hasn't changed since.
-    # sites.json is the host's own file, written only after every crawl check passed.
+    # An output counts only if run.py recorded it as passing its check, and neither it, the files it was built from,
+    # nor the checking code has changed since. A merge of main that changes a check sends the run back to that stage.
     have = lambda name: checked(d / name)
-    done = [(d / 'sites.json').exists(), all(have(f'ideas-{i}.json') for i in range(1, 4)), have('content.json'),
-            balance.exists() and not json.loads(balance.read_text()).get('problems')]
+    done = [have('sites.json'), all(have(f'ideas-{i}.json') for i in range(1, 4)), have('content.json'),
+            have('balance.json') and not json.loads(balance.read_text()).get('problems')]
     return STAGES[done.index(False)] if False in done else None if built else 'art'
 
 

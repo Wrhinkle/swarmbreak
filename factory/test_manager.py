@@ -542,38 +542,73 @@ assert next_job([], roster, set(), set(), never) == ('comms', 72, 'issue-72')
 assert next_job([], roster, set(), {'issue-72'}, never) == ('issue', 73, 'issue-73')
 assert role(roster[4]) == 'art' and role(issue(5, 'lesson')) == 'coach' and role(issue(6)) == ''
 with tempfile.TemporaryDirectory() as d:
-    run = Path(d)
+    root, run = Path(d), Path(d, 'runs', 'x')
+    run.mkdir(parents=True)
+    Path(root, 'tools').mkdir()
+    Path(root, 'src').mkdir()
+    Path(root, 'tools', 'checks.ts').write_text("import { A } from '../src/library';\n")
+    Path(root, 'src', 'library.ts').write_text('export const A = 1;\n')
+    Path(root, 'src', 'screen.ts').write_text('export const B = 1;\n')
+    ideas, content, sites, balance = [run / f'ideas-{i}.json' for i in (1, 2, 3)], run / 'content.json', run / 'sites.json', run / 'balance.json'
+    site = run / 'site-a.json'
+    site.write_text('{}')
+
+    def passed(*files):
+        for f in files:
+            mark(f, True, {content: [*ideas, sites], sites: [site], balance: [content]}.get(f, [site, sites]))
     assert resume_stage(run) == 'researcher'
-    for f in ('sites.json', 'ideas-1.json', 'ideas-2.json', 'ideas-3.json', 'content.json'):
-        Path(run, f).write_text('{}')
-    assert resume_stage(run) == 'parser'  # outputs nobody recorded as checked, like a run from before the ledger
-    for f in ('ideas-1.json', 'ideas-2.json', 'ideas-3.json', 'content.json'):
-        mark(Path(run, f), True)
-    assert resume_stage(run) == 'gameplay'
-    Path(run, 'ideas-2.json').write_text('{"edited": 1}')  # changed after its check
+    for f in (sites, *ideas, content):
+        f.write_text('{}')
+    assert resume_stage(run) == 'researcher'  # outputs nobody recorded as checked, like a run from before the ledger
+    passed(sites)
     assert resume_stage(run) == 'parser'
-    mark(Path(run, 'ideas-2.json'), True)
-    mark(Path(run, 'content.json'), False)  # a new attempt landed and hasn't passed yet
-    assert resume_stage(run) == 'storymaker'
-    mark(Path(run, 'content.json'), True)
-    Path(run, 'balance.json').write_text(json.dumps({'problems': ['too hard']}))
+    passed(*ideas, content)
     assert resume_stage(run) == 'gameplay'
-    Path(run, 'balance.json').write_text(json.dumps({'problems': []}))
+    ideas[1].write_text('{"edited": 1}')  # changed after its check
+    assert resume_stage(run) == 'parser'
+    passed(ideas[1])
+    assert resume_stage(run) == 'storymaker'  # the story was checked against the old idea
+    passed(content)
+    mark(content, False)  # a new attempt landed and hasn't passed yet
+    assert resume_stage(run) == 'storymaker'
+    passed(content)
+    balance.write_text(json.dumps({'problems': []}))
+    assert resume_stage(run) == 'gameplay'  # a report nobody recorded
+    balance.write_text(json.dumps({'problems': ['too hard']}))
+    passed(balance)
+    assert resume_stage(run) == 'gameplay'
+    balance.write_text(json.dumps({'problems': []}))
+    passed(balance)
     assert resume_stage(run) == 'art' and resume_stage(run, built=True) is None
+    # A pass counts only under the checks that gave it: main changing a tool, or anything a tool imports, voids it.
+    Path(root, 'src', 'screen.ts').write_text('export const B = 2;\n')  # no tool imports this
+    assert resume_stage(run) == 'art'
+    Path(root, 'src', 'library.ts').write_text('export const A = 2;\n')
+    assert resume_stage(run) == 'researcher'
+    Path(root, 'src', 'library.ts').write_text('export const A = 1;\n')
+    assert resume_stage(run) == 'art'
+    site.write_text('{"crawled": "again"}')  # what the ideas were built from changed
+    assert resume_stage(run) == 'researcher'
+    passed(sites)
+    assert resume_stage(run) == 'parser'
+    passed(*ideas, content, balance)
     begin(run, 'gameplay')  # a new plan is coming, so the old pass says nothing
     assert resume_stage(run) == 'gameplay'
-    Path(run, 'balance.json').write_text(json.dumps({'problems': []}))
+    balance.write_text(json.dumps({'problems': []}))
+    passed(balance)
     begin(run, 'parser')  # new ideas are coming: the old ones, and the story and balance built from them, are stale
-    assert resume_stage(run) == 'parser' and not Path(run, 'balance.json').exists()
-    mark(Path(run, 'ideas-1.json'), True)  # stopped after the first new idea: the other two are still the old ones
+    assert resume_stage(run) == 'parser' and not balance.exists()
+    passed(ideas[0])  # stopped after the first new idea: the other two are still the old ones
     assert resume_stage(run) == 'parser'
-    for i in (2, 3):
-        mark(Path(run, f'ideas-{i}.json'), True)
+    passed(*ideas[1:])
     assert resume_stage(run) == 'storymaker'
-    Path(run, 'checked.json').write_text('{"ideas-1.json": "ab')  # a write cut short
-    assert resume_stage(run) == 'parser'
-    mark(Path(run, 'ideas-1.json'), True)  # and the next attempt still records its pass
-    assert json.loads(Path(run, 'checked.json').read_text()) and not Path(run, 'checked.json.tmp').exists()
+    Path(run, 'checked.json').write_text('{"ideas-1.json": {"sha": "ab')  # a write cut short
+    assert resume_stage(run) == 'researcher'
+    passed(sites)  # and the next attempt still records its pass
+    assert resume_stage(run) == 'parser' and not Path(run, 'checked.json.tmp').exists()
+    Path(run, 'checked.json').write_text(json.dumps({'sites.json': 'an old ledger line'}))
+    assert resume_stage(run) == 'researcher'
+    passed(sites, *ideas)
     begin(run, 'researcher')
     assert resume_stage(run) == 'researcher'
 print('ok foreman lanes')
