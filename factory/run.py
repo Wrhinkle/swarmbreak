@@ -89,7 +89,7 @@ def begin(d, stage):
 
 def agent(name, output, inputs, check, search=False, optional_pair=(), rests_on=()):
     """Runs one agent in an empty folder holding only its inputs. Returns once `check` finds no problems.
-    `rests_on` names files the check reads that the agent doesn't get; the pass is recorded against them and the inputs."""
+    `rests_on` names files the check reads that the agent doesn't get. The pass is recorded against them, the inputs and the agent's rules."""
     problems = ''
     for attempt in range(RETRIES + 1):
         with tempfile.TemporaryDirectory() as work:
@@ -120,7 +120,7 @@ def agent(name, output, inputs, check, search=False, optional_pair=(), rests_on=
                 continue
         problems = check()
         if not problems:
-            mark(output, True, [*(src for dest, src in inputs.items() if dest not in optional_pair), *rests_on])
+            mark(output, True, [AGENTS / f'{name}.md', *(src for dest, src in inputs.items() if dest not in optional_pair), *rests_on])
             return
         print(f'[{name}] problems:\n{problems}', flush=True)
     Path(output).unlink(missing_ok=True)
@@ -193,7 +193,7 @@ def main():
             if len(sites) < ACTS:
                 sys.exit(f'Only {len(sites)} candidates passed the crawl screen. Stopping.')
             sites_file.write_text(json.dumps({'sites': sites}, indent=1) + '\n')
-            mark(sites_file, True, [picks, *(ROOT / s['file'] for s in sites)])
+            mark(sites_file, True, [AGENTS / 'researcher.md', picks, *(ROOT / s['file'] for s in sites)])
         sites = json.loads(sites_file.read_text())['sites']
 
         if want('parser'):
@@ -253,7 +253,7 @@ def main():
                     shutil.copy(report, tried_report)
                     provenance.write_text(json.dumps(hashes()))
                 if ok:
-                    mark(report, True, [content, assembly])
+                    mark(report, True, [AGENTS / 'gameplay.md', content, assembly])
                 return '' if ok else out
 
             agent('gameplay', assembly, {'content.json': content, 'library.json': library, 'last-assembly.json': tried, 'balance.json': tried_report}, check_plan, optional_pair=('last-assembly.json', 'balance.json'))

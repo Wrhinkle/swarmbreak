@@ -550,12 +550,14 @@ with tempfile.TemporaryDirectory() as d:
     Path(root, 'src', 'library.ts').write_text('export const A = 1;\n')
     Path(root, 'src', 'screen.ts').write_text('export const B = 1;\n')
     ideas, content, sites, balance = [run / f'ideas-{i}.json' for i in (1, 2, 3)], run / 'content.json', run / 'sites.json', run / 'balance.json'
-    site = run / 'site-a.json'
+    site, rules = run / 'site-a.json', root / 'factory' / 'agents' / 'storymaker.md'
     site.write_text('{}')
+    rules.parent.mkdir(parents=True)
+    rules.write_text('Write a story.')
 
     def passed(*files):
         for f in files:
-            mark(f, True, {content: [*ideas, sites], sites: [site], balance: [content]}.get(f, [site, sites]))
+            mark(f, True, {content: [rules, *ideas, sites], sites: [site], balance: [content]}.get(f, [site, sites]))
     assert resume_stage(run) == 'researcher'
     for f in (sites, *ideas, content):
         f.write_text('{}')
@@ -587,6 +589,9 @@ with tempfile.TemporaryDirectory() as d:
     assert resume_stage(run) == 'researcher'
     Path(root, 'src', 'library.ts').write_text('export const A = 1;\n')
     assert resume_stage(run) == 'art'
+    rules.write_text('Write a story. Cite every page.')  # the storymaker's rules changed on main
+    assert resume_stage(run) == 'storymaker'
+    passed(content, balance)
     site.write_text('{"crawled": "again"}')  # what the ideas were built from changed
     assert resume_stage(run) == 'researcher'
     passed(sites)
