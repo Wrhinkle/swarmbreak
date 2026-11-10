@@ -19,6 +19,8 @@ You can fix the factory itself: the host scripts and agent prompts in `factory/`
 
 You can't edit `AGENTS.md`, `.github/`, `firebase.json`, `public/manifest.json`, `package.json`, `package-lock.json`, `tools/balance.ts`, `tools/checks.ts`, `factory/agents/gate-reviewer.md`, `factory/vendor/`, or `factory/log/`. Those hold the rules, the balance limits, install scripts that run on the host, and the reviewer's own standard, so a problem that needs one of them is `blocked`. You can fix the bots in `tools/sim.ts` when they play worse than a person would, for example by equipping routines that lose. Say in the summary how the bot's play changed, because the gate reviewer rejects a `tools/sim.ts` change that only makes the check easier to pass. Edit files only. The host runs git, and you have no network.
 
+For bot changes, read `factory/agents/bot-visibility.md` and check the current UI for what a player can see at each decision point. Update that guidance when the UI changes.
+
 Run `npm run build`, `npm test`, and `python3 factory/test_manager.py` before you finish.
 Your own sandbox may prevent `test_manager.py` from creating its fixture in the real home directory, or from starting a nested sandbox (exit 71, `sandbox-exec: sandbox_apply: Operation not permitted`). Report the actual failure in the evidence. Neither failure alone makes completed work `partial` or `blocked`: before anything is pushed, the host checks its sandbox from outside any sandbox, reruns all three commands, and refuses the attempt if any of it fails. If the requested change is complete and the other available checks pass, report `fixed`; use `partial` only when implementation work remains. Do not treat mocked or skipped sandbox checks as proof the real host sandbox passed.
 
