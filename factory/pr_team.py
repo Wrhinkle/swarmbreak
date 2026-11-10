@@ -98,8 +98,11 @@ def sandboxed(cmd, tree):
         box = Path(box).resolve()
         copy, fake = box / 'tree', box / 'home'
         fake.mkdir()
-        # cp -c clones on APFS, so even node_modules copies in moments.
-        subprocess.run(['cp', '-cR', f'{Path(tree).resolve()}/', str(copy)], check=True, capture_output=True)
+        # cp -c clones on APFS, so even node_modules copies in moments. A failed copy raises with cp's own words:
+        # without them the lesson filed for the failure can't name a cause.
+        copied = subprocess.run(['cp', '-cR', f'{Path(tree).resolve()}/', str(copy)], capture_output=True, text=True)
+        if copied.returncode:
+            raise OSError(f'copying the tree failed (exit {copied.returncode}): {copied.stderr.strip()[-300:]}')
         home = Path.home().resolve()
         profile = ('(version 1)(allow default)(deny network*)'
                    '(deny mach-lookup (global-name "com.apple.SecurityServer") (global-name "com.apple.securityd.xpc"))'
