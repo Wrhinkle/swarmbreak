@@ -2,8 +2,8 @@
 """Works the roster round the clock. launchd starts it every two minutes; each start does one job and exits.
 
 The manager only files jobs; this does them. Two lanes run side by side so a long run build never holds up code work:
-- code (default): open owner PRs the gate hasn't rejected at their head, then issues with saved work, then priority
-  issues, then the oldest ready issue. Issues labelled `comms` are posts; `agent:<name>` picks the worker's role.
+- code (default): open owner PRs the gate hasn't rejected at their head, then priority issues, then issues with saved
+  work, then the oldest ready issue. Priority is the manager's order, so it comes before what a worker happened to start. Issues labelled `comms` are posts; `agent:<name>` picks the worker's role.
 - run (`--lane run`): issues titled `Run YYYY-MM-DD`, built in their own worktree and opened as a PR.
 A failed job isn't retried: it becomes a lesson issue, and the job waits until the coach closes that lesson by fixing
 the cause, adding to factory/lessons.md, or writing a skill. For the builder, failing means the pass opened no PR,
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
+from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, deps, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
 from run import STAGES, checked, clashes  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
@@ -77,11 +77,6 @@ QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests', re.I)
 
 def gh(*args):
     return json.loads(sh('gh', *args, '--repo', REPO).stdout or '[]')
-
-
-def deps(body):
-    """Issue numbers named on a 'Depends on #12, #13' line."""
-    return {int(n) for line in re.findall(r'^Depends on (.*)$', body or '', re.M) for n in re.findall(r'#(\d+)', line)}
 
 
 def next_run(issues, held):
@@ -127,7 +122,8 @@ def unfiled(lines, now):
 
 def entry_waits(i, issues, unfiled=()):
     """Whether an entry job stays unposted for now: work planned for its challenge is open or couldn't be filed yet.
-    No entry goes out ahead of that work. The manager lifts the hold by finishing the work, or by closing or rescoping it."""
+    No entry goes out ahead of that work. Only finishing the work lifts the hold. The manager can close such work only when another open job names the thread,
+    which moves the hold; a builder pass that finds the work done on main closes it for good."""
     m = ENTRY.fullmatch(i.get('title', ''))
     return bool(m and COMMS in labels(i) and (challenge_work(issues, m.group(1)) or m.group(1) in unfiled))
 
@@ -143,7 +139,7 @@ def next_job(prs, issues, saved, held, rejected, unfiled=()):
     ready = [i for i in issues if i['author']['login'] == OWNER and not ({STUCK, HUMAN, RUN} & labels(i))
              and i['number'] not in building and not (deps(i['body']) & open_) and f'issue-{i["number"]}' not in held
              and not entry_waits(i, issues, unfiled)]
-    ready.sort(key=lambda i: (i['number'] not in saved, PRIORITY not in labels(i), i['number']))
+    ready.sort(key=lambda i: (PRIORITY not in labels(i), i['number'] not in saved, i['number']))
     if not ready:
         return None
     return ('comms' if COMMS in labels(ready[0]) else 'issue'), ready[0]['number'], f'issue-{ready[0]["number"]}'
