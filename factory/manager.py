@@ -249,8 +249,9 @@ def check_post(out, t, *, require_post=False, unfinished=(), unfiled=False):
     if top.strip():
         if t['ours']:
             problems.append('we already have a top-level comment on this thread; each challenge gets one')
-        sent = top + unfinished_note(unfinished, unfiled)  # what goes out: the host's line passes the same length and link checks as the draft
-        problems += post_problems(sent, template_headings(t['challenge']), challenge=True)
+        problems += post_problems(top, template_headings(t['challenge']), challenge=True)  # the draft alone: the host's line can't supply a heading the draft lacks
+        sent = top + unfinished_note(unfinished, unfiled)  # what goes out: the host's line passes the same length, content and link checks as the draft
+        problems += [p for p in post_problems(sent, challenge=True) if p not in problems] if sent != top else []
         problems += unfilled_links(top, t['challenge'])
         problems += unfinished_problems(top, unfinished, unfiled)
         # The check reads a URL up to the next space, bracket or quote. Three Day 5 drafts ended a sentence on a link and the worker couldn't tell why they were refused.

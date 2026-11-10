@@ -576,6 +576,9 @@ with patch('manager.dead_links', side_effect=lambda body: [u for u in __import__
     assert m.check_post({'top_level': draft}, day, unfinished=[81]) == []
     padded = draft + ' x' * ((m.MAX_POST - len(draft)) // 2)
     assert len(padded) <= m.MAX_POST and any('limit' in p for p in m.check_post({'top_level': padded}, day, unfinished=[81]))
+    # A heading the form asks for has to be in the draft: the issue link in the host's line doesn't count as it.
+    form = {**day, 'challenge': '```markdown\n#81\n```'}
+    assert m.check_post({'top_level': 'Our entry. Issue 81 is still open.'}, form, unfinished=[81]) == ['missing template heading: #81', 'the entry must say #81 is unfinished']
 # The host's line goes on the post itself, after the worker's draft.
 with patch('manager.thread', return_value={'id': 'D', 'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10', 'challenge': ''}), patch('manager.facts', return_value=''), patch('manager.bot', side_effect=lambda name, work, *a, **k: Path(work, 'post.json').write_text(json.dumps({'top_level': 'Our entry.'}))), \
         patch('manager.check_post', return_value=[]), patch('manager.record'), patch('manager.gh', return_value={'data': {'addDiscussionComment': {'comment': {'url': 'u'}}}}) as sent:
