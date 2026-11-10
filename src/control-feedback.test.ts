@@ -8,3 +8,9 @@ it('provides feedback for interactive cards, map pins and disclosures, including
   }
   expect(css).toMatch(/@media\(prefers-reduced-motion:reduce\)\{[^}]*\.card[^}]*transition:none/);
 });
+
+it('keeps hover feedback visible on the emphasized title plate and selected options', () => {
+  const css = readFileSync('index.html', 'utf8');
+  expect(css).toContain('.title-controls .plate:first-child:hover:not(:disabled)');
+  expect(css).toContain('.option[aria-pressed=true]:hover:not(:disabled)');
+});
