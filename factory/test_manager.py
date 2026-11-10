@@ -550,23 +550,31 @@ for other in (issue(81, body='For discussion #90.'), issue(81, 'lesson', body='d
     assert next_job([], [entry, other], set(), set(), never, t0 + 3600) == ('comms', 80, 'issue-80')
 with patch('foreman.thread', return_value={'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10'}), patch('foreman.comms', return_value='Posted: x') as posting:
     fm.comms_job('Post our entry on discussion #9', [entry, work])
-    assert 'still open in #81' in posting.call_args.args[1] and posting.call_args.kwargs['note'].endswith('/issues/81.')
-    fm.comms_job('Post our entry on discussion #9', [entry], {'9'})
-    assert 'not filed yet' in posting.call_args.args[1] and 'not filed yet' in posting.call_args.kwargs['note']
+    assert 'still open in #81' in posting.call_args.args[1] and posting.call_args.kwargs['unfinished'] == [81] and not posting.call_args.kwargs['unfiled']
+    fm.comms_job('Post our entry on discussion #9', [entry, work], {'9'})
+    assert 'is still open in #81 and some is not filed yet' in posting.call_args.args[1] and posting.call_args.kwargs['unfiled']
     fm.comms_job('Post our entry on discussion #9', [entry])
-    assert posting.call_args.kwargs['note'] == ''
+    assert posting.call_args.kwargs['unfinished'] == [] and not posting.call_args.kwargs['unfiled']
 # Work the manager couldn't file holds the entry too: its last delegate naming the thread was refused. A later one that was filed lifts it.
-tried = lambda result, dry=False: json.dumps({'kind': 'action', 'dry': dry, 'result': result, 'action': {'type': 'delegate', 'task': 'Build it for discussion #9 and discussion #12.'}})
+tried = lambda result, dry=False, task='Build it for discussion #9 and discussion #12.', at='2026-11-10T00:00:00+00:00': json.dumps({'at': at, 'kind': 'action', 'dry': dry, 'result': result, 'action': {'type': 'delegate', 'task': task}})
 refusal = m.act({'type': 'delegate', 'task': 'x'}, {'strangers': True}, True)
-assert fm.unfiled([tried(refusal)]) == {'9', '12'} and fm.unfiled([tried(refusal), tried('Filed https://x/issues/81')]) == set()
-assert fm.unfiled([tried('Filed x'), tried(refusal)]) == {'9', '12'} and fm.unfiled([tried(refusal, dry=True), json.dumps({'kind': 'action', 'action': {'type': 'roster'}, 'result': refusal})]) == set()
+assert fm.unfiled([tried(refusal)], t0) == {'9', '12'} and fm.unfiled([tried(refusal), tried('Filed https://x/issues/81')], t0) == set()
+assert fm.unfiled([tried('Filed x'), tried(refusal)], t0) == {'9', '12'} and fm.unfiled([tried(refusal, dry=True), json.dumps({'kind': 'action', 'action': {'type': 'roster'}, 'result': refusal})], t0) == set()
+# Only filing lifts a refusal: a later try that failed, or another job filed for the same thread, leaves that work unfiled. A day-old refusal is a dropped job.
+assert fm.unfiled([tried(refusal), tried('Bad delegate: x')], t0) == {'9', '12'} and fm.unfiled([tried(refusal), tried('Action failed: gh')], t0) == {'9', '12'}
+assert fm.unfiled([tried(refusal), tried('Filed x', task='Other work for discussion #9.')], t0) == {'9', '12'} and fm.unfiled([tried(refusal), tried('Already on the roster: x')], t0) == set()
+assert fm.unfiled([tried(refusal)], t0 + 86400) == set()
 assert next_job([], [entry], set(), set(), never, t0 + 3600, {'9'}) is None and next_job([], [entry], set(), set(), never, t0 + 86400, {'9'}) == ('comms', 80, 'issue-80')
 assert next_job([], [entry], set(), set(), never, t0 + 3600, {'90'}) == ('comms', 80, 'issue-80')
 # The host's line goes on the post itself, after the worker's draft.
 with patch('manager.thread', return_value={'id': 'D', 'number': 9, 'ours': [], 'waiting': [], 'opened': '2026-11-10', 'challenge': ''}), patch('manager.facts', return_value=''), patch('manager.bot', side_effect=lambda name, work, *a, **k: Path(work, 'post.json').write_text(json.dumps({'top_level': 'Our entry.'}))), \
         patch('manager.check_post', return_value=[]), patch('manager.record'), patch('manager.gh', return_value={'data': {'addDiscussionComment': {'comment': {'url': 'u'}}}}) as sent:
-    m.post(9, 'task', False, True, m.unfinished_note([81]))
-    assert f'b=Our entry.\n\nWork this challenge asked for is still open: https://github.com/{m.REPO}/issues/81.{m.FOOTER}' in sent.call_args.args
+    m.post(9, 'task', False, True, [81], True)
+    assert f'b=Our entry.\n\nWork this challenge asked for is still open: https://github.com/{m.REPO}/issues/81.\n\nWork this challenge asked for is not filed yet.{m.FOOTER}' in sent.call_args.args
+# A draft has to name each open issue and can't call it done.
+assert m.unfinished_problems('The demo (#81) is done.', [81], False) and m.unfinished_problems('We built a demo.', [81], False) and m.unfinished_problems('All done.', [], True)
+assert not m.unfinished_problems('The demo in #81 is not done yet.', [81], False) and not m.unfinished_problems('#81 is unfinished; the rest is not filed yet.', [81], True) and not m.unfinished_problems('All done.', [], False)
+assert not m.unfinished_problems('#812 is done.\nThe demo is still open in #81.', [81], False)
 assert role(roster[4]) == 'art' and role(issue(5, 'lesson')) == 'coach' and role(issue(6)) == ''
 with tempfile.TemporaryDirectory() as d:
     root, run = Path(d), Path(d, 'runs', 'x')

@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import COMMS, GONE, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread, unfinished_note  # noqa: E402
+from manager import COMMS, GONE, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
 from run import STAGES, checked  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
@@ -102,17 +102,25 @@ def challenge_work(issues, discussion):
                   and re.search(rf'discussion #{discussion}\b', f"{i.get('title', '')}\n{i.get('body') or ''}"))
 
 
-def unfiled(lines):
-    """Threads whose challenge work is on no issue yet: the manager's last delegate naming the thread was refused,
-    which happens while other people's text is in its pass. `lines` is the decision log."""
-    last = {}
+def unfiled(lines, now):
+    """Threads with challenge work on no issue yet: a delegate naming the thread was refused, which happens while other
+    people's text is in the manager's pass, and that job hasn't been filed since. Only filing lifts a refusal; a later
+    try that failed some other way doesn't. `lines` is the decision log. A refusal counts for ENTRY_WAIT: the manager
+    asks again every pass while the work is wanted, so an older one is a job it dropped or renamed."""
+    refused = {}
     for line in lines:
         e = json.loads(line)
         a = e.get('action')
-        if e.get('kind') == 'action' and not e.get('dry') and isinstance(a, dict) and a.get('type') == 'delegate':
-            for n in re.findall(r'discussion #(\d+)\b', f"{a.get('title', '')}\n{a.get('task', '')}"):
-                last[n] = str(e.get('result', '')).startswith(REFUSED)
-    return {n for n, refused in last.items() if refused}
+        if e.get('kind') != 'action' or e.get('dry') or not isinstance(a, dict) or a.get('type') != 'delegate':
+            continue
+        task, result = str(a.get('task', '')).strip(), str(e.get('result', ''))
+        title = str(a.get('title', task))[:80]  # the roster's name for the job: file_job's
+        for n in re.findall(r'discussion #(\d+)\b', f"{a.get('title', '')}\n{task}"):
+            if result.startswith(REFUSED) and now - datetime.fromisoformat(e['at']).timestamp() < ENTRY_WAIT:
+                refused.setdefault(n, set()).add(title)
+            elif result.startswith(('Filed ', 'Already on the roster')):
+                refused.get(n, set()).discard(title)
+    return {n for n, titles in refused.items() if titles}
 
 
 def entry_waits(i, issues, now, unfiled=()):
@@ -249,7 +257,7 @@ def comms_job(title, issues=(), unfiled=()):
         return 'Done: our entry is on the thread and no reply is waiting.'  # an earlier try posted it, or the replies were answered
     work, late = challenge_work(issues, t['number']), str(t['number']) in unfiled
     result = comms(t['number'], comms_task(t, datetime.now(timezone.utc).date().isoformat(), work, late), False,
-                   require_post=not t['ours'], note=unfinished_note(work, late))
+                   require_post=not t['ours'], unfinished=work, unfiled=late)
     # The comms rules tell the worker to skip replies that aren't about the project, so answering none is a finished reply job.
     return 'Done: no waiting reply needed an answer.' if t['ours'] and result == 'Nothing to post.' else result
 
@@ -288,7 +296,7 @@ def main():
     st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
     st['qodo'] = {k: t for k, t in st.get('qodo', {}).items() if t > time.time()}
     held = set(st['waiting']) | set(st['qodo'])
-    waiting_on = unfiled(LOG.read_text().splitlines() if LOG.exists() else [])
+    waiting_on = unfiled(LOG.read_text().splitlines() if LOG.exists() else [], time.time())
     job = next_run(issues, held) if RUN_LANE else next_job(prs, issues, saved, held, gate_rejected, unfiled=waiting_on)
     if not job:
         return
