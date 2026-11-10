@@ -418,7 +418,8 @@ def outside_checkout_sandbox(cmd, tree):
         verification_calls.append(cmd)
     return SimpleNamespace(returncode=0, stdout='', stderr='')
 
-with patch.object(pr_team, '__file__', '/outside-home/checkout/factory/pr_team.py'), patch('pr_team.sandboxed', side_effect=outside_checkout_sandbox), patch('socket.socket'):
+with patch.object(pr_team, '__file__', '/outside-home/checkout/factory/pr_team.py'), patch('pr_team.sandboxed', side_effect=outside_checkout_sandbox), patch('socket.socket'), \
+     patch('pr_team.screens', return_value='') as screen_check:
     from io import StringIO
     from contextlib import redirect_stdout
     host_log = StringIO()
@@ -426,10 +427,12 @@ with patch.object(pr_team, '__file__', '/outside-home/checkout/factory/pr_team.p
         assert pr_team.verified('/outside-home/checkout') == ''
 assert len(probe_paths) == 1 and not probe_paths[0].exists()
 assert verification_calls == [['npm', 'run', 'build'], ['npm', 'test'], ['python3', 'factory/test_manager.py']]
+screen_check.assert_called_once_with('/outside-home/checkout')
 assert host_log.getvalue().splitlines() == [
     'Host verification: checking sandbox isolation', 'Host verification: sandbox isolation passed',
     'Host verification: npm run build passed', 'Host verification: npm test passed',
-    'Host verification: python3 factory/test_manager.py passed']
+    'Host verification: python3 factory/test_manager.py passed',
+    f'Host verification: screens passed (screenshots in {pr_team.ROOT / "factory" / "log" / "screens" / "checkout"})']  # a pass says where the pictures are
 print('ok sandbox probe outside checkout')
 # Failed host checks are recorded and stop verification before later checks.
 verification_calls.clear()
@@ -464,6 +467,71 @@ assert 'sandbox isolation failed (PermissionError: fixture denied)' in failure
 assert failure in host_log.getvalue()
 checks_after_failed_probe.assert_not_called()
 print('ok isolation probe failure recorded')
+
+# The host looks at the screens after build and tests pass, and what it refuses fails verification (issue 134).
+with patch('pr_team.sandbox_works'), patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')), \
+     patch('pr_team.screens', return_value='Screen check failed') as screen_check, redirect_stdout(host_log := StringIO()):
+    assert pr_team.verified('.') == 'Screen check failed'
+assert host_log.getvalue().splitlines()[-1] == 'Host verification: screens failed'
+# A failed build or test stops verification before the browser opens.
+with patch('pr_team.sandboxed', side_effect=failed_build), patch('socket.socket'), patch('pr_team.screens') as screen_check, redirect_stdout(StringIO()):
+    assert pr_team.verified('.') == 'build failed'
+screen_check.assert_not_called()
+clean_shot = {'screen': 'shop', 'width': 390, 'errors': [], 'selects': 0, 'scrollWidth': 390, 'buttons': [['Buy', 120, 44], ['Menu', 40, 40]]}
+assert pr_team.screen_problems([clean_shot, {**clean_shot, 'width': 1280, 'scrollWidth': 1280}]) == []
+assert pr_team.screen_problems([{**clean_shot, 'selects': 1}]) == ['shop at 390px: 1 select element(s)']
+assert pr_team.screen_problems([{**clean_shot, 'buttons': [['Buy', 20, 20], ['Leave', 90, 39]]}]) == [
+    'shop at 390px: button "Buy" is 20x20, under 40px', 'shop at 390px: button "Leave" is 90x39, under 40px']
+assert pr_team.screen_problems([{**clean_shot, 'scrollWidth': 391}]) == ['shop at 390px: the page scrolls sideways (391px wide)']
+assert pr_team.screen_problems([{**clean_shot, 'errors': ['TypeError: x is null']}]) == ['shop at 390px: page error: TypeError: x is null']
+assert pr_team.screen_problems([{'screen': 'treasure', 'width': 390, 'missing': True}]) == ['treasure at 390px: the run has no such room, so nothing looked at this screen']
+# screens() builds in the sandbox, then runs this checkout's driver, never the copy in the tree under review.
+with patch.dict(os.environ, {'SWARMBREAK_CHROME': '/host/chrome'}), patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')) as screen_build, \
+     patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps([{**clean_shot, 'buttons': [['Buy', 20, 20]]}]), stderr='')) as drive:
+    screen_refusal = pr_team.screens('/elsewhere/swarmbreak-pr-7')
+    assert screen_build.call_args.args == (['npm', 'run', 'build'], '/elsewhere/swarmbreak-pr-7') and screen_build.call_args.kwargs['dist_to']
+    assert drive.call_args.args[0][:3] == ['node', str(pr_team.ROOT / 'factory' / 'screens.mjs'), '/host/chrome']
+    assert drive.call_args.args[0][4] == str(pr_team.ROOT / 'factory' / 'log' / 'screens' / 'swarmbreak-pr-7')
+    assert screen_refusal.startswith('Screen check failed') and 'shop at 390px: button "Buy" is 20x20, under 40px' in screen_refusal
+    drive.return_value = SimpleNamespace(returncode=0, stdout=json.dumps([clean_shot]), stderr='')
+    assert pr_team.screens('/elsewhere/swarmbreak-pr-7') == ''
+    # A driver that stops, or prints something unreadable, is a refusal, not a pass.
+    drive.return_value = SimpleNamespace(returncode=1, stdout='', stderr='no visible button matching ^Play$')
+    assert 'the check looked at no screens: no visible button matching ^Play$' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
+    drive.return_value = SimpleNamespace(returncode=0, stdout='[]', stderr='')
+    assert 'looked at no screens' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
+    drive.return_value = SimpleNamespace(returncode=0, stdout='not json', stderr='')
+    assert 'no readable result' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
+    screen_build.return_value = SimpleNamespace(returncode=1, stdout='', stderr='vite: build failed')
+    drive.reset_mock()
+    assert pr_team.screens('/elsewhere/swarmbreak-pr-7') == 'vite: build failed'
+    drive.assert_not_called()
+# A host with no headless browser stops verification; it never passes screens unseen.
+with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), patch('pr_team.sandboxed') as screen_build:
+    os.environ.pop('SWARMBREAK_CHROME', None)
+    try:
+        pr_team.screens('.')
+        assert False, 'no browser must stop verification'
+    except pr_team.HostVerificationError as exc:
+        assert 'no headless browser' in str(exc)
+screen_build.assert_not_called()
+# The driver reads the manifest and the run only inside the build: a path or a link that leaves it stops the check before a browser starts.
+driver = Path(pr_team.__file__).resolve().parent / 'screens.mjs'
+with tempfile.TemporaryDirectory() as escape_dir:
+    built = Path(escape_dir) / 'dist'
+    built.mkdir()
+    (Path(escape_dir) / 'host.json').write_text('{"runUrl": "/run.json", "acts": []}')
+    (built / 'manifest.json').write_text('{"runUrl": "../host.json"}')
+    escaped = subprocess.run(['node', str(driver), '/no/chrome', str(built), str(built / 'out')], capture_output=True, text=True)
+    assert escaped.returncode == 1 and escaped.stderr.strip() == '../host.json is outside the built folder', escaped.stderr
+    (built / 'manifest.json').unlink()
+    (built / 'manifest.json').symlink_to(Path(escape_dir) / 'host.json')
+    escaped = subprocess.run(['node', str(driver), '/no/chrome', str(built), str(built / 'out')], capture_output=True, text=True)
+    assert escaped.returncode == 1 and escaped.stderr.strip() == 'manifest.json is outside the built folder', escaped.stderr
+    assert not (built / 'out').exists()
+# The page stays off the network: every request goes to the folder server, and WebRTC may not send UDP around it.
+assert all(flag in driver.read_text() for flag in ("'--proxy-bypass-list=<-loopback>'", "'--force-webrtc-ip-handling-policy=disable_non_proxied_udp'"))
+print('ok host screen check')
 
 # An unchanged missing-run blocker must not start another follow-up or trigger deploy.
 with patch('manager.release', return_value='Missing run: live run x closed') as release, patch('manager.release_check', return_value=('Missing run: live run x closed', None)) as check, patch('manager.record') as log:
@@ -958,7 +1026,7 @@ for failing_check in (None, 1, 'probe'):
              patch.object(builder.urllib.request, 'urlopen', return_value=response), \
              patch.object(builder, 'checkpoint', return_value=''), \
              patch.object(pr_team, 'sandbox_works', side_effect=lambda: (probes.append(True), (_ for _ in ()).throw(PermissionError('fixture denied')) if failing_check == 'probe' else None)), \
-             patch.object(pr_team, 'sandboxed', side_effect=fake_sandboxed), \
+             patch.object(pr_team, 'sandboxed', side_effect=fake_sandboxed), patch.object(pr_team, 'screens', return_value=''), \
              patch.object(sys, 'argv', ['builder.py', '42']):
             if failing_check is None:
                 builder.main()
@@ -1013,6 +1081,25 @@ with tempfile.TemporaryDirectory() as d:
     assert workers == ['pr-fixer'] and (tree / 'work').read_text() == 'preserved'
     assert not (tree / '.git-fixes.json').exists()
 print('ok PR fixer stops on host failure')
+
+# A merged PR says in a comment where the host's screenshots are (issue 134). Only once merged: the folder is reused until then.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    tree = Path(d) / 'swarmbreak-pr-42'
+    (tree / 'node_modules').mkdir(parents=True)
+    said = []
+    def merge_sh(*args, cwd=None, check=True):
+        said.append(args)
+        return pr_sh(*args, cwd=cwd, check=check)
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=merge_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+         patch.object(pr_team, 'findings', return_value={'findings': [], 'review_session': {'commit_sha': 'sha', 'review_complete': True}}), \
+         patch.object(pr_team, 'verified', return_value=''), patch.object(sys, 'argv', ['pr_team.py', '42', '--merge']), redirect_stdout(StringIO()):
+        pr_team.main()
+    assert [a[:3] for a in said[-2:]] == [('gh', 'pr', 'merge'), ('gh', 'pr', 'comment')]
+    assert said[-1][-1].endswith(f'Screenshots on the factory host: {root / "factory" / "log" / "screens" / "swarmbreak-pr-42"}')
+print('ok merged PR names its screenshots')
 
 # The builder asks Qodo before building; an outage is recorded, not fatal, and the PR says what was asked.
 import builder
