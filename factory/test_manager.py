@@ -529,6 +529,12 @@ with tempfile.TemporaryDirectory() as escape_dir:
     escaped = subprocess.run(['node', str(driver), '/no/chrome', str(built), str(built / 'out')], capture_output=True, text=True)
     assert escaped.returncode == 1 and escaped.stderr.strip() == 'manifest.json is outside the built folder', escaped.stderr
     assert not (built / 'out').exists()
+    # The page plays the next run once it has opened, so the driver takes its rooms from that run, not the one before.
+    (built / 'manifest.json').unlink()
+    (built / 'manifest.json').write_text('{"runUrl": "/old.json", "next": {"opensAt": "2000-01-01T00:00:00Z", "runUrl": "/opened.json"}}')
+    (built / 'old.json').write_text('{"acts": []}')
+    opened = subprocess.run(['node', str(driver), '/no/chrome', str(built), str(built / 'out')], capture_output=True, text=True)
+    assert opened.returncode == 1 and 'opened.json' in opened.stderr and 'old.json' not in opened.stderr, opened.stderr
 # The page stays off the network: every request goes to the folder server, and WebRTC may not send UDP around it.
 assert all(flag in driver.read_text() for flag in ("'--proxy-bypass-list=<-loopback>'", "'--force-webrtc-ip-handling-policy=disable_non_proxied_udp'"))
 print('ok host screen check')
