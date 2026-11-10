@@ -40,11 +40,12 @@ assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strange
 # It can close what it replaced: the owner's issue or PR, with a reason, and never a run, lesson or escalation.
 mine = lambda n, *l, title='t': {'number': n, 'title': title, 'author': {'login': 'Wrhinkle'}, 'labels': [{'name': x} for x in l]}
 board = {'issues': [*s['issues'], mine(2), mine(3, 'lesson'), mine(4, 'run'), mine(5, 'needs-william')], 'prs': [mine(7), mine(8, title='Open run 2026-11-10'), mine(12, 'run'), mine(13, 'lesson'), mine(14, 'needs-william')]}
+board['issues'] += [{**mine(15), 'body': 'Build the thing.\n\ndiscussion #9'}, mine(16, title='Feedback tracker for discussion #9')]  # each holds our entry on that thread
 with patch('manager.gh', return_value=[]):
     assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, True) == 'Would close.'
 assert act({'type': 'close', 'pr': 7, 'reason': 'replaced'}, board, True) == 'Would close.'
 for bad in ({'issue': 2}, {'issue': 2, 'reason': ' '}, {'issue': 9, 'reason': 'r'}, {'issue': 3, 'reason': 'r'}, {'issue': 4, 'reason': 'r'},
-            {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}, {'pr': 12, 'reason': 'r'}, {'pr': 13, 'reason': 'r'}, {'pr': 14, 'reason': 'r'},
+            {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}, {'pr': 12, 'reason': 'r'}, {'pr': 13, 'reason': 'r'}, {'pr': 14, 'reason': 'r'}, {'issue': 15, 'reason': 'r'}, {'issue': 16, 'reason': 'r'},
             *({'issue': 2, 'reason': r} for r in ('token ghp_' + 'a' * 24, 'ask me@example.com', 'see @someone', 'see https://example.com/x'))):
     assert act({'type': 'close', **bad}, board, True).startswith('Not closing'), bad
 assert act({'type': 'close', 'issue': 2, 'reason': 'r'}, {**board, 'strangers': True}, True).startswith('Not closing')
@@ -432,6 +433,11 @@ with patch('manager.open_prs', return_value=[]), patch('manager.gh', return_valu
     assert manager.state()['live']['runId'] == '2026-11-06'
     state_clock.now.return_value = n
     assert manager.state()['live']['next']['runId'] == '2026-11-06'
+with patch('manager.open_prs', return_value=[]), patch('manager.graphql', return_value={'repository': {'discussions': {'nodes': []}}}), \
+     patch('manager.live_manifest', return_value=r), patch('manager.sh') as state_sh, \
+     patch('manager.gh', return_value=[{'number': n_, 'author': {'login': 'Wrhinkle'}, 'labels': []} for n_ in (3, 37)]):
+    state_sh.return_value.stdout = 'fix/issue-37\nfix/issue-371\n'  # unmerged work on a branch shows on its issue, so the manager won't strand it
+    assert [i.get('saved') for i in manager.state()['issues']] == [None, True]
 calls = []
 manager.sh = lambda *a, **k: type('R', (), {'stdout': 'abc123' if a[1] == 'rev-parse' else json.dumps(m5) if a[1] == 'show' else '', 'returncode': 0})()
 manager.live_manifest = lambda: m4

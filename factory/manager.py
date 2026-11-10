@@ -488,7 +488,9 @@ def state():
     issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
     spent = effort(log, sh('git', 'log', '--format=%s', '-F', '--grep=Part of issue ', 'origin/main').stdout.splitlines(),
                    {i['number'] for i in issues if {RUN, COMMS} & {l['name'] for l in i['labels']}})
-    issues = [{**i, **spent.get(i['number'], {})} for i in issues]
+    # Unmerged work on an issue's branch, which closing the issue would strand.
+    unmerged = set(sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*', '--no-merged', 'origin/main').stdout.split())
+    issues = [{**i, **spent.get(i['number'], {}), **({'saved': True} if f'fix/issue-{i["number"]}' in unmerged else {})} for i in issues]
     found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
     threads = []
     for d in found:
@@ -580,9 +582,12 @@ def act(a, s, dry):
         if s.get('strangers'):
             return 'Not closing while issues or replies from other people are in this pass, because their text could have shaped the choice.'
         # Runs and entries are the host's to file, lessons the coach's to close, and escalations William's.
-        kept = {RUN, 'lesson', HUMAN} & {l['name'] for l in (item or {}).get('labels', [])} or str((item or {}).get('title', '')).startswith('Open run ')
+        # Work that names a challenge thread holds our entry there while it's open, so only finishing it lifts that hold.
+        item = item or {}
+        kept = ({RUN, 'lesson', HUMAN} & {l['name'] for l in item.get('labels', [])} or str(item.get('title', '')).startswith('Open run ')
+                or re.search(r'discussion #\d', f"{item.get('title', '')}\n{item.get('body') or ''}"))
         if not item or item['author']['login'] != OWNER or not reason or kept:
-            return f'Not closing {which} {number}: it must be open, the owner\'s, not a run, lesson or escalation, and have a reason.'
+            return f'Not closing {which} {number}: it must be open, the owner\'s, not a run, lesson, escalation or work for a challenge thread, and have a reason.'
         comment = f'Closed by the factory manager: {reason[:1500]}'
         if bad := post_problems(comment):  # the reason is posted in public, like any other post
             return f'Not closing {which} {number}: the reason {"; ".join(bad)}.'
