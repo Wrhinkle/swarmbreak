@@ -5,9 +5,10 @@ The manager only files jobs; this does them. Two lanes run side by side so a lon
 - code (default): open owner PRs the gate hasn't rejected at their head, then issues with saved work, then priority
   issues, then the oldest ready issue. Issues labelled `comms` are posts; `agent:<name>` picks the worker's role.
 - run (`--lane run`): issues titled `Run YYYY-MM-DD`, built in their own worktree and opened as a PR.
-A job that fails without progress isn't retried: it becomes a lesson issue, and the job waits until the coach closes
-that lesson by fixing the cause, adding to factory/lessons.md, or writing a skill. A lesson the coach can't finish is
-labelled stuck, with its job, for the manager.
+A failed job isn't retried: it becomes a lesson issue, and the job waits until the coach closes that lesson by fixing
+the cause, adding to factory/lessons.md, or writing a skill. For the builder, failing means the pass opened no PR,
+whatever it saved. A lesson the coach can't finish is labelled stuck, with its job, for the manager. So is an issue or
+PR that fails again after its lesson closed: one evaluation each, then the manager rescopes it.
 
 Usage: python3 factory/foreman.py [--lane run] [--dry-run]
 """
@@ -167,10 +168,6 @@ def tip(ref):
     return sh('git', 'rev-parse', '-q', '--verify', ref, check=False).stdout.strip()
 
 
-def starting_tip(ref):
-    return (tip(ref) or tip('refs/remotes/origin/main')) if ref else ''
-
-
 def resume_stage(d, built=False):
     """The first stage of a run whose checked output isn't on disk yet, or None once `built`, so a rebuild never redoes finished stages."""
     balance = d / 'balance.json'
@@ -308,7 +305,8 @@ def main():
     st['waiting'] = {k: n for k, n in st['waiting'].items() if n in open_}  # a closed lesson frees its job for one more try
     st['qodo'] = {k: t for k, t in st.get('qodo', {}).items() if t > time.time()}
     held = set(st['waiting']) | set(st['qodo'])
-    waiting_on = unfiled(LOG.read_text().splitlines() if LOG.exists() else [], time.time())
+    log = LOG.read_text().splitlines() if LOG.exists() else []
+    waiting_on = unfiled(log, time.time())
     job = next_run(issues, held) if RUN_LANE else next_job(prs, issues, saved, held, gate_rejected, unfiled=waiting_on)
     if not job:
         return
@@ -318,8 +316,6 @@ def main():
         return
     issue = next((i for i in issues if i['number'] == number), {})
     run_id = RUN_TITLE.fullmatch(issue['title']).group(1) if kind == 'run' else ''
-    ref = {'issue': f'refs/heads/fix/issue-{number}', 'run': f'refs/heads/run/{run_id}'}.get(kind, '')  # checkpoints are local commits
-    before = starting_tip(ref)
     worker = role(issue) if kind == 'issue' else ''
     print(f'[foreman] {kind} {number}', flush=True)
     try:
@@ -352,37 +348,46 @@ def main():
     try:
         if not r.returncode and kind in ('run', 'comms'):
             done(number, f'Done by the foreman: {out.strip().splitlines()[-1][:500] if out.strip() else "finished"}')
-        settle(st, r, out, kind, number, key, ref, before, worker == 'coach', prs)
+        settle(st, r, out, kind, number, key, worker == 'coach', prs, log)
     except SystemExit as e:  # a GitHub write failed; pause instead of rerunning the same job every start
         print(f'[foreman] {e}', flush=True)
         st['cooldown_until'] = time.time() + 600
     STATE.write_text(json.dumps(st, indent=1))
-    record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'tail': out[-600:]})
+    record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'lesson': st['waiting'].get(key), 'tail': out[-600:]})
 
 
-def settle(st, r, out, kind, number, key, ref, before, coach, prs):
+def evaluated(key, log):
+    """Whether this job has had its one evaluation: a lesson was filed for it, and it hasn't finished a pass since.
+    `log` is the decision log. The main checkout's sync reorders it, so the records are read by their own times."""
+    had = False
+    for e in sorted((e for e in map(json.loads, log) if e.get('kind') == 'foreman' and e.get('job') == key), key=lambda e: e.get('at', '')):
+        had = bool(e.get('exit')) and (had or bool(e.get('lesson')))
+    return had
+
+
+def settle(st, r, out, kind, number, key, coach, prs, log=()):
     if r.returncode and QUOTA.search(out):
         st['cooldown_until'] = time.time() + 1800  # the subscription is resting; nothing will run until it's back
-    else:
-        sh('git', 'fetch', '-q', 'origin')
-        moved = getattr(r, 'moved', None)
-        if moved is None:
-            moved = bool(ref) and tip(ref) != before
-        if r.returncode and not moved:
-            # No progress: evaluate once instead of spending tokens on retries.
-            if coach:
-                parked = {**st['waiting']}
-                for other in ('.runner.json', '.foreman.json'):
-                    path = ROOT / 'factory' / 'log' / other
-                    if path != STATE and path.exists():
-                        parked.update(json.loads(path.read_text()).get('waiting', {}))
-                stuck = [number] + [int(k.split('-')[1].split('@')[0]) for k, n in parked.items() if n == number]
-                for n in stuck:
-                    which = 'pr' if any(p['number'] == n for p in prs) else 'issue'
-                    sh('gh', which, 'edit', str(n), '--repo', REPO, '--add-label', STUCK)
-                    sh('gh', which, 'comment', str(n), '--repo', REPO, '--body', f'The coach couldn\'t work out how to unblock this, so it is labelled `{STUCK}` for the manager to rescope, split, or fix the cause.')
-            else:
-                st['waiting'][key] = learn(kind, number, out)
+    elif r.returncode and not getattr(r, 'moved', False):
+        # A failed pass is evaluated once instead of spending tokens on retries. Only a run says it moved: a stage finished.
+        # A builder pass that opened no PR didn't, whatever it saved: issue 37 saved a hundred passes and shipped none.
+        if coach:
+            parked = {**st['waiting']}
+            for other in ('.runner.json', '.foreman.json'):
+                path = ROOT / 'factory' / 'log' / other
+                if path != STATE and path.exists():
+                    parked.update(json.loads(path.read_text()).get('waiting', {}))
+            stuck = [number] + [int(k.split('-')[1].split('@')[0]) for k, n in parked.items() if n == number]
+            why = 'The coach couldn\'t work out how to unblock this'
+        elif kind in ('issue', 'pr') and evaluated(key, log):
+            stuck, why = [number], 'This failed again after the lesson filed for it was closed'
+        else:
+            st['waiting'][key] = learn(kind, number, out)
+            return
+        for n in stuck:
+            which = 'pr' if any(p['number'] == n for p in prs) else 'issue'
+            sh('gh', which, 'edit', str(n), '--repo', REPO, '--add-label', STUCK)
+            sh('gh', which, 'comment', str(n), '--repo', REPO, '--body', f'{why}, so it is labelled `{STUCK}` for the manager to rescope, split, or fix the cause.')
 
 
 if __name__ == '__main__':

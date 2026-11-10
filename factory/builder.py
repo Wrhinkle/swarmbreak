@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Turns one reported issue into a PR: a Terra bot fixes code or content in its own checkout, and this script holds the limits.
+A pass ends one of two ways. Work that passes the host's checks goes to review, whole or as one part of a bigger job.
+Anything else is saved on the issue's branch and the pass fails, for the foreman to have evaluated once.
 
 Usage: python3 factory/builder.py <issue> [--dry-run]
 Prints the PR number on the last line when it opens one. Only issues filed by the repo owner qualify for now.
@@ -19,6 +21,7 @@ RESULT = '.builder-result.json'
 CHECKPOINT = 'Builder checkpoint'
 MARKERS = '^(<<<<<<<|>>>>>>>) '
 RETRIES = 2
+SHIPS = ('fixed', 'partial')  # outcomes that go to the host's checks and, when they pass, to review
 CRITERIA_MAX = 30000
 PR_BODY_MAX = 65536
 INVESTIGATION_TIMEOUT = 60
@@ -116,9 +119,12 @@ def investigated_section(found, cited, no_applicable=''):
     return '\n\n## Investigated before building\n' + '\n'.join(lines) + explanation
 
 
-def pr_body(number, issue_body, summary, evidence, investigated=''):
-    prefix = f'Fixes #{number}: https://github.com/{REPO}/issues/{number}\n\n## Acceptance criteria (from the issue)\n'
-    suffix = f'{investigated[:4000]}\n\n## Change\n{str(summary)[:15000]}\n\nEvidence: {str(evidence)[:15000]}\n\nWritten by the factory builder on GPT-6.1 Terra.'
+def pr_body(number, issue_body, summary, evidence, investigated='', remaining=None):
+    """`remaining` is given for one part of a bigger job: the PR then says so, and merging it leaves the issue open."""
+    part = remaining is not None
+    prefix = f'{"Part of" if part else "Fixes"} #{number}: https://github.com/{REPO}/issues/{number}\n\n## Acceptance criteria (from the issue)\n'
+    left = f'\n\n## Still to do\n{str(remaining)[:5000]}' if part else ''
+    suffix = f'{investigated[:4000]}\n\n## Change\n{str(summary)[:15000]}{left}\n\nEvidence: {str(evidence)[:15000]}\n\nWritten by the factory builder on GPT-6.1 Terra.'
     body = prefix + criteria(issue_body, PR_BODY_MAX - len(prefix) - len(suffix)) + suffix
     if len(body) > PR_BODY_MAX:
         raise ValueError('PR body exceeds GitHub\'s character limit')
@@ -220,10 +226,13 @@ def check_published(tree, live, reserves):
         reserves |= pending
 
 
-def notes(tree):
-    """What earlier passes saved, read from this Mac's own checkpoint commits, never from GitHub text."""
-    log = sh('git', 'log', '--format=%B%x00', 'origin/main..HEAD', cwd=tree).stdout.split('\0')
-    return [m.strip() for m in log if m.strip().startswith(CHECKPOINT)][::-1] + [sh('git', 'diff', '--stat', 'origin/main', cwd=tree).stdout[-3000:]]
+def notes(tree, number):
+    """What earlier passes did, read from this Mac's own commits, never from GitHub text: checkpoints saved on the branch
+    and parts of this job already merged to main. The newest ten, oldest first, then what the branch still changes."""
+    mine = (f'{CHECKPOINT} on #{number} ', f'Part of issue {number}:')
+    log = sh('git', 'log', '--format=%B%x00', '-F', *(f'--grep={m}' for m in mine), cwd=tree).stdout.split('\0')
+    # A merge commit quotes the PR title in its body, so only a message that starts with one of these is a pass's own.
+    return [m.strip() for m in log if m.strip().startswith(mine)][:10][::-1] + [sh('git', 'diff', '--stat', 'origin/main', cwd=tree).stdout[-3000:]]
 
 
 def checkpoint(number, tree, branch, live, result, bad, reserves=frozenset(), preserve_runs=False):
@@ -284,7 +293,7 @@ def main():
     # A checkpoint keeps a half-resolved merge, markers and all, so no resolved file is lost; this pass finishes it.
     conflicts = sorted(set(conflicts) | set(conflicted(tree)))
     sh('npm', 'ci', '--silent', cwd=tree)
-    progress = notes(tree) if saved else []
+    progress = notes(tree, number) if saved else []
     common = Path(sh('git', 'rev-parse', '--git-common-dir', cwd=tree).stdout.strip())
     if not common.is_absolute():
         common = tree / common
@@ -300,7 +309,7 @@ def main():
 
     extra, result, bad = '', {}, []
     if progress or conflicts:
-        extra = ('Earlier passes saved work on this branch. `progress` in .issue.json says what they did and what is left. Continue from there. '
+        extra = ('Earlier passes did part of this job. `progress` in .issue.json says what they did and what is left. Continue from there. '
                  + (f'Merging main left conflict markers in {conflicts}; resolve them first. ' if conflicts else ''))
     for attempt in range(RETRIES + 1):
         (tree / RESULT).unlink(missing_ok=True)
@@ -317,12 +326,16 @@ def main():
             if isinstance(explanation, str):
                 investigation['no_applicable'] = explanation[:3000]
             metadata.write_text(json.dumps(investigation))
-            if result.get('outcome') != 'fixed':
+            if result.get('outcome') not in SHIPS:
                 break
             try:
                 bad, changed = check_published(tree, live, reserves)
             except (HostVerificationError, OSError, ValueError, KeyError, TypeError) as exc:
                 bad = [str(exc)]
+                break
+            if result['outcome'] == 'partial' and all(c.endswith('.md') or c.startswith('docs/') for c in changed):
+                # Notes are no part of a job. Issue 37 saved a hundred passes of them; this one is evaluated instead of asked again.
+                bad.append('outcome is partial, but no code changed')
                 break
             bad += [] if changed else ['outcome is fixed, but nothing changed']
         if not bad:
@@ -336,7 +349,7 @@ def main():
         if not dry:
             sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
         return
-    if outcome != 'fixed' or bad:
+    if outcome not in SHIPS or bad:
         # Unfinished work is kept and continued, never thrown away.
         (tree / RESULT).unlink(missing_ok=True)
         try:
@@ -351,16 +364,19 @@ def main():
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         sys.exit(f'Builder stopped with outcome {outcome}' + (f'; saved {sha} on {branch} for the next pass.' if sha else '; nothing new to save.')
                  + (f'\n{str(bad)[:1500]}' if bad else ''))
-    body = pr_body(number, issue['body'], result['summary'], result['evidence'], investigated_section(found, investigation['references'], investigation.get('no_applicable', '')) if found or investigation['references'] or investigation.get('no_applicable') else '')
+    # One part of a bigger job merges without closing its issue, so its own words can't say "fixes #<n>" either.
+    part = outcome == 'partial'
+    summary, remaining = (str(result.get(k) or '').replace(f'#{number}', f'issue {number}') if part else result.get(k) for k in ('summary', 'remaining'))
+    body = pr_body(number, issue['body'], summary, result['evidence'], investigated_section(found, investigation['references'], investigation.get('no_applicable', '')) if found or investigation['references'] or investigation.get('no_applicable') else '', remaining if part else None)
     (tree / RESULT).unlink()
     if dry:
         print(f'Would open a PR for: {result.get("summary")}\nThe attempt is in {tree}.')
         return
     sh('git', 'add', '-A', cwd=tree)
-    title = f'Fix issue {number}: {issue["title"]}'[:90]
+    title = f'{"Part of" if part else "Fix"} issue {number}: {issue["title"]}'[:90]
     staged = sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode
     if staged or not sh('git', 'rev-parse', '-q', '--verify', 'MERGE_HEAD', cwd=tree, check=False).returncode:
-        sh('git', 'commit', '-q', '-m', f'{title}\n\n{result["summary"]}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
+        sh('git', 'commit', '-q', '-m', f'{title}\n\n{summary}' + (f'\n\nStill to do: {remaining[:3000]}' if part else '') + '\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>', cwd=tree)
     # else the saved checkpoints already hold the whole fix
     sh('git', 'push', '-q', 'origin', f'HEAD:refs/heads/{branch}', cwd=tree)
     url = sh('gh', 'pr', 'create', '--repo', REPO, '--base', 'main', '--head', branch, '--title', title, '--body', body).stdout.strip()
