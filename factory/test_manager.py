@@ -712,6 +712,19 @@ with tempfile.TemporaryDirectory() as d:
         (root / name).write_text('{"scripts": {"preinstall": "untrusted"}}')
         assert not foreman.factory_clean(root, run_paths), name
         (root / name).unlink()
+    # A run branch that carries game code, or a file main lacks, runs main's instead; the run's own files stay.
+    for name, text in (('src/combat.ts', 'main'), ('runs/X/content.json', 'main')):
+        (root / name).parent.mkdir(parents=True, exist_ok=True); (root / name).write_text(text)
+    g('add', 'src', 'runs'); g('commit', '-qm', 'game'); g('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    for name in ('src/combat.ts', 'src/extra.ts', 'runs/X/content.json'):
+        (root / name).write_text('branch')
+    g('add', 'src', 'runs'); g('commit', '-qm', 'run branch')
+    assert foreman.main_only(root, 'X')
+    assert (root / 'src/combat.ts').read_text() == 'main' and not (root / 'src/extra.ts').exists()
+    assert (root / 'runs/X/content.json').read_text() == 'branch'
+    (root / 'src/stray.ts').write_text('untracked')
+    assert not foreman.main_only(root, 'X')
+    (root / 'src/stray.ts').unlink()
     with patch('foreman.subprocess.run', side_effect=OSError('git unavailable')):
         assert not foreman.factory_clean(root)
     with patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=2, stdout=b'')):

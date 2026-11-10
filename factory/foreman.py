@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 os.environ['PYTHONPYCACHEPREFIX'] = '/dev/null'
 
 
-def factory_clean(root, paths=('factory',)):
+def factory_clean(root, paths=('factory',), ignored=True):
     """Fail closed on changed, untracked or ignored factory inputs, leaving them in place."""
     def git(*args):
         return subprocess.run(['git', *args], cwd=root, capture_output=True)
@@ -40,7 +40,7 @@ def factory_clean(root, paths=('factory',)):
     try:
         if git('diff', '--quiet', 'origin/main', '--', *paths, ':(exclude)factory/log').returncode:
             return False
-        for extra in ((), ('--ignored',)):
+        for extra in ((), ('--ignored',))[:1 + ignored]:
             result = git('ls-files', '--others', '--exclude-standard', *extra, '-z', '--', *paths,
                          ':(exclude)factory/log', ':(exclude)factory/.venv')
             if result.returncode:
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import COMMS, GONE, HUMAN, OWNER, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_problems, thread  # noqa: E402
+from manager import COMMS, GONE, HUMAN, OWNER, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
 from run import STAGES, checked  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
@@ -144,6 +144,18 @@ def resume_stage(d, built=False):
 RUN_TRUSTED = ('factory', 'tools', 'package.json', 'package-lock.json')
 
 
+def main_only(tree, run_id):
+    """Makes everything in a run's worktree but the run's own files match main, and says whether it now does.
+    The merge keeps edits made only on the branch, and this lane runs the tree on the host: the factory, the tools,
+    the game code in src/ that the balance bots import, and npm ci's install scripts. A run changes none of them."""
+    own = [f':(exclude){p}' for p in run_paths(run_id)]
+    sh('git', 'checkout', '--no-overlay', 'origin/main', '--', '.', *own, cwd=tree)  # --no-overlay also drops files main lacks
+    if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode:
+        sh('git', 'commit', '-q', '-m', f'Use main\'s code for run {run_id}', cwd=tree)
+    # Untracked files anywhere outside the run fail it; ignored ones only where code is loaded from (.npmrc isn't on main).
+    return factory_clean(tree, ('.', *own), ignored=False) and factory_clean(tree, (*RUN_TRUSTED, '.npmrc'))
+
+
 def build_run(run_id):
     """Builds, checkpoints and opens one run in its own worktree, leaving this checkout on main for the code lane."""
     tree, branch = ROOT.parent / f'swarmbreak-run-{run_id}', f'run/{run_id}'
@@ -156,14 +168,8 @@ def build_run(run_id):
     if sh('git', 'merge', '-q', '--no-edit', 'origin/main', cwd=tree, check=False).returncode:
         sh('git', 'checkout', 'origin/main', '--', 'public/manifest.json', cwd=tree)  # open_run rewrites it from main's anyway
         sh('git', 'commit', '-q', '--no-edit', cwd=tree)
-    # The merge keeps factory edits made only on the branch; this lane runs only code that matches main.
-    # npm ci runs install scripts, so the package files come from main too.
-    sh('git', 'checkout', 'origin/main', '--', *RUN_TRUSTED, cwd=tree)
-    if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode:
-        sh('git', 'commit', '-q', '-m', f'Use main\'s factory for run {run_id}', cwd=tree)
-    # .npmrc isn't on main, so one in the tree fails this check.
-    if not factory_clean(tree, (*RUN_TRUSTED, '.npmrc')):
-        return SimpleNamespace(returncode=1, stdout=f'{tree} has factory, tools or npm files main lacks; not running them.', stderr='', moved=False)
+    if not main_only(tree, run_id):
+        return SimpleNamespace(returncode=1, stdout=f'{tree} differs from main outside run {run_id}\'s own files; not running it.', stderr='', moved=False)
     venv = tree / 'factory' / '.venv'
     if not venv.exists():
         venv.symlink_to(ROOT / 'factory' / '.venv')

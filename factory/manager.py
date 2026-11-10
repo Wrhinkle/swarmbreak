@@ -310,9 +310,14 @@ def sync():
         os.execv(sys.executable, [sys.executable, *sys.argv])
 
 
+def run_paths(run_id):
+    """The only paths a run's branch may differ from main in."""
+    return f'runs/{run_id}', f'public/runs/{run_id}', f'public/art/{run_id}', 'public/manifest.json'
+
+
 def keep_run(run_id, message, root):
     """Commits and pushes one run's files from its worktree, and nothing else there."""
-    paths = [p for p in (f'runs/{run_id}', f'public/runs/{run_id}', f'public/art/{run_id}', 'public/manifest.json') if (root / p).exists()]
+    paths = [p for p in run_paths(run_id) if (root / p).exists()]
     sh('git', 'add', *paths, cwd=root)
     if sh('git', 'diff', '--cached', '--quiet', cwd=root, check=False).returncode:
         sh('git', 'commit', '-q', '-m', message, '--', *paths, cwd=root)
