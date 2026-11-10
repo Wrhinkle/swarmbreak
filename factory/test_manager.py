@@ -44,10 +44,11 @@ board['issues'] += [{**mine(15), 'body': 'Build the thing.\n\ndiscussion #9'}, {
 with patch('manager.gh', return_value=[]):
     assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, True) == 'Would close.'
 assert act({'type': 'close', 'pr': 7, 'reason': 'replaced'}, board, True) == 'Would close.'
-for bad in ({'issue': 2}, {'issue': 2, 'reason': ' '}, {'issue': 9, 'reason': 'r'}, {'issue': 3, 'reason': 'r'}, {'issue': 4, 'reason': 'r'},
-            {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}, {'pr': 12, 'reason': 'r'}, {'pr': 13, 'reason': 'r'}, {'pr': 14, 'reason': 'r'}, {'issue': 15, 'reason': 'r'}, {'issue': 16, 'reason': 'r'},
-            *({'issue': 2, 'reason': r} for r in ('token ghp_' + 'a' * 24, 'ask me@example.com', 'see @someone', 'see https://example.com/x'))):
-    assert act({'type': 'close', **bad}, board, True).startswith('Not closing'), bad
+with patch('manager.gh', return_value=[]):  # the close reads the open issues; no test calls GitHub
+    for bad in ({'issue': 2}, {'issue': 2, 'reason': ' '}, {'issue': 9, 'reason': 'r'}, {'issue': 3, 'reason': 'r'}, {'issue': 4, 'reason': 'r'},
+                {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}, {'pr': 12, 'reason': 'r'}, {'pr': 13, 'reason': 'r'}, {'pr': 14, 'reason': 'r'}, {'issue': 15, 'reason': 'r'}, {'issue': 16, 'reason': 'r'},
+                *({'issue': 2, 'reason': r} for r in ('token ghp_' + 'a' * 24, 'ask me@example.com', 'see @someone', 'see https://example.com/x'))):
+        assert act({'type': 'close', **bad}, board, True).startswith('Not closing'), bad
 assert act({'type': 'close', 'issue': 2, 'reason': 'r'}, {**board, 'strangers': True}, True).startswith('Not closing')
 with patch('manager.gh', return_value=[]) as listed:  # a PR's labels reach the manager, or the label check above sees nothing
     __import__('manager').open_prs()
