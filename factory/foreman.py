@@ -23,7 +23,7 @@ sys.path = [p for p in sys.path if p and p.rstrip('/') not in (_factory, _root)]
 sys.pycache_prefix = '/dev/null'  # neither this process nor its children may trust checkout bytecode
 import os
 sys.path = [p for p in sys.path if os.path.realpath(p) not in (os.path.realpath(_factory), os.path.realpath(_root))]
-import fcntl, json, re, subprocess, time
+import fcntl, hashlib, json, re, subprocess, time
 from datetime import datetime, timezone
 from types import SimpleNamespace
 from pathlib import Path
@@ -156,6 +156,15 @@ def main_only(tree, run_id):
     return factory_clean(tree, ('.', *own), ignored=False) and factory_clean(tree, (*RUN_TRUSTED, '.npmrc'))
 
 
+def install(tree):
+    """Installs the packages main's lockfile names, unless that lockfile's are already there.
+    The stamp is inside node_modules: ignored, so in no branch, and npm ci removes it with the old packages."""
+    stamp, want = tree / 'node_modules' / '.installed-from', hashlib.sha256((tree / 'package-lock.json').read_bytes()).hexdigest()
+    if not stamp.exists() or stamp.read_text() != want:
+        sh('npm', 'ci', '--silent', cwd=tree)
+        stamp.write_text(want)
+
+
 def build_run(run_id):
     """Builds, checkpoints and opens one run in its own worktree, leaving this checkout on main for the code lane."""
     tree, branch = ROOT.parent / f'swarmbreak-run-{run_id}', f'run/{run_id}'
@@ -173,8 +182,7 @@ def build_run(run_id):
     venv = tree / 'factory' / '.venv'
     if not venv.exists():
         venv.symlink_to(ROOT / 'factory' / '.venv')
-    if not (tree / 'node_modules').exists():
-        sh('npm', 'ci', '--silent', cwd=tree)
+    install(tree)
     d = tree / 'runs' / run_id
     left = lambda: resume_stage(d, not run_problems(run_id, tree))
     order = lambda stage: STAGES.index(stage) if stage else len(STAGES)

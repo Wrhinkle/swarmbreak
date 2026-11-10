@@ -725,6 +725,14 @@ with tempfile.TemporaryDirectory() as d:
     (root / 'src/stray.ts').write_text('untracked')
     assert not foreman.main_only(root, 'X')
     (root / 'src/stray.ts').unlink()
+    # Packages are installed again when main's lockfile changes, not only when none are there.
+    (root / 'package-lock.json').write_text('one')
+    with patch('foreman.sh', side_effect=lambda *a, **k: (root / 'node_modules').mkdir(exist_ok=True)) as npm:
+        foreman.install(root); foreman.install(root)
+        assert npm.call_count == 1
+        (root / 'package-lock.json').write_text('two')
+        foreman.install(root)
+        assert npm.call_count == 2
     with patch('foreman.subprocess.run', side_effect=OSError('git unavailable')):
         assert not foreman.factory_clean(root)
     with patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=2, stdout=b'')):
