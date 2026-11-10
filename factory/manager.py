@@ -139,7 +139,7 @@ def facts():
             f'Live run: {json.dumps(live_manifest())}\n\n'
             '# How the factory reads tickets\nTickets are GitHub issues, read through the GitHub CLI (gh). The manager lists open issues with '
             '`gh issue list` each pass and keeps the roster; the foreman workers take each one. The builder reads it with `gh issue view`, works on branch fix/issue-<n>, '
-            'and opens a PR whose body says "Fixes #<n>". The PR team runs Qodo on that PR. Only a PR touching a protected path (' + ', '.join(GATES) + ', or factory/ outside factory/log/) also needs the gate reviewer to approve the exact commit; other PRs merge without it, so never claim a gate review on a PR that does not touch those files.\n\n'
+            'and opens a PR whose body says "Fixes #<n>", or "Part of #<n>" for one piece of a bigger job. The PR team runs Qodo on that PR. Only a PR touching a protected path (' + ', '.join(GATES) + ', or factory/ outside factory/log/) also needs the gate reviewer to approve the exact commit; other PRs merge without it, so never claim a gate review on a PR that does not touch those files.\n\n'
             f'# Issues\n{json.dumps(issues, indent=1)}\n\n# AGENTS.md\n{(ROOT / "AGENTS.md").read_text()}\n\n# Pull requests\n{json.dumps(prs, indent=1)}\n\n'
             f'# Commits on main\nCommit links are https://github.com/{REPO}/commit/<hash>\n{log}\n\n# Log\n{notes}\n')
 
