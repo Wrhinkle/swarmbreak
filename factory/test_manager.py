@@ -405,6 +405,13 @@ if not os.environ.get('SWARMBREAK_SANDBOX'):
     print('ok sandbox')
 from types import SimpleNamespace
 import pr_team
+# A tree that can't be copied stops the check with cp's reason in the error, so the lesson filed for it has a cause.
+try:
+    pr_team.sandboxed(['true'], '/no/such/tree')
+    raise AssertionError('a failed copy must raise')
+except OSError as exc:
+    assert 'copying the tree failed (exit 1)' in str(exc) and 'No such file or directory' in str(exc), exc
+print('ok failed sandbox copy says why')
 probe_paths, verification_calls = [], []
 def outside_checkout_sandbox(cmd, tree):
     if cmd[0] == 'cat':
