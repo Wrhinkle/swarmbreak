@@ -25,7 +25,7 @@ MAX_POST, MAX_REPLIES_PER_DAY = 6000, 3
 HUMAN = 'needs-william'
 RUN, COMMS, PRIORITY = 'run', 'comms', 'priority'
 FOLLOW_UPS = 2
-FAILED = re.compile(r'exited [1-9]|^Could not|^Bad |^Not (merging|building|opening|deploying)|not merging|refused|rejected|fail|missing', re.I | re.M)
+FAILED = re.compile(r'exited [1-9]|^Could not|^Bad |^Not (merging|building|opening|deploying|closing)|not merging|refused|rejected|fail|missing', re.I | re.M)
 LINKS = (f'https://github.com/{REPO}', RAW, SITE, f'https://github.com/{CONTEST[0]}', 'https://hackathon.qodo.ai')
 FOOTER = '\n\n<sub>Written by this factory\'s comms agent and posted from the owner\'s account. [How it works](https://github.com/%s/blob/main/AGENTS.md).</sub>' % REPO
 SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{12,}|AIza[\w-]{20,}|-----BEGIN', re.I)
@@ -504,7 +504,9 @@ def state():
     issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
     spent = effort(log, sh('git', 'log', '--format=%s', '-F', '--grep=Part of issue ', 'origin/main').stdout.splitlines(),
                    {i['number'] for i in issues if {RUN, COMMS} & {l['name'] for l in i['labels']}})
-    issues = [{**i, **spent.get(i['number'], {})} for i in issues]
+    # Unmerged work on an issue's branch, which closing the issue would strand.
+    unmerged = set(sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*', '--no-merged', 'origin/main').stdout.split())
+    issues = [{**i, **spent.get(i['number'], {}), **({'saved': True} if f'fix/issue-{i["number"]}' in unmerged else {})} for i in issues]
     found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
     threads = []
     for d in found:
@@ -559,6 +561,11 @@ def comms_task(t, today):
 REFUSED = 'Not delegating while issues or replies from other people are in this pass'
 
 
+def deps(body):
+    """Issue numbers named on a 'Depends on #12, #13' line."""
+    return {int(n) for line in re.findall(r'^Depends on (.*)$', body or '', re.M) for n in re.findall(r'#(\d+)', line)}
+
+
 def act(a, s, dry):
     """Every action files or labels roster work; the foreman's workers do it."""
     kind = a.get('type')
@@ -591,12 +598,20 @@ def act(a, s, dry):
         if s.get('strangers'):
             return 'Not closing while issues or replies from other people are in this pass, because their text could have shaped the choice.'
         # Runs and entries are the host's to file, lessons the coach's to close, and escalations William's.
-        kept = {RUN, 'lesson', HUMAN} & {l['name'] for l in (item or {}).get('labels', [])} or str((item or {}).get('title', '')).startswith('Open run ')
+        # Work that names a challenge thread holds our entry there while it's open, so only finishing it lifts that hold.
+        item = item or {}
+        kept = ({RUN, 'lesson', HUMAN} & {l['name'] for l in item.get('labels', [])} or str(item.get('title', '')).startswith('Open run ')
+                or re.search(r'discussion #\d', f"{item.get('title', '')}\n{item.get('body') or ''}"))
         if not item or item['author']['login'] != OWNER or not reason or kept:
-            return f'Not closing {which} {number}: it must be open, the owner\'s, not a run, lesson or escalation, and have a reason.'
+            return f'Not closing {which} {number}: it must be open, the owner\'s, not a run, lesson, escalation or work for a challenge thread, and have a reason.'
         comment = f'Closed by the factory manager: {reason[:1500]}'
         if bad := post_problems(comment):  # the reason is posted in public, like any other post
             return f'Not closing {which} {number}: the reason {"; ".join(bad)}.'
+        if which == 'issue':
+            issues = gh('issue', 'list', '--repo', REPO, '--state', 'open', '--limit', '500', '--json', 'number,body')
+            dependents = sorted(i['number'] for i in issues if i['number'] != number and number in deps(i.get('body')))
+            if dependents:
+                return f'Not closing issue {number}: open issues depend on it: {dependents}.'
         return 'Would close.' if dry else sh('gh', which, 'close', str(number), '--repo', REPO, '--comment', comment).stdout.strip() or 'Closed.'
     if kind == 'escalate':
         if dry:
