@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import REPO, WAITING, sh  # noqa: E402
-from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
+from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, deps, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
 from run import STAGES, checked, clashes  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
@@ -77,11 +77,6 @@ QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests', re.I)
 
 def gh(*args):
     return json.loads(sh('gh', *args, '--repo', REPO).stdout or '[]')
-
-
-def deps(body):
-    """Issue numbers named on a 'Depends on #12, #13' line."""
-    return {int(n) for line in re.findall(r'^Depends on (.*)$', body or '', re.M) for n in re.findall(r'#(\d+)', line)}
 
 
 def next_run(issues, held):

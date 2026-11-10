@@ -40,7 +40,8 @@ assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strange
 # It can close what it replaced: the owner's issue or PR, with a reason, and never a run, lesson or escalation.
 mine = lambda n, *l, title='t': {'number': n, 'title': title, 'author': {'login': 'Wrhinkle'}, 'labels': [{'name': x} for x in l]}
 board = {'issues': [*s['issues'], mine(2), mine(3, 'lesson'), mine(4, 'run'), mine(5, 'needs-william')], 'prs': [mine(7), mine(8, title='Open run 2026-11-10'), mine(12, 'run'), mine(13, 'lesson'), mine(14, 'needs-william')]}
-assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, True) == 'Would close.'
+with patch('manager.gh', return_value=[]):
+    assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, True) == 'Would close.'
 assert act({'type': 'close', 'pr': 7, 'reason': 'replaced'}, board, True) == 'Would close.'
 for bad in ({'issue': 2}, {'issue': 2, 'reason': ' '}, {'issue': 9, 'reason': 'r'}, {'issue': 3, 'reason': 'r'}, {'issue': 4, 'reason': 'r'},
             {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}, {'pr': 12, 'reason': 'r'}, {'pr': 13, 'reason': 'r'}, {'pr': 14, 'reason': 'r'},
@@ -50,10 +51,26 @@ assert act({'type': 'close', 'issue': 2, 'reason': 'r'}, {**board, 'strangers': 
 with patch('manager.gh', return_value=[]) as listed:  # a PR's labels reach the manager, or the label check above sees nothing
     __import__('manager').open_prs()
     assert 'labels' in listed.call_args.args[-1].split(',')
-with patch('manager.sh') as closed:
+with patch('manager.gh', return_value=[]), patch('manager.sh') as closed:
     closed.return_value.stdout = ''
     assert act({'type': 'close', 'issue': 2, 'reason': 'split'}, board, False) == 'Closed.'
     assert closed.call_args.args[:4] == ('gh', 'issue', 'close', '2') and closed.call_args.args[-1] == 'Closed by the factory manager: split'
+# Splitting a job cannot release its open dependent before the replacements finish.
+from foreman import next_job
+split = [mine(2), mine(10), mine(11), {**mine(20), 'body': 'Depends on #2'}]
+with patch('manager.gh', return_value=split), patch('manager.sh') as close:
+    assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, False).startswith('Not closing')
+    close.assert_not_called()
+    held = {'issue-2', 'issue-10', 'issue-11'}
+    assert next_job([], [{**i, 'body': i.get('body', '')} for i in split], set(), held, lambda n, sha: False) is None
+with patch('manager.gh', return_value=[split[0], split[3]]), patch('manager.sh') as close:
+    assert act({'type': 'close', 'issue': 2, 'reason': 'replacements finished'}, board, False).startswith('Not closing')
+    close.assert_not_called()
+with patch('manager.gh', return_value=[split[0]]), patch('manager.sh') as close:
+    close.return_value.stdout = ''
+    assert act({'type': 'close', 'issue': 2, 'reason': 'replacements finished'}, board, False) == 'Closed.'
+    close.assert_called_once()
+
 # The manager sees what each issue has cost: passes, the ones that finished, and merged parts.
 import json
 from manager import effort
