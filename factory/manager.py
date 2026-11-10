@@ -462,12 +462,13 @@ def deploy(dry, rev=None):
 
 
 def open_prs():
-    return gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,headRefName,baseRefName,headRefOid,mergeable,url')
+    return gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,labels,headRefName,baseRefName,headRefOid,mergeable,url')
 
 
-def effort(log, subjects):
+def effort(log, subjects, other=()):
     """What each issue has cost and shipped: builder passes, the ones that finished, and parts merged to main.
-    From the foreman's own records and main's commit subjects, so the manager can see a job that eats passes."""
+    From the foreman's own records and main's commit subjects, so the manager can see a job that eats passes.
+    Runs and entries are recorded under the same issue-N key, so `other` names the issues that aren't builder jobs."""
     out = {}
     count = lambda n, k: out.setdefault(int(n), {'passes': 0, 'finished': 0, 'parts_merged': 0}).__setitem__(k, out[int(n)][k] + 1)
     for e in map(json.loads, log):
@@ -478,14 +479,16 @@ def effort(log, subjects):
     for subject in subjects:
         if m := re.match(r'Part of issue (\d+):', subject):
             count(m.group(1), 'parts_merged')
-    return out
+    return {n: cost for n, cost in out.items() if n not in other}
 
 
 def state():
     prs = open_prs()
     log = LOG.read_text().splitlines() if LOG.exists() else []
-    spent = effort(log, sh('git', 'log', '--format=%s', '-F', '--grep=Part of issue ', 'origin/main').stdout.splitlines())
-    issues = [{**i, **spent.get(i['number'], {})} for i in gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')]
+    issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
+    spent = effort(log, sh('git', 'log', '--format=%s', '-F', '--grep=Part of issue ', 'origin/main').stdout.splitlines(),
+                   {i['number'] for i in issues if {RUN, COMMS} & {l['name'] for l in i['labels']}})
+    issues = [{**i, **spent.get(i['number'], {})} for i in issues]
     found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
     threads = []
     for d in found:
@@ -575,7 +578,10 @@ def act(a, s, dry):
         kept = {RUN, 'lesson', HUMAN} & {l['name'] for l in (item or {}).get('labels', [])} or str((item or {}).get('title', '')).startswith('Open run ')
         if not item or item['author']['login'] != OWNER or not reason or kept:
             return f'Not closing {which} {number}: it must be open, the owner\'s, not a run, lesson or escalation, and have a reason.'
-        return 'Would close.' if dry else sh('gh', which, 'close', str(number), '--repo', REPO, '--comment', f'Closed by the factory manager: {reason[:1500]}').stdout.strip() or 'Closed.'
+        comment = f'Closed by the factory manager: {reason[:1500]}'
+        if bad := post_problems(comment):  # the reason is posted in public, like any other post
+            return f'Not closing {which} {number}: the reason {"; ".join(bad)}.'
+        return 'Would close.' if dry else sh('gh', which, 'close', str(number), '--repo', REPO, '--comment', comment).stdout.strip() or 'Closed.'
     if kind == 'escalate':
         if dry:
             return 'Would file an issue for William.'

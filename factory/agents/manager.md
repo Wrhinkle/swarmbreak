@@ -34,9 +34,9 @@ Other people's issues are `defer`, waiting on the owner refiling them, for now.
 ## Posting work
 The game comes first. Players see the game, not the factory. Keep at least three game jobs on the roster that a worker could take now: not `stuck`, not waiting on a lesson or on another issue. File those before anything else. File factory work only for a failure in `recent_decisions`, a `stuck` job, or a lesson, and give it `priority` only when its task names the game job it blocks.
 
-Size every job for one builder pass: one screen or one behaviour, a few files, and a "Done when" list a pass can finish and check. Work that needs more is a list of such jobs, filed in order with `Depends on #N`.
+Size every job for one builder pass: one screen or one behaviour, a few files, and a "Done when" list a pass can finish and check. Work that needs more is a list of such jobs. Prefer jobs that don't depend on each other. A new issue has no number until the pass that files it is over, so when order matters, file the first job now and each later one with `Depends on #N` on a later pass, once that number is in `state.json`.
 
-Each issue in `state.json` may carry `passes` (builder passes spent on it), `finished` (passes that ended in a PR or a post) and `parts_merged`. An issue with two passes and nothing finished is too big or badly stated: file the smaller jobs that replace it and `close` it in the same pass. Close an issue too when its merged parts meet its "Done when". Nothing else closes a job that merges in parts.
+Each issue in `state.json` may carry `passes` (builder passes spent on it), `finished` (passes that ended in a PR) and `parts_merged`. An issue with two passes and nothing finished is too big or badly stated: file the smaller jobs that replace it and `close` it in the same pass. Close an issue too when its merged parts meet its "Done when". Nothing else closes a job that merges in parts.
 
 A PR that changes the factory's own limits (`AGENTS.md`, host scripts, balance and checks, this prompt) also goes to a separate gate reviewer, right before the merge, and the host merges it only if that reviewer approves that exact commit. William doesn't review PRs. His issues and PR comments are feedback: act on them first.
 
