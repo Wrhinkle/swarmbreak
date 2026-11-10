@@ -615,8 +615,10 @@ with tempfile.TemporaryDirectory() as d:
     assert resume_stage(run) == 'researcher'
     other.write_text('not json')
     assert resume_stage(run) == 'researcher'
-    other.write_text(json.dumps({'sites': [{'host': 'backup.org'}]}))  # a backup candidate this run never chose: the picks check refuses it too
-    assert resume_stage(run) == 'researcher'
+    # A backup candidate this run never chose: the picks check refuses it too, however the other run wrote the host.
+    for host in ('backup.org', 'www.Backup.org.:443'):
+        other.write_text(json.dumps({'sites': [{'host': host}]}))
+        assert resume_stage(run) == 'researcher', host
     other.write_text(json.dumps({'sites': [{'host': 'elsewhere.org'}]}))
     assert resume_stage(run) == 'parser'
     # So does a run that is still on its own branch and holds the site there only.
