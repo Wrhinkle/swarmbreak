@@ -97,6 +97,74 @@ assert effort([spent('issue-37', 1)] * 3 + [spent('issue-37', 0), spent('pr-37@a
     37: {'passes': 4, 'finished': 1, 'parts_merged': 2}, 5: {'passes': 1, 'finished': 1, 'parts_merged': 0}, 8: {'passes': 0, 'finished': 0, 'parts_merged': 1}}
 assert effort([spent('issue-5', 0), spent('issue-37', 1)], [], {5}) == {37: {'passes': 1, 'finished': 0, 'parts_merged': 0}}  # issue 5 is an entry, not a builder job
 print('ok manager closes and sees effort')
+# The critic captures an isolated origin/main export, not the active checkout.
+import manager, subprocess, tempfile
+from pathlib import Path
+with tempfile.TemporaryDirectory() as d:
+    shots = Path(d) / 'shots'
+    png = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR' + (1).to_bytes(4, 'big') * 2 + b'\x00\x00\x00\x00IEND\xaeB`\x82'
+    def prepare(tree):
+        assert tree != manager.ROOT
+        (tree / 'main-marker').write_text('origin/main')
+    def take(tree):
+        assert (tree / 'main-marker').read_text() == 'origin/main'
+        assert not shots.exists(), 'an older build\'s pictures were left for the critic'
+        shots.mkdir()
+        (shots / 'fight-390.png').write_bytes(png)
+        return 'Screen check failed'
+    def look(role, work, prompt, **kwargs):
+        assert role == 'critic' and 'fight-390.png' in prompt
+        Path(work, 'critique.json').write_text(json.dumps({'defects': [{'screen': 'fight-390.png', 'player_sees': 'x' * 900, 'should_be': 'y', 'extra': 'z'}] * 5 + [{'screen': 'unseen.png'}]}))
+    shots.mkdir(); (shots / 'old.png').write_text('old')
+    with patch('manager.prepare_main', side_effect=prepare), patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=take), patch('manager.bot', side_effect=look):
+        got = manager.critique()
+    assert got['host_check'] == 'Screen check failed' and len(got['defects']) == 3, got
+    assert got['defects'][0] == {'screen': 'fight-390.png', 'player_sees': 'x' * 500, 'should_be': 'y', 'done_when': ''}, got
+    with patch('manager.prepare_main', side_effect=OSError('no main')), patch('manager.screens') as capture:
+        assert 'no main' in manager.critique()['error']
+        capture.assert_not_called()
+    with patch('manager.prepare_main', side_effect=prepare), patch('manager.shots_dir', return_value=shots), patch('manager.screens', return_value='build failed'), patch('manager.bot') as critic:
+        got = manager.critique()
+        assert got['host_check'] == 'build failed' and got['error'] and not got.get('defects')
+        critic.assert_not_called()
+    def empty(tree):
+        shots.mkdir()
+        return 'driver failed before capture'
+    with patch('manager.prepare_main', side_effect=prepare), patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=empty), patch('manager.bot') as critic:
+        got = manager.critique()
+        assert got['host_check'] == 'driver failed before capture' and 'no usable screenshots' in got['error'] and not got.get('defects')
+        critic.assert_not_called()
+    with patch('manager.prepare_main', side_effect=prepare), patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=take), patch('manager.bot'):
+        assert manager.critique()['error'].startswith('FileNotFoundError')
+# Exercise the export against a real feature branch and a missing origin/main.
+with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as target:
+    repo = Path(d)
+    def git(*args):
+        return subprocess.run(['git', *args], cwd=repo, check=True, capture_output=True, text=True)
+    git('init', '-q')
+    git('config', 'user.name', 'Test')
+    git('config', 'user.email', 'test@example.invalid')
+    (repo / 'game.txt').write_text('main')
+    (repo / 'node_modules').mkdir()
+    (repo / 'node_modules' / 'dependency').write_text('installed')
+    git('add', 'game.txt')
+    git('commit', '-qm', 'main')
+    git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    git('checkout', '-qb', 'feature')
+    (repo / 'game.txt').write_text('feature')
+    git('commit', '-qam', 'feature')
+    with patch('manager.ROOT', repo):
+        manager.prepare_main(Path(target))
+        assert (Path(target) / 'game.txt').read_text() == 'main'
+        assert (repo / 'game.txt').read_text() == 'feature'
+        assert git('branch', '--show-current').stdout.strip() == 'feature'
+        git('update-ref', '-d', 'refs/remotes/origin/main')
+        try:
+            manager.prepare_main(Path(target))
+            raise AssertionError('missing origin/main must fail')
+        except subprocess.CalledProcessError:
+            pass
+print('ok critic')
 owner = {'login': 'Wrhinkle'}
 with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner}, {'title': 'Squatted', 'author': {'login': 'stranger'}},
                                        {'title': 'L' * 80, 'author': owner}]), patch('manager.thread', return_value={'ours': ['x'], 'waiting': ['r']}):
@@ -644,9 +712,10 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert scheduled(x)[0] == ['release -> ' + x]
 
 # Full scheduled passes read the same lock.
-with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release, patch('manager.release_check') as check, patch('manager.state', return_value={'issues': []}), patch('manager.open_prs', return_value=[]), patch('manager.required_jobs', return_value=[]), patch('manager.act', return_value='Filed.') as action:
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.critique', return_value='seen'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release, patch('manager.release_check') as check, patch('manager.state', return_value={'issues': []}), patch('manager.open_prs', return_value=[]), patch('manager.required_jobs', return_value=[]), patch('manager.act', return_value='Filed.') as action:
     seen = []
     def decide(role, work, prompt, **kwargs):
+        assert json.loads(Path(work, 'state.json').read_text()).get('critique', 'seen') == 'seen'  # a first pass carries the critic's view, a follow-up none
         seen.append(json.loads(Path(work, 'state.json').read_text())['failed_last_pass'])
         Path(work, 'decisions.json').write_text(json.dumps({'actions': [{'type': 'delegate', 'task': 'x'}]}))
     def full(result, extra=()):

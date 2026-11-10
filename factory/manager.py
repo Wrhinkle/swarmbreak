@@ -9,13 +9,13 @@ A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS ti
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
-import fcntl, json, os, re, subprocess, sys, tempfile, time, urllib.request
+import fcntl, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import GATES, REPO, WAITING, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
+from pr_team import GATES, REPO, WAITING, bot, gate_verdict, screens, sh, shots_dir, touches_gates  # noqa: E402,F401
 
 OWNER, CONTEST = 'Wrhinkle', ('qodo-hackathon', 'software-factory-hackathon')
 SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.com/{REPO}'
@@ -482,6 +482,62 @@ def effort(log, subjects, other=()):
     return {n: cost for n, cost in out.items() if n not in other}
 
 
+def prepare_main(tree):
+    """Export the pinned origin/main commit without changing the active checkout."""
+    commit = subprocess.run(['git', 'rev-parse', '--verify', 'origin/main^{commit}'], cwd=ROOT,
+                            capture_output=True, text=True, check=True).stdout.strip()
+    archive = tree / 'main.tar'
+    subprocess.run(['git', 'archive', '--format=tar', f'--output={archive}', commit], cwd=ROOT,
+                   capture_output=True, text=True, check=True)
+    subprocess.run(['tar', '-xf', str(archive), '-C', str(tree)], capture_output=True, text=True, check=True)
+    archive.unlink()
+    # The exported tree has no installed dependencies. Copy them; the screen build itself runs in isolation.
+    subprocess.run(['cp', '-cR', str(ROOT / 'node_modules'), str(tree / 'node_modules')],
+                   capture_output=True, text=True, check=True)
+
+
+def usable_screenshot(path):
+    if path.is_symlink() or not path.is_file() or path.suffix != '.png':
+        return False
+    with path.open('rb') as image:
+        header = image.read(24)
+        if (len(header) != 24 or header[:8] != b'\x89PNG\r\n\x1a\n' or
+                header[8:16] != b'\x00\x00\x00\rIHDR' or
+                not int.from_bytes(header[16:20], 'big') or not int.from_bytes(header[20:24], 'big')):
+            return False
+        image.seek(-12, os.SEEK_END)
+        return image.read(12) == b'\x00\x00\x00\x00IEND\xaeB`\x82'
+
+
+def critique():
+    """Capture origin/main without changing the active checkout, then ask the critic about those images."""
+    refused = ''
+    try:
+        with tempfile.TemporaryDirectory() as source, tempfile.TemporaryDirectory() as work:
+            tree = Path(source)
+            prepare_main(tree)
+            shots = shots_dir(tree)
+            shutil.rmtree(shots, ignore_errors=True)
+            try:
+                refused = screens(tree)
+                shutil.copytree(shots, Path(work) / 'screens')
+            finally:
+                shutil.rmtree(shots, ignore_errors=True)
+            images = sorted(p.name for p in (Path(work) / 'screens').iterdir()
+                            if usable_screenshot(p))
+            if not images:
+                raise ValueError('The screen check produced no usable screenshots.')
+            bot('critic', work, 'The available screenshots are: ' + ', '.join(images) +
+                '. Look at these images in screens/ and write critique.json in the current folder.')
+            found = json.loads((Path(work) / 'critique.json').read_text())['defects']
+        return {'host_check': refused[:1500], 'defects': [{k: str(d.get(k, ''))[:500] for k in ('screen', 'player_sees', 'should_be', 'done_when')} for d in found if d.get('screen') in images][:3]}
+    except Exception as exc:  # noqa: BLE001
+        result = {'error': f'{type(exc).__name__}: {exc}'[:500]}
+        if refused:
+            result['host_check'] = refused[:1500]
+        return result
+
+
 def state():
     prs = open_prs()
     log = LOG.read_text().splitlines() if LOG.exists() else []
@@ -690,6 +746,8 @@ def main():
     note = args[args.index('--task') + 1] if '--task' in args else ''
     round_ = int(args[args.index('--follow-up') + 1]) if '--follow-up' in args else 0
     s = state()
+    if not round_:
+        s['critique'] = critique()  # once a pass; a follow-up is about what failed, not about the game
     # Failure output quotes PR content and Qodo titles, so it reaches the manager as data in state.json, never in its prompt.
     s['failed_last_pass'] = json.loads(args[args.index('--failures') + 1]) if '--failures' in args else []
     if '--release-blocker' in args:
