@@ -71,11 +71,11 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
     let legal = act.nodes.filter(n => n.floor === 0);
     if (policy.start !== undefined && actIndex === 0) legal = legal.filter(n => n.x === policy.start);
     while (legal.length) {
-      // The map shows each visible fight's enemies and threat, so a player steers toward the lighter packs. Mystery rooms
+      // The map shows each visible fight's enemies and threat, so a player steers away from packs heavier than usual. A light pack earns nothing extra: threat never ranks a fight above treasure. Mystery rooms
       // show nothing and every route ends at the boss, so neither counts.
       const pack = (n: MapNode) => threat(n.encounter!.map(creature)), choosable = (n: MapNode) => !n.hidden && !!n.encounter?.length && n.kind !== 'boss';
       const packs = act.nodes.filter(choosable), meanThreat = packs.reduce((t, n) => t + pack(n), 0) / packs.length;
-      const score = (n: MapNode) => { if (n.hidden) return random() + .4; return random() - (choosable(n) ? 2 * (pack(n) / meanThreat - 1) : 0) + (n.kind === 'rest' ? (health() < .6 ? 3 : 0) : n.kind === 'elite' ? (health() > .8 ? 1.5 : -2) : n.kind === 'shop' ? (gold >= 60 ? 1.5 : 0) : n.kind === 'treasure' ? 1 : n.kind === 'event' ? .5 : 0); };
+      const score = (n: MapNode) => { if (n.hidden) return random() + .4; return random() - (choosable(n) ? 2 * Math.max(0, pack(n) / meanThreat - 1) : 0) + (n.kind === 'rest' ? (health() < .6 ? 3 : 0) : n.kind === 'elite' ? (health() > .8 ? 1.5 : -2) : n.kind === 'shop' ? (gold >= 60 ? 1.5 : 0) : n.kind === 'treasure' ? 1 : n.kind === 'event' ? .5 : 0); };
       // The whole map is on screen, so a player plans two rooms past the next one.
       const look = (n: MapNode, depth = 2): number => score(n) + (depth ? .6 * Math.max(0, ...act.nodes.filter(x => n.next.includes(x.id)).map(x => look(x, depth - 1))) : 0);
       const useScore = smart();
