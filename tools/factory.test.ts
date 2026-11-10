@@ -1,10 +1,11 @@
 import { readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
-import type { Run, SiteGraph } from '../src/types';
+import type { Creature, Run, SiteGraph } from '../src/types';
 import { checkRun } from '../src/run';
 import { replays, withScale, findWitnesses } from './balance';
 import { checkAssembly, checkContent, checkIdeas, checkPicks } from './checks';
-import type { Content } from './checks';
+import type { Assembly, Content } from './checks';
+import { assemble } from './build-run';
 
 const graph = { host: 'a.example', pages: [{ path: '/a', title: 'A', section: 's' }] } as unknown as SiteGraph;
 const nist = JSON.parse(readFileSync('public/runs/2026-11-02/run.json', 'utf8')) as Run;
@@ -53,4 +54,31 @@ describe('balance tool', () => {
 it('rejects duplicate normalized candidate hosts, even with different paths or ports', () => {
   const candidates = ['https://Example.com/a', 'https://www.example.com:8443/b', 'https://other.example'].map(url => ({ name: 'Site', url, why: 'Interesting' }));
   expect(checkPicks({ thread: 'Topic', candidates }, 1, [])).toContain('example.com appears more than once in candidates');
+});
+
+
+it('assigns every elite and ally reward from four-entry plans to rooms after shuffling', () => {
+  const read = <T,>(path: string) => JSON.parse(readFileSync(path, 'utf8')) as T;
+  const content = read<Content>('runs/2026-11-04/content.json');
+  const plan = read<Assembly>('runs/2026-11-04/assembly.json');
+  const graphs = content.acts.map(() => graph);
+  const crew = read<{ crew: Creature[] }>('runs/shared/crew.json').crew;
+  // Exercise both three distinct elites plus one duplicate and four distinct elites.
+  for (const [i, act] of plan.acts.entries()) {
+    if (i === 1) {
+      const original = content.acts[i].creatures.find(c => c.id === act.elites[0].id)!;
+      content.acts[i].creatures.push({ ...original, id: 'fourth-test-elite' });
+      act.elites.push({ id: 'fourth-test-elite', reward: act.elites[0].reward });
+    } else act.elites.push({ ...act.elites[0] });
+  }
+  for (let seed = 0; seed < 20; seed++) {
+    const run = assemble({ ...content, seed }, plan, crew, graphs);
+    for (const [i, act] of run.acts.entries()) {
+      const rooms = act.nodes.filter(node => node.kind === 'elite');
+      expect(rooms).toHaveLength(4);
+      for (const elite of plan.acts[i].elites) {
+        expect(rooms.some(node => node.encounter?.[0] === elite.id && node.reward === elite.reward)).toBe(true);
+      }
+    }
+  }
 });
