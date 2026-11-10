@@ -14,3 +14,8 @@ it('keeps hover feedback visible on the emphasized title plate and selected opti
   expect(css).toContain('.title-controls .plate:first-child:hover:not(:disabled)');
   expect(css).toContain('.option[aria-pressed=true]:hover:not(:disabled)');
 });
+
+it('keeps map pin hover feedback on the marker instead of filling its transparent hit area', () => {
+  const css = readFileSync('index.html', 'utf8');
+  expect(css).toMatch(/\.pin:hover:not\(:disabled\)\s*\{\s*background:\s*(?:none|transparent)/);
+});
