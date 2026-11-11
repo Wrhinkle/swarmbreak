@@ -46,11 +46,18 @@ LEARNED = (f'Before you start, read {ROOT}/factory/lessons.md and every guide in
            'AGENTS.md, and never permit anything those forbid.')
 
 
+# A spent subscription, a sign-out or a service outage: nothing a job did. The foreman waits these out and files no lesson.
+OUTAGE = re.compile(r'usage limit|rate limit|quota|too many requests|401 Unauthorized|not logged in|MT-UPSTREAM-DOWN', re.I)
+
+
 def bot(name, workdir, extra, effort='medium'):
     env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
     prompt = (AGENTS / f'{name}.md').read_text() + '\n\n' + LEARNED + '\n\n' + extra
     print(f'[{name}] running', flush=True)
-    return subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800).returncode
+    r = subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800)
+    if r.returncode:  # only the cause, so the foreman can see it: the rest of Codex's output is the whole session
+        print(*[f'[{name}] {line[:300]}' for line in (r.stdout + r.stderr).splitlines() if OUTAGE.search(line)][-3:], sep='\n', flush=True)
+    return r.returncode
 
 
 def findings(url):

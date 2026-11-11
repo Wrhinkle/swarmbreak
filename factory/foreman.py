@@ -64,7 +64,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import REPO, WAITING, sh  # noqa: E402
+from pr_team import OUTAGE, REPO, WAITING, sh  # noqa: E402
 from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, deps, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
 from run import STAGES, checked, clashes  # noqa: E402
 
@@ -72,7 +72,6 @@ RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'r
 STATE = ROOT / 'factory' / 'log' / ('.runner.json' if RUN_LANE else '.foreman.json')
 STUCK, PRIORITY, LESSON = 'stuck', 'priority', 'lesson'
 RUN_TITLE = re.compile(r'Run (\d{4}-\d{2}-\d{2})')
-QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests', re.I)
 
 
 def gh(*args):
@@ -362,8 +361,8 @@ def evaluated(key, log):
 
 
 def settle(st, r, out, kind, number, key, coach, prs, log=()):
-    if r.returncode and QUOTA.search(out):
-        st['cooldown_until'] = time.time() + 1800  # the subscription is resting; nothing will run until it's back
+    if r.returncode and OUTAGE.search(out):
+        st['cooldown_until'] = time.time() + 1800  # a subscription or service is down; nothing will run until it's back
     elif r.returncode and not getattr(r, 'moved', False):
         # A failed pass is evaluated once instead of spending tokens on retries. Only a run says it moved: a stage finished.
         # A builder pass that opened no PR didn't, whatever it saved: issue 37 saved a hundred passes and shipped none.
