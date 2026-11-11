@@ -9,6 +9,7 @@ import { loadManifest, loadRun, openedRun, refreshRun, openingDue, RunOpeningErr
 import { currentRun, exportSave, finishRun, importSave, loadSave, rollover, writeSave } from './save';
 import type { CrewMember, Save } from './save';
 import type { Creature, EventEffect, Manifest, MapNode, Run, RunAct } from './types';
+import { markWalkthroughSeen } from './walkthrough';
 
 /** What the map says about a fight before the player picks it: who is there and how strong the pack is. Empty for a mystery room. */
 export function roomFoes(creatures: Creature[], n: Pick<MapNode, 'encounter'>, masked: boolean): string {
@@ -56,8 +57,22 @@ function credit(a: RunAct) { const p = el('p', undefined, 'credit'); p.append('S
 function loadArt(a: RunAct) { images = new Map(); for (const src of [...[...run.crew, ...a.creatures, ...save.camp.map(x => x.ally)].map(c => c.sprite), ...(a.art?.backdrops ?? [])]) { if (!src || images.has(src)) continue; const img = new Image(); img.src = src; images.set(src, img); } }
 function countdownLine(prefix: string) { const p = el('p', countdownLineText(prefix, manifest.nextOpensAt, Date.now()), 'muted'); p.dataset.countdown = prefix; return p; }
 const time = () => performance.now();
-function resumeRun() { loadArt(act()); if (today().pending === 'win') showEndChoice(); else if (today().pending?.startsWith('victory:')) { room = act().nodes.find(n => n.id === today().pending!.slice(8)) ?? null; room ? showVictory('Your victory is saved.') : showMap(); } else if (today().pending) { room = act().nodes.find(n => n.id === today().pending) ?? null; room ? enterRoom(room, true) : showMap(); } else showMap(); }
-function showHelp(back: () => void) { screen='help'; clear(); heading('The basics','How to play'); const panel=el('section',undefined,'paper'); append(panel,el('p','Choose a route through each act. The map names the enemies in each fight and gives the pack a threat number: higher is harder. Mystery rooms show nothing until you enter. Your crew fights automatically using routines, in priority order. Between fights, equip and reorder routines to prepare.'),el('p','You have one official attempt each day. Win to bring a recruited ally back to camp.'),btn('Back',back)); root.append(panel); }
+function resumeRun() { loadArt(act()); if (!save.walkthroughSeen && !today().node && !today().pending) { showHelp(resumeRun); return; } if (today().pending === 'win') showEndChoice(); else if (today().pending?.startsWith('victory:')) { room = act().nodes.find(n => n.id === today().pending!.slice(8)) ?? null; room ? showVictory('Your victory is saved.') : showMap(); } else if (today().pending) { room = act().nodes.find(n => n.id === today().pending) ?? null; room ? enterRoom(room, true) : showMap(); } else showMap(); }
+function showHelp(back: () => void) {
+  markWalkthroughSeen(save);
+  persist();
+  const steps = [
+    { title: 'The daily run', text: 'Everyone gets the same daily run, inspired by three public sites. You have one official attempt each day.', art: run.acts[0].art?.backdrops[0] },
+    { title: 'Choose your route', text: 'Follow the map through fights and harder elite fights to the boss. Events offer choices, shops sell routines, rest rooms help you prepare, and treasure offers rewards. Mystery rooms hide their type until you enter.', art: run.acts[0].art?.map },
+    { title: 'Your crew', text: 'Your crew fights using routines: if-then instructions checked in priority order. Between rooms, open Crew & routines to equip and reorder them.', art: run.crew[0]?.sprite },
+    { title: 'In a fight', text: 'Time advances during a fight and each fighter acts when ready. Routines choose actions automatically; you can also queue a crew member’s routine using the manual order controls. Pause or change the speed whenever you need.', art: run.acts[0].art?.backdrops[0] },
+    { title: 'Bring an ally home', text: 'Recruit allies along the way. Win the run and choose one recruited ally to keep in your camp for a future attempt.', art: run.acts[0].art?.backdrops[0] },
+  ];
+  let index = 0;
+  const done = () => { back(); };
+  const show = () => { screen='help'; clear(); root.scrollTop=0; const step=steps[index]; const panel=el('section',undefined,'paper walkthrough'); if(step.art) { const art=el('div',undefined,index===2?'walkthrough-art walkthrough-sprite':'walkthrough-art'); art.style.backgroundImage=`url("${step.art}")`; art.setAttribute('aria-hidden','true'); panel.append(art); } append(panel,el('div',`How to play · ${index+1} / ${steps.length}`,'eyebrow'),el('h1',step.title),el('p',step.text)); const controls=el('div',undefined,'bar'); append(controls,btn(index===steps.length-1?'Finish':'Next',()=>{ if(++index===steps.length) done(); else show(); }),btn('Skip',done)); panel.append(controls); root.append(panel); };
+  show();
+}
 function renderHud() {
   const t=today(), a=act(), hud=el('header',undefined,'hud'); hud.setAttribute('aria-label','Run status');
   const health=hudHealth(t,combat,screen==='fight'); const roster=el('div',undefined,'hud-roster'); roster.setAttribute('aria-label','Crew health');
@@ -91,7 +106,7 @@ export function campChoices(allies: { name: string; runId: string }[], selected:
   }
   return group;
 }
-function start() { if (save.results[manifest.runId] || save.today || !(Date.parse(manifest.opensAt) <= Date.now())) return; const crew = run.crew.map(c => member(c,false)); if (selectedCamp >= 0 && save.camp[selectedCamp]) crew.push(member(save.camp[selectedCamp].ally,false,crew.length < CREW_MAX)); crew.forEach((c,i) => c.active = i < CREW_MAX); save.today = { runId: run.id, node: null, cleared: [], crew, deck: crew.flatMap(c => c.routines), gold: 0, seed: run.seed, result: null, act: 0, pending: null }; persist(); loadArt(act()); showMap(); }
+function start() { if (save.results[manifest.runId] || save.today || !(Date.parse(manifest.opensAt) <= Date.now())) return; const crew = run.crew.map(c => member(c,false)); if (selectedCamp >= 0 && save.camp[selectedCamp]) crew.push(member(save.camp[selectedCamp].ally,false,crew.length < CREW_MAX)); crew.forEach((c,i) => c.active = i < CREW_MAX); save.today = { runId: run.id, node: null, cleared: [], crew, deck: crew.flatMap(c => c.routines), gold: 0, seed: run.seed, result: null, act: 0, pending: null }; persist(); loadArt(act()); if (!save.walkthroughSeen) showHelp(showMap); else showMap(); }
 function showCamp() { screen = 'camp'; clear(); heading('The survivors', 'Camp', 'Allies kept from victorious runs can join a future attempt.'); if (!save.camp.length) { const empty=el('section',undefined,'paper'); empty.append(el('p','Your camp is quiet. Recruit an ally and win a run to bring one home.')); root.append(empty); } for (const [i,c] of save.camp.entries()) { const s = renderCard({name:c.ally.name, art:c.ally.sprite, effect:c.ally.routines.map(r => routineText(ROUTINES[r])).join(' / ')}); append(s,el('p',c.ally.blurb),el('p',`Earned in ${c.runId} · ${c.wonAt} · ${c.sites.join(', ')}`),btn(selectedCamp === i ? 'Selected for next run' : 'Bring on next run',() => { selectedCamp=i; showCamp(); },selectedCamp === i)); root.append(s); } root.append(btn('Back',showTitle,false,'primary')); }
 function showTransfer() { screen='transfer'; clear(); heading('Keep a copy','Save data'); const box=el('textarea'); box.value=exportSave(save); box.setAttribute('aria-label','Save JSON'); root.append(box); const bar=el('div',undefined,'bar'); append(bar,btn('Copy export',async()=>{ try { await navigator.clipboard.writeText(box.value); notice='Copied.'; } catch { notice='Select the text and copy it.'; } status.textContent=notice; }),btn('Import JSON',()=>{ try { save=rollover(importSave(box.value),manifest); persist(); selectedCamp=-1; showTitle(); } catch { status.textContent='Invalid save. Nothing was imported.'; } }),btn('Back',showTitle)); const status=el('p','','muted'); root.append(bar,status); }
 const BOSS_SLOTS = 5; // rows of the fight canvas a large boss takes up
