@@ -70,6 +70,25 @@ def changed_paths(base, sha, cwd=ROOT):
     return [p for p in out.split('\0') if p]
 
 
+def bot_strength_problem(base, sha, cwd=ROOT):
+    """Require PR bot evidence at or after the last bot change, in ancestry order."""
+    if 'tools/sim.ts' not in changed_paths(base, sha, cwd=cwd):
+        return ''
+    def latest(path):
+        return sh('git', 'log', '--format=%H', '--topo-order', '--full-history', '--diff-merges=first-parent',
+                  f'{base}..{sha}', '--', path, cwd=cwd).stdout.splitlines()
+    bots, logs = latest('tools/sim.ts'), latest('tools/bot-strength.md')
+    if not bots:
+        return 'Cannot identify the PR commit that changed tools/sim.ts.'
+    if not logs:
+        return f'Bot change {bots[0]} has no PR commit updating tools/bot-strength.md (missing).'
+    # For parallel histories, do not treat an unrelated commit as later evidence.
+    for bot in bots:
+        if sh('git', 'merge-base', '--is-ancestor', bot, logs[0], cwd=cwd, check=False).returncode:
+            return f'Bot change {bot} is not covered by strength-log commit {logs[0]}.'
+    return ''
+
+
 def touches_gates(files):
     """Files that hold the factory's limits. Changes to them need the gate reviewer as well as Qodo."""
     paths = [f['path'] for f in files]
@@ -483,6 +502,9 @@ def main():
             blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
         if still:
             blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))
+        strength_problem = bot_strength_problem(base_sha, sha, cwd=tree)
+        if strength_problem:
+            blocks.append(strength_problem)
         # Build and test what main would become, so a PR behind main can't overwrite newer work.
         # ponytail: main can still move before the merge call below; a merge queue closes that gap if merges get frequent.
         if not merges_cleanly(tree, base):
