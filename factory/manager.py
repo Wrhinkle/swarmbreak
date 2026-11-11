@@ -417,7 +417,9 @@ def release_check():
     return '', None
 
 
-NOT_SHIPPED = ('factory', 'docs', 'tools', '.github', '*.md')  # what never reaches a player; anything else is a change to the game
+# What never reaches a player; anything else is a change to the game. `runs/` holds run sources, which reach players only
+# as public/runs/, built by run.py. Glob magic keeps *.md to the repo's top level, so Markdown under public/ still ships.
+NOT_SHIPPED = ('factory/**', 'docs/**', 'tools/**', 'runs/**', '.github/**', '*.md')
 
 
 def deployed_rev():
@@ -425,6 +427,8 @@ def deployed_rev():
     try:
         with urllib.request.urlopen(f'{SITE}/deployed.txt?t={int(time.time())}', timeout=20) as r:
             return r.read(200).decode(errors='replace').strip()
+    except urllib.error.HTTPError as e:
+        return '' if e.code == 404 else None  # no marker yet: a site from before deployed.txt, which game_changed() redeploys once
     except OSError:
         return None
 
@@ -437,7 +441,7 @@ def game_changed(built, rev, cwd=ROOT):
         return False
     if not re.fullmatch(r'[0-9a-f]{40}', built):
         return True
-    r = sh('git', 'diff', '--quiet', built, rev, '--', '.', *(f':(exclude){p}' for p in NOT_SHIPPED), cwd=cwd, check=False)
+    r = sh('git', 'diff', '--quiet', built, rev, '--', '.', *(f':(exclude,glob){p}' for p in NOT_SHIPPED), cwd=cwd, check=False)
     return r.returncode != 0
 
 

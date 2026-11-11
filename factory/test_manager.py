@@ -399,16 +399,21 @@ with tempfile.TemporaryDirectory() as d:
     git = lambda *a: subprocess.run(['git', '-C', d, '-c', 'user.name=t', '-c', 'user.email=t@t', *a], check=True, capture_output=True, text=True).stdout.strip()
     git('init', '-q')
     commits = []
-    for path in ('src/game.ts', 'factory/manager.py', 'docs/notes.md', 'README.md', 'tools/balance.ts', 'src/game.ts', 'public/runs/x.json'):
+    for path in ('src/game.ts', 'factory/manager.py', 'docs/notes.md', 'README.md', 'tools/balance.ts', 'runs/x/content.json', 'src/game.ts', 'public/runs/x.json', 'public/help.md'):
         Path(d, path).parent.mkdir(parents=True, exist_ok=True)
         Path(d, path).write_text(f'{len(commits)}')
         git('add', '-A'); git('commit', '-qm', path)
         commits.append(git('rev-parse', 'HEAD'))
-    assert not game_changed(commits[0], commits[4], cwd=d)  # factory, docs, readme, tools: nothing a player gets
-    assert game_changed(commits[4], commits[5], cwd=d) and game_changed(commits[5], commits[6], cwd=d)
-    assert not game_changed(commits[6], commits[6], cwd=d)
-    assert game_changed('<!doctype html>', commits[6], cwd=d) and game_changed('f' * 40, commits[6], cwd=d)  # a site from before deployed.txt deploys once
-    assert not game_changed(None, commits[6], cwd=d)  # the site couldn't be read: no deploy on a guess
+    assert not game_changed(commits[0], commits[5], cwd=d)  # factory, docs, readme, tools, run sources: nothing a player gets
+    assert all(game_changed(commits[i], commits[i + 1], cwd=d) for i in (5, 6, 7))  # src, public runs, Markdown under public/
+    assert not game_changed(commits[8], commits[8], cwd=d)
+    for marker in ('', '<!doctype html>', 'f' * 40):  # a site from before deployed.txt deploys once
+        assert game_changed(marker, commits[8], cwd=d)
+    assert not game_changed(None, commits[8], cwd=d)  # the site couldn't be read: no deploy on a guess
+import urllib.error
+for err, expected in [(urllib.error.HTTPError(manager.SITE, 404, 'Not Found', {}, None), ''), (urllib.error.HTTPError(manager.SITE, 503, 'Down', {}, None), None), (OSError('offline'), None)]:
+    with patch('manager.urllib.request.urlopen', side_effect=err):
+        assert manager.deployed_rev() == expected, err
 fresh = {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'nextOpensAt': '2026-11-07T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}
 unopened = fresh | {'runId': '2026-11-08', 'opensAt': '2026-11-08T13:00:00Z', 'nextOpensAt': '2026-11-09T13:00:00Z'}
 for main_m, changed, expected in [(fresh, True, 'f' * 40), (fresh, False, None), (unopened, True, None)]:
