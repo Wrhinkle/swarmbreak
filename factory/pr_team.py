@@ -430,8 +430,7 @@ def local_review(tree, head, context):
             raise ValueError('finding inventory is unassigned or lacks an action level')
     except (json.JSONDecodeError, AttributeError, KeyError, TypeError, ValueError) as exc:
         sys.exit(f'Qodo local review gave no complete result ({exc}), so nothing was committed or pushed:\n{(r.stdout + r.stderr)[-800:]}')
-    # Every action_required finding blocks, whatever its state, the same as before the review moved ahead of the commit.
-    blockers = [f for f in inventory.values() if f.get('action_level') == 'action_required']
+    blockers = [f for f in active if f.get('action_level') == 'action_required']
     print(f'Qodo local review of the uncommitted fixes: {len(local.get("findings", []))} findings, {len(blockers)} blocking', flush=True)
     return blockers
 

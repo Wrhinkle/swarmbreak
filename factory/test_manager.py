@@ -1459,16 +1459,17 @@ for out, code in [('not json', 0), ('[]', 0), (done, 1), (json.dumps({'findings'
             assert 'nothing was committed' in str(exc)  # fixer_report removes .git-fixes.json on the way out
 # Coverage and all state references must be usable before a review can pass.
 finding = lambda ident, level='action_required': {'id': ident, 'action_level': level, 'title': ident}
-review = {'findings': [finding('fixed'), finding('new'), finding('open'), finding('dismissed')],
-          'finding_state': {**state, 'introduced': ['new'], 'still_open': ['open'], 'resolved': ['fixed'], 'dismissed': ['dismissed']},
+review = {'findings': [finding('fixed'), finding('new'), finding('open'), finding('dismissed'), finding('advice', 'suggestion')],
+          'finding_state': {**state, 'introduced': ['new', 'advice'], 'still_open': ['open'], 'resolved': ['fixed'], 'dismissed': ['dismissed']},
           'meta': {'coverage': {'complete': True}}}
 with patch.object(pr_team, 'sh'), patch('pr_team.subprocess.run', return_value=SimpleNamespace(stdout=json.dumps(review), stderr='', returncode=0)):
-    assert [f['id'] for f in pr_team.local_review('.', 'head', {})] == ['fixed', 'new', 'open', 'dismissed']
-old_review = {'findings': [], 'finding_state': {**state, 'introduced': [finding('old')], 'resolved': [finding('fixed')]},
+    assert [f['id'] for f in pr_team.local_review('.', 'head', {})] == ['new', 'open']
+old_review = {'findings': [], 'finding_state': {**state, 'introduced': [finding('old')], 'still_open': [finding('old-open')], 'resolved': [finding('fixed')], 'dismissed': [finding('old-dismissed')]},
               'meta': {'coverage': {'complete': True}}}
 with patch.object(pr_team, 'sh'), patch('pr_team.subprocess.run', return_value=SimpleNamespace(stdout=json.dumps(old_review), stderr='', returncode=0)):
-    assert [f['id'] for f in pr_team.local_review('.', 'head', {})] == ['old', 'fixed']
+    assert [f['id'] for f in pr_team.local_review('.', 'head', {})] == ['old', 'old-open']
 invalid_reviews = [
+    {**review, 'findings': [{**finding('new'), 'action_level': ''}, *review['findings'][1:]]},
     {**review, 'meta': {'coverage': {'complete': False}}},
     {**review, 'meta': {'coverage': {}}},
     {**review, 'finding_state': {**review['finding_state'], 'introduced': ['unknown']}},
