@@ -7,6 +7,7 @@ export interface CampEntry { ally: Creature; runId: string; wonAt: string; sites
 export interface Today { runId: string; node: string | null; cleared: string[]; crew: CrewMember[]; deck: string[]; gold: number; seed: number; result: 'win' | 'loss' | null; act?: number; pending?: string | null; combat?: CombatState }
 export interface Save { version: 2; walkthroughSeen: boolean; camp: CampEntry[]; today: Today | null; results: Record<string, 'win' | 'loss'>; restored?: string[] }
 const KEY = 'swarmbreak-save-v1';
+const V2_KEY = 'swarmbreak-save-v2';
 export const newSave = (): Save => ({ version: 2, walkthroughSeen: false, camp: [], today: null, results: {} });
 const obj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x);
 const str = (x: unknown): x is string => typeof x === 'string';
@@ -34,8 +35,30 @@ export function parseSave(text: string): Save {
   return x as unknown as Save;
 }
 let memory = newSave();
-export function loadSave(): Save { try { const raw = localStorage.getItem(KEY); if (raw) memory = parseSave(raw); } catch { /* storage can be unavailable */ } return structuredClone(memory); }
-export function writeSave(save: Save): void { memory = structuredClone(save); try { localStorage.setItem(KEY, JSON.stringify(save)); } catch { /* session continues in memory */ } }
+export function loadSave(): Save {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      const stored: unknown = JSON.parse(raw);
+      memory = parseSave(raw);
+      // A previously written v2 save contains its own flag; otherwise shared
+      // progress comes from the v1 key, including changes made after rollback.
+      if (obj(stored) && stored.version === 1) {
+        try {
+          const extra: unknown = JSON.parse(localStorage.getItem(V2_KEY) ?? 'null');
+          if (obj(extra) && typeof extra.walkthroughSeen === 'boolean') memory.walkthroughSeen = extra.walkthroughSeen;
+        } catch { /* missing or invalid extra state leaves the default */ }
+      }
+    }
+  } catch { /* storage can be unavailable */ }
+  return structuredClone(memory);
+}
+export function writeSave(save: Save): void {
+  memory = structuredClone(save);
+  const { walkthroughSeen, ...shared } = save;
+  try { localStorage.setItem(KEY, JSON.stringify({ ...shared, version: 1 })); } catch { /* session continues in memory */ }
+  try { localStorage.setItem(V2_KEY, JSON.stringify({ walkthroughSeen })); } catch { /* session continues in memory */ }
+}
 export function exportSave(save: Save): string { return JSON.stringify(save, null, 2); }
 export function importSave(text: string): Save { const save = parseSave(text); writeSave(save); return save; }
 // A prebuilt next run opens itself at its time, so a missed build or a dead host never closes the game.
