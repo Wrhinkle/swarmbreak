@@ -1,0 +1,1128 @@
+{
+ "title": "The Work of Keeping",
+ "swarm": {
+  "name": "The Keepers",
+  "blurb": "A travelling swarm of collectors and farm machines seeking a way to keep a failing starter culture alive."
+ },
+ "arc": "The Keepers strip a food museum of tools, recipes and living cultures, making the crew think they are hoarding a collection. At a food laboratory Wren discovers that the swarm is trying to replace strains lost from its own failing starter, but its search has become indiscriminate and its proposed single mixture is too narrow. It goes to a rural collection for older methods and builds a farm locked to one season. The crew opens the engine, separates the starter into several conditions and gives the swarm a way to tend a changing culture instead of forcing every sample into one plan.",
+ "acts": [
+  {
+   "theme": "A collection that will not let go",
+   "story": {
+    "intro": "The swarm is carrying food and tools into the stores. Wren finds a seed tray under a blanket of gears. Ox offers to carry it. Kestrel wants to know why the machines left the empty pots behind.",
+    "chapters": [
+     {
+      "title": "Gathered in",
+      "text": "Machines take objects that people still use. Ox holds a path open while Wren checks what has been left behind. The swarm seems to want a collection."
+     },
+     {
+      "title": "Kept in order",
+      "text": "The machines sort food by season and wrap tools in protective layers. Kestrel pulls a seam in one wrapper. Inside is a warm jar, packed for travel."
+     },
+     {
+      "title": "A moving pantry",
+      "text": "The collection is being sent onward, with recipes and living cultures among the tools. Wren notes air holes in the containers. The swarm is keeping something alive, though it does not ask permission."
+     }
+    ],
+    "bossIntro": "The Total Collection rolls out on a traction-engine chassis. Its racks hold jars, tools and copies of recipes. It raises a shield over the load and calls smaller collectors to fill the gaps.",
+    "outro": "Kestrel pries open the racks. The crew returns what they can, but one insulated culture jar has already left. Wren follows its cooling trail toward a food laboratory."
+   },
+   "creatures": [
+    {
+     "id": "mill-grit",
+     "name": "Mill Grit",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/alton-watermill-2/",
+     "blurb": "Loose grit follows the millstone and scours anything in its path.",
+     "look": "A low cloud of tan grit around small grey stone chips, with two black pebble eyes."
+    },
+    {
+     "id": "rind-runner",
+     "name": "Rind Runner",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/whats-on/activities-and-workshops/",
+     "blurb": "It tangles ankles in strips of peel.",
+     "look": "A thin orange peel ribbon with wire legs, a forked tip and dark seed eyes."
+    },
+    {
+     "id": "tray-skater",
+     "name": "Tray Skater",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/whats-on/events/school-dinners/",
+     "blurb": "It slides away with unattended supplies.",
+     "look": "A dented silver dinner tray on four tiny wheels, with a domed lid and a hooked handle."
+    },
+    {
+     "id": "hurdle-weaver",
+     "name": "Hurdle Weaver",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/interactive-map/",
+     "blurb": "It pens other machines behind woven barriers.",
+     "look": "A squat wicker frame on jointed wooden legs, carrying a curved fence panel."
+    },
+    {
+     "id": "box-collector",
+     "name": "Box Collector",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/learn/museum-boxes/",
+     "blurb": "It opens its case to release smaller collectors.",
+     "look": "A brown wooden travelling case with brass corners, four hinged legs and a gaping lid."
+    },
+    {
+     "id": "quince-preserver",
+     "name": "Quince Preserver",
+     "tier": "regular",
+     "bodyPlan": "blob",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/learn/recipes/",
+     "blurb": "It sets a hard shell around its soft centre.",
+     "look": "A squat amber jelly block with translucent layers, a copper spoon arm and square feet."
+    },
+    {
+     "id": "recorder-loop",
+     "name": "Recorder Loop",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/living-heritage/",
+     "blurb": "It repeats the crew\u2019s actions with mechanical precision.",
+     "look": "A round black reel with a brass horn, three spindly legs and a loop of brown tape."
+    },
+    {
+     "id": "barn-brace",
+     "name": "Barn Brace",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/work-begins-on-the-medieval-barn/",
+     "blurb": "It winds up before driving its heavy timber forward.",
+     "look": "A triangular oak beam frame with iron joints, two broad feet and a blunt wooden prow."
+    },
+    {
+     "id": "millstone-masticator",
+     "name": "Millstone Masticator",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike"
+     ],
+     "source": "/alton-watermill-2/",
+     "blurb": "Its turning stone catches groups standing together.",
+     "look": "A wide grey millstone on an oak axle, with a toothed rim and two iron arms."
+    },
+    {
+     "id": "dinner-engine",
+     "name": "Dinner Engine",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "sweep"
+     ],
+     "source": "/whats-on/events/school-dinners/",
+     "blurb": "It flings setting custard before sweeping the serving line.",
+     "look": "A cream enamel cart with a deep yellow vat, paddle arms and four thick castors."
+    },
+    {
+     "id": "ginger-mason",
+     "name": "Ginger Mason",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/whats-on/events/christmas-at-the-food-museum/",
+     "blurb": "It repairs damaged collectors with sticky icing.",
+     "look": "A brown biscuit block on short metal legs, with white icing seams and a piping-bag arm."
+    },
+    {
+     "id": "total-collection",
+     "name": "Total Collection",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "brace",
+      "spawn",
+      "sweep"
+     ],
+     "source": "/collections-overview/",
+     "blurb": "Its moving racks shield the cargo while collectors bring in more. Break through the guard and stop the reinforcements.",
+     "look": "A huge dark green traction engine carrying tilted wooden shelves, stoppered jars and a broad iron shield."
+    },
+    {
+     "id": "allotment-keeper",
+     "name": "Allotment Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/interactive-map/",
+     "blurb": "A grower shares seeds and patches up the crew.",
+     "look": "A small figure in a moss green apron and straw hat, with a seed pouch and watering can."
+    },
+    {
+     "id": "box-conservator",
+     "name": "Box Conservator",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/learn/museum-boxes/",
+     "blurb": "A conservator uses a case lid to shelter others.",
+     "look": "A figure in a blue work coat carrying an open wooden case as a shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "mill-sluice",
+     "source": "/alton-watermill-2/",
+     "look": "A stone sluice and a bobbing flour sack in dark water.",
+     "title": "The sluice",
+     "text": "A flour sack is caught at the gate. Opening it will restart the wheel.",
+     "options": [
+      {
+       "label": "Open the gate",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The sack comes free and the crew eats."
+      },
+      {
+       "label": "Leave the sack and brace the wheel",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns a steadier way to hold a load."
+      }
+     ]
+    },
+    {
+     "id": "bed-rescue",
+     "source": "/interactive-map/",
+     "look": "Two raised beds under the shadow of a metal harvester.",
+     "title": "Two beds",
+     "text": "A seedkeeper needs time to rescue a rare planting. Both beds are in the machine\u2019s path.",
+     "options": [
+      {
+       "label": "Move the plants",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The plants survive, but thorns tear at the crew."
+      },
+      {
+       "label": "Distract the machine",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The machine follows a trail of dropped coins while the keeper works."
+      }
+     ]
+    },
+    {
+     "id": "case-latch",
+     "source": "/learn/museum-boxes/",
+     "look": "A wooden case with two brass latches and a tool protruding from its lid.",
+     "title": "The loan case",
+     "text": "A tool is trapped in a clicking case. One latch opens it; the other releases its collector.",
+     "options": [
+      {
+       "label": "Pry it open",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The collector snaps shut on a hand before the tool comes loose."
+      },
+      {
+       "label": "Buy the conservator\u2019s spare tool",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The conservator trades a spare and leaves the case shut."
+      }
+     ]
+    },
+    {
+     "id": "custard-trays",
+     "source": "/whats-on/events/school-dinners/",
+     "look": "Two metal trays, one with yellow custard and one with pale sponge.",
+     "title": "Lunch service",
+     "text": "The serving machine swaps the trays faster than the crew can read them.",
+     "options": [
+      {
+       "label": "Eat quickly",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The sponge is plain but filling."
+      },
+      {
+       "label": "Tip both trays into the gears",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The stopped mechanism shows Kestrel how to jam a moving part."
+      }
+     ]
+    },
+    {
+     "id": "quince-pot",
+     "source": "/learn/recipes/",
+     "look": "A copper pan of amber paste around a small iron key.",
+     "title": "Cooling pot",
+     "text": "A key is set in quince paste. Heat will attract the preserver; waiting costs supplies.",
+     "options": [
+      {
+       "label": "Warm the pot",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The key comes loose as hot paste splashes over the crew."
+      },
+      {
+       "label": "Trade for another key",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "A nearby keeper supplies a spare."
+      }
+     ]
+    },
+    {
+     "id": "heritage-tune",
+     "source": "/living-heritage/",
+     "look": "A brass horn facing a spool of brown tape beside an open door.",
+     "title": "Missing phrase",
+     "text": "A recorder is searching for the last phrase of a tune. A keeper needs to get past it.",
+     "options": [
+      {
+       "label": "Sing a variation",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The recorder follows the wrong tune. Wren learns to clear a false signal."
+      },
+      {
+       "label": "Draw it away with supplies",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The keeper escapes while the recorder examines the decoy."
+      }
+     ]
+    }
+   ],
+   "name": "The Food Museum",
+   "url": "https://foodmuseum.org.uk/"
+  },
+  {
+   "theme": "A culture under examination",
+   "story": {
+    "intro": "At the food laboratory, a jar matching the one from the stores sits in a chilled carrier. Wren checks its seal. The swarm has brought it here for analysis.",
+    "chapters": [
+     {
+      "title": "Samples",
+      "text": "Samplers follow traces of the jar through the building. Ox finds discarded food untouched beside carefully protected cultures. The swarm is looking for a living mixture."
+     },
+     {
+      "title": "The wrong suspect",
+      "text": "Wren finds the swarm maintaining several cultures, not consuming them. It has been taking samples to replace strains lost from its own failing starter. Its collectors still seize anything they cannot identify."
+     },
+     {
+      "title": "A narrow recipe",
+      "text": "The machines are combining samples into one starter and rejecting the rest. Kestrel finds a chamber where discarded cultures are still active. One mixture cannot stand in for every other one."
+     }
+    ],
+    "bossIntro": "The Starter Marshal seals the chamber. Its shield covers the vessel while a sampler calls reinforcements. The marshal lashes out at anything that approaches the rejected cultures.",
+    "outro": "The crew opens the chamber and separates the cultures. Wren saves a sample of the failing starter. Its container bears a route to a rural collection, where the swarm has gone looking for older practices."
+   },
+   "creatures": [
+    {
+     "id": "aroma-hound",
+     "name": "Aroma Hound",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/faciliteter/aromalab/",
+     "blurb": "It follows scent trails and lunges at their source.",
+     "look": "A narrow silver hound with a glass bulb nose, curled copper tubing and four pointed feet."
+    },
+    {
+     "id": "bean-shell",
+     "name": "Bean Shell",
+     "tier": "easy",
+     "bodyPlan": "blob",
+     "role": "shielder",
+     "routines": [
+      "brace"
+     ],
+     "source": "/nyheder/2026/aeldgammel-teknik-kan-aendre-kedelig-smag-i-boenner/",
+     "blurb": "It builds a protective coating around itself.",
+     "look": "A broad pale green bean with layered tan crust, two small feet and a dark seam."
+    },
+    {
+     "id": "sample-mote",
+     "name": "Sample Mote",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/faciliteter/gc-ms-platform/",
+     "blurb": "It steals tiny samples and carries them away.",
+     "look": "A small steel sphere with clear wings, a needle nose and one blue glass eye."
+    },
+    {
+     "id": "wort-warden",
+     "name": "Wort Warden",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/faciliteter/brewery/",
+     "blurb": "It guards nearby samplers with a curved vat lid.",
+     "look": "A copper brewing vessel on three legs with a round lid arm and a pipe snout."
+    },
+    {
+     "id": "sequence-scribe",
+     "name": "Sequence Scribe",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/faciliteter/genomic-platform/",
+     "blurb": "It calls matching units along a printed sample trail.",
+     "look": "A white box on wheels with a narrow ribbon spool, two probe arms and a blue lens."
+    },
+    {
+     "id": "safety-assessor",
+     "name": "Safety Assessor",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/nyheder/2026/ny-forskning-skal-goere-plantefoedevarer-endnu-sikrere/",
+     "blurb": "It marks every unfamiliar culture as suspect.",
+     "look": "A white cylindrical scanner with a yellow rim, folding grippers and a dark round lens."
+    },
+    {
+     "id": "texture-engineer",
+     "name": "Texture Engineer",
+     "tier": "regular",
+     "bodyPlan": "blob",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/forskning-paa-food/ingrediens-og-mejeriteknologi/",
+     "blurb": "Its elastic body splits when damaged.",
+     "look": "A translucent ivory gel scaffold with looped limbs, silver joints and a blue core."
+    },
+    {
+     "id": "taste-conductor",
+     "name": "Taste Conductor",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/nyheder/2026/musik-kan-forstaerke-smagen-af-din-mad/",
+     "blurb": "It interrupts the crew with a pulse from its horn.",
+     "look": "A squat black speaker with a brass horn, a rotating baton arm and three legs."
+    },
+    {
+     "id": "twin-fermenter",
+     "name": "Twin Fermenter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "sweep"
+     ],
+     "source": "/faciliteter/fermentation-platform/",
+     "blurb": "Two connected vessels separate as the reactor takes damage.",
+     "look": "Two linked steel tanks, one with a blue liquid window and one with a tan granular bed, on jointed legs."
+    },
+    {
+     "id": "culture-mender",
+     "name": "Culture Mender",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/forskning-paa-food/mikrobiologi-og-fermentering/",
+     "blurb": "It repairs the whole sampling team.",
+     "look": "A white wheeled carrier with three green glass flasks and soft tubing arms."
+    },
+    {
+     "id": "protein-sorter",
+     "name": "Protein Sorter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "breach"
+     ],
+     "source": "/faciliteter/food-proteomics-platform/",
+     "blurb": "Its grippers interrupt targets and pry apart shields.",
+     "look": "Three silver drums linked by a belt, with forked grippers and a narrow blue inspection lens."
+    },
+    {
+     "id": "starter-marshal",
+     "name": "Starter Marshal",
+     "tier": "boss",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "brace",
+      "spawn",
+      "sweep"
+     ],
+     "source": "/forskning-paa-food/mikrobiologi-og-fermentering/",
+     "blurb": "It protects its chosen starter, summons samplers and sweeps the chamber to keep competing cultures away.",
+     "look": "A tall steel fermenter with a domed lid, branching glass tubes, a broad circular guard and four paddle arms."
+    },
+    {
+     "id": "culture-keeper",
+     "name": "Culture Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/forskning-paa-food/mikrobiologi-og-fermentering/",
+     "blurb": "A researcher keeps useful cultures and injured travellers going.",
+     "look": "A figure in a pale blue coat carrying a padded rack of green glass vials."
+    },
+    {
+     "id": "brew-helper",
+     "name": "Brew Helper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/faciliteter/brewery/",
+     "blurb": "A small brewery machine protects anyone carrying a vessel.",
+     "look": "A short copper kettle on wheels with a round lid shield and a padded clamp."
+    }
+   ],
+   "events": [
+    {
+     "id": "aroma-trail",
+     "source": "/faciliteter/aromalab/",
+     "look": "A glass scent bottle leaking a pale mist beside two ducts.",
+     "title": "A scent trail",
+     "text": "A hound is following a leaking sample. The crew can redirect it or seal the leak.",
+     "options": [
+      {
+       "label": "Lead it away with a ration",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The hound follows the bait."
+      },
+      {
+       "label": "Seal the bottle by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The fumes sting, but the trail stops."
+      }
+     ]
+    },
+    {
+     "id": "brew-valve",
+     "source": "/faciliteter/brewery/",
+     "look": "A copper pipe with two valves above a steaming vat.",
+     "title": "The brewery valve",
+     "text": "A valve can drain a blocked path or preserve a warm batch for the crew.",
+     "options": [
+      {
+       "label": "Drain the vat",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The rushing liquid clears the path and demonstrates a wide sweep."
+      },
+      {
+       "label": "Save the batch",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The crew rests with a warm drink while the route stays blocked."
+      }
+     ]
+    },
+    {
+     "id": "two-cultures",
+     "source": "/forskning-paa-food/mikrobiologi-og-fermentering/",
+     "look": "Two small glass jars in a padded metal carrier.",
+     "title": "Two jars",
+     "text": "Two cultures need separate containers. There is room to carry one without making a new case.",
+     "options": [
+      {
+       "label": "Carry the first",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The crew pays for a safe carrier for the second."
+      },
+      {
+       "label": "Make a case from armour padding",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Both jars travel safely, but the crew has less protection."
+      }
+     ]
+    },
+    {
+     "id": "bean-batch",
+     "source": "/nyheder/2026/aeldgammel-teknik-kan-aendre-kedelig-smag-i-boenner/",
+     "look": "Two bowls of broad beans beside a glass jar.",
+     "title": "Bean experiment",
+     "text": "Two batches smell different. A patrol is following the stronger scent.",
+     "options": [
+      {
+       "label": "Use the fragrant batch as bait",
+       "effect": {
+        "type": "heal",
+        "amount": 0.1
+       },
+       "result": "The patrol follows the bowl and the crew eats the milder beans."
+      },
+      {
+       "label": "Protect the fragrant batch",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "A padded container hides its scent at the cost of supplies."
+      }
+     ]
+    },
+    {
+     "id": "sampler-ribbon",
+     "source": "/faciliteter/genomic-platform/",
+     "look": "A white printer trailing a long paper ribbon across a floor.",
+     "title": "Sample ribbon",
+     "text": "A printer has recorded Wren\u2019s trace. A patrol is following the ribbon.",
+     "options": [
+      {
+       "label": "Cut it close to the printer",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The cutter nicks Wren, but the trail ends."
+      },
+      {
+       "label": "Feed it a decoy sample",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The patrol follows the decoy and takes the supplies around it."
+      }
+     ]
+    },
+    {
+     "id": "waste-valve",
+     "source": "/baeredygtighedsforskning/",
+     "look": "Two adjacent chambers joined by a low pipe and a brass valve.",
+     "title": "Moving the problem",
+     "text": "One chamber is clear because waste was diverted into the next. A valve can return the flow or send it through a filter.",
+     "options": [
+      {
+       "label": "Open the filter",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The filter works after the crew buys a replacement cartridge."
+      },
+      {
+       "label": "Clear the pipe by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The flow stops, though the crew takes a chemical splash."
+      }
+     ]
+    }
+   ],
+   "name": "University of Copenhagen Department of Food Science",
+   "url": "https://food.ku.dk/english/"
+  },
+  {
+   "theme": "A future that can change",
+   "story": {
+    "intro": "The swarm has reached a rural collection. It is gathering old tools, farm records and accounts of work. Ox finds a cart loaded carefully with all three.",
+    "chapters": [
+     {
+      "title": "Ways of working",
+      "text": "The machines gather ploughs, dairy tools and records from different periods. Kestrel sees them copy the same task in several forms. They are looking for ways to keep the starter alive."
+     },
+     {
+      "title": "One plan",
+      "text": "The swarm has built a model farm to grow feed and house its cultures. It has chosen one fixed season and treats every change as a threat. Wren\u2019s sample is still alive, but needs different care over time."
+     },
+     {
+      "title": "Room to adapt",
+      "text": "The crew finds notes on different methods and the people who changed them. Ox holds the route while Wren prepares several small vessels. Kestrel finds the seam where the model farm feeds the main engine."
+     }
+    ],
+    "bossIntro": "The Country Life Engine turns its plough, drill and dairy churn together. It shields its fixed crop, plants new machines and sweeps the floor with its blades. The crew must open a route to the culture vessels.",
+    "outro": "Kestrel splits the feed line. Ox holds the shield aside while Wren divides the starter into vessels with different conditions. The swarm stops collecting and tends them. Some cultures fail; others grow. Its answer was survival, and the crew leaves it room to adapt."
+   },
+   "creatures": [
+    {
+     "id": "toy-tractor",
+     "name": "Toy Tractor",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn"
+     ],
+     "source": "/visit-us/galleries/model-farming/",
+     "blurb": "It plants tiny machines in straight rows.",
+     "look": "A palm-sized green tractor with oversized black wheels, a brass winding key and a small seed hopper."
+    },
+    {
+     "id": "harness-loop",
+     "name": "Harness Loop",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/collections/objects/",
+     "blurb": "It loops around loose tools and drags them away.",
+     "look": "A loop of dark brown leather with brass buckles, four tiny feet and a hooked end."
+    },
+    {
+     "id": "rat-scout",
+     "name": "Rat Scout",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/whats-on/rat-trail/",
+     "blurb": "It darts between machines and interrupts the crew.",
+     "look": "A small grey mechanical rat in a blue cloth cap, with a long wire tail and bright bead eyes."
+    },
+    {
+     "id": "thatch-weaver",
+     "name": "Thatch Weaver",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/visit-us/galleries/making-rural-england/",
+     "blurb": "It roofs over allies with layers of straw.",
+     "look": "A bundle of golden straw on four wooden legs, with hooked needles and a sloped thatch panel."
+    },
+    {
+     "id": "seed-drill",
+     "name": "Seed Drill",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/visit-us/galleries/forces-for-change/",
+     "blurb": "It plants new machines behind the front line.",
+     "look": "A red-brown iron seed drill with a row of narrow tubes, two broad wheels and a square hopper.",
+     "key": "green"
+    },
+    {
+     "id": "catalogue-keeper",
+     "name": "Catalogue Keeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/visit-us/galleries/collecting-rural-england/",
+     "blurb": "It marks the crew as objects to be stored.",
+     "look": "A wooden cabinet on jointed legs with brass drawers, a clamp arm and a single black lens."
+    },
+    {
+     "id": "plougher",
+     "name": "Turn-wrest Plougher",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/visit-us/galleries/model-farming/",
+     "blurb": "It flips its blade and charges down a new furrow.",
+     "look": "A blue iron plough with a curved silver blade, two wheels and a hinged central beam."
+    },
+    {
+     "id": "milk-inspector",
+     "name": "Milk Inspector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/news-and-views/women-in-dairying-from-dairymaids-to-leading-scientists/",
+     "blurb": "It cleans and repairs damaged machinery.",
+     "look": "A polished silver milk churn on three legs, with brush arms and a small blue glass window."
+    },
+    {
+     "id": "drawing-foundry",
+     "name": "Drawing Foundry",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam"
+     ],
+     "source": "/news-and-views/digitising-the-fowler-archives/",
+     "blurb": "It folds new machines from plans and jams anyone trying to stop it.",
+     "look": "A large steel drafting frame with hinged metal sheets, roller feet and two compass-like arms."
+    },
+    {
+     "id": "absolute-ram",
+     "name": "Absolute Ram",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "brace",
+      "charge"
+     ],
+     "source": "/news-and-views/history-behind-absolute-unit/",
+     "blurb": "It shields its wide body before charging.",
+     "look": "A massive cream wool-covered mechanical ram with curled black horns, short iron legs and a plated forehead."
+    },
+    {
+     "id": "county-weaver",
+     "name": "County Weaver",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "sweep"
+     ],
+     "source": "/visit-us/galleries/our-country-lives/",
+     "blurb": "It shields other machines with woven cloth and sweeps with its shuttle.",
+     "look": "A tall wooden loom on wheels with green and gold woven cloth, a long shuttle arm and a heavy crossbar."
+    },
+    {
+     "id": "country-life-engine",
+     "name": "Country Life Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "brace",
+      "spawn",
+      "sweep+"
+     ],
+     "source": "/visit/galleries/",
+     "blurb": "Its drill plants reinforcements, its woven guard shields the engine, and its plough sweeps across the crew. It will not allow the season to change.",
+     "look": "A huge iron tractor joined to a seed drill, wooden loom and silver churn, with a wide plough blade and green canopy."
+    },
+    {
+     "id": "route-keeper",
+     "name": "Route Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/visit/access/",
+     "blurb": "A route keeper guides the crew and shelters those following.",
+     "look": "A figure in a green coat with a folded seat, sturdy boots and a broad round board."
+    },
+    {
+     "id": "mud-maker",
+     "name": "Mud Maker",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/whats-on/friday-fledglings/",
+     "blurb": "A resourceful maker packs mud into moving gears.",
+     "look": "A small figure in a yellow raincoat and boots, holding a clay bowl and wooden spoon."
+    }
+   ],
+   "events": [
+    {
+     "id": "rat-relay",
+     "source": "/whats-on/rat-trail/",
+     "look": "Small grey mechanical rats pass a brass key along a row of boxes.",
+     "title": "The rat relay",
+     "text": "A scout carries a key through a chain of hiding places. The crew can follow or block the relay.",
+     "options": [
+      {
+       "label": "Follow quietly",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The crew drops supplies as a decoy and recovers the key."
+      },
+      {
+       "label": "Block the last gap",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The key is caught, along with a few sharp bites."
+      }
+     ]
+    },
+    {
+     "id": "model-field",
+     "source": "/visit-us/galleries/model-farming/",
+     "look": "A toy tractor circling a small field beside a large iron gate.",
+     "title": "Small field",
+     "text": "A toy tractor controls a full-sized gate. Its furrows can be changed by hand or with a spare tool.",
+     "options": [
+      {
+       "label": "Move the furrows by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The gate opens, but the tiny plough catches a finger."
+      },
+      {
+       "label": "Use a spare tool",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The gate opens and the bent tool is left behind."
+      }
+     ]
+    },
+    {
+     "id": "sheep-conveyor",
+     "source": "/visit-us/galleries/a-year-on-the-farm/",
+     "look": "A woolly sheep model caught on a moving iron conveyor.",
+     "title": "A woolly hold",
+     "text": "A sheep model is caught in a conveyor. Its yarn holds down the safety lever.",
+     "options": [
+      {
+       "label": "Hold the lever and cut the yarn",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The model comes free, but the moving belt scrapes Ox."
+      },
+      {
+       "label": "Wedge the lever with a tool",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The model is freed and the tool stays in the mechanism."
+      }
+     ]
+    },
+    {
+     "id": "thatch-roof",
+     "source": "/visit-us/galleries/making-rural-england/",
+     "look": "A straw roof with a gap above a wooden doorway.",
+     "title": "A gap in the roof",
+     "text": "Drones are stripping a shelter. The occupants need a roof and an escape gap.",
+     "options": [
+      {
+       "label": "Help weave the roof",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The occupants show Ox a better way to shelter someone."
+      },
+      {
+       "label": "Leave repair materials",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The occupants finish the work while the crew moves on."
+      }
+     ]
+    },
+    {
+     "id": "farm-records",
+     "source": "/collections/archives/",
+     "look": "Loose sheets blowing toward a dark machine intake.",
+     "title": "Scattered records",
+     "text": "Farm records are sliding toward an intake. One sheet shows a supply cache.",
+     "options": [
+      {
+       "label": "Reach into the intake",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "Kestrel retrieves the sheet before the rollers close."
+      },
+      {
+       "label": "Buy a copy from a keeper",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The keeper supplies the cache location from memory and notes."
+      }
+     ]
+    },
+    {
+     "id": "quiet-route",
+     "source": "/visit/access/",
+     "look": "A folded map and portable seat beside a noisy wheeled machine.",
+     "title": "A quieter route",
+     "text": "A group needs a route around a loud patrol. Moving the machine or marking a detour will take resources.",
+     "options": [
+      {
+       "label": "Push the machine away",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The route opens after a hard shove."
+      },
+      {
+       "label": "Mark a longer detour",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The crew leaves markers and the group takes the quieter path."
+      }
+     ]
+    }
+   ],
+   "name": "The Museum of English Rural Life",
+   "url": "https://merl.reading.ac.uk/"
+  }
+ ],
+ "id": "2026-11-12",
+ "seed": 1237735248
+}

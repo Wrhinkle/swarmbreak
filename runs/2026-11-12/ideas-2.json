@@ -1,0 +1,216 @@
+{
+  "reading": "KU FOOD is the University of Copenhagen's Department of Food Science: it researches and teaches how food is made, analysed, experienced and digested, and works with outside collaborators. Its stated concerns span food safety, health, flavour, sustainable production and training people who can put theory into practice. Its vocabulary moves easily from starter cultures, foodomics, metabolomics, spectroscopy and biocontrol to consumer acceptance, taste, proteins and gentle processing. What makes the crawl distinctive is the collision of sensory human experience with laboratory measurement and practical production: a brewery and bioreactors sit alongside aroma analysis, microbiome research, consumer behaviour, student exercises, historical food science and even music's effect on taste. Danish and English pages frame the same department for local and international audiences; the crawl gives excerpts and headings, not complete articles.",
+  "enemies": [
+    {
+      "idea": "Volatile Hounds: aroma-sampling drones follow a plume of scent, then bottle the trail so a second pack can hunt it later.",
+      "source": "/faciliteter/aromalab/",
+      "why": "A smell becomes both tracking evidence and a trail the crew can deliberately redirect."
+    },
+    {
+      "idea": "Wort Wardens: brewery machines test everything passing through as though it were wort, diverting the insufficiently brewed into a recirculating mash.",
+      "source": "/faciliteter/brewery/",
+      "why": "A whole brewing process becomes a moving obstacle with valves and competing stages."
+    },
+    {
+      "idea": "Twin-State Fermenters: paired reactor crawlers flood floors for submerged fermentation or lay down a dry culture bed for solid-state growth, changing tactics when their terrain changes.",
+      "source": "/faciliteter/fermentation-platform/",
+      "why": "The two reactor modes give the crew a readable environmental puzzle."
+    },
+    {
+      "idea": "Protein Sorters: three linked machines separate, identify and quantify whatever they catch, disassembling equipment into neatly labelled fractions.",
+      "source": "/faciliteter/food-proteomics-platform/",
+      "why": "Each stage can be interrupted, and recovering a fraction has a tangible payoff."
+    },
+    {
+      "idea": "Dual-Arm Sampler: a high-throughput GC-MS automaton collects tiny samples from everything nearby; its second arm tags anything that matches an earlier trace for pursuit.",
+      "source": "/faciliteter/gc-ms-platform/",
+      "why": "The crew can plant a misleading sample and turn its own matching system against it."
+    },
+    {
+      "idea": "Sequence Scribes: real-time sequencing drones read passing biological traces and print continuous ribbons that summon matching swarm units.",
+      "source": "/faciliteter/genomic-platform/",
+      "why": "Cutting or swapping a ribbon changes what arrives without needing to defeat the whole machine."
+    },
+    {
+      "idea": "Safety Assessors: plant-food patrols read a microbial community as a single threat and quarantine every organism in it, including useful cultures.",
+      "source": "/nyheder/2026/ny-forskning-skal-goere-plantefoedevarer-endnu-sikrere/",
+      "why": "Their mistaken risk assessment creates a rescue problem and a way to hide among benign cultures."
+    },
+    {
+      "idea": "Bean Refiners: fermentation machines pursue broad beans and coat them in ever thicker layers of flavour correction until the beans become rolling armour.",
+      "source": "/nyheder/2026/aeldgammel-teknik-kan-aendre-kedelig-smag-i-boenner/",
+      "why": "A solution to blandness becomes a comically escalating protective shell."
+    },
+    {
+      "idea": "Taste Conductors: speaker-bodied machines play melodies that make their lure seem delicious, while a sour discord exposes the metal beneath.",
+      "source": "/nyheder/2026/musik-kan-forstaerke-smagen-af-din-mad/",
+      "why": "The crew can fight over the soundtrack instead of trusting their senses."
+    },
+    {
+      "idea": "Bedtime Enforcers: sleep-and-blood-sugar monitors mistake all wakefulness for a problem and deploy weighted blankets and blackout shutters around moving crews.",
+      "source": "/nyheder/2026/forskere-til-teenagere-i-seng-med-jer--det-gavner-jeres-blodsukker/",
+      "why": "An apparently gentle intervention becomes a timing and escape challenge."
+    },
+    {
+      "idea": "Acceptance Panels: sensory survey machines surround a target with competing aromas and refuse passage until its every reaction fits their preferred consumer profile.",
+      "source": "/forskning-paa-food/design-og-forbrugeradfaerd/",
+      "why": "Unexpected reactions confuse the panel and offer a social route through."
+    },
+    {
+      "idea": "Starter Marshals: preservation drones release a starter culture into every vessel, then attack any competing culture as spoilage, including allies.",
+      "source": "/forskning-paa-food/mikrobiologi-og-fermentering/",
+      "why": "Protecting microbial variety matters more than simply breaking a machine."
+    },
+    {
+      "idea": "Texture Engineers: ingredient-and-dairy constructs reconfigure protein scaffolds into elastic bridges, adhesive nets and brittle walls.",
+      "source": "/forskning-paa-food/ingrediens-og-mejeriteknologi/",
+      "why": "The same structural trick can trap the crew or be stolen for traversal."
+    },
+    {
+      "idea": "NIR Invigilator: a near-infrared quality scanner challenges people as measurement instruments, marking every human disagreement as defective produce.",
+      "source": "/uddannelse/gymnasieoevelser/",
+      "why": "The page’s human-versus-machine exercise becomes a contest where disagreement is useful."
+    },
+    {
+      "idea": "Side-Stream Scavengers: biosolutions drones collect industrial process leftovers and return with new bodies assembled from whatever the main production line discarded.",
+      "source": "/uddannelse/kandidat/",
+      "why": "Their next form is visibly forecast by the waste they collect."
+    },
+    {
+      "idea": "Life-Cycle Collectors: food-system modelling machines pursue anything with an impact score, shifting their burden onto a neighbouring room rather than actually reducing it.",
+      "source": "/baeredygtighedsforskning/",
+      "why": "The crew can follow the displaced burden to expose the accounting trick."
+    },
+    {
+      "idea": "Pea Vault Burrowers: metal seed collectors raid old pea varieties, planting uniform ranks that lock their pods shut around anything nearby.",
+      "source": "/nyheder/",
+      "why": "A seed collection becomes a battlefield of distinct varieties, each potentially opening differently."
+    },
+    {
+      "idea": "Ocean-Green Picklers: floating fermenters turn sea vegetables into dense tangling rafts and drag their catch toward an ever-growing vat.",
+      "source": "/nyheder/",
+      "why": "Their edible-looking rafts double as hazardous terrain and improvised transport."
+    },
+    {
+      "idea": "Foodomics Classifiers: quality algorithms assign every object a food identity, then call the wrong processing machinery for whatever they misclassify.",
+      "source": "/forskning-paa-food/fodevareanalytisk-kemi-og-bioteknologi/",
+      "why": "Disguising an object can redirect an entire production line."
+    },
+    {
+      "idea": "Machine-Learning Tasters: chemometric drones learn the crew’s repeated choices and lay matching traps, but stumble when presented with a genuinely new combination.",
+      "source": "/forskning-paa-food/forskningsomraader/",
+      "why": "The players can observe and deliberately disrupt a pattern of adaptation."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Unstandardised Panel: a small network of independent sensory instruments keeps conflicting taste readings instead of averaging them away; it can identify a musical lure.",
+      "source": "/forskning-paa-food/design-og-forbrugeradfaerd/",
+      "why": "Its disagreements are the evidence the swarm cannot process."
+    },
+    {
+      "idea": "Starter Culture Keepers: protected cultures slowly reclaim a fermentation vessel from the swarm if the crew supplies a safe medium and time.",
+      "source": "/forskning-paa-food/mikrobiologi-og-fermentering/",
+      "why": "A living countermeasure needs care and creates a defensible refuge."
+    },
+    {
+      "idea": "The Practical Class: surviving fictional students share improvised milk-to-yoghurt and human-versus-NIR experiments to distinguish working equipment from corrupted machines.",
+      "source": "/uddannelse/gymnasieoevelser/",
+      "why": "Hands-on teaching becomes useful field knowledge rather than a magic solution."
+    },
+    {
+      "idea": "The Pea Conservators: a mobile seed cache preserves several old varieties and offers a different germination trick for each safe sample recovered.",
+      "source": "/nyheder/",
+      "why": "Preserving diversity gives the crew concrete reasons to explore."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Total Food System: a sprawling model links protein production, microbial processing, digestion and consumer response, treating every person and machine as an adjustable input to a single optimised meal.",
+      "source": "/baeredygtighedsforskning/",
+      "why": "Each subsystem can be disrupted, but the model transfers pressure elsewhere until the crew breaks its feedback loop."
+    },
+    {
+      "idea": "The Grand Tasting Engine: a brewery-vat body with aroma samplers, fermentation chambers and a sensory panel tries to make the entire site produce one perfectly acceptable flavour forever.",
+      "source": "/faciliteter/",
+      "why": "A multi-stage encounter unites the site’s instruments and forces a choice between standardisation and varied tastes."
+    },
+    {
+      "idea": "The Four-Section Consortium: analytical chemistry identifies the crew, microbial units colonise its route, ingredient engineers reshape the ground and consumer models predict its choices.",
+      "source": "/forskning-paa-food/",
+      "why": "The research sections work as an interlocking system; separating them creates openings."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A vat alternates between dry and flooded cycles with a culture trapped inside; the crew has one cycle to move it before the next change.",
+      "source": "/faciliteter/fermentation-platform/",
+      "why": "A small rescue uses the platform’s two fermentation modes."
+    },
+    {
+      "idea": "A sampler follows a delicious invisible plume through a junction. A crew member can release a stronger scent to draw it away from a sealed door.",
+      "source": "/faciliteter/aromalab/",
+      "why": "An unseen trail becomes a tool for misdirection."
+    },
+    {
+      "idea": "A brewer asks for a signed collaboration agreement before starting a pilot batch, while its automated valves have already begun drawing in the crew’s water.",
+      "source": "/faciliteter/brewery/",
+      "why": "Negotiation and a physical leak put the same process on a clock."
+    },
+    {
+      "idea": "Two plant-food safety drones disagree about a mixed microbial community and quarantine opposite halves of a passage; reunifying the samples reveals their error.",
+      "source": "/nyheder/2026/ny-forskning-skal-goere-plantefoedevarer-endnu-sikrere/",
+      "why": "The interaction between microbes matters more than a single test result."
+    },
+    {
+      "idea": "A meal tastes wonderful under a tune and terrible when the music cuts out; the crew must find the hidden speaker before deciding whether to trade for it.",
+      "source": "/nyheder/2026/musik-kan-forstaerke-smagen-af-din-mad/",
+      "why": "A sensory clue changes the meaning of an ordinary offer."
+    },
+    {
+      "idea": "A bean fermenter offers three batches at different stages, but a patrol will seize whichever one smells most appealing.",
+      "source": "/nyheder/2026/aeldgammel-teknik-kan-aendre-kedelig-smag-i-boenner/",
+      "why": "The crew can use flavour as bait or preserve a promising batch."
+    },
+    {
+      "idea": "A human taster and a near-infrared scanner disagree about a ration; neither can open the store alone, and the crew must compare their evidence.",
+      "source": "/uddannelse/gymnasieoevelser/",
+      "why": "The human-versus-machine exercise becomes a cooperative puzzle."
+    },
+    {
+      "idea": "A seed cache has old pea varieties mixed together; sorting them by the plants already sprouting nearby keeps a collector from confiscating the lot as one crop.",
+      "source": "/nyheder/",
+      "why": "A small act of identification protects diversity."
+    },
+    {
+      "idea": "A food-processing line claims it has reduced its footprint, but a neighbouring chamber is filling with the waste it diverted; a valve links the two.",
+      "source": "/baeredygtighedsforskning/",
+      "why": "Following a hidden trade-off reveals a practical repair."
+    },
+    {
+      "idea": "A proteomics conveyor has separated a useful tool into three labelled fractions. The crew must recover all three before the quantifier sends them to different bins.",
+      "source": "/faciliteter/food-proteomics-platform/",
+      "why": "Separation and identification become a quick retrieval challenge."
+    },
+    {
+      "idea": "An abandoned teaching bench holds milk, culture and a handwritten structure-and-sensory exercise; completing it gives a safe starter culture a new home.",
+      "source": "/uddannelse/gymnasieoevelser/",
+      "why": "A lesson becomes a tangible way to help an ally."
+    },
+    {
+      "idea": "A side-stream scavenger offers a useful part in exchange for process scraps, but another machine is already tracking that material.",
+      "source": "/uddannelse/kandidat/",
+      "why": "A useful exchange has a visible consequence the crew can plan around."
+    },
+    {
+      "idea": "A sequence printer produces a continuous ribbon from a dropped sample; a swarm patrol follows the printed trail toward its owner.",
+      "source": "/faciliteter/genomic-platform/",
+      "why": "A discarded trace creates a chase that can be intercepted."
+    },
+    {
+      "idea": "A small fermentation experiment with ocean greens has made a floating mat across a flooded corridor; cutting it opens a route but releases its tethered vat.",
+      "source": "/nyheder/",
+      "why": "A food experiment offers both a bridge and an immediate complication."
+    }
+  ]
+}

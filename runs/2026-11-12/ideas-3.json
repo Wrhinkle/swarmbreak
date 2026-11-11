@@ -1,0 +1,231 @@
+{
+  "reading": "The Museum of English Rural Life, run by the University of Reading, collects and interprets the past, present and possible futures of food, farming, crafts and the countryside. Objects, specialist books, business and estate records, photographs, films and people's experiences sit alongside school workshops, accessible visits, community projects and an urban garden. It cares about who gets to tell rural stories, access and participation, technological and environmental change, and looking beyond nostalgia. Its language moves between catalogue cards, archives, collections and research; farm seasons, dairying, seed drills and rural crafts; and playful invitations to explore, make and discover. Its particular character is the collision of serious social history and technical drawings with toy tractors, enormous livestock, costumed rats, cheese, mud kitchens and a garden in Reading.",
+  "enemies": [
+    {
+      "idea": "Clockwork Tractor Brood: tiny wound tractors plough grooves across the floor, planting screws that unfold into more tractors. Their keys must be caught before they unwind.",
+      "source": "/visit-us/galleries/model-farming/",
+      "why": "A farm toy becomes a multiplying terrain hazard with a visible weak point."
+    },
+    {
+      "idea": "Turn-wrest Plougher: a reversible plough drone flips its blade at each wall and turns every route into parallel furrows.",
+      "source": "/visit-us/galleries/model-farming/",
+      "why": "Its agricultural rhythm creates predictable lanes to dodge and exploit."
+    },
+    {
+      "idea": "Seasonal Chef: a harvesting machine decides every object is an ingredient that must be gathered in its appointed season, including the crew’s equipment.",
+      "source": "/visit-us/galleries/a-year-on-the-farm/",
+      "why": "Changing seasons alter what it hunts and give players reasons to improvise."
+    },
+    {
+      "idea": "Gentle Harvester: a polite machine cradles loose things before bundling them into immovable sheaves, apologetically including anyone who stands still.",
+      "source": "/visit-us/galleries/a-year-on-the-farm/",
+      "why": "Its deceptive care makes escape a strange, comic puzzle."
+    },
+    {
+      "idea": "Three-Power Hauler: a cart machine switches between a mechanical horse, portable steam engine and motor drive; each mode pulls the next into position.",
+      "source": "/visit-us/galleries/town-and-country/",
+      "why": "The change in rural power becomes a readable three-phase chase."
+    },
+    {
+      "idea": "Thatch Weaver: tool-limbed drones roof over exits with tightly layered straw, then shelter beneath their own handiwork.",
+      "source": "/visit-us/galleries/making-rural-england/",
+      "why": "The crew can unpick the weave or use the new cover against its makers."
+    },
+    {
+      "idea": "Catalogue Keeper: a swarm clerk tags intruders as newly acquired objects and tries to pack them into a numbered crate.",
+      "source": "/visit-us/galleries/collecting-rural-england/",
+      "why": "Misclassification becomes a threat that can be confused by swapping tags."
+    },
+    {
+      "idea": "Drawing Foundry: engine diagrams crawl off their sheets as folding metal and assemble themselves into half-finished machines that seek missing parts.",
+      "source": "/news-and-views/digitising-the-fowler-archives/",
+      "why": "A drawing can be interrupted or rearranged before its machine is complete."
+    },
+    {
+      "idea": "Seed Drill Seeder: a drill plants tiny machines in neat rows, then fertiliser sprayers accelerate them into a marching crop.",
+      "source": "/visit-us/galleries/forces-for-change/",
+      "why": "Breaking a row or intercepting the sprayer changes the encounter before it matures."
+    },
+    {
+      "idea": "Elite Cow Calibrator: a metal livestock judge measures everything against a single ideal and bolts extra parts onto anything it deems insufficient.",
+      "source": "/visit-us/galleries/forces-for-change/",
+      "why": "Its absurd standard offers a way to distract it with a deliberately overbuilt decoy."
+    },
+    {
+      "idea": "Absolute Ram: a stocky machine animal absorbs scrap to become ever wider, eventually blocking the very passage it wants to charge through.",
+      "source": "/news-and-views/history-behind-absolute-unit/",
+      "why": "Its celebrated size is both its armour and its tactical weakness."
+    },
+    {
+      "idea": "Harness Collector: animated reins and harnesses loop around objects and enlist them as a team to pull a growing cart of stolen supplies.",
+      "source": "/collections/objects/",
+      "why": "Cutting individual traces frees useful objects and weakens the convoy."
+    },
+    {
+      "idea": "Estate Auditor: a machine composed of farm and estate records claims every patch of floor as its holding and demands a toll in tools.",
+      "source": "/collections/archives/",
+      "why": "Its shifting boundaries turn a fight into a negotiation over territory."
+    },
+    {
+      "idea": "Pre-order Sentinel: a retrieval machine hoards anything it finds until a request arrives in exactly the right sequence, including gear it has just taken.",
+      "source": "/collections/search-and-browse/collections-a-z/reading-room/",
+      "why": "Recovering equipment becomes a tense ordering puzzle."
+    },
+    {
+      "idea": "Costume Rats: twelve small swarm scouts borrow the trail rats’ different countryside-childhood costumes and pass stolen parts between hiding places.",
+      "source": "/whats-on/rat-trail/",
+      "why": "Their distinct disguises make tracking the whole relay more interesting than chasing one rat."
+    },
+    {
+      "idea": "Clean Milk Inspector: a sterilising machine declares every living scent contamination and seals useful supplies in spotless metal churns.",
+      "source": "/news-and-views/women-in-dairying-from-dairymaids-to-leading-scientists/",
+      "why": "The crew can redirect its cleaning obsession while recovering what it has quarantined."
+    },
+    {
+      "idea": "Print Press Swarm: mechanical rollers stamp repeating silhouettes over the floor; each fresh impression rises as a thin, short-lived copy of the nearest drone.",
+      "source": "/whats-on/imprint/",
+      "why": "The spreading pattern signals where reinforcements will appear and can be smudged."
+    },
+    {
+      "idea": "Nostalgia Projector: a projector drone loops an agricultural film over the present, hiding real obstacles behind a reassuring old landscape.",
+      "source": "/news-and-views/beyond-nostalgia/",
+      "why": "Players must compare the moving projection with the physical room to navigate."
+    },
+    {
+      "idea": "Tatting Tangle: tiny shuttles knot salvaged thread into lace nets around moving tools, then reel their catch toward a sewing basket.",
+      "source": "/collections/objects/",
+      "why": "The delicate pattern telegraphs traps that can be unthreaded and reused."
+    },
+    {
+      "idea": "County Weaver: a swarm stretches a great wall-hanging across the route and stitches moving machinery into its landscape.",
+      "source": "/visit-us/galleries/our-country-lives/",
+      "why": "The crew can find and pull loose threads to open temporary paths."
+    },
+    {
+      "idea": "Selective Breeder: a machine sorts scrap by a chosen trait and repeatedly rebuilds drones to exaggerate it, sacrificing other capabilities.",
+      "source": "/learn/schools-and-colleges/self-guided-visits/",
+      "why": "Players can steer its next generation toward a conspicuous weakness."
+    },
+    {
+      "idea": "Rights Collector: a predatory licensing automaton marks rural images as its property and sends drones after anyone carrying a matching drawing.",
+      "source": "/commercial-services/content-licensing/",
+      "why": "A visual matching rule lets the crew evade or redirect its pursuit."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Quiet Route Keepers maintain sensory maps and portable seats, guiding crews through calmer passages and warning when machinery makes a route impassable.",
+      "source": "/visit/access/",
+      "why": "They turn the museum’s access work into practical, player-directed support."
+    },
+    {
+      "idea": "Museums on Wheels volunteers move a small travelling collection between safe pockets, carrying remembered routes and requests for help.",
+      "source": "/communities/",
+      "why": "They connect separated survivors and give the crew useful journeys."
+    },
+    {
+      "idea": "The Mud Kitchen Makers use water, soil and play to jam small mechanisms and teach visitors how to spot hidden machine nests.",
+      "source": "/whats-on/friday-fledglings/",
+      "why": "Child-led experimentation becomes a gentle, inventive defence."
+    },
+    {
+      "idea": "A hands-on collections tutor helps crews identify unfamiliar tools and improvise safe uses for them.",
+      "source": "/learn/schools-and-colleges/school-college-workshops/",
+      "why": "Knowledge of actual objects becomes a source of creative solutions."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Country Life Engine: a vast swarm combines model farming, the agricultural year and Wagon Walk into a moving landscape that tries to preserve one perfect, unchanging countryside.",
+      "source": "/visit/galleries/",
+      "why": "Its gallery-inspired parts can be separated, and changing the season disrupts its rigid plan."
+    },
+    {
+      "idea": "The Curator of One Perspective: a machine intelligence absorbs objects, films and intangible skills but insists there is only one explanation for every rural story.",
+      "source": "/collections/collections-projects/",
+      "why": "Restoring conflicting voices and overlooked skills unravels its control rather than merely damaging it."
+    },
+    {
+      "idea": "The Progress Engine: a seed-drill-to-fertiliser colossus accelerates every technological change at once, transforming its surroundings faster than anyone can adapt.",
+      "source": "/visit-us/galleries/forces-for-change/",
+      "why": "Its connected systems create a multi-stage challenge about slowing and redirecting change."
+    }
+  ],
+  "events": [
+    {
+      "idea": "Eleven costumed rats appear at once; the twelfth has carried a useful key into a swarm nest. Follow the exchange without frightening the little scouts away.",
+      "source": "/whats-on/rat-trail/",
+      "why": "A familiar counting trail becomes a stealthy retrieval."
+    },
+    {
+      "idea": "Lantern light casts the shadow of a safe path through the garden, but a machine keeps moving the lanterns. Set them back to reveal the route.",
+      "source": "/whats-on/magical-lights-2026/",
+      "why": "Light and shadow make navigation a physical puzzle."
+    },
+    {
+      "idea": "A garden time capsule has been unearthed by digging drones; its contents are being sorted into past and future on the wrong assumptions. Rescue and reassemble them.",
+      "source": "/whats-on/farming-the-future/",
+      "why": "A small salvage job opens a conversation about who gets to imagine the future."
+    },
+    {
+      "idea": "A toy tractor is repeatedly ploughing the same miniature field, which controls a full-sized swarm gate. Change the little field to open a route.",
+      "source": "/visit-us/galleries/model-farming/",
+      "why": "A model has an unexpectedly large effect and invites experimentation."
+    },
+    {
+      "idea": "A knitted-coated sheep model is caught in a harvesting machine’s conveyor. Free it without cutting the yarn that is holding the machine’s safety lever down.",
+      "source": "/visit-us/galleries/a-year-on-the-farm/",
+      "why": "A cheerful object creates a tactile rescue puzzle."
+    },
+    {
+      "idea": "A stalled cart, steam engine and motor vehicle each hold one part needed to move the others. Get the convoy rolling before scouts arrive.",
+      "source": "/visit-us/galleries/town-and-country/",
+      "why": "The changing sources of power become a cooperative mechanical puzzle."
+    },
+    {
+      "idea": "A thatched shelter is being dismantled by drones collecting straw. Help its occupants repair the roof while leaving a gap for an escape route.",
+      "source": "/visit-us/galleries/making-rural-england/",
+      "why": "Craft knowledge doubles as an immediate defensive choice."
+    },
+    {
+      "idea": "A bundle of farm records is blowing toward a machine intake. Recover the scattered pages and use their sequence to locate a cache before the intake cycles again.",
+      "source": "/collections/archives/",
+      "why": "Archive work becomes a timed search with a concrete reward."
+    },
+    {
+      "idea": "A half-built engine follows a drawing with one missing sheet. Find the sheet first and choose how to alter the machine’s assembly.",
+      "source": "/news-and-views/digitising-the-fowler-archives/",
+      "why": "Technical drawings give the crew agency over an emerging threat."
+    },
+    {
+      "idea": "A quiet lawn has become a no-man’s-land between two patrols. A group trying to tend the garden needs an escort and a way to keep the patrols apart.",
+      "source": "/visit/garden/",
+      "why": "The green oasis matters as a place people are still trying to use."
+    },
+    {
+      "idea": "A biscuit-journey workshop has become a trail of ingredients and implements seized by machines. Reconstruct the sequence to find where the supplies ended up.",
+      "source": "/learn/schools-and-colleges/school-college-workshops/",
+      "why": "An ordinary food’s journey makes a scavenger hunt with a logical order."
+    },
+    {
+      "idea": "A cheese board and its scattered pieces have been repurposed as a swarm sorting station. Rearrange the pieces to distract its attendant and recover a trapped supply tin.",
+      "source": "/explore/online-exhibitions/",
+      "why": "A specific collection subject becomes a playful misdirection."
+    },
+    {
+      "idea": "An old wireless still plays while a catalogue machine files every sound as an object. Tune through the interference to hear a fellow traveller’s location.",
+      "source": "/visit-us/galleries/collecting-rural-england/",
+      "why": "A domestic object provides a noisy, time-sensitive communication challenge."
+    },
+    {
+      "idea": "A safe route marked on a sensory map is now blocked by loud machinery. Help a route keeper find a quieter accessible alternative before a waiting group moves.",
+      "source": "/visit/access/",
+      "why": "The crew must observe the environment and make a route useful to the people relying on it."
+    },
+    {
+      "idea": "A dairy experiment has been interrupted: labelled vessels are mixed among swarm parts. Identify the vessels and return them to a researcher before the cleaning machine seals them away.",
+      "source": "/news-and-views/women-in-dairying-from-dairymaids-to-leading-scientists/",
+      "why": "Labels and careful handling provide a puzzle rooted in dairying education."
+    }
+  ]
+}

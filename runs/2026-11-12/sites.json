@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "foodmuseum.org.uk",
+   "name": "The Food Museum",
+   "url": "https://foodmuseum.org.uk/",
+   "file": "runs/2026-11-12/sites/foodmuseum.org.uk.json"
+  },
+  {
+   "host": "food.ku.dk",
+   "name": "University of Copenhagen Department of Food Science",
+   "url": "https://food.ku.dk/english/",
+   "file": "runs/2026-11-12/sites/food.ku.dk.json"
+  },
+  {
+   "host": "merl.reading.ac.uk",
+   "name": "The Museum of English Rural Life",
+   "url": "https://merl.reading.ac.uk/",
+   "file": "runs/2026-11-12/sites/merl.reading.ac.uk.json"
+  }
+ ]
+}

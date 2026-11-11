@@ -1,0 +1,322 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [
+          [
+            "mill-grit"
+          ],
+          [
+            "rind-runner"
+          ],
+          [
+            "tray-skater"
+          ],
+          [
+            "mill-grit",
+            "rind-runner"
+          ],
+          [
+            "tray-skater",
+            "mill-grit"
+          ]
+        ],
+        "mid": [
+          [
+            "hurdle-weaver",
+            "tray-skater"
+          ],
+          [
+            "box-collector",
+            "rind-runner"
+          ],
+          [
+            "quince-preserver",
+            "mill-grit"
+          ],
+          [
+            "recorder-loop",
+            "tray-skater"
+          ],
+          [
+            "barn-brace",
+            "rind-runner"
+          ],
+          [
+            "box-collector"
+          ]
+        ],
+        "late": [
+          [
+            "hurdle-weaver",
+            "barn-brace"
+          ],
+          [
+            "box-collector",
+            "mill-grit"
+          ],
+          [
+            "recorder-loop",
+            "rind-runner"
+          ],
+          [
+            "quince-preserver",
+            "barn-brace"
+          ],
+          [
+            "hurdle-weaver",
+            "box-collector"
+          ],
+          [
+            "barn-brace"
+          ],
+          [
+            "recorder-loop",
+            "mill-grit"
+          ],
+          [
+            "quince-preserver",
+            "tray-skater"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "millstone-masticator",
+          "reward": "box-conservator"
+        },
+        {
+          "id": "dinner-engine",
+          "reward": "allotment-keeper"
+        },
+        {
+          "id": "ginger-mason",
+          "reward": "allotment-keeper"
+        },
+        {
+          "id": "millstone-masticator",
+          "reward": "box-conservator"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "finish",
+        "patch",
+        "brace",
+        "jam",
+        "strike+"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "aroma-hound"
+          ],
+          [
+            "bean-shell"
+          ],
+          [
+            "sample-mote"
+          ],
+          [
+            "aroma-hound",
+            "sample-mote"
+          ],
+          [
+            "bean-shell",
+            "sample-mote"
+          ]
+        ],
+        "mid": [
+          [
+            "wort-warden",
+            "sample-mote"
+          ],
+          [
+            "sequence-scribe",
+            "bean-shell"
+          ],
+          [
+            "safety-assessor",
+            "aroma-hound"
+          ],
+          [
+            "texture-engineer",
+            "sample-mote"
+          ],
+          [
+            "taste-conductor",
+            "aroma-hound"
+          ],
+          [
+            "sequence-scribe"
+          ]
+        ],
+        "late": [
+          [
+            "wort-warden",
+            "sample-mote",
+            "aroma-hound"
+          ],
+          [
+            "sequence-scribe",
+            "taste-conductor"
+          ],
+          [
+            "safety-assessor",
+            "bean-shell"
+          ],
+          [
+            "texture-engineer",
+            "aroma-hound"
+          ],
+          [
+            "wort-warden",
+            "sequence-scribe"
+          ],
+          [
+            "taste-conductor",
+            "sample-mote"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "twin-fermenter",
+          "reward": "brew-helper"
+        },
+        {
+          "id": "culture-mender",
+          "reward": "culture-keeper"
+        },
+        {
+          "id": "protein-sorter",
+          "reward": "brew-helper"
+        },
+        {
+          "id": "culture-mender",
+          "reward": "culture-keeper"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "purge",
+        "patch+",
+        "cover",
+        "finish",
+        "jam"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "toy-tractor"
+          ],
+          [
+            "harness-loop"
+          ],
+          [
+            "rat-scout"
+          ],
+          [
+            "toy-tractor",
+            "harness-loop"
+          ],
+          [
+            "rat-scout",
+            "harness-loop"
+          ]
+        ],
+        "mid": [
+          [
+            "thatch-weaver",
+            "harness-loop"
+          ],
+          [
+            "seed-drill",
+            "rat-scout"
+          ],
+          [
+            "catalogue-keeper",
+            "harness-loop"
+          ],
+          [
+            "plougher",
+            "rat-scout"
+          ],
+          [
+            "milk-inspector",
+            "toy-tractor"
+          ],
+          [
+            "plougher"
+          ]
+        ],
+        "late": [
+          [
+            "thatch-weaver",
+            "rat-scout"
+          ],
+          [
+            "plougher",
+            "toy-tractor"
+          ],
+          [
+            "seed-drill",
+            "rat-scout"
+          ],
+          [
+            "catalogue-keeper",
+            "rat-scout"
+          ],
+          [
+            "thatch-weaver",
+            "seed-drill"
+          ],
+          [
+            "milk-inspector",
+            "harness-loop"
+          ],
+          [
+            "plougher"
+          ],
+          [
+            "catalogue-keeper",
+            "toy-tractor"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "drawing-foundry",
+          "reward": "mud-maker"
+        },
+        {
+          "id": "absolute-ram",
+          "reward": "route-keeper"
+        },
+        {
+          "id": "county-weaver",
+          "reward": "route-keeper"
+        },
+        {
+          "id": "county-weaver",
+          "reward": "route-keeper"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "purge",
+        "patch+",
+        "triage",
+        "jam",
+        "finish"
+      ]
+    }
+  ]
+}

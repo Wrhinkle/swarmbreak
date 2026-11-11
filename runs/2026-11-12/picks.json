@@ -1,0 +1,45 @@
+{
+  "thread": "Follow food from the diversity of seeds into the tools and buildings of a working farm, then into the microscopic communities that transform a harvest. The swarm can become roots and grains, harvesters and kitchen implements, and finally the yeasts and bacteria of fermentation.",
+  "candidates": [
+    {
+      "name": "CGIAR Genebanks",
+      "url": "https://genebanks.cgiar.org/",
+      "why": "Crop pages range from taro and yam to chickpea and finger millet, while genebank and resource sections reveal seed collections, germplasm health, and the work of keeping diverse crops alive."
+    },
+    {
+      "name": "The Food Museum",
+      "url": "https://foodmuseum.org.uk/",
+      "why": "Historic farm buildings, baking equipment, dairy tools, recipes and a large object collection offer a lively passage from fieldwork to the kitchen."
+    },
+    {
+      "name": "University of Copenhagen Department of Food Science",
+      "url": "https://food.ku.dk/english/",
+      "why": "Food research moves the journey into fermentation: yeasts, moulds, bacteria and phages interact with ingredients and equipment to make new flavors and preserve food."
+    },
+    {
+      "name": "The Museum of English Rural Life",
+      "url": "https://merl.reading.ac.uk/",
+      "why": "Farm machinery, hand tools, livestock imagery and rural archives give the swarm wheels, working limbs and an abundance of farming characters."
+    },
+    {
+      "name": "Pasto Agricultural Museum",
+      "url": "https://agsci.psu.edu/pasto",
+      "why": "Sickles, plows, beekeeping equipment, ice-harvesting tools and old kitchen implements trace the work of cultivating and preserving food before electrification."
+    },
+    {
+      "name": "National Agriculture and Food Research Organization",
+      "url": "https://www.naro.go.jp/english/",
+      "why": "Japan's agricultural research organization links a genebank of rice, beans and fruit to crop science, agricultural machinery, food research and field robotics."
+    },
+    {
+      "name": "Crop Trust",
+      "url": "https://www.croptrust.org/",
+      "why": "Crop diversity projects, seed vaults and genebank stories introduce wild relatives, stored seeds and the people and procedures that safeguard them."
+    },
+    {
+      "name": "Deutsches Museum",
+      "url": "https://www.deutsches-museum.de/en/",
+      "why": "Its agriculture and food exhibition brings together a Lanz Bulldog tractor, a field robot, a combine harvester, brewing kettles and a steam oven."
+    }
+  ]
+}

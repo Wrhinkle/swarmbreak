@@ -1,0 +1,216 @@
+{
+  "reading": "The Food Museum in Stowmarket tells how food is grown, made and eaten, connecting everyday choices with their effects on environment, society, health and wellbeing across past, present and future. Its language is practical and inviting: grow, make, eat; collections, living heritage, participation, recipes, workshops and memories. It is both a charity and a working landscape: 84 acres, historic buildings, a watermill, gardens and allotments, alongside more than 40,000 objects, educational loan boxes and community projects. School dinners, seasonal cooking and shared traditions bring ordinary food and people's varied experiences into the collection; the site's distinctiveness is the journey from field and machinery to kitchen, table and memory, made tangible through hands-on learning.",
+  "enemies": [
+    {
+      "idea": "Millstone Masticator: the rescued Alton Watermill rolls its stones across the grounds, grinding tools and paths into flour-fine dust.",
+      "source": "/alton-watermill-2/",
+      "why": "A mill saved by moving it has become a moving mill; jamming its gears or diverting water gives the crew choices."
+    },
+    {
+      "idea": "The Rotation Combine divides the meadow into moving crop strips and uproots anyone standing in the wrong season.",
+      "source": "/interactive-map/",
+      "why": "The safe route changes as the crop rotation turns, and wildflower patches provide temporary cover."
+    },
+    {
+      "idea": "Hurdle Weavers knit charcoal-dark barriers around intruders, penning them as if they were livestock.",
+      "source": "/interactive-map/",
+      "why": "Their fences can be cut, climbed or turned to corral other machines."
+    },
+    {
+      "idea": "The Dinner Lady Engine serves endless semolina and custard that sets like concrete around boots.",
+      "source": "/whats-on/events/school-dinners/",
+      "why": "Familiar dinner textures become a sticky positioning hazard rather than a generic food monster."
+    },
+    {
+      "idea": "Turkey Twizzler augers corkscrew through walls and pull captured equipment back toward the serving line.",
+      "source": "/whats-on/events/school-dinners/",
+      "why": "Their rotation telegraphs attacks and leaves holes that a nimble crew can use."
+    },
+    {
+      "idea": "The Preserver seals anything it judges seasonal in hard quince paste, then stacks it for an impossibly distant winter.",
+      "source": "/learn/recipes/",
+      "why": "A recipe for membrillo becomes a slow, reversible capture mechanism with brittle edible walls."
+    },
+    {
+      "idea": "Sourdough Starter swarms bud from a stolen chocolate-chip cookie recipe, growing whenever they absorb warmth.",
+      "source": "/learn/recipes/",
+      "why": "The crew can manage a multiplying threat by cooling or dividing it."
+    },
+    {
+      "idea": "Pickle Bailiffs spritz brine at equipment and demand that every moving thing be packed into a fermentation crock.",
+      "source": "/learn/recipes/",
+      "why": "Sauerkraut preservation becomes an absurd arrest procedure with crocks to overturn."
+    },
+    {
+      "idea": "Loan Box Collectors unfold travelling cases of historical objects into jointed legs and try to pack entire rooms for a school visit.",
+      "source": "/learn/museum-boxes/",
+      "why": "Each case can contain a different old object, making the threat surprising and its latches a visible weakness."
+    },
+    {
+      "idea": "Traction Engine Archivist steams after moving targets and stamps them as collection items alongside wartime recipe cards.",
+      "source": "/collections-overview/",
+      "why": "A huge engine and fragile cards combine into a chase where marked objects are hauled away for storage."
+    },
+    {
+      "idea": "Accession Magpies mistake any unattended tool for a donated object and whisk it away to a guarded sorting nest.",
+      "source": "/digital-collections/donate-an-object/",
+      "why": "Lost gear becomes a recoverable objective, and decoys can lure the thieves."
+    },
+    {
+      "idea": "The Living Heritage Recorder captures a gesture or tune and forces nearby machines to repeat it until the original performer is drowned out.",
+      "source": "/living-heritage/",
+      "why": "A practice meant to pass between people becomes a looping mechanical ritual the crew can interrupt."
+    },
+    {
+      "idea": "Marmalade Club peelers spin strips of orange rind into tripwires and bottle anything that crosses them.",
+      "source": "/whats-on/activities-and-workshops/",
+      "why": "A social workshop turns into a bright, fragrant obstacle course with jars to break open."
+    },
+    {
+      "idea": "Gingerbread Masons build walls of biscuit faster than they can be knocked down, mortaring them with icing.",
+      "source": "/whats-on/events/christmas-at-the-food-museum/",
+      "why": "The crew can eat, soak or smash through a fortress that visibly rebuilds itself."
+    },
+    {
+      "idea": "Barn Frame Crawlers pull loose timbers into skeletal braces and chase anything they deem a threat to the old building.",
+      "source": "/work-begins-on-the-medieval-barn/",
+      "why": "Conservation becomes overzealous defence, with moving gaps in the timber frame to exploit."
+    },
+    {
+      "idea": "Seasonal Menu Sorters chase out anything they decide is out of season, firing rejected ingredients in volleys.",
+      "source": "/visit/cafe/",
+      "why": "The menu changes their ammunition and the crew can disguise supplies among the daily ingredients."
+    },
+    {
+      "idea": "Playground Root Machines braid natural-looking branches into moving climbing routes that lead only back to their nest.",
+      "source": "/museum-opens-new-play-area/",
+      "why": "A welcoming playscape becomes a navigable maze whose branches can be redirected."
+    },
+    {
+      "idea": "The First-Come Harvester queues machines for every patch of ground and removes anyone whose turn it says has not arrived.",
+      "source": "/learn/educational-visits/booking-your-visit/",
+      "why": "A rigid booking rule creates a queue the crew can infiltrate or rearrange."
+    },
+    {
+      "idea": "The Apple Butter Stirrer drags a great paddle through dark bubbling preserve, sweeping up loose objects to keep the mixture moving.",
+      "source": "/news/page/3/",
+      "why": "Its predictable stirring rhythm creates windows to rescue trapped gear."
+    },
+    {
+      "idea": "The Kitchen Project Camera Moth records every preparation and projects false demonstrations that lure people into unfinished rooms.",
+      "source": "/filmmaker-tender-the-kitchen-project/",
+      "why": "Filming a transformation becomes a puzzle of distinguishing a projected doorway from a real one."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Allotment Seedkeepers hide useful seeds in mixed plantings and teach the crew which beds the harvest machines overlook.",
+      "source": "/interactive-map/",
+      "why": "Community growing gives the crew both a refuge and a practical way to replenish food."
+    },
+    {
+      "idea": "Loan Box Conservators carry a few rescued historical tools and show the crew how to use them without power.",
+      "source": "/learn/museum-boxes/",
+      "why": "Portable objects become flexible solutions, and the box can travel with the party."
+    },
+    {
+      "idea": "Living Heritage Keepers pass recipes and gestures person to person, changing them just enough to confuse the recorder machines.",
+      "source": "/living-heritage/",
+      "why": "A living tradition resists a swarm that can only repeat a fixed version."
+    },
+    {
+      "idea": "The Volunteer Repair Circle works across the estate and collections, guiding crews to safe routes and mending salvaged equipment.",
+      "source": "/support/volunteer/",
+      "why": "Their different skills let the crew trade discoveries for repairs and local knowledge."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Great Food Cycle: a factory-sized swarm grows metal crops, grinds them at the mill, cooks them in the kitchen and serves them back to itself, converting each captured object into another machine.",
+      "source": "/about/",
+      "why": "The museum’s grow-make-eat story becomes a multi-stage loop; breaking any stage changes the others."
+    },
+    {
+      "idea": "The Total Collection: a traction-engine heart drives a moving storehouse that collects buildings, recipes and even shared practices to preserve them forever without use.",
+      "source": "/collections-overview/",
+      "why": "The whole museum becomes a boss whose catalogued treasures can be liberated and used against it."
+    },
+    {
+      "idea": "The Perfect Dinner Authority blends nutritional analysis, lunch-hall routines and remembered meals into one machine that tries to serve every visitor an identical dinner.",
+      "source": "/whats-on/events/school-dinners/",
+      "why": "Past, present and future school food collide in a boss encounter won by restoring variety and choice."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A mill race has been diverted to power a swarm nest; a trapped flour sack bobs against the sluice gate.",
+      "source": "/alton-watermill-2/",
+      "why": "Opening the gate may free the sack but also restart the mill machinery."
+    },
+    {
+      "idea": "Two allotment beds are about to be harvested by a rotation machine; seedkeepers need a minute to retrieve a rare seed packet.",
+      "source": "/interactive-map/",
+      "why": "A small timed rescue lets the crew distract the machine or move the plants."
+    },
+    {
+      "idea": "A loan box is clicking from within: a trapped repair tool is being mistaken for a historical object.",
+      "source": "/learn/museum-boxes/",
+      "why": "Opening the right latch offers a useful tool and risks releasing its mechanical collector."
+    },
+    {
+      "idea": "A dinner engine offers two trays, one of harmless sponge and one of setting custard, while its labels keep swapping.",
+      "source": "/whats-on/events/school-dinners/",
+      "why": "The crew can observe the serving mechanism, test a tray or improvise around it."
+    },
+    {
+      "idea": "A pot of quince paste is cooling around a key; the preserver returns whenever the pot is heated.",
+      "source": "/learn/recipes/",
+      "why": "The crew must trade speed against attracting the machine."
+    },
+    {
+      "idea": "A living-heritage keeper is teaching a tune quietly while a recorder searches for the last missing phrase.",
+      "source": "/living-heritage/",
+      "why": "Joining in, changing the tune or drawing the recorder away each creates a different escape."
+    },
+    {
+      "idea": "A gingerbread wall blocks a passage, and a mason is repairing it from the other side.",
+      "source": "/whats-on/events/christmas-at-the-food-museum/",
+      "why": "The crew can make an opening by soaking, eating or distracting their way through."
+    },
+    {
+      "idea": "The old barn’s mobile braces are holding up a sagging beam but have penned a volunteer inside.",
+      "source": "/work-begins-on-the-medieval-barn/",
+      "why": "Rescue requires supporting the beam before moving the braces."
+    },
+    {
+      "idea": "A seasonal sorter has discarded useful supplies as out-of-season produce and is preparing to launch the whole pile.",
+      "source": "/visit/cafe/",
+      "why": "The crew can recover supplies or redirect the impending volley."
+    },
+    {
+      "idea": "A collection engine has tagged the crew’s cart and is slowly towing it toward the stores.",
+      "source": "/collections-overview/",
+      "why": "A chase becomes a choice between cutting the tow, removing the tag or following it into storage."
+    },
+    {
+      "idea": "A playscape branch maze keeps rearranging around a stranded seedkeeper who knows the way through.",
+      "source": "/museum-opens-new-play-area/",
+      "why": "The crew can follow spoken directions, brace branches or navigate by sound."
+    },
+    {
+      "idea": "A workshop peeler has strung orange-rind lines across the path to a jar of preserved food.",
+      "source": "/whats-on/activities-and-workshops/",
+      "why": "The lines can be traced to their maker or carefully rerouted into an alarm for approaching machines."
+    },
+    {
+      "idea": "A camera moth projects a finished kitchen over a half-built floor; a volunteer needs help carrying supplies across.",
+      "source": "/filmmaker-tender-the-kitchen-project/",
+      "why": "Probing the floor reveals which apparent surfaces are real."
+    },
+    {
+      "idea": "A recorder repeats a family recipe flawlessly but misses the cook’s improvised substitution; a keeper asks the crew to deliver that variation elsewhere.",
+      "source": "/living-heritage/",
+      "why": "The delivery preserves a small evolving tradition and gives the crew a code the swarm cannot predict."
+    }
+  ]
+}
