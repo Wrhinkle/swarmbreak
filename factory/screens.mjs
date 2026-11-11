@@ -67,6 +67,7 @@ try {
     const m = JSON.parse(e.data);
     if (m.id) { const [ok, no] = waiting.get(m.id); waiting.delete(m.id); m.error ? no(new Error(m.error.message)) : ok(m.result); }
     else if (m.method === 'Runtime.exceptionThrown') errors.push(m.params.exceptionDetails.exception?.description ?? m.params.exceptionDetails.text);
+    else if (m.method === 'Runtime.consoleAPICalled' && m.params.type === 'error') errors.push(m.params.args.map(a => a.value ?? a.description ?? '').join(' '));
   };
   const send = (method, params, sessionId) => new Promise((ok, no) => { waiting.set(++seq, [ok, no]); ws.send(JSON.stringify({ id: seq, method, params, sessionId })); });
   const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
@@ -116,7 +117,27 @@ try {
     await cdp('Page.navigate', { url: SITE });
     await js(() => localStorage.clear()).catch(() => {});
     await cdp('Page.navigate', { url: SITE });
-    await press('^Play$'); await shot('map');
+    await press('^Play$');
+    for (const title of ['The daily run', 'Choose your route', 'Your crew', 'In a fight', 'Give an order', 'Bring an ally home']) {
+      const shown = await js(() => document.querySelector('.walkthrough h1')?.textContent);
+      if (shown !== title) throw new Error(`expected walkthrough step "${title}", got "${shown}"`);
+      await press(title === 'Bring an ally home' ? '^Finish$' : '^Next$');
+    }
+    await shot('map');
+    const firstFight = acts[0].nodes.find(n => n.floor === 0 && n.kind === 'fight' && !n.hidden);
+    if (!firstFight) throw new Error('no visible first-floor fight to test');
+    const entered = await js(label => { const b = [...document.querySelectorAll('button.route')].find(b => b.textContent.includes(label)); b?.click(); return !!b; }, firstFight.label);
+    if (!entered) throw new Error(`first-floor fight "${firstFight.label}" is not reachable`);
+    await press('^Pause$');
+    await press('^Resume$');
+    await sleep(600); // allow the fight animation and simulation to run
+    await press('^Pause$');
+    const fight = await js(() => ({ canvas: !!document.querySelector('canvas[aria-label^="Fight:"]'),
+      crew: !![...document.querySelectorAll('legend')].find(e => e.textContent === 'Order a crew member'),
+      routine: !![...document.querySelectorAll('legend')].find(e => e.textContent === 'Manual routine'),
+      queue: !![...document.querySelectorAll('button')].find(b => b.textContent === 'Queue order' && b.checkVisibility()) }));
+    if (!Object.values(fight).every(Boolean)) throw new Error(`first fight controls missing: ${JSON.stringify(fight)}`);
+    await shot('fresh-fight');
     for (const kind of ROOMS) if (await resume(kind)) await shot(kind); else shots.push({ screen: kind, width, missing: true });
     await resume(''); await press('crew'); await shot('crew');
     await js(() => localStorage.clear());
@@ -125,6 +146,8 @@ try {
     await shot('title');
   }
   console.log(JSON.stringify(shots));
+  const pageErrors = shots.flatMap(s => (s.errors ?? []).map(error => `${s.screen} at ${s.width}px: ${error}`));
+  if (pageErrors.length) { console.error(pageErrors.join('\n')); code = 1; }
 } catch (e) {
   console.error(String(e.message ?? e));
   code = 1;
