@@ -179,14 +179,8 @@ def changed_from_main(tree):
 def look_at_screens(tree, changed):
     """Give one verified UI change to the builder for visual review, using ignored, sandbox-readable copies."""
     def draws_screen(path):
-        if path == 'index.html':
-            return True
-        if not path.startswith('src/') or '.test.' in path:
-            return False
-        if path in ('src/main.ts', 'src/map.ts', 'src/hud.ts', 'src/countdown.ts') or path.endswith(('.css', '.html', '.tsx', '.jsx')):
-            return True
-        file = tree / path
-        return file.is_file() and bool(re.search(r'\b(?:document|HTMLElement|CanvasRenderingContext|createElement|innerHTML)\b', file.read_text(errors='replace')))
+        # Any production source module may affect rendered state or text indirectly.
+        return path == 'index.html' or (path.startswith('src/') and '.test.' not in path)
 
     if not any(draws_screen(p) for p in changed):
         return None
@@ -205,9 +199,9 @@ def look_at_screens(tree, changed):
         paths = [str((dest / name).relative_to(tree)) for name in names]
         (tree / RESULT).unlink(missing_ok=True)
         status = bot('builder', tree, 'This is the one visual look pass after host verification. '
-                     'Open the screenshots below and inspect every changed screen at both widths for wrapping, '
-                     'clipping, overlap and layout defects. Fix any defects. Write .builder-result.json again, '
-                     'preserving the job outcome and evidence, name each screenshot you inspected in evidence, and say if you found no defects.\n'
+                     'Open and inspect every screenshot below at both widths for wrapping, clipping, overlap and layout defects. '
+                     'Fix any defects. Write .builder-result.json with the original job outcome, a nonempty summary of '
+                     'visual fixes or that none were needed, and evidence naming every screenshot inspected.\n'
                      + '\n'.join(paths), effort='high')
         if status:
             raise HostVerificationError(f'Visual look pass failed (exit {status})')
@@ -216,9 +210,8 @@ def look_at_screens(tree, changed):
         except (OSError, ValueError) as exc:
             raise HostVerificationError(f'Visual look pass wrote no readable result: {exc}') from exc
         evidence = result.get('evidence', '') if isinstance(result, dict) else ''
-        if not isinstance(evidence, str) or not any(
-                all(f'{screen}-{width}.png' in evidence for width in (390, 1280)) for screen in screens):
-            raise HostVerificationError('Visual look pass evidence must name screenshots at both widths')
+        if not isinstance(evidence, str) or not all(name in evidence for name in names):
+            raise HostVerificationError('Visual look pass evidence must name every screenshot at both widths')
         return result
 
 
@@ -293,15 +286,31 @@ def check_published(tree, live, reserves):
         reserves |= pending
 
 
-def visual_handoff(tree, live, reserves, changed):
-    """A look pass follows successful verification, then all host checks run again before shipping."""
+def validate_job_result(result):
+    """A shippable job needs a usable description and evidence, including remaining work for a part."""
+    if not isinstance(result, dict) or result.get('outcome') not in SHIPS:
+        raise HostVerificationError('Invalid job outcome')
+    for field in ('summary', 'evidence') + (('remaining',) if result['outcome'] == 'partial' else ()):
+        if not isinstance(result.get(field), str) or not result[field].strip():
+            raise HostVerificationError(f'Job result needs a nonempty {field}')
+
+
+def visual_handoff(tree, live, reserves, changed, original):
+    """Keep the job report, add the visual report, and rerun host checks before shipping."""
+    validate_job_result(original)
     result = look_at_screens(tree, changed)
     if result is None:
         return None, [], changed
-    if result.get('outcome') not in SHIPS:
-        return result, [], changed
+    if (not isinstance(result, dict) or result.get('outcome') != original['outcome']
+            or ('remaining' in result and result['remaining'] != original.get('remaining'))):
+        raise HostVerificationError('Visual look pass changed the job outcome or remaining work')
+    for field in ('summary', 'evidence'):
+        if not isinstance(result.get(field), str) or not result[field].strip():
+            raise HostVerificationError(f'Visual look pass needs a nonempty {field}')
+    combined = {**original, 'summary': original['summary'] + '\n\nVisual review: ' + result['summary'],
+                'evidence': original['evidence'] + '\n\nVisual review: ' + result['evidence']}
     bad, changed = check_published(tree, live, reserves)
-    return result, bad, changed
+    return combined, bad, changed
 
 
 def notes(tree, number):
@@ -411,13 +420,14 @@ def main():
             if result.get('outcome') not in SHIPS:
                 break
             try:
+                validate_job_result(result)
                 bad, changed = check_published(tree, live, reserves)
             except (HostVerificationError, OSError, ValueError, KeyError, TypeError) as exc:
                 bad = [str(exc)]
                 break
             if not bad and not looked:
                 try:
-                    looked_result, look_bad, changed = visual_handoff(tree, live, reserves, changed)
+                    looked_result, look_bad, changed = visual_handoff(tree, live, reserves, changed, result)
                     if looked_result is not None:
                         looked = True
                         result = looked_result
