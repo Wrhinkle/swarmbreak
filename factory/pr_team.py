@@ -390,9 +390,61 @@ def record_fixer_commit(tree, number, path, commits):
     (path.parent / 'pending').unlink()
 
 
+def review_context(pr, fixes, dismissals):
+    """What Qodo's local review is told: the PR's task, what this round set out to fix and how, and what triage dismissed and why."""
+    return {'notes': f'Task: {pr.get("title", "")}\n\n{pr.get("body") or ""}'[:6000],
+            'decisions': [f'Fix "{f["title"]}": {f["plan"]}' for f in fixes] + [f'Dismissed "{f["title"]}" as {d["reason"]}: {d["evidence"]}'[:1000] for f, d in dismissals],
+            'recent_work': [f'Fixes for Qodo findings on PR #{pr.get("url", "").rsplit("/", 1)[-1]}, uncommitted.']}
+
+
+def local_review(tree, head, context):
+    """Qodo's review of the uncommitted changes in `tree`, staged and unstaged, against the PR head. Returns the blocking
+    findings. No result at all stops the run, since an unreviewed fix must not be committed."""
+    # New files are in no diff until Git knows them, yet the commit's `git add -A` takes them: mark them intent-to-add.
+    sh('git', 'add', '-N', '--', '.', ':(exclude).git-fixes.json', cwd=tree)
+    r = subprocess.run([str(QODO), 'review', '--base', f'origin/{head}', '--json', '--context-file', '-'], cwd=tree, input=json.dumps(context),
+                       capture_output=True, text=True, timeout=1800, env={k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))})
+    try:
+        local = json.loads(r.stdout)
+        meta = local.get('meta')
+        coverage = meta.get('coverage') if isinstance(meta, dict) else None
+        if r.returncode != 0 or not isinstance(coverage, dict) or coverage.get('complete') is not True:
+            raise ValueError('review coverage is incomplete or unavailable')
+        state, findings = local['finding_state'], local['findings']
+        if state['complete'] is not True or not isinstance(findings, list):
+            raise ValueError('finding inventory is incomplete or unavailable')
+        inventory = {}
+        for finding in findings:
+            if not isinstance(finding, dict) or not isinstance(finding.get('id'), str) or not finding['id'] or finding['id'] in inventory:
+                raise ValueError('invalid or duplicate finding ID')
+            inventory[finding['id']] = finding
+        assigned, active = set(), []
+        for bucket in ('introduced', 'still_open', 'resolved', 'dismissed'):
+            if not isinstance(state[bucket], list):
+                raise ValueError(f'invalid {bucket} bucket')
+            for entry in state[bucket]:
+                ident = entry.get('id') if isinstance(entry, dict) else entry
+                if not isinstance(ident, str) or not ident or ident in assigned:
+                    raise ValueError('invalid or duplicate finding state reference')
+                if isinstance(entry, dict):  # older Qodo versions put full findings in the buckets
+                    inventory[ident] = {**inventory.get(ident, {}), **entry}
+                if ident not in inventory:
+                    raise ValueError('finding state references an unknown ID')
+                assigned.add(ident)
+                if bucket in ('introduced', 'still_open'):
+                    active.append(inventory[ident])
+        if assigned != set(inventory) or any(not isinstance(f.get('action_level'), str) or not f['action_level'] for f in active):
+            raise ValueError('finding inventory is unassigned or lacks an action level')
+    except (json.JSONDecodeError, AttributeError, KeyError, TypeError, ValueError) as exc:
+        sys.exit(f'Qodo local review gave no complete result ({exc}), so nothing was committed or pushed:\n{(r.stdout + r.stderr)[-800:]}')
+    blockers = [f for f in active if f.get('action_level') == 'action_required']
+    print(f'Qodo local review of the uncommitted fixes: {len(local.get("findings", []))} findings, {len(blockers)} blocking', flush=True)
+    return blockers
+
+
 def main():
     number, merge = sys.argv[1], '--merge' in sys.argv
-    pr = json.loads(sh('gh', 'pr', 'view', number, '--repo', REPO, '--json', 'url,headRefName,baseRefName,state,headRefOid').stdout)
+    pr = json.loads(sh('gh', 'pr', 'view', number, '--repo', REPO, '--json', 'url,title,body,headRefName,baseRefName,state,headRefOid').stdout)
     if pr['state'] != 'OPEN':
         sys.exit(f'PR {number} is {pr["state"]}.')
     url, head, base = pr['url'], pr['headRefName'], pr['baseRefName']
@@ -446,6 +498,7 @@ def main():
 
         if fixes:
             problems = ''
+            context = review_context(pr, fixes, dismissals)
             with fixer_report(tree, fixes):
                 for attempt in range(2):
                     bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
@@ -460,6 +513,13 @@ def main():
                         sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
                     if failed:
                         problems += f'Build or tests fail:\n{failed}'
+                    if not problems and (blockers := local_review(tree, head, context)):
+                        # Qodo reviews the fixes while they're still uncommitted, with the task as context. What it blocks joins
+                        # the findings file, never the prompt, and the next attempt is reviewed again: no commit without a passing review.
+                        # Kept apart from `fixes`: those ids are the PR session's, which get marked implemented after the push.
+                        local = [{**b, 'plan': 'Qodo local review blocked the last attempt on this. Fix it too.'} for b in blockers]
+                        (tree / '.git-fixes.json').write_text(json.dumps(fixes + local, indent=1))  # same file, so fixer_report's identity check holds
+                        problems = f'Qodo local review blocked the last attempt: {len(blockers)} more finding(s) in .git-fixes.json. '
                     if not problems:
                         break
             if problems:
@@ -472,16 +532,6 @@ def main():
             ledger, commits = begin_fixer_commit(number)
             sh('git', 'commit', '-q', '-m', f'Fix Qodo findings on PR #{number}\n\n{titles}\n\n{attribution}', cwd=tree)
             record_fixer_commit(tree, number, ledger, commits)
-            # Qodo checks the fixes before anything leaves this Mac.
-            r = sh(QODO, 'review', '--base', f'origin/{head}', '--json', cwd=tree, check=False)
-            try:
-                local = json.loads(r.stdout)
-            except json.JSONDecodeError:
-                sys.exit(f'Qodo local review gave no result, so nothing was pushed:\n{(r.stdout + r.stderr)[-800:]}')
-            blockers = [f for f in local.get('findings', []) if f.get('action_level') == 'action_required']
-            print(f'Qodo local review: {len(local.get("findings", []))} findings, {len(blockers)} blocking', flush=True)
-            if blockers:
-                sys.exit('Qodo blocks the fixes, so nothing was pushed:\n' + '\n'.join(f'- {b.get("title")}' for b in blockers))
 
         # Push first: a finding is only marked done once its fix has landed.
         sh('git', 'fetch', '-q', 'origin')
