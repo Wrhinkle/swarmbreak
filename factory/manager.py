@@ -405,7 +405,8 @@ def release_check():
         now = datetime.now(timezone.utc)
         due = release_due(main_m, live_manifest(), now)
         main_m, live = effective(main_m, now), effective(live_manifest(), now)
-        if due == 'deploy':
+        # Same run on both sides, so redeploying main publishes only code; a newer run on main that hasn't opened stays off the site.
+        if due == 'deploy' or (due is None and main_m['runId'] == live['runId'] and game_changed(deployed_rev(), rev)):
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
         return f'Release check failed: {e}', None
@@ -414,6 +415,30 @@ def release_check():
     if due == 'expired':
         return f'Missing run: live run {live["runId"]} closed at {live["nextOpensAt"]} and no newer run on main has opened. Build and open the next run now.', None
     return '', None
+
+
+NOT_SHIPPED = ('factory', 'docs', 'tools', '.github', '*.md')  # what never reaches a player; anything else is a change to the game
+
+
+def deployed_rev():
+    """The commit the live site was built from, which deploy() writes. None when it can't be read."""
+    try:
+        with urllib.request.urlopen(f'{SITE}/deployed.txt?t={int(time.time())}', timeout=20) as r:
+            return r.read(200).decode(errors='replace').strip()
+    except OSError:
+        return None
+
+
+def game_changed(built, rev, cwd=ROOT):
+    """Whether main at `rev` differs from the live build in anything players get, so a merged game change goes live without
+    waiting for the next run. An unreadable site decides nothing; a site that predates deployed.txt, or names a commit this
+    checkout lacks, is treated as changed, since redeploying main is the safe side."""
+    if built is None:
+        return False
+    if not re.fullmatch(r'[0-9a-f]{40}', built):
+        return True
+    r = sh('git', 'diff', '--quiet', built, rev, '--', '.', *(f':(exclude){p}' for p in NOT_SHIPPED), cwd=cwd, check=False)
+    return r.returncode != 0
 
 
 def release(dry=False):
@@ -447,6 +472,7 @@ def deploy(dry, rev=None):
                     return f'Not deploying: {" ".join(cmd)} failed: {r.stdout[-500:]}'
             if dry:
                 return f'Could deploy {manifest["runId"]}.'
+            (tree / 'dist' / 'deployed.txt').write_text(sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout)  # what game_changed() compares main to
             r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
             if r.returncode:
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'

@@ -393,6 +393,32 @@ with tempfile.TemporaryDirectory() as d:
     assert other_branch_json('picks.json', '2026-11-06', cwd=d) == [{'thread': 'sky'}]
 
 from manager import release_due, FAILED
+# A merged game change goes live at the next release check; a factory or docs change deploys nothing.
+from manager import game_changed
+with tempfile.TemporaryDirectory() as d:
+    git = lambda *a: subprocess.run(['git', '-C', d, '-c', 'user.name=t', '-c', 'user.email=t@t', *a], check=True, capture_output=True, text=True).stdout.strip()
+    git('init', '-q')
+    commits = []
+    for path in ('src/game.ts', 'factory/manager.py', 'docs/notes.md', 'README.md', 'tools/balance.ts', 'src/game.ts', 'public/runs/x.json'):
+        Path(d, path).parent.mkdir(parents=True, exist_ok=True)
+        Path(d, path).write_text(f'{len(commits)}')
+        git('add', '-A'); git('commit', '-qm', path)
+        commits.append(git('rev-parse', 'HEAD'))
+    assert not game_changed(commits[0], commits[4], cwd=d)  # factory, docs, readme, tools: nothing a player gets
+    assert game_changed(commits[4], commits[5], cwd=d) and game_changed(commits[5], commits[6], cwd=d)
+    assert not game_changed(commits[6], commits[6], cwd=d)
+    assert game_changed('<!doctype html>', commits[6], cwd=d) and game_changed('f' * 40, commits[6], cwd=d)  # a site from before deployed.txt deploys once
+    assert not game_changed(None, commits[6], cwd=d)  # the site couldn't be read: no deploy on a guess
+fresh = {'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'nextOpensAt': '2026-11-07T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}
+unopened = fresh | {'runId': '2026-11-08', 'opensAt': '2026-11-08T13:00:00Z', 'nextOpensAt': '2026-11-09T13:00:00Z'}
+for main_m, changed, expected in [(fresh, True, 'f' * 40), (fresh, False, None), (unopened, True, None)]:
+    with patch('manager.sh', side_effect=lambda *a, **k: SimpleNamespace(returncode=0, stdout=json.dumps(main_m) if a[:2] == ('git', 'show') else 'f' * 40, stderr='')), \
+         patch('manager.live_manifest', return_value=fresh), patch('manager.deployed_rev', return_value='0' * 40), \
+         patch('manager.game_changed', return_value=changed), patch('manager.datetime') as clock:
+        clock.now.return_value = datetime(2026, 11, 7, 1, tzinfo=timezone.utc)
+        clock.fromisoformat.side_effect = datetime.fromisoformat
+        assert manager.release_check() == ('', expected), (main_m['runId'], changed)
+print('ok game changes deploy')
 from datetime import datetime, timezone
 n = datetime(2026, 11, 5, 14, 50, tzinfo=timezone.utc)
 m4 = {'runId': '2026-11-04', 'opensAt': '2026-11-04T13:00:00Z', 'nextOpensAt': '2026-11-05T13:00:00Z'}
@@ -494,7 +520,11 @@ for selected_exists, served_manifest, expected in [
             if selected_exists:
                 (tree / 'public/runs/2026-11-06').mkdir(parents=True)
                 (tree / 'public/runs/2026-11-06/run.json').write_text('{}')
-        return SimpleNamespace(returncode=0, stdout='', stderr='')
+        if args == ('npm', 'run', 'build'):
+            (Path(kwargs['cwd']) / 'dist').mkdir()
+        if args[:3] == ('firebase', 'deploy', '--only'):
+            assert (Path(kwargs['cwd']) / 'dist/deployed.txt').read_text() == 'a' * 40  # the live site names the commit it was built from
+        return SimpleNamespace(returncode=0, stdout='a' * 40 if args[:2] == ('git', 'rev-parse') else '', stderr='')
     with patch('manager.sh', side_effect=deploy_sh), \
          patch('manager.live_manifest', side_effect=[m5] + [served_manifest] * 6), \
          patch('manager.datetime') as deploy_clock, patch('manager.time.sleep'):
