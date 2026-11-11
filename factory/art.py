@@ -86,16 +86,31 @@ class ImageStop:
                 self.processes.remove(process)
 
 
+def valid_png(path):
+    try:
+        with Image.open(path) as im:
+            if im.format != 'PNG':
+                return False
+            im.load()
+        return True
+    except (OSError, SyntaxError, ValueError):
+        return False
+
+
 def generate(job, work, stop):
     png = work / f"{job['id']}.png"
+    temporary = work / f".{job['id']}.pending.png"
     if png.exists():
-        return png
-    ask = f"Use the built-in image_gen tool once, with no text labels in the image, then copy the generated PNG from $CODEX_HOME/generated_images to ./{png.name} in the current directory. Do not use the CLI fallback or any API key. Do not write any other files.\n\nImage prompt: {job['prompt']}"
+        if valid_png(png):
+            return png
+        png.unlink()
+    ask = f"Use the built-in image_gen tool once, with no text labels in the image, then copy the generated PNG from $CODEX_HOME/generated_images to ./{temporary.name} in the current directory. Do not use the CLI fallback or any API key. Do not write any other files.\n\nImage prompt: {job['prompt']}"
     env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
     for _ in range(2):
         if stop.is_set():
             return None
         try:
+            temporary.unlink(missing_ok=True)
             with open(work / f"{job['id']}.log", 'w') as log:
                 r = stop.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', 'model_reasoning_effort="low"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', work, ask], stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, env=env)
             if r is None:
@@ -105,10 +120,13 @@ def generate(job, work, stop):
             except SystemExit:
                 stop.set()
                 raise
+            if r.returncode == 0 and not stop.is_set() and valid_png(temporary):
+                temporary.replace(png)
+                return png
         except subprocess.TimeoutExpired:
             pass
-        if png.exists():
-            return png
+        finally:
+            temporary.unlink(missing_ok=True)
     return None
 
 
@@ -178,7 +196,10 @@ def main():
             png = generate(job, work, stop)
             if not png:
                 return job['id'], 'generation failed'
-            why = finish(job, png, work, out)
+            try:
+                why = finish(job, png, work, out)
+            except (OSError, SyntaxError, ValueError) as e:
+                why = f'image decoding failed: {e}'
             if not why:
                 return job['id'], ''
             print(f"{job['id']}: {why}, regenerating", flush=True)
