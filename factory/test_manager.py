@@ -218,7 +218,8 @@ with patch('foreman.thread', return_value={**quiet, 'ours': []}), patch('foreman
     assert not fm.comms_job('Post our entry on discussion #4').startswith(('Done:', 'Posted:')) and posting.call_args.kwargs['require_post']
 now = datetime(2026, 11, 4, 12, 30, tzinfo=timezone.utc)
 live, soon, later = {'runId': 'a'}, {'runId': 'b', 'opensAt': '2026-11-04T13:00:00Z'}, {'runId': 'b', 'opensAt': '2026-11-05T13:00:00Z'}
-assert deploy_problems(soon, live, True, now) == []
+assert deploy_problems(soon, live, True, now)
+assert deploy_problems(soon, live, True, datetime(2026, 11, 4, 13, tzinfo=timezone.utc)) == []
 assert deploy_problems(later, live, True, now)
 assert deploy_problems(soon, live, False, now)
 reserve = {'runId': 'c', 'opensAt': '2026-11-05T13:00:00Z', 'runUrl': '/runs/c/run.json'}
@@ -477,11 +478,101 @@ with patch('builder.published_runs', side_effect=[({'2026-11-05'}, set()),
 print('ok release')
 
 import manager, json
+# Exercise the release decision against real commits, with no network or model call.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    def git(*args):
+        return subprocess.run(['git', *args], cwd=root, text=True, capture_output=True, check=True).stdout.strip()
+    git('init', '-q', '-b', 'main')
+    git('config', 'user.name', 'Test')
+    git('config', 'user.email', 'test@example.com')
+    (root / 'src').mkdir(); (root / 'public').mkdir(); (root / 'factory').mkdir()
+    (root / 'src/game.ts').write_text('old')
+    (root / 'public/manifest.json').write_text(json.dumps(m5))
+    (root / 'factory/manager.py').write_text('old')
+    git('add', '.'); git('commit', '-qm', 'initial')
+    deployed = git('rev-parse', 'HEAD')
+    def release_sh(*args, **kwargs):
+        if args[:2] == ('git', 'fetch'):
+            return SimpleNamespace(stdout='', stderr='', returncode=0)
+        args = tuple('HEAD' if arg == 'origin/main' else arg for arg in args)
+        return subprocess.run(args, cwd=root, text=True, capture_output=True, check=kwargs.get('check', True))
+    with patch.object(manager, 'sh', side_effect=release_sh), patch.object(manager, 'live_manifest', return_value=m5), \
+         patch.object(manager, 'live_revision', return_value=deployed), patch.object(manager, 'datetime') as clock:
+        clock.now.return_value = n
+        clock.fromisoformat.side_effect = datetime.fromisoformat
+        (root / 'factory/manager.py').write_text('new')
+        git('add', '.'); git('commit', '-qm', 'factory only')
+        assert manager.release_check() == ('', None)
+        (root / 'README.md').write_text('documentation')
+        git('add', '.'); git('commit', '-qm', 'docs only')
+        assert manager.release_check() == ('', None)
+        (root / 'src/game.test.ts').write_text('test with a possible type error')
+        git('add', '.'); git('commit', '-qm', 'test only')
+        assert manager.release_check() == ('', None)
+        (root / 'src/game.ts').write_text("import './game.test'")
+        git('add', '.'); git('commit', '-qm', 'reference test module')
+        referenced = git('rev-parse', 'HEAD')
+        (root / 'src/game.test.ts').write_text('changed referenced test')
+        git('add', '.'); git('commit', '-qm', 'change referenced test')
+        assert manager.game_changed(referenced, git('rev-parse', 'HEAD'))
+        (root / 'src/game.test.ts').write_text('changed test')
+        (root / 'src/game.ts').write_text('new')
+        git('add', '.'); git('commit', '-qm', 'mixed game and test change')
+        assert manager.release_check() == ('', git('rev-parse', 'HEAD'))
+        # A future base cannot ride along with a code change; a reserve can.
+        future = {**m5, 'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'nextOpensAt': '2026-11-07T13:00:00Z'}
+        (root / 'public/manifest.json').write_text(json.dumps(future))
+        git('add', '.'); git('commit', '-qm', 'future base')
+        clock.now.return_value = datetime(2026, 11, 6, 12, 59, tzinfo=timezone.utc)
+        assert manager.release_check() == ('', None)
+        clock.now.return_value = datetime(2026, 11, 6, 13, tzinfo=timezone.utc)
+        assert manager.release_check() == ('', git('rev-parse', 'HEAD'))
+        (root / 'public/manifest.json').write_text(json.dumps(r))
+        git('add', '.'); git('commit', '-qm', 'reserve')
+        clock.now.return_value = n
+        assert manager.release_check() == ('', git('rev-parse', 'HEAD'))
+        (root / 'public/manifest.json').write_text(json.dumps(m5))
+        git('add', '.'); git('commit', '-qm', 'expired')
+        clock.now.return_value = datetime(2026, 11, 6, 14, tzinfo=timezone.utc)
+        assert manager.release_check()[0].startswith('Missing run:')
+    assert manager.game_changed(None, deployed)  # bootstrap existing deployments
+    with patch.object(manager, 'sh', side_effect=release_sh):
+        try:
+            manager.game_changed('0' * 40, deployed)
+            assert False, 'unknown deployed revision must fail closed'
+        except ValueError:
+            pass
+
+# Deploy checks reject a future base even immediately before opening, but permit a reserve.
+for manifest, moment, should_deploy in [
+    ({**m5, 'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}, datetime(2026, 11, 6, 12, 59, tzinfo=timezone.utc), False),
+    ({**m5, 'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}, datetime(2026, 11, 6, 13, tzinfo=timezone.utc), True),
+    (r, n, True),
+]:
+    def stage_sh(*args, **kwargs):
+        if args[:3] == ('git', 'worktree', 'add'):
+            tree = Path(args[4])
+            (tree / 'public/runs/2026-11-05').mkdir(parents=True)
+            (tree / 'public/runs/2026-11-06').mkdir(parents=True)
+            (tree / 'public/manifest.json').write_text(json.dumps(manifest))
+            (tree / 'public/runs/2026-11-05/run.json').write_text('{}')
+            (tree / 'public/runs/2026-11-06/run.json').write_text('{}')
+        if args[:2] == ('npm', 'run'):
+            (Path(kwargs['cwd']) / 'dist').mkdir()
+        return SimpleNamespace(returncode=0, stdout='a' * 40 if args[:2] == ('git', 'rev-parse') else '', stderr='')
+    with patch('manager.sh', side_effect=stage_sh), patch('manager.live_manifest', return_value=m5), patch('manager.datetime') as stage_clock:
+        stage_clock.now.return_value = moment
+        stage_clock.fromisoformat.side_effect = datetime.fromisoformat
+        outcome = manager.deploy(True, 'checked-revision')
+    assert outcome.startswith('Could deploy' if should_deploy else 'Not deploying:'), outcome
+
 # Deploy an already-open reserve from a simulated worktree, without invoking git or Firebase.
-for selected_exists, served_manifest, expected in [
-    (False, r, 'Not deploying:'),
-    (True, r, 'Deployed. Live run is 2026-11-06.'),
-    (True, m5, 'Deploy failed verification:'),
+for selected_exists, served_manifest, served_revision, expected in [
+    (False, r, 'a' * 40, 'Not deploying:'),
+    (True, r, 'a' * 40, 'Deployed. Live run is 2026-11-06.'),
+    (True, m5, 'a' * 40, 'Deploy failed verification:'),
+    (True, r, 'b' * 40, 'Deploy failed verification:'),
 ]:
     commands = []
     def deploy_sh(*args, **kwargs):
@@ -494,9 +585,16 @@ for selected_exists, served_manifest, expected in [
             if selected_exists:
                 (tree / 'public/runs/2026-11-06').mkdir(parents=True)
                 (tree / 'public/runs/2026-11-06/run.json').write_text('{}')
+        if args[:2] == ('npm', 'run'):
+            (Path(next(cmd[4] for cmd in commands if cmd[:3] == ('git', 'worktree', 'add'))) / 'dist').mkdir()
+        if args[0] == 'firebase':
+            assert (Path(kwargs['cwd']) / 'dist/deployed-revision.txt').read_text() == 'a' * 40 + '\n'
+        if args[:2] == ('git', 'rev-parse'):
+            return SimpleNamespace(returncode=0, stdout='a' * 40 + '\n', stderr='')
         return SimpleNamespace(returncode=0, stdout='', stderr='')
     with patch('manager.sh', side_effect=deploy_sh), \
          patch('manager.live_manifest', side_effect=[m5] + [served_manifest] * 6), \
+         patch('manager.live_revision', return_value=served_revision), \
          patch('manager.datetime') as deploy_clock, patch('manager.time.sleep'):
         deploy_clock.now.return_value = after
         deploy_clock.fromisoformat.side_effect = datetime.fromisoformat
@@ -748,6 +846,26 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert scheduled(y)[0] == ['release -> ' + y]
     assert scheduled('')[0] == []
     assert scheduled(x)[0] == ['release -> ' + x]
+
+
+# Build failures are retried, but identical revision and diagnostics get one follow-up.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release_check') as check, patch('manager.deploy') as deploy:
+    def scheduled_build(rev, result):
+        check.return_value = ('', rev)
+        deploy.return_value = result
+        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args[0]
+    failure = 'Not deploying: npm run build failed: type error'
+    assert scheduled_build('a' * 40, failure)
+    assert not scheduled_build('a' * 40, failure)
+    assert scheduled_build('b' * 40, failure)
+    assert scheduled_build('b' * 40, failure + ' changed')
+    assert not scheduled_build('b' * 40, 'Deployed.')
+    assert scheduled_build('b' * 40, failure)
+    assert scheduled_build('b' * 40, 'Deploy failed: network')
+    assert scheduled_build('b' * 40, 'Deploy failed: network')
 
 # Full scheduled passes read the same lock.
 with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.critique', return_value='seen'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release, patch('manager.release_check') as check, patch('manager.state', return_value={'issues': []}), patch('manager.open_prs', return_value=[]), patch('manager.required_jobs', return_value=[]), patch('manager.act', return_value='Filed.') as action:
