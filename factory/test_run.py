@@ -79,7 +79,7 @@ class RetryInputsTest(unittest.TestCase):
         inputs = {'content.json': required, 'plan.json': plan, 'report.json': report}
         def invoke(*args, **kwargs):
             Path(args[0][args[0].index('-C') + 1], 'output.json').write_text('{}')
-            return unittest.mock.Mock(stdout='', stderr='')
+            return unittest.mock.Mock(returncode=0, stdout='', stderr='')
         with patch.object(run, 'AGENTS', self.root), patch.object(run.subprocess, 'run', invoke):
             (self.root / 'gameplay.md').write_text('prompt')
             run.agent('gameplay', self.day / 'output.json', inputs, lambda: '', optional_pair=('plan.json', 'report.json'))
