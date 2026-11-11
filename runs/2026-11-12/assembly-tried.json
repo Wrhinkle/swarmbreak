@@ -27,16 +27,14 @@
             "tray-skater"
           ],
           [
-            "box-collector",
-            "rind-runner"
+            "barn-brace"
           ],
           [
             "quince-preserver",
             "mill-grit"
           ],
           [
-            "recorder-loop",
-            "tray-skater"
+            "recorder-loop"
           ],
           [
             "barn-brace",
@@ -53,7 +51,7 @@
           ],
           [
             "box-collector",
-            "mill-grit"
+            "rind-runner"
           ],
           [
             "recorder-loop",
@@ -64,15 +62,15 @@
             "barn-brace"
           ],
           [
-            "hurdle-weaver",
             "box-collector"
           ],
           [
-            "barn-brace"
+            "barn-brace",
+            "tray-skater"
           ],
           [
             "recorder-loop",
-            "mill-grit"
+            "tray-skater"
           ],
           [
             "quince-preserver",
@@ -94,8 +92,8 @@
           "reward": "allotment-keeper"
         },
         {
-          "id": "millstone-masticator",
-          "reward": "box-conservator"
+          "id": "ginger-mason",
+          "reward": "allotment-keeper"
         }
       ],
       "shop": [
