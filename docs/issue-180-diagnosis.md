@@ -1,0 +1,7 @@
+# Issue 180: fixer report finding on PR 175
+
+The host decision log records a push of `87a2ce6` followed by Qodo's round 3 review of that commit with one open finding, “Fixer reports can land in pull requests” (2026-11-10 22:43:25 UTC). A later host pass recorded the same review and finding (22:58:54 UTC). These entries show that the finding persisted after the push; they do not say which fixer run left a report or why Qodo considered the earlier fixes insufficient.
+
+The currently available PR 175 worktree's `factory/pr_team.py` shows a possible gap in its report lifecycle: `fixer_report` removes the report only if the path still has the original device and inode, and silently continues if it was removed or replaced. The normal fixer flow then runs `git add -A`. Thus a replacement at that path could survive cleanup and be staged; this is a code-path explanation, not evidence that a replacement occurred in either round. That worktree snapshot alone does not establish what each earlier commit contained.
+
+The current change checks for an existing or tracked report before handling a worktree and stops if the report is removed or replaced during a fixer run. The available log tail does not establish whether the leftover originated in round 1 or round 2, whether either particular cleanup failure occurred, or the precise limitation of each earlier fix. The PR review details and commit-by-commit history would be needed to resolve those questions; no cause should be assigned to a particular round on this evidence.

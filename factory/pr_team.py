@@ -6,6 +6,7 @@ This script does all git and Qodo writes, and alone decides on merging. Merging 
 """
 import fcntl, hashlib, json, math, os, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
+from contextlib import contextmanager
 from codex_failure import stop_on_codex_failure
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,6 +30,32 @@ def sh(*cmd, cwd=ROOT, check=True, timeout=None):
     if check and r.returncode:
         sys.exit(f'{" ".join(map(str, cmd))[:200]} failed:\n{(r.stdout + r.stderr)[-1500:]}')
     return r
+
+
+def check_fixer_report_absent(tree):
+    report = tree / '.git-fixes.json'
+    tracked = sh('git', 'ls-files', '--', '.git-fixes.json', cwd=tree).stdout.splitlines()
+    if os.path.lexists(report) or '.git-fixes.json' in tracked:
+        sys.exit(f'Fixer report path already exists or is tracked in {tree}; inspect it before continuing.')
+
+
+@contextmanager
+def fixer_report(tree, findings):
+    check_fixer_report_absent(tree)
+    report = tree / '.git-fixes.json'
+    with report.open('x') as f:
+        identity = os.fstat(f.fileno())
+        json.dump(findings, f, indent=1)
+    try:
+        yield
+    finally:
+        try:
+            current = report.lstat()
+        except FileNotFoundError:
+            sys.exit(f'Fixer report was removed in {tree}; inspect the worktree before continuing.')
+        if (current.st_dev, current.st_ino) != (identity.st_dev, identity.st_ino):
+            sys.exit(f'Fixer report was replaced in {tree}; inspect the worktree before continuing.')
+        report.unlink()
 
 
 def hold(name):
@@ -367,6 +394,7 @@ def main():
     sh('git', 'fetch', '-q', 'origin')
     if not tree.exists():
         sh('git', 'worktree', 'add', '-q', '--detach', tree, f'origin/{head}')
+    check_fixer_report_absent(tree)
     if sh('git', 'status', '--porcelain', cwd=tree).stdout.strip():
         # A fixer that didn't get to green leaves its attempt here. Keep it on a local branch and start this run clean.
         keep = f'leftover/pr-{number}-{int(time.time())}'
@@ -375,6 +403,7 @@ def main():
         sh('git', 'branch', keep, 'HEAD', cwd=tree)
         print(f'Kept the last unfinished attempt on {keep}.', flush=True)
     sh('git', 'checkout', '-q', '--detach', f'origin/{head}', cwd=tree)
+    check_fixer_report_absent(tree)
     if not (tree / 'node_modules').exists():
         sh('npm', 'ci', '--silent', cwd=tree)
     # An unfinished review lists no findings yet, which isn't the same as a clean one.
@@ -410,24 +439,22 @@ def main():
 
         if fixes:
             problems = ''
-            (tree / '.git-fixes.json').write_text(json.dumps(fixes, indent=1))
-            for attempt in range(2):
-                bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
-                changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
-                touched = [c for c in changed if c.startswith(PROTECTED)]
-                problems = f'Don\'t edit these: {touched}. ' if touched else ''
-                if touched:
-                    sh('git', 'checkout', '--', *touched, cwd=tree)
-                try:
-                    failed = verified(tree)
-                except HostVerificationError as exc:
-                    (tree / '.git-fixes.json').unlink()
-                    sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
-                if failed:
-                    problems += f'Build or tests fail:\n{failed}'
-                if not problems:
-                    break
-            (tree / '.git-fixes.json').unlink()
+            with fixer_report(tree, fixes):
+                for attempt in range(2):
+                    bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
+                    changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
+                    touched = [c for c in changed if c.startswith(PROTECTED)]
+                    problems = f'Don\'t edit these: {touched}. ' if touched else ''
+                    if touched:
+                        sh('git', 'checkout', '--', *touched, cwd=tree)
+                    try:
+                        failed = verified(tree)
+                    except HostVerificationError as exc:
+                        sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
+                    if failed:
+                        problems += f'Build or tests fail:\n{failed}'
+                    if not problems:
+                        break
             if problems:
                 sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{problems[:1500]}')
             sh('git', 'add', '-A', cwd=tree)
