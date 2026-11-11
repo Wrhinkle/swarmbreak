@@ -4,7 +4,7 @@
 Usage: factory/.venv/bin/python factory/art.py <run-id> [only-id ...]
 Finished PNGs stay in runs/.art/<id>/, so a rerun only makes what's missing.
 """
-import concurrent.futures as cf, json, os, re, shutil, subprocess, sys
+import concurrent.futures as cf, json, os, re, shutil, signal, subprocess, sys, threading
 from pathlib import Path
 from codex_failure import stop_on_codex_failure
 
@@ -45,17 +45,66 @@ def jobs(content, brief):
     return out
 
 
-def generate(job, work):
+class ImageStop:
+    """Prevent new launches and terminate running image process groups on subscription failure."""
+    def __init__(self):
+        self.event = threading.Event()
+        self.lock = threading.Lock()
+        self.processes = set()
+
+    def is_set(self):
+        return self.event.is_set()
+
+    def set(self):
+        with self.lock:
+            self.event.set()
+            for process in self.processes:
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+
+    def run(self, command, **kwargs):
+        with self.lock:
+            if self.is_set():
+                return None
+            process = subprocess.Popen(command, start_new_session=True, **kwargs)
+            self.processes.add(process)
+        try:
+            try:
+                process.wait(timeout=420)
+            except subprocess.TimeoutExpired:
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                process.wait()
+                raise
+            return process
+        finally:
+            with self.lock:
+                self.processes.remove(process)
+
+
+def generate(job, work, stop):
     png = work / f"{job['id']}.png"
     if png.exists():
         return png
     ask = f"Use the built-in image_gen tool once, with no text labels in the image, then copy the generated PNG from $CODEX_HOME/generated_images to ./{png.name} in the current directory. Do not use the CLI fallback or any API key. Do not write any other files.\n\nImage prompt: {job['prompt']}"
     env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
     for _ in range(2):
+        if stop.is_set():
+            return None
         try:
             with open(work / f"{job['id']}.log", 'w') as log:
-                r = subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', 'model_reasoning_effort="low"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', work, ask], stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, timeout=420, env=env)
-            stop_on_codex_failure(r.returncode, (work / f"{job['id']}.log").read_text(errors='replace'))
+                r = stop.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', 'model_reasoning_effort="low"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', work, ask], stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, env=env)
+            if r is None:
+                return None
+            try:
+                stop_on_codex_failure(r.returncode, (work / f"{job['id']}.log").read_text(errors='replace'))
+            except SystemExit:
+                stop.set()
+                raise
         except subprocess.TimeoutExpired:
             pass
         if png.exists():
@@ -120,9 +169,13 @@ def main():
         sys.exit(f'Unsafe image ids: {bad}')
     print(f'{len(todo)} images to make', flush=True)
 
+    stop = ImageStop()
+
     def one(job):
         for attempt in range(3):
-            png = generate(job, work)
+            if stop.is_set():
+                return job['id'], 'stopped'
+            png = generate(job, work, stop)
             if not png:
                 return job['id'], 'generation failed'
             why = finish(job, png, work, out)
@@ -132,8 +185,33 @@ def main():
             png.unlink()
         return job['id'], why
 
-    with cf.ThreadPoolExecutor(4) as ex:
-        failed = [(i, w) for i, w in ex.map(one, todo) if w]
+    ex = cf.ThreadPoolExecutor(4)
+    pending = set()
+    remaining = iter(todo)
+    failed = []
+    try:
+        for job in remaining:
+            pending.add(ex.submit(one, job))
+            if len(pending) == 4:
+                break
+        while pending:
+            done, pending = cf.wait(pending, return_when=cf.FIRST_COMPLETED)
+            for future in done:
+                i, why = future.result()
+                if why:
+                    failed.append((i, why))
+            if not stop.is_set():
+                for _ in done:
+                    job = next(remaining, None)
+                    if job is not None:
+                        pending.add(ex.submit(one, job))
+    except BaseException:
+        stop.set()
+        for future in pending:
+            future.cancel()
+        ex.shutdown(wait=False, cancel_futures=True)
+        raise
+    ex.shutdown(wait=True)
     size = sum(p.stat().st_size for p in out.glob('*.webp'))
     print(f'{len(list(out.glob("*.webp")))} images, {size // 1024} KB. Failed: {failed or "none"}', flush=True)
     sys.exit(1 if failed else 0)

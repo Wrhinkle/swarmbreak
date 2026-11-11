@@ -24,7 +24,7 @@ sys.path = [p for p in sys.path if p and p.rstrip('/') not in (_factory, _root)]
 sys.pycache_prefix = '/dev/null'  # neither this process nor its children may trust checkout bytecode
 import os
 sys.path = [p for p in sys.path if os.path.realpath(p) not in (os.path.realpath(_factory), os.path.realpath(_root))]
-import fcntl, hashlib, json, re, subprocess, time
+import fcntl, hashlib, json, re, subprocess, tempfile, time
 from datetime import datetime, timezone
 from types import SimpleNamespace
 from pathlib import Path
@@ -280,6 +280,19 @@ def learn(kind, number, out):
     return int(url.rsplit('/', 1)[1])
 
 
+def save_state(st):
+    """Replace the lane state only after its complete JSON has been written."""
+    name = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', dir=STATE.parent, delete=False) as f:
+            name = f.name
+            f.write(json.dumps(st, indent=1))
+        os.replace(name, STATE)
+    finally:
+        if name and os.path.exists(name):
+            os.unlink(name)
+
+
 def main():
     dry = '--dry-run' in sys.argv
     lock = open(ROOT / 'factory' / 'log' / ('.runner.lock' if RUN_LANE else '.foreman.lock'), 'a+')
@@ -340,7 +353,7 @@ def main():
         else:
             # Without a reliable head, avoid immediately repeating the job.
             st['cooldown_until'] = time.time() + 600
-        STATE.write_text(json.dumps(st, indent=1))
+        save_state(st)
         return
     try:
         if not r.returncode and kind in ('run', 'comms'):
@@ -349,7 +362,7 @@ def main():
     except SystemExit as e:  # a GitHub write failed; pause instead of rerunning the same job every start
         print(f'[foreman] {e}', flush=True)
         st['cooldown_until'] = time.time() + 600
-    STATE.write_text(json.dumps(st, indent=1))
+    save_state(st)
     record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'lesson': st['waiting'].get(key), 'tail': out[-600:]})
 
 

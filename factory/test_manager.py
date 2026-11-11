@@ -1831,3 +1831,30 @@ for conflict_after_move in (False, True):
         assert gate.call_count == (1 if conflict_after_move else 2)
         assert any(a[:3] == ('gh', 'pr', 'merge') for a in calls) != conflict_after_move
 print('ok moving base repeats merge verification and gate review')
+
+# Both lanes publish complete state, and unreadable state keeps the model paused.
+for lane in ('.foreman.json', '.runner.json'):
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / lane
+        with patch.object(foreman, 'STATE', path), patch('foreman.os.replace', wraps=os.replace) as replace:
+            foreman.save_state({'codex_pause': True, 'cooldown_until': 123})
+            assert json.loads(path.read_text())['codex_pause']
+            assert Path(replace.call_args.args[0]).parent == path.parent
+        path.write_text('{')
+        with patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'):
+            assert 'unreadable' in manager.subscription_pause(True)
+
+# Existing escalation still files the roster, reports its failures, and never invokes a model.
+with tempfile.TemporaryDirectory() as d:
+    lockfile = Path(d) / 'lock'
+    with lockfile.open('w+') as lock, patch.dict(os.environ, {'SWARMBREAK_LOCK_FD': str(lock.fileno())}), \
+         patch.object(sys, 'argv', ['manager.py', '--dry-run']), \
+         patch('manager.subscription_pause', return_value='Already filed.'), \
+         patch('manager.required_jobs', return_value=['roster failed']) as roster, \
+         patch('manager.bot') as model, contextlib.redirect_stdout(io.StringIO()) as output:
+        with patch('manager.os.fdopen', return_value=lock):
+            manager.main()
+        roster.assert_called_once_with(True)
+        model.assert_not_called()
+        assert 'roster failed' in output.getvalue()
+print('ok atomic lane state and paused roster')

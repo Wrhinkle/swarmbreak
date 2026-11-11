@@ -718,12 +718,18 @@ def subscription_pause(dry):
     """Escalate an active worker subscription pause once, without invoking another model."""
     for name in ('.foreman.json', '.runner.json'):
         path = LOG.parent / name
-        if path.exists():
+        try:
             pause = json.loads(path.read_text())
-            if pause.get('codex_pause') and pause.get('cooldown_until', 0) > time.time():
-                return file_job('Codex subscription needs attention',
-                                'A worker paused because Codex reached its usage limit or was signed out. Please check the subscription login.',
-                                [HUMAN], dry)
+            if not isinstance(pause, dict) or not isinstance(pause.get('cooldown_until', 0), (int, float)):
+                raise ValueError('invalid worker state')
+        except FileNotFoundError:
+            continue
+        except (OSError, ValueError) as e:
+            return f'Worker state {name} unreadable; manager model paused: {e}'
+        if pause.get('codex_pause') and pause.get('cooldown_until', 0) > time.time():
+            return file_job('Codex subscription needs attention',
+                            'A worker paused because Codex reached its usage limit or was signed out. Please check the subscription login.',
+                            [HUMAN], dry)
     return ''
 
 
@@ -759,6 +765,9 @@ def main():
     pause = subscription_pause(dry)
     if pause:
         print(pause, flush=True)
+        failures = required_jobs(dry)
+        if failures:
+            print('Roster failures: ' + '; '.join(failures), flush=True)
         return
     note = args[args.index('--task') + 1] if '--task' in args else ''
     round_ = int(args[args.index('--follow-up') + 1]) if '--follow-up' in args else 0
