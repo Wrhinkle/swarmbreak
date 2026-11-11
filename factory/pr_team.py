@@ -48,7 +48,7 @@ LEARNED = (f'Before you start, read {ROOT}/factory/lessons.md and every guide in
 
 # A spent subscription, a sign-out or a service outage: nothing a job did. bot() stops the job on one with a marked line, and the
 # foreman waits on that marker or on Qodo's own outage code, never on a bare word that a job's output might contain.
-CODEX_DOWN = re.compile(r'usage limit|rate limit|too many requests|401 Unauthorized|not logged in', re.I)
+CODEX_DOWN = re.compile(r'usage limit|rate limit|quota|too many requests|401 Unauthorized|not logged in', re.I)
 OUTAGE = re.compile(r'^\[[\w-]+\] outage: |MT-UPSTREAM-DOWN', re.M)
 
 

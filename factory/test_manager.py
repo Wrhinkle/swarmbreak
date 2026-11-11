@@ -987,7 +987,7 @@ with patch('foreman.sh') as edit, patch('foreman.learn', return_value=99) as lea
     assert learn.called and not edit.called and state['waiting'] == {'issue-42': 99}
 # An outage is nothing the job did: Codex's limit or sign-out stops the job with a marked line, and the foreman pauses on it, or on
 # Qodo's outage code, filing no lesson. A job's own output that merely mentions a quota is still a failure to learn from.
-for said in ("ERROR: You've hit your usage limit. Try again at Nov 11th.", 'unexpected status 401 Unauthorized'):
+for said in ("ERROR: You've hit your usage limit. Try again at Nov 11th.", 'unexpected status 401 Unauthorized', 'error: quota exceeded'):
     with patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=1, stdout='session transcript\n', stderr=said + '\n')):
         try:
             pr_team.bot('comms', '.', 'x'); raise AssertionError('an outage must stop the job')
