@@ -8,6 +8,8 @@ import hashlib, json, os, re, shutil, subprocess, sys, tempfile
 from pathlib import Path
 from urllib.parse import urlparse
 
+from pr_team import stop_if_down
+
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
 ACTS, RETRIES = 3, 2
@@ -148,6 +150,7 @@ def agent(name, output, inputs, check, search=False, optional_pair=(), rests_on=
                 cmd.insert(1, '--search')  # a global codex flag, so it goes before exec
             print(f'[{name}] attempt {attempt + 1}: {Path(output).name}', flush=True)
             r = subprocess.run([*cmd, prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=clean_env(), timeout=1800)
+            stop_if_down(name, r)  # the next attempt would hit the same limit; the foreman waits instead
             made = Path(work) / Path(output).name
             if made.exists():
                 mark(output, False)  # before the copy: a run killed between copy and check redoes this stage

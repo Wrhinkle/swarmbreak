@@ -46,8 +46,10 @@ LEARNED = (f'Before you start, read {ROOT}/factory/lessons.md and every guide in
            'AGENTS.md, and never permit anything those forbid.')
 
 
-# A spent subscription, a sign-out or a service outage: nothing a job did. The foreman waits these out and files no lesson.
-OUTAGE = re.compile(r'usage limit|rate limit|quota|too many requests|401 Unauthorized|not logged in|MT-UPSTREAM-DOWN', re.I)
+# A spent subscription, a sign-out or a service outage: nothing a job did. bot() stops the job on one with a marked line, and the
+# foreman waits on that marker or on Qodo's own outage code, never on a bare word that a job's output might contain.
+CODEX_DOWN = re.compile(r'usage limit|rate limit|too many requests|401 Unauthorized|not logged in', re.I)
+OUTAGE = re.compile(r'^\[[\w-]+\] outage: |MT-UPSTREAM-DOWN', re.M)
 
 
 def bot(name, workdir, extra, effort='medium'):
@@ -55,9 +57,15 @@ def bot(name, workdir, extra, effort='medium'):
     prompt = (AGENTS / f'{name}.md').read_text() + '\n\n' + LEARNED + '\n\n' + extra
     print(f'[{name}] running', flush=True)
     r = subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800)
-    if r.returncode:  # only the cause, so the foreman can see it: the rest of Codex's output is the whole session
-        print(*[f'[{name}] {line[:300]}' for line in (r.stdout + r.stderr).splitlines() if OUTAGE.search(line)][-3:], sep='\n', flush=True)
+    stop_if_down(name, r)
     return r.returncode
+
+
+def stop_if_down(name, r):
+    """Ends the job when Codex failed for want of a subscription. Only the cause leaves: the rest of its output is the whole
+    session. Exiting covers in-process callers like comms too."""
+    if r.returncode and (down := [line for line in (r.stdout + r.stderr).splitlines() if CODEX_DOWN.search(line)]):
+        sys.exit(f'[{name}] outage: {down[-1].strip()[:300]}')
 
 
 def findings(url):

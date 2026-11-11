@@ -371,7 +371,7 @@ with tempfile.TemporaryDirectory() as d:
         work = Path(cmd[cmd.index('-C') + 1])
         seen.append((sorted(p.name for p in work.iterdir()), 'Input files in this folder: here.json.' in cmd[-1]))
         (work / 'out.json').write_text('{}')
-        return SimpleNamespace(stdout='', stderr='')
+        return SimpleNamespace(returncode=0, stdout='', stderr='')
     with patch('run.subprocess.run', side_effect=fake_codex), patch('run.mark'):  # this folder is no repository; the ledger has its own tests below
         run_mod.agent('gameplay', Path(d, 'out.json'), {'here.json': here, 'last-assembly.json': Path(d, 'plan.json'), 'balance.json': Path(d, 'report.json')}, lambda: '', optional_pair=('last-assembly.json', 'balance.json'))
     assert seen == [(['here.json'], True)], seen
@@ -985,18 +985,23 @@ with patch('foreman.sh') as edit, patch('foreman.learn', return_value=99) as lea
     assert not learn.called and not edit.called and not state['waiting']
     foreman.settle(state, SimpleNamespace(returncode=1, moved=False), 'failed', 'run', 42, 'issue-42', False, [], [ran(1, 1, 99)])
     assert learn.called and not edit.called and state['waiting'] == {'issue-42': 99}
-# An outage is nothing the job did: Codex's limit or sign-out reaches the foreman's output, which pauses and files no lesson.
+# An outage is nothing the job did: Codex's limit or sign-out stops the job with a marked line, and the foreman pauses on it, or on
+# Qodo's outage code, filing no lesson. A job's own output that merely mentions a quota is still a failure to learn from.
 for said in ("ERROR: You've hit your usage limit. Try again at Nov 11th.", 'unexpected status 401 Unauthorized'):
-    with patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=1, stdout='session transcript\n', stderr=said + '\n')), \
-         patch('builtins.print') as shown:
-        assert pr_team.bot('builder', '.', 'x') == 1
-    out = '\n'.join(' '.join(map(str, c.args)) for c in shown.call_args_list)
-    assert said in out and 'transcript' not in out
-    for failure in (out, 'findings failed:\n{"error":{"code":"MT-UPSTREAM-DOWN","message":"pr-agent-pro unreachable"}}'):
+    with patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=1, stdout='session transcript\n', stderr=said + '\n')):
+        try:
+            pr_team.bot('comms', '.', 'x'); raise AssertionError('an outage must stop the job')
+        except SystemExit as e:
+            out = str(e)
+    assert out == f'[comms] outage: {said}'
+    for failure, paused in ((f'Comms refused\n{out}', True), ('findings failed:\n{"error":{"code":"MT-UPSTREAM-DOWN"}}', True),
+                            ('FAIL test: quota math is wrong; 401 Unauthorized expected', False)):
         state = {'waiting': {}, 'cooldown_until': 0}
-        with patch('foreman.sh') as edit, patch('foreman.learn') as learn:
-            foreman.settle(state, SimpleNamespace(returncode=1), failure, 'pr', 42, 'pr-42@abc', False, [], [ran(1, 1, 99, 'pr-42@abc')])
-        assert state['cooldown_until'] > __import__('time').time() and not learn.called and not edit.called and not state['waiting']
+        with patch('foreman.sh'), patch('foreman.learn', return_value=99) as learn:
+            foreman.settle(state, SimpleNamespace(returncode=1), failure, 'pr', 42, 'pr-42@abc', False, [], [])
+        assert (state['cooldown_until'] > 0) == paused and learn.called != paused, failure
+with patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=1, stdout='', stderr='tests failed\n')):
+    assert pr_team.bot('builder', '.', 'x') == 1  # an ordinary failure is the caller's to judge
 print('ok foreman evaluates once')
 
 # The foreman refuses both ignored and ordinary untracked inputs, before importing them.
