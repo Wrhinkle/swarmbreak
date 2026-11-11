@@ -24,6 +24,47 @@ assert any('already' in p for p in check_post({'top_level': good}, t))
 assert any('unknown id' in p for p in check_post({'replies': [{'to': 'R9', 'body': 'ok'}]}, t))
 assert check_post({'replies': [{'to': 'R1', 'body': 'ok'}]}, t) == []
 from unittest.mock import patch
+
+# A verified UI job gets readable host images once; non-UI work gets no visual pass.
+import json, tempfile
+import builder
+with tempfile.TemporaryDirectory() as d:
+    tree = Path(d) / 'tree'
+    (tree / 'node_modules').mkdir(parents=True)
+    source = Path(d) / 'host-shots'
+    source.mkdir()
+    names = [f'{screen}-{width}.png' for screen in ('title', 'map', 'crew', 'fight', 'shop', 'treasure', 'event', 'rest') for width in (390, 1280)]
+    for name in names:
+        (source / name).write_bytes(b'host image')
+    calls = []
+    def visual_bot(role, workdir, prompt, **kwargs):
+        calls.append(prompt)
+        assert all((tree / line).read_bytes() == b'host image' for line in prompt.splitlines() if line.endswith('.png'))
+        (tree / builder.RESULT).write_text(json.dumps({'outcome': 'fixed', 'evidence': 'map-390.png and map-1280.png inspected'}))
+        return 0
+    with patch.object(builder, 'shots_dir', return_value=source), patch.object(builder, 'bot', side_effect=visual_bot):
+        assert builder.look_at_screens(tree, ['factory/builder.py', 'src/combat.ts', 'src/main.test.ts']) is None and not calls
+        result = builder.look_at_screens(tree, ['src/main.ts'])
+        assert result['outcome'] == 'fixed' and len(calls) == 1 and all(name in calls[0] for name in names)
+        assert not list((tree / 'node_modules').iterdir())
+        (source / names[0]).unlink()
+        try:
+            builder.look_at_screens(tree, ['index.html'])
+        except builder.HostVerificationError:
+            pass
+        else:
+            raise AssertionError('missing screenshot accepted')
+with patch.object(builder, 'look_at_screens', return_value=None) as look, patch.object(builder, 'check_published') as checks:
+    assert builder.visual_handoff(None, set(), set(), ['factory/builder.py']) == (None, [], ['factory/builder.py'])
+    look.assert_called_once()
+    checks.assert_not_called()
+with patch.object(builder, 'look_at_screens', return_value={'outcome': 'fixed', 'evidence': 'map-390.png map-1280.png'}) as look, \
+     patch.object(builder, 'check_published', return_value=(['test failure'], ['src/main.ts'])) as checks:
+    result, bad, changed = builder.visual_handoff(None, set(), set(), ['src/main.ts'])
+    assert result['outcome'] == 'fixed' and bad == ['test failure'] and changed == ['src/main.ts']
+    look.assert_called_once()
+    checks.assert_called_once()
+print('ok builder screenshot handoff')
 with patch('manager.posted_today', return_value=0):
     reply = {'to': 'R1', 'body': 'We could not determine what occurred.'}
     assert check_post({'replies': [reply]}, t) == []
