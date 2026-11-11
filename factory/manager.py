@@ -9,7 +9,7 @@ A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS ti
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
-import fcntl, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.request
+import fcntl, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.error, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -397,6 +397,32 @@ def release_due(main_m, live, now):
     return 'expired' if now >= at(live, 'nextOpensAt') else None
 
 
+# All tracked inputs to the production build, including its dependency and TypeScript configuration.
+GAME_PATHS = ('src', 'public', 'index.html', 'package.json', 'package-lock.json', 'tsconfig.json')
+
+
+def live_revision():
+    try:
+        with urllib.request.urlopen(f'{SITE}/deployed-revision.txt?t={time.time_ns()}', timeout=20) as r:
+            revision = r.read().decode('ascii').strip()
+    except urllib.error.HTTPError as e:
+        if e.code == 404:  # Sites deployed before revision tracking need one bootstrap deploy.
+            return None
+        raise
+    if not re.fullmatch(r'[0-9a-f]{40}', revision):
+        raise ValueError('invalid live deployed revision')
+    return revision
+
+
+def game_changed(live_rev, rev):
+    if live_rev is None:
+        return True
+    diff = sh('git', 'diff', '--quiet', live_rev, rev, '--', *GAME_PATHS, check=False)
+    if diff.returncode not in (0, 1):
+        raise ValueError(f'cannot compare live revision {live_rev} to {rev}: {diff.stderr}')
+    return diff.returncode == 1
+
+
 def release_check():
     try:
         sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
@@ -405,7 +431,7 @@ def release_check():
         now = datetime.now(timezone.utc)
         due = release_due(main_m, live_manifest(), now)
         main_m, live = effective(main_m, now), effective(live_manifest(), now)
-        if due == 'deploy':
+        if due == 'deploy' or (due is None and game_changed(live_revision(), rev)):
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
         return f'Release check failed: {e}', None
@@ -445,6 +471,10 @@ def deploy(dry, rev=None):
                 r = sh(*cmd, cwd=tree, check=False)
                 if r.returncode:
                     return f'Not deploying: {" ".join(cmd)} failed: {r.stdout[-500:]}'
+            deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+            if not re.fullmatch(r'[0-9a-f]{40}', deployed_rev):
+                return 'Not deploying: invalid checkout revision'
+            (tree / 'dist/deployed-revision.txt').write_text(deployed_rev + '\n')
             if dry:
                 return f'Could deploy {manifest["runId"]}.'
             r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
@@ -452,11 +482,12 @@ def deploy(dry, rev=None):
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
             for _ in range(6):  # the CDN can serve the old manifest for a few seconds
                 served = live_manifest()
-                if served == raw_manifest:
+                served_rev = live_revision()
+                if served == raw_manifest and served_rev == deployed_rev:
                     break
                 time.sleep(10)
             reserve = f' Reserve run {manifest["next"]["runId"]} opens itself at {manifest["next"]["opensAt"]}.' if manifest.get('next') else ''
-            return f'Deployed. Live run is {manifest["runId"]}.{reserve}' if served == raw_manifest else f'Deploy failed verification: live manifest reads {served}, expected {raw_manifest}.'
+            return f'Deployed. Live run is {manifest["runId"]}.{reserve}' if served == raw_manifest and served_rev == deployed_rev else f'Deploy failed verification: live manifest reads {served}, expected {raw_manifest}; live revision is {served_rev}, expected {deployed_rev}.'
         finally:
             sh('git', 'worktree', 'remove', '--force', tree, check=False)
 
