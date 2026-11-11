@@ -6,4 +6,4 @@ export function markWalkthroughSeen(save: Save): void {
 }
 
 /** Explain the current automatic fight and manual override without changing combat. */
-export const fightExplanation = 'Fighters act automatically when ready; their speed determines how often they act. Most attacks choose the enemy with the lowest HP. Queue a crew member’s routine to use it on their next turn, even if its condition is unmet; orders share a cooldown. Pause or change the speed whenever you need.';
+export const fightExplanation = 'Fighters act automatically when ready; their speed determines how often they act. Most attacks choose the enemy with the lowest HP. A queued routine ignores its condition and starts a shared cooldown when used. Stun skips the fighter’s next action but leaves the order queued. If the fighter is already charging, they complete Charge instead, consuming the order and starting the shared cooldown. The order can be lost if the fighter dies or the fight ends. Pause or change the speed whenever you need.';
