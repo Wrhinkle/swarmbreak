@@ -36,7 +36,7 @@ A part ships to players, so it has to stand on its own: no control that does not
 
 `blocked` is only for work that needs a file you can't edit, network access, or a decision outside this repo. Say exactly what it needs.
 
-For anything a player sees, check it as a player would: build, open `dist/index.html` in the headless browser if one is available, and look at 390px and 1280px wide. Text that wraps badly, page scroll during play, or tiny controls are defects. If the browser won't start in your sandbox, say so in `evidence` and finish: the host renders the screens at 390px and 1280px on the PR.
+For anything a player sees, check it as a player would: build, open `dist/index.html` in the headless browser if one is available, and look at 390px and 1280px wide. Text that wraps badly, page scroll during play, or tiny controls are defects. If the browser won't start in your sandbox, check the layout in the CSS and markup instead, and say in `evidence` that nobody saw the screens. The host's screen check on the PR catches page errors, sideways scroll and buttons under 40px at 390px and 1280px. It doesn't catch wrapping, vertical scroll or clipping, so those are yours to rule out from the code.
 
 ## Output
 Write `.builder-result.json`, and the host keeps it out of the commit:
