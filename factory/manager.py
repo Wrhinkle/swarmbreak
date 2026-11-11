@@ -378,7 +378,7 @@ def deploy_problems(manifest, live, has_live_run, now, has_next=True):
         problems.append(f'main does not have the reserve run {nxt["runId"]}')
     if published and nxt != published and manifest['runId'] != published['runId']:
         problems.append(f'deploying would drop the published reserve {published["runId"]}')
-    if manifest['runId'] != live['runId'] and datetime.fromisoformat(manifest['opensAt'].replace('Z', '+00:00')) - now > timedelta(hours=1):
+    if manifest['runId'] != live['runId'] and at(manifest, 'opensAt') > now:
         problems.append(f'{manifest["runId"]} opens at {manifest["opensAt"]}; deploying now would close the game until then')
     return problems
 
@@ -417,10 +417,28 @@ def live_revision():
 def game_changed(live_rev, rev):
     if live_rev is None:
         return True
-    diff = sh('git', 'diff', '--quiet', live_rev, rev, '--', *GAME_PATHS, check=False)
+    # Tests are type-checked during a later build, but do not by themselves change the bundle.
+    diff = sh('git', 'diff', '--quiet', live_rev, rev, '--', *GAME_PATHS,
+              ':(exclude,glob)src/**/*.test.ts', ':(exclude,glob)src/**/*.spec.ts', check=False)
     if diff.returncode not in (0, 1):
         raise ValueError(f'cannot compare live revision {live_rev} to {rev}: {diff.stderr}')
-    return diff.returncode == 1
+    if diff.returncode == 1:
+        return True
+    # A test-named module can still be imported by shipped code (or another test
+    # module that is imported there). Treat any such reference conservatively.
+    names = sh('git', 'diff', '--name-only', '-z', '--no-renames', live_rev, rev, '--',
+               ':(glob)src/**/*.test.ts', ':(glob)src/**/*.spec.ts', check=False)
+    if names.returncode:
+        raise ValueError(f'cannot list changed tests: {names.stderr}')
+    for path in filter(None, names.stdout.split('\0')):
+        name = Path(path).name.removesuffix('.ts')
+        refs = sh('git', 'grep', '-F', '-l', name, rev, '--', *GAME_PATHS,
+                  f':(exclude){path}', check=False)
+        if refs.returncode not in (0, 1):
+            raise ValueError(f'cannot check references to {path}: {refs.stderr}')
+        if refs.returncode == 0:
+            return True
+    return False
 
 
 def release_check():
@@ -431,7 +449,8 @@ def release_check():
         now = datetime.now(timezone.utc)
         due = release_due(main_m, live_manifest(), now)
         main_m, live = effective(main_m, now), effective(live_manifest(), now)
-        if due == 'deploy' or (due is None and game_changed(live_revision(), rev)):
+        if due == 'deploy' or (due is None and (main_m['runId'] == live['runId'] or at(main_m, 'opensAt') <= now)
+                               and game_changed(live_revision(), rev)):
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
         return f'Release check failed: {e}', None
@@ -445,7 +464,12 @@ def release_check():
 def release(dry=False):
     result, rev = release_check()
     try:
-        return deploy(dry, rev) if rev else result
+        if not rev:
+            return result
+        result = deploy(dry, rev)
+        if result.startswith(('Not deploying: npm run build failed:', 'Not deploying: npm test failed:')):
+            result = f'{result} [revision {rev}]'
+        return result
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:
         return f'Release check failed: {e}'
 
@@ -855,20 +879,21 @@ def main():
     follow_up(failures, round_, note, dry, blocker)
 
 
-def missing_run_blocker(result, previous):
-    return result.startswith('Missing run:') and f'release -> {result[-700:]}' in previous
+def persistent_release_blocker(result):
+    return result.startswith(('Missing run:', 'Not deploying: npm run build failed:',
+                              'Not deploying: npm test failed:'))
 
 
 def release_step(failures, dry=False, previous=()):
     result = release(dry)
     if result:
-        blocked = missing_run_blocker(result, previous)
+        blocked = persistent_release_blocker(result) and f'release -> {result[-700:]}' in previous
         recorded = f'Blocked: unchanged release failure: {result}' if blocked else result
         print(f'release: {recorded}', flush=True)
         record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded[-1000:], 'dry': dry})
         if FAILED.search(result) and not blocked:
             failures.append(f'release -> {result[-700:]}')
-        if result.startswith('Missing run:'):
+        if persistent_release_blocker(result):
             return f'release -> {result[-700:]}'
     return ''
 
