@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import QODO, HostVerificationError, PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
+from pr_team import QODO, HostVerificationError, PROTECTED, REPO, bot, hold, remove_worktree, sh, verified  # noqa: E402
 from manager import effective  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
@@ -380,6 +380,8 @@ def main():
         print(f'{outcome}: {result.get("summary")} Evidence: {result.get("evidence")}')
         if not dry:
             sh('gh', 'issue', 'close', number, '--repo', REPO, '--comment', f'The factory builder could not reproduce this on main.\n\n{result.get("summary")}\n\nEvidence: {result.get("evidence")}')
+            (tree / RESULT).unlink(missing_ok=True)
+            remove_worktree(tree, root=ROOT, runner=sh)
         return
     if outcome not in SHIPS or bad:
         # Unfinished work is kept and continued, never thrown away.

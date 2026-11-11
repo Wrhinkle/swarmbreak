@@ -1147,6 +1147,8 @@ with tempfile.TemporaryDirectory() as d:
             builder.main()
         assert len(closed) == 1
         tree = Path(d) / 'swarmbreak-issue-42'
+        assert not tree.exists()  # closing the issue removed its clean worktree
+        git('worktree', 'add', '-q', tree, 'fix/issue-42')
         (tree / 'file').write_text('saved checkpoint\n')
         git('add', 'file', cwd=tree); git('commit', '-qm', 'checkpoint', cwd=tree)
         with patch.object(sys, 'argv', ['builder.py', '42']):
@@ -1159,7 +1161,8 @@ with tempfile.TemporaryDirectory() as d:
         git('revert', '--no-edit', 'HEAD', cwd=tree)
         with patch.object(sys, 'argv', ['builder.py', '42']):
             builder.main()
-        assert len(closed) == 2
+        assert len(closed) == 2 and not tree.exists()
+        git('worktree', 'add', '-q', tree, 'fix/issue-42')
         # A staged change hidden by an opposite unstaged change is still unfinished work.
         (tree / 'file').write_text('staged\n'); git('add', 'file', cwd=tree)
         (tree / 'file').write_text('base\n')
@@ -1297,9 +1300,42 @@ with tempfile.TemporaryDirectory() as d:
          patch.object(pr_team, 'findings', return_value={'findings': [], 'review_session': {'commit_sha': 'sha', 'review_complete': True}}), \
          patch.object(pr_team, 'verified', return_value=''), patch.object(sys, 'argv', ['pr_team.py', '42', '--merge']), redirect_stdout(StringIO()):
         pr_team.main()
-    assert [a[:3] for a in said[-2:]] == [('gh', 'pr', 'merge'), ('gh', 'pr', 'comment')]
-    assert said[-1][-1].endswith(f'Screenshots on the factory host: {root / "factory" / "log" / "screens" / "swarmbreak-pr-42"}')
+    assert [a[:3] for a in said[-3:]] == [('gh', 'pr', 'merge'), ('gh', 'pr', 'comment'), ('git', 'worktree', 'remove')]
+    assert said[-2][-1].endswith(f'Screenshots on the factory host: {root / "factory" / "log" / "screens" / "swarmbreak-pr-42"}')
 print('ok merged PR names its screenshots')
+
+
+# Real Git enforces cleanup: a merged PR's clean tree is removed, while an issue tree with untracked work survives.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    def git_cleanup(*args):
+        return subprocess.run(['git', *map(str, args)], cwd=root, check=True, capture_output=True, text=True)
+    git_cleanup('init', '-q')
+    git_cleanup('config', 'user.email', 't@t')
+    git_cleanup('config', 'user.name', 't')
+    (root / 'file').write_text('base\n')
+    git_cleanup('add', 'file')
+    git_cleanup('commit', '-qm', 'base')
+    pr_tree = Path(d) / 'swarmbreak-pr-42'
+    issue_tree = Path(d) / 'swarmbreak-issue-7'
+    git_cleanup('worktree', 'add', '-q', '--detach', pr_tree)
+    git_cleanup('worktree', 'add', '-q', '-b', 'fix/issue-7', issue_tree)
+    (issue_tree / 'unsaved').write_text('keep')
+    with patch.object(pr_team, 'ROOT', root), redirect_stdout(StringIO()) as output:
+        pr_team.cleanup_pr('42', 'fix/issue-7')
+    assert not pr_tree.exists() and (issue_tree / 'unsaved').read_text() == 'keep'
+    assert 'Kept worktree' in output.getvalue()
+    assert git_cleanup('rev-parse', '--verify', 'fix/issue-7').stdout.strip()
+print('ok safe PR worktree cleanup')
+
+# Closed PRs also request cleanup, without entering the review or merge path.
+with patch.object(pr_team, 'sh', return_value=SimpleNamespace(stdout=json.dumps({'state': 'CLOSED', 'headRefName': 'fix/issue-7'}))), \
+     patch.object(pr_team, 'hold'), patch.object(pr_team, 'cleanup_pr') as cleanup, \
+     patch.object(sys, 'argv', ['pr_team.py', '42']), redirect_stdout(StringIO()):
+    pr_team.main()
+    cleanup.assert_called_once_with('42', 'fix/issue-7')
+print('ok closed PR cleanup')
 
 # The builder asks Qodo before building; an outage is recorded, not fatal, and the PR says what was asked.
 import builder
