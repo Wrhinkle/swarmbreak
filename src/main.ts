@@ -9,7 +9,7 @@ import { loadManifest, loadRun, openedRun, refreshRun, openingDue, RunOpeningErr
 import { currentRun, exportSave, finishRun, importSave, loadSave, rollover, writeSave } from './save';
 import type { CrewMember, Save } from './save';
 import type { Creature, EventEffect, Manifest, MapNode, Run, RunAct } from './types';
-import { fightExplanation, markWalkthroughSeen } from './walkthrough';
+import { fightExplanation, markWalkthroughSeen, orderExplanation } from './walkthrough';
 
 /** What the map says about a fight before the player picks it: who is there and how strong the pack is. Empty for a mystery room. */
 export function roomFoes(creatures: Creature[], n: Pick<MapNode, 'encounter'>, masked: boolean): string {
@@ -66,6 +66,7 @@ function showHelp(back: () => void) {
     { title: 'Choose your route', text: 'Follow the map through fights and harder elite fights to the boss. Events offer choices, shops sell routines, rest rooms help you prepare, and treasure offers rewards. Mystery rooms hide their type until you enter.', art: run.acts[0].art?.map },
     { title: 'Your crew', text: 'Your crew fights using routines: if-then instructions checked in priority order. Between rooms, open Crew & routines to equip and reorder them.', art: run.crew[0]?.sprite },
     { title: 'In a fight', text: fightExplanation, art: run.acts[0].art?.backdrops[0] },
+    { title: 'Give an order', text: orderExplanation, art: run.acts[0].art?.backdrops[0] },
     { title: 'Bring an ally home', text: 'Recruit allies along the way. Win the run and choose one recruited ally to keep in your camp for a future attempt.', art: run.acts[0].art?.backdrops[0] },
   ];
   let index = 0;
