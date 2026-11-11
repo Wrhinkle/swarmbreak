@@ -478,6 +478,58 @@ with patch('builder.published_runs', side_effect=[({'2026-11-05'}, set()),
 print('ok release')
 
 import manager, json
+# A competing fetch can move origin/main between Git reading and updating the ref.
+# Retry must fetch the remote again, and unrelated fetch failures must stay failures.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d)
+    def git_at(cwd, *args):
+        return subprocess.run(['git', *args], cwd=cwd, text=True, capture_output=True, check=True).stdout.strip()
+    remote, checkout = root / 'remote.git', root / 'checkout'
+    git_at(root, 'init', '-q', '--bare', str(remote))
+    git_at(root, 'init', '-q', '-b', 'main', str(checkout))
+    git_at(checkout, 'config', 'user.name', 'Test')
+    git_at(checkout, 'config', 'user.email', 'test@example.com')
+    (checkout / 'file').write_text('one')
+    git_at(checkout, 'add', '.'); git_at(checkout, 'commit', '-qm', 'one')
+    old = git_at(checkout, 'rev-parse', 'HEAD')
+    git_at(checkout, 'remote', 'add', 'origin', str(remote))
+    git_at(checkout, 'push', '-q', '-u', 'origin', 'main')
+    (checkout / 'file').write_text('two')
+    git_at(checkout, 'commit', '-qam', 'two')
+    moved = git_at(checkout, 'rev-parse', 'HEAD')
+    (checkout / 'file').write_text('three')
+    git_at(checkout, 'commit', '-qam', 'three')
+    latest = git_at(checkout, 'rev-parse', 'HEAD')
+    git_at(checkout, 'push', '-q', 'origin', 'main')
+    git_at(checkout, 'update-ref', 'refs/remotes/origin/main', old)
+    calls = []
+    def race_sh(*args, **kwargs):
+        calls.append(args)
+        if len(calls) == 1:
+            git_at(checkout, 'update-ref', 'refs/remotes/origin/main', moved, old)
+            return SimpleNamespace(returncode=1, stdout='', stderr=f"error: cannot lock ref 'refs/remotes/origin/main': is at {moved} but expected {old}\n")
+        return subprocess.run(args, cwd=checkout, capture_output=True, text=True, check=kwargs.get('check', True))
+    with patch.object(manager, 'sh', side_effect=race_sh):
+        manager.fetch_release_main()
+    assert len(calls) == 2 and git_at(checkout, 'rev-parse', 'origin/main') == latest
+    for error in ['fatal: unable to access remote',
+                  f"error: cannot lock ref 'refs/remotes/origin/main': is at {moved} but expected {old}\nfatal: remote failure"]:
+        with patch.object(manager, 'sh', return_value=SimpleNamespace(returncode=1, stdout='', stderr=error)) as fetch:
+            try:
+                manager.fetch_release_main()
+                assert False, 'fetch failure must fail closed'
+            except SystemExit as e:
+                assert error in str(e) and fetch.call_count == 1
+
+    race_error = f"error: cannot lock ref 'refs/remotes/origin/main': is at {moved} but expected {old}"
+    with patch.object(manager, 'sh', side_effect=[SimpleNamespace(returncode=1, stdout='', stderr=race_error),
+                                                  SystemExit('git fetch origin failed: remote unavailable')]) as fetch:
+        try:
+            manager.fetch_release_main()
+            assert False, 'a failed retry must fail closed'
+        except SystemExit as e:
+            assert 'remote unavailable' in str(e) and fetch.call_count == 2
+
 # Exercise the release decision against real commits, with no network or model call.
 with tempfile.TemporaryDirectory() as d:
     root = Path(d)

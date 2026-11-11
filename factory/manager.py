@@ -441,9 +441,23 @@ def game_changed(live_rev, rev):
     return False
 
 
+def fetch_release_main():
+    """Retry once only when another fetch moved the main tracking ref during this fetch."""
+    result = sh('git', 'fetch', 'origin', check=False)
+    if not result.returncode:
+        return
+    errors = [line for line in (result.stdout + result.stderr).splitlines()
+              if line.startswith(('error:', 'fatal:'))]
+    race = r"error: cannot lock ref 'refs/remotes/origin/main': is at ([0-9a-f]{40}|[0-9a-f]{64}) but expected ([0-9a-f]{40}|[0-9a-f]{64})"
+    if len(errors) == 1 and re.fullmatch(race, errors[0]):
+        sh('git', 'fetch', 'origin')  # fresh remote state; any second failure stays failed
+        return
+    sys.exit(f'git fetch origin failed:\n{(result.stdout + result.stderr)[-1500:]}')
+
+
 def release_check():
     try:
-        sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
+        fetch_release_main()  # a merge earlier in this pass may have put the next run on main
         rev = sh('git', 'rev-parse', 'origin/main').stdout.strip()  # deploy exactly the commit that was checked
         main_m = json.loads(sh('git', 'show', f'{rev}:public/manifest.json').stdout)
         now = datetime.now(timezone.utc)
