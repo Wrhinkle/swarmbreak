@@ -399,12 +399,38 @@ def local_review(tree, head, context):
                        capture_output=True, text=True, timeout=1800, env={k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))})
     try:
         local = json.loads(r.stdout)
-        done = r.returncode == 0 and local.get('finding_state', {}).get('complete') is True and isinstance(local.get('findings'), list)
-    except (json.JSONDecodeError, AttributeError):
-        done = False
-    if not done:  # a failed or unfinished review lists no findings, which isn't a pass
-        sys.exit(f'Qodo local review gave no complete result, so nothing was committed or pushed:\n{(r.stdout + r.stderr)[-800:]}')
-    blockers = [f for f in local.get('findings', []) if f.get('action_level') == 'action_required']
+        meta = local.get('meta')
+        coverage = meta.get('coverage') if isinstance(meta, dict) else None
+        if r.returncode != 0 or not isinstance(coverage, dict) or coverage.get('complete') is not True:
+            raise ValueError('review coverage is incomplete or unavailable')
+        state, findings = local['finding_state'], local['findings']
+        if state['complete'] is not True or not isinstance(findings, list):
+            raise ValueError('finding inventory is incomplete or unavailable')
+        inventory = {}
+        for finding in findings:
+            if not isinstance(finding, dict) or not isinstance(finding.get('id'), str) or not finding['id'] or finding['id'] in inventory:
+                raise ValueError('invalid or duplicate finding ID')
+            inventory[finding['id']] = finding
+        assigned, active = set(), []
+        for bucket in ('introduced', 'still_open', 'resolved', 'dismissed'):
+            if not isinstance(state[bucket], list):
+                raise ValueError(f'invalid {bucket} bucket')
+            for entry in state[bucket]:
+                ident = entry.get('id') if isinstance(entry, dict) else entry
+                if not isinstance(ident, str) or not ident or ident in assigned:
+                    raise ValueError('invalid or duplicate finding state reference')
+                if isinstance(entry, dict):  # older Qodo versions put full findings in the buckets
+                    inventory[ident] = {**inventory.get(ident, {}), **entry}
+                if ident not in inventory:
+                    raise ValueError('finding state references an unknown ID')
+                assigned.add(ident)
+                if bucket in ('introduced', 'still_open'):
+                    active.append(inventory[ident])
+        if assigned != set(inventory) or any(not isinstance(f.get('action_level'), str) or not f['action_level'] for f in active):
+            raise ValueError('finding inventory is unassigned or lacks an action level')
+    except (json.JSONDecodeError, AttributeError, KeyError, TypeError, ValueError) as exc:
+        sys.exit(f'Qodo local review gave no complete result ({exc}), so nothing was committed or pushed:\n{(r.stdout + r.stderr)[-800:]}')
+    blockers = [f for f in active if f['action_level'] == 'action_required']
     print(f'Qodo local review of the uncommitted fixes: {len(local.get("findings", []))} findings, {len(blockers)} blocking', flush=True)
     return blockers
 
