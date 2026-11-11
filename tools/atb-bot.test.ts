@@ -49,13 +49,13 @@ describe('ATB bot decisions', () => {
     state.fighters[1].nextAction = 100;
     expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'triage' });
   });
-  it('uses a stronger equipped attack even when it follows Strike', () => {
-    const ally = { ...run.crew[0], routines: ['strike', 'finish'] };
-    const state = createCombat([{ creature: ally }], [enemy], run.seed);
+  it('plays Auto when no kill, heal or prepared charge calls for a choice', () => {
+    // Picking a stronger-looking attack over the fighter's own routines lost fights: the routine list decides, as Auto does.
+    const ally = { ...run.crew[0], routines: ['strike', 'finish', 'breach'] };
+    const state = createCombat([{ creature: ally }], [enemy, enemy, enemy], run.seed);
     state.fighters[0].nextAction = 1;
-    state.fighters[1].nextAction = 100;
-    const end = playCombat(state, EXPERT);
-    expect(end.atb!.choices[0].routineId).toBe('finish');
+    state.fighters.slice(1).forEach(f => { f.nextAction = 100; f.hp = f.maxHp; });
+    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'auto' });
   });
   it('finishes a prepared charge instead of canceling it with a weaker attack', () => {
     const ally = { ...run.crew[0], routines: ['strike', 'charge'] };
@@ -74,38 +74,6 @@ describe('ATB bot decisions', () => {
     state.fighters[1].nextAction = 100;
     state.fighters[1].hp = Math.round(state.fighters[0].power * 4);
     expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'charge', targetId: 'e0' });
-  });
-  it('uses Breach instead of a prepared charge against a large shield', () => {
-    const ally = { ...run.crew[0], routines: ['breach', 'charge'] };
-    const state = createCombat([{ creature: ally }], [enemy], run.seed);
-    state.fighters[0].charging = true;
-    state.fighters[0].nextAction = 1;
-    state.fighters[1].nextAction = 100;
-    state.fighters[1].hp = Math.round(state.fighters[0].power * 4);
-    state.fighters[1].shield = Math.round(state.fighters[0].power * 4);
-    expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'breach', targetId: 'e0' });
-  });
-  it('uses Sweep against three healthy enemies instead of Strike', () => {
-    const ally = { ...run.crew[0], routines: ['strike', 'sweep'] };
-    const state = createCombat([{ creature: ally }], [enemy, enemy, enemy], run.seed);
-    state.fighters[0].nextAction = 1;
-    state.fighters.slice(1).forEach(f => { f.nextAction = 100; f.hp = f.maxHp; });
-    expect(playCombat(state, EXPERT).atb!.choices[0].routineId).toBe('sweep');
-  });
-  it('uses a heavy attack over an earlier Breach against an unshielded enemy', () => {
-    const ally = { ...run.crew[0], routines: ['breach', 'finish'] };
-    const state = createCombat([{ creature: ally }], [enemy], run.seed);
-    state.fighters[0].nextAction = 1;
-    state.fighters[1].nextAction = 100;
-    expect(playCombat(state, EXPERT).atb!.choices[0].routineId).toBe('finish');
-  });
-  it('uses Breach over Strike when both are equipped', () => {
-    const ally = { ...run.crew[0], routines: ['strike', 'breach'] };
-    const state = createCombat([{ creature: ally }], [enemy], run.seed);
-    state.fighters[0].nextAction = 1;
-    state.fighters[1].nextAction = 100;
-    const end = playCombat(state, EXPERT);
-    expect(end.atb!.choices[0].routineId).toBe('breach');
   });
   it('finishes the last enemy instead of healing when an equipped attack can end the fight', () => {
     const ally = { ...run.crew[0], routines: ['patch', 'strike'] };
@@ -151,15 +119,6 @@ describe('ATB bot decisions', () => {
     state.fighters[0].hp = Math.floor(state.fighters[0].maxHp / 2);
     state.fighters.slice(1).forEach(f => { f.nextAction = 100; f.hp = 1; });
     expect(playCombat(state, EXPERT).atb!.choices[0]).toEqual({ actorId: 'c0', routineId: 'sweep' });
-  });
-  it('uses Breach against a shielded enemy even when a heavy attack comes first', () => {
-    const ally = { ...run.crew[0], routines: ['finish', 'breach'] };
-    const state = createCombat([{ creature: ally }], [enemy], run.seed);
-    state.fighters[0].nextAction = 1;
-    state.fighters[1].nextAction = 100;
-    state.fighters[1].shield = 100;
-    const end = playCombat(state, EXPERT);
-    expect(end.atb!.choices[0].routineId).toBe('breach');
   });
   it('uses Breach to finish a shielded enemy before attacking a healthier one', () => {
     const ally = { ...run.crew[0], routines: ['breach'] };

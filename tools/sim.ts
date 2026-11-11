@@ -24,7 +24,9 @@ export interface RunResult { won: boolean; floor: number; lostTo?: string; ticks
 
 export const rng = (seed: number) => { let state = seed >>> 0; return () => { state = (state + 0x6d2b79f5) | 0; let n = Math.imul(state ^ (state >>> 15), 1 | state); n ^= n + Math.imul(n ^ (n >>> 7), 61 | n); return ((n ^ (n >>> 14)) >>> 0) / 4294967296; }; };
 const conditional = (id: string) => ROUTINES[id]?.condition !== 'always';
-const WANT_HEAL = ['patch+', 'patch', 'triage', 'cover'], WANT_HIT = ['strike+', 'finish', 'breach', 'sweep+', 'sweep', 'charge', 'jam', 'corrupt', 'brace', 'last_stand', 'purge'];
+// Sweep isn't here: equipped, it goes first and spreads 0.6x hits whenever two foes stand, and players watching the fight see it
+// slow the kills. On the 2026-11-11 run, typical Auto clears 31/100 seeds with it in this list and 65/100 without it.
+const WANT_HEAL = ['patch+', 'patch', 'triage', 'cover'], WANT_HIT = ['strike+', 'finish', 'breach', 'sweep+', 'charge', 'jam', 'corrupt', 'brace', 'last_stand', 'purge'];
 
 export function rankAttackTargets(targets: CombatState['fighters'], attack: string) {
   const healthToHit = (f: CombatState['fighters'][number]) => f.hp + (ROUTINES[attack].action === 'overflow' ? 0 : f.shield);
@@ -81,37 +83,7 @@ export function playCombat(initial: CombatState, policy: Policy, random: () => n
       else if (preparedCharge && chargeTarget && (!breach || chargeTarget.shield <= Math.round(actor.power * 3) - Math.round(actor.power * 1.5))) {
         routineId = preparedCharge; targetId = chargeTarget.id;
       }
-      else {
-        const attacks = actor.routines.filter(id => ['heavy', 'overflow', 'strike'].includes(ROUTINES[id]?.action));
-        // Start with the strongest unshielded hit; consider Breach against shields below.
-        let attack = attacks.find(id => ROUTINES[id]?.action === 'heavy')
-          ?? attacks.find(id => ROUTINES[id]?.action === 'overflow') ?? attacks[0];
-        if (attack) {
-          const targets = rankAttackTargets(atbTargets(state, actorId, attack), attack);
-          if (targets.length) {
-            const breach = attacks.find(id => ROUTINES[id]?.action === 'overflow');
-            // A shielded foe may be lethal to Breach even when the best heavy target is not.
-            const breachTarget = breach && rankAttackTargets(atbTargets(state, actorId, breach), breach)[0];
-            if (breach && breachTarget && ROUTINES[attack].action === 'heavy' &&
-                targets[0].hp + targets[0].shield > Math.round(actor.power * 1.8) &&
-                breachTarget.hp <= Math.round(actor.power * 1.5)) {
-              attack = breach;
-              rankAttackTargets(targets, attack);
-            }
-            // Breach removes the visible shield before dealing damage.
-            if (breach && targets[0].shield > 0 && ROUTINES[attack].action === 'heavy' &&
-                Math.round(actor.power * 1.5) >= Math.max(0, Math.round(actor.power * 1.8) - targets[0].shield)) {
-              attack = breach;
-              rankAttackTargets(targets, attack);
-            }
-            // Against several foes, spread damage with Sweep after the kill
-            // and healing priorities above have been considered.
-            const sweep = actor.routines.find(id => ROUTINES[id]?.action === 'sweep');
-            if (sweep && foes.length >= 3 && ROUTINES[attack].action === 'strike') routineId = sweep;
-            else { routineId = attack; targetId = targets[0].id; }
-          }
-        }
-      }
+      // Otherwise the fighter's own routine list decides, the same as pressing Auto.
     }
     state = chooseAtb(state, actorId, routineId, targetId);
   }
