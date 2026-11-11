@@ -1463,11 +1463,11 @@ review = {'findings': [finding('fixed'), finding('new'), finding('open'), findin
           'finding_state': {**state, 'introduced': ['new'], 'still_open': ['open'], 'resolved': ['fixed'], 'dismissed': ['dismissed']},
           'meta': {'coverage': {'complete': True}}}
 with patch.object(pr_team, 'sh'), patch('pr_team.subprocess.run', return_value=SimpleNamespace(stdout=json.dumps(review), stderr='', returncode=0)):
-    assert [f['id'] for f in pr_team.local_review('.', 'head', {})] == ['new', 'open']
+    assert [f['id'] for f in pr_team.local_review('.', 'head', {})] == ['fixed', 'new', 'open', 'dismissed']
 old_review = {'findings': [], 'finding_state': {**state, 'introduced': [finding('old')], 'resolved': [finding('fixed')]},
               'meta': {'coverage': {'complete': True}}}
 with patch.object(pr_team, 'sh'), patch('pr_team.subprocess.run', return_value=SimpleNamespace(stdout=json.dumps(old_review), stderr='', returncode=0)):
-    assert [f['id'] for f in pr_team.local_review('.', 'head', {})] == ['old']
+    assert [f['id'] for f in pr_team.local_review('.', 'head', {})] == ['old', 'fixed']
 invalid_reviews = [
     {**review, 'meta': {'coverage': {'complete': False}}},
     {**review, 'meta': {'coverage': {}}},
