@@ -6,6 +6,7 @@ Stage output lands in runs/<id>/. Nothing here commits, pushes, deploys, or open
 """
 import hashlib, json, os, re, shutil, subprocess, sys, tempfile
 from pathlib import Path
+from codex_failure import stop_on_codex_failure
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -148,6 +149,7 @@ def agent(name, output, inputs, check, search=False, optional_pair=(), rests_on=
                 cmd.insert(1, '--search')  # a global codex flag, so it goes before exec
             print(f'[{name}] attempt {attempt + 1}: {Path(output).name}', flush=True)
             r = subprocess.run([*cmd, prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=clean_env(), timeout=1800)
+            stop_on_codex_failure(getattr(r, 'returncode', 0), r.stdout + r.stderr)
             made = Path(work) / Path(output).name
             if made.exists():
                 mark(output, False)  # before the copy: a run killed between copy and check redoes this stage

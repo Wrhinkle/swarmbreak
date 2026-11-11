@@ -24,7 +24,7 @@ sys.path = [p for p in sys.path if p and p.rstrip('/') not in (_factory, _root)]
 sys.pycache_prefix = '/dev/null'  # neither this process nor its children may trust checkout bytecode
 import os
 sys.path = [p for p in sys.path if os.path.realpath(p) not in (os.path.realpath(_factory), os.path.realpath(_root))]
-import fcntl, hashlib, json, re, subprocess, time
+import fcntl, hashlib, json, re, subprocess, tempfile, time
 from datetime import datetime, timezone
 from types import SimpleNamespace
 from pathlib import Path
@@ -72,7 +72,7 @@ RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'r
 STATE = ROOT / 'factory' / 'log' / ('.runner.json' if RUN_LANE else '.foreman.json')
 STUCK, PRIORITY, LESSON = 'stuck', 'priority', 'lesson'
 RUN_TITLE = re.compile(r'Run (\d{4}-\d{2}-\d{2})')
-QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests', re.I)
+QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests|Codex sign-out', re.I)
 
 
 def gh(*args):
@@ -280,6 +280,19 @@ def learn(kind, number, out):
     return int(url.rsplit('/', 1)[1])
 
 
+def save_state(st):
+    """Replace the lane state only after its complete JSON has been written."""
+    name = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', dir=STATE.parent, delete=False) as f:
+            name = f.name
+            f.write(json.dumps(st, indent=1))
+        os.replace(name, STATE)
+    finally:
+        if name and os.path.exists(name):
+            os.unlink(name)
+
+
 def main():
     dry = '--dry-run' in sys.argv
     lock = open(ROOT / 'factory' / 'log' / ('.runner.lock' if RUN_LANE else '.foreman.lock'), 'a+')
@@ -292,6 +305,7 @@ def main():
     st = {'waiting': {}, 'cooldown_until': 0, **(json.loads(STATE.read_text()) if STATE.exists() else {})}
     if time.time() < st['cooldown_until']:
         return
+    st.pop('codex_pause', None)  # a later, unrelated cooldown must not inherit this cause
     prs = [] if RUN_LANE else gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
     issues = open_issues()
     # Only branches holding commits main lacks are saved work; finished or never-used issue branches are not.
@@ -339,7 +353,7 @@ def main():
         else:
             # Without a reliable head, avoid immediately repeating the job.
             st['cooldown_until'] = time.time() + 600
-        STATE.write_text(json.dumps(st, indent=1))
+        save_state(st)
         return
     try:
         if not r.returncode and kind in ('run', 'comms'):
@@ -348,7 +362,7 @@ def main():
     except SystemExit as e:  # a GitHub write failed; pause instead of rerunning the same job every start
         print(f'[foreman] {e}', flush=True)
         st['cooldown_until'] = time.time() + 600
-    STATE.write_text(json.dumps(st, indent=1))
+    save_state(st)
     record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'lesson': st['waiting'].get(key), 'tail': out[-600:]})
 
 
@@ -364,6 +378,7 @@ def evaluated(key, log):
 def settle(st, r, out, kind, number, key, coach, prs, log=()):
     if r.returncode and QUOTA.search(out):
         st['cooldown_until'] = time.time() + 1800  # the subscription is resting; nothing will run until it's back
+        st['codex_pause'] = bool(re.search(r'Codex (?:usage limit|sign-out)', out, re.I))
     elif r.returncode and not getattr(r, 'moved', False):
         # A failed pass is evaluated once instead of spending tokens on retries. Only a run says it moved: a stage finished.
         # A builder pass that opened no PR didn't, whatever it saved: issue 37 saved a hundred passes and shipped none.
