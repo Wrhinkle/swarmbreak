@@ -305,11 +305,18 @@ def wait_for_review(url, sha):
     deadline = time.time() + QODO_WAIT
     path, request = rerequest_state(url, sha)
     while time.time() < deadline:
-        s = findings(url).get('review_session') or {}
+        data = findings(url)
+        s = data.get('review_session') or {}
         if reviewed(s, sha):
             return
         if request is False:
             sys.exit(f'Qodo request state for {sha[:7]} is unreadable or invalid at {path}; inspect it before retrying.')
+        # A rerun that ended incomplete, or never came, won't finish. Fixing the findings Qodo did store makes a new
+        # commit, and that gets a fresh review. reviewed() still gates the merge, so an incomplete review never merges.
+        if stalled(s, sha) and request and (request['started'] or time.time() - request['requested_at'] >= REREQUEST_START_WAIT) \
+                and any(is_open(f) for f in data.get('findings', [])):
+            print(f'Qodo\'s review of {sha[:7]} stays incomplete after a /review request. Fixing its stored findings; the new commit needs a complete review to merge.', flush=True)
+            return
         if stalled(s, sha):
             if request is None:
                 sh('gh', 'pr', 'comment', url, '--body', '/review')

@@ -1757,6 +1757,17 @@ with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', retu
         assert 'did not start' in tick()
         assert 'did not start' in tick()
         assert run.call_count == count
+
+        # Open stored findings on that dead end go to the fixer instead, and still don't count as reviewed.
+        session['findings'] = [{'id': '1', 'attribution_status': 'pending'}]
+        with patch.object(pr_team, 'findings', side_effect=lambda url: {'review_session': session, 'findings': session['findings']}):
+            assert tick() == 'reviewed' and run.call_count == count  # returns, no new /review
+            assert not pr_team.reviewed(session, a)
+            now[0] -= 101  # before the start wait runs out, it still waits for the rerun
+            assert tick() == pr_team.WAITING
+            session['findings'] = [{'id': '1', 'attribution_status': 'dismissed'}]
+            now[0] += 101
+            assert 'did not start' in tick()  # nothing open to fix: same dead end as before
 # Interrupted and malformed state must not cause a duplicate request; a complete review still clears the gate.
 with tempfile.TemporaryDirectory() as d, patch.object(pr_team.Path, 'home', return_value=Path(d)), \
         patch.object(pr_team, 'QODO_WAIT', 1), patch.object(pr_team, 'sh') as comment:
