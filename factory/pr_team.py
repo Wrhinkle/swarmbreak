@@ -31,6 +31,35 @@ def sh(*cmd, cwd=ROOT, check=True, timeout=None):
     return r
 
 
+def remove_worktree(tree, root=None, runner=None):
+    """Keep and report anything Git cannot safely remove, including untracked work."""
+    root, runner = root or ROOT, runner or sh
+    if not tree.exists():
+        return
+    result = runner('git', 'worktree', 'remove', tree, cwd=root, check=False)
+    if result.returncode:
+        print(f'Kept worktree {tree}: {(result.stderr or result.stdout).strip()}', flush=True)
+    else:
+        print(f'Removed worktree {tree}.', flush=True)
+
+
+def cleanup_pr(number, head):
+    remove_worktree(ROOT.parent / f'swarmbreak-pr-{number}')
+    # Only factory issue branches identify their issue unambiguously. Hold its lock so an active builder is never removed.
+    match = re.fullmatch(r'fix/issue-(\d+)', head)
+    if match:
+        issue = match.group(1)
+        try:
+            lock = hold(f'issue-{issue}')
+        except SystemExit:
+            print(f'Kept issue {issue} worktree: builder is active.', flush=True)
+        else:
+            try:
+                remove_worktree(ROOT.parent / f'swarmbreak-issue-{issue}')
+            finally:
+                lock.close()
+
+
 def hold(name):
     """One worker per issue or PR at a time, across manager passes and the foreman. Exits if another holds it."""
     f = open(ROOT.parent / f'.swarmbreak-{name}.lock', 'a+')
@@ -360,7 +389,10 @@ def main():
     number, merge = sys.argv[1], '--merge' in sys.argv
     pr = json.loads(sh('gh', 'pr', 'view', number, '--repo', REPO, '--json', 'url,headRefName,baseRefName,state,headRefOid').stdout)
     if pr['state'] != 'OPEN':
-        sys.exit(f'PR {number} is {pr["state"]}.')
+        _lock = hold(f'pr-{number}')
+        cleanup_pr(number, pr['headRefName'])
+        print(f'PR {number} is {pr["state"]}.')
+        return
     url, head, base = pr['url'], pr['headRefName'], pr['baseRefName']
     _lock = hold(f'pr-{number}')  # noqa: F841 - held until exit
     tree = ROOT.parent / f'swarmbreak-pr-{number}'
@@ -521,6 +553,7 @@ def main():
     # overwrites the folder, and a merged PR is never checked again, so the folder stays what this comment says it is.
     sh('gh', 'pr', 'comment', number, '--repo', REPO, '--body', f'Host screen check passed at {sha[:7]} with {base} merged in. Screenshots on the factory host: {shots_dir(tree)}', check=False)
     print(f'Merged PR {number} at {sha[:7]}.')
+    cleanup_pr(number, head)
 
 
 if __name__ == '__main__':
