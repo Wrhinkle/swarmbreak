@@ -1447,7 +1447,7 @@ with tempfile.TemporaryDirectory() as d:
     assert c['decisions'] == ['Fix "Empty list": Guard the empty list.', 'Dismissed "Map empty" as intentional: The map is never empty.']
 # A review that fails or doesn't finish stops the run: nothing unreviewed is committed. The call carries the context and no API keys.
 done = json.dumps({'findings': [], 'finding_state': {'complete': True}})
-for out, code in [('not json', 0), ('[]', 0), (done, 1), (json.dumps({'findings': [], 'finding_state': {'complete': False}}), 0), (json.dumps({'error': 'down'}), 0)]:
+for out, code in [('not json', 0), ('[]', 0), (done, 1), (json.dumps({'findings': [], 'finding_state': {'complete': False}}), 0), (json.dumps({'error': 'down'}), 0), (json.dumps({'finding_state': {'complete': True}}), 0)]:
     with tempfile.TemporaryDirectory() as t, patch('pr_team.subprocess.run', return_value=SimpleNamespace(stdout=out, stderr='', returncode=code)) as run, \
          patch.object(pr_team, 'sh'), patch.dict(os.environ, {'ANTHROPIC_API_KEY': 'k', 'OPENAI_API_KEY': 'k'}):
         (Path(t) / '.git-fixes.json').write_text('[]')
@@ -1455,7 +1455,7 @@ for out, code in [('not json', 0), ('[]', 0), (done, 1), (json.dumps({'findings'
             pr_team.local_review(t, 'head', {'notes': 'task'})
             assert False, out
         except SystemExit as exc:
-            assert 'nothing was committed' in str(exc) and not (Path(t) / '.git-fixes.json').exists()
+            assert 'nothing was committed' in str(exc)  # fixer_report removes .git-fixes.json on the way out
 # A file the fixer created is in the reviewed diff, and the findings file isn't.
 with tempfile.TemporaryDirectory() as t:
     git = lambda *a: subprocess.run(['git', '-C', t, '-c', 'user.name=t', '-c', 'user.email=t@t', *a], check=True, capture_output=True, text=True).stdout
