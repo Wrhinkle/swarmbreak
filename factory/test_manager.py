@@ -37,6 +37,134 @@ for gone in ('merge_pr', 'open_run', 'factory_run', 'build_fix', 'deploy', 'run_
 assert 'not an open issue from the owner' in act({'type': 'priority', 'issue': 9}, s, True)
 assert 'Bad comms' in act({'type': 'comms', 'discussion': '4', 'task': 'x'}, s, True)
 assert 'Not delegating' in act({'type': 'delegate', 'task': 'x'}, {**s, 'strangers': True}, True)
+# It can close what it replaced: the owner's issue or PR, with a reason, and never a run, lesson or escalation.
+mine = lambda n, *l, title='t': {'number': n, 'title': title, 'author': {'login': 'Wrhinkle'}, 'labels': [{'name': x} for x in l]}
+board = {'issues': [*s['issues'], mine(2), mine(3, 'lesson'), mine(4, 'run'), mine(5, 'needs-william')], 'prs': [mine(7), mine(8, title='Open run 2026-11-10'), mine(12, 'run'), mine(13, 'lesson'), mine(14, 'needs-william')]}
+board['issues'] += [{**mine(15), 'body': 'Build the thing.\n\ndiscussion #9'}, {**mine(16, title='Feedback tracker for discussion #9'), 'parts_merged': 2}]  # each holds our entry on that thread, merged parts or not: only a builder pass can tell it's finished, and nothing else names the thread
+with patch('manager.gh', return_value=[]):
+    assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, True) == 'Would close.'
+assert act({'type': 'close', 'pr': 7, 'reason': 'replaced'}, board, True) == 'Would close.'
+with patch('manager.gh', return_value=[]):  # the close reads the open issues; no test calls GitHub
+    for bad in ({'issue': 2}, {'issue': 2, 'reason': ' '}, {'issue': 9, 'reason': 'r'}, {'issue': 3, 'reason': 'r'}, {'issue': 4, 'reason': 'r'},
+                {'issue': 5, 'reason': 'r'}, {'issue': 7, 'reason': 'r'}, {'pr': 2, 'reason': 'r'}, {'pr': 8, 'reason': 'r'}, {'pr': 12, 'reason': 'r'}, {'pr': 13, 'reason': 'r'}, {'pr': 14, 'reason': 'r'}, {'issue': 15, 'reason': 'r'}, {'issue': 16, 'reason': 'r'},
+                *({'issue': 2, 'reason': r} for r in ('token ghp_' + 'a' * 24, 'ask me@example.com', 'see @someone', 'see https://example.com/x'))):
+        assert act({'type': 'close', **bad}, board, True).startswith('Not closing'), bad
+assert act({'type': 'close', 'issue': 2, 'reason': 'r'}, {**board, 'strangers': True}, True).startswith('Not closing')
+with patch('manager.gh', return_value=[]) as listed:  # a PR's labels reach the manager, or the label check above sees nothing
+    __import__('manager').open_prs()
+    assert 'labels' in listed.call_args.args[-1].split(',')
+with patch('manager.gh', return_value=[]), patch('manager.sh') as closed:
+    closed.return_value.stdout = ''
+    assert act({'type': 'close', 'issue': 2, 'reason': 'split'}, board, False) == 'Closed.'
+    assert closed.call_args.args[:4] == ('gh', 'issue', 'close', '2') and closed.call_args.args[-1] == 'Closed by the factory manager: split'
+# Saved work isn't stranded: an issue whose branch holds unmerged work closes only once it's stuck. A PR holds no entry, so its title can name a thread.
+with patch('manager.gh', return_value=[]):
+    kept = {'issues': [{**mine(17), 'saved': True}, {**mine(18, 'stuck'), 'saved': True}], 'prs': [mine(19, title='Fix issue 149: tracker for discussion #9')]}
+    assert act({'type': 'close', 'issue': 17, 'reason': 'r'}, kept, True).startswith('Not closing')
+    assert act({'type': 'close', 'issue': 18, 'reason': 'r'}, kept, True) == 'Would close.'
+    assert act({'type': 'close', 'pr': 19, 'reason': 'r'}, kept, True) == 'Would close.'
+# Challenge work closes only when the hold on our entry moves: another job a worker can take names the same thread. Stuck work
+# would otherwise hold the entry for good. A stuck job, a lesson or the entry job itself is no replacement.
+held = {'issues': [mine(23, 'stuck', title='Tracker for discussion #9 and discussion #12')]}
+for others, closes in (([mine(24, title='Smaller tracker for discussion #9'), {**mine(25), 'body': 'Rest of it.\n\ndiscussion #12'}], True), ([mine(24, title='Smaller tracker for discussion #9')], False),
+                       ([mine(24, 'stuck', title='discussion #9 and discussion #12')], False), ([mine(24, title='discussion #9abc and discussion #12')], False), ([mine(24, 'lesson', title='discussion #9 and discussion #12')], False),
+                       ([mine(24, 'comms', title='Post our entry on discussion #9'), mine(25, 'comms', title='Post our entry on discussion #12')], False),
+                       ([mine(23, 'stuck', title='Tracker for discussion #9 and discussion #12')], False), ([{**mine(24, title='discussion #9 and discussion #12'), 'author': {'login': 'stranger'}}], False)):
+    with patch('manager.gh', return_value=others):
+        assert (act({'type': 'close', 'issue': 23, 'reason': 'r'}, held, True) == 'Would close.') == closes, others
+# Splitting a job cannot release its open dependent before the replacements finish.
+from foreman import next_job
+split = [mine(2), mine(10), mine(11), {**mine(20), 'body': 'Depends on #2'}]
+with patch('manager.gh', return_value=split), patch('manager.sh') as close:
+    assert act({'type': 'close', 'issue': 2, 'reason': 'split into #10 and #11'}, board, False).startswith('Not closing')
+    close.assert_not_called()
+    held = {'issue-2', 'issue-10', 'issue-11'}
+    assert next_job([], [{**i, 'body': i.get('body', '')} for i in split], set(), held, lambda n, sha: False) is None
+with patch('manager.gh', return_value=[split[0], split[3]]), patch('manager.sh') as close:
+    assert act({'type': 'close', 'issue': 2, 'reason': 'replacements finished'}, board, False).startswith('Not closing')
+    close.assert_not_called()
+with patch('manager.gh', return_value=[split[0]]), patch('manager.sh') as close:
+    close.return_value.stdout = ''
+    assert act({'type': 'close', 'issue': 2, 'reason': 'replacements finished'}, board, False) == 'Closed.'
+    close.assert_called_once()
+
+# The manager sees what each issue has cost: passes, the ones that finished, and merged parts.
+import json
+from manager import effort
+spent = lambda job, exit_: json.dumps({'kind': 'foreman', 'job': job, 'exit': exit_})
+assert effort([spent('issue-37', 1)] * 3 + [spent('issue-37', 0), spent('pr-37@abc', 1), spent('issue-5', 0), json.dumps({'kind': 'manager'})],
+              ['Part of issue 37: fights', 'Part of issue 37: more', 'Fix issue 5: x', 'Merge: Part of issue 9: y', 'Part of issue 8: z']) == {
+    37: {'passes': 4, 'finished': 1, 'parts_merged': 2}, 5: {'passes': 1, 'finished': 1, 'parts_merged': 0}, 8: {'passes': 0, 'finished': 0, 'parts_merged': 1}}
+assert effort([spent('issue-5', 0), spent('issue-37', 1)], [], {5}) == {37: {'passes': 1, 'finished': 0, 'parts_merged': 0}}  # issue 5 is an entry, not a builder job
+print('ok manager closes and sees effort')
+# The critic captures an isolated origin/main export, not the active checkout.
+import manager, subprocess, tempfile
+from pathlib import Path
+with tempfile.TemporaryDirectory() as d:
+    shots = Path(d) / 'shots'
+    png = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR' + (1).to_bytes(4, 'big') * 2 + b'\x00\x00\x00\x00IEND\xaeB`\x82'
+    def prepare(tree):
+        assert tree != manager.ROOT
+        (tree / 'main-marker').write_text('origin/main')
+    def take(tree):
+        assert (tree / 'main-marker').read_text() == 'origin/main'
+        assert not shots.exists(), 'an older build\'s pictures were left for the critic'
+        shots.mkdir()
+        (shots / 'fight-390.png').write_bytes(png)
+        return 'Screen check failed'
+    def look(role, work, prompt, **kwargs):
+        assert role == 'critic' and 'fight-390.png' in prompt
+        Path(work, 'critique.json').write_text(json.dumps({'defects': [{'screen': 'fight-390.png', 'player_sees': 'x' * 900, 'should_be': 'y', 'extra': 'z'}] * 5 + [{'screen': 'unseen.png'}]}))
+    shots.mkdir(); (shots / 'old.png').write_text('old')
+    with patch('manager.prepare_main', side_effect=prepare), patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=take), patch('manager.bot', side_effect=look):
+        got = manager.critique()
+    assert got['host_check'] == 'Screen check failed' and len(got['defects']) == 3, got
+    assert got['defects'][0] == {'screen': 'fight-390.png', 'player_sees': 'x' * 500, 'should_be': 'y', 'done_when': ''}, got
+    with patch('manager.prepare_main', side_effect=OSError('no main')), patch('manager.screens') as capture:
+        assert 'no main' in manager.critique()['error']
+        capture.assert_not_called()
+    with patch('manager.prepare_main', side_effect=prepare), patch('manager.shots_dir', return_value=shots), patch('manager.screens', return_value='build failed'), patch('manager.bot') as critic:
+        got = manager.critique()
+        assert got['host_check'] == 'build failed' and got['error'] and not got.get('defects')
+        critic.assert_not_called()
+    def empty(tree):
+        shots.mkdir()
+        return 'driver failed before capture'
+    with patch('manager.prepare_main', side_effect=prepare), patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=empty), patch('manager.bot') as critic:
+        got = manager.critique()
+        assert got['host_check'] == 'driver failed before capture' and 'no usable screenshots' in got['error'] and not got.get('defects')
+        critic.assert_not_called()
+    with patch('manager.prepare_main', side_effect=prepare), patch('manager.shots_dir', return_value=shots), patch('manager.screens', side_effect=take), patch('manager.bot'):
+        assert manager.critique()['error'].startswith('FileNotFoundError')
+# Exercise the export against a real feature branch and a missing origin/main.
+with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as target:
+    repo = Path(d)
+    def git(*args):
+        return subprocess.run(['git', *args], cwd=repo, check=True, capture_output=True, text=True)
+    git('init', '-q')
+    git('config', 'user.name', 'Test')
+    git('config', 'user.email', 'test@example.invalid')
+    (repo / 'game.txt').write_text('main')
+    (repo / 'node_modules').mkdir()
+    (repo / 'node_modules' / 'dependency').write_text('installed')
+    git('add', 'game.txt')
+    git('commit', '-qm', 'main')
+    git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    git('checkout', '-qb', 'feature')
+    (repo / 'game.txt').write_text('feature')
+    git('commit', '-qam', 'feature')
+    with patch('manager.ROOT', repo):
+        manager.prepare_main(Path(target))
+        assert (Path(target) / 'game.txt').read_text() == 'main'
+        assert (repo / 'game.txt').read_text() == 'feature'
+        assert git('branch', '--show-current').stdout.strip() == 'feature'
+        git('update-ref', '-d', 'refs/remotes/origin/main')
+        try:
+            manager.prepare_main(Path(target))
+            raise AssertionError('missing origin/main must fail')
+        except subprocess.CalledProcessError:
+            pass
+print('ok critic')
 owner = {'login': 'Wrhinkle'}
 with patch('manager.gh', return_value=[{'title': 'Already here', 'author': owner}, {'title': 'Squatted', 'author': {'login': 'stranger'}},
                                        {'title': 'L' * 80, 'author': owner}]), patch('manager.thread', return_value={'ours': ['x'], 'waiting': ['r']}):
@@ -199,18 +327,22 @@ with tempfile.TemporaryDirectory() as d:
     moved = changed_paths('main', 'moved', cwd=d)
     assert 'notes with space.md' in moved and touches_gates([{'path': p} for p in moved]) == ['AGENTS.md'], moved
 
-# Progress comes from this Mac's checkpoint commits only, oldest first, plus the diff.
+# Progress comes from this Mac's own commits for the issue only: its checkpoints and its merged parts, the newest ten,
+# oldest first, plus the diff. Another issue's commits and a merge commit quoting the PR title aren't a pass's notes.
 from builder import notes, CHECKPOINT
 with tempfile.TemporaryDirectory() as d:
     git = ('git', '-c', 'user.name=t', '-c', 'user.email=t@example.com')
     sh('git', 'init', '-q', '-b', 'main', d, cwd=d)
     Path(d, 'a.txt').write_text('a'); sh(*git, 'add', '.', cwd=d); sh(*git, 'commit', '-qm', 'base', cwd=d)
     sh('git', 'update-ref', 'refs/remotes/origin/main', 'HEAD', cwd=d)
-    for n in range(1, 7):
-        Path(d, 'a.txt').write_text(str(n)); sh(*git, 'commit', '-qam', f'{CHECKPOINT} on #9\n\nDone: step {n}\n\nStill to do: task {n}', cwd=d)
-    Path(d, 'a.txt').write_text('x'); sh(*git, 'commit', '-qam', 'merge main', cwd=d)
-    got = notes(d)
-    assert len(got) == 7 and all(f'Done: step {n}\n\nStill to do: task {n}' in got[n - 1] for n in range(1, 7)) and 'a.txt' in got[6], got
+    said = [f'{CHECKPOINT} on #9 (unfinished)\n\nDone: step {n}\n\nStill to do: task {n}' for n in range(1, 7)]
+    said += ['Part of issue 9: t\n\nDone: step 7\n\nStill to do: task 7']
+    for n, message in enumerate([f'{CHECKPOINT} on #9 (unfinished)\n\nDone: step 0', *said[:6], f'{CHECKPOINT} on #91 (unfinished)', 'Part of issue 91: t',
+                                 'Merge pull request #5 from x/fix/issue-9\n\nPart of issue 9: t', *[f'{CHECKPOINT} on #9 (unfinished)\n\nDone: later {n}' for n in range(3)], said[6]]):
+        Path(d, 'a.txt').write_text(str(n)); sh(*git, 'commit', '-qam', message, cwd=d)
+    got = notes(d, 9)
+    assert len(got) == 11 and [g.split('Done: ')[1][:6] for g in got[:10]] == ['step 1', 'step 2', 'step 3', 'step 4', 'step 5', 'step 6', 'later ', 'later ', 'later ', 'step 7'], got
+    assert got[9] == said[6] and 'a.txt' in got[10], got
 print('ok progress notes')
 
 # Earlier themes reach the researcher, and a run never sees its own or a later one.
@@ -385,6 +517,12 @@ with patch('manager.open_prs', return_value=[]), patch('manager.gh', return_valu
     assert manager.state()['live']['runId'] == '2026-11-06'
     state_clock.now.return_value = n
     assert manager.state()['live']['next']['runId'] == '2026-11-06'
+with patch('manager.open_prs', return_value=[]), patch('manager.graphql', return_value={'repository': {'discussions': {'nodes': []}}}), \
+     patch('manager.live_manifest', return_value=r), patch('manager.sh') as state_sh, \
+     patch('manager.gh', return_value=[{'number': n_, 'author': {'login': 'Wrhinkle'}, 'labels': []} for n_ in (3, 37)]) as listed:
+    state_sh.return_value.stdout = 'fix/issue-37\nfix/issue-371\n'  # unmerged work on a branch shows on its issue, so the manager won't strand it
+    assert [i.get('saved') for i in manager.state()['issues']] == [None, True]
+    assert '--limit' in listed.call_args.args  # past gh's default page of 30, an old finished job would be out of the manager's reach
 calls = []
 manager.sh = lambda *a, **k: type('R', (), {'stdout': 'abc123' if a[1] == 'rev-parse' else json.dumps(m5) if a[1] == 'show' else '', 'returncode': 0})()
 manager.live_manifest = lambda: m4
@@ -574,9 +712,10 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert scheduled(x)[0] == ['release -> ' + x]
 
 # Full scheduled passes read the same lock.
-with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release, patch('manager.release_check') as check, patch('manager.state', return_value={'issues': []}), patch('manager.open_prs', return_value=[]), patch('manager.required_jobs', return_value=[]), patch('manager.act', return_value='Filed.') as action:
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.critique', return_value='seen'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release, patch('manager.release_check') as check, patch('manager.state', return_value={'issues': []}), patch('manager.open_prs', return_value=[]), patch('manager.required_jobs', return_value=[]), patch('manager.act', return_value='Filed.') as action:
     seen = []
     def decide(role, work, prompt, **kwargs):
+        assert json.loads(Path(work, 'state.json').read_text()).get('critique', 'seen') == 'seen'  # a first pass carries the critic's view, a follow-up none
         seen.append(json.loads(Path(work, 'state.json').read_text())['failed_last_pass'])
         Path(work, 'decisions.json').write_text(json.dumps({'actions': [{'type': 'delegate', 'task': 'x'}]}))
     def full(result, extra=()):
@@ -599,7 +738,7 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert full(x, ['--follow-up', '1', '--release-blocker', '']) == ['release -> ' + x]
     assert seen[-1] == []
 
-# The foreman works PRs first, then saved work, then priority, then oldest; it skips stuck, blocked-on-deps and building issues.
+# The foreman works PRs first, then priority, then saved work, then oldest; it skips stuck, blocked-on-deps and building issues.
 from foreman import next_job, deps
 assert deps('x\nDepends on #51, #52\n') == {51, 52}
 me = {'login': 'Wrhinkle'}
@@ -607,7 +746,8 @@ issue = lambda n, *l, body='': {'number': n, 'author': me, 'body': body, 'labels
 never = lambda n, sha: False
 issues = [issue(14), issue(52, body='Depends on #51'), issue(51), issue(53, 'priority'), issue(60, 'stuck'), issue(61)]
 assert next_job([], issues, set(), set(), never) == ('issue', 53, 'issue-53')
-assert next_job([], issues, {61}, set(), never) == ('issue', 61, 'issue-61')
+assert next_job([], issues, {61}, set(), never) == ('issue', 53, 'issue-53')  # the manager's order beats saved work
+assert next_job([], issues, {61}, {'issue-53'}, never) == ('issue', 61, 'issue-61')
 building = [{'number': 55, 'author': me, 'headRefName': 'fix/issue-53', 'headRefOid': 'abcdef1', 'labels': []}]
 assert next_job(building, issues, set(), set(), never) == ('pr', 55, 'pr-55@abcdef1')
 assert next_job(building, issues, set(), set(), lambda n, sha: True) == ('issue', 14, 'issue-14')
@@ -823,20 +963,29 @@ with tempfile.TemporaryDirectory() as d:
         assert 'Conflict marker scan failed' in str(e)
 print('ok conflict scan')
 
-# Only exact issue branch names count; branch creation at main is not progress.
+# Only exact issue branch names count. A failed pass is evaluated once, whatever it saved: a lesson, and the job waits.
+# A job that fails again after that lesson closed goes to the manager as stuck instead of to another lesson.
 import foreman
 from types import SimpleNamespace
 assert foreman.saved_issues(['fix/issue-42', 'fix/issue-42-backup', 'fix/issue-x', 'fix/issue-7']) == {42, 7}
-for prior, after, progress in [('', 'main', False), ('', 'checkpoint', True),
-                               ('old', 'old', False), ('old', 'checkpoint', True)]:
-    with patch('foreman.tip', side_effect=lambda ref: prior if ref == 'branch' else 'main'):
-        baseline = foreman.starting_tip('branch')
+ran = lambda at, exit_, lesson=None, job='issue-42': json.dumps({'at': at, 'kind': 'foreman', 'job': job, 'exit': exit_, 'lesson': lesson})
+for log, stuck in [([], False), ([ran(1, 1)], False),                      # a pause for quota filed no lesson: not an evaluation
+                   ([ran(2, 1), ran(1, 1, 99)], True),                     # read by time, not by line
+                   ([ran(1, 1, 99), ran(2, 0)], False),                    # it has finished a pass since
+                   ([ran(1, 1, 99, 'issue-4'), ran(1, 1, 99, 'pr-42@abc')], False)]:
     state = {'waiting': {}, 'cooldown_until': 0}
-    with patch('foreman.sh'), patch('foreman.tip', return_value=after), patch('foreman.learn', return_value=99) as learn:
-        foreman.settle(state, SimpleNamespace(returncode=1), 'failed', 'issue', 42, 'issue-42', 'branch', baseline, [], [])
-        assert learn.called != progress
-        assert bool(state['waiting']) != progress
-print('ok foreman progress')
+    with patch('foreman.sh') as edit, patch('foreman.learn', return_value=99) as learn:
+        foreman.settle(state, SimpleNamespace(returncode=1), 'failed', 'issue', 42, 'issue-42', False, [], log)
+    assert learn.called != stuck and state['waiting'] == ({} if stuck else {'issue-42': 99}), log
+    assert [c.args[1:6] for c in edit.call_args_list] == ([('issue', 'edit', '42', '--repo', foreman.REPO), ('issue', 'comment', '42', '--repo', foreman.REPO)] if stuck else []), log
+# A run is the one job that can fail having moved on, a stage at a time, and it never becomes stuck this way.
+state = {'waiting': {}, 'cooldown_until': 0}
+with patch('foreman.sh') as edit, patch('foreman.learn', return_value=99) as learn:
+    foreman.settle(state, SimpleNamespace(returncode=1, moved=True), 'failed', 'run', 42, 'issue-42', False, [], [ran(1, 1, 99)])
+    assert not learn.called and not edit.called and not state['waiting']
+    foreman.settle(state, SimpleNamespace(returncode=1, moved=False), 'failed', 'run', 42, 'issue-42', False, [], [ran(1, 1, 99)])
+    assert learn.called and not edit.called and state['waiting'] == {'issue-42': 99}
+print('ok foreman evaluates once')
 
 # The foreman refuses both ignored and ordinary untracked inputs, before importing them.
 with tempfile.TemporaryDirectory() as d:
@@ -1155,7 +1304,7 @@ with tempfile.TemporaryDirectory() as d:
     assert time.monotonic() - start < 3 and not stalled[0]['ok']
 print('ok builder lookup failures and timeout')
 
-# A partial pass's lookup and references reach the next worker and the final PR.
+# An unfinished pass's lookup and references reach the next worker and the final PR.
 with tempfile.TemporaryDirectory() as d:
     root = Path(d) / 'repo'
     root.mkdir()
@@ -1181,7 +1330,7 @@ with tempfile.TemporaryDirectory() as d:
     def fake_bot(role, tree, prompt, **kwargs):
         contexts.append(json.loads((tree / '.issue.json').read_text()))
         (tree / 'file').write_text('changed\n')
-        result = {'outcome': 'partial' if len(contexts) == 1 else 'fixed', 'summary': 's', 'evidence': 'e',
+        result = {'outcome': 'blocked' if len(contexts) == 1 else 'fixed', 'summary': 's', 'evidence': 'e',
                   'investigated': [{'answer_index': 0, 'item': 'PR #55' if len(contexts) == 1 else 'PR #56'}, {'answer_index': 1, 'item': 'failed item'}]}
         (tree / builder.RESULT).write_text(json.dumps(result))
     def save_checkpoint(number, tree, branch, live, result, bad, reserves=frozenset()):
@@ -1197,7 +1346,7 @@ with tempfile.TemporaryDirectory() as d:
          patch.object(sys, 'argv', ['builder.py', '42']):
         try:
             builder.main()
-            assert False, 'partial work should stop'
+            assert False, 'unfinished work should stop'
         except SystemExit:
             pass
         metadata = root / '.git' / 'builder-investigation-42.json'
@@ -1211,6 +1360,81 @@ with tempfile.TemporaryDirectory() as d:
     assert 'unrelated' not in published[0] and 'failed item' not in published[0]
 assert 'Reported used' not in builder.investigated_section([], ['first reference'])
 print('ok builder investigation survives continuation')
+
+# A partial pass whose work passes the host's checks ships as one part: nothing in its PR or commit can close the issue,
+# both say what's left, and the next pass reads that from the commit. A pass that itself changed only notes ships nothing,
+# even on top of saved code, and the worker isn't asked again. Saved checkpoints don't block a part unless one would close the issue.
+checkpoint_of = lambda done: f'{builder.CHECKPOINT} on #42 (unfinished)\n\nDone: {done}'
+for writes, saved, ships in [({'file': 'one piece\n'}, None, True), ({'docs/plan.md': 'p', 'notes.md': 'n'}, None, False), ({}, None, False),
+                             ({'notes.md': 'n'}, checkpoint_of('half of #42'), False), ({'file': 'one piece\n'}, checkpoint_of('half of #42'), True),
+                             ({'file': 'one piece\n'}, checkpoint_of('this Fixes: Wrhinkle/swarmbreak#42'), False)]:
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d) / 'repo'
+        root.mkdir()
+        def git(*args, cwd=root, check=True):
+            return subprocess.run(['git', *map(str, args)], cwd=cwd, check=check, capture_output=True, text=True)
+        git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+        (root / 'file').write_text('base\n'); (root / 'other').write_text('base\n')
+        git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+        if saved:
+            git('checkout', '-q', '-b', 'fix/issue-42'); (root / 'other').write_text('saved code\n'); git('commit', '-qam', saved); git('checkout', '-q', '-')
+        published, asked = [], []
+        def fake_sh(*args, cwd=None, check=True):
+            if args[:3] == ('git', 'fetch', '-q') or args[0] == 'npm':
+                return SimpleNamespace(returncode=0, stdout='', stderr='')
+            if args[:2] == ('git', 'push') or args[:3] == ('gh', 'pr', 'create'):
+                published.append(args)
+                return SimpleNamespace(returncode=0, stdout='https://example.test/pr/1', stderr='')
+            if args[0] == 'git':
+                return git(*args[1:], cwd=cwd or root, check=check)
+            if args[:3] == ('gh', 'issue', 'view'):
+                return SimpleNamespace(stdout=json.dumps({'author': {'login': builder.OWNER}, 'state': 'OPEN', 'title': 't (closes #42)', 'body': 'b. Resolves #42 and #420.'}))
+            if args[:3] == ('gh', 'pr', 'list'):
+                return SimpleNamespace(stdout='0')
+            raise AssertionError(args)
+        def fake_bot(role, tree, prompt, **kwargs):
+            asked.append(prompt)
+            for name, text in writes.items():
+                (tree / name).parent.mkdir(exist_ok=True)
+                (tree / name).write_text(text)
+            (tree / builder.RESULT).write_text(json.dumps({'outcome': 'partial', 'summary': 'First piece. Fixes #42 in part.', 'remaining': 'the rest of #42',
+                                                           'evidence': 'Closes https://github.com/Wrhinkle/swarmbreak/issues/42 once done'}))
+        response = MagicMock()
+        response.__enter__.return_value.read.return_value = b'{"runId":"x"}'
+        with patch.object(builder, 'ROOT', root), patch.object(builder, 'investigate', return_value=[]), patch.object(builder, 'sh', side_effect=fake_sh), \
+             patch.object(builder, 'bot', side_effect=fake_bot), patch.object(builder, 'hold'), \
+             patch.object(builder.urllib.request, 'urlopen', return_value=response), patch.object(builder, 'checkpoint', return_value='') as kept, \
+             patch.object(builder, 'problems_in', side_effect=lambda tree, *_: ([], builder.changed_from_main(tree))), patch.object(sys, 'argv', ['builder.py', '42']):
+            try:
+                builder.main()
+            except SystemExit as e:
+                assert not ships and ('closes this issue' if 'file' in writes else 'changed no code') in str(e), e
+                assert kept.called and not published and len(asked) == 1
+                continue
+            assert ships and not kept.called, (writes, saved)
+            title, body = (published[1][published[1].index(flag) + 1] for flag in ('--title', '--body'))
+            assert title == 'Part of issue 42: t (closes issue 42)' and '## Still to do\nthe rest of issue 42' in body
+            assert body.startswith(f'Part of #42: https://github.com/{builder.REPO}/issues/42\n') and not builder.closes(body, 42) and 'Resolves issue 42 and #420' in body, body
+            tree = root.parent / 'swarmbreak-issue-42'
+            message = git('log', '-1', '--format=%B', cwd=tree).stdout
+            assert message.startswith('Part of issue 42: t (closes issue 42)\n\nFirst piece. Fixes issue 42 in part.\n\nStill to do: the rest of issue 42'), message
+            assert builder.notes(tree, '42')[-2] == message.strip()
+for form in ('#42', 'Wrhinkle/swarmbreak#42', 'https://github.com/Wrhinkle/swarmbreak/issues/42'):
+    for keyword in ('Fixes', 'CLOSED:', 'resolve'):
+        assert builder.closes(f'It {keyword} {form}.', 42) and not builder.closes(builder.unlinked(f'It {keyword} {form}.', 42), 42), (keyword, form)
+assert not builder.closes('Checkpoint on #42. Fixes #420, see #42', 42) and builder.unlinked('#420 #42', 42) == '#420 issue 42'
+# A checkpoint's own words are unlinked when it's written.
+with tempfile.TemporaryDirectory() as d:
+    def git(*args):
+        return subprocess.run(['git', '-C', d, *args], check=True, capture_output=True, text=True)
+    git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+    Path(d, 'f').write_text('a'); git('add', '-A'); git('commit', '-qm', 'base'); git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+    Path(d, 'f').write_text('b')
+    with patch.object(builder, 'sh', side_effect=lambda *a, cwd=None, check=True: SimpleNamespace(returncode=0, stdout='') if a[0] == 'gh' else subprocess.run(a, cwd=cwd, capture_output=True, text=True)):
+        assert builder.checkpoint('42', Path(d), 'fix/issue-42', set(), {'summary': 'Fixes #42', 'remaining': 'closes #42'}, ['resolves #42'])
+    said = git('log', '-1', '--format=%B').stdout
+    assert said.startswith(f'{builder.CHECKPOINT} on #42 (unfinished)\n\nDone: Fixes issue 42') and not builder.closes(said, 42), said
+print('ok builder ships a part')
 # Every 'Day N' thread without our post, and every missing run, gets a roster job.
 import manager
 nodes = [{'number': n, 'title': 'Discussion', 'createdAt': '2000-01-01T00:00:00Z'} for n in range(1, 9)]
@@ -1529,3 +1753,43 @@ with tempfile.TemporaryDirectory() as d:
         except SystemExit:
             pass
 print('ok fixer rounds persist across restarts')
+
+# A moving base requires fresh merge verification and a fresh gate review before merging.
+for conflict_after_move in (False, True):
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d) / 'repo'
+        root.mkdir()
+        tree = Path(d) / 'swarmbreak-pr-42'
+        (tree / 'node_modules').mkdir(parents=True)
+        calls, base_reads = [], []
+        def moving_sh(*args, cwd=None, check=True):
+            calls.append(args)
+            if args[:3] == ('gh', 'pr', 'view'):
+                return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
+            if args[:3] == ('git', 'status', '--porcelain'):
+                return SimpleNamespace(stdout='', returncode=0)
+            if args[:3] == ('git', 'rev-parse', 'origin/main'):
+                base_reads.append(1)
+                return SimpleNamespace(stdout='base1' if len(base_reads) == 1 else 'base2', returncode=0)
+            if args[:2] == ('git', 'ls-remote'):
+                return SimpleNamespace(stdout='base2 refs/heads/main', returncode=0)
+            return SimpleNamespace(stdout='sha', returncode=0)
+        with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=moving_sh), \
+             patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+             patch.object(pr_team, 'findings', return_value={'findings': [], 'review_session': {'commit_sha': 'sha', 'review_complete': True}}), \
+             patch.object(pr_team, 'merges_cleanly', side_effect=[True, not conflict_after_move]) as clean, \
+             patch.object(pr_team, 'verified', return_value='') as verify, patch.object(pr_team, 'changed_paths', return_value=['factory/pr_team.py']), \
+             patch.object(pr_team, 'gate_review', return_value=(True, 'ok')) as gate, \
+             patch.object(sys, 'argv', ['pr_team.py', '42', '--merge']), redirect_stdout(StringIO()):
+            if conflict_after_move:
+                try:
+                    pr_team.main()
+                    assert False, 'a new conflict must block the merge'
+                except SystemExit as exc:
+                    assert 'conflicts' in str(exc)
+            else:
+                pr_team.main()
+        assert clean.call_count == 2 and verify.call_count == (1 if conflict_after_move else 2)
+        assert gate.call_count == (1 if conflict_after_move else 2)
+        assert any(a[:3] == ('gh', 'pr', 'merge') for a in calls) != conflict_after_move
+print('ok moving base repeats merge verification and gate review')

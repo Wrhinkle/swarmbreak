@@ -49,7 +49,8 @@ await new Promise(ok => server.listen(0, '127.0.0.1', ok));
 const profile = mkdtempSync(join(tmpdir(), 'screens-'));
 const chrome = spawn(exe, ['--headless', '--remote-debugging-port=0', `--user-data-dir=${profile}`, `--proxy-server=http://127.0.0.1:${server.address().port}`,
   '--proxy-bypass-list=<-loopback>', '--force-webrtc-ip-handling-policy=disable_non_proxied_udp', '--no-first-run', '--disable-gpu', 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'] });
-const stop = () => { chrome.kill('SIGKILL'); rmSync(profile, { recursive: true, force: true }); };
+// Chrome can still be writing to the profile when it is removed, which fails the removal with ENOTEMPTY. Node retries that.
+const stop = () => { chrome.kill('SIGKILL'); rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }); };
 setTimeout(() => { console.error('timed out after 120 s'); stop(); process.exit(1); }, 120_000).unref(); // a page that hangs must not leave Chrome running
 let code = 0;
 try {

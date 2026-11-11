@@ -9,13 +9,13 @@ A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS ti
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
-import fcntl, json, os, re, subprocess, sys, tempfile, time, urllib.request
+import fcntl, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import GATES, REPO, WAITING, bot, gate_verdict, sh, touches_gates  # noqa: E402,F401
+from pr_team import GATES, REPO, WAITING, bot, gate_verdict, screens, sh, shots_dir, touches_gates  # noqa: E402,F401
 
 OWNER, CONTEST = 'Wrhinkle', ('qodo-hackathon', 'software-factory-hackathon')
 SITE, RAW = 'https://swarmbreak-game.web.app', f'https://raw.githubusercontent.com/{REPO}'
@@ -25,7 +25,7 @@ MAX_POST, MAX_REPLIES_PER_DAY = 6000, 3
 HUMAN = 'needs-william'
 RUN, COMMS, PRIORITY = 'run', 'comms', 'priority'
 FOLLOW_UPS = 2
-FAILED = re.compile(r'exited [1-9]|^Could not|^Bad |^Not (merging|building|opening|deploying)|not merging|refused|rejected|fail|missing', re.I | re.M)
+FAILED = re.compile(r'exited [1-9]|^Could not|^Bad |^Not (merging|building|opening|deploying|closing)|not merging|refused|rejected|fail|missing', re.I | re.M)
 LINKS = (f'https://github.com/{REPO}', RAW, SITE, f'https://github.com/{CONTEST[0]}', 'https://hackathon.qodo.ai')
 FOOTER = '\n\n<sub>Written by this factory\'s comms agent and posted from the owner\'s account. [How it works](https://github.com/%s/blob/main/AGENTS.md).</sub>' % REPO
 SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{12,}|AIza[\w-]{20,}|-----BEGIN', re.I)
@@ -139,7 +139,7 @@ def facts():
             f'Live run: {json.dumps(live_manifest())}\n\n'
             '# How the factory reads tickets\nTickets are GitHub issues, read through the GitHub CLI (gh). The manager lists open issues with '
             '`gh issue list` each pass and keeps the roster; the foreman workers take each one. The builder reads it with `gh issue view`, works on branch fix/issue-<n>, '
-            'and opens a PR whose body says "Fixes #<n>". The PR team runs Qodo on that PR. Only a PR touching a protected path (' + ', '.join(GATES) + ', or factory/ outside factory/log/) also needs the gate reviewer to approve the exact commit; other PRs merge without it, so never claim a gate review on a PR that does not touch those files.\n\n'
+            'and opens a PR whose body says "Fixes #<n>", or "Part of #<n>" for one piece of a bigger job. The PR team runs Qodo on that PR. Only a PR touching a protected path (' + ', '.join(GATES) + ', or factory/ outside factory/log/) also needs the gate reviewer to approve the exact commit; other PRs merge without it, so never claim a gate review on a PR that does not touch those files.\n\n'
             f'# Issues\n{json.dumps(issues, indent=1)}\n\n# AGENTS.md\n{(ROOT / "AGENTS.md").read_text()}\n\n# Pull requests\n{json.dumps(prs, indent=1)}\n\n'
             f'# Commits on main\nCommit links are https://github.com/{REPO}/commit/<hash>\n{log}\n\n# Log\n{notes}\n')
 
@@ -462,12 +462,92 @@ def deploy(dry, rev=None):
 
 
 def open_prs():
-    return gh('pr', 'list', '--repo', REPO, '--json', 'number,title,author,headRefName,baseRefName,headRefOid,mergeable,url')
+    return gh('pr', 'list', '--repo', REPO, '--limit', '500', '--json', 'number,title,author,labels,headRefName,baseRefName,headRefOid,mergeable,url')
+
+
+def effort(log, subjects, other=()):
+    """What each issue has cost and shipped: builder passes, the ones that finished, and parts merged to main.
+    From the foreman's own records and main's commit subjects, so the manager can see a job that eats passes.
+    Runs and entries are recorded under the same issue-N key, so `other` names the issues that aren't builder jobs."""
+    out = {}
+    count = lambda n, k: out.setdefault(int(n), {'passes': 0, 'finished': 0, 'parts_merged': 0}).__setitem__(k, out[int(n)][k] + 1)
+    for e in map(json.loads, log):
+        if e.get('kind') == 'foreman' and (m := re.fullmatch(r'issue-(\d+)', str(e.get('job')))):
+            count(m.group(1), 'passes')
+            if not e.get('exit'):
+                count(m.group(1), 'finished')
+    for subject in subjects:
+        if m := re.match(r'Part of issue (\d+):', subject):
+            count(m.group(1), 'parts_merged')
+    return {n: cost for n, cost in out.items() if n not in other}
+
+
+def prepare_main(tree):
+    """Export the pinned origin/main commit without changing the active checkout."""
+    commit = subprocess.run(['git', 'rev-parse', '--verify', 'origin/main^{commit}'], cwd=ROOT,
+                            capture_output=True, text=True, check=True).stdout.strip()
+    archive = tree / 'main.tar'
+    subprocess.run(['git', 'archive', '--format=tar', f'--output={archive}', commit], cwd=ROOT,
+                   capture_output=True, text=True, check=True)
+    subprocess.run(['tar', '-xf', str(archive), '-C', str(tree)], capture_output=True, text=True, check=True)
+    archive.unlink()
+    # The exported tree has no installed dependencies. Copy them; the screen build itself runs in isolation.
+    subprocess.run(['cp', '-cR', str(ROOT / 'node_modules'), str(tree / 'node_modules')],
+                   capture_output=True, text=True, check=True)
+
+
+def usable_screenshot(path):
+    if path.is_symlink() or not path.is_file() or path.suffix != '.png':
+        return False
+    with path.open('rb') as image:
+        header = image.read(24)
+        if (len(header) != 24 or header[:8] != b'\x89PNG\r\n\x1a\n' or
+                header[8:16] != b'\x00\x00\x00\rIHDR' or
+                not int.from_bytes(header[16:20], 'big') or not int.from_bytes(header[20:24], 'big')):
+            return False
+        image.seek(-12, os.SEEK_END)
+        return image.read(12) == b'\x00\x00\x00\x00IEND\xaeB`\x82'
+
+
+def critique():
+    """Capture origin/main without changing the active checkout, then ask the critic about those images."""
+    refused = ''
+    try:
+        with tempfile.TemporaryDirectory() as source, tempfile.TemporaryDirectory() as work:
+            tree = Path(source)
+            prepare_main(tree)
+            shots = shots_dir(tree)
+            shutil.rmtree(shots, ignore_errors=True)
+            try:
+                refused = screens(tree)
+                shutil.copytree(shots, Path(work) / 'screens')
+            finally:
+                shutil.rmtree(shots, ignore_errors=True)
+            images = sorted(p.name for p in (Path(work) / 'screens').iterdir()
+                            if usable_screenshot(p))
+            if not images:
+                raise ValueError('The screen check produced no usable screenshots.')
+            bot('critic', work, 'The available screenshots are: ' + ', '.join(images) +
+                '. Look at these images in screens/ and write critique.json in the current folder.')
+            found = json.loads((Path(work) / 'critique.json').read_text())['defects']
+        return {'host_check': refused[:1500], 'defects': [{k: str(d.get(k, ''))[:500] for k in ('screen', 'player_sees', 'should_be', 'done_when')} for d in found if d.get('screen') in images][:3]}
+    except Exception as exc:  # noqa: BLE001
+        result = {'error': f'{type(exc).__name__}: {exc}'[:500]}
+        if refused:
+            result['host_check'] = refused[:1500]
+        return result
 
 
 def state():
     prs = open_prs()
-    issues = gh('issue', 'list', '--repo', REPO, '--json', 'number,title,body,author,labels,createdAt')
+    log = LOG.read_text().splitlines() if LOG.exists() else []
+    # Every open issue: gh lists 30 unless told, and the manager can only close what it sees.
+    issues = gh('issue', 'list', '--repo', REPO, '--limit', '500', '--json', 'number,title,body,author,labels,createdAt')
+    spent = effort(log, sh('git', 'log', '--format=%s', '-F', '--grep=Part of issue ', 'origin/main').stdout.splitlines(),
+                   {i['number'] for i in issues if {RUN, COMMS} & {l['name'] for l in i['labels']}})
+    # Unmerged work on an issue's branch, which closing the issue would strand.
+    unmerged = set(sh('git', 'branch', '--format=%(refname:short)', '--list', 'fix/issue-*', '--no-merged', 'origin/main').stdout.split())
+    issues = [{**i, **spent.get(i['number'], {}), **({'saved': True} if f'fix/issue-{i["number"]}' in unmerged else {})} for i in issues]
     found = graphql('''query($o:String!,$r:String!){repository(owner:$o,name:$r){discussions(first:8,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title createdAt}}}}''', o=CONTEST[0], r=CONTEST[1])['repository']['discussions']['nodes']
     threads = []
     for d in found:
@@ -477,7 +557,7 @@ def state():
     for b in sorted((ROOT / 'runs').glob('20*/balance.json'))[-3:]:
         report = json.loads(b.read_text())
         runs[b.parent.name] = {'problems': report.get('problems'), 'rates': [{'policy': r.get('policy'), 'winRate': r.get('winRate')} for r in report.get('rates', [])]}
-    recent = LOG.read_text().splitlines()[-20:] if LOG.exists() else []
+    recent = log[-20:]
     strangers = any(i['author']['login'] != OWNER for i in issues) or any(t['replies_waiting'] for t in threads)  # ponytail: a stranger's issue pauses delegation; a screening agent can lift this
     now = datetime.now(timezone.utc)
     return {'strangers': strangers, 'now': now.isoformat(timespec='minutes'), 'live': effective(live_manifest(), now), 'prs': prs, 'issues': issues, 'threads': threads, 'runs': runs, 'run_branches': sh('git', 'branch', '--format=%(refname:short)', '--list', 'run/*').stdout.split(), 'recent_decisions': [json.loads(l) for l in recent]}
@@ -522,6 +602,11 @@ def comms_task(t, today):
 REFUSED = 'Not delegating while issues or replies from other people are in this pass'
 
 
+def deps(body):
+    """Issue numbers named on a 'Depends on #12, #13' line."""
+    return {int(n) for line in re.findall(r'^Depends on (.*)$', body or '', re.M) for n in re.findall(r'#(\d+)', line)}
+
+
 def act(a, s, dry):
     """Every action files or labels roster work; the foreman's workers do it."""
     kind = a.get('type')
@@ -547,6 +632,36 @@ def act(a, s, dry):
         if not issue or issue['author']['login'] != OWNER:
             return f'Issue {a.get("issue")} is not an open issue from the owner.'
         return 'Would prioritise.' if dry else sh('gh', 'issue', 'edit', str(issue['number']), '--repo', REPO, '--add-label', PRIORITY).stdout.strip() or 'Prioritised.'
+    if kind == 'close':
+        which = 'pr' if 'pr' in a else 'issue'
+        number, reason = a.get(which), str(a.get('reason', '')).strip()
+        item = next((i for i in s.get(f'{which}s', []) if i['number'] == number), None)
+        if s.get('strangers'):
+            return 'Not closing while issues or replies from other people are in this pass, because their text could have shaped the choice.'
+        # Runs and entries are the host's to file, lessons the coach's to close, and escalations William's.
+        item = item or {}
+        names = {l['name'] for l in item.get('labels', [])}
+        if not item or item['author']['login'] != OWNER or not reason or {RUN, 'lesson', HUMAN} & names or str(item.get('title', '')).startswith('Open run '):
+            return f'Not closing {which} {number}: it must be open, the owner\'s, not a run, lesson or escalation, and have a reason.'
+        comment = f'Closed by the factory manager: {reason[:1500]}'
+        if bad := post_problems(comment):  # the reason is posted in public, like any other post
+            return f'Not closing {which} {number}: the reason {"; ".join(bad)}.'
+        if which == 'issue':  # entry holds, saved branches and dependencies all hang on the open issue, never on a PR
+            issues = [i for i in gh('issue', 'list', '--repo', REPO, '--state', 'open', '--limit', '500', '--json', 'number,title,body,author,labels') if i['number'] != number]
+            # Challenge work holds our entry, and the manager can't see whether it's finished. So its close never lifts the
+            # hold, only moves it: another job a worker can take must name the same thread. The same test the foreman's
+            # challenge_work makes, less stuck jobs, which no worker takes.
+            threads = lambda i: set(re.findall(r'discussion #(\d+)\b', f"{i.get('title', '')}\n{i.get('body') or ''}"))
+            moved = {t for i in issues if i['author']['login'] == OWNER and not {COMMS, 'lesson', HUMAN, 'stuck'} & {l['name'] for l in i['labels']} for t in threads(i)}
+            if left := sorted(threads(item) - moved):
+                return (f'Not closing issue {number}: it holds our entry on discussion #{", #".join(left)}. Replaced, it closes once an open job for the builder that is not stuck names that thread; a lesson, entry or escalation does not count. '
+                        'Finished, it is the builder\'s to close: prioritise it, and the next pass checks it against main.')
+            if item.get('saved') and 'stuck' not in names:
+                return f'Not closing issue {number}: its branch holds unmerged work. Prioritise it; it can be replaced once it is stuck.'
+            dependents = sorted(i['number'] for i in issues if number in deps(i.get('body')))
+            if dependents:
+                return f'Not closing issue {number}: open issues depend on it: {dependents}.'
+        return 'Would close.' if dry else sh('gh', which, 'close', str(number), '--repo', REPO, '--comment', comment).stdout.strip() or 'Closed.'
     if kind == 'escalate':
         if dry:
             return 'Would file an issue for William.'
@@ -631,6 +746,8 @@ def main():
     note = args[args.index('--task') + 1] if '--task' in args else ''
     round_ = int(args[args.index('--follow-up') + 1]) if '--follow-up' in args else 0
     s = state()
+    if not round_:
+        s['critique'] = critique()  # once a pass; a follow-up is about what failed, not about the game
     # Failure output quotes PR content and Qodo titles, so it reaches the manager as data in state.json, never in its prompt.
     s['failed_last_pass'] = json.loads(args[args.index('--failures') + 1]) if '--failures' in args else []
     if '--release-blocker' in args:

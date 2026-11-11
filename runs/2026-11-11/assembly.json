@@ -1,0 +1,302 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [
+          [
+            "rpm-clamp"
+          ],
+          [
+            "groove-crow",
+            "flash-crawler"
+          ],
+          [
+            "rpm-clamp",
+            "groove-crow"
+          ],
+          [
+            "flash-crawler",
+            "rpm-clamp"
+          ]
+        ],
+        "mid": [
+          [
+            "silent-cracker"
+          ],
+          [
+            "rink-keeper",
+            "groove-crow"
+          ],
+          [
+            "picture-spinner",
+            "flash-crawler"
+          ],
+          [
+            "lab-mender",
+            "rpm-clamp"
+          ],
+          [
+            "release-press",
+            "groove-crow"
+          ],
+          [
+            "baffle-surveyor",
+            "rpm-clamp"
+          ]
+        ],
+        "late": [
+          [
+            "lab-mender",
+            "rink-keeper"
+          ],
+          [
+            "baffle-surveyor",
+            "groove-crow",
+            "rink-keeper"
+          ],
+          [
+            "release-press",
+            "flash-crawler"
+          ],
+          [
+            "silent-cracker",
+            "rpm-clamp"
+          ],
+          [
+            "picture-spinner",
+            "rink-keeper"
+          ],
+          [
+            "baffle-surveyor",
+            "release-press"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "brown-disc-double",
+          "reward": "silent-rig"
+        },
+        {
+          "id": "letter-courier",
+          "reward": "lab-annotator"
+        },
+        {
+          "id": "amplifier-scavenger",
+          "reward": "silent-rig"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "finish",
+        "patch+",
+        "cover",
+        "jam",
+        "strike+"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "crumb-march"
+          ],
+          [
+            "wax-moth",
+            "search-hound"
+          ],
+          [
+            "crumb-march",
+            "search-hound"
+          ],
+          [
+            "wax-moth",
+            "crumb-march"
+          ]
+        ],
+        "mid": [
+          [
+            "roll-serpent"
+          ],
+          [
+            "vine-bow",
+            "crumb-march"
+          ],
+          [
+            "collection-classifier",
+            "search-hound"
+          ],
+          [
+            "complaint-listener",
+            "wax-moth"
+          ],
+          [
+            "gallery-mender",
+            "crumb-march"
+          ],
+          [
+            "tour-pursuer",
+            "crumb-march"
+          ]
+        ],
+        "late": [
+          [
+            "gallery-mender",
+            "roll-serpent"
+          ],
+          [
+            "collection-classifier",
+            "crumb-march",
+            "search-hound"
+          ],
+          [
+            "complaint-listener",
+            "vine-bow"
+          ],
+          [
+            "tour-pursuer",
+            "search-hound",
+            "wax-moth"
+          ],
+          [
+            "roll-serpent",
+            "wax-moth"
+          ],
+          [
+            "collection-classifier",
+            "complaint-listener"
+          ],
+          [
+            "gallery-mender",
+            "search-hound"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "unknown-appraiser",
+          "reward": "roll-repairer"
+        },
+        {
+          "id": "accompanist",
+          "reward": "gallery-guide"
+        },
+        {
+          "id": "benefactor",
+          "reward": "roll-repairer"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "finish",
+        "patch+",
+        "brace",
+        "jam",
+        "charge"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "seed-rotor"
+          ],
+          [
+            "press-mites",
+            "packing-beetle"
+          ],
+          [
+            "seed-rotor",
+            "packing-beetle"
+          ],
+          [
+            "press-mites",
+            "seed-rotor"
+          ]
+        ],
+        "mid": [
+          [
+            "zither-ambusher"
+          ],
+          [
+            "accession-crawler",
+            "seed-rotor"
+          ],
+          [
+            "siphon-hunter",
+            "packing-beetle"
+          ],
+          [
+            "spawn-clock",
+            "seed-rotor"
+          ],
+          [
+            "reef-mender",
+            "packing-beetle"
+          ],
+          [
+            "handling-mimic",
+            "press-mites"
+          ]
+        ],
+        "late": [
+          [
+            "zither-ambusher",
+            "press-mites"
+          ],
+          [
+            "spawn-clock",
+            "accession-crawler"
+          ],
+          [
+            "siphon-hunter",
+            "press-mites",
+            "packing-beetle"
+          ],
+          [
+            "handling-mimic",
+            "zither-ambusher"
+          ],
+          [
+            "reef-mender",
+            "siphon-hunter"
+          ],
+          [
+            "spawn-clock",
+            "packing-beetle"
+          ],
+          [
+            "accession-crawler",
+            "press-mites"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "monkey-puzzle",
+          "reward": "handling-custodian"
+        },
+        {
+          "id": "context-cracker",
+          "reward": "garden-spotter"
+        },
+        {
+          "id": "pond-reef-engine",
+          "reward": "coral-keeper"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "corrupt",
+        "patch+",
+        "triage",
+        "cover",
+        "jam",
+        "strike+"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,860 @@
+{
+  "host": "archive.moeb.ca",
+  "url": "https://archive.moeb.ca/",
+  "crawledAt": "2026-11-10T22:22:18.694Z",
+  "pages": [
+    {
+      "path": "/",
+      "title": "Page accueil - Archive son et image Emile Berliner",
+      "section": "home",
+      "excerpt": "Skip to main content ARCHIVES SON & IMAGE EMILE BERLINER Les archives son & image Emile Berliner contiennent des objets et documents sur l'histoire de la captation, de la reproduction et de la diffusi",
+      "headings": [
+        "ARCHIVES SON & IMAGE EMILE BERLINER",
+        "Section disque",
+        "Section document"
+      ],
+      "links": [
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/",
+        "/disque/",
+        "/document/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/information/",
+      "title": "Information - Archive son et image Emile Berliner",
+      "section": "information",
+      "excerpt": "Skip to main content Information https://archive.moeb.ca/wp-content/uploads/video/Archive-information-FR.mp4 Les archives Berliner constituent un portail permettant aux utilisateurs et utilisatrices d",
+      "headings": [
+        "Information",
+        "Navigation dans les archives."
+      ],
+      "links": [
+        "/information/",
+        "/",
+        "/credits-et-remerciement/",
+        "/en/information/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/credits-et-remerciement/",
+      "title": "Crédits et remerciement - Archive son et image Emile Berliner",
+      "section": "credits-et-remerciement",
+      "excerpt": "Skip to main content Crédits et remerciements Les archives sont rendues possibles grâce au personnel, bénévoles, stagiaires, consultants et organisations partenaires qui ont consacré leur temps et leu",
+      "headings": [
+        "Crédits et remerciements",
+        "Projet de numérisation 2018",
+        "Projet de numérisation 2022",
+        "Projet de numérisation 2024"
+      ],
+      "links": [
+        "/credits-et-remerciement/",
+        "/",
+        "/information/",
+        "/en/credits-and-thanks/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/en/",
+      "title": "Home Page - Sound and Image Archive Emile Berliner",
+      "section": "en",
+      "excerpt": "Skip to main content SOUND & IMAGE ARCHIVE EMILE BERLINER The sound & image archive Emile Berliner contain objects and documents on the history of the capture, reproduction and diffusion of sound and ",
+      "headings": [
+        "SOUND & IMAGE ARCHIVE EMILE BERLINER",
+        "Disc Section",
+        "Document Section"
+      ],
+      "links": [
+        "/en/",
+        "/en/information/",
+        "/en/credits-and-thanks/",
+        "/",
+        "/en/disc/",
+        "/en/document/",
+        "/en/privacy-policy"
+      ]
+    },
+    {
+      "path": "/disque/",
+      "title": "Disques Archive - Archive son et image Emile Berliner",
+      "section": "disque",
+      "excerpt": "Skip to main content Accueil » Liste de disque Liste des disques Collections Fabricants Maison de disque Artistes Audio RPM Genres Atlas Jacqueline Dautheuil Voir plus Audio Devices, Inc. Paul Brunell",
+      "headings": [
+        "Liste des disques",
+        "Collections",
+        "Fabricants",
+        "Maison de disque",
+        "Artistes",
+        "Audio",
+        "RPM",
+        "Genres"
+      ],
+      "links": [
+        "/disque/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/disc/",
+        "/disque/3100-0007/",
+        "/disque/2001-0562/",
+        "/disque/2017-0097/",
+        "/disque/2009-0248/",
+        "/disque/2003-3466/",
+        "/disque/2017-0112/",
+        "/disque/2010-0155/",
+        "/disque/2017-0113/",
+        "/disque/3100-0008/",
+        "/disque/2020-0181/",
+        "/disque/2008-1662/",
+        "/disque/2012-0345/",
+        "/disque/in22021610/",
+        "/disque/in22030228/",
+        "/disque/in22021602/",
+        "/disque/2008-1694/",
+        "/disque/2000-1997/",
+        "/disque/2000-2149/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/document/",
+      "title": "Documents Archive - Archive son et image Emile Berliner",
+      "section": "document",
+      "excerpt": "Skip to main content Accueil » Collections Explorez nos archives par collections Communication et renseignement (100) Documentation commerciale (133) Information technique et manuels (492) Photographi",
+      "headings": [
+        "Explorez nos archives par collections",
+        "Communication et renseignement (100)",
+        "Documentation commerciale (133)",
+        "Information technique et manuels (492)",
+        "Photographies (55)",
+        "Publications (111)",
+        "Publicité et documents promotionnels (346)"
+      ],
+      "links": [
+        "/document/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/document/",
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/collection-pour-documents/documentation-commerciale/",
+        "/collection-pour-documents/information-technique-et-manuels/",
+        "/collection-pour-documents/photographies/",
+        "/collection-pour-documents/publications/",
+        "/collection-pour-documents/publicite-et-documents-promotionnels/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/en/information/",
+      "title": "Information - Sound and Image Archive Emile Berliner",
+      "section": "en",
+      "excerpt": "Skip to main content Information https://archive.moeb.ca/wp-content/uploads/video/Archive-information-FR.mp4 The Berliner Archives presents a portal for users to learn about the rich and underapprecia",
+      "headings": [
+        "Information",
+        "Navigating the archives."
+      ],
+      "links": [
+        "/en/information/",
+        "/en/",
+        "/en/credits-and-thanks/",
+        "/information/",
+        "/en/privacy-policy"
+      ]
+    },
+    {
+      "path": "/en/credits-and-thanks/",
+      "title": "Credits and thanks - Sound and Image Archive Emile Berliner",
+      "section": "en",
+      "excerpt": "Skip to main content Credits and thanks The archives are made possible thanks to the staff, volunteers, interns, consultants and partner organisations that lent their time and skills for the preservat",
+      "headings": [
+        "Credits and thanks",
+        "Digitization Project 2018",
+        "Digitization Project 2022",
+        "Digitization Project 2024"
+      ],
+      "links": [
+        "/en/credits-and-thanks/",
+        "/en/",
+        "/en/information/",
+        "/credits-et-remerciement/",
+        "/en/privacy-policy"
+      ]
+    },
+    {
+      "path": "/en/disc/",
+      "title": "Disques Archive - Sound and Image Archive Emile Berliner",
+      "section": "en",
+      "excerpt": "Skip to main content Accueil » Liste de disque List of discs Collections Manufacturers Record Company Artists Audio RPM Genres Atlas Jacqueline Dautheuil See more Audio Devices, Inc. Paul Brunelle See",
+      "headings": [
+        "List of discs",
+        "Collections",
+        "Manufacturers",
+        "Record Company",
+        "Artists",
+        "Audio",
+        "RPM",
+        "Genres"
+      ],
+      "links": [
+        "/en/disc/",
+        "/en/",
+        "/en/information/",
+        "/en/credits-and-thanks/",
+        "/disque/",
+        "/en/disc/3100-0007/",
+        "/en/disc/2001-0562/",
+        "/en/disc/2017-0097/",
+        "/en/disc/2009-0248/",
+        "/en/disc/2003-3466/",
+        "/en/disc/2017-0112/",
+        "/en/disc/2010-0155/",
+        "/en/disc/2017-0113/",
+        "/en/disc/3100-0008/",
+        "/en/disc/2020-0181/",
+        "/en/disc/2008-1662/",
+        "/en/disc/2012-0345/",
+        "/en/disc/in22021610/",
+        "/en/disc/in22030228/",
+        "/en/disc/in22021602/",
+        "/en/disc/2008-1694/",
+        "/en/disc/2000-1997/",
+        "/en/disc/2000-2149/",
+        "/en/privacy-policy"
+      ]
+    },
+    {
+      "path": "/en/document/",
+      "title": "Documents Archive - Sound and Image Archive Emile Berliner",
+      "section": "en",
+      "excerpt": "Skip to main content Accueil » Collections Explore our archives by collections Advertising and promotional material (346) Communications and inquiries (100) Photographs (55) Publications (111) Retaile",
+      "headings": [
+        "Explore our archives by collections",
+        "Advertising and promotional material (346)",
+        "Communications and inquiries (100)",
+        "Photographs (55)",
+        "Publications (111)",
+        "Retailer and commercial (133)",
+        "Technical Information and manuals (492)"
+      ],
+      "links": [
+        "/en/document/",
+        "/en/",
+        "/en/information/",
+        "/en/credits-and-thanks/",
+        "/document/",
+        "/en/collection-for-documents/advertising-and-promotional-material/",
+        "/en/collection-for-documents/communications-and-inquiries/",
+        "/en/collection-for-documents/photographs/",
+        "/en/collection-for-documents/publications-en/",
+        "/en/collection-for-documents/retailer-and-commercial-documentation/",
+        "/en/collection-for-documents/technical-information-and-manuals/",
+        "/en/privacy-policy"
+      ]
+    },
+    {
+      "path": "/disque/3100-0007/",
+      "title": "3100.0007 - Archive son et image Emile Berliner",
+      "section": "disque",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 3100.0007 Le Casse-Noisette Information générale NAC : 3100.0007 Collection : MOEB Langue : Fr Description : Disque vinyle noir, Musique pour enfants. ",
+      "headings": [
+        "Le Casse-Noisette",
+        "Information générale",
+        "Crédits musicaux",
+        "Fiche technique",
+        "Section audio",
+        "Désolé, aucun fichier audio disponible.",
+        "Clause de non-responsabilité"
+      ],
+      "links": [
+        "/disque/3100-0007/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/disc/3100-0007/",
+        "/disque/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/disque/2001-0562/",
+      "title": "2001.0562 - Archive son et image Emile Berliner",
+      "section": "disque",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 2001.0562 Disque référence Information générale NAC : 2001.0562 Collection : MOEB Langue : Fr Description : Disque vinyle noir Coté A - Rose du Texas; ",
+      "headings": [
+        "Disque référence",
+        "Information générale",
+        "Crédits musicaux",
+        "Fiche technique",
+        "Section audio",
+        "Désolé, aucun fichier audio disponible.",
+        "Clause de non-responsabilité"
+      ],
+      "links": [
+        "/disque/2001-0562/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/disc/2001-0562/",
+        "/disque/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/disque/2017-0097/",
+      "title": "2017.0097 - Archive son et image Emile Berliner",
+      "section": "disque",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 2017.0097 Enregistrement maison, coupe Stanley 1953 Information générale NAC : 2017.0097 Collection : MOEB Langue : Fr Description : Disque noir RPM : ",
+      "headings": [
+        "Enregistrement maison, coupe Stanley 1953",
+        "Information générale",
+        "Crédits musicaux",
+        "Fiche technique",
+        "Section audio",
+        "Face A : Enregistrement maison, coupe Stanley 1953",
+        "Clause de non-responsabilité"
+      ],
+      "links": [
+        "/disque/2017-0097/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/disc/2017-0097/",
+        "/disque/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/disque/2009-0248/",
+      "title": "2009.0248 - Archive son et image Emile Berliner",
+      "section": "disque",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 2009.0248 Swingy Information générale NAC : 2009.0248 Collection : MOEB Langue : En Description : Disque d'image Coté A - Swingy RPM : 45 Crédits music",
+      "headings": [
+        "Swingy",
+        "Information générale",
+        "Crédits musicaux",
+        "Fiche technique",
+        "Section audio",
+        "Désolé, aucun fichier audio disponible.",
+        "Clause de non-responsabilité"
+      ],
+      "links": [
+        "/disque/2009-0248/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/disc/2009-0248/",
+        "/disque/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/disque/2003-3466/",
+      "title": "2003.3466 - Archive son et image Emile Berliner",
+      "section": "disque",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 2003.3466 Le renard & le corbeau Information générale NAC : 2003.3466 Collection : MOEB Langue : Fr Description : Disque rare RPM : 78 Crédits musicaux",
+      "headings": [
+        "Le renard & le corbeau",
+        "Information générale",
+        "Crédits musicaux",
+        "Fiche technique",
+        "Section audio",
+        "Face A : Le renard & le corbeau",
+        "Face B : Bécassine prend le tramway",
+        "Clause de non-responsabilité"
+      ],
+      "links": [
+        "/disque/2003-3466/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/disc/2003-3466/",
+        "/disque/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/disque/2017-0112/",
+      "title": "2017.0112 - Archive son et image Emile Berliner",
+      "section": "disque",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 2017.0112 Billy Murray Information générale NAC : 2017.0112 Collection : MOEB Langue : En Description : Disque brun Coté A - When we were two little bo",
+      "headings": [
+        "Billy Murray",
+        "Information générale",
+        "Crédits musicaux",
+        "Fiche technique",
+        "Section audio",
+        "Désolé, aucun fichier audio disponible.",
+        "Clause de non-responsabilité"
+      ],
+      "links": [
+        "/disque/2017-0112/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/disc/2017-0112/",
+        "/disque/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/disque/2010-0155/",
+      "title": "2010.0155 - Archive son et image Emile Berliner",
+      "section": "disque",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 2010.0155 Edmond Clément Information générale NAC : 2010.0155 Collection : MOEB Langue : Fr Description : Coté A - Le roi d'Ys - Vainement ma bien aimé",
+      "headings": [
+        "Edmond Clément",
+        "Information générale",
+        "Crédits musicaux",
+        "Fiche technique",
+        "Section audio",
+        "Désolé, aucun fichier audio disponible.",
+        "Clause de non-responsabilité"
+      ],
+      "links": [
+        "/disque/2010-0155/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/disc/2010-0155/",
+        "/disque/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/collection-pour-documents/communication-et-renseignement/",
+      "title": "Archives des Communication et renseignement - Archive son et image Emile Berliner",
+      "section": "collection-pour-documents",
+      "excerpt": "Skip to main content Accueil » Collections » Communication et renseignement Communication et renseignement Types de documents Carte de Noël avec photographie d'Edgar Berliner Laboratory Book. Notes 19",
+      "headings": [
+        "Communication et renseignement",
+        "Types de documents"
+      ],
+      "links": [
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/collection-for-documents/communications-and-inquiries/",
+        "/document/",
+        "/document/3100-0011/",
+        "/document/2021-0057-1-9/",
+        "/document/2013-0140/",
+        "/document/2013-0137/",
+        "/document/2013-0136/",
+        "/document/2013-0134/",
+        "/document/2003-0047-002/",
+        "/document/2022-0715/",
+        "/document/2022-0707/",
+        "/document/2022-0702/",
+        "/document/2019-0897/",
+        "/document/2019-0886-1-2/",
+        "/document/2019-0898-1-2/",
+        "/document/2010-2619/",
+        "/document/1998-0432/",
+        "/document/1998-0431/",
+        "/document/1998-0429/",
+        "/document/2013-0510/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/collection-pour-documents/documentation-commerciale/",
+      "title": "Archives des Documentation commerciale - Archive son et image Emile Berliner",
+      "section": "collection-pour-documents",
+      "excerpt": "Skip to main content Accueil » Collections » Documentation commerciale Documentation commerciale Types de documents The Compo Company Limited New releases, no. 1572 The Compo Company Limited New relea",
+      "headings": [
+        "Documentation commerciale",
+        "Types de documents"
+      ],
+      "links": [
+        "/collection-pour-documents/documentation-commerciale/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/collection-for-documents/retailer-and-commercial-documentation/",
+        "/document/",
+        "/document/2004-1149-1-2/",
+        "/document/2004-1150/",
+        "/document/2004-1151-1-2/",
+        "/document/2004-1152-1-2/",
+        "/document/2004-1153/",
+        "/document/2004-1154/",
+        "/document/2004-1155-1-3/",
+        "/document/1800-1135-1-6/",
+        "/document/1800-1136-1-5/",
+        "/document/2004-1132-1-3/",
+        "/document/2004-1133/",
+        "/document/2004-1134-1-3/",
+        "/document/2004-1135/",
+        "/document/2004-1136-1-3/",
+        "/document/2004-1137-1-2/",
+        "/document/2004-1138/",
+        "/document/2004-1139/",
+        "/document/2004-1140/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/collection-pour-documents/information-technique-et-manuels/",
+      "title": "Archives des Information technique et manuels - Archive son et image Emile Berliner",
+      "section": "collection-pour-documents",
+      "excerpt": "Skip to main content Accueil » Collections » Information technique et manuels Information technique et manuels Types de documents RCA Victor. Program Amplifier. Service Data. 75 Watt Transistor. Type ",
+      "headings": [
+        "Information technique et manuels",
+        "Types de documents"
+      ],
+      "links": [
+        "/collection-pour-documents/information-technique-et-manuels/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/collection-for-documents/technical-information-and-manuals/",
+        "/document/",
+        "/document/1800-1117/",
+        "/document/2022-0202/",
+        "/document/2022-0203/",
+        "/document/2022-0204/",
+        "/document/2022-0205/",
+        "/document/2022-0206/",
+        "/document/2022-0207/",
+        "/document/2022-0208/",
+        "/document/2022-0209/",
+        "/document/2022-0210/",
+        "/document/2022-0211/",
+        "/document/2022-0212-1-2/",
+        "/document/2022-0213/",
+        "/document/2022-0214/",
+        "/document/2022-0215/",
+        "/document/2022-0216/",
+        "/document/2022-0217/",
+        "/document/2022-0218/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/collection-pour-documents/photographies/",
+      "title": "Archives des Photographies - Archive son et image Emile Berliner",
+      "section": "collection-pour-documents",
+      "excerpt": "Skip to main content Accueil » Collections » Photographies Photographies Types de documents Photographie du buste de Samuel Berliner à Hanover Emile Berliner dans un laboratoire Photographie de groupe",
+      "headings": [
+        "Photographies",
+        "Types de documents"
+      ],
+      "links": [
+        "/collection-pour-documents/photographies/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/collection-for-documents/photographs/",
+        "/document/",
+        "/document/2013-0129/",
+        "/document/2013-0128/",
+        "/document/2013-0127/",
+        "/document/2013-0126/",
+        "/document/2013-0122/",
+        "/document/2013-0119/",
+        "/document/2013-0118/",
+        "/document/2022-0360/",
+        "/document/2001-0609/",
+        "/document/2001-0614/",
+        "/document/2001-0616/",
+        "/document/2001-0622/",
+        "/document/2001-0623/",
+        "/document/2001-0608/",
+        "/document/2001-0603/",
+        "/document/2001-0602/",
+        "/document/2001-0601/",
+        "/document/1998-9380/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/collection-pour-documents/publications/",
+      "title": "Archives des Publications - Archive son et image Emile Berliner",
+      "section": "collection-pour-documents",
+      "excerpt": "Skip to main content Accueil » Collections » Publications Publications Types de documents Record supplement \"Music Promenade\", No. 70 Record supplement \"Music Promenade\", No. 71 Record supplement \"Mus",
+      "headings": [
+        "Publications",
+        "Types de documents"
+      ],
+      "links": [
+        "/collection-pour-documents/publications/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/collection-for-documents/publications-en/",
+        "/document/",
+        "/document/2019-0289/",
+        "/document/2019-0290/",
+        "/document/2019-0291/",
+        "/document/2013-0138/",
+        "/document/2013-0141/",
+        "/document/2019-0275/",
+        "/document/2019-0276/",
+        "/document/2019-0277/",
+        "/document/2019-0278/",
+        "/document/2019-0279/",
+        "/document/2019-0280/",
+        "/document/2019-0281/",
+        "/document/2019-0282/",
+        "/document/2019-0283/",
+        "/document/2019-0284/",
+        "/document/2019-0285/",
+        "/document/2019-0286/",
+        "/document/2019-0287/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/collection-pour-documents/publicite-et-documents-promotionnels/",
+      "title": "Archives des Publicité et documents promotionnels - Archive son et image Emile Berliner",
+      "section": "collection-pour-documents",
+      "excerpt": "Skip to main content Accueil » Collections » Publicité et documents promotionnels Publicité et documents promotionnels Types de documents DECCA Complete Popular Record Catalog 1941 DECCA Complete Popu",
+      "headings": [
+        "Publicité et documents promotionnels",
+        "Types de documents"
+      ],
+      "links": [
+        "/collection-pour-documents/publicite-et-documents-promotionnels/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/collection-for-documents/advertising-and-promotional-material/",
+        "/document/",
+        "/document/2019-0606/",
+        "/document/2019-0607/",
+        "/document/2019-0608/",
+        "/document/2019-0609/",
+        "/document/2019-0610/",
+        "/document/2019-0611/",
+        "/document/2019-0612/",
+        "/document/2019-0613/",
+        "/document/2019-0614/",
+        "/document/2019-0615/",
+        "/document/2019-0616/",
+        "/document/2019-0617/",
+        "/document/2019-0618/",
+        "/document/2019-0619/",
+        "/document/2019-0620/",
+        "/document/2019-0621/",
+        "/document/1996-1603-2/",
+        "/document/2002-4074/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/en/disc/3100-0007/",
+      "title": "3100.0007 - Sound and Image Archive Emile Berliner",
+      "section": "en",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 3100.0007 Le Casse-Noisette General Information NAC: 3100.0007 Collection: MOEB Language: Fr Description: Black vinyl disc, Children's Music. Side A - ",
+      "headings": [
+        "Le Casse-Noisette",
+        "General Information",
+        "Music credits",
+        "Technical sheet",
+        "Audio section",
+        "Sorry, no audio file available.",
+        "Disclaimer"
+      ],
+      "links": [
+        "/en/disc/3100-0007/",
+        "/en/",
+        "/en/information/",
+        "/en/credits-and-thanks/",
+        "/disque/3100-0007/",
+        "/en/disc/",
+        "/en/privacy-policy"
+      ]
+    },
+    {
+      "path": "/en/disc/2001-0562/",
+      "title": "2001.0562 - Sound and Image Archive Emile Berliner",
+      "section": "en",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 2001.0562 Disque référence General Information NAC: 2001.0562 Collection: MOEB Language: Fr Description: Black vinyl disc Side A - Rose du Texas; Tu es",
+      "headings": [
+        "Disque référence",
+        "General Information",
+        "Music credits",
+        "Technical sheet",
+        "Audio section",
+        "Sorry, no audio file available.",
+        "Disclaimer"
+      ],
+      "links": [
+        "/en/disc/2001-0562/",
+        "/en/",
+        "/en/information/",
+        "/en/credits-and-thanks/",
+        "/disque/2001-0562/",
+        "/en/disc/",
+        "/en/privacy-policy"
+      ]
+    },
+    {
+      "path": "/en/disc/2017-0097/",
+      "title": "2017.0097 - Sound and Image Archive Emile Berliner",
+      "section": "en",
+      "excerpt": "Skip to main content Accueil » Liste de disque » 2017.0097 Home recording, Stanley cup 1953 General Information NAC: 2017.0097 Collection: MOEB Language: Fr Description: Disque noir RPM : 78 Music cre",
+      "headings": [
+        "Home recording, Stanley cup 1953",
+        "General Information",
+        "Music credits",
+        "Technical sheet",
+        "Audio section",
+        "Side A : Enregistrement maison, coupe Stanley 1953",
+        "Disclaimer"
+      ],
+      "links": [
+        "/en/disc/2017-0097/",
+        "/en/",
+        "/en/information/",
+        "/en/credits-and-thanks/",
+        "/disque/2017-0097/",
+        "/en/disc/",
+        "/en/privacy-policy"
+      ]
+    },
+    {
+      "path": "/document/3100-0011/",
+      "title": "3100.0011 - Archive son et image Emile Berliner",
+      "section": "document",
+      "excerpt": "Skip to main content Accueil » Collections » Communication et renseignement » 3100.0011 Carte de Noël avec photographie d'Edgar Berliner Description : Carte de Noël d'Alfred Hugh Joseph. Joseph a comm",
+      "headings": [
+        "Carte de Noël avec photographie d'Edgar Berliner",
+        "Voir le document"
+      ],
+      "links": [
+        "/document/3100-0011/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/document/3100-0011/",
+        "/document/",
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/document/2021-0057-1-9/",
+      "title": "2021.0057.1-9 - Archive son et image Emile Berliner",
+      "section": "document",
+      "excerpt": "Skip to main content Accueil » Collections » Communication et renseignement » 2021.0057.1-9 Laboratory Book. Notes 1918/9 EB's are on p.99 and p 110-116 Description : Un cahier de tests de laboratoire",
+      "headings": [
+        "Laboratory Book. Notes 1918/9 EB's are on p.99 and p 110-116",
+        "Voir le document"
+      ],
+      "links": [
+        "/document/2021-0057-1-9/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/document/2021-0057-1-9/",
+        "/document/",
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/document/2013-0140/",
+      "title": "2013.0140 - Archive son et image Emile Berliner",
+      "section": "document",
+      "excerpt": "Skip to main content Accueil » Collections » Communication et renseignement » 2013.0140 Gala opening of the Uptown Theatre Description : Télégramme adressé à Emile Berliner pour son travail d'acoustiq",
+      "headings": [
+        "Gala opening of the Uptown Theatre"
+      ],
+      "links": [
+        "/document/2013-0140/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/document/2013-0140/",
+        "/document/",
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/document/2013-0137/",
+      "title": "2013.0137 - Archive son et image Emile Berliner",
+      "section": "document",
+      "excerpt": "Skip to main content Accueil » Collections » Communication et renseignement » 2013.0137 The President and the Board of Managers of the Franklin Institute Request your Attendance at the Medal Meeting o",
+      "headings": [
+        "The President and the Board of Managers of the Franklin Institute Request your Attendance at the Medal Meeting of The Franklin Institute",
+        "Voir le document"
+      ],
+      "links": [
+        "/document/2013-0137/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/document/2013-0137/",
+        "/document/",
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/document/2013-0136/",
+      "title": "2013.0136 - Archive son et image Emile Berliner",
+      "section": "document",
+      "excerpt": "Skip to main content Accueil » Collections » Communication et renseignement » 2013.0136 Lettre de l'Insitut Drexel Description : Lettre dactylographiée du président du American Acoustic Company, K. G.",
+      "headings": [
+        "Lettre de l'Insitut Drexel"
+      ],
+      "links": [
+        "/document/2013-0136/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/document/2013-0136/",
+        "/document/",
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/document/2013-0134/",
+      "title": "2013.0134 - Archive son et image Emile Berliner",
+      "section": "document",
+      "excerpt": "Skip to main content Accueil » Collections » Communication et renseignement » 2013.0134 Lettre de Hannah et Emile Berliner adressée à Joseph Sanders Description : Lettre manuscrite de Hannah Edith Ber",
+      "headings": [
+        "Lettre de Hannah et Emile Berliner adressée à Joseph Sanders"
+      ],
+      "links": [
+        "/document/2013-0134/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/document/2013-0134/",
+        "/document/",
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/politique-de-confidentialite"
+      ]
+    },
+    {
+      "path": "/document/2003-0047-002/",
+      "title": "2003.0047.002 - Archive son et image Emile Berliner",
+      "section": "document",
+      "excerpt": "Skip to main content Accueil » Collections » Communication et renseignement » 2003.0047.002 Carte d'affaires T. Eaton Co. Description : Carte d'affaires d'un employé, R. Faust, qui travaillait au dépa",
+      "headings": [
+        "Carte d'affaires T. Eaton Co."
+      ],
+      "links": [
+        "/document/2003-0047-002/",
+        "/",
+        "/information/",
+        "/credits-et-remerciement/",
+        "/en/document/2003-0047-002/",
+        "/document/",
+        "/collection-pour-documents/communication-et-renseignement/",
+        "/politique-de-confidentialite"
+      ]
+    }
+  ]
+}
