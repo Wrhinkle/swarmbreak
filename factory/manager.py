@@ -714,6 +714,19 @@ def required_jobs(dry):
     return failures
 
 
+def subscription_pause(dry):
+    """Escalate an active worker subscription pause once, without invoking another model."""
+    for name in ('.foreman.json', '.runner.json'):
+        path = LOG.parent / name
+        if path.exists():
+            pause = json.loads(path.read_text())
+            if pause.get('codex_pause') and pause.get('cooldown_until', 0) > time.time():
+                return file_job('Codex subscription needs attention',
+                                'A worker paused because Codex reached its usage limit or was signed out. Please check the subscription login.',
+                                [HUMAN], dry)
+    return ''
+
+
 def main():
     held = os.environ.get('SWARMBREAK_LOCK_FD')
     lock = os.fdopen(int(held), 'a+') if held else open(LOG.parent / '.lock', 'a+')
@@ -742,6 +755,10 @@ def main():
             lock.write(blocker)
             lock.flush()
         follow_up(failures, 0, '', dry, blocker)
+        return
+    pause = subscription_pause(dry)
+    if pause:
+        print(pause, flush=True)
         return
     note = args[args.index('--task') + 1] if '--task' in args else ''
     round_ = int(args[args.index('--follow-up') + 1]) if '--follow-up' in args else 0

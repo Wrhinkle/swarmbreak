@@ -6,6 +6,7 @@ Finished PNGs stay in runs/.art/<id>/, so a rerun only makes what's missing.
 """
 import concurrent.futures as cf, json, os, re, shutil, subprocess, sys
 from pathlib import Path
+from codex_failure import stop_on_codex_failure
 
 import numpy as np
 from PIL import Image
@@ -53,7 +54,8 @@ def generate(job, work):
     for _ in range(2):
         try:
             with open(work / f"{job['id']}.log", 'w') as log:
-                subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', 'model_reasoning_effort="low"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', work, ask], stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, timeout=420, env=env)
+                r = subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', 'model_reasoning_effort="low"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', work, ask], stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, timeout=420, env=env)
+            stop_on_codex_failure(r.returncode, (work / f"{job['id']}.log").read_text(errors='replace'))
         except subprocess.TimeoutExpired:
             pass
         if png.exists():

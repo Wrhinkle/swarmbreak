@@ -72,7 +72,7 @@ RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'r
 STATE = ROOT / 'factory' / 'log' / ('.runner.json' if RUN_LANE else '.foreman.json')
 STUCK, PRIORITY, LESSON = 'stuck', 'priority', 'lesson'
 RUN_TITLE = re.compile(r'Run (\d{4}-\d{2}-\d{2})')
-QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests', re.I)
+QUOTA = re.compile(r'usage limit|rate limit|quota|too many requests|Codex sign-out', re.I)
 
 
 def gh(*args):
@@ -292,6 +292,7 @@ def main():
     st = {'waiting': {}, 'cooldown_until': 0, **(json.loads(STATE.read_text()) if STATE.exists() else {})}
     if time.time() < st['cooldown_until']:
         return
+    st.pop('codex_pause', None)  # a later, unrelated cooldown must not inherit this cause
     prs = [] if RUN_LANE else gh('pr', 'list', '--limit', '500', '--json', 'number,author,headRefName,headRefOid,labels')
     issues = open_issues()
     # Only branches holding commits main lacks are saved work; finished or never-used issue branches are not.
@@ -364,6 +365,7 @@ def evaluated(key, log):
 def settle(st, r, out, kind, number, key, coach, prs, log=()):
     if r.returncode and QUOTA.search(out):
         st['cooldown_until'] = time.time() + 1800  # the subscription is resting; nothing will run until it's back
+        st['codex_pause'] = bool(re.search(r'Codex (?:usage limit|sign-out)', out, re.I))
     elif r.returncode and not getattr(r, 'moved', False):
         # A failed pass is evaluated once instead of spending tokens on retries. Only a run says it moved: a stage finished.
         # A builder pass that opened no PR didn't, whatever it saved: issue 37 saved a hundred passes and shipped none.

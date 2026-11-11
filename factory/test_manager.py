@@ -536,6 +536,44 @@ manager.live_manifest = lambda: {**m4, 'opensAt': 5}
 assert manager.release().startswith('Release check failed')  # non-string timestamp
 print('ok release path')
 
+# Subscription failures travel from a worker to the foreman's cooldown without a lesson or parking.
+import contextlib, io
+import pr_team, foreman, manager
+for message in ("You've hit your usage limit ... try again at Nov 11th", '401 Unauthorized', 'Not logged in'):
+    output = io.StringIO()
+    with patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=1, stdout='', stderr=message)), contextlib.redirect_stdout(output):
+        try:
+            pr_team.bot('manager', '/tmp', '')
+            assert False, 'subscription failure must stop the job'
+        except SystemExit as e:
+            output.write(str(e))
+    st = {'waiting': {}, 'cooldown_until': 0}
+    with patch('foreman.learn') as learn, patch('foreman.sh') as park:
+        foreman.settle(st, SimpleNamespace(returncode=1), output.getvalue(), 'pr', 42, 'pr-42', False, [])
+        assert st['cooldown_until'] > foreman.time.time() and st['codex_pause']
+        assert not st['waiting']
+        learn.assert_not_called()
+        park.assert_not_called()
+with tempfile.TemporaryDirectory() as d:
+    with patch('run.subprocess.run', return_value=SimpleNamespace(returncode=1, stdout='', stderr='Not logged in')) as launch:
+        try:
+            run_mod.agent('gameplay', Path(d) / 'out.json', {}, lambda: '')
+            assert False, 'run agent must stop immediately'
+        except SystemExit as e:
+            assert 'Codex sign-out' in str(e)
+        assert launch.call_count == 1
+with tempfile.TemporaryDirectory() as d:
+    log = Path(d) / 'decisions.jsonl'
+    (Path(d) / '.foreman.json').write_text(_json.dumps({'codex_pause': True, 'cooldown_until': manager.time.time() + 1800}))
+    with patch('manager.LOG', log), patch('manager.gh', return_value=[]) as gh, patch('manager.sh') as sh_mock:
+        sh_mock.return_value.stdout = 'issue URL'
+        assert manager.subscription_pause(False).startswith('Filed')
+        assert 'needs-william' in str(sh_mock.call_args_list)
+    with patch('manager.LOG', log), patch('manager.gh', return_value=[{'title': 'Codex subscription needs attention', 'author': {'login': manager.OWNER}}]), patch('manager.sh') as sh_mock:
+        assert manager.subscription_pause(False).startswith('Already')
+        sh_mock.assert_not_called()
+print('ok Codex subscription pause and escalation')
+
 # Checks run agent-written code: the sandbox blocks home-folder reads, network and writes outside the checkout.
 if not os.environ.get('SWARMBREAK_SANDBOX'):
     from pr_team import sandbox_works

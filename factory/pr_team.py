@@ -6,6 +6,7 @@ This script does all git and Qodo writes, and alone decides on merging. Merging 
 """
 import fcntl, hashlib, json, math, os, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
+from codex_failure import stop_on_codex_failure
 
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
@@ -50,7 +51,9 @@ def bot(name, workdir, extra, effort='medium'):
     env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
     prompt = (AGENTS / f'{name}.md').read_text() + '\n\n' + LEARNED + '\n\n' + extra
     print(f'[{name}] running', flush=True)
-    return subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800).returncode
+    r = subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800)
+    stop_on_codex_failure(r.returncode, r.stdout + r.stderr)
+    return r.returncode
 
 
 def findings(url):
