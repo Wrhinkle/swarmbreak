@@ -1,12 +1,12 @@
 {
-  "runId": "2026-11-09",
-  "opensAt": "2026-11-09T13:00:00Z",
-  "nextOpensAt": "2026-11-10T13:00:00Z",
-  "runUrl": "/runs/2026-11-09/run.json",
+  "runId": "2026-11-10",
+  "opensAt": "2026-11-10T13:00:00Z",
+  "nextOpensAt": "2026-11-11T13:00:00Z",
+  "runUrl": "/runs/2026-11-10/run.json",
   "voided": [],
   "next": {
-    "runId": "2026-11-10",
-    "opensAt": "2026-11-10T13:00:00Z",
-    "runUrl": "/runs/2026-11-10/run.json"
+    "runId": "2026-11-11",
+    "opensAt": "2026-11-11T13:00:00Z",
+    "runUrl": "/runs/2026-11-11/run.json"
   }
 }

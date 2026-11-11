@@ -1,0 +1,13 @@
+{
+  "thread": "Follow a sound from the instruments that make it, through machines that play by themselves, and into the grooves and records that preserve it. The swarm meets strange horns and strings, singing clockwork creatures, and the devices that let music travel through time.",
+  "candidates": [
+    {"name":"MINIM-UK", "url":"https://minim.ac.uk/", "why":"A vast instrument collection arranged by family, with contrabass serpents, musical saws, gamelans, drums, and curious hybrid shapes from museums across Britain."},
+    {"name":"Museum Speelklok Collection Online", "url":"https://speelklok.adlibhosting.com/ais6v2/home", "why":"Self-playing music boxes, mechanical singing birds, street organs, pianolas, musical clocks, and orchestrions turn strings, pipes, and clockwork into lively creatures."},
+    {"name":"Sound and Image Archive Emile Berliner", "url":"https://archive.moeb.ca/en/", "why":"Early records and their sleeves, recordings, photographs, and technical documents trace sound from performance into the spinning disc and its playback machinery."},
+    {"name":"Musical Instruments Museum Brussels", "url":"https://www.mim.be/en", "why":"Unusual instruments, historical sound collections, galleries, and phonographic cylinders offer a route from sounding objects to captured music."},
+    {"name":"Horniman Museum and Gardens", "url":"https://www.horniman.ac.uk/", "why":"Its musical instrument collection and archives contain instruments from around the world, with galleries and stories about how they are made and played."},
+    {"name":"Musical Instrument Museum", "url":"https://mim.org/", "why":"Geographic galleries and mechanical music exhibits bring together gongs, harps, barrel organs, music boxes, automata, and a giant orchestrion."},
+    {"name":"Museum Vleeshuis", "url":"https://museumvleeshuis.be/en", "why":"Antwerp's music museum presents instruments, dance organs, sound recordings, and curiosities including the tromba marina and glass harp."},
+    {"name":"National Music Museum", "url":"https://www.nmmusd.org/", "why":"Collections and exhibitions range across instrument families, from accordions and banjos to bassoons and bells, with historical instruments and their makers' ingenious forms."}
+  ]
+}

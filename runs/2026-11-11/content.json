@@ -1,0 +1,1212 @@
+{
+ "title": "The Note That Stayed",
+ "swarm": {
+  "name": "The Keepers",
+  "blurb": "A moving swarm of clamps, players and collecting machines follows a recorded instruction to keep a sound from disappearing. Its idea of care grows dangerously rigid."
+ },
+ "arc": "At the recording archive, the Keepers copy a fragment and appear to be stealing voices. The crew follows them to the instrument museum, where a living player completes the phrase and reveals that the swarm is trying to preserve a performance. Its clamps nonetheless trap the instruments and their players. At the museum and gardens, the same instruction has spread to living collections: the swarm stops water, light and growth to prevent change. Wren, Ox and Kestrel defeat the central keeper and restore separate cycles. They retain the recording as a record of one moment, while allowing the things it cannot preserve to live and change.",
+ "acts": [
+  {
+   "theme": "The archive: copied sound",
+   "story": {
+    "intro": "The swarm is lifting voices from recordings. Wren hears the same short phrase in machines that should be silent. Ox keeps the route open. Kestrel follows the sound toward its source.",
+    "chapters": [
+     {
+      "title": "A sound on every disc",
+      "text": "The machines collect noises and send them along on black discs. Kestrel assumes the swarm wants the recordings. Wren finds damaged players left behind."
+     },
+     {
+      "title": "Copies at work",
+      "text": "The copies do more than play back. They direct clamps and presses to gather more sounds. Ox notices that the machines protect the discs before protecting themselves."
+     },
+     {
+      "title": "A message in the groove",
+      "text": "The repeated phrase is incomplete. It contains a note followed by a gap, then an order to find its source. The capture machinery is preparing to move on."
+     }
+    ],
+    "bossIntro": "The Capture Engine feeds the phrase into a press. Each copy calls another machine. Kestrel finds a seam in the press housing; Ox raises his shield as the first disc drops.",
+    "outro": "The press stops. Wren plays the undamaged fragment: a note, a pause, and the sound of an instrument being tuned. The remaining swarm follows that sound toward the next site."
+   },
+   "creatures": [
+    {
+     "id": "rpm-clamp",
+     "name": "Speed Clamp",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/disque/",
+     "blurb": "A regulator stalls a target to keep its turntable at speed.",
+     "look": "A squat brass clamp on three wheels, with a black rubber roller and a forked arm."
+    },
+    {
+     "id": "groove-crow",
+     "name": "Groove Crow",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/disque/2003-3466/",
+     "blurb": "It steals loose change and rattles away with it.",
+     "look": "A black metal bird with a disc-shaped body, a hinged beak and thin wire legs."
+    },
+    {
+     "id": "flash-crawler",
+     "name": "Flash Crawler",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/collection-pour-documents/photographies/",
+     "blurb": "It closes its shutter before advancing.",
+     "look": "A silver box on six jointed legs with a round glass eye and folding black shutter."
+    },
+    {
+     "id": "silent-cracker",
+     "name": "Silent Cracker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "finish",
+      "strike"
+     ],
+     "source": "/disque/3100-0007/",
+     "blurb": "It cracks sealed cases without making a sound.",
+     "look": "A black disc torso above heavy square jaws and two short steel legs."
+    },
+    {
+     "id": "rink-keeper",
+     "name": "Rink Keeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/disque/2017-0097/",
+     "blurb": "It lines up a long charge along its scored floor marks.",
+     "look": "A cream oval machine on two runners, with a broad blue bumper and a brass winding key."
+    },
+    {
+     "id": "picture-spinner",
+     "name": "Picture Spinner",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/disque/2009-0248/",
+     "blurb": "Its turning surface repeats the crew\u2019s moves.",
+     "look": "A circular black plate with a pale orange center, mounted on three slender arms and a spindle."
+    },
+    {
+     "id": "lab-mender",
+     "name": "Lab Mender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/document/2021-0057-1-9/",
+     "blurb": "It repairs damaged machines between tests. Deal with it before they recover.",
+     "look": "A small copper workbench on legs, with two needle arms and a spool of silver wire."
+    },
+    {
+     "id": "release-press",
+     "name": "Release Press",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/collection-pour-documents/documentation-commerciale/",
+     "blurb": "It stamps out more disc drones while its press keeps running.",
+     "look": "A tall green press with a round hopper, a wide platen and small black discs spilling from its side."
+    },
+    {
+     "id": "baffle-surveyor",
+     "name": "Baffle Surveyor",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/document/2013-0140/",
+     "blurb": "It raises panels in front of damaged allies.",
+     "look": "A narrow brass tripod carrying a round horn and folding gray felt panels."
+    },
+    {
+     "id": "brown-disc-double",
+     "name": "Brown Disc Double",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/disque/2017-0112/",
+     "blurb": "Its brittle shell breaks into working copies under pressure.",
+     "look": "A thick brown disc on four bent steel limbs, with a seam across its center."
+    },
+    {
+     "id": "letter-courier",
+     "name": "Letter Courier",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike+"
+     ],
+     "source": "/document/2013-0136/",
+     "blurb": "It interrupts the crew with orders stamped in metal.",
+     "look": "A cream box on long jointed legs, with a red rubber stamp arm and a brass slot."
+    },
+    {
+     "id": "amplifier-scavenger",
+     "name": "Amplifier Scavenger",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike+"
+     ],
+     "source": "/collection-pour-documents/information-technique-et-manuels/",
+     "blurb": "It turns small noises into a blast across the crew.",
+     "look": "A dark green cabinet with a wide circular speaker, four crablike legs and coiled cables."
+    },
+    {
+     "id": "capture-engine",
+     "name": "Capture Engine",
+     "tier": "boss",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike+"
+     ],
+     "source": "/",
+     "blurb": "It captures sounds, stamps copies and sends them onward. Stop its press before the copies crowd the floor.",
+     "look": "A tall black turntable on a wheeled cabinet, with a brass horn, a toothed press and a ring of small disc feeders."
+    },
+    {
+     "id": "silent-rig",
+     "name": "Silent Rig",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/disque/3100-0007/",
+     "blurb": "This playback rig taps warnings through the floor and shields its companions.",
+     "look": "A low gray turntable with four folding legs, a padded arm and a broad circular lid."
+    },
+    {
+     "id": "lab-annotator",
+     "name": "Lab Annotator",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/document/2021-0057-1-9/",
+     "blurb": "A careful repair machine keeps track of failed tests and loose parts.",
+     "look": "A small brass box with a hinged lid, two wire arms and a roll of blank cream paper."
+    }
+   ],
+   "events": [
+    {
+     "id": "rink-record",
+     "source": "/disque/2017-0097/",
+     "look": "A black disc and a cracked recording horn on an icy blue table.",
+     "title": "A recording under glass",
+     "text": "A homemade recording is trapped under a jammed cover. Wren can use the cover as splints, or Kestrel can sell its brass fittings.",
+     "options": [
+      {
+       "label": "Make splints",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren cuts the cover into neat braces."
+      },
+      {
+       "label": "Salvage brass",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Kestrel bags the fittings. The cover stays shut."
+      }
+     ]
+    },
+    {
+     "id": "crow-bargain",
+     "source": "/disque/2003-3466/",
+     "look": "A black metal crow holds a brass gear beside a shallow tray of coins.",
+     "title": "The crow\u2019s offer",
+     "text": "The crow will exchange its gear for a pouch of coins. Its gear teaches a quick strike; the money would buy supplies later.",
+     "options": [
+      {
+       "label": "Take the gear",
+       "effect": {
+        "type": "routine",
+        "id": "strike+"
+       },
+       "result": "Kestrel learns the gear\u2019s clean motion."
+      },
+      {
+       "label": "Keep the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The crow takes another gear and leaves a few coins behind."
+      }
+     ]
+    },
+    {
+     "id": "test-bench",
+     "source": "/document/2021-0057-1-9/",
+     "look": "A copper bench with two clamps, a spool of thread and a small brass wheel.",
+     "title": "An unfinished test",
+     "text": "A repair bench has enough power for one job. Wren can mend the crew or copy the bench\u2019s early repair setting.",
+     "options": [
+      {
+       "label": "Mend now",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren runs the bench until its battery fades."
+      },
+      {
+       "label": "Copy the setting",
+       "effect": {
+        "type": "routine",
+        "id": "patch+"
+       },
+       "result": "Wren notes the setting for later repairs."
+      }
+     ]
+    },
+    {
+     "id": "theatre-echo",
+     "source": "/document/2013-0140/",
+     "look": "A small dark theater with a silver horn and a stack of gray panels.",
+     "title": "Quiet seat, loud seat",
+     "text": "A courier is trapped behind acoustic panels. Ox can pull them down, or tune a horn to break shields. There is time for only one before the panels close.",
+     "options": [
+      {
+       "label": "Free the courier",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The courier shares a first-aid tin."
+      },
+      {
+       "label": "Tune the horn",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The horn cracks a panel and its motion is easy to copy."
+      }
+     ]
+    },
+    {
+     "id": "amplifier-screw",
+     "source": "/collection-pour-documents/information-technique-et-manuels/",
+     "look": "A green amplifier with a loose silver screw beside an open toolbox.",
+     "title": "One loose screw",
+     "text": "A screw rattles inside an amplifier. The repair crew offers either its cash box or its spare guard plate for fixing it.",
+     "options": [
+      {
+       "label": "Take the cash",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The rattle stops. The crew hands over the cash box."
+      },
+      {
+       "label": "Take the plate",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox fits the plate and practices setting it against a blow."
+      }
+     ]
+    },
+    {
+     "id": "slow-projection",
+     "source": "/disque/2009-0248/",
+     "look": "A black disc casts a pale oval of light across a narrow gap.",
+     "title": "The slow projection",
+     "text": "A picture disc lights a gap in slow pulses. Crossing now exposes the crew to flying debris; waiting lets Wren treat injuries but leaves the salvage across the gap.",
+     "options": [
+      {
+       "label": "Cross for salvage",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "Ox times the crossing and brings back a bag of fittings."
+      },
+      {
+       "label": "Wait and treat wounds",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the quiet interval. The salvage rolls out of reach."
+      }
+     ]
+    }
+   ],
+   "name": "Sound and Image Archive Emile Berliner",
+   "url": "https://archive.moeb.ca/en/"
+  },
+  {
+   "theme": "The museum: instruments in use",
+   "story": {
+    "intro": "The swarm arrives ahead of the crew and gathers instruments into mechanical players. Kestrel expects another theft. Wren hears the archive phrase again, this time with a missing note supplied by a living player.",
+    "chapters": [
+     {
+      "title": "Instruments taken",
+      "text": "Machines carry instruments into a growing orchestra. Ox holds back a collector while their owners get clear. The swarm takes care not to damage what it carries."
+     },
+     {
+      "title": "The missing player",
+      "text": "A captured instrument is returned when its player answers the recorded phrase. Wren realizes the swarm is searching for a complete performance, not simply stealing sound. Its method still traps anyone who cannot answer."
+     },
+     {
+      "title": "Held in place",
+      "text": "The orchestra keeps instruments sounding by clamping them into its frame. Kestrel finds the joints holding the clamps. The same pattern directs the swarm toward a place where other living things are being kept."
+     }
+    ],
+    "bossIntro": "The Orchestrion Keeper plays the archive phrase through its captured instruments. Its panels guard the clamps and its pipes sweep the gallery. Ox braces while Kestrel goes for the fastenings.",
+    "outro": "The instruments come free. Wren hears the full instruction in their combined notes: keep the sound from disappearing. The swarm has extended that order to the living things at the next site."
+   },
+   "creatures": [
+    {
+     "id": "crumb-march",
+     "name": "Crumb March",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/en/visit-2",
+     "blurb": "The procession steals loose supplies while the crew watches its beat.",
+     "look": "A line of tiny bronze wheeled beetles carrying tan crumbs in hooked arms."
+    },
+    {
+     "id": "wax-moth",
+     "name": "Wax Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/nl/faq",
+     "blurb": "It repeats the last movement it sees, as if playing back a cylinder.",
+     "look": "A moth with cream wax-cylinder body, thin bronze legs and translucent amber wings."
+    },
+    {
+     "id": "search-hound",
+     "name": "Search Hound",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/en/search-collections-online",
+     "blurb": "It fixes on a target and commits to a straight charge.",
+     "look": "A lean brass dog with a funnel nose, four jointed legs and a round glass eye."
+    },
+    {
+     "id": "vine-bow",
+     "name": "Vine Bow",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/",
+     "blurb": "It plucks taut strings to interrupt a careless advance.",
+     "look": "A curling green metal vine with taut silver strings and bronze leaf-shaped blades."
+    },
+    {
+     "id": "roll-serpent",
+     "name": "Roll Serpent",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "bruiser",
+     "routines": [
+      "finish",
+      "strike"
+     ],
+     "source": "/en/faq",
+     "blurb": "Its punched roll drives a snapping row of mechanical fingers.",
+     "look": "A long cream paper roll with square holes, wound around a segmented brass spine and gripping fingers."
+    },
+    {
+     "id": "collection-classifier",
+     "name": "Collection Classifier",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/fr/collections-online",
+     "blurb": "It shields the instruments it has claimed, even from their players.",
+     "look": "A blue-gray wheeled cabinet with two hinged brass plates and a long measuring arm."
+    },
+    {
+     "id": "complaint-listener",
+     "name": "Complaint Listener",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/nl/contact-0-mim",
+     "blurb": "It calls repair drones whenever it hears a fault. Silence the caller first.",
+     "look": "A tall copper horn on three legs with a round bellows and a hatch releasing tiny wheeled drones."
+    },
+    {
+     "id": "gallery-mender",
+     "name": "Gallery Mender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/fr/soutenez-nous",
+     "blurb": "It mends damaged swarm players with scavenged wire.",
+     "look": "A cream wheeled case with a spool of copper wire, two pincers and a padded lid."
+    },
+    {
+     "id": "tour-pursuer",
+     "name": "Tour Pursuer",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/fr/contact-0",
+     "blurb": "It interrupts the crew to count them again.",
+     "look": "A thin green tripod with a round brass bell, a swinging pointer and three small wheels."
+    },
+    {
+     "id": "unknown-appraiser",
+     "name": "Unknown Appraiser",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike+"
+     ],
+     "source": "/fr/faq",
+     "blurb": "It tests every object with increasingly forceful blows, including shields.",
+     "look": "A steel measuring frame on four legs with calipers, a padded mallet and a long brass probe."
+    },
+    {
+     "id": "accompanist",
+     "name": "Accompanist",
+     "tier": "elite",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep",
+      "strike"
+     ],
+     "source": "/fr/visiter-1",
+     "blurb": "Its small players multiply around a single sustained note.",
+     "look": "A cluster of brass horn heads on black spring legs surrounding a larger bellows."
+    },
+    {
+     "id": "benefactor",
+     "name": "Would-Be Benefactor",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike+"
+     ],
+     "source": "/en/support-us",
+     "blurb": "It protects stolen tools inside an armored collection case.",
+     "look": "An ornate dark wooden cabinet on brass wheels, with two shield-shaped doors and gripping arms."
+    },
+    {
+     "id": "orchestrion-keeper",
+     "name": "Orchestrion Keeper",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "sweep+",
+      "strike+"
+     ],
+     "source": "/en",
+     "blurb": "It protects the instruments caught in its frame and sweeps the gallery with their sound. Break through its guard to free them.",
+     "look": "A towering dark wooden cabinet with rows of brass pipes, broad hinged side panels, a bellows belly and hooked metal feet."
+    },
+    {
+     "id": "roll-repairer",
+     "name": "Roll Repairer",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/en/faq",
+     "blurb": "This patient mechanic splices torn rolls and damaged gear.",
+     "look": "A squat wooden case with two reels, narrow metal hands and a cream paper strip."
+    },
+    {
+     "id": "gallery-guide",
+     "name": "Gallery Guide",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/en",
+     "blurb": "It knows which instruments can be moved without harm.",
+     "look": "A slim green wheeled stand with a brass listening horn and a broad folding panel."
+    }
+   ],
+   "events": [
+    {
+     "id": "unknown-case",
+     "source": "/fr/faq",
+     "look": "A wooden instrument case rests beside a brass caliper and a folded cloth.",
+     "title": "The unknown instrument",
+     "text": "A worker needs help moving an unlabelled instrument. The classifier is near. The crew can carry the case to safety or copy the classifier\u2019s measuring trick.",
+     "options": [
+      {
+       "label": "Carry the case",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The worker shares a restorative from the case."
+      },
+      {
+       "label": "Study the caliper",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel finds a way to work past a guard."
+      }
+     ]
+    },
+    {
+     "id": "wax-footsteps",
+     "source": "/nl/faq",
+     "look": "A cream wax cylinder spins on a small brass stand in an empty corridor.",
+     "title": "Footsteps twice",
+     "text": "A cylinder repeats footsteps from an empty room. The crew can take its valuable motor or keep it running long enough to rest under cover of the sound.",
+     "options": [
+      {
+       "label": "Take the motor",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The footsteps stop and the motor comes free."
+      },
+      {
+       "label": "Rest in the echo",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren tends the crew while the loop masks their movements."
+      }
+     ]
+    },
+    {
+     "id": "torn-roll",
+     "source": "/en/faq",
+     "look": "A torn cream paper roll hangs between two brass reels.",
+     "title": "An incomplete phrase",
+     "text": "A torn roll could draw a patrol away. Wren has enough thread to repair it or to patch the crew, but not both.",
+     "options": [
+      {
+       "label": "Repair the roll",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The repaired roll interrupts the patrol at a useful beat."
+      },
+      {
+       "label": "Use the thread",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren patches the crew. The roll remains silent."
+      }
+     ]
+    },
+    {
+     "id": "two-cases",
+     "source": "/fr/collections-online",
+     "look": "Two gray cabinets pull a wooden case in opposite directions with brass pincers.",
+     "title": "A custody dispute",
+     "text": "Two cataloguing machines pull at a case. Ox can save the case for its grateful owner, or Kestrel can strip a cabinet while both are distracted.",
+     "options": [
+      {
+       "label": "Save the case",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "Its owner gives Wren a fresh medical roll."
+      },
+      {
+       "label": "Strip the cabinet",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "Kestrel pockets the brass fittings. The machines keep arguing."
+      }
+     ]
+    },
+    {
+     "id": "shop-record",
+     "source": "/fr/museumshop",
+     "look": "A black record and a wooden instrument sit in opposite pools of light.",
+     "title": "The repeated scratch",
+     "text": "A record and an instrument play the same melody. The record has a scratch on each loop. The crew can salvage its motor or study the loop to copy an attack.",
+     "options": [
+      {
+       "label": "Salvage the motor",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Kestrel removes the motor and the loop winds down."
+      },
+      {
+       "label": "Study the loop",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The crew learns the timing of a broad, repeating stroke."
+      }
+     ]
+    },
+    {
+     "id": "echo-count",
+     "source": "/fr/contact-0",
+     "look": "A brass bell hangs above a wheeled counter in a long tiled hall.",
+     "title": "One extra visitor",
+     "text": "A tour machine counts the crew\u2019s echo as another visitor. It offers a cash refund for waiting, or a shield plate if Ox helps adjust its bell.",
+     "options": [
+      {
+       "label": "Accept the refund",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The counter continues to count, but pays promptly."
+      },
+      {
+       "label": "Adjust the bell",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox fits the spare plate to his shield. The count settles."
+      }
+     ]
+    }
+   ],
+   "name": "Musical Instruments Museum Brussels",
+   "url": "https://www.mim.be/en"
+  },
+  {
+   "theme": "The gardens: preserving life",
+   "story": {
+    "intro": "The swarm is packing specimens, sealing water lines and holding plants still. It treats every change as a loss. Wren recognizes the care behind the damage. Ox finds a way through the packing crates.",
+    "chapters": [
+     {
+      "title": "Care with clamps",
+      "text": "The swarm keeps living things safe from movement. Its packing beetles do careful work, then refuse to let anything out. Wren frees what she can and checks for damage."
+     },
+     {
+      "title": "A record is not a life",
+      "text": "A nursery keeper explains that coral needs changing light and water. A recording can hold one moment, but the nursery must keep cycling. Kestrel finds the same clamp design on the garden machinery."
+     },
+     {
+      "title": "Separate cycles",
+      "text": "The swarm has joined water, light and storage to one control. Ox can hold its heavy arms while Kestrel opens the housing. Wren prepares to restore each cycle separately."
+     }
+    ],
+    "bossIntro": "The Nature Keeper winds its false moon and sends out defenders. Its hose arms sweep across the room, holding the nursery still. Ox takes the first blow. Kestrel aims for the housing while Wren watches the water.",
+    "outro": "The housing opens and the separate controls turn again. Water flows and the nursery light changes. Wren keeps the recording of the original note, while the instruments and living things remain free to change. The swarm\u2019s surviving machines help with the repairs, under supervision."
+   },
+   "creatures": [
+    {
+     "id": "press-mites",
+     "name": "Press Mites",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/story/specimens-caught-between-the-pages/",
+     "blurb": "The mites split apart when their hinged press is damaged.",
+     "look": "Tiny pale green metal mites with flat hinged backs and thin dark legs."
+    },
+    {
+     "id": "seed-rotor",
+     "name": "Seed Rotor",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/plan-your-visit/around-the-horniman/tree-folklore-trail/",
+     "blurb": "Its paired blades mimic nearby movement.",
+     "look": "A small brown seed-shaped body with two long tan spinning wings and a brass eye."
+    },
+    {
+     "id": "packing-beetle",
+     "name": "Packing Beetle",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/explore-the-collections/natural-history-collection/",
+     "blurb": "It wraps itself in padding before charging its target.",
+     "look": "A round gray beetle with overlapping felt plates, six black legs and two blunt pincers."
+    },
+    {
+     "id": "accession-crawler",
+     "name": "Accession Crawler",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/explore-the-collections/",
+     "blurb": "It stops moving targets with a clamp so it can sort them.",
+     "look": "A low brass cart with four clawed wheels, a long clamp arm and a stack of blank cream tags."
+    },
+    {
+     "id": "zither-ambusher",
+     "name": "Zither Ambusher",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike"
+     ],
+     "source": "/explore-the-collections/musical-instrument-collection/",
+     "blurb": "Its taut strings cut through shields.",
+     "look": "A flat dark wooden box on four legs, crossed by silver strings and fitted with two hooked arms."
+    },
+    {
+     "id": "siphon-hunter",
+     "name": "Siphon Hunter",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/story/saving-water-at-the-horniman/",
+     "blurb": "It drains supplies through branching hoses.",
+     "look": "A blue-gray segmented hose with a brass pump head, small wheels and three flexible suction tubes."
+    },
+    {
+     "id": "spawn-clock",
+     "name": "Spawn Clock",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/project/project-coral/",
+     "blurb": "Its false moon triggers a steady stream of machine larvae. Stop it early.",
+     "look": "A cream clockwork lamp on thin legs, with a round yellow shade and a cup of tiny metal larvae."
+    },
+    {
+     "id": "reef-mender",
+     "name": "Reef Mender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/event/aquarium/",
+     "blurb": "It tends several damaged machines at once with its branching tools.",
+     "look": "A turquoise wheeled pump with coral-shaped copper arms, small glass tanks and a padded nozzle."
+    },
+    {
+     "id": "handling-mimic",
+     "name": "Handling Mimic",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/explore-the-collections/handling-collection/",
+     "blurb": "Its jointed arms repeat the crew\u2019s motions.",
+     "look": "A wooden puppet with a round blank face, hinged hands and a square blue chest."
+    },
+    {
+     "id": "monkey-puzzle",
+     "name": "Monkey Puzzle",
+     "tier": "elite",
+     "bodyPlan": "plant",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike+"
+     ],
+     "source": "/plan-your-visit/around-the-horniman/tree-folklore-trail/",
+     "blurb": "Interlocking branches shield the machines nesting behind it.",
+     "look": "A dark green metal tree with layered triangular scales, hooked branches and a broad wheeled root base."
+    },
+    {
+     "id": "context-cracker",
+     "name": "Context Cracker",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "finish",
+      "strike"
+     ],
+     "source": "/story/cracking-the-nutmeg-researching-the-caribbean-collection/",
+     "blurb": "It breaks cases open and discards the notes beside them.",
+     "look": "A heavy brown wooden shell with steel jaws, a lever tail and four short legs."
+    },
+    {
+     "id": "pond-reef-engine",
+     "name": "Pond-Reef Engine",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike+"
+     ],
+     "source": "/event/aquarium/",
+     "blurb": "It sends out valve drones while switching water circuits.",
+     "look": "A broad blue pump on six legs with two glass chambers, brass valves and a hatch of small fish-shaped drones."
+    },
+    {
+     "id": "nature-keeper",
+     "name": "Nature Keeper",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "strike+"
+     ],
+     "source": "/project/nature-love/",
+     "blurb": "Its nursery clock spawns defenders while its sweeping irrigation arms pin living things in place. Break the machine and restore their separate cycles.",
+     "look": "A towering green and brass nursery machine with a round moon lamp, a tank belly, branching hose arms and a ring of hinged seed drawers."
+    },
+    {
+     "id": "coral-keeper",
+     "name": "Coral Keeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/project/project-coral/",
+     "blurb": "It keeps the nursery\u2019s water and light on their proper cycles.",
+     "look": "A small cream wheeled tank with a blue glass bowl, soft nozzle and two brass valve hands."
+    },
+    {
+     "id": "handling-custodian",
+     "name": "Handling Custodian",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/explore-the-collections/handling-collection/",
+     "blurb": "It lends tools and shields anyone returning them.",
+     "look": "A sturdy wooden box on short legs with a broad padded lid and two copper hands."
+    },
+    {
+     "id": "garden-spotter",
+     "name": "Garden Spotter",
+     "tier": "ally",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/plan-your-visit/around-the-horniman/",
+     "blurb": "It marks safe paths around the swarm\u2019s nests.",
+     "look": "A small yellow and black mechanical bee with clear wings and a dangling green ribbon."
+    }
+   ],
+   "events": [
+    {
+     "id": "shared-water",
+     "source": "/story/saving-water-at-the-horniman/",
+     "look": "A blue tank feeds two narrow pipes, one toward a glass bowl and one toward a garden bed.",
+     "title": "The last clean tank",
+     "text": "A nursery and a garden both need water. The crew has time to clear only one feed before the pump stops.",
+     "options": [
+      {
+       "label": "Water the nursery",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The keeper shares its medical water after the nursery is safe."
+      },
+      {
+       "label": "Water the garden",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "A gardener repays the crew with saved fittings."
+      }
+     ]
+    },
+    {
+     "id": "herbarium-sheet",
+     "source": "/story/specimens-caught-between-the-pages/",
+     "look": "A cream sheet with a green leaf imprint lies beside an open metal press.",
+     "title": "The loose sheet",
+     "text": "A press is closing on an old plant sheet. Kestrel can pull the sheet free for a researcher, or salvage the press\u2019s useful guard plate.",
+     "options": [
+      {
+       "label": "Rescue the sheet",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The researcher pays for its safe return."
+      },
+      {
+       "label": "Take the plate",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox fits the plate to his shield. The sheet stays under the press."
+      }
+     ]
+    },
+    {
+     "id": "nest-helmet",
+     "source": "/event/creative-creatures-play/",
+     "look": "A gray helmet hangs in a woven nest with three small brass eggs.",
+     "title": "A helmet in the nest",
+     "text": "A machine nest holds a helmet and a pouch of coins. Taking either will wake its builder, so the crew has time for one.",
+     "options": [
+      {
+       "label": "Take the helmet",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox uses the helmet\u2019s curved plate to protect an ally."
+      },
+      {
+       "label": "Take the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "Kestrel gets the coins out before the nest stirs."
+      }
+     ]
+    },
+    {
+     "id": "false-tracks",
+     "source": "/explore-the-collections/archives/",
+     "look": "Black bird-shaped shadows cross a pale floor toward a narrow vent.",
+     "title": "Tracks through a door",
+     "text": "Projected tracks hide a vent. The crew can use it to reach a supply cache or stay in the quiet corridor while Wren treats injuries.",
+     "options": [
+      {
+       "label": "Crawl to the cache",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Kestrel returns with a handful of fittings."
+      },
+      {
+       "label": "Rest in the corridor",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the stillness to patch everyone up."
+      }
+     ]
+    },
+    {
+     "id": "aquarium-valves",
+     "source": "/event/aquarium/",
+     "look": "Two brass valve wheels sit above separate green and blue water pipes.",
+     "title": "Two wheels",
+     "text": "A pump is mixing pond and reef water. Ox can hold one wheel while Kestrel resets the other, or they can take the spare pump mechanism before the room floods.",
+     "options": [
+      {
+       "label": "Reset the valves",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The keeper thanks them with a clean first-aid supply."
+      },
+      {
+       "label": "Take the mechanism",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "Wren learns how to clear a fouled line. The keeper handles the valves."
+      }
+     ]
+    },
+    {
+     "id": "object-and-note",
+     "source": "/story/cracking-the-nutmeg-researching-the-caribbean-collection/",
+     "look": "A wooden case holds a small carved object beside a separate folded cream sheet.",
+     "title": "One trip",
+     "text": "A drawer is rolling away with an object and its research note. There is time to secure only one before it shuts.",
+     "options": [
+      {
+       "label": "Save the object",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "A researcher rewards its return and starts looking for the note."
+      },
+      {
+       "label": "Save the note",
+       "effect": {
+        "type": "routine",
+        "id": "finish"
+       },
+       "result": "The note\u2019s drawing shows Kestrel where a similar mechanism is weakest."
+      }
+     ]
+    },
+    {
+     "id": "moon-lamp",
+     "source": "/project/project-coral/",
+     "look": "A round yellow lamp shines over a glass nursery and a tray of brass larvae.",
+     "title": "The false moon",
+     "text": "The lamp serves a living nursery and a swarm clock. Wren can shield the nursery while Ox disables the clock, or preserve the lamp\u2019s mechanism for later use.",
+     "options": [
+      {
+       "label": "Protect the nursery",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The keeper opens a medical kit for the crew."
+      },
+      {
+       "label": "Keep the mechanism",
+       "effect": {
+        "type": "routine",
+        "id": "charge"
+       },
+       "result": "Ox studies its winding spring. The keeper adjusts the nursery light."
+      }
+     ]
+    }
+   ],
+   "name": "Horniman Museum and Gardens",
+   "url": "https://www.horniman.ac.uk/"
+  }
+ ],
+ "id": "2026-11-11",
+ "seed": 1318861037
+}
