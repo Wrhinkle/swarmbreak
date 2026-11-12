@@ -474,8 +474,8 @@ def release(dry=False):
         return f'Release check failed: {e}'
 
 
-def checkout_capacity_failure(error, directory):
-    """Describe a failed release checkout without deleting or retrying any work."""
+def checkout_capacity_failure(error, directory, stage='release checkout'):
+    """Describe a release capacity failure without deleting or retrying any work."""
     if not (isinstance(error, OSError) and error.errno == errno.ENOSPC or
             'no space left on device' in str(error).lower()):
         return None
@@ -485,7 +485,7 @@ def checkout_capacity_failure(error, directory):
         detail = f'{directory} (device {device}): {usage.free} bytes available of {usage.total}'
     except OSError as e:
         detail = f'{directory}: capacity unavailable ({e})'
-    return (f'Not deploying: release checkout failed: no space left on device; {detail}. '
+    return (f'Not deploying: {stage} failed: no space left on device; {detail}. '
             'No files reclaimed; host must inspect eligible worktrees and restore capacity before retrying.')
 
 
@@ -515,6 +515,9 @@ def deploy(dry, rev=None):
             for cmd in (['npm', 'ci'], ['npm', 'run', 'build'], ['npm', 'test']):
                 r = sh(*cmd, cwd=tree, check=False)
                 if r.returncode:
+                    failure = checkout_capacity_failure(r.stdout + r.stderr, tree, ' '.join(cmd))
+                    if failure:
+                        return failure
                     return f'Not deploying: {" ".join(cmd)} failed: {r.stdout[-500:]}'
             deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
             if not re.fullmatch(r'[0-9a-f]{40}', deployed_rev):
@@ -903,12 +906,16 @@ def main():
 def persistent_release_blocker(result):
     return result.startswith(('Missing run:', 'Not deploying: npm run build failed:',
                               'Not deploying: npm test failed:',
-                              'Not deploying: release checkout failed: no space left on device;'))
+                              'Not deploying: release checkout failed: no space left on device;',
+                              'Not deploying: npm ci failed: no space left on device;'))
 
 
 def release_blocker_identity(result):
-    capacity = 'release -> Not deploying: release checkout failed: no space left on device;'
-    return capacity if result.startswith(capacity) else result
+    for stage in ('release checkout', 'npm ci', 'npm run build', 'npm test'):
+        capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
+        if result.startswith(capacity):
+            return capacity
+    return result
 
 
 def release_step(failures, dry=False, previous=()):

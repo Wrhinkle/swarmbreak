@@ -555,6 +555,11 @@ with patch('manager.sh', side_effect=SystemExit('git worktree add failed: No spa
 assert manager.checkout_capacity_failure(OSError(28, 'No space left on device'), '/tmp').startswith('Not deploying:')
 assert manager.checkout_capacity_failure(OSError(13, 'Permission denied'), '/tmp') is None
 
+# Run the release capacity regression with the manager suite as well as independently.
+import unittest
+from test_release_capacity import ReleaseCapacityTest
+assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(ReleaseCapacityTest)).wasSuccessful()
+
 # Deploy checks reject a future base even immediately before opening, but permit a reserve.
 for manifest, moment, should_deploy in [
     ({**m5, 'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}, datetime(2026, 11, 6, 12, 59, tzinfo=timezone.utc), False),
