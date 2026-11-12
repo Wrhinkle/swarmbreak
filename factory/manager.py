@@ -443,7 +443,15 @@ def game_changed(live_rev, rev):
 
 def release_check():
     try:
-        sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
+        try:
+            sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
+        except (SystemExit, OSError) as e:
+            if (isinstance(e, OSError) and e.errno == errno.ENOSPC or
+                    'no space left on device' in str(e).lower()):
+                return (f'Not deploying: release fetch failed: no space left on device; '
+                        f'failing filesystem: unknown; repository candidate: {capacity_detail(ROOT)}; '
+                        f'git output: {str(e)[-1000:]}'), None
+            raise
         rev = sh('git', 'rev-parse', 'origin/main').stdout.strip()  # deploy exactly the commit that was checked
         main_m = json.loads(sh('git', 'show', f'{rev}:public/manifest.json').stdout)
         now = datetime.now(timezone.utc)
@@ -1013,12 +1021,13 @@ def persistent_release_blocker(result):
     return result.startswith(('Missing run:', 'Not deploying: npm run build failed:',
                               'Not deploying: npm test failed:',
                               'Not deploying: release checkout failed: no space left on device;',
+                              'Not deploying: release fetch failed: no space left on device;',
                               'Not deploying: release revision file failed: no space left on device;',
                               'Not deploying: npm ci failed: no space left on device;'))
 
 
 def release_blocker_identity(result):
-    for stage in ('release checkout', 'release revision file', 'npm ci', 'npm run build', 'npm test'):
+    for stage in ('release checkout', 'release fetch', 'release revision file', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
             return capacity
