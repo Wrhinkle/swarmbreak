@@ -1,3 +1,5 @@
+import { fightActions } from './fight-actions';
+import { readiness } from './readiness';
 import { mobileBattlefield } from './mobile-battlefield';
 import { fightPaint } from './fight-paint';
 import { hudHealth, hudLocation } from './hud';
@@ -34,12 +36,13 @@ let combat: CombatState | null = null, speed = 1, paused = false, animation = 0,
 let fightLayoutCleanup = () => {};
 let flashes: { target: string; text: string; until: number }[] = [];
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, text?: string, cls?: string): HTMLElementTagNameMap[K] => { const n = document.createElement(tag); if (text !== undefined) n.textContent = text; if (cls) n.className = cls; return n; };
-export function renderRoster(roster: HTMLElement, fighters: CombatState['fighters']) {
+export function renderRoster(roster: HTMLElement, fighters: CombatState['fighters'], tick = 0, events: CombatState['events'] = []) {
+  const actions = fightActions(fighters, events);
   roster.replaceChildren();
   for (const side of ['crew', 'enemy'] as const) {
     const group = el('div');
     group.append(stageLabel(side === 'crew' ? 'Crew' : 'Enemies'));
-    for (const f of fighters.filter(f => f.side === side)) group.append(el('p', fighterHealth(f.creature.name, f.hp, f.maxHp, f.shield)));
+    for (const f of fighters.filter(f => f.side === side)) group.append(el('p', `${fighterHealth(f.creature.name, f.hp, f.maxHp, f.shield)} · ${readiness(f, tick)}${actions.has(f.id) ? ` · ${actions.get(f.id)}` : ''}`));
     roster.append(group);
   }
 }
@@ -167,8 +170,8 @@ function startFight(n:MapNode){ screen='fight'; clear(); stageHeading(`${n.kind}
  const { paint, cleanup } = fightPaint(matchMedia('(max-width: 600px)'), draw);
  const updateStatus = () => { if (combat) status.textContent=`Tick ${combat.t} / 3000 · order cooldown ${combat.cooldown} ticks${combat.queued?' · order queued':''}`; };
  fightLayoutCleanup = cleanup;
- function frame(time:number){if(screen!=='fight'||!combat||paused)return;if(!lastTime)lastTime=time;accumulator+=Math.min(100,time-lastTime)*speed;lastTime=time;let changed=false;while(accumulator>=TICK_MS&&!combat.result){accumulator-=TICK_MS;combat=step(combat);changed=true;for(const e of combat.events){if(e.kind==='damage'&&e.amount)flashes.push({target:e.target,text:`−${e.amount}`,until:combat.t+10});if(e.kind==='heal'&&e.amount)flashes.push({target:e.target,text:`+${e.amount}`,until:combat.t+10});} combat.events=combat.events.filter(e=>combat!.t-e.t<6); flashes=flashes.filter(f=>f.until>combat!.t); } if(changed){today().combat=combat;persist();renderRoster(fightRoster,combat.fighters); battlefield.update(combat.fighters); updateStatus(); const meters=root.querySelectorAll<HTMLProgressElement>('.hud progress'); combat.fighters.filter(f=>f.side==='crew'&&!f.summonedBy).forEach((f,i)=>{const m=meters[i]; if(m){m.value=Math.max(0,f.hp); m.setAttribute('aria-label',`${f.creature.name}: ${Math.ceil(f.hp)} of ${f.maxHp} HP`);}});} paint();if(combat.result){ finishFight();return;}animation=requestAnimationFrame(frame); }
- renderRoster(fightRoster,combat.fighters);battlefield.update(combat.fighters);updateStatus();paint();lastTime=0;accumulator=0;cancelAnimationFrame(animation);animation=requestAnimationFrame(frame);
+ function frame(time:number){if(screen!=='fight'||!combat||paused)return;if(!lastTime)lastTime=time;accumulator+=Math.min(100,time-lastTime)*speed;lastTime=time;let changed=false;while(accumulator>=TICK_MS&&!combat.result){accumulator-=TICK_MS;combat=step(combat);changed=true;for(const e of combat.events){if(e.kind==='damage'&&e.amount)flashes.push({target:e.target,text:`−${e.amount}`,until:combat.t+10});if(e.kind==='heal'&&e.amount)flashes.push({target:e.target,text:`+${e.amount}`,until:combat.t+10});} combat.events=combat.events.filter(e=>combat!.t-e.t<6); flashes=flashes.filter(f=>f.until>combat!.t); } if(changed){today().combat=combat;persist();renderRoster(fightRoster,combat.fighters,combat.t,combat.events); battlefield.update(combat.fighters,combat.t,combat.events); updateStatus(); const meters=root.querySelectorAll<HTMLProgressElement>('.hud progress'); combat.fighters.filter(f=>f.side==='crew'&&!f.summonedBy).forEach((f,i)=>{const m=meters[i]; if(m){m.value=Math.max(0,f.hp); m.setAttribute('aria-label',`${f.creature.name}: ${Math.ceil(f.hp)} of ${f.maxHp} HP`);}});} paint();if(combat.result){ finishFight();return;}animation=requestAnimationFrame(frame); }
+ renderRoster(fightRoster,combat.fighters,combat.t,combat.events);battlefield.update(combat.fighters,combat.t,combat.events);updateStatus();paint();lastTime=0;accumulator=0;cancelAnimationFrame(animation);animation=requestAnimationFrame(frame);
 }
 function finishFight(){ if(!combat||!room)return; cancelAnimationFrame(animation);const t=today(), result=combat.result; const originals=combat.fighters.filter(f=>f.side==='crew'&&!f.summonedBy); let idx=0;for(const c of t.crew.filter(c=>c.active)){c.hp=originals[idx++]?.hp??0;}t.gold=Math.max(0,t.gold-combat.goldStolen);delete t.combat; if(result==='loss'){save=finishRun(save,'loss',null,[]);persist();announce('Fight lost. Your run is over.');showResult();return;} const reward=room.kind==='boss'?100:room.kind==='elite'?60:30;t.gold+=reward; let text=`Victory! ${reward} gold.`; if(room.kind==='elite'&&act().shop.length){const id=act().shop[(room.floor+run.seed)%act().shop.length];t.deck.push(id);text+=` Found ${ROUTINES[id].name}.`;} announce(text); t.pending=`victory:${room.id}`; persist(); showVictory(text); }
 function showVictory(text:string){ screen='fight-result';clear();stageHeading('The swarm retreats','Victory',text);const panel=el('section',undefined,'paper'); panel.append(btn('Continue',completeRoom,false,'primary')); root.append(panel); }

@@ -22,13 +22,18 @@ it('shows both sides and updates health while preserving the enemy inspect contr
     const field = mobileBattlefield(inspect);
     const fighters = [
       { id: 'c0', side: 'crew', creature: { name: 'Ally', sprite: '/ally.png' }, hp: 10, maxHp: 20, shield: 0 },
-      { id: 'e0', side: 'enemy', creature: { name: 'Enemy', sprite: '/enemy.png' }, hp: 9, maxHp: 12, shield: 0 },
+      { id: 'e0', side: 'enemy', creature: { name: 'Enemy', sprite: '/enemy.png' }, hp: 9, maxHp: 12, shield: 0, speed: 8, nextAction: 8 },
     ] as CombatState['fighters'];
     field.update(fighters);
     const root = field.element as unknown as Element;
     const ally = root.children[0].children[0], enemy = root.children[1].children[0];
     expect(ally.children[1].textContent).toBe('Ally');
     expect(enemy.children[2].textContent).toBe('9 / 12 HP');
+    expect(enemy.children[3].textContent).toBe('Turn readiness: 0%');
+    field.update(fighters, 4);
+    expect(enemy.children[3].textContent).toBe('Turn readiness: 50%');
+    field.update(fighters, 4, [{ t: 4, kind: 'action', actor: 'e0', target: 'e0', amount: 0, routine: 'strike' }, { t: 4, kind: 'damage', actor: 'e0', target: 'c0', amount: 1, routine: 'strike' }]);
+    expect(enemy.children[3].textContent).toBe('Turn readiness: 50% · Acted: Strike → Ally');
     enemy.listeners.click(); expect(inspect).toHaveBeenCalledWith('e0');
     fighters[1].hp = 4; fighters[1].shield = 2; field.update(fighters);
     expect(root.children[1].children[0]).toBe(enemy);

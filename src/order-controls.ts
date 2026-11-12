@@ -41,6 +41,9 @@ export function orderSelectors(fighters: Fighter[], queue: (fighter: string, rou
     box.append(legend, control);
     return box;
   };
-  group.append(field('Order a crew member', crew), field('Manual routine', routine), button);
+  const limitation = document.createElement('p');
+  limitation.className = 'order-limitation';
+  limitation.textContent = 'One order at a time; using it starts a shared cooldown.';
+  group.append(field('Order a crew member', crew), field('Manual routine', routine), button, limitation);
   return group;
 }
