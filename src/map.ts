@@ -24,3 +24,11 @@ export const mapIconPaths: Record<string,string> = {
   treasure:'M3 10h18v10H3z M3 10l3-5h12l3 5 M12 10v10', boss:'M12 2l8 5v10l-8 5-8-5V7z M8 10h.1 M16 10h.1 M8 15h8',
   mystery:'M9 8a3 3 0 116 0c0 2-3 2-3 5 M12 17v1'
 };
+
+/** Keep immediate travel choices ahead of optional map details. */
+export function appendMapSections(root: HTMLElement, routes: HTMLElement, story: HTMLElement | null, sheet: HTMLElement, navigation?: HTMLElement) {
+  root.append(routes);
+  if (navigation) root.append(navigation);
+  if (story) root.append(story);
+  root.append(sheet);
+}
