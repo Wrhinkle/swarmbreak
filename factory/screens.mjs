@@ -11,6 +11,7 @@
 // own copy, never the one in the tree under review.
 // usage: node screens.mjs <chrome> <dist> <outDir>
 import { spawn } from 'node:child_process';
+import { fightControls } from './screen-fight-controls.mjs';
 import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
@@ -129,17 +130,29 @@ try {
     const entered = await js(label => { const b = [...document.querySelectorAll('button.route')].find(b => b.textContent.includes(label)); b?.click(); return !!b; }, firstFight.label);
     if (!entered) throw new Error(`first-floor fight "${firstFight.label}" is not reachable`);
     await press('^Pause$');
-    await press('^Resume$');
-    await sleep(600); // allow the fight animation and simulation to run
-    await press('^Pause$');
-    const fight = await js(() => ({ canvas: !!document.querySelector('canvas[aria-label^="Fight:"]'),
-      crew: !![...document.querySelectorAll('legend')].find(e => e.textContent === 'Order a crew member'),
-      routine: !![...document.querySelectorAll('legend')].find(e => e.textContent === 'Manual routine'),
-      queue: !![...document.querySelectorAll('button')].find(b => b.textContent === 'Queue order' && b.checkVisibility()),
-      // The ATB fight (issue #37) replaces queued orders with a per-fighter choice and an Auto battle switch.
-      atb: !!document.querySelector('section[aria-label="Combat action"]') && !![...document.querySelectorAll('button')].find(b => b.textContent.startsWith('Auto battle:') && b.checkVisibility()) }));
-    const { canvas, crew, routine, queue, atb } = fight;
-    if (!(canvas && (atb || (crew && routine && queue)))) throw new Error(`first fight controls missing: ${JSON.stringify(fight)}`);
+    let fight = await js(fightControls, KEY);
+    if (fight.auto) {
+      if (fight.auto === 'Auto battle: on') await press('^Auto battle: on$');
+      fight = await js(fightControls, KEY);
+      if (fight.auto !== 'Auto battle: off') throw new Error('could not disable Auto battle');
+      await press('^Resume$');
+      // The simulation stops itself at a fighter decision. Do not mistake an empty panel for one.
+      for (let i = 0; i < 200; i++) {
+        fight = await js(fightControls, KEY);
+        if (fight.pending) break;
+        await sleep(100);
+      }
+      if (!fight.pending) throw new Error('no fighter decision appeared within 20 seconds');
+      if (!(fight.canvas && fight.auto === 'Auto battle: off' && fight.choices))
+        throw new Error(`fighter decision controls missing: ${JSON.stringify(fight)}`);
+    } else {
+      await press('^Resume$');
+      await sleep(600); // allow the legacy fight animation and simulation to run
+      await press('^Pause$');
+      fight = await js(fightControls, KEY);
+      if (!(fight.canvas && fight.crew && fight.routine && fight.queue))
+        throw new Error(`first fight controls missing: ${JSON.stringify(fight)}`);
+    }
     await shot('fresh-fight');
     for (const kind of ROOMS) if (await resume(kind)) await shot(kind); else shots.push({ screen: kind, width, missing: true });
     await resume(''); await press('crew'); await shot('crew');
