@@ -6,7 +6,7 @@ Every worker reads this before every job. One line per lesson; the coach keeps i
 - A nested `sandbox-exec` fails inside your own sandbox ("sandbox_apply: Operation not permitted"). That alone isn't a blocker; the host reruns the checks outside it.
 - PR #199's new deletion check made a merge test's catch-all Git mock return a fake deletion and exit; when adding Git queries, update affected mocks to return realistic results and run the full manager suite, not only the new test.
 - UI work is judged by looking at it. A long word in a big font can wrap mid-word at 390px; size headings with `clamp()` and check both widths.
-- PR #221 replaced the fight controls expected by the host's screen checker; editing the PR's checker could not help because the host runs main's copy. Land a reviewed, compatible checker update on main first, preserving its checks, then verify the UI PR.
+- PR #221 replaced fight controls expected by the host's screen checker, and PR #258's alternate Auto battle branch let missing order controls pass. Land a reviewed checker update on main first; preserve every existing control check in every accepted path, then verify the UI PR against main's checker.
 - During play nothing may sit outside the game stage: footers and credits outside it make the page scroll on phones.
 - A worktree has no `factory/.venv`; scripts that need it must use the main checkout's, not fail on a missing path.
 - A queued merge can finish after the foreman stops listing the PR: PR #196's deferred cleanup waited for a later PR pass that open-PR scheduling could miss. Persist the handoff and arrange a tested revisit after closure, preserving dirty worktrees and screenshot evidence until then.
