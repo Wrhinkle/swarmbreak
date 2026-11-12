@@ -24,6 +24,76 @@ assert any('already' in p for p in check_post({'top_level': good}, t))
 assert any('unknown id' in p for p in check_post({'replies': [{'to': 'R9', 'body': 'ok'}]}, t))
 assert check_post({'replies': [{'to': 'R1', 'body': 'ok'}]}, t) == []
 from unittest.mock import patch
+
+# A verified UI job inspects every host image; production modules can affect the screen indirectly.
+import json, tempfile
+import builder
+with tempfile.TemporaryDirectory() as d:
+    tree = Path(d) / 'tree'
+    (tree / 'node_modules').mkdir(parents=True)
+    source = Path(d) / 'host-shots'
+    source.mkdir()
+    names = [f'{screen}-{width}.png' for screen in ('title', 'map', 'crew', 'fight', 'shop', 'treasure', 'event', 'rest') for width in (390, 1280)]
+    for name in names:
+        (source / name).write_bytes(b'host image')
+    calls = []
+    report = {'outcome': 'fixed', 'summary': 'No visual defects.', 'evidence': ' '.join(names)}
+    def visual_bot(role, workdir, prompt, **kwargs):
+        calls.append(prompt)
+        assert all((tree / line).read_bytes() == b'host image' for line in prompt.splitlines() if line.endswith('.png'))
+        (tree / builder.RESULT).write_text(json.dumps(report))
+        return 0
+    with patch.object(builder, 'shots_dir', return_value=source), patch.object(builder, 'bot', side_effect=visual_bot):
+        assert builder.look_at_screens(tree, ['factory/builder.py', 'src/main.test.ts', 'tools/sim.ts']) is None and not calls
+        for path in ('src/main.ts', 'src/combat.ts', 'src/library.ts', 'src/other.ts'):
+            assert builder.look_at_screens(tree, [path]) == report
+        assert all(name in calls[0] for name in names)
+        report['evidence'] = 'map-390.png map-1280.png fight-390.png'
+        try:
+            builder.look_at_screens(tree, ['src/main.ts'])
+        except builder.HostVerificationError:
+            pass
+        else:
+            raise AssertionError('incomplete multi-screen evidence accepted')
+        assert not list((tree / 'node_modules').iterdir())
+        (source / names[0]).unlink()
+        try:
+            builder.look_at_screens(tree, ['index.html'])
+        except builder.HostVerificationError:
+            pass
+        else:
+            raise AssertionError('missing screenshot accepted')
+original = {'outcome': 'fixed', 'summary': 'Fixed the job.', 'evidence': 'Job tests passed.'}
+with patch.object(builder, 'look_at_screens', return_value=None) as look, patch.object(builder, 'check_published') as checks:
+    assert builder.visual_handoff(None, set(), set(), ['factory/builder.py'], original) == (None, [], ['factory/builder.py'])
+    look.assert_called_once()
+    checks.assert_not_called()
+for job in (original, {'outcome': 'partial', 'summary': 'First part.', 'remaining': 'Second part.', 'evidence': 'Tests passed.'}):
+    visual = {'outcome': job['outcome'], 'summary': 'Fixed clipping.', 'evidence': 'All images inspected.'}
+    with patch.object(builder, 'look_at_screens', return_value=visual), patch.object(builder, 'check_published', return_value=(['test failure'], ['src/main.ts'])) as checks:
+        result, bad, changed = builder.visual_handoff(None, set(), set(), ['src/main.ts'], job)
+        assert result['outcome'] == job['outcome'] and job['summary'] in result['summary'] and visual['summary'] in result['summary']
+        assert job['evidence'] in result['evidence'] and visual['evidence'] in result['evidence']
+        assert result.get('remaining') == job.get('remaining') and bad == ['test failure'] and changed == ['src/main.ts']
+        checks.assert_called_once()
+    for invalid in ({**visual, 'outcome': 'partial' if job['outcome'] == 'fixed' else 'fixed'},
+                    {**visual, 'summary': ''}, {**visual, 'remaining': 'Changed work'}):
+        with patch.object(builder, 'look_at_screens', return_value=invalid), patch.object(builder, 'check_published') as checks:
+            try:
+                builder.visual_handoff(None, set(), set(), ['src/main.ts'], job)
+            except builder.HostVerificationError:
+                pass
+            else:
+                raise AssertionError('invalid visual handoff accepted')
+            checks.assert_not_called()
+for invalid in ({**original, 'summary': ''}, {**original, 'evidence': None}, {'outcome': 'partial', 'summary': 'Part.', 'evidence': 'Tests.'}):
+    try:
+        builder.validate_job_result(invalid)
+    except builder.HostVerificationError:
+        pass
+    else:
+        raise AssertionError('invalid job result accepted')
+print('ok builder screenshot handoff')
 with patch('manager.posted_today', return_value=0):
     reply = {'to': 'R1', 'body': 'We could not determine what occurred.'}
     assert check_post({'replies': [reply]}, t) == []

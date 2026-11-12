@@ -6,13 +6,13 @@ Anything else is saved on the issue's branch and the pass fails, for the foreman
 Usage: python3 factory/builder.py <issue> [--dry-run]
 Prints the PR number on the last line when it opens one. Only issues filed by the repo owner qualify for now.
 """
-import hashlib, json, re, subprocess, sys, urllib.request
+import hashlib, json, re, shutil, subprocess, sys, tempfile, urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import QODO, HostVerificationError, PROTECTED, REPO, bot, hold, sh, verified  # noqa: E402
+from pr_team import QODO, HostVerificationError, PROTECTED, REPO, bot, hold, sh, shots_dir, verified  # noqa: E402
 from manager import effective  # noqa: E402
 
 OWNER, SITE = 'Wrhinkle', 'https://swarmbreak-game.web.app'
@@ -176,6 +176,45 @@ def changed_from_main(tree):
     return sorted({n for n in names if n and n not in (RESULT, '.issue.json')})
 
 
+def look_at_screens(tree, changed):
+    """Give one verified UI change to the builder for visual review, using ignored, sandbox-readable copies."""
+    def draws_screen(path):
+        # Any production source module may affect rendered state or text indirectly.
+        return path == 'index.html' or (path.startswith('src/') and '.test.' not in path)
+
+    if not any(draws_screen(p) for p in changed):
+        return None
+    modules = tree / 'node_modules'
+    if modules.is_symlink() or not modules.is_dir():
+        raise HostVerificationError('Cannot place screenshots in the ignored node_modules directory')
+    screens = ('title', 'map', 'crew', 'fight', 'shop', 'treasure', 'event', 'rest')
+    names = [f'{screen}-{width}.png' for screen in screens for width in (390, 1280)]
+    with tempfile.TemporaryDirectory(prefix='.builder-screens-', dir=modules) as directory:
+        dest = Path(directory)
+        for name in names:
+            source = shots_dir(tree) / name
+            if source.is_symlink() or not source.is_file():
+                raise HostVerificationError(f'Host screenshot missing or unsafe: {source}')
+            shutil.copyfile(source, dest / name)
+        paths = [str((dest / name).relative_to(tree)) for name in names]
+        (tree / RESULT).unlink(missing_ok=True)
+        status = bot('builder', tree, 'This is the one visual look pass after host verification. '
+                     'Open and inspect every screenshot below at both widths for wrapping, clipping, overlap and layout defects. '
+                     'Fix any defects. Write .builder-result.json with the original job outcome, a nonempty summary of '
+                     'visual fixes or that none were needed, and evidence naming every screenshot inspected.\n'
+                     + '\n'.join(paths), effort='high')
+        if status:
+            raise HostVerificationError(f'Visual look pass failed (exit {status})')
+        try:
+            result = json.loads((tree / RESULT).read_text())
+        except (OSError, ValueError) as exc:
+            raise HostVerificationError(f'Visual look pass wrote no readable result: {exc}') from exc
+        evidence = result.get('evidence', '') if isinstance(result, dict) else ''
+        if not isinstance(evidence, str) or not all(name in evidence for name in names):
+            raise HostVerificationError('Visual look pass evidence must name every screenshot at both widths')
+        return result
+
+
 def clean_on_main(tree):
     """The reported evidence applies to main only if no saved or unfinished work differs from it."""
     for args in [('diff', '--quiet', 'origin/main', 'HEAD'),
@@ -245,6 +284,33 @@ def check_published(tree, live, reserves):
             return bad, changed
         live |= latest
         reserves |= pending
+
+
+def validate_job_result(result):
+    """A shippable job needs a usable description and evidence, including remaining work for a part."""
+    if not isinstance(result, dict) or result.get('outcome') not in SHIPS:
+        raise HostVerificationError('Invalid job outcome')
+    for field in ('summary', 'evidence') + (('remaining',) if result['outcome'] == 'partial' else ()):
+        if not isinstance(result.get(field), str) or not result[field].strip():
+            raise HostVerificationError(f'Job result needs a nonempty {field}')
+
+
+def visual_handoff(tree, live, reserves, changed, original):
+    """Keep the job report, add the visual report, and rerun host checks before shipping."""
+    validate_job_result(original)
+    result = look_at_screens(tree, changed)
+    if result is None:
+        return None, [], changed
+    if (not isinstance(result, dict) or result.get('outcome') != original['outcome']
+            or ('remaining' in result and result['remaining'] != original.get('remaining'))):
+        raise HostVerificationError('Visual look pass changed the job outcome or remaining work')
+    for field in ('summary', 'evidence'):
+        if not isinstance(result.get(field), str) or not result[field].strip():
+            raise HostVerificationError(f'Visual look pass needs a nonempty {field}')
+    combined = {**original, 'summary': original['summary'] + '\n\nVisual review: ' + result['summary'],
+                'evidence': original['evidence'] + '\n\nVisual review: ' + result['evidence']}
+    bad, changed = check_published(tree, live, reserves)
+    return combined, bad, changed
 
 
 def notes(tree, number):
@@ -335,6 +401,7 @@ def main():
     if progress or conflicts:
         extra = ('Earlier passes did part of this job. `progress` in .issue.json says what they did and what is left. Continue from there. '
                  + (f'Merging main left conflict markers in {conflicts}; resolve them first. ' if conflicts else ''))
+    looked = False
     for attempt in range(RETRIES + 1):
         (tree / RESULT).unlink(missing_ok=True)
         brief = (ROOT / 'factory/agents' / f'{role}.md').read_text() + '\n\nDo the job above under the builder rules.\n\n' if role else ''
@@ -353,10 +420,25 @@ def main():
             if result.get('outcome') not in SHIPS:
                 break
             try:
+                validate_job_result(result)
                 bad, changed = check_published(tree, live, reserves)
             except (HostVerificationError, OSError, ValueError, KeyError, TypeError) as exc:
                 bad = [str(exc)]
                 break
+            if not bad and not looked:
+                try:
+                    looked_result, look_bad, changed = visual_handoff(tree, live, reserves, changed, result)
+                    if looked_result is not None:
+                        looked = True
+                        result = looked_result
+                        if result.get('outcome') not in SHIPS:
+                            break
+                        bad = look_bad
+                        if bad:
+                            break
+                except (HostVerificationError, OSError, ValueError, KeyError, TypeError) as exc:
+                    bad = [str(exc)]
+                    break
             if result['outcome'] == 'partial':
                 now = fingerprint(tree, {*changed, *before})
                 # Notes are no part of a job, and work an earlier pass saved isn't this pass's. Issue 37 saved a hundred
@@ -370,7 +452,7 @@ def main():
                     bad.append('a saved commit says it closes this issue, so the branch can\'t merge as one part')
                     break
             bad += [] if changed else ['outcome is fixed, but nothing changed']
-        if not bad:
+        if not bad or looked:
             break
         print(f'[builder] attempt {attempt + 1} refused: {bad}', flush=True)
         extra = 'Your last attempt was refused. Fix each of these:\n' + '\n'.join(bad)
