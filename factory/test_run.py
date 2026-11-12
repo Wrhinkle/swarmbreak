@@ -73,6 +73,33 @@ class RetryInputsTest(unittest.TestCase):
         (self.day / 'content.json').write_text('regenerated content')
         inspect_resume(False)
 
+    def test_gameplay_does_not_replay_identical_failed_plan(self):
+        calls = []
+
+        def tool(*args):
+            calls.append(args[0])
+            if args[0] == 'tools/balance.ts':
+                (self.day / 'balance.json').write_text('failed report')
+                return False, 'failed balance'
+            return True, '{}'
+
+        def exercise(name, output, inputs, check, **kwargs):
+            output.write_text('{"acts": [{"shop": ["a"]}]}')
+            self.assertEqual(check(), 'failed balance')
+            calls.clear()
+            output.write_text('{ "acts" : [ { "shop" : ["a"] } ] }')
+            self.assertIn('unchanged', check())
+            self.assertNotIn('tools/build-run.ts', calls)
+            self.assertNotIn('tools/balance.ts', calls)
+            calls.clear()
+            output.write_text('{"acts": [{"shop": ["b"]}]}')
+            self.assertEqual(check(), 'failed balance')
+            self.assertIn('tools/balance.ts', calls)
+            raise RuntimeError('stop')
+
+        with self.assertRaisesRegex(RuntimeError, 'stop'):
+            self.main('gameplay', exercise, tool)
+
     def test_agent_allows_no_retry_pair_and_rejects_partial_pair(self):
         required = self.day / 'content.json'
         plan, report = self.day / 'plan.json', self.day / 'report.json'

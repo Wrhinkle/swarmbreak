@@ -281,6 +281,12 @@ def main():
                 bad = result(tool('tools/checks.ts', 'assembly', rel(assembly), rel(content)))
                 if bad:
                     return bad
+                if tried.exists():
+                    try:
+                        if json.loads(assembly.read_text()) == json.loads(tried.read_text()):
+                            return 'Assembly is unchanged from the failed balance attempt; change the encounters or shop before retrying.'
+                    except (OSError, ValueError):
+                        pass  # the assembly check validates the new plan; an unreadable old plan cannot be compared
                 ok, out = tool('tools/build-run.ts', rel(d))
                 if not ok:
                     return out
