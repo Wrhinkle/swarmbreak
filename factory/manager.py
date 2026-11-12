@@ -9,7 +9,7 @@ A pass with a failed action starts a follow-up pass at once, up to FOLLOW_UPS ti
        python3 factory/manager.py --comms <discussion> "<task>" [--dry-run]
 Models pick from a fixed list of actions. Every gate is here, so text in an issue or reply can't widen them.
 """
-import fcntl, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.error, urllib.request
+import errno, fcntl, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.error, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -474,13 +474,34 @@ def release(dry=False):
         return f'Release check failed: {e}'
 
 
+def checkout_capacity_failure(error, directory):
+    """Describe a failed release checkout without deleting or retrying any work."""
+    if not (isinstance(error, OSError) and error.errno == errno.ENOSPC or
+            'no space left on device' in str(error).lower()):
+        return None
+    try:
+        usage = shutil.disk_usage(directory)
+        device = os.stat(directory).st_dev
+        detail = f'{directory} (device {device}): {usage.free} bytes available of {usage.total}'
+    except OSError as e:
+        detail = f'{directory}: capacity unavailable ({e})'
+    return (f'Not deploying: release checkout failed: no space left on device; {detail}. '
+            'No files reclaimed; host must inspect eligible worktrees and restore capacity before retrying.')
+
+
 def deploy(dry, rev=None):
     """Publish origin/main, or the commit `rev` that release() checked, from a clean checkout so local work can't ship by accident."""
     if not rev:
         sh('git', 'fetch', 'origin')
     with tempfile.TemporaryDirectory() as work:
         tree = Path(work) / 'main'
-        sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
+        try:
+            sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
+        except (SystemExit, OSError) as e:
+            failure = checkout_capacity_failure(e, Path(work).parent)
+            if failure:
+                return failure
+            raise
         try:
             now = datetime.now(timezone.utc)
             raw_manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)

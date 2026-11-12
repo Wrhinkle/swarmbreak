@@ -544,6 +544,17 @@ with tempfile.TemporaryDirectory() as d:
         except ValueError:
             pass
 
+# A full release-checkout filesystem is reported without retrying or deleting work.
+with patch('manager.sh', side_effect=SystemExit('git worktree add failed: No space left on device')) as no_space, \
+     patch('manager.shutil.disk_usage', return_value=SimpleNamespace(total=1000, free=12)), \
+     patch('manager.os.stat', return_value=SimpleNamespace(st_dev=42)):
+    failure = manager.deploy(True, 'checked-revision')
+    assert 'device 42' in failure and '12 bytes available of 1000' in failure, failure
+    assert 'No files reclaimed' in failure
+    assert no_space.call_count == 1
+assert manager.checkout_capacity_failure(OSError(28, 'No space left on device'), '/tmp').startswith('Not deploying:')
+assert manager.checkout_capacity_failure(OSError(13, 'Permission denied'), '/tmp') is None
+
 # Deploy checks reject a future base even immediately before opening, but permit a reserve.
 for manifest, moment, should_deploy in [
     ({**m5, 'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}, datetime(2026, 11, 6, 12, 59, tzinfo=timezone.utc), False),
