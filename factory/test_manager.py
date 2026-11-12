@@ -559,6 +559,8 @@ assert manager.checkout_capacity_failure(OSError(13, 'Permission denied'), '/tmp
 import unittest
 from test_release_capacity import ReleaseCapacityTest
 assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(ReleaseCapacityTest)).wasSuccessful()
+from test_capacity_inventory import InventoryTest
+assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(InventoryTest)).wasSuccessful()
 
 # Deploy checks reject a future base even immediately before opening, but permit a reserve.
 for manifest, moment, should_deploy in [
