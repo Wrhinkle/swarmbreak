@@ -90,9 +90,19 @@ def filesystem_inventory(path, progress=None):
 def main():
     if len(sys.argv) not in (2, 3) or (len(sys.argv) == 3 and sys.argv[1] != '--filesystem'):
         sys.exit(__doc__)
+    progress_available = True
+
+    def progress(item):
+        nonlocal progress_available
+        if progress_available:
+            try:
+                print(json.dumps(item), file=sys.stderr, flush=True)
+            except OSError:
+                progress_available = False
+
     try:
         result = filesystem_inventory(
-            sys.argv[2], lambda item: print(json.dumps(item), file=sys.stderr, flush=True)
+            sys.argv[2], progress
         ) if len(sys.argv) == 3 else inventory(sys.argv[1])
         print(json.dumps(result, indent=2))
     except (OSError, ValueError, subprocess.CalledProcessError) as error:

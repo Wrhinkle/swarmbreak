@@ -1,4 +1,6 @@
 """The inventory reports evidence and never treats cleanliness as permission to remove."""
+import io
+import json
 import subprocess
 import tempfile
 import unittest
@@ -9,6 +11,37 @@ import capacity_inventory as inv
 
 
 class InventoryTest(unittest.TestCase):
+    def test_filesystem_report_survives_progress_stream_failure(self):
+        class FailingStream:
+            def __init__(self, fail_on):
+                self.fail_on = fail_on
+                self.calls = 0
+
+            def write(self, text):
+                self.calls += 1
+                if self.fail_on == 'write':
+                    raise OSError(28, 'No space left on device')
+
+            def flush(self):
+                if self.fail_on == 'flush':
+                    raise OSError(28, 'No space left on device')
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory).resolve()
+            record = f'worktree {path}\0HEAD abc'.encode()
+            for failure in ('write', 'flush'):
+                with self.subTest(failure=failure):
+                    stderr, stdout = FailingStream(failure), io.StringIO()
+                    with patch.object(inv.sys, 'argv', ['capacity_inventory.py', '--filesystem', str(path)]), \
+                         patch.object(inv.sys, 'stderr', stderr), patch.object(inv.sys, 'stdout', stdout), \
+                         patch.object(inv, 'worktree_records', return_value=[record]), \
+                         patch.object(inv, 'inventory', return_value={'path': str(path)}) as inspect:
+                        inv.main()
+                    inspect.assert_called_once()
+                    self.assertEqual(json.loads(stdout.getvalue())['worktrees'], [{'path': str(path)}])
+                    # print may call write separately for the message and newline.
+                    self.assertEqual(stderr.calls, 1 if failure == 'write' else 2)
+
     def test_registered_clean_dirty_and_ignored_are_retained(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory).resolve()
