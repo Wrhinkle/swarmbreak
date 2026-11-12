@@ -222,15 +222,28 @@ def shots_dir(tree):
     return ROOT / 'factory' / 'log' / 'screens' / Path(tree).resolve().name
 
 
+def screen_browser():
+    """Resolve a host-controlled Chrome executable; an explicit configuration must not silently fall back."""
+    configured = os.environ.get('SWARMBREAK_CHROME')
+    if configured:
+        if not Path(configured).is_file() or not os.access(configured, os.X_OK):
+            raise HostVerificationError(f'Host verification: SWARMBREAK_CHROME is not an executable file: {configured}. Set it to a working headless Chrome binary.')
+        return configured
+    cache = Path.home() / 'Library/Caches/ms-playwright'
+    browsers = sorted(cache.glob('chromium_headless_shell-*/*/chrome-headless-shell'), reverse=True)
+    browsers += [Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')]
+    browsers += [Path(p) for name in ('chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable') if (p := shutil.which(name))]
+    for browser in browsers:
+        if browser.is_file() and os.access(browser, os.X_OK):
+            return str(browser)
+    raise HostVerificationError('Host verification: no headless browser found in the Playwright cache, Google Chrome application, or PATH. Install Chrome or set SWARMBREAK_CHROME to an executable headless Chrome binary.')
+
+
 def screens(tree):
     """Looks at the built game in a headless browser on the host, since no worker's sandbox can start one. The driver
     is this checkout's factory/screens.mjs, never the tree's, and it keeps the page off the network. Screenshots land in
     factory/log/screens/<tree name>/. Returns what to refuse, or ''."""
-    browsers = sorted(Path.home().glob('Library/Caches/ms-playwright/chromium_headless_shell-*/*/chrome-headless-shell'))
-    chrome = Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
-    exe = os.environ.get('SWARMBREAK_CHROME') or (str(browsers[-1]) if browsers else str(chrome) if chrome.is_file() else '')
-    if not exe:
-        raise HostVerificationError('Host verification: no headless browser on this host. Set SWARMBREAK_CHROME to a headless Chrome binary.')
+    exe = screen_browser()
     out = shots_dir(tree)
     try:
         with tempfile.TemporaryDirectory() as dist:
@@ -243,7 +256,7 @@ def screens(tree):
         raise HostVerificationError(f'Host verification: could not run the screen check ({type(exc).__name__}: {exc})') from exc
     try:
         shots = [] if r.returncode else json.loads(r.stdout)
-        problems = screen_problems(shots) if shots else [f'the check looked at no screens: {r.stderr.strip()[-500:]}']
+        problems = screen_problems(shots) if shots else [f'the check looked at no screens using {exe}: {r.stderr.strip()[-500:]}']
     except (ValueError, KeyError, TypeError):
         problems = ['the check printed no readable result']
     return f'Screen check failed (screenshots in {out}):\n' + '\n'.join(problems) if problems else ''

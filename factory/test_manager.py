@@ -5,6 +5,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
 from manager import SITE, act, gate_verdict, unfilled_links, check_post, deploy_problems, post_problems, template_headings
+from test_screen_browser import test_screen_browser
+
+test_screen_browser()
 
 good = f'## My rule\nSee {SITE} for it.'
 assert post_problems(good, ['## My rule']) == []
@@ -824,7 +827,7 @@ assert pr_team.screen_problems([{**clean_shot, 'scrollWidth': 391}]) == ['shop a
 assert pr_team.screen_problems([{**clean_shot, 'errors': ['TypeError: x is null']}]) == ['shop at 390px: page error: TypeError: x is null']
 assert pr_team.screen_problems([{'screen': 'treasure', 'width': 390, 'missing': True}]) == ['treasure at 390px: the run has no such room, so nothing looked at this screen']
 # screens() builds in the sandbox, then runs this checkout's driver, never the copy in the tree under review.
-with patch.dict(os.environ, {'SWARMBREAK_CHROME': '/host/chrome'}), patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')) as screen_build, \
+with patch('pr_team.screen_browser', return_value='/host/chrome'), patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')) as screen_build, \
      patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps([{**clean_shot, 'buttons': [['Buy', 20, 20]]}]), stderr='')) as drive:
     screen_refusal = pr_team.screens('/elsewhere/swarmbreak-pr-7')
     assert screen_build.call_args.args == (['npm', 'run', 'build'], '/elsewhere/swarmbreak-pr-7') and screen_build.call_args.kwargs['dist_to']
@@ -835,7 +838,7 @@ with patch.dict(os.environ, {'SWARMBREAK_CHROME': '/host/chrome'}), patch('pr_te
     assert pr_team.screens('/elsewhere/swarmbreak-pr-7') == ''
     # A driver that stops, or prints something unreadable, is a refusal, not a pass.
     drive.return_value = SimpleNamespace(returncode=1, stdout='', stderr='no visible button matching ^Play$')
-    assert 'the check looked at no screens: no visible button matching ^Play$' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
+    assert 'the check looked at no screens using /host/chrome: no visible button matching ^Play$' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
     drive.return_value = SimpleNamespace(returncode=0, stdout='[]', stderr='')
     assert 'looked at no screens' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
     drive.return_value = SimpleNamespace(returncode=0, stdout='not json', stderr='')
@@ -846,14 +849,14 @@ with patch.dict(os.environ, {'SWARMBREAK_CHROME': '/host/chrome'}), patch('pr_te
     drive.assert_not_called()
 # A standard Chrome installation works even without a Playwright browser cache.
 with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), \
-     patch('pr_team.Path.is_file', return_value=True), \
+     patch('pr_team.Path.is_file', return_value=True), patch('pr_team.os.access', return_value=True), \
      patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')), \
      patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps([clean_shot]), stderr='')) as drive:
     os.environ.pop('SWARMBREAK_CHROME', None)
     assert pr_team.screens('.') == ''
     assert drive.call_args.args[0][2] == '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 # A host with no headless browser stops verification; it never passes screens unseen.
-with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), patch('pr_team.Path.is_file', return_value=False), patch('pr_team.sandboxed') as screen_build:
+with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), patch('pr_team.Path.is_file', return_value=False), patch('pr_team.shutil.which', return_value=None), patch('pr_team.sandboxed') as screen_build:
     os.environ.pop('SWARMBREAK_CHROME', None)
     try:
         pr_team.screens('.')
