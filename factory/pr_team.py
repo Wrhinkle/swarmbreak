@@ -227,7 +227,8 @@ def screens(tree):
     is this checkout's factory/screens.mjs, never the tree's, and it keeps the page off the network. Screenshots land in
     factory/log/screens/<tree name>/. Returns what to refuse, or ''."""
     browsers = sorted(Path.home().glob('Library/Caches/ms-playwright/chromium_headless_shell-*/*/chrome-headless-shell'))
-    exe = os.environ.get('SWARMBREAK_CHROME') or (str(browsers[-1]) if browsers else '')
+    chrome = Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+    exe = os.environ.get('SWARMBREAK_CHROME') or (str(browsers[-1]) if browsers else str(chrome) if chrome.is_file() else '')
     if not exe:
         raise HostVerificationError('Host verification: no headless browser on this host. Set SWARMBREAK_CHROME to a headless Chrome binary.')
     out = shots_dir(tree)
