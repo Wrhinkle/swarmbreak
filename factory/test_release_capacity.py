@@ -10,6 +10,22 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_release_check_no_space_after_fetch_is_a_blocker(self):
+        for error in (OSError(errno.ENOSPC, 'disk full'), SystemExit('No space left on device')):
+            with self.subTest(error=error), \
+                 patch.object(manager, 'sh', side_effect=[SimpleNamespace(stdout=''), error]) as command, \
+                 patch.object(manager, 'capacity_detail', return_value='repository (device 42): 0 bytes available of 1000'), \
+                 patch.object(manager, 'deploy') as deploy:
+                result = manager.release()
+            self.assertIn('release check failed: no space left on device', result)
+            self.assertIn('failing filesystem: unknown', result)
+            self.assertIn('device 42', result)
+            self.assertTrue(manager.persistent_release_blocker(result))
+            self.assertEqual(manager.release_blocker_identity('release -> ' + result),
+                             'release -> Not deploying: release check failed: no space left on device;')
+            self.assertEqual(command.call_count, 2)
+            deploy.assert_not_called()
+
     def test_fetch_no_space_reports_capacity_and_stops_before_release(self):
         with patch.object(manager, 'sh', side_effect=SystemExit('git fetch: No space left on device')) as command, \
              patch.object(manager, 'capacity_detail', return_value='repository (device 42): 0 bytes available of 1000'), \
