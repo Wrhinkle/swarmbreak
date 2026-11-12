@@ -4,7 +4,7 @@
 Usage: python3 factory/run.py 2026-11-04 [--from researcher|parser|storymaker|gameplay|art] [--no-images]
 Stage output lands in runs/<id>/. Nothing here commits, pushes, deploys, or opens a run.
 """
-import hashlib, json, os, re, shutil, subprocess, sys, tempfile
+import hashlib, json, os, re, shutil, subprocess, sys, tempfile, uuid
 from pathlib import Path
 from codex_failure import stop_on_codex_failure
 from urllib.parse import urlparse
@@ -279,8 +279,6 @@ def main():
                 sys.exit('Gameplay retry evidence is missing or mismatched. Restore the matching failed plan, full balance report and provenance for this content, or restart the gameplay sequence with verified evidence.')
 
             failed = []
-            if pending.exists():
-                evidence_error()
             if history.exists():
                 try:
                     state = json.loads(history.read_text())
@@ -289,13 +287,21 @@ def main():
                     failed = state['plans']
                     for plan in failed:
                         relevant(plan)
+                    if pending.exists():
+                        marker = json.loads(pending.read_text())
+                        plan_hash = hashlib.sha256(json.dumps(failed[-1], sort_keys=True).encode()).hexdigest()
+                        if marker != {'attempt': state.get('attempt'), 'content': content_hash, 'plan': plan_hash} or not isinstance(marker['attempt'], str) or not marker['attempt']:
+                            evidence_error()
                     # The durable history is authoritative; reconstruct missing worker inputs.
                     for path, value in ((tried, json.dumps(failed[-1])), (tried_report, state['report'])):
                         if path.exists() and (json.loads(path.read_text()) != failed[-1] if path == tried else path.read_text() != value):
                             evidence_error()
                         path.write_text(value)
+                    pending.unlink(missing_ok=True)
                 except (OSError, ValueError, KeyError, TypeError):
                     evidence_error()
+            elif pending.exists():
+                evidence_error()
             elif any(p.exists() for p in (tried, tried_report, provenance)):
                 # Accept the previous format only when its complete provenance still matches.
                 try:
@@ -320,14 +326,16 @@ def main():
                 if not ok:
                     return out
                 report.unlink(missing_ok=True)
-                pending.write_text('Balance attempt started; evidence has not been saved.\n')
+                attempt = uuid.uuid4().hex
+                plan_hash = hashlib.sha256(json.dumps(candidate, sort_keys=True).encode()).hexdigest()
+                pending.write_text(json.dumps({'attempt': attempt, 'content': content_hash, 'plan': plan_hash}))
                 ok, out = tool('tools/balance.ts', f'public/runs/{run_id}/run.json', '--tune', '--report', rel(report))
                 print(out, flush=True)
                 if not ok:
                     if not report.is_file() or not report.read_text():
                         sys.exit('Balance failed without a full report. Restore the report for this attempt before resuming gameplay.')
                     failed.append(candidate)
-                    state = {'content': content_hash, 'plans': failed, 'report': report.read_text()}
+                    state = {'content': content_hash, 'plans': failed, 'report': report.read_text(), 'attempt': attempt}
                     fresh = history.with_suffix('.tmp')
                     fresh.write_text(json.dumps(state))
                     # Remove the old pair first; either history can recreate its own pair.

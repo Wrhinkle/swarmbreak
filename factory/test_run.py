@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -78,6 +79,76 @@ class RetryInputsTest(unittest.TestCase):
         (self.day / 'content.json').write_text('different content')
         with self.assertRaisesRegex(SystemExit, 'missing or mismatched'):
             self.main('gameplay', resume, tool)
+
+    def test_interrupted_failure_recovers_only_after_history_replacement(self):
+        def tool(*args):
+            if args[0] == 'tools/balance.ts':
+                (self.day / 'balance.json').write_text('full report')
+                return False, 'failed'
+            return True, '{}'
+
+        def exercise(name, output, inputs, check, **kwargs):
+            output.write_text(json.dumps(self.plan('a')))
+            check()
+
+        def resume(name, output, inputs, check, **kwargs):
+            self.assertEqual(json.loads(Path(inputs['last-assembly.json']).read_text()), self.plan('a'))
+            self.assertEqual(Path(inputs['balance.json']).read_text(), 'full report')
+            self.assertFalse((self.day / 'balance-pending.json').exists())
+            output.write_text(json.dumps(self.plan('a')))
+            self.assertIn('unchanged', check())
+            raise RuntimeError('recovered')
+
+        for point in ('before', 'after', 'partial'):
+            with self.subTest(point=point):
+                for path in self.day.glob('balance*'):
+                    path.unlink()
+                (self.day / 'assembly-tried.json').unlink(missing_ok=True)
+                replace = os.replace
+                write_text = Path.write_text
+                def interrupted_replace(src, dst):
+                    if point == 'before':
+                        raise RuntimeError('interrupted')
+                    replace(src, dst)
+                    if point == 'after':
+                        raise RuntimeError('interrupted')
+                def interrupted_write(path, *args, **kwargs):
+                    if point == 'partial' and path.name == 'balance-tried.json':
+                        raise RuntimeError('interrupted')
+                    return write_text(path, *args, **kwargs)
+                with patch.object(run.os, 'replace', interrupted_replace), patch.object(Path, 'write_text', interrupted_write):
+                    with self.assertRaisesRegex(RuntimeError, 'interrupted'):
+                        self.main('gameplay', exercise, tool)
+                if point == 'before':
+                    with self.assertRaisesRegex(SystemExit, 'missing or mismatched'):
+                        self.main('gameplay', resume, tool)
+                else:
+                    with self.assertRaisesRegex(RuntimeError, 'recovered'):
+                        self.main('gameplay', resume, tool)
+
+    def test_new_pending_attempt_rejects_older_history(self):
+        def tool(*args):
+            if args[0] == 'tools/balance.ts':
+                (self.day / 'balance.json').write_text('full report')
+                return False, 'failed'
+            return True, '{}'
+        def exercise(name, output, inputs, check, **kwargs):
+            output.write_text(json.dumps(self.plan('a')))
+            self.assertEqual(check(), 'failed')
+            output.write_text(json.dumps(self.plan('b')))
+            check()
+        replace = os.replace
+        calls = []
+        def interrupt_second(src, dst):
+            calls.append(1)
+            if len(calls) == 2:
+                raise RuntimeError('interrupted')
+            replace(src, dst)
+        with patch.object(run.os, 'replace', interrupt_second):
+            with self.assertRaisesRegex(RuntimeError, 'interrupted'):
+                self.main('gameplay', exercise, tool)
+        with self.assertRaisesRegex(SystemExit, 'missing or mismatched'):
+            self.main('gameplay', lambda *a, **k: self.fail('worker started'), tool)
 
     def test_missing_or_mismatched_evidence_stops(self):
         (self.day / 'assembly-tried.json').write_text(json.dumps(self.plan('a')))
