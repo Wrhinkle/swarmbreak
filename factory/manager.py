@@ -474,26 +474,60 @@ def release(dry=False):
         return f'Release check failed: {e}'
 
 
+def capacity_detail(directory):
+    """Measure an existing path or its nearest existing parent on the same filesystem."""
+    path = Path(directory)
+    while True:
+        try:
+            device = os.stat(path).st_dev
+            usage = shutil.disk_usage(path)
+            return f'{path} (device {device}): {usage.free} bytes available of {usage.total}'
+        except FileNotFoundError:
+            if path == path.parent:
+                return f'{directory}: capacity unavailable (no existing parent)'
+            path = path.parent
+        except OSError as e:
+            return f'{path}: capacity unavailable ({e})'
+
+
 def checkout_capacity_failure(error, directory, stage='release checkout'):
     """Describe a release capacity failure without deleting or retrying any work."""
     if not (isinstance(error, OSError) and error.errno == errno.ENOSPC or
             'no space left on device' in str(error).lower()):
         return None
+    return (f'Not deploying: {stage} failed: no space left on device; '
+            f'checkout candidate at failure: {capacity_detail(directory)}. '
+            'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+
+
+def npm_capacity_failure(error, tree, stage):
+    """Capture npm's evidence and candidate volumes before the checkout is removed."""
+    if not checkout_capacity_failure(error, tree, stage):
+        return None
+    match = re.search(r'^npm (?:ERR!|error) path (.+)$', error, re.M | re.I)
+    failing_path = match.group(1).strip() if match else ''
+    source = (f'npm-reported path: {capacity_detail(failing_path)}'
+              if os.path.isabs(failing_path) else 'failing filesystem: unknown')
     try:
-        usage = shutil.disk_usage(directory)
-        device = os.stat(directory).st_dev
-        detail = f'{directory} (device {device}): {usage.free} bytes available of {usage.total}'
-    except OSError as e:
-        detail = f'{directory}: capacity unavailable ({e})'
-    return (f'Not deploying: {stage} failed: no space left on device; {detail}. '
-            'No files reclaimed; host must inspect eligible worktrees and restore capacity before retrying.')
+        cache = sh('npm', 'config', 'get', 'cache', cwd=tree, check=False)
+        cache_path = cache.stdout.strip() if cache.returncode == 0 else ''
+    except (OSError, SystemExit):
+        cache_path = ''
+    cache_detail = (capacity_detail(cache_path) if os.path.isabs(cache_path)
+                    else 'unavailable')
+    return (f'Not deploying: {stage} failed: no space left on device; {source}; '
+            f'checkout candidate at failure: {capacity_detail(tree)}; '
+            f'npm cache candidate at failure: {cache_detail}; npm output: {error[-2000:]}')
 
 
 def deploy(dry, rev=None):
     """Publish origin/main, or the commit `rev` that release() checked, from a clean checkout so local work can't ship by accident."""
     if not rev:
         sh('git', 'fetch', 'origin')
-    with tempfile.TemporaryDirectory() as work:
+    temp = tempfile.TemporaryDirectory()
+    work = temp.name
+    temp_cleanup_attempted = False
+    try:
         tree = Path(work) / 'main'
         try:
             sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
@@ -502,6 +536,7 @@ def deploy(dry, rev=None):
             if failure:
                 return failure
             raise
+        cleaned = False
         try:
             now = datetime.now(timezone.utc)
             raw_manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
@@ -515,9 +550,25 @@ def deploy(dry, rev=None):
             for cmd in (['npm', 'ci'], ['npm', 'run', 'build'], ['npm', 'test']):
                 r = sh(*cmd, cwd=tree, check=False)
                 if r.returncode:
-                    failure = checkout_capacity_failure(r.stdout + r.stderr, tree, ' '.join(cmd))
+                    failure = npm_capacity_failure(r.stdout + r.stderr, tree, ' '.join(cmd))
                     if failure:
-                        return failure
+                        cleanup_errors = []
+                        try:
+                            removed = sh('git', 'worktree', 'remove', '--force', tree, check=False)
+                            if removed.returncode:
+                                cleanup_errors.append(f'worktree removal failed: {(removed.stdout + removed.stderr)[-500:]}')
+                        except (OSError, SystemExit) as e:
+                            cleanup_errors.append(f'worktree removal failed: {e}')
+                        temp_cleanup_attempted = True
+                        try:
+                            temp.cleanup()
+                            cleaned = True
+                        except OSError as e:
+                            cleanup_errors.append(f'temporary directory cleanup failed: {e}')
+                        cleanup = '; '.join(cleanup_errors) if cleanup_errors else 'completed'
+                        return (f'{failure}; cleanup: {cleanup}; checkout parent after cleanup: '
+                                f'{capacity_detail(Path(work).parent)}. '
+                                'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
                     return f'Not deploying: {" ".join(cmd)} failed: {r.stdout[-500:]}'
             deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
             if not re.fullmatch(r'[0-9a-f]{40}', deployed_rev):
@@ -537,7 +588,11 @@ def deploy(dry, rev=None):
             reserve = f' Reserve run {manifest["next"]["runId"]} opens itself at {manifest["next"]["opensAt"]}.' if manifest.get('next') else ''
             return f'Deployed. Live run is {manifest["runId"]}.{reserve}' if served == raw_manifest and served_rev == deployed_rev else f'Deploy failed verification: live manifest reads {served}, expected {raw_manifest}; live revision is {served_rev}, expected {deployed_rev}.'
         finally:
-            sh('git', 'worktree', 'remove', '--force', tree, check=False)
+            if not cleaned and not temp_cleanup_attempted:
+                sh('git', 'worktree', 'remove', '--force', tree, check=False)
+    finally:
+        if not temp_cleanup_attempted:
+            temp.cleanup()
 
 
 def open_prs():

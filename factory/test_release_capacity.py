@@ -35,6 +35,42 @@ class ReleaseCapacityTest(unittest.TestCase):
             self.assertFalse(any(cmd[0] == 'firebase' for cmd in commands))
             self.assertEqual(sum(cmd == failed for cmd in commands), 1)
 
+    def test_cache_device_and_unknown_source_after_cleanup(self):
+        manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
+        for reported in (True, False):
+            removed = False
+            def command(*args, **kwargs):
+                nonlocal removed
+                if args[:3] == ('git', 'worktree', 'add'):
+                    tree = Path(args[4])
+                    (tree / 'public/runs/x').mkdir(parents=True)
+                    (tree / 'public/manifest.json').write_text(json.dumps(manifest))
+                    (tree / 'public/runs/x/run.json').write_text('{}')
+                if args[:3] == ('git', 'worktree', 'remove'):
+                    removed = True
+                if args == ('npm', 'config', 'get', 'cache'):
+                    return SimpleNamespace(returncode=0, stdout='/cache', stderr='')
+                if args == ('npm', 'ci'):
+                    path = 'npm error path /cache\n' if reported else ''
+                    return SimpleNamespace(returncode=1, stdout='', stderr=path + 'No space left on device')
+                return SimpleNamespace(returncode=0, stdout='', stderr='')
+            def stat(path):
+                return SimpleNamespace(st_dev=99 if str(path) == '/cache' else 42)
+            def usage(path):
+                return SimpleNamespace(total=1000, free=80 if removed else 12)
+            with self.subTest(reported=reported), patch.object(manager, 'sh', side_effect=command), \
+                 patch.object(manager, 'live_manifest', return_value=manifest), \
+                 patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+                 patch.object(manager, 'deploy_problems', return_value=[]), \
+                 patch.object(manager.os, 'stat', side_effect=stat), \
+                 patch.object(manager.shutil, 'disk_usage', side_effect=usage):
+                result = manager.deploy(False, 'revision')
+            self.assertIn('npm cache candidate at failure: /cache (device 99): 12 bytes', result)
+            self.assertIn('checkout parent after cleanup:', result)
+            self.assertIn('80 bytes available', result)
+            self.assertIn('npm-reported path: /cache (device 99)' if reported else 'failing filesystem: unknown', result)
+            self.assertIn('No space left on device', result)
+
 
 if __name__ == '__main__':
     unittest.main()
