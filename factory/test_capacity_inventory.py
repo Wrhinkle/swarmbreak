@@ -21,9 +21,14 @@ class InventoryTest(unittest.TestCase):
                 ]) as run:
                     result = inv.inventory(path)
                     self.assertEqual(result['allocated_kib_estimate'], 12)
-                    self.assertEqual(bool(result['status_entries']), bool(status))
+                    self.assertEqual(result['status_entries'],
+                                     [entry.decode() for entry in status.split(b'\0') if entry])
                     self.assertIn('unknown', result['removal_eligibility'])
                     self.assertEqual(run.call_count, 3)
+                    self.assertEqual(run.call_args_list[1].args,
+                                     ('git', '--no-optional-locks', '-C', str(path), 'status',
+                                      '--porcelain=v1', '-z', '--untracked-files=all',
+                                      '--ignored=matching'))
 
     def test_unregistered_and_command_failure_stop(self):
         with tempfile.TemporaryDirectory() as directory:
