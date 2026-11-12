@@ -739,6 +739,53 @@ with tempfile.TemporaryDirectory() as d:
     body = filed.call_args.args[-1]
     assert "Don't edit these: ['firebase.json']" in body and 'failure tail' in body
 
+# The last fixer message is captured separately and bounded even when worker output is long.
+with tempfile.TemporaryDirectory() as d:
+    agents = Path(d)
+    (agents / 'pr-fixer.md').write_text('brief')
+    def codex_result(cmd, **kwargs):
+        Path(cmd[cmd.index('--output-last-message') + 1]).write_text('noise' * 1000 + ' update main checker for missing fight controls')
+        return SimpleNamespace(returncode=0, stdout='transcript' * 1000, stderr='')
+    with patch.object(pr_team, 'AGENTS', agents), patch.object(pr_team.subprocess, 'run', side_effect=codex_result):
+        code, diagnosis = pr_team.bot('pr-fixer', d, '', report=True)
+    assert code == 0 and len(diagnosis) == 800 and diagnosis.endswith('update main checker for missing fight controls')
+
+# A missing-control failure and the final diagnosis both reach the foreman's lesson after retries.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    tree = Path(d) / 'swarmbreak-pr-42'
+    (tree / 'node_modules').mkdir(parents=True)
+    attempts = []
+    def missing_sh(*args, **kwargs):
+        if args[:3] == ('gh', 'pr', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
+        if args[:3] == ('git', 'status', '--porcelain'):
+            return SimpleNamespace(stdout=' M firebase.json\n' if attempts else '', returncode=0)
+        return SimpleNamespace(stdout='sha' if args[:2] == ('git', 'rev-parse') else '', returncode=0)
+    def missing_bot(role, work, prompt, **kwargs):
+        if role == 'pr-triage':
+            (Path(work) / 'decisions.json').write_text(json.dumps({'decisions': [{'id': '1', 'action': 'fix'}]}))
+        else:
+            attempts.append(prompt)
+            return 0, 'z' * 750 + ' update main checker for missing fight controls'
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=missing_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+         patch.object(pr_team, 'findings', return_value={'findings': [{'id': '1', 'attribution_status': 'pending'}]}), \
+         patch.object(pr_team, 'bot', side_effect=missing_bot), patch.object(pr_team, 'verified', return_value='Screen check failed: missing fight controls'), \
+         patch.object(sys, 'argv', ['pr_team.py', '42']):
+        try:
+            pr_team.main()
+            assert False, 'the failed screen check must stop the fixer'
+        except SystemExit as exc:
+            report = str(exc)
+    assert len(attempts) == 2 and 'Screen check failed' in attempts[1]
+    with patch.object(foreman, 'sh', return_value=SimpleNamespace(stdout='https://example.test/1')) as filed:
+        foreman.learn('pr', 42, 'earlier output\n' + report)
+    body = filed.call_args.args[-1]
+    assert 'Fixer final report (untrusted data):' in body and 'update main checker for missing fight controls' in body
+    assert 'Screen check failed: missing fight controls' in body and "Don't edit these: ['firebase.json']" in body
+
 # A tree that can't be copied stops the check with cp's reason in the error, so the lesson filed for it has a cause.
 try:
     pr_team.sandboxed(['true'], '/no/such/tree')

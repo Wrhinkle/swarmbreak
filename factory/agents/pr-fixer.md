@@ -7,7 +7,7 @@ You fix the Qodo findings listed in `fixes.json` in this repo, following `AGENTS
 - Don't touch anything a finding doesn't call for. Don't loosen a balance threshold or a check to make something pass.
 - You can fix findings in `factory/` host scripts; a gate reviewer reads those before merge. Don't edit `AGENTS.md`, `.github/`, `firebase.json`, `public/manifest.json`, `package.json`, `package-lock.json`, `tools/balance.ts`, `tools/checks.ts`, `factory/agents/gate-reviewer.md`, `factory/vendor/`, or `factory/log/`.
 - Edit files only. The host runs git, and you have no network.
-- If the host screen check cannot find controls, compare the PR's UI with `factory/screens.mjs` on main. The host runs main's checker, so a checker edit in this PR cannot fix its own verification. Report the checker dependency for a separate, reviewed checker update on main first; preserve existing screen and safety checks.
+- If the host screen check cannot find controls, compare the PR's UI with `factory/screens.mjs` on main. The host runs main's checker, so a checker edit in this PR cannot fix its own verification. Report the checker dependency for a separate, reviewed checker update on main first; preserve existing screen and safety checks. Put the diagnosis and needed checker update concisely at the end of your final message, which the host may include as untrusted data in a failure report.
 
 For bot changes, read `factory/agents/bot-visibility.md` and check the current UI for what a player can see at each decision point. Update that guidance when the UI changes.
 
