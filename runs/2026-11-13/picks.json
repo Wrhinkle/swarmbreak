@@ -1,0 +1,50 @@
+{
+  "thread": "Follow the swarm into the small world of insects: begin with caterpillars and their transformations, rise over wetlands with dragonflies, and settle among the nests and varied lives of native bees. Along the way, wings, jaws, camouflage, and tiny architecture become building blocks for creatures.",
+  "candidates": [
+    {
+      "name": "Butterflies and Moths of North America",
+      "url": "https://www.butterfliesandmoths.org/",
+      "why": "Species accounts and sightings offer caterpillars, chrysalises, patterned wings, host plants, and flight seasons for a swarm that can change shape."
+    },
+    {
+      "name": "British Dragonfly Society",
+      "url": "https://british-dragonflies.org.uk/",
+      "why": "Dragonfly and damselfly profiles, aquatic life cycles, habitats, and regional records bring hinged jaws, shimmering wings, and pond-dwelling young into the journey."
+    },
+    {
+      "name": "Minnesota Native Bees",
+      "url": "https://www.beesmn.org/",
+      "why": "A guide to bee families and genera, anatomy, nesting, and natural history supplies pollen-carrying bodies and many different ways to make a home."
+    },
+    {
+      "name": "BioKIDS",
+      "url": "https://biokids.umich.edu/",
+      "why": "The University of Michigan's critter catalog and invertebrate guides describe insect bodies, development, food, and habitats, with plenty of other small neighbors to encounter."
+    },
+    {
+      "name": "Animal Diversity Web",
+      "url": "https://animaldiversity.org/",
+      "why": "Linked insect groups and species accounts explore life cycles, behavior, reproduction, and relationships with other animals, offering many paths through the miniature world."
+    },
+    {
+      "name": "Cornell University Insect Collection",
+      "url": "https://cuic.entomology.cornell.edu/",
+      "why": "Collection pages span mayflies, dragonflies, beetles, bees, and other orders, while specimen images and research reveal the variety of insect forms."
+    },
+    {
+      "name": "UC Riverside Entomology Research Museum",
+      "url": "https://entmuseum.ucr.edu/",
+      "why": "Insect collections, public databases, and identification resources introduce specimens from deserts and beyond, including beetles, flies, and other six-legged forms."
+    },
+    {
+      "name": "Missouri Department of Conservation",
+      "url": "https://mdc.mo.gov/",
+      "why": "Its field guide connects dragonfly larvae, butterflies, bees, and other invertebrates to the places where they live and the transformations they undergo."
+    },
+    {
+      "name": "Australian Museum",
+      "url": "https://australian.museum/",
+      "why": "Natural history collections and animal guides introduce Australian insects, including jewel-like Christmas beetles, alongside their habitats and unusual adaptations."
+    }
+  ]
+}

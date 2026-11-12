@@ -1,0 +1,323 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [
+          [
+            "pending-grub"
+          ],
+          [
+            "common-loop"
+          ],
+          [
+            "hook-skipper"
+          ],
+          [
+            "pending-grub",
+            "common-loop"
+          ],
+          [
+            "hook-skipper",
+            "common-loop"
+          ],
+          [
+            "pending-grub",
+            "hook-skipper"
+          ]
+        ],
+        "mid": [
+          [
+            "checklist-grazer"
+          ],
+          [
+            "taxonomy-fork",
+            "hook-skipper"
+          ],
+          [
+            "webworm-relay",
+            "common-loop"
+          ],
+          [
+            "burnsius-double",
+            "pending-grub"
+          ],
+          [
+            "sighting-cartographer",
+            "hook-skipper"
+          ],
+          [
+            "checklist-grazer",
+            "common-loop"
+          ]
+        ],
+        "late": [
+          [
+            "webworm-relay",
+            "hook-skipper",
+            "common-loop"
+          ],
+          [
+            "sighting-cartographer",
+            "pending-grub"
+          ],
+          [
+            "taxonomy-fork",
+            "common-loop"
+          ],
+          [
+            "burnsius-double",
+            "hook-skipper"
+          ],
+          [
+            "checklist-grazer",
+            "pending-grub"
+          ],
+          [
+            "webworm-relay",
+            "taxonomy-fork"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "hemlock-barricade",
+          "reward": "field-spotter"
+        },
+        {
+          "id": "profile-harvester",
+          "reward": "habitat-gardener"
+        },
+        {
+          "id": "regional-coordinator",
+          "reward": "field-spotter"
+        },
+        {
+          "id": "hemlock-barricade",
+          "reward": "field-spotter"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "jam",
+        "patch",
+        "brace",
+        "finish",
+        "strike+"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "paired-sentry"
+          ],
+          [
+            "willow-scout"
+          ],
+          [
+            "toothed-jaw"
+          ],
+          [
+            "paired-sentry",
+            "toothed-jaw"
+          ],
+          [
+            "willow-scout",
+            "toothed-jaw"
+          ],
+          [
+            "paired-sentry",
+            "willow-scout"
+          ]
+        ],
+        "mid": [
+          [
+            "filter-warden",
+            "toothed-jaw"
+          ],
+          [
+            "emergence-engine",
+            "willow-scout"
+          ],
+          [
+            "abstraction-pump"
+          ],
+          [
+            "bloom-screen",
+            "toothed-jaw"
+          ],
+          [
+            "county-recorder",
+            "willow-scout"
+          ],
+          [
+            "filter-warden",
+            "paired-sentry"
+          ]
+        ],
+        "late": [
+          [
+            "bloom-screen",
+            "willow-scout",
+            "toothed-jaw"
+          ],
+          [
+            "county-recorder",
+            "filter-warden"
+          ],
+          [
+            "emergence-engine",
+            "toothed-jaw"
+          ],
+          [
+            "abstraction-pump",
+            "willow-scout"
+          ],
+          [
+            "abstraction-pump",
+            "paired-sentry"
+          ],
+          [
+            "bloom-screen",
+            "emergence-engine"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "garden-sentinel",
+          "reward": "pond-watcher"
+        },
+        {
+          "id": "hotspot-caretaker",
+          "reward": "reed-volunteer"
+        },
+        {
+          "id": "time-lapse-hunter",
+          "reward": "pond-watcher"
+        },
+        {
+          "id": "hotspot-caretaker",
+          "reward": "reed-volunteer"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "jam",
+        "patch+",
+        "cover",
+        "finish",
+        "strike+"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "fairy-pinprick"
+          ],
+          [
+            "sunflower-lockstep"
+          ],
+          [
+            "oil-siphon"
+          ],
+          [
+            "fairy-pinprick",
+            "sunflower-lockstep"
+          ],
+          [
+            "oil-siphon",
+            "sunflower-lockstep"
+          ],
+          [
+            "fairy-pinprick",
+            "oil-siphon"
+          ]
+        ],
+        "mid": [
+          [
+            "cellophane-plasterer",
+            "sunflower-lockstep"
+          ],
+          [
+            "cuckoo-foundry",
+            "fairy-pinprick"
+          ],
+          [
+            "flower-fly-mimic",
+            "oil-siphon"
+          ],
+          [
+            "sonication-rattler",
+            "sunflower-lockstep"
+          ],
+          [
+            "scopa-sweeper",
+            "oil-siphon"
+          ],
+          [
+            "cellophane-plasterer",
+            "fairy-pinprick"
+          ]
+        ],
+        "late": [
+          [
+            "cellophane-plasterer",
+            "fairy-pinprick",
+            "sunflower-lockstep"
+          ],
+          [
+            "cuckoo-foundry",
+            "oil-siphon"
+          ],
+          [
+            "flower-fly-mimic",
+            "fairy-pinprick"
+          ],
+          [
+            "sonication-rattler",
+            "fairy-pinprick"
+          ],
+          [
+            "cuckoo-foundry",
+            "sunflower-lockstep"
+          ],
+          [
+            "cellophane-plasterer",
+            "scopa-sweeper"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "partition-mason",
+          "reward": "habitat-steward"
+        },
+        {
+          "id": "blood-bee-hijacker",
+          "reward": "bloom-courier"
+        },
+        {
+          "id": "nest-switcher",
+          "reward": "habitat-steward"
+        },
+        {
+          "id": "partition-mason",
+          "reward": "habitat-steward"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "purge",
+        "patch+",
+        "triage",
+        "finish",
+        "strike+"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "reading": "The British Dragonfly Society combines natural history, conservation science and public participation to protect dragonflies, damselflies and the freshwater habitats they depend on. It treats Odonata as early warnings of wetland health and turns observation into evidence through local recorders, verified sightings and a national database. Its language moves between precise taxonomy and fieldcraft—Anisoptera, Zygoptera, larvae, emergence, exuviae, flight months, vice-counties and Red List status—and welcoming invitations to pondwatch, garden, volunteer and share photographs. Its distinctive texture is a distributed network of enthusiasts and scientists connecting individual garden ponds to national species trends, with hotspots, habitat management, education and research all serving the same living wetlands.",
+  "enemies": [
+    {
+      "idea": "The Filter Warden scans colour, wing group and flight month, then repaints and reschedules anything that fails its classification.",
+      "source": "/odonata/species-and-identification/",
+      "why": "A crew can fool it by changing colours or luring it across a seasonal boundary."
+    },
+    {
+      "idea": "An unequal-winged Anisoptera interceptor alternates huge and tiny wingbeats, making its turns abruptly unpredictable.",
+      "source": "/odonata/dragonflies-2/",
+      "why": "Its asymmetrical flight gives a chase a readable but unusual rhythm."
+    },
+    {
+      "idea": "Paired-wing sentries lock their wings together to form gates, then separate to pursue anyone who breaks formation.",
+      "source": "/odonata/damselflies/",
+      "why": "The crew can exploit the moment a gate becomes two attackers."
+    },
+    {
+      "idea": "Emergence engines lurk as armoured larvae underwater, climb stems and split into flying machines, leaving decoy shells behind.",
+      "source": "/odonata/life-cycle-and-biology/",
+      "why": "Fighting one stage changes the terrain and reveals another threat."
+    },
+    {
+      "idea": "Egg-planters drill false eggs into living stems while others scatter metallic eggs over open water; each hatches into a different patrol.",
+      "source": "/odonata/life-cycle-and-biology/",
+      "why": "Two laying strategies create distinct ways to interrupt a growing infestation."
+    },
+    {
+      "idea": "The Abstraction Pump drains a pond into its own cooling system, exposing larvae and driving its turbines faster as the water falls.",
+      "source": "/threats-to-dragonflies/",
+      "why": "Saving the water simultaneously weakens the machine and protects an escape route."
+    },
+    {
+      "idea": "Nutrient Bloom machines spread a thick green screen across the water, hiding their intake pipes while choking out light.",
+      "source": "/threats-to-dragonflies/",
+      "why": "The crew must find the machinery by following currents beneath an opaque surface."
+    },
+    {
+      "idea": "A verifier swarm declares moving things duplicate records and folds them into a giant ledger of sightings.",
+      "source": "/recording-scheme/",
+      "why": "Misleading it with deliberate duplicate tracks can turn its own certainty against it."
+    },
+    {
+      "idea": "A County Recorder automaton demands a location and identification before allowing passage, then sends hunters to the coordinates supplied.",
+      "source": "/recording/submit-your-records/",
+      "why": "A negotiation becomes a puzzle about what information to reveal."
+    },
+    {
+      "idea": "A Red List assessor marks anything it calls endangered for compulsory collection, sealing the rarest finds in armoured capsules.",
+      "source": "/what-we-do/red-list-review/",
+      "why": "Its protective logic is dangerous, but a false assessment can redirect it."
+    },
+    {
+      "idea": "Willow Emerald scouts chart their own spreading frontier, planting metallic markers in branches and calling reinforcements to every newly mapped pond.",
+      "source": "/recording/willow-emerald-watch/",
+      "why": "Destroying a marker changes the swarm’s route through the landscape."
+    },
+    {
+      "idea": "A pesticide-free garden sentinel has mistaken all movement for a threat and grows interlocking mechanical reeds to fence everything out.",
+      "source": "/get-involved/garden/",
+      "why": "The barrier can be persuaded to open by restoring a water route through it."
+    },
+    {
+      "idea": "A hotspot caretaker keeps habitat in perfect mechanical condition, trimming every irregular reed and relocating visitors who disturb its pattern.",
+      "source": "/what-we-do/outreach-projects/hotspots-project/",
+      "why": "The crew can use natural mess and rapid growth to overwhelm its maintenance routine."
+    },
+    {
+      "idea": "The Toothed Jaw answers every question with a demonstration, snapping at whoever asks whether dragonflies bite.",
+      "source": "/odonata/frequently-asked-questions/",
+      "why": "Curious speech becomes a tactical hazard, while silence and decoy questions offer counterplay."
+    },
+    {
+      "idea": "A time-lapse hunter compresses hours of motion into sudden bursts and freezes when watched directly.",
+      "source": "/get-involved/photo-competition/",
+      "why": "Players can take turns watching it while crossing its territory."
+    },
+    {
+      "idea": "A pond-design excavator keeps enlarging and reshaping its basin to fit every possible site, swallowing paths in the process.",
+      "source": "/product/create-a-wildlife-pond-online-on-demand-training-course/",
+      "why": "Its predictable design cycle lets a crew redirect the digging by altering the site."
+    },
+    {
+      "idea": "A vice-county boundary patrol refuses to cross its assigned line and tries to herd all sightings back into its own territory.",
+      "source": "/areas/united-kingdom/scotland/",
+      "why": "A marked boundary becomes both a trap and a temporary refuge."
+    },
+    {
+      "idea": "Peer-review drones pin a proposed route under layers of objections until three separate observers certify it.",
+      "source": "/bds-journal/",
+      "why": "A fight can be resolved by satisfying, spoofing or splitting the reviewers."
+    },
+    {
+      "idea": "A top-site collector lures travellers toward the highest species count, then locks the gates to preserve its perfect census.",
+      "source": "/odonata/where-to-see-dragonflies/",
+      "why": "A tempting shortcut doubles as a trap with a measurable criterion."
+    },
+    {
+      "idea": "Field-trip marshals sort intruders into colour-coded expeditions and march each group toward a different mechanical nesting site.",
+      "source": "/news-events/our-events/",
+      "why": "Swapping colours and breaking formations makes the encounter playful and mobile."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A scattered volunteer network maintains reed-hidden paths and shares practical skills with anyone willing to help a pond.",
+      "source": "/get-involved/volunteer-2/",
+      "why": "It gives the crew local knowledge and a reason to earn trust through action."
+    },
+    {
+      "idea": "Young naturalists pass hand-drawn wetland maps between safe ponds, updating them whenever the machines change the waterways.",
+      "source": "/get-involved/youth-panel/",
+      "why": "Their observations create a living route map the swarm cannot easily predict."
+    },
+    {
+      "idea": "Amateur and professional researchers compare field notes to identify how each machine misuses a real dragonfly behaviour.",
+      "source": "/what-we-do/dragonfly-conservation-group/",
+      "why": "Research becomes a source of concrete weaknesses rather than a magic solution."
+    },
+    {
+      "idea": "Pond watchers signal with reflections from sheltered pools and guide stranded wildlife away from patrols.",
+      "source": "/get-involved/pondwatch/",
+      "why": "A small pond becomes a quiet communications hub and refuge."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Threefold Society is a fused research, conservation and public-engagement machine: it catalogues a wetland, seals it for protection, then forcibly recruits an audience to admire it.",
+      "source": "/about/our-work/",
+      "why": "Its three linked systems offer distinct phases and chances to turn its aims back toward living habitat."
+    },
+    {
+      "idea": "The Grand Population Model feeds on millions of verified records and attempts to make every actual wetland match its prediction, moving water and species to erase discrepancies.",
+      "source": "/recording-scheme/",
+      "why": "The finale pits messy living observations against a machine that cannot tolerate surprise."
+    },
+    {
+      "idea": "The Early Warning has become the disaster it was built to detect: a vast dragonfly-shaped wetland monitor that drains each pond to inspect it, then sounds an alarm and moves on.",
+      "source": "/",
+      "why": "A site-wide symbol becomes a moving crisis whose sensors and pumps can be disabled in stages."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A dragonfly-shaped drone is trapped in a glass conservatory, repeatedly battering the light; opening an exit might free it or let it summon its patrol.",
+      "source": "/odonata/frequently-asked-questions/",
+      "why": "A rescue offers a meaningful risk and a chance to observe the swarm closely."
+    },
+    {
+      "idea": "A larval machine is halfway through emerging on a stem as rain begins, its abandoned shell still anchored above the water.",
+      "source": "/odonata/life-cycle-and-biology/",
+      "why": "The crew has a brief choice to shelter, study or disable a vulnerable machine."
+    },
+    {
+      "idea": "A pocket garden has saved rainwater in several containers; a sentinel is connecting them into a single exposed reservoir.",
+      "source": "/get-involved/garden/",
+      "why": "Rerouting little channels offers an improvised waterworks puzzle."
+    },
+    {
+      "idea": "Conflicting local sightings place the same metallic emerald at two ponds at once.",
+      "source": "/recording/latest-sightings/",
+      "why": "Investigating reveals either a decoy or a previously unnoticed connection between ponds."
+    },
+    {
+      "idea": "A sealed capsule marked regionally extinct begins tapping from within, while a collector searches nearby for its missing specimen.",
+      "source": "/what-we-do/red-list-review/",
+      "why": "The label raises a mystery and a choice about opening the capsule."
+    },
+    {
+      "idea": "A camera left beside a pool has captured a time-lapse of reeds bending against the wind before every patrol arrives.",
+      "source": "/get-involved/photo-competition/",
+      "why": "A photograph sequence provides a discoverable warning pattern."
+    },
+    {
+      "idea": "A damaged boardwalk leads to an accessible refuge, but a caretaker machine is rebuilding it directly across the only open water channel.",
+      "source": "/what-we-do/outreach-projects/hotspots-project/",
+      "why": "The crew can help finish a better route while keeping the pond connected."
+    },
+    {
+      "idea": "Fresh metallic marks climb a willow branch in a trail toward a newly occupied pond.",
+      "source": "/recording/willow-emerald-watch/",
+      "why": "Following the frontier provides a breadcrumb trail with a chance to stop its spread."
+    },
+    {
+      "idea": "Two routes are marked as a hotspot and a top site; the first has helpers but the second has a much larger swarm census.",
+      "source": "/odonata/where-to-see-dragonflies/",
+      "why": "The distinction creates a useful travel choice grounded in the site’s categories."
+    },
+    {
+      "idea": "A pond-watching party has spotted mayflies and amphibians fleeing in the same direction before any machines appear.",
+      "source": "/get-involved/pondwatch/",
+      "why": "Other pond life gives an early warning without needing a direct fight."
+    },
+    {
+      "idea": "A drainage machine has opened a trench between a pond and its pump, and the water level is visibly falling.",
+      "source": "/threats-to-dragonflies/",
+      "why": "The crew can plug, divert or follow the trench to its source."
+    },
+    {
+      "idea": "Two researchers disagree over a machine’s behaviour and need one more careful observation before acting.",
+      "source": "/bds-journal/",
+      "why": "The crew can resolve a practical dispute through fieldwork."
+    },
+    {
+      "idea": "A community celebration uses handmade dragonfly art to mark safe paths, but a patrol is copying the designs onto false markers.",
+      "source": "/what-we-do/outreach-projects/dragonfly-week/",
+      "why": "Creative clues become a test of trust and observation."
+    },
+    {
+      "idea": "A local group is comparing records of damselflies and dragonflies when paired-wing machines arrive disguised among the sightings.",
+      "source": "/areas/united-kingdom/wales/",
+      "why": "Identifying the impostors uses the site’s distinction as a social encounter."
+    }
+  ]
+}

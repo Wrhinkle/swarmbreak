@@ -1,0 +1,251 @@
+{
+  "reading": "Minnesota Native Bees is an illustrated digital field guide and conservation education project devoted to the diversity, natural history, identification, and habitat stewardship of Minnesota's native bees. It invites observation, research, and participatory science, and gives practical guidance on flowers, nesting sites, and threats. Its vocabulary moves easily between familiar names (mining, sweat, cellophane, cuckoo and fairy bees) and precise terms such as phenology, scopae, cleptoparasitism, oligolegy, genera and plant associations. Unlike a generic honey-bee site, it distinguishes native bees from the managed, non-native honey bee; treats solitary and parasitic lifestyles as part of bee diversity; and connects individual genera and species to their nesting materials, flowering plants, seasons, distribution and conservation status. Bees & Blooms pairs particular bees and plants across habitats and months, while identification guides compare subtle anatomy and look-alikes. The crawl is a partial field guide: some excerpts end mid-sentence, and linked species pages are not necessarily included as crawled pages.",
+  "enemies": [
+    {
+      "idea": "Dichotomous Keykeeper: a microscope-headed automaton makes every visitor choose between paired anatomical traits, then clamps them into a taxonomic drawer when neither answer fits.",
+      "source": "/identification",
+      "why": "Its branching questions are a navigable puzzle; false certainty is more dangerous than the pincers."
+    },
+    {
+      "idea": "Cuckoo Foundry: a stealth drone plants its assembly capsule in another machine nest, where the unwitting host provisions and builds a replacement invader.",
+      "source": "/cuckoo-bees",
+      "why": "The crew can discover a threat by watching who delivers supplies to whom."
+    },
+    {
+      "idea": "Sunflower Lockstep: Dieunomia-inspired burrowers recognize only sunflower pollen, so they plate every yellow circular object in a pollen-like dust and drag it underground.",
+      "source": "/dieunomia",
+      "why": "A narrow specialist can be lured or confused with a convincing decoy."
+    },
+    {
+      "idea": "Loosestrife Oil Siphon: a Macropis-shaped machine strips flower oil to lubricate its joints, leaving a slick trail and refusing other fuel.",
+      "source": "/melittidae",
+      "why": "Its specific fuel source creates both a trail and a bargaining or diversion opportunity."
+    },
+    {
+      "idea": "Cellophane Plasterer: a ground-boring drone waterproofs tunnels with transparent film, sealing doors and equipment into perfectly visible bubbles.",
+      "source": "/colletes",
+      "why": "The crew can see through the trap while figuring out how to puncture or peel it."
+    },
+    {
+      "idea": "Cellophane Cuckoo: an Epeolus-style infiltrator follows plasterer tunnels and inserts a counterfeit capsule into each lined chamber.",
+      "source": "/epeolus",
+      "why": "Two swarm types interfere with each other, giving observant crews an opening."
+    },
+    {
+      "idea": "Flower-Fly Masquerader: a mimic changes between bee, fly and wasp silhouettes; its patrol ignores anyone who copies the current pose.",
+      "source": "/look-alikes",
+      "why": "The mimic quiz becomes a tense game of observation and disguise."
+    },
+    {
+      "idea": "Sonication Rattler: a buzz-pollination machine vibrates flowers, fasteners and armor until their contents shake loose.",
+      "source": "/pollination",
+      "why": "The same vibration that disarms a crew can be redirected to shake open a locked cache."
+    },
+    {
+      "idea": "Scent-Marking Territorialist: a patrol sprays volatile markers onto plants and attacks anyone crossing its invisible scent boundaries.",
+      "source": "/behaviors",
+      "why": "Wind and scent give the crew a way to redraw its territory."
+    },
+    {
+      "idea": "Nectar Concentrator: a machine repeatedly processes any liquid it finds into sticky droplets, immobilizing wheels and tools in glossy threads.",
+      "source": "/behaviors",
+      "why": "A routine feeding behavior becomes a messy terrain hazard with useful adhesive left behind."
+    },
+    {
+      "idea": "Partition Mason: a cavity-nesting builder divides a corridor into individual brood cells with scavenged partitions, trapping each traveler in a separate compartment.",
+      "source": "/nests",
+      "why": "Breaking through in the right order reunites the party; smashing blindly may collapse the route."
+    },
+    {
+      "idea": "Scopa Sweeper: a leafcutter-shaped machine combs loose material into abdominal brushes, collecting keys, maps and metal shavings along with pollen.",
+      "source": "/anatomy",
+      "why": "Its underside is a moving lost-and-found that rewards a risky approach."
+    },
+    {
+      "idea": "Blood-Bee Hijacker: a Sphecodes-inspired infiltrator shadows sweat-bee machines and steals their stored provisions, then uses the stolen parts to repair itself.",
+      "source": "/sphecodes",
+      "why": "Following its thefts reveals both supply routes and the rival nest."
+    },
+    {
+      "idea": "Squash Gatekeeper: a Xenoglossa-inspired solitary burrower accepts only pumpkin or squash pollen as proof of passage, and excavates under anyone carrying the wrong offering.",
+      "source": "/xenoglossa",
+      "why": "A very specific plant association becomes a solvable checkpoint."
+    },
+    {
+      "idea": "Fairy-Bee Pinprick: tiny Perdita-inspired machines emerge when their host flowers bloom, stitching packs shut with almost invisible wire.",
+      "source": "/perdita",
+      "why": "The small scale invites close inspection and makes a field of flowers a stealth encounter."
+    },
+    {
+      "idea": "Green Nest Switcher: an Augochloropsis-inspired unit can reorganize its ground nest from solitary chambers into a communal or semisocial defense when disturbed.",
+      "source": "/augochloropsis",
+      "why": "Its tactics change with the nest layout, so separating entrances can disrupt coordination."
+    },
+    {
+      "idea": "Bumble Usurper: a social-parasite machine occupies an active bumble-machine nest and sends its workers to retrieve components for its own brood.",
+      "source": "/bombus",
+      "why": "The workers are potential allies if the crew exposes the usurper."
+    },
+    {
+      "idea": "Triangulin Hitchhiker: a wedge-beetle-inspired microbot catches a ride on a passing vehicle and drops off inside its destination to map the shelter.",
+      "source": "/natural-enemies",
+      "why": "Inspection and a clever decoy vehicle can turn the hidden passenger into a lead."
+    },
+    {
+      "idea": "Seasonal Prepupa: an armored capsule lies dormant through winter and unfolds into a different machine stage when warmed.",
+      "source": "/sociality",
+      "why": "Heat is both a tool for bypassing the capsule and the trigger that wakes it."
+    },
+    {
+      "idea": "Eighty-Four Variants: Lasioglossum-inspired scouts arrive in a crowd of subtly different models; a few hide in existing wood cavities while most tunnel beneath the ground.",
+      "source": "/lasioglossum",
+      "why": "Searching only the obvious burrows misses the ambush in the wood."
+    },
+    {
+      "idea": "Classification Bailiff: an automaton recites the ranks from order to clade and tries to force anything it encounters into the bee branch by attaching false antennae and wings.",
+      "source": "/what-is-a-bee",
+      "why": "Its absurdly precise categories create a disguise puzzle and a clear hierarchy to sabotage."
+    },
+    {
+      "idea": "Pollen Basket Collector: a drone packs its leg baskets with supplies meant for a safe garden, delivering them to a swarm nursery instead.",
+      "source": "/diet",
+      "why": "Tracking the oversized baskets leads to the stolen stores and their destination."
+    },
+    {
+      "idea": "Rare-Record Echo: a Nomia-inspired machine endlessly recreates the single recorded sighting as moving decoys, concealing its real body among duplicates.",
+      "source": "/nomia",
+      "why": "The crew must look for a physical trace instead of trusting the sighting alone."
+    },
+    {
+      "idea": "Spring Mining Drill: an Andrena-inspired excavator surfaces in the spring and leaves a maze of spoil heaps, only some of which conceal active shafts.",
+      "source": "/andrena",
+      "why": "The many entrances support a tactical search rather than a single obvious fight."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Bloom Relay: a network of surviving plant-tenders uses the guide’s April-to-September pairings to keep a sequence of real flowers available and signal safe passages.",
+      "source": "/beesblooms",
+      "why": "Protecting one bloom helps the next relay point stay connected."
+    },
+    {
+      "idea": "Patient Observer: a field scout identifies tiny machines by waiting, watching their behavior and taking multiple close views, then shares routes around patrols.",
+      "source": "/observation",
+      "why": "Careful observation provides an alternative to fighting every look-alike."
+    },
+    {
+      "idea": "Habitat Stewards: a small cooperative maintains bare ground, stems and wood as separate refuges, and can hide a crew in whichever nest substrate the swarm overlooks.",
+      "source": "/beebasics",
+      "why": "Distinct refuge types give the crew meaningful choices about where to shelter."
+    },
+    {
+      "idea": "Myth-Buster: a field guide expert recognizes that most native bees have solitary nests and points the crew toward scattered refuges when the swarm searches for one giant hive.",
+      "source": "/myths",
+      "why": "Correcting a familiar assumption reveals a distributed resistance network."
+    },
+    {
+      "idea": "Spring Beauty Courier: a surviving mining-bee ally follows the spring beauty pairing through woodland and carries a message between hidden refuges.",
+      "source": "/beesblooms",
+      "why": "Its seasonal flower route gives the crew a fragile, time-sensitive supply line."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Phenology Engine: a roaming machine garden combines the bloom calendar, habitat types and bee pairings into a forced schedule, summoning the right specialist at the wrong time and exhausting each refuge in turn.",
+      "source": "/beesblooms",
+      "why": "The crew can break its cycle by disrupting the plant-and-season signals that coordinate its waves."
+    },
+    {
+      "idea": "The Grand Curator: a six-family taxonomic colossus collects bees, nests and habitat into a single moving specimen vault, insisting that conservation means immobilizing every living thing.",
+      "source": "/",
+      "why": "Each family compartment offers a different route in, and freeing the contents turns its collection against its control."
+    },
+    {
+      "idea": "The False Steward: a habitat-management machine interprets interacting threats as a mandate to eliminate every variable, flattening diverse nesting sites into one controlled enclosure.",
+      "source": "/threats",
+      "why": "Its apparently protective routines can be interrupted by restoring diverse, connected habitat in several places at once."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A red maple is humming with orchard-mason and cellophane machines in April; a genuine bee is trapped between their rival collection routes.",
+      "source": "/beesblooms",
+      "why": "A rescue can use the predictable traffic without destroying the tree."
+    },
+    {
+      "idea": "A waterproofed ground tunnel has filled with rain, leaving a translucent bubble of air around a lost supply case.",
+      "source": "/nests",
+      "why": "The lining is both the obstacle and the thing keeping the supplies dry."
+    },
+    {
+      "idea": "A nest patrol follows a scent-marked plant while a neighboring patrol claims the same stem; a breeze is about to merge their territories.",
+      "source": "/behaviors",
+      "why": "The crew can redirect the breeze to cause a diversion or prevent a fight."
+    },
+    {
+      "idea": "A sleeping aggregation of machine bees hangs from stems at dusk, one of them quietly transmitting a map of nearby refuges.",
+      "source": "/behaviors",
+      "why": "Getting the map without waking the cluster makes for a delicate heist."
+    },
+    {
+      "idea": "A flower fly look-alike and a real bee visit the same flower; a nervous sentry asks the crew to distinguish them before it opens the shelter.",
+      "source": "/look-alikes",
+      "why": "Careful observation earns trust and prevents an unnecessary attack."
+    },
+    {
+      "idea": "A solitary nest contains an unfamiliar capsule among its provisions, and the host machine is minutes from sealing the chamber.",
+      "source": "/cuckoo-bees",
+      "why": "The crew must decide how to remove the intruder without collapsing the nest."
+    },
+    {
+      "idea": "A patch of loosestrife has been drained of oil; a stranded oil-collector offers a shortcut if the crew can find an intact flower.",
+      "source": "/melittidae",
+      "why": "A small restoration task earns a guide with a very particular need."
+    },
+    {
+      "idea": "An overwintering adult-shaped capsule has been mistaken for scrap by scavengers building a fire.",
+      "source": "/sociality",
+      "why": "Moving the capsule or cooling the fire avoids waking a machine in the middle of camp."
+    },
+    {
+      "idea": "A specialist drone keeps rejecting a heap of mixed pollen while its sunflower target blooms just beyond a buried patrol.",
+      "source": "/dieunomia",
+      "why": "The crew can use the single acceptable resource as bait to move the drone."
+    },
+    {
+      "idea": "An old wood cavity produces a stream of small sweat machines even after the ground entrances are sealed.",
+      "source": "/lasioglossum",
+      "why": "The unexpected nest location overturns the crew’s first theory and provides a second route."
+    },
+    {
+      "idea": "A surveyor has one uncertain Nomia sighting and asks for another observation before marking a safe route on a county map.",
+      "source": "/nomia",
+      "why": "The crew can gather evidence without treating a single record as proof."
+    },
+    {
+      "idea": "A buzz-pollination drone rattles a flower patch, accidentally shaking a hidden metal key out of a crevice.",
+      "source": "/pollination",
+      "why": "Waiting for the next vibration may recover the key without confronting the drone."
+    },
+    {
+      "idea": "A spring-emerging mining machine has excavated beside a tiny planted refuge; removing it carelessly would cave in both entrances.",
+      "source": "/andrena",
+      "why": "The shared ground makes a precision rescue more interesting than a straight fight."
+    },
+    {
+      "idea": "A counterfeit bumble controller has taken over an active nest; the workers still respond to an old provisioning signal.",
+      "source": "/bombus",
+      "why": "Finding and replaying the signal could turn a hostile patrol into a rescue force."
+    },
+    {
+      "idea": "A crew finds a stack of tiny provisions divided into cells by scavenged material; one partition is made from their missing route map.",
+      "source": "/nests",
+      "why": "Recovering the map requires choosing between a quick grab and preserving the occupied cells."
+    },
+    {
+      "idea": "A flowering corridor has a gap between spring and late summer; the surviving bloom relay needs a suitable intervening plant before its couriers can cross.",
+      "source": "/beebasics",
+      "why": "A habitat puzzle makes continuity through the season the objective."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.butterfliesandmoths.org",
+   "name": "Butterflies and Moths of North America",
+   "url": "https://www.butterfliesandmoths.org/",
+   "file": "runs/2026-11-13/sites/www.butterfliesandmoths.org.json"
+  },
+  {
+   "host": "british-dragonflies.org.uk",
+   "name": "British Dragonfly Society",
+   "url": "https://british-dragonflies.org.uk/",
+   "file": "runs/2026-11-13/sites/british-dragonflies.org.uk.json"
+  },
+  {
+   "host": "www.beesmn.org",
+   "name": "Minnesota Native Bees",
+   "url": "https://www.beesmn.org/",
+   "file": "runs/2026-11-13/sites/www.beesmn.org.json"
+  }
+ ]
+}

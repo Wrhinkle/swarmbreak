@@ -1,0 +1,216 @@
+{
+  "reading": "Butterflies and Moths of North America (BAMONA) collects, checks, stores and shares observations of North American Lepidoptera. Its volunteer observers and regional coordinators turn photographs, dates and locations into verified sightings, species profiles, regional checklists and maps; partner projects contribute their own field observations. It cares about accessible participation, evidence, data quality, regional distribution, life histories and the habitats that support insects. Its language moves easily between common and scientific names, caterpillars and adults, sightings, verification, occurrence data, taxonomy and unidentifiable records. What makes it distinctive is the living chain from an amateur photograph through expert review to a continent-wide picture, with uncertainty and local knowledge left visible alongside thousands of species. The crawl also shows its history as combined butterfly and moth data, long-term monitoring projects, identification help, and concern for native plants and declining populations.",
+  "enemies": [
+    {
+      "idea": "The Pending Brood: metal caterpillars attach a visitor to a motionless queue until a distant verifier approves their existence.",
+      "source": "/faq/how-soon-will-my-sighting-be-verified",
+      "why": "A rescue has a ticking clock while the enemy insists the wait is normal."
+    },
+    {
+      "idea": "The Misidentification Herald marks crew members as the wrong species and dispatches correction-hunters whenever they behave unlike the assigned label.",
+      "source": "/faq/how-can-i-report-sighting-misidentified",
+      "why": "Players can exploit the wrong label or struggle to get it corrected."
+    },
+    {
+      "idea": "Regional Coordinators: territorial machine moths compare every traveler against their assigned region and drive out anything they consider out of range.",
+      "source": "/available-positions",
+      "why": "Crossing a boundary changes which patrol claims authority."
+    },
+    {
+      "idea": "A date-and-location sphinx demands where and when the crew was photographed; wrong answers make it relocate them to the supposed sighting.",
+      "source": "/identify",
+      "why": "The identification ritual becomes a geography puzzle and a displacement hazard."
+    },
+    {
+      "idea": "The Checklist Grazer strips a region of anything absent from its generated species list, then stamps the bare ground complete.",
+      "source": "/checklists",
+      "why": "An incomplete inventory becomes a threat that can be fooled by adding entries."
+    },
+    {
+      "idea": "The Taxonomy Fork splits into family-branches that reorder themselves after every hit; attacking a parent branch shields all its descendants.",
+      "source": "/taxonomy",
+      "why": "The classification tree dictates target priority and changes the shape of the fight."
+    },
+    {
+      "idea": "The Antennal Clubber, a skipper machine with an exaggerated hooked extension on its antenna, snags equipment and reels it in.",
+      "source": "/glossary",
+      "why": "A tiny anatomical detail becomes a visible, counterable grappling weapon."
+    },
+    {
+      "idea": "The Common Looper lays looping tracks that bring anyone following them back to the starting point while it closes in.",
+      "source": "/species/Autographa-precationis",
+      "why": "The creature makes a simple chase into a looping navigation problem."
+    },
+    {
+      "idea": "The Hemlock Looper folds metal limbs around tree trunks and ratchets them together into a moving barricade.",
+      "source": "/species/Lambdina-fiscellaria",
+      "why": "Terrain changes as the crew chooses whether to cut, climb or lure it away."
+    },
+    {
+      "idea": "The Spotted Beet Webworm spins conductive mesh around patches of ground; each spot is a relay that electrifies the next.",
+      "source": "/species/Hymenia-perspectalis",
+      "why": "Breaking a relay changes the hazard network in a legible way."
+    },
+    {
+      "idea": "The Burnsius Double wears two nearly identical wing patterns and switches between them whenever an observer commits to an identification.",
+      "source": "/species/burnsius-albescens-or-communis",
+      "why": "Genuine uncertainty becomes a feint rather than a single hidden answer."
+    },
+    {
+      "idea": "The Tersa Sphinx asks for a field identification, then fires a needle at whichever feature the crew names first.",
+      "source": "/species/Xylophanes-tersa",
+      "why": "Its interrogation makes describing the target tactically dangerous."
+    },
+    {
+      "idea": "Silver-spotted Skipper decoys repeat a single wing pattern across a crowd of machines, hiding the one unit coordinating their leaps.",
+      "source": "/gallery",
+      "why": "The repeated named specimens inspire a shell game with an identifiable leader."
+    },
+    {
+      "idea": "The Leafblotch Miner tunnels through leaves and thin metal, leaving pale trails that connect into a trap beneath the crew.",
+      "source": "/recent_sightings",
+      "why": "Its tracks telegraph an underground ambush and give the crew a chance to interrupt it."
+    },
+    {
+      "idea": "The Occurrence Cartographer places false sightings ahead of the crew, summoning patrols to every place its map predicts they will be.",
+      "source": "/recent_sightings_map",
+      "why": "Players can feed it a misleading trail and reverse the pursuit."
+    },
+    {
+      "idea": "The All-Taxa Assessor inventories every living thing in reach, fitting each with a numbered clamp and refusing to stop at butterflies.",
+      "source": "/partner-project/adirondack-all-taxa-biodiversity-inventory",
+      "why": "Its broad mandate turns a field survey into a chaotic multi-species capture operation."
+    },
+    {
+      "idea": "The Cascades Counter patrols the same mountain route repeatedly, attacking any change in the population it measured on its last circuit.",
+      "source": "/project/CBP",
+      "why": "A long-term monitoring route creates a predictable rhythm the crew can exploit."
+    },
+    {
+      "idea": "The Regional Ranker builds a rotating guard of the top twenty recorded species and demotes any machine that fails to collect a new sighting.",
+      "source": "/",
+      "why": "The roster changes during the encounter as different units compete for rank."
+    },
+    {
+      "idea": "The Photo Voucher mimics a Terloo sphinx sighting and freezes in a convincing pose, then springs when the observer approaches for a closer look.",
+      "source": "/sighting_details/1304235",
+      "why": "A seemingly peaceful field observation becomes an ambush with a visual tell."
+    },
+    {
+      "idea": "The Profile Harvester tears life-history traits from more than 7,000 species profiles and grafts a different trait onto itself whenever damaged.",
+      "source": "/species_search",
+      "why": "Its changing adaptations make each round a fresh identification challenge."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Volunteer spotters relay clear observations from hiding places, marking swarm movement without needing to know a species name.",
+      "source": "/get-involved",
+      "why": "Anyone can contribute, so the crew can build a practical neighborhood warning network."
+    },
+    {
+      "idea": "A surviving regional coordinator checks suspicious identifications against local knowledge and can revoke a false swarm label.",
+      "source": "/available-positions",
+      "why": "Expert review gives the crew a way to undo the swarm’s bureaucratic traps."
+    },
+    {
+      "idea": "Native-plant gardeners maintain pockets of real habitat where living insects gather and machine pollinators lose the scent trail.",
+      "source": "/new-gear-and-partner-honor-earth-day-april-22-2025",
+      "why": "Protecting a garden creates a useful refuge with a reason to defend it."
+    },
+    {
+      "idea": "Cascades observers preserve a sequence of field counts that reveals where the machine patrol will return next.",
+      "source": "/project/CBP",
+      "why": "Long-term observation becomes actionable intelligence rather than a magic answer."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Continental Verifier: a vast winged engine built from regional records, which tries to make the living continent match its supposedly quality-controlled data. It seals regions, rejects anomalies and calls in local coordinators; contradictory observations expose its central sensor.",
+      "source": "/about",
+      "why": "It makes the whole project’s ambition and reliance on evidence into a multi-stage confrontation."
+    },
+    {
+      "idea": "The Merged Archive: two interlocked mechanical swarms, one butterfly and one moth, assemble from the old separate datasets and compete to classify everything before fusing into a single predatory inventory.",
+      "source": "/contributors-npwrc-dataset",
+      "why": "The project’s historical merger becomes a boss with distinct phases and a shared weakness."
+    },
+    {
+      "idea": "The Occurrence Engine harvests photographs, dates and locations to manufacture a continent-wide swarm migration. Disrupting its local observation relays opens gaps in its collective flight.",
+      "source": "/partner",
+      "why": "A distributed network of partner observations becomes an arena-spanning coordination puzzle."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A genuine sighting waits beside a forged one in a review pile; a coordinator asks the crew to find the distinguishing evidence before a patrol accepts the forgery.",
+      "source": "/faq/how-can-i-report-sighting-misidentified",
+      "why": "A small investigation can prevent a larger pursuit."
+    },
+    {
+      "idea": "A traveler has been declared unidentifiable by the swarm and can pass unseen by its patrols, but is slowly being forgotten by its own maps.",
+      "source": "/identify",
+      "why": "The crew must choose when to restore an identity that is also useful cover."
+    },
+    {
+      "idea": "A regional checklist has one empty slot; a machine grazer will spare a patch of habitat if the crew can provide evidence of the missing species.",
+      "source": "/checklists",
+      "why": "Searching for evidence becomes a nonviolent way to save a place."
+    },
+    {
+      "idea": "Two near-identical Burnsius machines dispute which one is real, each offering a different route through their territory.",
+      "source": "/species/burnsius-albescens-or-communis",
+      "why": "Ambiguity creates a social encounter without requiring a definitive species identification."
+    },
+    {
+      "idea": "A line of spotted webworm machines has woven a live circuit across a trail; a trapped pollinator can be freed by disconnecting the relays in order.",
+      "source": "/species/Hymenia-perspectalis",
+      "why": "A compact rescue turns an enemy ability into a hands-on puzzle."
+    },
+    {
+      "idea": "A mountain counter returns to the same point on schedule while observers try to record a living butterfly between its passes.",
+      "source": "/project/CBP",
+      "why": "Timing a brief field observation creates tension without a fight."
+    },
+    {
+      "idea": "Citizen scientists offer the crew a map assembled from many small sightings, but one false observation has drawn the route through a machine nest.",
+      "source": "/acknowledgments",
+      "why": "The crew can compare independent reports and repair the map."
+    },
+    {
+      "idea": "An escaped looper has made a path return to itself; a scrap of marked thread shows where the loop can be broken.",
+      "source": "/species/Autographa-precationis",
+      "why": "A navigation oddity has a discoverable physical solution."
+    },
+    {
+      "idea": "A machine surveyor is inventorying every creature in a clearing, including the crew’s pack animals; freeing the captures risks triggering its census alarm.",
+      "source": "/partner-project/adirondack-all-taxa-biodiversity-inventory",
+      "why": "The all-taxa premise creates a stealthy rescue with several possible distractions."
+    },
+    {
+      "idea": "A group of gardeners needs a bag of native seeds carried across a patrol route to reconnect two safe habitat patches.",
+      "source": "/new-gear-and-partner-honor-earth-day-april-22-2025",
+      "why": "A modest delivery visibly improves the territory if completed."
+    },
+    {
+      "idea": "An old butterfly record and an old moth record describe the same landmark differently; comparing them reveals a hidden passage between two swarm territories.",
+      "source": "/contributors-npwrc-dataset",
+      "why": "The history of separate datasets offers a clue that rewards comparison."
+    },
+    {
+      "idea": "A swarm scout demands a date and location for a photograph; the crew can reconstruct the answer from shadows and a nearby field marker to pass its checkpoint.",
+      "source": "/identify",
+      "why": "The site’s observation metadata becomes a short environmental puzzle."
+    },
+    {
+      "idea": "A tiny metallic skipper repeatedly catches a loose strap with its hooked antennal tip, unwittingly pointing toward its hidden nest.",
+      "source": "/glossary",
+      "why": "The anatomical clue can lead to either avoidance or an optional encounter."
+    },
+    {
+      "idea": "A verified-sightings patrol mistakes a harmless moth for its mechanical counterpart and prepares to capture it; a clear observation could redirect the patrol.",
+      "source": "/recent_sightings",
+      "why": "Careful identification lets the crew protect a living insect without destroying the patrol."
+    }
+  ]
+}
