@@ -11,6 +11,31 @@ import capacity_inventory as inv
 
 
 class InventoryTest(unittest.TestCase):
+    def test_inventory_explains_observed_retention_reasons(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory).resolve()
+            record = [f'worktree {path}'.encode(), b'HEAD abc', b'locked in use']
+            with patch.object(inv, 'command', side_effect=[
+                subprocess.CompletedProcess([], 0, b' M tracked\0?? new\0!! cache/\0'),
+                subprocess.CompletedProcess([], 0, b'12\tpath\n')
+            ]):
+                result = inv.inventory(path, record)
+            self.assertEqual(result['retention_reasons'], [
+                'worktree is locked', 'tracked changes', 'untracked files', 'ignored files',
+                'ownership, activity, job state and saved work not verified'])
+            self.assertIn('retain', result['removal_eligibility'])
+
+    def test_failed_status_scan_is_explicitly_retained(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory).resolve()
+            with patch.object(inv, 'command', side_effect=[
+                OSError(28, 'No space left on device'),
+                subprocess.CompletedProcess([], 0, b'12\tpath\n')
+            ]):
+                result = inv.inventory(path, [f'worktree {path}'.encode()])
+            self.assertIn('status unavailable', result['retention_reasons'])
+            self.assertFalse(result['complete'])
+
     def test_filesystem_report_survives_progress_stream_failure(self):
         class FailingStream:
             def __init__(self, fail_on):
@@ -79,6 +104,23 @@ class InventoryTest(unittest.TestCase):
             self.assertEqual(result['worktrees'][1]['path'], str(missing))
             self.assertIn('error', result['worktrees'][1])
             self.assertIn('retain', result['worktrees'][1]['removal_eligibility'])
+
+    def test_missing_worktree_reports_retention_reasons_in_report_and_progress(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory).resolve()
+            missing = path / 'missing'
+            record = f'worktree {missing}\0HEAD abc\0locked in use\0prunable missing'.encode()
+            progress = []
+            with patch.object(inv, 'worktree_records', return_value=[record]):
+                result = inv.filesystem_inventory(path, progress.append)
+            item = result['worktrees'][0]
+            self.assertEqual(item['retention_reasons'], [
+                'worktree is locked', 'worktree is prunable or inaccessible',
+                'ownership, activity, job state and saved work not verified'])
+            self.assertIn('error', item)
+            self.assertFalse(item['complete'])
+            self.assertIn('retain', item['removal_eligibility'])
+            self.assertEqual(progress[1], {'type': 'worktree', **item})
 
     def test_slow_scan_reports_progress_and_continues_to_other_tree(self):
         with tempfile.TemporaryDirectory() as directory:
