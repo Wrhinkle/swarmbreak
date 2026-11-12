@@ -163,6 +163,32 @@ class ReleaseCapacityTest(unittest.TestCase):
             self.assertFalse(any(cmd[0] == 'firebase' for cmd in commands))
             self.assertEqual(sum(cmd == failed for cmd in commands), 1)
 
+    def test_checkout_revision_no_space_is_a_capacity_blocker(self):
+        manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
+        commands = []
+        def command(*args, **kwargs):
+            commands.append(args)
+            if args[:3] == ('git', 'worktree', 'add'):
+                tree = Path(args[4])
+                (tree / 'public/runs/x').mkdir(parents=True)
+                (tree / 'public/manifest.json').write_text(json.dumps(manifest))
+                (tree / 'public/runs/x/run.json').write_text('{}')
+            if args == ('git', 'rev-parse', 'HEAD'):
+                raise SystemExit('git rev-parse: No space left on device')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with patch.object(manager, 'release_check', return_value=('', 'revision')), \
+             patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager, 'live_manifest', return_value=manifest), \
+             patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+             patch.object(manager, 'deploy_problems', return_value=[]), \
+             patch.object(manager, 'capacity_detail', return_value='checkout (device 42): 0 bytes available of 1000'):
+            result = manager.release()
+        self.assertIn('release checkout revision failed: no space left on device', result)
+        self.assertIn('device 42', result)
+        self.assertTrue(manager.persistent_release_blocker(result))
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertFalse(any(cmd[0] == 'firebase' for cmd in commands))
+
     def test_revision_file_no_space_stops_release_with_capacity_evidence(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
         commands = []
