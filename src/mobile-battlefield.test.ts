@@ -32,6 +32,8 @@ it('shows both sides and updates health while preserving the enemy inspect contr
     expect(enemy.children[3].textContent).toBe('Turn readiness: 0%');
     field.update(fighters, 4);
     expect(enemy.children[3].textContent).toBe('Turn readiness: 50%');
+    field.update(fighters, 4, [{ t: 4, kind: 'action', actor: 'e0', target: 'e0', amount: 0, routine: 'strike' }, { t: 4, kind: 'damage', actor: 'e0', target: 'c0', amount: 1, routine: 'strike' }]);
+    expect(enemy.children[3].textContent).toBe('Turn readiness: 50% · Acted: Strike → Ally');
     enemy.listeners.click(); expect(inspect).toHaveBeenCalledWith('e0');
     fighters[1].hp = 4; fighters[1].shield = 2; field.update(fighters);
     expect(root.children[1].children[0]).toBe(enemy);

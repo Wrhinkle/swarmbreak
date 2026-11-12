@@ -1,3 +1,4 @@
+import { fightActions } from './fight-actions';
 import type { CombatState } from './combat';
 import { readiness } from './readiness';
 
@@ -11,7 +12,8 @@ export function mobileBattlefield(inspect: (id: string) => void) {
   const cards = new Map<string, { card: HTMLElement; health: HTMLElement; timing: HTMLElement }>();
   return {
     element,
-    update(fighters: CombatState['fighters'], tick = 0) {
+    update(fighters: CombatState['fighters'], tick = 0, events: CombatState['events'] = []) {
+      const actions = fightActions(fighters, events);
       for (const [index, side] of (['crew', 'enemy'] as const).entries()) {
         const children = fighters.filter(f => f.side === side).map(f => {
           let entry = cards.get(f.id);
@@ -29,7 +31,7 @@ export function mobileBattlefield(inspect: (id: string) => void) {
             entry = { card, health, timing }; cards.set(f.id, entry);
           }
           entry.health.textContent = `${Math.ceil(f.hp)} / ${f.maxHp} HP${f.shield ? ` · ${Math.ceil(f.shield)} shield` : ''}`;
-          entry.timing.textContent = readiness(f, tick);
+          entry.timing.textContent = `${readiness(f, tick)}${actions.has(f.id) ? ` · ${actions.get(f.id)}` : ''}`;
           return entry.card;
         });
         const column = columns[index];

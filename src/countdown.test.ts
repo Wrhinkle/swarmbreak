@@ -60,6 +60,9 @@ it('refreshes the roster for health, shields, and new fighters', async () => {
     const fighters = [{ side: 'crew', creature: { name: 'Ally' }, hp: 10, maxHp: 20, shield: 0, speed: 8, nextAction: 8 }] as unknown as import('./combat').CombatState['fighters'];
     renderRoster(roster as unknown as HTMLElement, fighters);
     expect(roster.children[0].children[1].textContent).toBe('Ally: 10 / 20 HP · Turn readiness: 0%');
+    fighters[0].id = 'c0';
+    renderRoster(roster as unknown as HTMLElement, fighters, 0, [{ t: 0, kind: 'action', actor: 'c0', target: 'c0', amount: 0, routine: 'brace' }, { t: 0, kind: 'shield', actor: 'c0', target: 'c0', amount: 3, routine: 'brace' }]);
+    expect(roster.children[0].children[1].textContent).toContain('Acted: Brace → Ally');
     fighters[0].hp = 5; fighters[0].shield = 3;
     fighters.push({ ...fighters[0], side: 'enemy', creature: { ...fighters[0].creature, name: 'Foe' } });
     renderRoster(roster as unknown as HTMLElement, fighters);
