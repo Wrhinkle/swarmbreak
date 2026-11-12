@@ -262,42 +262,82 @@ def main():
         if want('gameplay'):
             begin(d, 'gameplay')
             report = d / 'balance.json'
-            # The last plan that failed balance and its report. Without them each retry was a fresh guess.
+            # Keep the whole retry sequence together so a resume can recover its last pair.
             tried, tried_report = d / 'assembly-tried.json', d / 'balance-tried.json'
             provenance = d / 'balance-tried-provenance.json'
+            history = d / 'balance-history.json'
+            pending = d / 'balance-pending.json'
+            content_hash = hashlib.sha256(content.read_bytes()).hexdigest()
 
-            def hashes():
-                return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in (content, tried, tried_report)}
+            def relevant(plan):
+                # These are the only plan fields assemble() reads, including elite fields.
+                return [{'packs': {band: act['packs'][band] for band in ('early', 'mid', 'late')},
+                         'elites': [{'id': e['id'], 'reward': e['reward']} for e in act['elites']],
+                         'shop': act['shop']} for act in plan['acts']]
 
-            try:
-                valid = json.loads(provenance.read_text()) == hashes()
-            except (OSError, ValueError):
-                valid = False
-            if not valid:
-                for p in (tried, tried_report, provenance):
-                    p.unlink(missing_ok=True)
+            def evidence_error():
+                sys.exit('Gameplay retry evidence is missing or mismatched. Restore the matching failed plan, full balance report and provenance for this content, or restart the gameplay sequence with verified evidence.')
+
+            failed = []
+            if pending.exists():
+                evidence_error()
+            if history.exists():
+                try:
+                    state = json.loads(history.read_text())
+                    if state['content'] != content_hash or not state['plans'] or not isinstance(state['report'], str) or not state['report']:
+                        evidence_error()
+                    failed = state['plans']
+                    for plan in failed:
+                        relevant(plan)
+                    # The durable history is authoritative; reconstruct missing worker inputs.
+                    for path, value in ((tried, json.dumps(failed[-1])), (tried_report, state['report'])):
+                        if path.exists() and (json.loads(path.read_text()) != failed[-1] if path == tried else path.read_text() != value):
+                            evidence_error()
+                        path.write_text(value)
+                except (OSError, ValueError, KeyError, TypeError):
+                    evidence_error()
+            elif any(p.exists() for p in (tried, tried_report, provenance)):
+                # Accept the previous format only when its complete provenance still matches.
+                try:
+                    hashes = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in (content, tried, tried_report)}
+                    if json.loads(provenance.read_text()) != hashes:
+                        evidence_error()
+                    failed = [json.loads(tried.read_text())]
+                    relevant(failed[0])
+                    if not tried_report.read_text():
+                        evidence_error()
+                except (OSError, ValueError, KeyError, TypeError):
+                    evidence_error()
 
             def check_plan():
                 bad = result(tool('tools/checks.ts', 'assembly', rel(assembly), rel(content)))
                 if bad:
                     return bad
-                if tried.exists():
-                    try:
-                        if json.loads(assembly.read_text()) == json.loads(tried.read_text()):
-                            return 'Assembly is unchanged from the failed balance attempt; change the encounters or shop before retrying.'
-                    except (OSError, ValueError):
-                        pass  # the assembly check validates the new plan; an unreadable old plan cannot be compared
+                candidate = json.loads(assembly.read_text())
+                if any(relevant(candidate) == relevant(plan) for plan in failed):
+                    return 'Assembly is unchanged from a failed balance attempt; change the encounters or shop before retrying.'
                 ok, out = tool('tools/build-run.ts', rel(d))
                 if not ok:
                     return out
                 report.unlink(missing_ok=True)
+                pending.write_text('Balance attempt started; evidence has not been saved.\n')
                 ok, out = tool('tools/balance.ts', f'public/runs/{run_id}/run.json', '--tune', '--report', rel(report))
                 print(out, flush=True)
-                if not ok and report.exists():
+                if not ok:
+                    if not report.is_file() or not report.read_text():
+                        sys.exit('Balance failed without a full report. Restore the report for this attempt before resuming gameplay.')
+                    failed.append(candidate)
+                    state = {'content': content_hash, 'plans': failed, 'report': report.read_text()}
+                    fresh = history.with_suffix('.tmp')
+                    fresh.write_text(json.dumps(state))
+                    # Remove the old pair first; either history can recreate its own pair.
+                    tried.unlink(missing_ok=True)
+                    tried_report.unlink(missing_ok=True)
+                    os.replace(fresh, history)
+                    tried.write_text(json.dumps(candidate))
+                    tried_report.write_text(state['report'])
                     provenance.unlink(missing_ok=True)
-                    shutil.copy(assembly, tried)
-                    shutil.copy(report, tried_report)
-                    provenance.write_text(json.dumps(hashes()))
+                pending.unlink(missing_ok=True)
                 if ok:
                     mark(report, True, [AGENTS / 'gameplay.md', *played(d)])
                 return '' if ok else out
@@ -306,6 +346,8 @@ def main():
             tried.unlink(missing_ok=True)
             tried_report.unlink(missing_ok=True)
             provenance.unlink(missing_ok=True)
+            history.unlink(missing_ok=True)
+            pending.unlink(missing_ok=True)
 
         if want('art'):
             agent('art', brief, {'content.json': content}, lambda: '' if len(json.loads(brief.read_text()).get('acts', [])) == ACTS else f'Write {ACTS} acts.')
