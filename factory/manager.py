@@ -946,6 +946,12 @@ def main():
     if args and args[0] == '--comms':
         print(comms(int(args[1]), args[2], dry))
         return
+    if '--release-only' in args and '--retry-capacity' not in args:
+        lock.seek(0)
+        prior = lock.read().strip()
+        if is_capacity_blocker(prior):
+            release_step([], dry, [prior])
+            return
     if not dry:
         sync()
     if '--release-only' in args:  # the quarter-hourly check: no model call unless something failed
@@ -1040,13 +1046,17 @@ def release_blocker_identity(result):
     return result
 
 
+def is_capacity_blocker(result):
+    identity = release_blocker_identity(result)
+    return (identity.startswith('release -> Not deploying: ') and
+            identity.endswith('failed: no space left on device;'))
+
+
 def release_step(failures, dry=False, previous=(), retry_capacity=False):
     # A capacity failure requires host investigation, not another automatic release attempt.
     # The host can explicitly retry after restoring capacity with --release-only --retry-capacity.
     for prior in previous:
-        identity = release_blocker_identity(prior)
-        if (not retry_capacity and identity.startswith('release -> Not deploying: ') and
-                identity.endswith('failed: no space left on device;')):
+        if not retry_capacity and is_capacity_blocker(prior):
             print(f'release: Blocked: capacity recovery required; {prior}', flush=True)
             return prior
     result = release(dry)
