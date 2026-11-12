@@ -622,7 +622,13 @@ def deploy(dry, rev=None):
             if problems:
                 return f'Not deploying: {problems}'
             for cmd in (['npm', 'ci'], ['npm', 'run', 'build'], ['npm', 'test']):
-                r = sh(*cmd, cwd=tree, check=False)
+                try:
+                    r = sh(*cmd, cwd=tree, check=False)
+                except OSError as e:
+                    failure = checkout_capacity_failure(e, tree, ' '.join(cmd))
+                    if failure:
+                        return cleanup_capacity_failure(failure)
+                    raise
                 if r.returncode:
                     failure = npm_capacity_failure(r.stdout + r.stderr, tree, ' '.join(cmd))
                     if failure:
