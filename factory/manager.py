@@ -461,6 +461,11 @@ def release_check():
                                and game_changed(live_revision(), rev)):
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
+        if (isinstance(e, OSError) and e.errno == errno.ENOSPC or
+                'no space left on device' in str(e).lower()):
+            return (f'Not deploying: release check failed: no space left on device; '
+                    f'failing filesystem: unknown; repository candidate: {capacity_detail(ROOT)}; '
+                    f'error: {str(e)[-1000:]}'), None
         return f'Release check failed: {e}', None
     if due == 'older':
         return f'Not deploying: main has {main_m["runId"]}, which is older than the live run {live["runId"]}. Main\'s manifest went backwards.', None
@@ -1022,12 +1027,13 @@ def persistent_release_blocker(result):
                               'Not deploying: npm test failed:',
                               'Not deploying: release checkout failed: no space left on device;',
                               'Not deploying: release fetch failed: no space left on device;',
+                              'Not deploying: release check failed: no space left on device;',
                               'Not deploying: release revision file failed: no space left on device;',
                               'Not deploying: npm ci failed: no space left on device;'))
 
 
 def release_blocker_identity(result):
-    for stage in ('release checkout', 'release fetch', 'release revision file', 'npm ci', 'npm run build', 'npm test'):
+    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
             return capacity
