@@ -1398,6 +1398,19 @@ with tempfile.TemporaryDirectory() as d:
             assert 'fixture denied' in str(exc) and str(tree) in str(exc)
     assert workers == ['pr-fixer'] and (tree / 'work').read_text() == 'preserved'
     assert not (tree / '.git-fixes.json').exists()
+    workers.clear()
+    failure = 'routine output\n' * 300 + 'Traceback: decisive failure'
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=pr_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+         patch.object(pr_team, 'findings', return_value={'findings': [finding]}), \
+         patch.object(pr_team, 'bot', side_effect=pr_bot), patch.object(pr_team, 'verified', return_value=failure), \
+         patch.object(sys, 'argv', ['pr_team.py', '42']):
+        try:
+            pr_team.main()
+            assert False, 'failed tests must stop the fixer'
+        except SystemExit as exc:
+            assert 'Traceback: decisive failure' in str(exc), str(exc)
+    assert workers == ['pr-fixer', 'pr-fixer']
 print('ok PR fixer stops on host failure')
 
 # A merged PR says in a comment where the host's screenshots are (issue 134). Only once merged: the folder is reused until then.
