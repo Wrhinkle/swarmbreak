@@ -35,7 +35,7 @@
           ],
           [
             "webworm-relay",
-            "common-loop"
+            "hook-skipper"
           ],
           [
             "burnsius-double",
@@ -171,7 +171,7 @@
             "toothed-jaw"
           ],
           [
-            "abstraction-pump",
+            "filter-warden",
             "willow-scout"
           ],
           [
@@ -209,7 +209,8 @@
         "patch+",
         "cover",
         "finish",
-        "strike+"
+        "strike+",
+        "sweep+"
       ]
     },
     {
@@ -240,7 +241,7 @@
         "mid": [
           [
             "cellophane-plasterer",
-            "sunflower-lockstep"
+            "oil-siphon"
           ],
           [
             "cuckoo-foundry",
@@ -265,9 +266,8 @@
         ],
         "late": [
           [
-            "cellophane-plasterer",
-            "fairy-pinprick",
-            "sunflower-lockstep"
+            "scopa-sweeper",
+            "fairy-pinprick"
           ],
           [
             "cuckoo-foundry",
@@ -287,7 +287,7 @@
           ],
           [
             "cellophane-plasterer",
-            "scopa-sweeper"
+            "sunflower-lockstep"
           ]
         ]
       },
@@ -316,7 +316,8 @@
         "patch+",
         "triage",
         "finish",
-        "strike+"
+        "jam",
+        "brace"
       ]
     }
   ]
