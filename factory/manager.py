@@ -524,7 +524,13 @@ def deploy(dry, rev=None):
     """Publish origin/main, or the commit `rev` that release() checked, from a clean checkout so local work can't ship by accident."""
     if not rev:
         sh('git', 'fetch', 'origin')
-    temp = tempfile.TemporaryDirectory()
+    try:
+        temp = tempfile.TemporaryDirectory()
+    except OSError as e:
+        failure = checkout_capacity_failure(e, tempfile.gettempdir())
+        if failure:
+            return failure
+        raise
     work = temp.name
     temp_cleanup_attempted = False
     try:

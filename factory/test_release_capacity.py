@@ -9,6 +9,22 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_temporary_directory_no_space_is_a_capacity_blocker(self):
+        with patch.object(manager.tempfile, 'TemporaryDirectory', side_effect=OSError(28, 'No space left on device')), \
+             patch.object(manager.tempfile, 'gettempdir', return_value='/tmp'), \
+             patch.object(manager, 'capacity_detail', return_value='/tmp (device 42): 0 bytes available of 1000'), \
+             patch.object(manager, 'sh') as command:
+            result = manager.deploy(False, 'revision')
+        self.assertIn('release checkout failed: no space left on device', result)
+        self.assertIn('device 42', result)
+        self.assertTrue(manager.persistent_release_blocker(result))
+        command.assert_not_called()
+
+    def test_temporary_directory_other_errors_are_not_capacity_blockers(self):
+        with patch.object(manager.tempfile, 'TemporaryDirectory', side_effect=OSError(13, 'Permission denied')):
+            with self.assertRaises(OSError):
+                manager.deploy(False, 'revision')
+
     def test_npm_no_space_is_a_capacity_blocker(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
         for failed in [('npm', 'ci'), ('npm', 'run', 'build'), ('npm', 'test')]:
