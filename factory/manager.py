@@ -976,15 +976,20 @@ def release_blocker_identity(result):
 def release_step(failures, dry=False, previous=()):
     result = release(dry)
     if result:
-        identity = release_blocker_identity(f'release -> {result[-700:]}')
+        full = f'release -> {result}'
+        diagnostic = f'release -> {result[-700:]}'
+        capacity_identity = release_blocker_identity(full)
+        if capacity_identity != full and len(result) > 700:
+            diagnostic = f'{capacity_identity} ... {result[-700:]}'
+        identity = release_blocker_identity(diagnostic)
         blocked = persistent_release_blocker(result) and any(release_blocker_identity(p) == identity for p in previous)
         recorded = f'Blocked: unchanged release failure: {result}' if blocked else result
         print(f'release: {recorded}', flush=True)
         record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded[-1000:], 'dry': dry})
         if FAILED.search(result) and not blocked:
-            failures.append(f'release -> {result[-700:]}')
+            failures.append(diagnostic)
         if persistent_release_blocker(result):
-            return f'release -> {result[-700:]}'
+            return diagnostic
     return ''
 
 

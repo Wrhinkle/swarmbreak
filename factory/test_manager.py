@@ -920,6 +920,32 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert scheduled('Deployed.')[0] == []
     assert scheduled(first)[0] == ['release -> ' + first]
 
+# Long npm capacity reports retain their stage identity across follow-ups and scheduled passes.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
+    def scheduled(result):
+        release.return_value = result
+        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args
+
+    def capacity(stage, free, diagnostic):
+        with patch('manager.capacity_detail', return_value=f'{free} bytes available'), patch('manager.sh') as npm:
+            npm.return_value = SimpleNamespace(returncode=1, stdout='')
+            return manager.npm_capacity_failure('no space left on device\n' + diagnostic * 2100, '/tmp', stage)
+
+    first = capacity('npm ci', 12, 'a')
+    second = capacity('npm ci', 8, 'b')
+    other = capacity('npm run build', 8, 'c')
+    failures, _, _, _, blocker = scheduled(first)
+    assert len(first) > 700 and len(failures) == 1
+    with patch('manager.release', return_value=second):
+        follow_failures = []
+        manager.release_step(follow_failures, previous=failures + [blocker])
+        assert follow_failures == []
+    assert scheduled(second)[0] == []
+    assert len(scheduled(other)[0]) == 1
+
 with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
     def scheduled(result):
         release.return_value = result
