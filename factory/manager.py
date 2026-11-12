@@ -613,7 +613,14 @@ def deploy(dry, rev=None):
 
         try:
             now = datetime.now(timezone.utc)
-            raw_manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
+            try:
+                raw_manifest = json.loads((tree / 'public/manifest.json').read_text())
+            except OSError as e:
+                failure = checkout_capacity_failure(e, tree, 'release checkout manifest')
+                if failure:
+                    return cleanup_capacity_failure(failure)
+                raise
+            live = effective(live_manifest(), now)
             manifest = effective(raw_manifest, now)
             has = lambda m: (tree / 'public' / m['runUrl'].lstrip('/')).exists()
             problems = deploy_problems(manifest, live, has(live), now, not manifest.get('next') or has(manifest['next']))
@@ -1048,11 +1055,12 @@ def persistent_release_blocker(result):
                               'Not deploying: release check failed: no space left on device;',
                               'Not deploying: release revision file failed: no space left on device;',
                               'Not deploying: release checkout revision failed: no space left on device;',
+                              'Not deploying: release checkout manifest failed: no space left on device;',
                               'Not deploying: npm ci failed: no space left on device;'))
 
 
 def release_blocker_identity(result):
-    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'npm ci', 'npm run build', 'npm test'):
+    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'release checkout manifest', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
             return capacity
