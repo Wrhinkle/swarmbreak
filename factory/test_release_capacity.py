@@ -35,6 +35,36 @@ class ReleaseCapacityTest(unittest.TestCase):
             self.assertFalse(any(cmd[0] == 'firebase' for cmd in commands))
             self.assertEqual(sum(cmd == failed for cmd in commands), 1)
 
+    def test_revision_file_no_space_stops_release_with_capacity_evidence(self):
+        manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
+        commands = []
+        original_write = Path.write_text
+        def command(*args, **kwargs):
+            commands.append(args)
+            if args[:3] == ('git', 'worktree', 'add'):
+                tree = Path(args[4])
+                (tree / 'public/runs/x').mkdir(parents=True)
+                (tree / 'public/manifest.json').write_text(json.dumps(manifest))
+                (tree / 'public/runs/x/run.json').write_text('{}')
+            if args == ('git', 'rev-parse', 'HEAD'):
+                return SimpleNamespace(returncode=0, stdout='a' * 40, stderr='')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        def write(path, *args, **kwargs):
+            if path.name == 'deployed-revision.txt':
+                raise OSError(28, 'No space left on device')
+            return original_write(path, *args, **kwargs)
+        with patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager, 'live_manifest', return_value=manifest), \
+             patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+             patch.object(manager, 'deploy_problems', return_value=[]), \
+             patch.object(manager.shutil, 'disk_usage', return_value=SimpleNamespace(total=1000, free=12)), \
+             patch.object(Path, 'write_text', write):
+            result = manager.deploy(False, 'revision')
+        self.assertIn('release revision file failed: no space left on device', result)
+        self.assertIn('12 bytes available', result)
+        self.assertTrue(manager.persistent_release_blocker(result))
+        self.assertFalse(any(cmd[0] == 'firebase' for cmd in commands))
+
     def test_cache_device_and_unknown_source_after_cleanup(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
         for reported in (True, False):

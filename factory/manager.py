@@ -573,7 +573,13 @@ def deploy(dry, rev=None):
             deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
             if not re.fullmatch(r'[0-9a-f]{40}', deployed_rev):
                 return 'Not deploying: invalid checkout revision'
-            (tree / 'dist/deployed-revision.txt').write_text(deployed_rev + '\n')
+            try:
+                (tree / 'dist/deployed-revision.txt').write_text(deployed_rev + '\n')
+            except OSError as e:
+                failure = checkout_capacity_failure(e, tree / 'dist', 'release revision file')
+                if failure:
+                    return failure
+                raise
             if dry:
                 return f'Could deploy {manifest["runId"]}.'
             r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
@@ -962,11 +968,12 @@ def persistent_release_blocker(result):
     return result.startswith(('Missing run:', 'Not deploying: npm run build failed:',
                               'Not deploying: npm test failed:',
                               'Not deploying: release checkout failed: no space left on device;',
+                              'Not deploying: release revision file failed: no space left on device;',
                               'Not deploying: npm ci failed: no space left on device;'))
 
 
 def release_blocker_identity(result):
-    for stage in ('release checkout', 'npm ci', 'npm run build', 'npm test'):
+    for stage in ('release checkout', 'release revision file', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
             return capacity
