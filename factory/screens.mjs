@@ -57,6 +57,7 @@ try {
   const wsUrl = await new Promise((ok, no) => {
     let err = '';
     chrome.stderr.on('data', d => { err += d; const m = err.match(/DevTools listening on (ws:\S+)/); if (m) ok(m[1]); });
+    chrome.on('error', e => no(new Error(`Could not start Chrome ${exe}: ${e.message}`)));
     chrome.on('exit', c => no(new Error(`Chrome exited ${c}: ${err.slice(-300)}`)));
   });
   const ws = new WebSocket(wsUrl);
