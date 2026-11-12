@@ -451,7 +451,10 @@ def main():
                     bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
                     changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
                     touched = [c for c in changed if c.startswith(PROTECTED)]
-                    problems = f'Don\'t edit these: {touched}. ' if touched else ''
+                    protected = str(touched)
+                    if len(protected) > 1000:
+                        protected = protected[:1000] + '... (truncated)'
+                    problems = f'Don\'t edit these: {protected}. ' if touched else ''
                     if touched:
                         sh('git', 'checkout', '--', *touched, cwd=tree)
                     try:
@@ -459,11 +462,11 @@ def main():
                     except HostVerificationError as exc:
                         sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
                     if failed:
-                        problems += f'Build or tests fail:\n{failed}'
+                        problems += f'Build or tests fail:\n{failed[-1500:]}'
                     if not problems:
                         break
             if problems:
-                sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{problems[:1500]}')
+                sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{problems}')
             sh('git', 'add', '-A', cwd=tree)
             if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
                 sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
