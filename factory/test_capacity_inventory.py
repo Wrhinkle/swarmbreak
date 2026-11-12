@@ -42,10 +42,39 @@ class InventoryTest(unittest.TestCase):
                 result = inv.filesystem_inventory(path)
             self.assertEqual(result['device'], path.stat().st_dev)
             self.assertEqual(len(result['worktrees']), 2)
-            inspect.assert_called_once_with(str(path))
+            inspect.assert_called_once_with(str(path), records[0].split(b'\0'))
             self.assertEqual(result['worktrees'][1]['path'], str(missing))
             self.assertIn('error', result['worktrees'][1])
             self.assertIn('retain', result['worktrees'][1]['removal_eligibility'])
+
+    def test_slow_scan_reports_progress_and_continues_to_other_tree(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            slow, fast = root / 'slow', root / 'fast'
+            slow.mkdir()
+            fast.mkdir()
+            records = [f'worktree {tree}\0HEAD abc'.encode() for tree in (slow, fast)]
+            progress = []
+
+            def scan(*args, timeout=None):
+                self.assertEqual(timeout, inv.SCAN_TIMEOUT_SECONDS)
+                if args[0] == 'git' and str(slow) in args:
+                    raise subprocess.TimeoutExpired(args, timeout)
+                return subprocess.CompletedProcess(args, 0, b'8\tpath\n' if args[0] == 'du' else b'')
+
+            with patch.object(inv, 'worktree_records', return_value=records) as listing, \
+                 patch.object(inv, 'command', side_effect=scan):
+                result = inv.filesystem_inventory(root, progress.append)
+            listing.assert_called_once_with()
+            self.assertEqual([entry['type'] for entry in progress],
+                             ['filesystem', 'worktree', 'worktree'])
+            self.assertFalse(result['worktrees'][0]['complete'])
+            self.assertIsNone(result['worktrees'][0]['status_entries'])
+            self.assertIn('status', result['worktrees'][0]['scan_errors'])
+            self.assertIn('retain', result['worktrees'][0]['removal_eligibility'])
+            self.assertEqual(result['worktrees'][0]['allocated_kib_estimate'], 8)
+            self.assertTrue(result['worktrees'][1]['complete'])
+            self.assertEqual(progress[2]['path'], str(fast))
 
     def test_filesystem_inventory_stops_when_listing_fails(self):
         with tempfile.TemporaryDirectory() as directory, \
