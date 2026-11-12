@@ -4,7 +4,7 @@
 Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
-import fcntl, hashlib, json, math, os, re, shutil, subprocess, sys, tempfile, time
+import fcntl, hashlib, http.client, json, math, os, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
 from contextlib import contextmanager
 from codex_failure import stop_on_codex_failure
@@ -222,21 +222,59 @@ def shots_dir(tree):
     return ROOT / 'factory' / 'log' / 'screens' / Path(tree).resolve().name
 
 
+def browser_starts(exe):
+    """Probe the DevTools endpoint with a disposable profile and a bounded startup time."""
+    with tempfile.TemporaryDirectory(prefix='screens-probe-') as profile:
+        try:
+            process = subprocess.Popen([exe, '--headless', '--remote-debugging-port=0',
+                                        f'--user-data-dir={profile}', '--proxy-server=http://127.0.0.1:1',
+                                        '--proxy-bypass-list=<-loopback>',
+                                        '--force-webrtc-ip-handling-policy=disable_non_proxied_udp',
+                                        '--no-first-run', '--disable-gpu', 'about:blank'],
+                                       stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except OSError:
+            return False
+        try:
+            deadline = time.monotonic() + 10
+            while time.monotonic() < deadline and process.poll() is None:
+                try:
+                    port, endpoint = (Path(profile) / 'DevToolsActivePort').read_text().splitlines()[:2]
+                    if not port.isdecimal() or not endpoint.startswith('/devtools/browser/'):
+                        raise ValueError('invalid DevTools endpoint')
+                    conn = http.client.HTTPConnection('127.0.0.1', int(port), timeout=0.2)
+                    try:
+                        conn.request('GET', '/json/version')
+                        response = conn.getresponse()
+                        info = json.loads(response.read())
+                        if response.status == 200 and isinstance(info, dict) and info.get('webSocketDebuggerUrl') == f'ws://127.0.0.1:{port}{endpoint}':
+                            return True
+                    finally:
+                        conn.close()
+                except (OSError, ValueError, IndexError, TypeError, http.client.HTTPException):
+                    pass
+                time.sleep(0.05)
+            return False
+        finally:
+            process.kill()
+            process.wait()
+
+
 def screen_browser():
-    """Resolve a host-controlled Chrome executable; an explicit configuration must not silently fall back."""
+    """Resolve a usable Chrome; an explicit configuration must not silently fall back."""
     configured = os.environ.get('SWARMBREAK_CHROME')
     if configured:
-        if not Path(configured).is_file() or not os.access(configured, os.X_OK):
-            raise HostVerificationError(f'Host verification: SWARMBREAK_CHROME is not an executable file: {configured}. Set it to a working headless Chrome binary.')
-        return configured
+        resolved = shutil.which(configured) if os.path.dirname(configured) == '' else configured
+        if not resolved or not Path(resolved).is_file() or not os.access(resolved, os.X_OK) or not browser_starts(resolved):
+            raise HostVerificationError(f'Host verification: SWARMBREAK_CHROME is not a usable headless Chrome executable: {configured}. Set it to a working headless Chrome binary.')
+        return resolved
     cache = Path.home() / 'Library/Caches/ms-playwright'
     browsers = sorted(cache.glob('chromium_headless_shell-*/*/chrome-headless-shell'), reverse=True)
     browsers += [Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')]
     browsers += [Path(p) for name in ('chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable') if (p := shutil.which(name))]
     for browser in browsers:
-        if browser.is_file() and os.access(browser, os.X_OK):
+        if browser.is_file() and os.access(browser, os.X_OK) and browser_starts(str(browser)):
             return str(browser)
-    raise HostVerificationError('Host verification: no headless browser found in the Playwright cache, Google Chrome application, or PATH. Install Chrome or set SWARMBREAK_CHROME to an executable headless Chrome binary.')
+    raise HostVerificationError('Host verification: no headless browser found or usable in the Playwright cache, Google Chrome application, or PATH. Install Chrome or set SWARMBREAK_CHROME to an executable headless Chrome binary.')
 
 
 def screens(tree):

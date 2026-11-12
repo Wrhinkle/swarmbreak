@@ -850,6 +850,7 @@ with patch('pr_team.screen_browser', return_value='/host/chrome'), patch('pr_tea
 # A standard Chrome installation works even without a Playwright browser cache.
 with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), \
      patch('pr_team.Path.is_file', return_value=True), patch('pr_team.os.access', return_value=True), \
+     patch('pr_team.browser_starts', return_value=True), \
      patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')), \
      patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps([clean_shot]), stderr='')) as drive:
     os.environ.pop('SWARMBREAK_CHROME', None)
