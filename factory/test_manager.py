@@ -555,6 +555,11 @@ with patch('manager.sh', side_effect=SystemExit('git worktree add failed: No spa
 assert manager.checkout_capacity_failure(OSError(28, 'No space left on device'), '/tmp').startswith('Not deploying:')
 assert manager.checkout_capacity_failure(OSError(13, 'Permission denied'), '/tmp') is None
 
+# Run the release capacity regression with the manager suite as well as independently.
+import unittest
+from test_release_capacity import ReleaseCapacityTest
+assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(ReleaseCapacityTest)).wasSuccessful()
+
 # Deploy checks reject a future base even immediately before opening, but permit a reserve.
 for manifest, moment, should_deploy in [
     ({**m5, 'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}, datetime(2026, 11, 6, 12, 59, tzinfo=timezone.utc), False),
@@ -914,6 +919,32 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert '8 bytes available' in log.call_args.args[0]['result']
     assert scheduled('Deployed.')[0] == []
     assert scheduled(first)[0] == ['release -> ' + first]
+
+# Long npm capacity reports retain their stage identity across follow-ups and scheduled passes.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
+    def scheduled(result):
+        release.return_value = result
+        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args
+
+    def capacity(stage, free, diagnostic):
+        with patch('manager.capacity_detail', return_value=f'{free} bytes available'), patch('manager.sh') as npm:
+            npm.return_value = SimpleNamespace(returncode=1, stdout='')
+            return manager.npm_capacity_failure('no space left on device\n' + diagnostic * 2100, '/tmp', stage)
+
+    first = capacity('npm ci', 12, 'a')
+    second = capacity('npm ci', 8, 'b')
+    other = capacity('npm run build', 8, 'c')
+    failures, _, _, _, blocker = scheduled(first)
+    assert len(first) > 700 and len(failures) == 1
+    with patch('manager.release', return_value=second):
+        follow_failures = []
+        manager.release_step(follow_failures, previous=failures + [blocker])
+        assert follow_failures == []
+    assert scheduled(second)[0] == []
+    assert len(scheduled(other)[0]) == 1
 
 with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
     def scheduled(result):
