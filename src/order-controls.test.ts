@@ -18,7 +18,8 @@ it('cycles choices without replacing the focused button and queues the selected 
       { id: 'b', name: 'B', routines: [{ id: 'two', label: 'Two' }, { id: 'three', label: 'Three' }] },
       { id: 'c', name: 'C', routines: [{ id: 'four', label: 'Four' }, { id: 'three', label: 'Three' }] },
     ], queue) as unknown as Element;
-    const [crewField, routineField, button] = group.children;
+    const [crewField, routineField, button, limitation] = group.children;
+    expect(limitation.textContent).toContain('shared cooldown');
     const crew = crewField.children[1], routine = routineField.children[1];
     expect(crew.tag).toBe('button'); expect(routine.tag).toBe('button');
     expect(routine.textContent).toBe('One');

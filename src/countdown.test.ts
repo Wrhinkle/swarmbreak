@@ -57,14 +57,14 @@ it('refreshes the roster for health, shields, and new fighters', async () => {
   try {
     const { renderRoster } = await import('./main');
     const roster = new Element();
-    const fighters = [{ side: 'crew', creature: { name: 'Ally' }, hp: 10, maxHp: 20, shield: 0 }] as unknown as import('./combat').CombatState['fighters'];
+    const fighters = [{ side: 'crew', creature: { name: 'Ally' }, hp: 10, maxHp: 20, shield: 0, speed: 8, nextAction: 8 }] as unknown as import('./combat').CombatState['fighters'];
     renderRoster(roster as unknown as HTMLElement, fighters);
-    expect(roster.children[0].children[1].textContent).toBe('Ally: 10 / 20 HP');
+    expect(roster.children[0].children[1].textContent).toBe('Ally: 10 / 20 HP · Turn readiness: 0%');
     fighters[0].hp = 5; fighters[0].shield = 3;
     fighters.push({ ...fighters[0], side: 'enemy', creature: { ...fighters[0].creature, name: 'Foe' } });
     renderRoster(roster as unknown as HTMLElement, fighters);
-    expect(roster.children[0].children[1].textContent).toBe('Ally: 5 / 20 HP · 3 shield');
-    expect(roster.children[1].children[1].textContent).toBe('Foe: 5 / 20 HP · 3 shield');
+    expect(roster.children[0].children[1].textContent).toBe('Ally: 5 / 20 HP · 3 shield · Turn readiness: 0%');
+    expect(roster.children[1].children[1].textContent).toBe('Foe: 5 / 20 HP · 3 shield · Turn readiness: 0%');
   } finally {
     globalThis.document = oldDocument;
     globalThis.fetch = oldFetch;
