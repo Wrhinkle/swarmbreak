@@ -30,6 +30,29 @@ class InventoryTest(unittest.TestCase):
                                       '--porcelain=v1', '-z', '--untracked-files=all',
                                       '--ignored=matching'))
 
+    def test_filesystem_inventory_reports_matching_and_uninspectable_worktrees(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory).resolve()
+            missing = path / 'missing'
+            records = [f'worktree {path}\0HEAD abc'.encode(),
+                       f'worktree {missing}\0HEAD def'.encode()]
+            with patch.object(inv, 'worktree_records', return_value=records), \
+                 patch.object(inv, 'inventory', return_value={'path': str(path),
+                              'removal_eligibility': 'unknown: retain'}) as inspect:
+                result = inv.filesystem_inventory(path)
+            self.assertEqual(result['device'], path.stat().st_dev)
+            self.assertEqual(len(result['worktrees']), 2)
+            inspect.assert_called_once_with(str(path))
+            self.assertEqual(result['worktrees'][1]['path'], str(missing))
+            self.assertIn('error', result['worktrees'][1])
+            self.assertIn('retain', result['worktrees'][1]['removal_eligibility'])
+
+    def test_filesystem_inventory_stops_when_listing_fails(self):
+        with tempfile.TemporaryDirectory() as directory, \
+             patch.object(inv, 'worktree_records', side_effect=OSError(28, 'No space left on device')):
+            with self.assertRaises(OSError):
+                inv.filesystem_inventory(directory)
+
     def test_unregistered_and_command_failure_stop(self):
         with tempfile.TemporaryDirectory() as directory:
             with patch.object(inv, 'command', return_value=subprocess.CompletedProcess([], 0, b'')):

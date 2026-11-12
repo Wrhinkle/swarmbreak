@@ -2,7 +2,8 @@
 """Read-only capacity evidence for a registered worktree; never authorizes removal.
 
 Usage: python3 factory/capacity_inventory.py WORKTREE
-Run from the factory checkout. Inspect each suspected worktree separately.
+       python3 factory/capacity_inventory.py --filesystem PATH
+Run from the factory checkout. All results retain worktrees pending eligibility checks.
 """
 import json
 import os
@@ -18,9 +19,13 @@ def command(*args):
     return subprocess.run(args, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
 
+def worktree_records():
+    return command('git', 'worktree', 'list', '--porcelain', '-z').stdout.split(b'\0\0')
+
+
 def inventory(path):
     path = Path(path).resolve(strict=True)
-    records = command('git', 'worktree', 'list', '--porcelain', '-z').stdout.split(b'\0\0')
+    records = worktree_records()
     record = next((r.split(b'\0') for r in records if r.startswith(b'worktree ') and
                    os.fsdecode(r.split(b'\0', 1)[0][9:]) == str(path)), None)
     if record is None:
@@ -38,11 +43,34 @@ def inventory(path):
             'removal_eligibility': 'unknown: ownership, activity, job state and saved work not verified; retain'}
 
 
+
+def filesystem_inventory(path):
+    """Report registered worktrees on a device, including uninspectable records."""
+    path = Path(path).resolve(strict=True)
+    device = os.stat(path).st_dev
+    usage = shutil.disk_usage(path)
+    results = []
+    for record in worktree_records():
+        fields = record.split(b'\0')
+        if not fields[0].startswith(b'worktree '):
+            continue
+        tree = os.fsdecode(fields[0][9:])
+        try:
+            if os.stat(tree).st_dev == device:
+                results.append(inventory(tree))
+        except (OSError, ValueError, subprocess.CalledProcessError) as error:
+            # An inaccessible tree may be on the target filesystem; never silently omit it.
+            results.append({'path': tree, 'worktree_record': [os.fsdecode(f) for f in fields if f],
+                            'error': str(error), 'removal_eligibility': 'unknown: retain'})
+    return {'path': str(path), 'device': device, 'free_bytes': usage.free,
+            'total_bytes': usage.total, 'worktrees': results}
+
 def main():
-    if len(sys.argv) != 2:
+    if len(sys.argv) not in (2, 3) or (len(sys.argv) == 3 and sys.argv[1] != '--filesystem'):
         sys.exit(__doc__)
     try:
-        print(json.dumps(inventory(sys.argv[1]), indent=2))
+        result = filesystem_inventory(sys.argv[2]) if len(sys.argv) == 3 else inventory(sys.argv[1])
+        print(json.dumps(result, indent=2))
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         sys.exit(f'Inventory incomplete; retain worktree: {error}')
 
