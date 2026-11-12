@@ -537,6 +537,26 @@ def deploy(dry, rev=None):
                 return failure
             raise
         cleaned = False
+        def cleanup_capacity_failure(failure):
+            nonlocal cleaned, temp_cleanup_attempted
+            cleanup_errors = []
+            try:
+                removed = sh('git', 'worktree', 'remove', '--force', tree, check=False)
+                if removed.returncode:
+                    cleanup_errors.append(f'worktree removal failed: {(removed.stdout + removed.stderr)[-500:]}')
+            except (Exception, SystemExit) as e:
+                cleanup_errors.append(f'worktree removal failed: {e}')
+            temp_cleanup_attempted = True
+            try:
+                temp.cleanup()
+                cleaned = True
+            except (Exception, SystemExit) as e:
+                cleanup_errors.append(f'temporary directory cleanup failed: {e}')
+            cleanup = '; '.join(cleanup_errors) if cleanup_errors else 'completed'
+            return (f'{failure}; cleanup: {cleanup}; checkout parent after cleanup: '
+                    f'{capacity_detail(Path(work).parent)}. '
+                    'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+
         try:
             now = datetime.now(timezone.utc)
             raw_manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
@@ -552,23 +572,7 @@ def deploy(dry, rev=None):
                 if r.returncode:
                     failure = npm_capacity_failure(r.stdout + r.stderr, tree, ' '.join(cmd))
                     if failure:
-                        cleanup_errors = []
-                        try:
-                            removed = sh('git', 'worktree', 'remove', '--force', tree, check=False)
-                            if removed.returncode:
-                                cleanup_errors.append(f'worktree removal failed: {(removed.stdout + removed.stderr)[-500:]}')
-                        except (OSError, SystemExit) as e:
-                            cleanup_errors.append(f'worktree removal failed: {e}')
-                        temp_cleanup_attempted = True
-                        try:
-                            temp.cleanup()
-                            cleaned = True
-                        except OSError as e:
-                            cleanup_errors.append(f'temporary directory cleanup failed: {e}')
-                        cleanup = '; '.join(cleanup_errors) if cleanup_errors else 'completed'
-                        return (f'{failure}; cleanup: {cleanup}; checkout parent after cleanup: '
-                                f'{capacity_detail(Path(work).parent)}. '
-                                'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+                        return cleanup_capacity_failure(failure)
                     return f'Not deploying: {" ".join(cmd)} failed: {r.stdout[-500:]}'
             deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
             if not re.fullmatch(r'[0-9a-f]{40}', deployed_rev):
@@ -578,7 +582,7 @@ def deploy(dry, rev=None):
             except OSError as e:
                 failure = checkout_capacity_failure(e, tree / 'dist', 'release revision file')
                 if failure:
-                    return failure
+                    return cleanup_capacity_failure(failure)
                 raise
             if dry:
                 return f'Could deploy {manifest["runId"]}.'
