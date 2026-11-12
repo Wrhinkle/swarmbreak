@@ -5,13 +5,18 @@ import type { CombatState } from './combat';
 it('shows both sides and updates health while preserving the enemy inspect control', () => {
   class Element {
     children: Element[] = []; textContent = ''; className = ''; type = ''; style: Record<string, string> = {};
-    listeners: Record<string, () => void> = {};
+    listeners: Record<string, () => void> = {}; parent: Element | null = null;
+    get nextSibling(): Element | null { if (!this.parent) return null; return this.parent.children[this.parent.children.indexOf(this) + 1] ?? null; }
+    focus() { doc.activeElement = this; }
+    remove() { if (!this.parent) return; const siblings = this.parent.children; siblings.splice(siblings.indexOf(this), 1); this.parent = null; if (doc.activeElement === this) doc.activeElement = null; }
+    insertBefore(item: Element, before: Element | null) { item.remove(); const index = before ? this.children.indexOf(before) : this.children.length; this.children.splice(index, 0, item); item.parent = this; }
     get childElementCount() { return this.children.length; }
-    setAttribute() {} append(...items: Element[]) { this.children.push(...items); }
+    setAttribute() {} append(...items: Element[]) { for (const item of items) this.insertBefore(item, null); }
     replaceChildren(...items: Element[]) { this.children = items; }
     addEventListener(event: string, fn: () => void) { this.listeners[event] = fn; }
   }
-  vi.stubGlobal('document', { createElement: () => new Element() });
+  const doc: { activeElement: Element | null; createElement: () => Element } = { activeElement: null, createElement: () => new Element() };
+  vi.stubGlobal('document', doc);
   try {
     const inspect = vi.fn();
     const field = mobileBattlefield(inspect);
@@ -28,5 +33,12 @@ it('shows both sides and updates health while preserving the enemy inspect contr
     fighters[1].hp = 4; fighters[1].shield = 2; field.update(fighters);
     expect(root.children[1].children[0]).toBe(enemy);
     expect(enemy.children[2].textContent).toBe('4 / 12 HP · 2 shield');
+    enemy.focus();
+    const summon = { ...fighters[1], id: 'e1', creature: { ...fighters[1].creature, name: 'Summon' } };
+    field.update([...fighters, summon]);
+    expect(doc.activeElement).toBe(enemy);
+    field.update([fighters[0], summon, fighters[1]]);
+    expect(doc.activeElement).toBe(enemy);
+    expect(root.children[1].children[1]).toBe(enemy);
   } finally { vi.unstubAllGlobals(); }
 });

@@ -29,9 +29,16 @@ export function mobileBattlefield(inspect: (id: string) => void) {
           entry.health.textContent = `${Math.ceil(f.hp)} / ${f.maxHp} HP${f.shield ? ` · ${Math.ceil(f.shield)} shield` : ''}`;
           return entry.card;
         });
-        // Avoid replacing controls while health changes, preserving keyboard focus.
         const column = columns[index];
-        if (column.childElementCount !== children.length || children.some((child, i) => column.children[i] !== child)) column.replaceChildren(...children);
+        for (const child of Array.from(column.children)) if (!children.includes(child as HTMLElement)) child.remove();
+        for (let i = 0; i < children.length; i++) {
+          while (column.children[i] !== children[i]) {
+            const current = column.children[i];
+            // Move surrounding cards instead of detaching the focused control.
+            if (children[i] === document.activeElement && current) column.insertBefore(current, children[i].nextSibling);
+            else column.insertBefore(children[i], current ?? null);
+          }
+        }
       }
     },
   };
