@@ -544,6 +544,17 @@ with tempfile.TemporaryDirectory() as d:
         except ValueError:
             pass
 
+# A full release-checkout filesystem is reported without retrying or deleting work.
+with patch('manager.sh', side_effect=SystemExit('git worktree add failed: No space left on device')) as no_space, \
+     patch('manager.shutil.disk_usage', return_value=SimpleNamespace(total=1000, free=12)), \
+     patch('manager.os.stat', return_value=SimpleNamespace(st_dev=42)):
+    failure = manager.deploy(True, 'checked-revision')
+    assert 'device 42' in failure and '12 bytes available of 1000' in failure, failure
+    assert 'No files reclaimed' in failure
+    assert no_space.call_count == 1
+assert manager.checkout_capacity_failure(OSError(28, 'No space left on device'), '/tmp').startswith('Not deploying:')
+assert manager.checkout_capacity_failure(OSError(13, 'Permission denied'), '/tmp') is None
+
 # Deploy checks reject a future base even immediately before opening, but permit a reserve.
 for manifest, moment, should_deploy in [
     ({**m5, 'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}, datetime(2026, 11, 6, 12, 59, tzinfo=timezone.utc), False),
@@ -879,6 +890,31 @@ with patch('manager.release', return_value='Missing run: live run x closed') as 
     assert failures == ['release -> Missing run: live run y closed']
 
 # Scheduled invocations retain a blocker through follow-ups and clear or replace it as conditions change.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record') as log, patch('manager.follow_up') as follow, patch('manager.release') as release:
+    def capacity(free):
+        with patch('manager.shutil.disk_usage', return_value=SimpleNamespace(total=1000, free=free)), patch('manager.os.stat', return_value=SimpleNamespace(st_dev=42)):
+            return manager.checkout_capacity_failure(OSError(28, 'No space left on device'), '/tmp')
+
+    def scheduled(result):
+        release.return_value = result
+        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args
+
+    first, second = capacity(12), capacity(8)
+    failures, _, _, _, blocker = scheduled(first)
+    assert failures == ['release -> ' + first] and blocker == failures[0]
+    # The follow-up carries the original diagnostic even if free space changes.
+    with patch('manager.release', return_value=second):
+        follow_failures = []
+        assert manager.release_step(follow_failures, previous=failures + [blocker]) == 'release -> ' + second
+        assert follow_failures == []
+    assert scheduled(second)[0] == []
+    assert '8 bytes available' in log.call_args.args[0]['result']
+    assert scheduled('Deployed.')[0] == []
+    assert scheduled(first)[0] == ['release -> ' + first]
+
 with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
     def scheduled(result):
         release.return_value = result
