@@ -53,6 +53,23 @@ def inventory(path, record=None):
         result['allocated_kib_estimate'] = int(size)
     except (OSError, subprocess.SubprocessError, ValueError) as error:
         errors['disk_usage'] = str(error)
+    reasons = []
+    if any(field == b'locked' or field.startswith(b'locked ') for field in record):
+        reasons.append('worktree is locked')
+    if any(field == b'prunable' or field.startswith(b'prunable ') for field in record):
+        reasons.append('worktree is prunable or inaccessible')
+    entries = result['status_entries']
+    if entries is None:
+        reasons.append('status unavailable')
+    else:
+        if any(not entry.startswith(('?? ', '!! ')) for entry in entries):
+            reasons.append('tracked changes')
+        if any(entry.startswith('?? ') for entry in entries):
+            reasons.append('untracked files')
+        if any(entry.startswith('!! ') for entry in entries):
+            reasons.append('ignored files')
+    reasons.append('ownership, activity, job state and saved work not verified')
+    result['retention_reasons'] = reasons
     result['complete'] = not errors
     if errors:
         result['scan_errors'] = errors

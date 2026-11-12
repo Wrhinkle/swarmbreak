@@ -11,6 +11,31 @@ import capacity_inventory as inv
 
 
 class InventoryTest(unittest.TestCase):
+    def test_inventory_explains_observed_retention_reasons(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory).resolve()
+            record = [f'worktree {path}'.encode(), b'HEAD abc', b'locked in use']
+            with patch.object(inv, 'command', side_effect=[
+                subprocess.CompletedProcess([], 0, b' M tracked\0?? new\0!! cache/\0'),
+                subprocess.CompletedProcess([], 0, b'12\tpath\n')
+            ]):
+                result = inv.inventory(path, record)
+            self.assertEqual(result['retention_reasons'], [
+                'worktree is locked', 'tracked changes', 'untracked files', 'ignored files',
+                'ownership, activity, job state and saved work not verified'])
+            self.assertIn('retain', result['removal_eligibility'])
+
+    def test_failed_status_scan_is_explicitly_retained(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory).resolve()
+            with patch.object(inv, 'command', side_effect=[
+                OSError(28, 'No space left on device'),
+                subprocess.CompletedProcess([], 0, b'12\tpath\n')
+            ]):
+                result = inv.inventory(path, [f'worktree {path}'.encode()])
+            self.assertIn('status unavailable', result['retention_reasons'])
+            self.assertFalse(result['complete'])
+
     def test_filesystem_report_survives_progress_stream_failure(self):
         class FailingStream:
             def __init__(self, fail_on):
