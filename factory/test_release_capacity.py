@@ -10,6 +10,26 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_fetch_no_space_reports_capacity_and_stops_before_release(self):
+        with patch.object(manager, 'sh', side_effect=SystemExit('git fetch: No space left on device')) as command, \
+             patch.object(manager, 'capacity_detail', return_value='repository (device 42): 0 bytes available of 1000'), \
+             patch.object(manager, 'deploy') as deploy:
+            result = manager.release()
+        self.assertIn('release fetch failed: no space left on device', result)
+        self.assertIn('device 42', result)
+        self.assertTrue(manager.persistent_release_blocker(result))
+        self.assertEqual(manager.release_blocker_identity('release -> ' + result),
+                         'release -> Not deploying: release fetch failed: no space left on device;')
+        command.assert_called_once_with('git', 'fetch', 'origin')
+        deploy.assert_not_called()
+
+    def test_fetch_other_failure_remains_a_release_check_failure(self):
+        with patch.object(manager, 'sh', side_effect=SystemExit('git fetch: permission denied')), \
+             patch.object(manager, 'capacity_detail') as capacity:
+            result = manager.release()
+        self.assertEqual(result, 'Release check failed: git fetch: permission denied')
+        capacity.assert_not_called()
+
     def test_temporary_directory_no_space_is_a_capacity_blocker(self):
         with patch.object(manager.tempfile, 'TemporaryDirectory', side_effect=OSError(28, 'No space left on device')), \
              patch.object(manager.tempfile, 'gettempdir', side_effect=['/tmp', FileNotFoundError('second lookup failed')]) as lookup, \
