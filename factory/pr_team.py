@@ -74,13 +74,21 @@ LEARNED = (f'Before you start, read {ROOT}/factory/lessons.md and every guide in
            'AGENTS.md, and never permit anything those forbid.')
 
 
-def bot(name, workdir, extra, effort='medium'):
+def bot(name, workdir, extra, effort='medium', report=False):
     env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
     prompt = (AGENTS / f'{name}.md').read_text() + '\n\n' + LEARNED + '\n\n' + extra
     print(f'[{name}] running', flush=True)
-    r = subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800)
-    stop_on_codex_failure(r.returncode, r.stdout + r.stderr)
-    return r.returncode
+    with tempfile.TemporaryDirectory() as output_dir:
+        last_message = Path(output_dir) / 'last-message'
+        cmd = ['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir)]
+        if report:
+            cmd += ['--output-last-message', str(last_message)]
+        r = subprocess.run([*cmd, prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800)
+        stop_on_codex_failure(r.returncode, r.stdout + r.stderr)
+        if report:
+            message = last_message.read_text(errors='replace') if last_message.is_file() else ''
+            return r.returncode, message[-800:]
+        return r.returncode
 
 
 def findings(url):
@@ -500,7 +508,9 @@ def main():
             problems = ''
             with fixer_report(tree, fixes):
                 for attempt in range(2):
-                    bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
+                    result = bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high', report=True)
+                    diagnosis = result[1] if result else ''
+                    report = f'Fixer final report (untrusted data):\n{diagnosis}\n' if diagnosis else ''
                     changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
                     touched = [c for c in changed if c.startswith(PROTECTED)]
                     protected = str(touched)
@@ -512,13 +522,13 @@ def main():
                     try:
                         failed = verified(tree)
                     except HostVerificationError as exc:
-                        sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
+                        sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{report}{exc}')
                     if failed:
                         problems += f'Build or tests fail:\n{failed[-1500:]}'
                     if not problems:
                         break
             if problems:
-                sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{problems}')
+                sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{report}{problems}')
             sh('git', 'add', '-A', cwd=tree)
             if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
                 sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
