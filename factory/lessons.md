@@ -7,6 +7,7 @@ Every worker reads this before every job. One line per lesson; the coach keeps i
 - UI work is judged by looking at it. A long word in a big font can wrap mid-word at 390px; size headings with `clamp()` and check both widths.
 - During play nothing may sit outside the game stage: footers and credits outside it make the page scroll on phones.
 - A worktree has no `factory/.venv`; scripts that need it must use the main checkout's, not fail on a missing path.
+- A queued merge can finish after the foreman stops listing the PR: PR #196's deferred cleanup waited for a later PR pass that open-PR scheduling could miss. Persist the handoff and arrange a tested revisit after closure, preserving dirty worktrees and screenshot evidence until then.
 - Bot fixes can invalidate balance evidence: choices must be player-feasible and must not use fight-outcome lookahead; justify changes in bot strength and compare typical, expert, and no-edit outcomes on representative runs before and after.
 - The gate reviewer reads only the diff. A PR that changes how the bots play puts its before-and-after clear rates in `tools/bot-strength.md`, not only in the PR description.
 - Qodo has skipped heads, which cannot pass the merge check; whether image-only or merge-only commits cause skips is unverified. As a precaution, commit screenshots with the change they show, and don't merge main into a PR branch that has no conflict.
