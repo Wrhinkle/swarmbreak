@@ -135,8 +135,11 @@ try {
     const fight = await js(() => ({ canvas: !!document.querySelector('canvas[aria-label^="Fight:"]'),
       crew: !![...document.querySelectorAll('legend')].find(e => e.textContent === 'Order a crew member'),
       routine: !![...document.querySelectorAll('legend')].find(e => e.textContent === 'Manual routine'),
-      queue: !![...document.querySelectorAll('button')].find(b => b.textContent === 'Queue order' && b.checkVisibility()) }));
-    if (!Object.values(fight).every(Boolean)) throw new Error(`first fight controls missing: ${JSON.stringify(fight)}`);
+      queue: !![...document.querySelectorAll('button')].find(b => b.textContent === 'Queue order' && b.checkVisibility()),
+      // The ATB fight (issue #37) replaces queued orders with a per-fighter choice and an Auto battle switch.
+      atb: !!document.querySelector('section[aria-label="Combat action"]') && !![...document.querySelectorAll('button')].find(b => b.textContent.startsWith('Auto battle:') && b.checkVisibility()) }));
+    const { canvas, crew, routine, queue, atb } = fight;
+    if (!(canvas && (atb || (crew && routine && queue)))) throw new Error(`first fight controls missing: ${JSON.stringify(fight)}`);
     await shot('fresh-fight');
     for (const kind of ROOMS) if (await resume(kind)) await shot(kind); else shots.push({ screen: kind, width, missing: true });
     await resume(''); await press('crew'); await shot('crew');

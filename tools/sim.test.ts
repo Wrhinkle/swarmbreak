@@ -63,3 +63,14 @@ describe('simulation reserves', () => {
     expect(choose()).toBe('toward-heavy');
   });
 });
+
+it('plays each encounter once instead of testing loadouts against its outcome', () => {
+  const run = JSON.parse(readFileSync(new URL('../public/runs/dev/run.json', import.meta.url), 'utf8')) as Run;
+  run.acts = [run.acts[0]];
+  const act = run.acts[0];
+  const encounter = act.nodes.find(n => n.encounter?.length)!;
+  act.nodes = [{ ...encounter, id: 'only', floor: 0, next: [] }];
+  vi.mocked(createCombat).mockClear();
+  expect(play(run, () => 0, EXPERT).won).toBe(true);
+  expect(vi.mocked(createCombat)).toHaveBeenCalledTimes(1);
+});

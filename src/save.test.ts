@@ -1,7 +1,8 @@
 import { describe,it,expect,vi } from 'vitest';
-import { currentRun, finishRun, importSave, loadSave, newSave, rollover, writeSave } from './save';
+import { currentRun, finishRun, importSave, loadSave, newSave, parseSave, rollover, writeSave } from './save';
 import type { Save } from './save';
 import { parseSave as parseReleasedSave } from './legacy-save.fixture';
+import { chooseAtb, createCombat, enableAtb, simulate, step } from './combat';
 import type { Creature, Manifest } from './types';
 const ally:Creature={id:'a',name:'Ally',blurb:'',sprite:'/a',bodyPlan:'beast',role:'bruiser',tier:'ally',routines:['strike'],source:'/'};
 const manifest:Manifest={runId:'tomorrow',opensAt:'2026-01-01',nextOpensAt:'2026-01-02',runUrl:'/',voided:[]};
@@ -47,6 +48,30 @@ describe('save',()=>{
    expect(loadSave()).toEqual(existing);
   } finally { vi.unstubAllGlobals(); }
  });
+ it('loads a paused ATB fight and an old idle fight',()=>{const s=playing();let fight=enableAtb(createCombat([{creature:ally}],[ally],1));while(!fight.atb?.pending) fight=step(fight);s.today!.combat=fight;expect(importSave(JSON.stringify(s)).today!.combat).toEqual(fight);delete fight.atb;s.today!.combat=fight;expect(importSave(JSON.stringify(s)).today!.combat).toEqual(fight);});
+ it('resumes a targeted decision through a save with the same subsequent fight',()=>{
+  const s=playing(); let fight=enableAtb(createCombat([{creature:ally}],[ally],1));
+  while(!fight.atb?.pending) fight=step(fight);
+  const paused=structuredClone(fight);
+  fight=chooseAtb(fight,'c0','strike','e0'); s.today!.combat=fight;
+  let loaded=parseSave(JSON.stringify(s)).today!.combat!;
+  expect(loaded.atb?.choices).toEqual([{actorId:'c0',routineId:'strike',targetId:'e0'}]);
+  let uninterrupted=chooseAtb(paused,'c0','strike','e0');
+  while(!uninterrupted.result){
+   uninterrupted=simulate(uninterrupted,3000); loaded=simulate(loaded,3000);
+   expect(loaded).toEqual(uninterrupted);
+   if(uninterrupted.atb?.pending){const actor=uninterrupted.atb.pending; uninterrupted=chooseAtb(uninterrupted,actor,'auto'); loaded=chooseAtb(loaded,actor,'auto');}
+  }
+ });
+ it('rejects a saved ATB choice that the fighter at the cursor could not make',()=>{
+  const s=playing(); let fight=enableAtb(createCombat([{creature:ally}],[ally],1));
+  while(!fight.atb?.pending) fight=step(fight);
+  const chosen=chooseAtb(fight,'c0','strike','e0'); s.today!.combat=chosen;
+  expect(importSave(JSON.stringify(s)).today!.combat).toEqual(chosen);
+  const enemyAt=chosen.fighters.findIndex(f=>f.side==='enemy');
+  for(const bad of [{...chosen.atb,cursor:enemyAt},{...chosen.atb,choice:'heavy'},{...fight.atb,pending:'e0'},{...fight.atb,cursor:enemyAt}]){(s.today!.combat as unknown as {atb:unknown}).atb=bad;expect(()=>importSave(JSON.stringify(s))).toThrow('Invalid saved ATB');}
+ });
+ it('rejects malformed saved ATB decisions',()=>{const s=playing();const fight=enableAtb(createCombat([{creature:ally}],[ally],1));s.today!.combat=fight;for(const bad of [{...fight.atb,cursor:-1},{...fight.atb,choices:'bad'},{...fight.atb,pending:'missing'},{...fight.atb,choice:'missing'}]){(s.today!.combat as unknown as {atb:unknown}).atb=bad;expect(()=>importSave(JSON.stringify(s))).toThrow('Invalid saved ATB');}});
  it('survives throwing storage',()=>{vi.stubGlobal('localStorage',{getItem(){throw Error('no');},setItem(){throw Error('no');}});const s=playing();expect(()=>writeSave(s)).not.toThrow();expect(loadSave()).toEqual(s);vi.unstubAllGlobals();});
 });
 describe('voided runs',()=>{

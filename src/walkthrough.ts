@@ -5,6 +5,6 @@ export function markWalkthroughSeen(save: Save): void {
   save.walkthroughSeen = true;
 }
 
-/** Explain the current automatic fight and manual override without changing combat. */
-export const fightExplanation = 'Fighters act automatically when ready; their speed determines how often they act. Most attacks choose the enemy with the lowest HP. Pause or change the speed whenever you need.';
-export const orderExplanation = 'To give an order, choose a crew member and a routine, then press Queue order. A queued routine ignores its condition and starts a shared cooldown when used. Stun skips the fighter’s next action but leaves the order queued. If the fighter is already charging, they complete Charge instead, consuming the order and starting the shared cooldown. The order can be lost if the fighter dies or the fight ends.';
+/** Explain the active time battle and Auto without changing combat. */
+export const fightExplanation = 'Fighters act when ready; their speed determines how often they act. When one of your crew is ready, the fight waits for you. Pause or change the speed whenever you need.';
+export const orderExplanation = 'Choose an action for the ready crew member, then a target if it needs one. Auto follows that fighter’s routines instead, and their attacks pick the enemy with the lowest HP. Turn on Auto battle to let the whole crew fight on their routines.';

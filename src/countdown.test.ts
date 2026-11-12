@@ -71,6 +71,32 @@ it('refreshes the roster for health, shields, and new fighters', async () => {
   }
 });
 
+it('shows action readiness for each living fighter and refreshes it with time', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; attributes: Record<string, string> = {}; value = 0; max = 0;
+    setAttribute(name: string, value: string) { this.attributes[name] = value; }
+    append(...children: Element[]) { this.children.push(...children); }
+    replaceChildren(...children: Element[]) { this.children = children; }
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { renderRoster } = await import('./main');
+    const roster = new Element();
+    const fighters = [{ side: 'crew', creature: { name: 'Ally' }, hp: 10, maxHp: 20, shield: 0, speed: 10, nextAction: 10 }] as unknown as import('./combat').CombatState['fighters'];
+    renderRoster(roster as unknown as HTMLElement, fighters, 5);
+    expect(roster.children[0].children[2].value).toBe(5);
+    expect(roster.children[0].children[2].max).toBe(10);
+    expect(roster.children[0].children[2].attributes['aria-label']).toBe('Ally action readiness');
+    renderRoster(roster as unknown as HTMLElement, fighters, 10);
+    expect(roster.children[0].children[2].value).toBe(10);
+    fighters[0].hp = 0;
+    renderRoster(roster as unknown as HTMLElement, fighters, 10);
+    expect(roster.children[0].children).toHaveLength(2);
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});
+
 
 it('renders cards and selectable options with their supplied content', async () => {
   class Element {

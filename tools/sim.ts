@@ -1,20 +1,21 @@
 // Plays a built run with bots, using the game's own combat code.
 // A winning bot game is a proof the run can be cleared: replaying its policy and seed gives the same win.
-import { createCombat, fighter, simulate, threat } from '../src/combat';
+import { atbTargets, chooseAtb, createCombat, enableAtb, fighter, simulate, threat } from '../src/combat';
+import type { CombatState } from '../src/combat';
 import { CREW_MAX, ROUTINES, SLOTS_MAX, SLOTS_START, TICK_MS } from '../src/library';
 import type { Creature, GameEvent, MapNode, Run } from '../src/types';
 
 export interface Policy {
   name: string;
   route: 'smart' | 'random'; // how it picks rooms and event options
-  build: 'search' | 'heuristic' | 'none'; // search tries loadouts against the coming fight; none never edits routines
-  care?: number; // chance a searching player bothers to set up for a given fight, default 1
+  build: 'heuristic' | 'none'; // none never edits routines
   noise: number; // chance any one decision is made at random
+  action: 'auto' | 'manual';
   start?: number; // force this column on the first floor
 }
-export const NOVICE: Policy = { name: 'novice', route: 'random', build: 'none', noise: 0 };
-export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'search', care: 0.5, noise: 0.2 }; // reads the enemy and sets up for about half the fights
-export const EXPERT: Policy = { name: 'expert', route: 'smart', build: 'search', noise: 0 };
+export const NOVICE: Policy = { name: 'novice', route: 'random', build: 'none', noise: 0, action: 'auto' };
+export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'heuristic', noise: 0.2, action: 'manual' };
+export const EXPERT: Policy = { name: 'expert', route: 'smart', build: 'heuristic', noise: 0, action: 'manual' };
 export const NO_ROUTE: Policy = { ...TYPICAL, name: 'typical, random route', route: 'random' };
 export const NO_BUILD: Policy = { ...TYPICAL, name: 'typical, no routine edits', build: 'none' };
 
@@ -23,7 +24,71 @@ export interface RunResult { won: boolean; floor: number; lostTo?: string; ticks
 
 export const rng = (seed: number) => { let state = seed >>> 0; return () => { state = (state + 0x6d2b79f5) | 0; let n = Math.imul(state ^ (state >>> 15), 1 | state); n ^= n + Math.imul(n ^ (n >>> 7), 61 | n); return ((n ^ (n >>> 14)) >>> 0) / 4294967296; }; };
 const conditional = (id: string) => ROUTINES[id]?.condition !== 'always';
-const WANT_HEAL = ['patch+', 'patch', 'triage', 'cover'], WANT_HIT = ['strike+', 'finish', 'breach', 'sweep+', 'sweep', 'charge', 'jam', 'corrupt', 'brace', 'last_stand', 'purge'];
+// Sweep isn't here: equipped, it goes first and spreads 0.6x hits whenever two foes stand, and players watching the fight see it
+// slow the kills. On the 2026-11-11 run, typical Auto clears 31/100 seeds with it in this list and 65/100 without it.
+const WANT_HEAL = ['patch+', 'patch', 'triage', 'cover'], WANT_HIT = ['strike+', 'finish', 'breach', 'sweep+', 'charge', 'jam', 'corrupt', 'brace', 'last_stand', 'purge'];
+
+export function rankAttackTargets(targets: CombatState['fighters'], attack: string) {
+  const healthToHit = (f: CombatState['fighters'][number]) => f.hp + (ROUTINES[attack].action === 'overflow' ? 0 : f.shield);
+  return targets.sort((a, b) => healthToHit(a) - healthToHit(b));
+}
+
+// Choose using the equipped actions and the health visible on the fight screen.
+// Never simulate alternatives or inspect an encounter's eventual outcome.
+export function playCombat(initial: CombatState, policy: Policy, random: () => number = () => 1): CombatState {
+  let state = enableAtb(initial);
+  while (!state.result) {
+    state = simulate(state, 3000);
+    const actorId = state.atb?.pending;
+    if (!actorId) break;
+    const actor = state.fighters.find(f => f.id === actorId)!;
+    let routineId = 'auto', targetId: string | undefined;
+    // Noise: like any other decision, a typical player sometimes picks at random from what the fight offers.
+    if (policy.action === 'manual' && policy.noise > 0 && random() < policy.noise) {
+      const options = ['auto', ...actor.routines.filter(id => ROUTINES[id])];
+      routineId = options[Math.floor(random() * options.length)];
+      const targets = routineId === 'auto' ? [] : atbTargets(state, actorId, routineId);
+      if (targets.length) targetId = targets[Math.floor(random() * targets.length)].id;
+    } else if (policy.action === 'manual') {
+      const heal = actor.routines.find(id => ROUTINES[id]?.action === 'patch');
+      const groupHeal = actor.routines.find(id => ROUTINES[id]?.action === 'mend_all');
+      const allies = state.fighters.filter(f => f.side === actor.side && f.hp > 0);
+      const patients = allies.filter(f => f.hp / f.maxHp < .6).sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp);
+      const groupHealing = allies.reduce((total, f) => total + Math.min(f.maxHp - f.hp, Math.round(actor.power * .8)), 0);
+      const singleHealing = heal && patients.length ? Math.min(patients[0].maxHp - patients[0].hp, Math.round(actor.power * 1.5)) : 0;
+      const foes = state.fighters.filter(f => f.side !== actor.side && f.hp > 0);
+      const finishers = actor.routines.flatMap(id => {
+        const action = ROUTINES[id]?.action;
+        const multiplier = action === 'charge' && actor.charging ? 3 : action === 'heavy' ? 1.8 : action === 'overflow' ? 1.5 : action === 'strike' ? 1 : 0;
+        if (!multiplier) return [];
+        return rankAttackTargets(atbTargets(state, actorId, id), id)
+          .filter(foe => Math.round(actor.power * multiplier) >= foe.hp + (action === 'overflow' ? 0 : foe.shield))
+          .map(foe => ({ id, foe }));
+      });
+      const sweepFinisher = foes.length > 1 && actor.routines.find(id =>
+        ROUTINES[id]?.action === 'sweep' && foes.every(foe => foe.hp + foe.shield <= Math.round(actor.power * .6)));
+      const sweepKill = actor.routines.find(id =>
+        ROUTINES[id]?.action === 'sweep' && foes.some(foe => foe.hp + foe.shield <= Math.round(actor.power * .6)));
+      // If Sweep removes the same target, it also damages the other foes.
+      const sweepSameKill = sweepKill && foes.length > 1 && finishers.length &&
+        finishers[0].foe.hp + finishers[0].foe.shield <= Math.round(actor.power * .6);
+      const preparedCharge = actor.charging && actor.routines.find(id => ROUTINES[id]?.action === 'charge');
+      const chargeTarget = preparedCharge && rankAttackTargets(atbTargets(state, actorId, preparedCharge), preparedCharge)[0];
+      const breach = actor.routines.find(id => ROUTINES[id]?.action === 'overflow');
+      if (sweepFinisher || sweepSameKill) { routineId = (sweepFinisher || sweepKill)!; }
+      else if (finishers.length) { routineId = finishers[0].id; targetId = finishers[0].foe.id; }
+      else if (sweepKill) { routineId = sweepKill; }
+      else if (groupHeal && patients.length && groupHealing > singleHealing) { routineId = groupHeal; }
+      else if (heal && patients.length) { routineId = heal; targetId = patients[0].id; }
+      else if (preparedCharge && chargeTarget && (!breach || chargeTarget.shield <= Math.round(actor.power * 3) - Math.round(actor.power * 1.5))) {
+        routineId = preparedCharge; targetId = chargeTarget.id;
+      }
+      // Otherwise the fighter's own routine list decides, the same as pressing Auto.
+    }
+    state = chooseAtb(state, actorId, routineId, targetId);
+  }
+  return state;
+}
 
 export function play(run: Run, random: () => number, policy: Policy): RunResult {
   const member = (c: Creature, active: boolean): Member => { const max = fighter(c, 'crew', 'x').maxHp; return { creature: c, hp: max, max, routines: c.routines.slice(0, SLOTS_START), slots: SLOTS_START, active }; };
@@ -33,8 +98,7 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
   const smart = () => policy.route === 'smart' && random() >= policy.noise;
   const active = () => crew.filter(c => c.active);
   const health = () => { const up = active(); return up.reduce((n, c) => n + c.hp / c.max, 0) / up.length; };
-  const fightWith = (n: MapNode, creature: (id: string) => Creature) => simulate(createCombat(active().map(c => ({ creature: { ...c.creature, routines: [...c.routines] }, hp: c.hp })), n.encounter!.map(creature), run.seed), 3000);
-  const value = (f: ReturnType<typeof simulate>) => (f.result === 'win' ? 10 : 0) + f.fighters.filter(x => x.side === 'crew' && !x.summonedBy).reduce((t, x) => t + x.hp / x.maxHp, 0);
+  const fightWith = (n: MapNode, creature: (id: string) => Creature) => playCombat(createCombat(active().map(c => ({ creature: { ...c.creature, routines: [...c.routines] }, hp: c.hp })), n.encounter!.map(creature), run.seed), policy, random);
   // Bring reserves in for the fallen, the same as the crew screen allows.
   const swapReserves = () => { for (const dead of active().filter(c => c.hp <= 0)) { const sub = crew.find(c => !c.active && c.hp > 0); if (sub) { dead.active = false; sub.active = true; } } };
   // Equip what's in the pool with no knowledge of the coming fight.
@@ -49,22 +113,6 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       m.routines.unshift(id); pool.splice(pool.indexOf(id), 1);
     }
     for (const c of active()) c.routines.sort((a, b) => Number(conditional(b)) - Number(conditional(a)));
-  };
-  // Enemy routines are public, so a careful player sets up for the fight: try each option, keep what helps.
-  const search = (n: MapNode, creature: (id: string) => Creature) => {
-    for (const c of active()) {
-      for (const id of [...c.routines]) {
-        const before = c.routines, best = value(fightWith(n, creature));
-        c.routines = [id, ...before.filter(x => x !== id)];
-        if (value(fightWith(n, creature)) <= best) c.routines = before;
-      }
-      for (const id of [...new Set(pool)]) {
-        const before = c.routines, best = value(fightWith(n, creature));
-        c.routines = c.routines.length < c.slots ? [id, ...before] : [id, ...before.slice(0, -1)];
-        if (value(fightWith(n, creature)) > best) { pool.splice(pool.indexOf(id), 1); if (before.length >= c.slots) pool.push(before[before.length - 1]); }
-        else c.routines = before;
-      }
-    }
   };
   for (const [actIndex, act] of run.acts.entries()) {
     const creature = (id: string) => act.creatures.find(c => c.id === id)!;
@@ -86,7 +134,7 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
         swapReserves();
-        if (editing) { equip(); if (policy.build === 'search' && random() < (policy.care ?? 1)) search(n, creature); }
+        if (editing) equip();
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };

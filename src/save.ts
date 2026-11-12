@@ -27,6 +27,21 @@ export function parseSave(text: string): Save {
       const fight = t.combat;
       if (!obj(fight) || !Number.isInteger(fight.t) || (fight.t as number) < 0 || (fight.t as number) > 3000 || !Number.isFinite(fight.seed) || !Number.isFinite(fight.cooldown) || !Number.isFinite(fight.goldStolen) || !Number.isFinite(fight.serial) || !Array.isArray(fight.events) || !Array.isArray(fight.fighters) || !(fight.result === null || fight.result === 'win' || fight.result === 'loss') || !(fight.queued === null || (obj(fight.queued) && str(fight.queued.actorId) && str(fight.queued.routineId) && Object.hasOwn(ROUTINES, fight.queued.routineId)))) throw new Error('Invalid saved fight');
       for (const f of fight.fighters) if (!obj(f) || !str(f.id) || !isCreature(f.creature) || !['crew','enemy'].includes(String(f.side)) || !['hp','maxHp','power','speed','shield','corrupted','nextAction','summons'].every(k => typeof f[k] === 'number' && Number.isFinite(f[k])) || !strings(f.routines) || !f.routines.every(r => Object.hasOwn(ROUTINES, r)) || typeof f.stunned !== 'boolean' || typeof f.splitDone !== 'boolean' || typeof f.charging !== 'boolean') throw new Error('Invalid saved fighter');
+      if (fight.atb !== undefined) {
+        const a = fight.atb;
+        const fighters = fight.fighters;
+        const actor = (id: unknown) => str(id) && fighters.some(f => obj(f) && f.id === id && f.side === 'crew');
+        const routine = (id: unknown) => id === 'auto' || (str(id) && Object.hasOwn(ROUTINES, id));
+        // The fight pauses with the fighter at the cursor pending and resumes a choice there, so both must name a living crew member who has the routine.
+        const atCursor = () => {
+          const x = a as Record<string, unknown>;
+          if (x.pending === null && x.choice === null) return true;
+          const f = (x.cursor as number) < (x.limit as number) ? fighters[x.cursor as number] : undefined;
+          return obj(f) && f.side === 'crew' && typeof f.hp === 'number' && f.hp > 0 && (x.pending === null || f.id === x.pending)
+            && (x.choice === null || x.choice === 'auto' || (strings(f.routines) && f.routines.includes(x.choice as string)));
+        };
+        if (!obj(a) || typeof a.autoBattle !== 'boolean' || !Number.isInteger(a.cursor) || !Number.isInteger(a.limit) || (a.cursor as number) < 0 || (a.limit as number) < 0 || (a.cursor as number) > (a.limit as number) || (a.limit as number) > fight.fighters.length || !(a.pending === null || actor(a.pending)) || !(a.choice === null || routine(a.choice)) || (a.pending !== null && a.choice !== null) || !atCursor() || (a.targetId !== undefined && !str(a.targetId)) || !Array.isArray(a.choices) || !a.choices.every(c => obj(c) && actor(c.actorId) && routine(c.routineId) && (c.targetId === undefined || str(c.targetId)))) throw new Error('Invalid saved ATB');
+      }
       for (const e of fight.events) if (!obj(e) || !Number.isFinite(e.t) || !str(e.kind) || !str(e.actor) || !str(e.target) || !Number.isFinite(e.amount) || !str(e.routine)) throw new Error('Invalid fight event');
     }
     for (const c of t.crew) if (!obj(c) || !isCreature(c.creature) || typeof c.hp !== 'number' || !Number.isFinite(c.hp) || c.hp < 0 || !strings(c.routines) || !c.routines.every(r => Object.hasOwn(ROUTINES, r)) || !Number.isInteger(c.slots) || (c.slots as number) < 1 || (c.slots as number) > 8 || typeof c.recruited !== 'boolean' || typeof c.active !== 'boolean') throw new Error('Invalid crew');
