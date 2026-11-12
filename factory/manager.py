@@ -902,13 +902,20 @@ def main():
 
 def persistent_release_blocker(result):
     return result.startswith(('Missing run:', 'Not deploying: npm run build failed:',
-                              'Not deploying: npm test failed:'))
+                              'Not deploying: npm test failed:',
+                              'Not deploying: release checkout failed: no space left on device;'))
+
+
+def release_blocker_identity(result):
+    capacity = 'release -> Not deploying: release checkout failed: no space left on device;'
+    return capacity if result.startswith(capacity) else result
 
 
 def release_step(failures, dry=False, previous=()):
     result = release(dry)
     if result:
-        blocked = persistent_release_blocker(result) and f'release -> {result[-700:]}' in previous
+        identity = release_blocker_identity(f'release -> {result[-700:]}')
+        blocked = persistent_release_blocker(result) and any(release_blocker_identity(p) == identity for p in previous)
         recorded = f'Blocked: unchanged release failure: {result}' if blocked else result
         print(f'release: {recorded}', flush=True)
         record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded[-1000:], 'dry': dry})

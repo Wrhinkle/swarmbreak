@@ -882,6 +882,31 @@ with patch('manager.release', return_value='Missing run: live run x closed') as 
     assert failures == ['release -> Missing run: live run y closed']
 
 # Scheduled invocations retain a blocker through follow-ups and clear or replace it as conditions change.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record') as log, patch('manager.follow_up') as follow, patch('manager.release') as release:
+    def capacity(free):
+        with patch('manager.shutil.disk_usage', return_value=SimpleNamespace(total=1000, free=free)), patch('manager.os.stat', return_value=SimpleNamespace(st_dev=42)):
+            return manager.checkout_capacity_failure(OSError(28, 'No space left on device'), '/tmp')
+
+    def scheduled(result):
+        release.return_value = result
+        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args
+
+    first, second = capacity(12), capacity(8)
+    failures, _, _, _, blocker = scheduled(first)
+    assert failures == ['release -> ' + first] and blocker == failures[0]
+    # The follow-up carries the original diagnostic even if free space changes.
+    with patch('manager.release', return_value=second):
+        follow_failures = []
+        assert manager.release_step(follow_failures, previous=failures + [blocker]) == 'release -> ' + second
+        assert follow_failures == []
+    assert scheduled(second)[0] == []
+    assert '8 bytes available' in log.call_args.args[0]['result']
+    assert scheduled('Deployed.')[0] == []
+    assert scheduled(first)[0] == ['release -> ' + first]
+
 with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
     def scheduled(result):
         release.return_value = result
