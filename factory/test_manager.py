@@ -826,8 +826,16 @@ with patch.dict(os.environ, {'SWARMBREAK_CHROME': '/host/chrome'}), patch('pr_te
     drive.reset_mock()
     assert pr_team.screens('/elsewhere/swarmbreak-pr-7') == 'vite: build failed'
     drive.assert_not_called()
+# A standard Chrome installation works even without a Playwright browser cache.
+with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), \
+     patch('pr_team.Path.is_file', return_value=True), \
+     patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')), \
+     patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps([clean_shot]), stderr='')) as drive:
+    os.environ.pop('SWARMBREAK_CHROME', None)
+    assert pr_team.screens('.') == ''
+    assert drive.call_args.args[0][2] == '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 # A host with no headless browser stops verification; it never passes screens unseen.
-with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), patch('pr_team.sandboxed') as screen_build:
+with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), patch('pr_team.Path.is_file', return_value=False), patch('pr_team.sandboxed') as screen_build:
     os.environ.pop('SWARMBREAK_CHROME', None)
     try:
         pr_team.screens('.')
