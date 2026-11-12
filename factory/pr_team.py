@@ -305,11 +305,18 @@ def wait_for_review(url, sha):
     deadline = time.time() + QODO_WAIT
     path, request = rerequest_state(url, sha)
     while time.time() < deadline:
-        s = findings(url).get('review_session') or {}
+        data = findings(url)
+        s = data.get('review_session') or {}
         if reviewed(s, sha):
             return
         if request is False:
             sys.exit(f'Qodo request state for {sha[:7]} is unreadable or invalid at {path}; inspect it before retrying.')
+        # A rerun that ended incomplete, or never came, won't finish. Fixing the findings Qodo did store makes a new
+        # commit, and that gets a fresh review. reviewed() still gates the merge, so an incomplete review never merges.
+        if stalled(s, sha) and request and (request['started'] or time.time() - request['requested_at'] >= REREQUEST_START_WAIT) \
+                and any(is_open(f) for f in data.get('findings', [])):
+            print(f'Qodo\'s review of {sha[:7]} stays incomplete after a /review request. Fixing its stored findings; the new commit needs a complete review to merge.', flush=True)
+            return
         if stalled(s, sha):
             if request is None:
                 sh('gh', 'pr', 'comment', url, '--body', '/review')
@@ -444,7 +451,10 @@ def main():
                     bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
                     changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
                     touched = [c for c in changed if c.startswith(PROTECTED)]
-                    problems = f'Don\'t edit these: {touched}. ' if touched else ''
+                    protected = str(touched)
+                    if len(protected) > 1000:
+                        protected = protected[:1000] + '... (truncated)'
+                    problems = f'Don\'t edit these: {protected}. ' if touched else ''
                     if touched:
                         sh('git', 'checkout', '--', *touched, cwd=tree)
                     try:
@@ -452,11 +462,11 @@ def main():
                     except HostVerificationError as exc:
                         sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
                     if failed:
-                        problems += f'Build or tests fail:\n{failed}'
+                        problems += f'Build or tests fail:\n{failed[-1500:]}'
                     if not problems:
                         break
             if problems:
-                sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{problems[:1500]}')
+                sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{problems}')
             sh('git', 'add', '-A', cwd=tree)
             if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
                 sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
