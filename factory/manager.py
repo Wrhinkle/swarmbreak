@@ -520,11 +520,52 @@ def npm_capacity_failure(error, tree, stage):
             f'npm cache candidate at failure: {cache_detail}; npm output: {error[-2000:]}')
 
 
+def tempdir_capacity_failure():
+    """Recover evidence hidden by tempfile's no-usable-directory error."""
+    full = []
+    for directory in tempfile._candidate_tempdir_list():
+        path = None
+        try:
+            fd, path = tempfile.mkstemp(dir=directory)
+            try:
+                os.write(fd, b'blat')
+            finally:
+                os.close(fd)
+        except OSError as e:
+            if e.errno == errno.ENOSPC:
+                full.append((directory, e))
+        else:
+            # A candidate is usable now; do not infer an exhausted selection.
+            return None
+        finally:
+            if path is not None:
+                os.unlink(path)
+    if full:
+        details = '; '.join(capacity_detail(directory) for directory, _ in full)
+        return (f'Not deploying: release checkout failed: no space left on device; '
+                f'checkout candidates at failure: {details}. '
+                'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+    return None
+
+
 def deploy(dry, rev=None):
     """Publish origin/main, or the commit `rev` that release() checked, from a clean checkout so local work can't ship by accident."""
     if not rev:
         sh('git', 'fetch', 'origin')
-    temp = tempfile.TemporaryDirectory()
+    try:
+        directory = tempfile.gettempdir()
+    except FileNotFoundError:
+        failure = tempdir_capacity_failure()
+        if failure:
+            return failure
+        raise
+    try:
+        temp = tempfile.TemporaryDirectory(dir=directory)
+    except OSError as e:
+        failure = checkout_capacity_failure(e, directory)
+        if failure:
+            return failure
+        raise
     work = temp.name
     temp_cleanup_attempted = False
     try:

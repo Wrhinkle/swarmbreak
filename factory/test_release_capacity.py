@@ -1,5 +1,6 @@
 """Release dependency/build failures must expose capacity without deploying."""
 import json
+import errno
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
@@ -9,6 +10,49 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_temporary_directory_no_space_is_a_capacity_blocker(self):
+        with patch.object(manager.tempfile, 'TemporaryDirectory', side_effect=OSError(28, 'No space left on device')), \
+             patch.object(manager.tempfile, 'gettempdir', side_effect=['/tmp', FileNotFoundError('second lookup failed')]) as lookup, \
+             patch.object(manager, 'capacity_detail', return_value='/tmp (device 42): 0 bytes available of 1000'), \
+             patch.object(manager, 'sh') as command:
+            result = manager.deploy(False, 'revision')
+        self.assertIn('release checkout failed: no space left on device', result)
+        self.assertIn('device 42', result)
+        self.assertTrue(manager.persistent_release_blocker(result))
+        lookup.assert_called_once_with()
+        command.assert_not_called()
+
+    def test_temporary_directory_other_errors_are_not_capacity_blockers(self):
+        with patch.object(manager.tempfile, 'TemporaryDirectory', side_effect=OSError(13, 'Permission denied')):
+            with self.assertRaises(OSError):
+                manager.deploy(False, 'revision')
+
+    def test_uncached_tempdir_probes_report_actual_no_space(self):
+        original_lookup = manager.tempfile.gettempdir
+        with patch.object(manager.tempfile, 'tempdir', None), \
+             patch.object(manager.tempfile, '_candidate_tempdir_list', return_value=['/full']), \
+             patch.object(manager.tempfile._os, 'open', side_effect=OSError(errno.ENOSPC, 'No space left on device')), \
+             patch.object(manager.tempfile, 'gettempdir', wraps=original_lookup) as lookup, \
+             patch.object(manager, 'capacity_detail', return_value='/full (device 42): 0 bytes available of 1000'), \
+             patch.object(manager, 'sh') as command:
+            result = manager.deploy(False, 'revision')
+        self.assertTrue(manager.persistent_release_blocker(result))
+        self.assertIn('/full (device 42)', result)
+        lookup.assert_called_once_with()
+        command.assert_not_called()
+
+    def test_failed_tempdir_lookup_without_capacity_evidence_is_not_misclassified(self):
+        for probe_error in (FileNotFoundError(errno.ENOENT, 'missing'), PermissionError(errno.EACCES, 'denied')):
+            with self.subTest(error=probe_error), \
+                 patch.object(manager.tempfile, 'gettempdir', side_effect=FileNotFoundError(errno.ENOENT, 'no usable directory')) as lookup, \
+                 patch.object(manager.tempfile, '_candidate_tempdir_list', return_value=['/bad']), \
+                 patch.object(manager.tempfile, 'mkstemp', side_effect=probe_error), \
+                 patch.object(manager, 'sh') as command:
+                with self.assertRaises(FileNotFoundError):
+                    manager.deploy(False, 'revision')
+                lookup.assert_called_once_with()
+                command.assert_not_called()
+
     def test_npm_no_space_is_a_capacity_blocker(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
         for failed in [('npm', 'ci'), ('npm', 'run', 'build'), ('npm', 'test')]:
