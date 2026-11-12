@@ -952,7 +952,7 @@ def main():
         failures = []
         lock.seek(0)
         previous = [lock.read().strip()]
-        blocker = release_step(failures, dry, previous)
+        blocker = release_step(failures, dry, previous, retry_capacity='--retry-capacity' in args)
         if not dry:
             lock.seek(0)
             lock.truncate()
@@ -1040,7 +1040,15 @@ def release_blocker_identity(result):
     return result
 
 
-def release_step(failures, dry=False, previous=()):
+def release_step(failures, dry=False, previous=(), retry_capacity=False):
+    # A capacity failure requires host investigation, not another automatic release attempt.
+    # The host can explicitly retry after restoring capacity with --release-only --retry-capacity.
+    for prior in previous:
+        identity = release_blocker_identity(prior)
+        if (not retry_capacity and identity.startswith('release -> Not deploying: ') and
+                identity.endswith('failed: no space left on device;')):
+            print(f'release: Blocked: capacity recovery required; {prior}', flush=True)
+            return prior
     result = release(dry)
     if result:
         full = f'release -> {result}'

@@ -1,6 +1,9 @@
 """Release dependency/build failures must expose capacity without deploying."""
 import json
 import errno
+import os
+import sys
+import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
@@ -10,6 +13,38 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_capacity_blocker_stops_scheduled_retry_until_host_requests_it(self):
+        prior = 'release -> Not deploying: release checkout failed: no space left on device; device 42, 0 bytes'
+        with patch.object(manager, 'release', return_value='Deployed.') as release, \
+             patch.object(manager, 'record'):
+            failures = []
+            self.assertEqual(manager.release_step(failures, previous=[prior]), prior)
+            self.assertEqual(failures, [])
+            release.assert_not_called()
+            self.assertEqual(manager.release_step(failures, previous=[prior], retry_capacity=True), '')
+            release.assert_called_once_with(False)
+
+    def test_scheduled_pass_keeps_capacity_blocker_until_explicit_retry(self):
+        prior = 'release -> Not deploying: release fetch failed: no space left on device; unknown filesystem'
+        with tempfile.TemporaryDirectory() as directory, \
+             patch.object(manager, 'LOG', Path(directory) / 'decisions.jsonl'), \
+             patch.object(manager, 'sync'), patch.object(manager, 'record'), \
+             patch.object(manager, 'follow_up'), \
+             patch.object(manager, 'release', return_value='Deployed.') as release, \
+             patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            lock = Path(directory) / '.lock'
+            lock.write_text(prior)
+            with patch.object(sys, 'argv', ['manager.py', '--release-only']):
+                manager.main()
+            release.assert_not_called()
+            self.assertEqual(lock.read_text(), prior)
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            with patch.object(sys, 'argv', ['manager.py', '--release-only', '--retry-capacity']):
+                manager.main()
+            release.assert_called_once_with(False)
+            self.assertEqual(lock.read_text(), '')
+
     def test_release_check_no_space_after_fetch_is_a_blocker(self):
         for error in (OSError(errno.ENOSPC, 'disk full'), SystemExit('No space left on device')):
             with self.subTest(error=error), \

@@ -902,7 +902,7 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
 
     def scheduled(result):
         release.return_value = result
-        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+        with patch.object(sys, 'argv', ['manager.py', '--release-only', '--retry-capacity']), patch.dict(os.environ):
             os.environ.pop('SWARMBREAK_LOCK_FD', None)
             manager.main()
         return follow.call_args.args
@@ -913,7 +913,7 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     # The follow-up carries the original diagnostic even if free space changes.
     with patch('manager.release', return_value=second):
         follow_failures = []
-        assert manager.release_step(follow_failures, previous=failures + [blocker]) == 'release -> ' + second
+        assert manager.release_step(follow_failures, previous=failures + [blocker], retry_capacity=True) == 'release -> ' + second
         assert follow_failures == []
     assert scheduled(second)[0] == []
     assert '8 bytes available' in log.call_args.args[0]['result']
@@ -924,7 +924,7 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
 with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
     def scheduled(result):
         release.return_value = result
-        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+        with patch.object(sys, 'argv', ['manager.py', '--release-only', '--retry-capacity']), patch.dict(os.environ):
             os.environ.pop('SWARMBREAK_LOCK_FD', None)
             manager.main()
         return follow.call_args.args
@@ -941,7 +941,7 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     assert len(first) > 700 and len(failures) == 1
     with patch('manager.release', return_value=second):
         follow_failures = []
-        manager.release_step(follow_failures, previous=failures + [blocker])
+        manager.release_step(follow_failures, previous=failures + [blocker], retry_capacity=True)
         assert follow_failures == []
     assert scheduled(second)[0] == []
     assert len(scheduled(other)[0]) == 1
