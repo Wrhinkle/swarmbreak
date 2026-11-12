@@ -628,7 +628,13 @@ def deploy(dry, rev=None):
                     if failure:
                         return cleanup_capacity_failure(failure)
                     return f'Not deploying: {" ".join(cmd)} failed: {r.stdout[-500:]}'
-            deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+            try:
+                deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+            except (SystemExit, OSError) as e:
+                failure = checkout_capacity_failure(e, tree, 'release checkout revision')
+                if failure:
+                    return cleanup_capacity_failure(failure)
+                raise
             if not re.fullmatch(r'[0-9a-f]{40}', deployed_rev):
                 return 'Not deploying: invalid checkout revision'
             try:
@@ -1035,11 +1041,12 @@ def persistent_release_blocker(result):
                               'Not deploying: release fetch failed: no space left on device;',
                               'Not deploying: release check failed: no space left on device;',
                               'Not deploying: release revision file failed: no space left on device;',
+                              'Not deploying: release checkout revision failed: no space left on device;',
                               'Not deploying: npm ci failed: no space left on device;'))
 
 
 def release_blocker_identity(result):
-    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'npm ci', 'npm run build', 'npm test'):
+    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
             return capacity
