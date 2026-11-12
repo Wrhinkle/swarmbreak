@@ -105,6 +105,23 @@ class InventoryTest(unittest.TestCase):
             self.assertIn('error', result['worktrees'][1])
             self.assertIn('retain', result['worktrees'][1]['removal_eligibility'])
 
+    def test_missing_worktree_reports_retention_reasons_in_report_and_progress(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory).resolve()
+            missing = path / 'missing'
+            record = f'worktree {missing}\0HEAD abc\0locked in use\0prunable missing'.encode()
+            progress = []
+            with patch.object(inv, 'worktree_records', return_value=[record]):
+                result = inv.filesystem_inventory(path, progress.append)
+            item = result['worktrees'][0]
+            self.assertEqual(item['retention_reasons'], [
+                'worktree is locked', 'worktree is prunable or inaccessible',
+                'ownership, activity, job state and saved work not verified'])
+            self.assertIn('error', item)
+            self.assertFalse(item['complete'])
+            self.assertIn('retain', item['removal_eligibility'])
+            self.assertEqual(progress[1], {'type': 'worktree', **item})
+
     def test_slow_scan_reports_progress_and_continues_to_other_tree(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()

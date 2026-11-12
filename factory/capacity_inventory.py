@@ -27,6 +27,15 @@ def worktree_records():
     return command('git', 'worktree', 'list', '--porcelain', '-z').stdout.split(b'\0\0')
 
 
+def record_retention_reasons(record):
+    reasons = []
+    if any(field == b'locked' or field.startswith(b'locked ') for field in record):
+        reasons.append('worktree is locked')
+    if any(field == b'prunable' or field.startswith(b'prunable ') for field in record):
+        reasons.append('worktree is prunable or inaccessible')
+    return reasons
+
+
 def inventory(path, record=None):
     path = Path(path).resolve(strict=True)
     if record is None:
@@ -53,11 +62,7 @@ def inventory(path, record=None):
         result['allocated_kib_estimate'] = int(size)
     except (OSError, subprocess.SubprocessError, ValueError) as error:
         errors['disk_usage'] = str(error)
-    reasons = []
-    if any(field == b'locked' or field.startswith(b'locked ') for field in record):
-        reasons.append('worktree is locked')
-    if any(field == b'prunable' or field.startswith(b'prunable ') for field in record):
-        reasons.append('worktree is prunable or inaccessible')
+    reasons = record_retention_reasons(record)
     entries = result['status_entries']
     if entries is None:
         reasons.append('status unavailable')
@@ -97,7 +102,9 @@ def filesystem_inventory(path, progress=None):
         except (OSError, ValueError, subprocess.SubprocessError) as error:
             # An inaccessible tree may be on the target filesystem; never silently omit it.
             item = {'path': tree, 'worktree_record': [os.fsdecode(f) for f in fields if f],
-                    'error': str(error), 'complete': False, 'removal_eligibility': 'unknown: retain'}
+                    'error': str(error), 'complete': False, 'removal_eligibility': 'unknown: retain',
+                    'retention_reasons': record_retention_reasons(fields) +
+                    ['ownership, activity, job state and saved work not verified']}
         result['worktrees'].append(item)
         if progress:
             progress({'type': 'worktree', **item})
