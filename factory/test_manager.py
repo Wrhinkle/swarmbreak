@@ -679,6 +679,45 @@ if not os.environ.get('SWARMBREAK_SANDBOX'):
     print('ok sandbox')
 from types import SimpleNamespace
 import pr_team
+
+# Protected edits remain visible when a long verification failure reaches the foreman's lesson.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    tree = Path(d) / 'swarmbreak-pr-42'
+    (tree / 'node_modules').mkdir(parents=True)
+    edited = [False]
+    def report_sh(*args, **kwargs):
+        if args[:3] == ('gh', 'pr', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}))
+        if args[:3] == ('git', 'status', '--porcelain'):
+            return SimpleNamespace(stdout=' M firebase.json\n' if edited[0] else '')
+        if args[:3] == ('git', 'checkout', '--'):
+            edited[0] = False
+        return SimpleNamespace(stdout='sha' if args[:2] == ('git', 'rev-parse') else '', returncode=0)
+    def report_bot(role, work, prompt, **kwargs):
+        if role == 'pr-triage':
+            (Path(work) / 'decisions.json').write_text(json.dumps({'decisions': [{'id': '1', 'action': 'fix'}]}))
+        else:
+            edited[0] = True
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=report_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+         patch.object(pr_team, 'findings', return_value={'findings': [{'id': '1', 'attribution_status': 'pending'}]}), \
+         patch.object(pr_team, 'bot', side_effect=report_bot), patch.object(pr_team, 'verified', return_value='x' * 2000 + 'failure tail'), \
+         patch.object(sys, 'argv', ['pr_team.py', '42']):
+        try:
+            pr_team.main()
+            assert False, 'the failed attempts must stop'
+        except SystemExit as exc:
+            report = str(exc)
+    assert "Don't edit these: ['firebase.json']" in report
+    assert 'Build or tests fail:\n' in report and report.endswith('failure tail')
+    assert len(report) < 3500 and 'x' * 1501 not in report
+    with patch.object(foreman, 'sh', return_value=SimpleNamespace(stdout='https://example.test/1')) as filed:
+        foreman.learn('pr', 42, 'earlier output\n' + report)
+    body = filed.call_args.args[-1]
+    assert "Don't edit these: ['firebase.json']" in body and 'failure tail' in body
+
 # A tree that can't be copied stops the check with cp's reason in the error, so the lesson filed for it has a cause.
 try:
     pr_team.sandboxed(['true'], '/no/such/tree')
