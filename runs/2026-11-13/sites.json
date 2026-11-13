@@ -1,22 +1,22 @@
 {
  "sites": [
   {
-   "host": "www.butterfliesandmoths.org",
-   "name": "Butterflies and Moths of North America",
-   "url": "https://www.butterfliesandmoths.org/",
-   "file": "runs/2026-11-13/sites/www.butterfliesandmoths.org.json"
+   "host": "nrm.org.au",
+   "name": "National Railway Museum, Adelaide",
+   "url": "https://nrm.org.au/",
+   "file": "runs/2026-11-13/sites/nrm.org.au.json"
   },
   {
-   "host": "british-dragonflies.org.uk",
-   "name": "British Dragonfly Society",
-   "url": "https://british-dragonflies.org.uk/",
-   "file": "runs/2026-11-13/sites/british-dragonflies.org.uk.json"
+   "host": "tramway.co.uk",
+   "name": "National Tramway Museum",
+   "url": "https://tramway.co.uk/",
+   "file": "runs/2026-11-13/sites/tramway.co.uk.json"
   },
   {
-   "host": "www.beesmn.org",
-   "name": "Minnesota Native Bees",
-   "url": "https://www.beesmn.org/",
-   "file": "runs/2026-11-13/sites/www.beesmn.org.json"
+   "host": "www.trammuseum.org.au",
+   "name": "Melbourne Tram Museum",
+   "url": "https://www.trammuseum.org.au/",
+   "file": "runs/2026-11-13/sites/www.trammuseum.org.au.json"
   }
  ]
 }

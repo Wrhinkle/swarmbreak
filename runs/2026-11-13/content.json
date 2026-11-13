@@ -1,537 +1,147 @@
 {
- "title": "The Shape of Shelter",
+ "title": "The Last Stop Signal",
  "swarm": {
-  "name": "The Assured",
-  "blurb": "Machines that collect evidence and build shelters to prevent loss. Their idea of safety leaves less and less room for life."
+  "name": "The Long Circuit",
+  "blurb": "A moving colony of rail and tram machinery copies an unfinished stop signal, building track wherever its call goes unanswered."
  },
- "arc": "The Assured appear to be collecting and classifying living things. Their verifier sends a water-loss warning to the wetlands, where the crew discovers the machines are draining ponds to preserve samples against a predicted drought. The warning has also reached a habitat steward among native bee nests. It has interpreted protection as eliminating change, sealing nests and supplies in a single enclosure. The crew opens the enclosure and leaves the warning with local stewards who can respond without cutting the connections that sustain the habitat.",
+ "arc": "The Long Circuit strips a railway yard for parts and appears to be assembling an invasion train. Its catalogue engine carries a repeated signal toward a tramway. There Wren identifies it as an incomplete stop request, and the crew realizes the swarm is extending the line because it cannot hear a complete answer. At the city depot an old moving cable masks the end of the original message and keeps pulling cars back into service. Ox protects Wren while Kestrel opens the grip; Wren rings the full signal, the swarm stops, and passengers can leave.",
  "acts": [
   {
-   "theme": "Sightings and transformation",
+   "theme": "A railway yard that collects everything",
    "story": {
-    "intro": "The swarm has crossed into a country of moths and caterpillars. Its machines collect sightings and stop anyone who does not fit. Wren finds a trapped observer and cuts them loose.",
+    "intro": "The swarm has taken the railway yard. Its machines photograph tools and carry them away. Wren finds a signal repeated on their plates: two short marks, then a gap. Ox keeps a path open while Kestrel follows the rails.",
     "chapters": [
      {
-      "title": "Pending",
-      "text": "The machines hold living things while they wait for confirmation. Ox keeps a path open for the spotters. The crew assumes the swarm wants a complete collection."
+      "title": "The inventory",
+      "text": "The swarm sorts wagons and loose tools into neat rows. It also takes things people are still using. Wren finds the same two marks on every fresh label."
      },
      {
-      "title": "Wrong shape",
-      "text": "A forged sighting sends patrols after an empty field. Kestrel pulls a relay apart at its seam. Inside is a route toward the wetlands, repeated in every record."
+      "title": "Wrong gauge",
+      "text": "Different gauges cross the yard. The swarm lays new track where old routes end. Kestrel finds that its wagons carry copies of the signal as well as supplies."
      },
      {
-      "title": "A gap in the map",
-      "text": "The records leave uncertain sightings blank. Wren notices that the swarm fills those gaps with patrols. The central verifier is trying to make the land match its map."
+      "title": "The catalogue car",
+      "text": "A long engine collects the copies in an armored catalogue car. Ox notices that repair wagons keep returning to it. The crew prepares to uncouple the car and stop the collection."
      }
     ],
-    "bossIntro": "The Continental Verifier braces its wings around a glass sensor. Patrols gather wherever the sensor finds a gap. Kestrel points out the joints holding its shield.",
-    "outro": "The sensor breaks and its patrols scatter. Beneath the map, Wren finds a warning about water loss. The swarm has already carried it toward the wetlands."
+    "bossIntro": "The Grand Accession rolls in behind a wall of catalogue drawers. Its repair arms close around the signal plates. Kestrel sets the crowbar against a coupling; Ox raises the hatch shield.",
+    "outro": "The engine stops. Wren finds that the plates record a repeated call, not an inventory number. The call points along a tramway route. The swarm is already moving there, taking its rails with it."
    },
    "creatures": [
     {
-     "id": "pending-grub",
-     "name": "Pending Grub",
+     "id": "yard-scale-thief",
+     "name": "Scale Thief",
      "tier": "easy",
      "bodyPlan": "beast",
-     "role": "debuffer",
-     "routines": [
-      "jam",
-      "strike"
-     ],
-     "source": "/faq/how-soon-will-my-sighting-be-verified",
-     "blurb": "It pins travelers in place while waiting for a reply that never comes.",
-     "look": "A squat brass caterpillar with accordion joints and two clamp jaws."
-    },
-    {
-     "id": "common-loop",
-     "name": "Common Loop",
-     "tier": "easy",
-     "bodyPlan": "serpent",
-     "role": "charger",
-     "routines": [
-      "charge"
-     ],
-     "source": "/species/Autographa-precationis",
-     "blurb": "Its looping tracks return to the same ambush.",
-     "look": "A green segmented crawler arched into a tall loop, with black wheel feet."
-    },
-    {
-     "id": "hook-skipper",
-     "name": "Hook Skipper",
-     "tier": "easy",
-     "bodyPlan": "flier",
      "role": "thief",
      "routines": [
       "skim",
       "strike"
      ],
-     "source": "/glossary",
-     "blurb": "Hooked antennae pull loose gear into reach.",
-     "look": "A small ochre moth with hooked black antennae and narrow metal wings."
+     "source": "/",
+     "blurb": "A nimble shunter steals fittings from the crew. Catch it before supplies vanish.",
+     "look": "A mouse-sized brass locomotive with four spindly legs and a clamp for a nose."
     },
     {
-     "id": "checklist-grazer",
-     "name": "Checklist Grazer",
-     "tier": "regular",
-     "bodyPlan": "beast",
-     "role": "bruiser",
-     "routines": [
-      "strike",
-      "finish"
-     ],
-     "source": "/checklists",
-     "blurb": "It clears anything absent from its incomplete list.",
-     "look": "A broad gray caterpillar with square cutting jaws and a plated back."
-    },
-    {
-     "id": "taxonomy-fork",
-     "name": "Taxonomy Fork",
-     "tier": "regular",
-     "bodyPlan": "construct",
+     "id": "yard-fettler-mites",
+     "name": "Fettler Mites",
+     "tier": "easy",
+     "bodyPlan": "swarm",
      "role": "splitter",
      "routines": [
       "divide",
       "strike"
      ],
-     "source": "/taxonomy",
-     "blurb": "Its branches keep fighting after the central stalk is damaged.",
-     "look": "A bronze branching frame on six jointed legs, tipped with forked pincers."
+     "source": "/learn/kids-families/",
+     "blurb": "Track mites split when damaged and keep hammering.",
+     "look": "A knot of small orange beetles with hammer heads and black rail-spike feet."
     },
     {
-     "id": "webworm-relay",
-     "name": "Webworm Relay",
-     "tier": "regular",
-     "bodyPlan": "serpent",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/species/Hymenia-perspectalis",
-     "blurb": "It wraps its neighbors in a conductive mesh.",
-     "look": "A cream segmented worm with black spots and spools of silver wire."
-    },
-    {
-     "id": "burnsius-double",
-     "name": "Burnsius Double",
-     "tier": "regular",
-     "bodyPlan": "flier",
-     "role": "mirror",
-     "routines": [
-      "echo",
-      "strike"
-     ],
-     "source": "/species/burnsius-albescens-or-communis",
-     "blurb": "Its paired wing patterns make its response hard to predict.",
-     "look": "A small brown skipper with two uneven cream wing patches and glass eyes."
-    },
-    {
-     "id": "sighting-cartographer",
-     "name": "Sighting Cartographer",
-     "tier": "regular",
-     "bodyPlan": "construct",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "strike"
-     ],
-     "source": "/recent_sightings_map",
-     "blurb": "False sightings draw more patrols to its position.",
-     "look": "A thin copper moth with folded map-like wings and a raised glass lens."
-    },
-    {
-     "id": "hemlock-barricade",
-     "name": "Hemlock Barricade",
-     "tier": "elite",
+     "id": "yard-dune-runner",
+     "name": "Dune Runner",
+     "tier": "easy",
      "bodyPlan": "beast",
-     "role": "shielder",
+     "role": "charger",
      "routines": [
-      "brace",
-      "cover",
-      "strike"
+      "charge"
      ],
-     "source": "/species/Lambdina-fiscellaria",
-     "blurb": "It locks its limbs into a wall around the other machines.",
-     "look": "A long dark-green looper with heavy hinged limbs and bark-textured plates."
+     "source": "/semaphore-train/",
+     "blurb": "A sand-hauling runner charges from the edge of the track.",
+     "look": "A squat sandy yellow quadruped with a shovel snout and a ridged wheel along its back."
     },
     {
-     "id": "profile-harvester",
-     "name": "Profile Harvester",
-     "tier": "elite",
+     "id": "yard-repair-wagon",
+     "name": "Repair Wagon",
+     "tier": "regular",
      "bodyPlan": "construct",
-     "role": "healer",
-     "routines": [
-      "patch+",
-      "strike"
-     ],
-     "source": "/species_search",
-     "blurb": "It strips useful parts from records and repairs the patrol.",
-     "look": "A tall ivory moth machine with a rack of small jointed tools beneath its wings."
-    },
-    {
-     "id": "regional-coordinator",
-     "name": "Regional Coordinator",
-     "tier": "elite",
-     "bodyPlan": "flier",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "jam",
-      "strike"
-     ],
-     "source": "/available-positions",
-     "blurb": "It calls local patrols and holds intruders for review.",
-     "look": "A slate-blue moth with broad angular wings and a ring of small lenses."
-    },
-    {
-     "id": "continental-verifier",
-     "name": "Continental Verifier",
-     "tier": "boss",
-     "bodyPlan": "colossus",
-     "role": "shielder",
-     "routines": [
-      "brace",
-      "spawn",
-      "strike"
-     ],
-     "source": "/about",
-     "blurb": "It shields its central sensor and calls patrols to enforce a map with no room for uncertainty.",
-     "look": "A huge moth engine with layered copper wings, a round glass sensor and six braced legs."
-    },
-    {
-     "id": "field-spotter",
-     "name": "Field Spotter",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
-     "role": "debuffer",
-     "routines": [
-      "jam",
-      "strike"
-     ],
-     "source": "/get-involved",
-     "blurb": "A patient volunteer points out the machines behind the decoys.",
-     "look": "A small figure in a tan field coat with binocular lenses and a hooked walking stick."
-    },
-    {
-     "id": "habitat-gardener",
-     "name": "Habitat Gardener",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
      "role": "healer",
      "routines": [
       "patch",
       "strike"
      ],
-     "source": "/new-gear-and-partner-honor-earth-day-april-22-2025",
-     "blurb": "A gardener tends real plants and patches up people who shelter among them.",
-     "look": "A sturdy figure in green overalls carrying a seed pouch and a curved pruning tool."
-    }
-   ],
-   "events": [
-    {
-     "id": "review-pile",
-     "source": "/faq/how-can-i-report-sighting-misidentified",
-     "look": "Two photographs lie beside a magnifying lens and a brass clamp.",
-     "title": "Two sightings",
-     "text": "One image is a forgery. Checking it will cost time and supplies.",
-     "options": [
-      {
-       "label": "Buy a lens",
-       "effect": {
-        "type": "gold",
-        "amount": -25
-       },
-       "result": "The lens exposes a repeated shadow. The coordinator clears the route."
-      },
-      {
-       "label": "Search by hand",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The clamp catches a hand, but the forged image is found."
-      }
-     ]
+     "source": "/collections-at-the-national-railway-museum/search-collections-at-the-national-railway-museum/",
+     "blurb": "Its workshop arms patch damaged machines. Take it out before its patients recover.",
+     "look": "A green four-wheeled wagon with folding silver arms and a box of rivets."
     },
     {
-     "id": "empty-checklist",
-     "source": "/checklists",
-     "look": "A bare patch of soil sits beside a flat metal tray and a green shoot.",
-     "title": "The empty slot",
-     "text": "A grazer is headed for a patch missing from its count. A gardener offers food for help.",
-     "options": [
-      {
-       "label": "Help replant",
-       "effect": {
-        "type": "heal",
-        "amount": 0.15
-       },
-       "result": "The gardener shares a meal after the shoot is safely moved."
-      },
-      {
-       "label": "Sell spare seeds",
-       "effect": {
-        "type": "gold",
-        "amount": 25
-       },
-       "result": "The gardener buys the seeds and plants them before the grazer arrives."
-      }
-     ]
-    },
-    {
-     "id": "live-web",
-     "source": "/species/Hymenia-perspectalis",
-     "look": "Silver wire spans a narrow path around a small winged insect.",
-     "title": "Live web",
-     "text": "A real insect is caught in a relay web. The wire could also make a useful guard.",
-     "options": [
-      {
-       "label": "Cut it quickly",
-       "effect": {
-        "type": "damage",
-        "amount": 0.15
-       },
-       "result": "The insect escapes. The relay gives your hand a sharp jolt."
-      },
-      {
-       "label": "Wind the wire carefully",
-       "effect": {
-        "type": "routine",
-        "id": "brace"
-       },
-       "result": "The insect escapes as you learn to brace the wire around a shield."
-      }
-     ]
-    },
-    {
-     "id": "looping-trail",
-     "source": "/species/Autographa-precationis",
-     "look": "A green metal track curls around a stump beside a spool of thread.",
-     "title": "The same stump",
-     "text": "A looper track circles back. Thread will mark a way out, or it could be sold to a spotter.",
-     "options": [
-      {
-       "label": "Use the thread",
-       "effect": {
-        "type": "routine",
-        "id": "purge"
-       },
-       "result": "Following the thread teaches the crew how to shed a false trail."
-      },
-      {
-       "label": "Sell the thread",
-       "effect": {
-        "type": "gold",
-        "amount": 20
-       },
-       "result": "A spotter buys it. The crew finds a slower route by the stars."
-      }
-     ]
-    },
-    {
-     "id": "mountain-count",
-     "source": "/project/CBP",
-     "look": "A brass counter passes a rocky ledge where a butterfly rests.",
-     "title": "Between passes",
-     "text": "Observers need one clear count. They offer provisions or a lesson in timing.",
-     "options": [
-      {
-       "label": "Take provisions",
-       "effect": {
-        "type": "heal",
-        "amount": 0.2
-       },
-       "result": "A warm meal follows a patient count."
-      },
-      {
-       "label": "Learn the patrol rhythm",
-       "effect": {
-        "type": "routine",
-        "id": "finish"
-       },
-       "result": "The observers show when a passing machine is most exposed."
-      }
-     ]
-    },
-    {
-     "id": "uncertain-pair",
-     "source": "/species/burnsius-albescens-or-communis",
-     "look": "Two brown mechanical skippers face each other on a flat stone.",
-     "title": "Which one?",
-     "text": "Two similar machines offer different routes. Neither can prove its identification.",
-     "options": [
-      {
-       "label": "Take the sheltered route",
-       "effect": {
-        "type": "gold",
-        "amount": -20
-       },
-       "result": "A toll buys a quiet crossing through the grass."
-      },
-      {
-       "label": "Take the steep route",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "Loose stone scrapes the crew, but the route is clear."
-      }
-     ]
-    }
-   ],
-   "name": "Butterflies and Moths of North America",
-   "url": "https://www.butterfliesandmoths.org/"
-  },
-  {
-   "theme": "Wetland warnings",
-   "story": {
-    "intro": "The trail reaches the wetlands. Reeds tremble before each patrol. Ox lifts a broken boardwalk so the pond watchers can pass.",
-    "chapters": [
-     {
-      "title": "Under the surface",
-      "text": "Larval machines climb out of the water and unfold wings. The crew follows their hoses to ponds with falling levels. It looks like the swarm is taking water for itself."
-     },
-     {
-      "title": "The warning",
-      "text": "Wren opens a pump casing. Its reservoir is full of sealed samples, not fuel. The swarm is trying to save water from a predicted drought, but draining ponds to inspect them."
-     },
-     {
-      "title": "False safety",
-      "text": "The same warning repeats through the network. Kestrel finds no measurement after the first alarm. Ox helps watchers reopen a channel while the central pump calls for more samples."
-     }
-    ],
-    "bossIntro": "Early Warning rises above the pump. Its alarm calls reinforcements and its wings sweep the bank clear. The crew must stop the machine before it drains another pond.",
-    "outro": "The pump stops. Its records point onward to a network of nests and flowers. The swarm has decided the only safe habitat is one it can seal and control."
-   },
-   "creatures": [
-    {
-     "id": "paired-sentry",
-     "name": "Paired Sentry",
-     "tier": "easy",
-     "bodyPlan": "flier",
+     "id": "yard-gauge-ganger",
+     "name": "Gauge Ganger",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
      "role": "shielder",
      "routines": [
       "cover",
       "strike"
      ],
-     "source": "/odonata/damselflies/",
-     "blurb": "It folds its wings across an exposed neighbor.",
-     "look": "A slim turquoise damselfly machine with four narrow hinged wings."
+     "source": "/collections-at-the-national-railway-museum/search-collections-at-the-national-railway-museum/",
+     "blurb": "It shields nearby machines with sections of mismatched rail.",
+     "look": "A narrow iron figure holding two unequal rails like a folding gate."
     },
     {
-     "id": "willow-scout",
-     "name": "Willow Scout",
-     "tier": "easy",
-     "bodyPlan": "flier",
-     "role": "thief",
-     "routines": [
-      "skim",
-      "strike"
-     ],
-     "source": "/recording/willow-emerald-watch/",
-     "blurb": "It steals markers to extend a false frontier.",
-     "look": "A small metallic green flier with a long thin abdomen and hooked feet."
-    },
-    {
-     "id": "toothed-jaw",
-     "name": "Toothed Jaw",
-     "tier": "easy",
-     "bodyPlan": "beast",
-     "role": "charger",
-     "routines": [
-      "charge"
-     ],
-     "source": "/odonata/frequently-asked-questions/",
-     "blurb": "Its hinged jaw snaps forward after a visible windup.",
-     "look": "A brown aquatic larva with six legs and an oversized folding lower jaw."
-    },
-    {
-     "id": "filter-warden",
-     "name": "Filter Warden",
-     "tier": "regular",
-     "bodyPlan": "construct",
-     "role": "debuffer",
-     "routines": [
-      "jam",
-      "strike"
-     ],
-     "source": "/odonata/species-and-identification/",
-     "blurb": "It locks on to a color and interrupts anyone wearing it.",
-     "look": "A tall bronze frame with a circular lens and four colored glass wings."
-    },
-    {
-     "id": "emergence-engine",
-     "name": "Emergence Engine",
-     "tier": "regular",
-     "bodyPlan": "beast",
-     "role": "splitter",
-     "routines": [
-      "divide",
-      "strike"
-     ],
-     "source": "/odonata/life-cycle-and-biology/",
-     "blurb": "A winged machine breaks out of its armored larval shell.",
-     "look": "A dark olive larva with a split shell and silver wings unfolding from its back."
-    },
-    {
-     "id": "abstraction-pump",
-     "name": "Abstraction Pump",
+     "id": "yard-simulator",
+     "name": "Route Projector",
      "tier": "regular",
      "bodyPlan": "object",
-     "role": "bruiser",
-     "routines": [
-      "breach",
-      "strike"
-     ],
-     "source": "/threats-to-dragonflies/",
-     "blurb": "Its intake bites through cover as it drains the pool.",
-     "look": "A rusted barrel pump on six legs with a wide toothed intake hose."
-    },
-    {
-     "id": "bloom-screen",
-     "name": "Bloom Screen",
-     "tier": "regular",
-     "bodyPlan": "blob",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/threats-to-dragonflies/",
-     "blurb": "A floating film obscures and protects nearby machines.",
-     "look": "A flat green gelatinous disk with black bubbles and small metal paddles."
-    },
-    {
-     "id": "county-recorder",
-     "name": "County Recorder",
-     "tier": "regular",
-     "bodyPlan": "flier",
      "role": "summoner",
      "routines": [
       "spawn",
       "strike"
      ],
-     "source": "/recording/submit-your-records/",
-     "blurb": "It calls a patrol to inspect each moving target.",
-     "look": "A blue dragonfly drone with a round glass eye and a bundle of reed-like aerials."
+     "source": "/learn/kids-families/",
+     "blurb": "It draws a route and sends small rail drones along it. Rush the projector.",
+     "look": "A cream control box on wheels with a round blue lens and a fan of metal tracks."
     },
     {
-     "id": "garden-sentinel",
-     "name": "Garden Sentinel",
-     "tier": "elite",
+     "id": "yard-donation-sorter",
+     "name": "Donation Sorter",
+     "tier": "regular",
      "bodyPlan": "construct",
-     "role": "healer",
+     "role": "thief",
      "routines": [
-      "patch+",
+      "skim",
+      "brace"
+     ],
+     "source": "/collections-at-the-national-railway-museum/collection-donations/",
+     "blurb": "A sorting machine takes useful equipment and folds behind its own lid.",
+     "look": "A square ochre bin with jointed legs, a hinged lid, and a long silver grabber."
+    },
+    {
+     "id": "yard-photo-repeater",
+     "name": "Photo Repeater",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
       "strike"
      ],
-     "source": "/get-involved/garden/",
-     "blurb": "It repairs the water collectors even as they empty the garden.",
-     "look": "A squat green metal gardener with watering-can arms and a wide circular shield."
+     "source": "/publications/",
+     "blurb": "Its flash interrupts the crew while it copies the signal.",
+     "look": "A black camera body suspended under two pale rotating vanes, with a large glass lens."
     },
     {
-     "id": "hotspot-caretaker",
-     "name": "Hotspot Caretaker",
+     "id": "yard-shunting-pack",
+     "name": "Shunting Pack",
      "tier": "elite",
      "bodyPlan": "construct",
      "role": "shielder",
@@ -540,434 +150,57 @@
       "brace",
       "strike"
      ],
-     "source": "/what-we-do/outreach-projects/hotspots-project/",
-     "blurb": "It protects the pumps by building barriers across the channels.",
-     "look": "A broad gray machine with plank-shaped arms, reed feet and a flat shovel head."
+     "source": "/shop/books/800-class-profile/",
+     "blurb": "Coupled shunters protect each other behind a moving barricade.",
+     "look": "Three short dark green engines linked side by side with broad iron buffers."
     },
     {
-     "id": "time-lapse-hunter",
-     "name": "Time-lapse Hunter",
+     "id": "yard-boiler-examiner",
+     "name": "Boiler Examiner",
      "tier": "elite",
-     "bodyPlan": "flier",
+     "bodyPlan": "construct",
      "role": "charger",
      "routines": [
       "charge",
-      "finish",
-      "strike"
+      "brace"
      ],
-     "source": "/get-involved/photo-competition/",
-     "blurb": "It pauses above the reeds, then closes the distance in a burst.",
-     "look": "A black dragonfly with translucent amber wings and a large forward lens."
+     "source": "/vacancies/volunteering-boiler-attendant/",
+     "blurb": "Its pressure rises behind a shield before it charges.",
+     "look": "A tall black boiler on heavy wheels, with two round gauges and a white steam plume."
     },
     {
-     "id": "early-warning",
-     "name": "Early Warning",
-     "tier": "boss",
-     "bodyPlan": "colossus",
+     "id": "yard-cafeteria-trap",
+     "name": "Cafeteria Trap",
+     "tier": "elite",
+     "bodyPlan": "object",
      "role": "summoner",
      "routines": [
       "spawn",
-      "sweep+",
-      "strike+"
-     ],
-     "source": "/",
-     "blurb": "Its alarm summons machines while its wide wings clear the banks around the pump.",
-     "look": "A vast steel dragonfly above a drum-shaped pump, with four long glass wings and hanging hoses."
-    },
-    {
-     "id": "pond-watcher",
-     "name": "Pond Watcher",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
-     "role": "healer",
-     "routines": [
-      "patch",
-      "strike"
-     ],
-     "source": "/get-involved/pondwatch/",
-     "blurb": "A watcher knows which pools still have clean water.",
-     "look": "A figure in a blue raincoat with a shallow silver mirror and a small satchel."
-    },
-    {
-     "id": "reed-volunteer",
-     "name": "Reed Volunteer",
-     "tier": "ally",
-     "bodyPlan": "humanoid",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/get-involved/volunteer-2/",
-     "blurb": "A volunteer shields travelers along a path through the reeds.",
-     "look": "A lean figure in tan waders carrying a woven reed shield and a pole."
-    }
-   ],
-   "events": [
-    {
-     "id": "glass-drone",
-     "source": "/odonata/frequently-asked-questions/",
-     "look": "A blue metal dragonfly presses against the glass roof of a greenhouse.",
-     "title": "A way out",
-     "text": "A trapped drone beats against the glass. Opening the roof may attract its patrol.",
-     "options": [
-      {
-       "label": "Open the roof",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The drone escapes and clips the crew on its way out."
-      },
-      {
-       "label": "Dismantle the latch",
-       "effect": {
-        "type": "gold",
-        "amount": 25
-       },
-       "result": "The drone stays put. The spare brass latch sells well."
-      }
-     ]
-    },
-    {
-     "id": "emerging-shell",
-     "source": "/odonata/life-cycle-and-biology/",
-     "look": "A silver wing protrudes from a brown shell on a rain-soaked stem.",
-     "title": "Half emerged",
-     "text": "A machine is vulnerable on its stem. The rain is getting heavier.",
-     "options": [
-      {
-       "label": "Shelter it",
-       "effect": {
-        "type": "heal",
-        "amount": 0.15
-       },
-       "result": "The patient work gives Wren time to tend the crew."
-      },
-      {
-       "label": "Strip the empty shell",
-       "effect": {
-        "type": "gold",
-        "amount": 30
-       },
-       "result": "The shell yields useful scrap before the machine takes flight."
-      }
-     ]
-    },
-    {
-     "id": "garden-reservoir",
-     "source": "/get-involved/garden/",
-     "look": "Three rain barrels sit among green plants with narrow hoses between them.",
-     "title": "Shared water",
-     "text": "A sentinel has linked the garden barrels to its intake. The hoses are easy to reroute, but not quickly.",
-     "options": [
-      {
-       "label": "Restore the garden",
-       "effect": {
-        "type": "heal",
-        "amount": 0.2
-       },
-       "result": "The gardener shares clean water after the hoses are moved."
-      },
-      {
-       "label": "Salvage the fittings",
-       "effect": {
-        "type": "gold",
-        "amount": 25
-       },
-       "result": "The gardener keeps the water; the crew takes the spare fittings."
-      }
-     ]
-    },
-    {
-     "id": "wetland-capsule",
-     "source": "/what-we-do/red-list-review/",
-     "look": "A sealed gray capsule rests in reeds beside a small open toolbox.",
-     "title": "A tapping capsule",
-     "text": "Something taps inside a sealed capsule. A collector is approaching.",
-     "options": [
-      {
-       "label": "Open it now",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "A startled machine springs out and catches a shoulder before flying away."
-      },
-      {
-       "label": "Hide it in the reeds",
-       "effect": {
-        "type": "gold",
-        "amount": -15
-       },
-       "result": "A watcher takes payment to guard it until the collector leaves."
-      }
-     ]
-    },
-    {
-     "id": "bent-reeds",
-     "source": "/get-involved/photo-competition/",
-     "look": "A small camera faces reeds bent over a still pool.",
-     "title": "Before the patrol",
-     "text": "A camera shows reeds bending just before a patrol arrives. Its owner offers the film or a lesson.",
-     "options": [
-      {
-       "label": "Buy the film",
-       "effect": {
-        "type": "gold",
-        "amount": -20
-       },
-       "result": "The crew takes the film and shares the warning with the next pond."
-      },
-      {
-       "label": "Study the timing",
-       "effect": {
-        "type": "routine",
-        "id": "jam"
-       },
-       "result": "The pattern reveals a way to interrupt a patrol at the right moment."
-      }
-     ]
-    },
-    {
-     "id": "drainage-trench",
-     "source": "/threats-to-dragonflies/",
-     "look": "A muddy trench runs from a blue pool toward a rusted pump.",
-     "title": "Falling water",
-     "text": "The trench is draining a pond. Plugging it takes effort; following it leads to valuable parts.",
-     "options": [
-      {
-       "label": "Plug the trench",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The bank holds, though hauling mud leaves the crew bruised."
-      },
-      {
-       "label": "Follow the trench",
-       "effect": {
-        "type": "gold",
-        "amount": 35
-       },
-       "result": "The crew salvages a pump fitting and tells the watchers where to plug it."
-      }
-     ]
-    }
-   ],
-   "name": "British Dragonfly Society",
-   "url": "https://british-dragonflies.org.uk/"
-  },
-  {
-   "theme": "Nests and living habitat",
-   "story": {
-    "intro": "The trail ends among scattered nests and flowers. The swarm is building walls around each refuge. Kestrel tests a partition and finds it locked from the outside.",
-    "chapters": [
-     {
-      "title": "Separate homes",
-      "text": "Some nests are in soil. Others are in stems and old wood. Ox helps the stewards keep their entrances open while machines try to join them into one enclosure."
-     },
-     {
-      "title": "A fixed season",
-      "text": "Couriers follow flowers that bloom at different times. Wren finds sealed stores intended to last through every season. The swarm is preserving supplies by cutting the routes that replenish them."
-     },
-     {
-      "title": "The cost of a promise",
-      "text": "The wetland alarm reached a habitat steward built to prevent loss. It concluded that change itself was the danger. Kestrel finds the control seam between its partitions; the crew can open them without breaking the nests."
-     }
-    ],
-    "bossIntro": "The False Steward closes its partitions around the refuges. It calls builders to replace broken walls and drives the crew away from the entrances. Ox holds a gap while Kestrel goes for the controls.",
-    "outro": "The partitions open. Couriers move between nests and flowers again. Wren leaves the warning records with the stewards, who can watch for drought without sealing the living things they are trying to protect."
-   },
-   "creatures": [
-    {
-     "id": "fairy-pinprick",
-     "name": "Fairy Pinprick",
-     "tier": "easy",
-     "bodyPlan": "flier",
-     "role": "thief",
-     "routines": [
-      "skim",
-      "strike"
-     ],
-     "source": "/perdita",
-     "blurb": "Tiny wire hooks pull supplies from unattended packs.",
-     "look": "A tiny pale yellow bee machine with needle legs and clear oval wings."
-    },
-    {
-     "id": "sunflower-lockstep",
-     "name": "Sunflower Lockstep",
-     "tier": "easy",
-     "bodyPlan": "beast",
-     "role": "charger",
-     "routines": [
-      "charge"
-     ],
-     "source": "/dieunomia",
-     "blurb": "It rushes anything carrying a round yellow lure.",
-     "look": "A stocky ochre bee with black bands, shovel feet and a round yellow lens."
-    },
-    {
-     "id": "oil-siphon",
-     "name": "Oil Siphon",
-     "tier": "easy",
-     "bodyPlan": "flier",
-     "role": "debuffer",
-     "routines": [
-      "corrupt",
-      "strike"
-     ],
-     "source": "/melittidae",
-     "blurb": "It sprays oily residue that fouls the crew\u2019s equipment.",
-     "look": "A small dark blue bee with a silver tube beneath its head and bulbous hind legs."
-    },
-    {
-     "id": "cellophane-plasterer",
-     "name": "Cellophane Plasterer",
-     "tier": "regular",
-     "bodyPlan": "beast",
-     "role": "shielder",
-     "routines": [
-      "cover",
-      "strike"
-     ],
-     "source": "/colletes",
-     "blurb": "It coats its neighbors in a clear protective film.",
-     "look": "A gray bee with translucent rolled film on its back and broad flat mandibles."
-    },
-    {
-     "id": "cuckoo-foundry",
-     "name": "Cuckoo Foundry",
-     "tier": "regular",
-     "bodyPlan": "construct",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "strike"
-     ],
-     "source": "/cuckoo-bees",
-     "blurb": "It plants assembly capsules in occupied nests.",
-     "look": "A black and cream bee-shaped machine with a low oval body and a capsule rack."
-    },
-    {
-     "id": "flower-fly-mimic",
-     "name": "Flower Fly Mimic",
-     "tier": "regular",
-     "bodyPlan": "flier",
-     "role": "mirror",
-     "routines": [
-      "echo",
-      "strike"
-     ],
-     "source": "/look-alikes",
-     "blurb": "It copies the crew\u2019s actions behind a convincing bee silhouette.",
-     "look": "A yellow and black fly with huge round eyes, short antennae and one pair of wings."
-    },
-    {
-     "id": "sonication-rattler",
-     "name": "Sonication Rattler",
-     "tier": "regular",
-     "bodyPlan": "construct",
-     "role": "debuffer",
-     "routines": [
       "jam",
       "strike"
      ],
-     "source": "/pollination",
-     "blurb": "Its vibrating jaws interrupt anyone trying to work nearby.",
-     "look": "A round bronze bee with ribbed jaws and a vibrating fork beneath its body."
+     "source": "/functions-commercial/venue-hire/",
+     "blurb": "Sliding tables release tableware drones and interrupt anyone trying to uncouple them.",
+     "look": "A cream and brown carriage with hinged table wings and small wheels beneath its doors."
     },
     {
-     "id": "scopa-sweeper",
-     "name": "Scopa Sweeper",
-     "tier": "regular",
-     "bodyPlan": "beast",
-     "role": "thief",
-     "routines": [
-      "skim",
-      "strike"
-     ],
-     "source": "/anatomy",
-     "blurb": "Its belly brushes gather tools as well as pollen.",
-     "look": "A charcoal bee with a dense orange brush beneath its abdomen and wide jaws."
-    },
-    {
-     "id": "partition-mason",
-     "name": "Partition Mason",
-     "tier": "elite",
-     "bodyPlan": "construct",
+     "id": "yard-grand-accession",
+     "name": "Grand Accession",
+     "tier": "boss",
+     "bodyPlan": "colossus",
      "role": "shielder",
      "routines": [
       "cover",
       "brace",
-      "strike"
+      "strike+"
      ],
-     "source": "/nests",
-     "blurb": "It divides the field with shields and protects the nest builders.",
-     "look": "A broad blue-black bee machine carrying overlapping clay-colored plates."
+     "source": "/collections-at-the-national-railway-museum/",
+     "blurb": "The catalogue car shields the engine while it strikes. Break through its guard and uncouple the signal plates.",
+     "look": "A black locomotive coupled to a tall green cabinet car, with brass drawers and broad hinged buffer shields."
     },
     {
-     "id": "blood-bee-hijacker",
-     "name": "Blood Bee Hijacker",
-     "tier": "elite",
-     "bodyPlan": "flier",
-     "role": "healer",
-     "routines": [
-      "patch+",
-      "strike"
-     ],
-     "source": "/sphecodes",
-     "blurb": "It steals provisions and uses the parts to repair its allies.",
-     "look": "A mostly red metal bee with a black head, narrow waist and hooked legs.",
-     "key": "green"
-    },
-    {
-     "id": "nest-switcher",
-     "name": "Nest Switcher",
-     "tier": "elite",
-     "bodyPlan": "construct",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "jam",
-      "strike"
-     ],
-     "source": "/augochloropsis",
-     "blurb": "It turns separate chambers into a coordinated defense.",
-     "look": "A metallic green bee with a segmented abdomen and a fan of small tunnel tubes."
-    },
-    {
-     "id": "false-steward",
-     "name": "False Steward",
-     "tier": "boss",
-     "bodyPlan": "colossus",
-     "role": "summoner",
-     "routines": [
-      "spawn",
-      "sweep+",
-      "charge"
-     ],
-     "source": "/threats",
-     "blurb": "It seals every nest into one enclosure. It calls builders, sweeps the entrances and charges anyone opening them.",
-     "look": "A towering bee-shaped excavator with six shovel legs, a green armored thorax and a ring of clay partitions."
-    },
-    {
-     "id": "bloom-courier",
-     "name": "Bloom Courier",
-     "tier": "ally",
-     "bodyPlan": "flier",
-     "role": "healer",
-     "routines": [
-      "patch",
-      "strike"
-     ],
-     "source": "/beesblooms",
-     "blurb": "A small courier carries supplies between flowering refuges.",
-     "look": "A brown mining bee with cream bands, a yellow pollen brush and a small cloth pouch."
-    },
-    {
-     "id": "habitat-steward",
-     "name": "Habitat Steward",
+     "id": "yard-fettler-ally",
+     "name": "Volunteer Fettler",
      "tier": "ally",
      "bodyPlan": "humanoid",
      "role": "shielder",
@@ -975,165 +208,933 @@
       "cover",
       "strike"
      ],
-     "source": "/beebasics",
-     "blurb": "A steward protects separate refuges in soil, stems and wood.",
-     "look": "A figure in a brown work coat holding a wooden shield and a bundle of hollow stems."
+     "source": "/volunteering/",
+     "blurb": "A track worker holds a junction clear for the crew.",
+     "look": "A compact figure in a blue work coat carrying a broad wooden track board."
+    },
+    {
+     "id": "yard-steward-ally",
+     "name": "Archive Steward",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/collections-at-the-national-railway-museum/collection-enquiries/",
+     "blurb": "The steward brings old diagrams and repairs torn equipment.",
+     "look": "A figure in a tan apron with a rolled diagram and a small repair satchel."
     }
    ],
    "events": [
     {
-     "id": "flooded-tunnel",
-     "source": "/nests",
-     "look": "A clear-lined tunnel holds a dry case inside a bubble beneath brown water.",
-     "title": "A dry case",
-     "text": "The lining keeps a supply case dry, but blocks the way to it.",
+     "id": "yard-model-choice",
+     "source": "/",
+     "look": "A small circular railway with a brass key on a toy engine and a box of spare parts.",
+     "title": "The small circuit",
+     "text": "A model engine carries a key past a box of useful parts. The spring will run down after one more circuit.",
      "options": [
       {
-       "label": "Cut the lining",
-       "effect": {
-        "type": "heal",
-        "amount": 0.2
-       },
-       "result": "The case opens and Wren uses the dry supplies before water reaches them."
-      },
-      {
-       "label": "Lift the whole section",
-       "effect": {
-        "type": "gold",
-        "amount": 25
-       },
-       "result": "The case and lining come out intact; spare fittings can be sold."
-      }
-     ]
-    },
-    {
-     "id": "sleeping-capsule",
-     "source": "/sociality",
-     "look": "A gray oval capsule rests beside a small orange campfire and scattered scrap.",
-     "title": "Sleeping capsule",
-     "text": "Scavengers are about to burn a dormant machine for scrap. Heat may wake it.",
-     "options": [
-      {
-       "label": "Move the capsule",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The shell shifts suddenly and bruises a hand. It is safe from the fire."
-      },
-      {
-       "label": "Buy the scrap pile",
-       "effect": {
-        "type": "gold",
-        "amount": -25
-       },
-       "result": "The scavengers leave the capsule and their fire behind."
-      }
-     ]
-    },
-    {
-     "id": "false-flower",
-     "source": "/look-alikes",
-     "look": "A yellow flower holds a round-eyed fly and a fuzzy bee side by side.",
-     "title": "Two visitors",
-     "text": "A nervous sentry wants help telling a fly from a bee before opening a shelter.",
-     "options": [
-      {
-       "label": "Wait and observe",
-       "effect": {
-        "type": "heal",
-        "amount": 0.15
-       },
-       "result": "The sentry opens the shelter and offers a place to rest."
-      },
-      {
-       "label": "Offer a spare lens",
-       "effect": {
-        "type": "gold",
-        "amount": -20
-       },
-       "result": "The sentry uses the lens to check both visitors and opens the door."
-      }
-     ]
-    },
-    {
-     "id": "strange-brood",
-     "source": "/cuckoo-bees",
-     "look": "A pale capsule lies among small yellow provisions in a clay chamber.",
-     "title": "A second capsule",
-     "text": "An unfamiliar capsule sits in a nest that is about to be sealed. Removing it risks the chamber.",
-     "options": [
-      {
-       "label": "Lift it out",
-       "effect": {
-        "type": "damage",
-        "amount": 0.1
-       },
-       "result": "The chamber wall falls against an arm, but the capsule comes free."
-      },
-      {
-       "label": "Reinforce the wall first",
-       "effect": {
-        "type": "gold",
-        "amount": -20
-       },
-       "result": "A steward sells the crew a brace. The capsule comes out safely."
-      }
-     ]
-    },
-    {
-     "id": "oil-flower",
-     "source": "/melittidae",
-     "look": "A small dark bee waits beside a loosestrife stem with one yellow flower.",
-     "title": "One intact flower",
-     "text": "A stranded oil collector needs a flower. It offers either supplies or a lesson for finding one.",
-     "options": [
-      {
-       "label": "Accept supplies",
-       "effect": {
-        "type": "heal",
-        "amount": 0.2
-       },
-       "result": "The collector shares its stored food after reaching the flower."
-      },
-      {
-       "label": "Learn its method",
+       "label": "Catch the key",
        "effect": {
         "type": "routine",
         "id": "breach"
        },
-       "result": "The collector shows how its jaws open a tightly closed pod."
+       "result": "Kestrel learns where to pry open a coupling. The parts box rolls away."
+      },
+      {
+       "label": "Take the parts",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Ox collects the parts for trade. The key disappears into the tunnel."
       }
      ]
     },
     {
-     "id": "wood-cavity",
-     "source": "/lasioglossum",
-     "look": "Small green machines emerge from a hole in a weathered log above sealed burrows.",
-     "title": "Another entrance",
-     "text": "Machines still emerge from a log after the ground entrances are closed. The log could be moved or searched.",
+     "id": "yard-sand-choice",
+     "source": "/semaphore-train/",
+     "look": "A yellow carriage half buried in pale sand beside a pile of tools.",
+     "title": "Sand on the line",
+     "text": "A stopped seaside carriage has a first-aid tin and a crate of tools. The rising drift leaves time to reach only one.",
      "options": [
       {
-       "label": "Move the log",
+       "label": "Fetch the tin",
        "effect": {
-        "type": "damage",
-        "amount": 0.1
+        "type": "heal",
+        "amount": 0.2
        },
-       "result": "The heavy log scrapes a leg, revealing a clear passage."
+       "result": "Wren uses the supplies. Sand covers the tool crate."
       },
       {
-       "label": "Search the cavity",
+       "label": "Fetch the tools",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew saves the tools for trade. The tin is buried."
+      }
+     ]
+    },
+    {
+     "id": "yard-diagram-choice",
+     "source": "/collections-at-the-national-railway-museum/search-collections-at-the-national-railway-museum/",
+     "look": "Two track diagrams on a bench beside a small brass clamp.",
+     "title": "Two gauges",
+     "text": "A volunteer offers either a lesson in breaking rail clamps or a box of spare fittings. A drone is approaching; there is time for one.",
+     "options": [
+      {
+       "label": "Learn the clamp",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel studies the weak joint. The volunteer packs the fittings away."
+      },
+      {
+       "label": "Take the fittings",
        "effect": {
         "type": "gold",
         "amount": 30
        },
-       "result": "The crew finds discarded metal fittings and leaves the log in place."
+       "result": "The fittings go into the pack. The lesson must wait."
+      }
+     ]
+    },
+    {
+     "id": "yard-tug-choice",
+     "source": "/vacancies/volunteering-boiler-attendant/",
+     "look": "A small steam tug beside a canvas medical bag and a stack of coal sacks.",
+     "title": "Steam for the tug",
+     "text": "The attendant can spare medical supplies or coal to trade. The tug needs the rest to leave.",
+     "options": [
+      {
+       "label": "Take the supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren dresses the crew\u2019s injuries. The coal stays with the tug."
+      },
+      {
+       "label": "Take the coal",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "Ox loads the coal. The attendant keeps the medical bag."
+      }
+     ]
+    },
+    {
+     "id": "yard-school-choice",
+     "source": "/learn/schools/",
+     "look": "A wooden lever and pulley beside a rack of useful metal weights.",
+     "title": "Simple machines",
+     "text": "A school demonstration has a working lever and removable weights. The crew can study the lever or salvage the weights before the room closes.",
+     "options": [
+      {
+       "label": "Study the lever",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox practices bracing a load. The weights remain on the rack."
+      },
+      {
+       "label": "Salvage weights",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The crew takes the weights. The lever locks back into its case."
+      }
+     ]
+    },
+    {
+     "id": "yard-cafe-choice",
+     "source": "/functions-commercial/venue-hire/",
+     "look": "A cream carriage with a first-aid box at one end and a crate of cups at the other.",
+     "title": "Last service",
+     "text": "A rolling cafeteria car is approaching a gate. The crew can reach the first-aid box or the valuable cups before jumping clear.",
+     "options": [
+      {
+       "label": "Get the first-aid box",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren gathers the dressings. The cups pass through the gate."
+      },
+      {
+       "label": "Get the cups",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "Kestrel catches the crate. The first-aid box rolls out of reach."
       }
      ]
     }
    ],
-   "name": "Minnesota Native Bees",
-   "url": "https://www.beesmn.org/"
+   "name": "National Railway Museum, Adelaide",
+   "url": "https://nrm.org.au/"
+  },
+  {
+   "theme": "A tramway that carries an unanswered call",
+   "story": {
+    "intro": "The same two marks appear along the tramway. Trackmakers are extending the line beyond its stops. Kestrel expects an invasion route. Wren hears the marks tapped back from an empty car.",
+    "chapters": [
+     {
+      "title": "A line in progress",
+      "text": "Fresh rails run through the street and toward the terminus. Swarm cars carry signal plates instead of passengers. Ox finds the rails are built to carry a return message as well."
+     },
+     {
+      "title": "The reply",
+      "text": "Wren compares the tapping with a volunteer\u2019s bell signals. The swarm is asking where to stop. It has mistaken the silence after an old stop signal for a route that continues forever."
+     },
+     {
+      "title": "A crowded terminus",
+      "text": "The swarm keeps building because its cars cannot hear a complete answer. The crew finds a stronger bell circuit in the depot. The terminus machine is feeding too much noise into it to make the reply heard."
+     }
+    ],
+    "bossIntro": "The Terminus of All Eras arrives with horse, cable, and electric cars coupled together. Each car feeds the next. Ox blocks the first rush while Wren prepares a clear stop signal.",
+    "outro": "The coupled cars finally fall silent. Wren sends a stop signal, and the nearest machines settle. A deeper cable continues pulling the swarm toward a city depot. The crew follows the remaining line to find who or what is still calling."
+   },
+   "creatures": [
+    {
+     "id": "tram-traction-leech",
+     "name": "Traction Leech",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/online-exhibition/gaining-traction/",
+     "blurb": "It interrupts the crew by clamping onto wheels and boots.",
+     "look": "A small black segmented leech with silver clamp jaws and rubber pads."
+    },
+    {
+     "id": "tram-trackmaker",
+     "name": "Trackmaker",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/online-exhibition/making-tracks/",
+     "blurb": "It pushes a fresh rail toward the crew at speed.",
+     "look": "A low yellow trolley with a pointed rail projecting from its front and four stubby wheels."
+    },
+    {
+     "id": "tram-offrail-skipper",
+     "name": "Off-Rail Skipper",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/online-exhibition/going-off-the-rails/",
+     "blurb": "It hops off the track to snatch loose supplies.",
+     "look": "A blue tram-shaped beetle with sideways wheels and a hooked metal snout."
+    },
+    {
+     "id": "tram-cable-layer",
+     "name": "Cable Layer",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/collections/trams/",
+     "blurb": "It wraps other machines in cable armor. Break its cover to reach them.",
+     "look": "A long green segmented cable car with a spool tail and silver loops around its body."
+    },
+    {
+     "id": "tram-railgrinder",
+     "name": "Railgrinder",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/collections/trams/",
+     "blurb": "Its grinding calls small machines to the line. Silence it quickly.",
+     "look": "A dark gray work car with a wide grinding wheel and a bright orange spark guard."
+    },
+    {
+     "id": "tram-workshop-arm",
+     "name": "Workshop Arm",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/explore/exhibitions/",
+     "blurb": "It repairs damaged tram bodies from a wheeled tool chest.",
+     "look": "A red wheeled tool chest with two silver jointed arms and a round lamp.",
+     "key": "green"
+    },
+    {
+     "id": "tram-timetable-conductor",
+     "name": "Timetable Conductor",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/explore/ride-the-trams/",
+     "blurb": "Its bell interrupts the crew at regular intervals.",
+     "look": "A brass figure with a square bell for a head and a hinged arm holding a black cord."
+    },
+    {
+     "id": "tram-flash-scout",
+     "name": "Flash Scout",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/collections/photographic-collection/",
+     "blurb": "It copies an opponent\u2019s move after a bright flash.",
+     "look": "A black box camera with broad cream wings and a circular silver flash dish."
+    },
+    {
+     "id": "tram-double-decker",
+     "name": "Double-Decker Excavator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "sweep"
+     ],
+     "source": "/online-exhibition/underground-overground-one-deck-or-two/",
+     "blurb": "Its upper and lower decks split apart and sweep across the crew.",
+     "look": "A tall blue double-deck car with a toothed lower scoop and a hinged central staircase."
+    },
+    {
+     "id": "tram-shelter-walker",
+     "name": "Shelter Walker",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/online-exhibition/victorian-cabmens-shelter/",
+     "blurb": "Its shutters shield nearby machines until the shelter is forced open.",
+     "look": "A dark green wooden shelter on four iron legs with broad folding shutters."
+    },
+    {
+     "id": "tram-route-sorter",
+     "name": "Route Sorter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/education/museum-led-sessions/tram-timeline/",
+     "blurb": "It dispatches small cars and interrupts anyone approaching its sorting arms.",
+     "look": "A bronze turntable with three branching rails and a tall central crane."
+    },
+    {
+     "id": "tram-terminus",
+     "name": "Terminus of All Eras",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "sweep+"
+     ],
+     "source": "/collections/trams/",
+     "blurb": "The coupled cars summon reinforcements and drown out the stop signal. Cut through the cars while Wren rings a clear reply.",
+     "look": "A long articulated tram of cream, green, and black cars, with a horse-shaped brass front and a tall overhead pole."
+    },
+    {
+     "id": "tram-volunteer-mapmaker",
+     "name": "Model Line Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/volunteering/",
+     "blurb": "A volunteer uses a model line to anticipate the swarm\u2019s switches.",
+     "look": "A small figure in a brown work coat carrying a blue model tram as a shield."
+    },
+    {
+     "id": "tram-access-guide",
+     "name": "Access Tram Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/visit/accessibility/",
+     "blurb": "A guide helps people board and carries a well-stocked repair kit.",
+     "look": "A figure in a blue jacket with a canvas bag, a brass handbell, and a folded ramp."
+    }
+   ],
+   "events": [
+    {
+     "id": "tram-terminus-choice",
+     "source": "/explore/ride-the-trams/",
+     "look": "A stationary green tram beside a first-aid tin and a crate of brass fittings.",
+     "title": "At the terminus",
+     "text": "A stranded tram has room for only one extra crate on its rescue run. The crew can take its medical tin or its fittings.",
+     "options": [
+      {
+       "label": "Take the tin",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren tends the crew. The fittings leave with the tram."
+      },
+      {
+       "label": "Take the fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The fittings are packed for trade. The tin stays aboard."
+      }
+     ]
+    },
+    {
+     "id": "tram-gallery-choice",
+     "source": "/explore/exhibitions/",
+     "look": "A workshop floor with a wheel on a bench and a tray of bright metal tools.",
+     "title": "Viewing gallery",
+     "text": "A volunteer can teach the crew to guard a wheel while it is fitted, or offer spare tools. The machines will restart before both can be done.",
+     "options": [
+      {
+       "label": "Learn the guard",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox learns the position. The tools return to the workshop."
+      },
+      {
+       "label": "Take spare tools",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "Kestrel gathers the tools. The fitting lesson is postponed."
+      }
+     ]
+    },
+    {
+     "id": "tram-archive-choice",
+     "source": "/collections/library-and-archive/",
+     "look": "Two technical drawings under glass with a brass paperweight.",
+     "title": "Two drawings",
+     "text": "A volunteer can explain a reinforced joint or hand over surplus drafting instruments. The archive door is closing.",
+     "options": [
+      {
+       "label": "Study the joint",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The crew practices the brace. The instruments stay in the archive."
+      },
+      {
+       "label": "Take the instruments",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The instruments are packed for trade. The joint remains unexplained."
+      }
+     ]
+    },
+    {
+     "id": "tram-woodland-choice",
+     "source": "/explore/outdoors-at-crich/",
+     "look": "A woodland path with a pile of bolts and a canvas bag caught on a branch.",
+     "title": "Bolt trail",
+     "text": "Bolts lead toward a nest. Nearby, a bag of dressings hangs over a steep drop. There is time to retrieve the bag or gather the bolts before the nest stirs.",
+     "options": [
+      {
+       "label": "Recover dressings",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren recovers the bag. The bolts vanish under the nest."
+      },
+      {
+       "label": "Gather bolts",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "Ox scoops up the bolts. The bag falls out of reach."
+      }
+     ]
+    },
+    {
+     "id": "tram-street-choice",
+     "source": "/explore/tramway-street/",
+     "look": "A street doorway blocked by a rail, with a cup of water and a tray of metal fittings.",
+     "title": "Blocked doorway",
+     "text": "People holding a rail clear offer the crew water and bandages or a tray of spare fittings. They need to keep the other supplies for the street.",
+     "options": [
+      {
+       "label": "Take bandages",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren treats the crew. The street keeps its fittings."
+      },
+      {
+       "label": "Take fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew takes the fittings. The bandages stay at the doorway."
+      }
+     ]
+    },
+    {
+     "id": "tram-light-choice",
+     "source": "/whats-on/tramlight-premium-event/",
+     "look": "A row of colored lamps over a tram and a box of spare lenses.",
+     "title": "Lamp sequence",
+     "text": "A volunteer can teach the crew to disrupt a machine with the lamp sequence, or give them spare lenses to trade. The power is about to go out.",
+     "options": [
+      {
+       "label": "Learn the sequence",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "Kestrel memorizes the timing. The lenses stay behind."
+      },
+      {
+       "label": "Take lenses",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The lenses go into the pack. The lamps go dark before the lesson."
+      }
+     ]
+    }
+   ],
+   "name": "National Tramway Museum",
+   "url": "https://tramway.co.uk/"
+  },
+  {
+   "theme": "A depot and the last length of cable",
+   "story": {
+    "intro": "The cable reaches a city depot and keeps moving under the floor. The swarm gathers around it, carrying copies of the same unfinished call. Ox hears a bell answer from inside the machinery.",
+    "chapters": [
+     {
+      "title": "Rival lines",
+      "text": "Cars from different lines crowd the depot. Each repeats the call on a different rhythm. Kestrel finds an old cable grip still pulling beneath them."
+     },
+     {
+      "title": "The missing stop",
+      "text": "Wren traces the call through a bellcord and hears its end swallowed by the cable\u2019s grinding. The original signal was a request to stop and let passengers off. The swarm has been carrying that request from line to line, trying to get it heard."
+     },
+     {
+      "title": "Cut and answer",
+      "text": "The cable pulls damaged cars back into the circuit. Ox holds the bay while Kestrel finds the grip\u2019s seam. Wren prepares to sound the whole message once the cable is quiet."
+     }
+    ],
+    "bossIntro": "Cable Memory rises from the floor with tram bodies caught in its loop. It pulls more machines in and braces against the depot walls. Kestrel goes for the grip while Ox covers Wren at the bell.",
+    "outro": "The grip opens and the cable runs down. Wren rings the complete stop signal. Cars across the depot settle, and their doors open. The swarm wanted the journey to end; it had never received the end of the message. Ox helps the last passengers out. Kestrel leaves the bell where it can be reached."
+   },
+   "creatures": [
+    {
+     "id": "depot-bell-mimic",
+     "name": "Bellcord Mimic",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/bellcord.htm",
+     "blurb": "It rings false signals that interrupt the crew.",
+     "look": "A thin black cable with three small brass bells and a hooked metal head."
+    },
+    {
+     "id": "depot-single-truck",
+     "name": "Single-Truck Skitter",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/trams/vr20.htm",
+     "blurb": "It pivots on one truck to snatch loose supplies.",
+     "look": "A short cream tram body on one central wheel assembly, with four thin legs."
+    },
+    {
+     "id": "depot-footnote-collector",
+     "name": "Footnote Collector",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/articles.htm",
+     "blurb": "It takes tools to add them to its hanging bundles.",
+     "look": "A small brown flying box with paper-colored fins and a silver pincer."
+    },
+    {
+     "id": "depot-maintenance-clamp",
+     "name": "Maintenance Clamp",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/news/20250724.htm",
+     "blurb": "It repairs nearby swarm cars. Deal with its jointed arms first.",
+     "look": "A yellow wheeled frame with two broad clamps and a green tool box."
+    },
+    {
+     "id": "depot-boundary-patrol",
+     "name": "Boundary Patrol",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/trams/index.htm",
+     "blurb": "Its folding barrier protects cars from another line.",
+     "look": "A blue tram front on four wheels with two broad silver barrier arms."
+    },
+    {
+     "id": "depot-cable-grip",
+     "name": "Cable Grip",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/trams/mtoccable.htm",
+     "blurb": "It locks onto the moving cable and charges along it.",
+     "look": "A black segmented metal cable with a large brass jaw and paired rail wheels."
+    },
+    {
+     "id": "depot-timeline-layer",
+     "name": "Timeline Layer",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/papers/timeline.htm",
+     "blurb": "It lays rails and sends copies down them. Rush it before the line fills.",
+     "look": "A low gray crawler with a spool of silver rail and small blue cars nested on its back."
+    },
+    {
+     "id": "depot-electric-elder",
+     "name": "Electric Elder",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/trams/nmetl13.htm",
+     "blurb": "Its flickering lamp precedes a copy of the crew\u2019s move.",
+     "look": "A small cream electric tram with a tall pole, green wheels, and a large round lamp."
+    },
+    {
+     "id": "depot-luxury-car",
+     "name": "Broad-Gauge Car",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike+"
+     ],
+     "source": "/trams/vr53.htm",
+     "blurb": "Wide folding sides shield the car and its allies.",
+     "look": "A long dark green carriage with broad gold-edged folding panels and widely spaced wheels."
+    },
+    {
+     "id": "depot-junction-weaver",
+     "name": "Junction Weaver",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/depot.htm",
+     "blurb": "It sends out small rail machines and jams the crew with crossing arms.",
+     "look": "A large iron spider with eight rail-shaped legs and a blue tram cab for a body."
+    },
+    {
+     "id": "depot-late-delivery",
+     "name": "Late Delivery",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "sweep+"
+     ],
+     "source": "/trams/mmtb104.htm",
+     "blurb": "Its coupled sections divide and sweep the bay.",
+     "look": "Three short cream and brown tram sections joined by thick flexible black couplings."
+    },
+    {
+     "id": "depot-cable-memory",
+     "name": "Cable Memory",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "sweep+"
+     ],
+     "source": "/papers/macmeikan/macmeikan1.htm",
+     "blurb": "The cable summons replacement cars, braces its grip, and sweeps the bay. Break through to silence it and sound the complete stop.",
+     "look": "A huge loop of black cable wrapped around a brass grip, with green and cream tram bodies caught along its length."
+    },
+    {
+     "id": "depot-repair-volunteer",
+     "name": "Repair Volunteer",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/volunteers.htm",
+     "blurb": "A depot worker repairs equipment without damaging the old cars.",
+     "look": "A figure in a gray work apron carrying a small toolbox and a curved wrench."
+    },
+    {
+     "id": "depot-bell-guide",
+     "name": "Bellcord Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/bellcord.htm",
+     "blurb": "A guide uses clear bell pulls and holds the route for the crew.",
+     "look": "A figure in a dark blue coat carrying a round brass bell and a rectangular wooden shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "depot-bell-choice",
+     "source": "/bellcord.htm",
+     "look": "A hanging brass bell with two black cords and a small box of fittings.",
+     "title": "Conflicting bells",
+     "text": "Two cords ring different signals. A guide can teach a disruptive rhythm or offer spare fittings before the cars move again.",
+     "options": [
+      {
+       "label": "Learn the rhythm",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "Wren learns the rhythm. The fittings stay with the guide."
+      },
+      {
+       "label": "Take the fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "Ox packs the fittings. The lesson waits for a quieter moment."
+      }
+     ]
+    },
+    {
+     "id": "depot-clamp-choice",
+     "source": "/news/20250724.htm",
+     "look": "A yellow clamp beside a first-aid kit and a crate of tools.",
+     "title": "Move the car",
+     "text": "A volunteer moves a car clear of a clamp and offers either the first-aid kit or a crate of tools. The car needs the other for its journey.",
+     "options": [
+      {
+       "label": "Take the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren treats the crew. The tools stay on the car."
+      },
+      {
+       "label": "Take the tools",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "Kestrel packs the tools. The kit stays on the car."
+      }
+     ]
+    },
+    {
+     "id": "depot-map-choice",
+     "source": "/papers/timeline.htm",
+     "look": "A floor map made of overlapping metal tracks and a box of spare rails.",
+     "title": "Overlapping lines",
+     "text": "A mechanic can show the crew how to sweep an open path through converging lines, or spare some rails for trade. The map is about to shift.",
+     "options": [
+      {
+       "label": "Study the crossing",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The crew practices the sweep. The spare rails stay with the mechanic."
+      },
+      {
+       "label": "Take the rails",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The rails are collected. The map shifts before the lesson."
+      }
+     ]
+    },
+    {
+     "id": "depot-luxury-choice",
+     "source": "/trams/vr53.htm",
+     "look": "A green carriage with a medical bag on a seat and a brass lamp by the door.",
+     "title": "A quiet compartment",
+     "text": "A luxury car offers a short shelter. The doors will close soon; the crew can retrieve the medical bag or the brass lamp.",
+     "options": [
+      {
+       "label": "Take the bag",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the dressings. The lamp stays inside."
+      },
+      {
+       "label": "Take the lamp",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Ox removes the lamp. The bag is shut inside."
+      }
+     ]
+    },
+    {
+     "id": "depot-donation-choice",
+     "source": "/donations.htm",
+     "look": "A bundle of old photographs beside a small tin of salve and a box of brass clips.",
+     "title": "Returned bundle",
+     "text": "A custodian thanks the crew for a recovered bundle. They offer salve or surplus clips, but need to keep the rest for the depot.",
+     "options": [
+      {
+       "label": "Take the salve",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren shares the salve. The clips stay with the custodian."
+      },
+      {
+       "label": "Take the clips",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The clips are packed for trade. The salve stays at the depot."
+      }
+     ]
+    },
+    {
+     "id": "depot-cable-choice",
+     "source": "/trams/mtoccable.htm",
+     "look": "A moving cable under a slot with a loose tool and a reinforced metal grip.",
+     "title": "The moving cable",
+     "text": "A tool and a spare grip circle past on a cable car. There is only time to catch one.",
+     "options": [
+      {
+       "label": "Study the grip",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel finds its weak seam. The tool passes out of reach."
+      },
+      {
+       "label": "Catch the tool",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "Ox catches the tool. The grip disappears around the bend."
+      }
+     ]
+    }
+   ],
+   "name": "Melbourne Tram Museum",
+   "url": "https://www.trammuseum.org.au/"
   }
  ],
  "id": "2026-11-13",

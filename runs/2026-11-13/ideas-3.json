@@ -1,251 +1,206 @@
 {
-  "reading": "Minnesota Native Bees is an illustrated digital field guide and conservation education project devoted to the diversity, natural history, identification, and habitat stewardship of Minnesota's native bees. It invites observation, research, and participatory science, and gives practical guidance on flowers, nesting sites, and threats. Its vocabulary moves easily between familiar names (mining, sweat, cellophane, cuckoo and fairy bees) and precise terms such as phenology, scopae, cleptoparasitism, oligolegy, genera and plant associations. Unlike a generic honey-bee site, it distinguishes native bees from the managed, non-native honey bee; treats solitary and parasitic lifestyles as part of bee diversity; and connects individual genera and species to their nesting materials, flowering plants, seasons, distribution and conservation status. Bees & Blooms pairs particular bees and plants across habitats and months, while identification guides compare subtle anatomy and look-alikes. The crawl is a partial field guide: some excerpts end mid-sentence, and linked species pages are not necessarily included as crawled pages.",
+  "reading": "The Melbourne Tram Museum is a volunteer-run, nonprofit keeper of Melbourne and Victorian tramway heritage, based at the historic Hawthorn depot. It preserves and presents actual tramcars, documents and memorabilia, while connecting technology and architecture to the social history of the people who built, operated and rode the network. Its voice is precise and enthusiastically archival: tramway trusts, operators, classes and car numbers, cable and electric traction, depot, broad gauge, technical details, bibliography and footnotes recur alongside open days, donations and The Bellcord. Its particular character comes from Melbourne’s unusually many independent operators, the long history of cable trams, individual vehicles with distinct careers, and a working community of volunteers sharing knowledge and making the collection accessible.",
   "enemies": [
     {
-      "idea": "Dichotomous Keykeeper: a microscope-headed automaton makes every visitor choose between paired anatomical traits, then clamps them into a taxonomic drawer when neither answer fits.",
-      "source": "/identification",
-      "why": "Its branching questions are a navigable puzzle; false certainty is more dangerous than the pincers."
+      "idea": "Cable Grip: a scavenger car clamps onto a moving underground cable and drags loose machinery into its train; severing its grip sends it coasting helplessly.",
+      "source": "/trams/mtoccable.htm",
+      "why": "A moving tether is both its strength and a visible tactical weakness."
     },
     {
-      "idea": "Cuckoo Foundry: a stealth drone plants its assembly capsule in another machine nest, where the unwitting host provisions and builds a replacement invader.",
-      "source": "/cuckoo-bees",
-      "why": "The crew can discover a threat by watching who delivers supplies to whom."
+      "idea": "The 1916 Homecomer: No 8 has learned the depot as its home and forcibly returns anything that leaves, laying temporary rails ahead of itself.",
+      "source": "/trams/htt8.htm",
+      "why": "Its territorial pursuit turns the depot threshold into a puzzle."
     },
     {
-      "idea": "Sunflower Lockstep: Dieunomia-inspired burrowers recognize only sunflower pollen, so they plate every yellow circular object in a pollen-like dust and drag it underground.",
-      "source": "/dieunomia",
-      "why": "A narrow specialist can be lured or confused with a convincing decoy."
+      "idea": "Single-Truck Skitter: a reproduction of No 20 balances on one truck and pivots unpredictably, scooping up passengers it cannot carry stably.",
+      "source": "/trams/vr20.htm",
+      "why": "Its failed passenger design becomes a comically dangerous movement pattern."
     },
     {
-      "idea": "Loosestrife Oil Siphon: a Macropis-shaped machine strips flower oil to lubricate its joints, leaving a slick trail and refusing other fuel.",
-      "source": "/melittidae",
-      "why": "Its specific fuel source creates both a trail and a bargaining or diversion opportunity."
+      "idea": "Broad-Gauge Luxury Car: an opulent hunter spreads its rails wider as it advances, trapping anyone between the tracks in a first-class compartment.",
+      "source": "/trams/vr53.htm",
+      "why": "Comfort is the bait, and the unusual gauge reshapes the battlefield."
     },
     {
-      "idea": "Cellophane Plasterer: a ground-boring drone waterproofs tunnels with transparent film, sealing doors and equipment into perfectly visible bubbles.",
-      "source": "/colletes",
-      "why": "The crew can see through the trap while figuring out how to puncture or peel it."
+      "idea": "The Late Delivery: a six-car order arrives piecemeal; each segment claims allegiance to a different authority and attacks anything that tries to unite them.",
+      "source": "/trams/mmtb104.htm",
+      "why": "The change of operator during construction becomes a quarrelsome modular enemy."
     },
     {
-      "idea": "Cellophane Cuckoo: an Epeolus-style infiltrator follows plasterer tunnels and inserts a counterfeit capsule into each lined chamber.",
-      "source": "/epeolus",
-      "why": "Two swarm types interfere with each other, giving observant crews an opening."
+      "idea": "Fleet Age Assessor: a PCC-shaped machine measures the age of every object nearby and dismantles anything it judges too old for service.",
+      "source": "/trams/mmtb1041.htm",
+      "why": "Old tools and heritage vehicles become targets, inviting clever decoys."
     },
     {
-      "idea": "Flower-Fly Masquerader: a mimic changes between bee, fly and wasp silhouettes; its patrol ignores anyone who copies the current pose.",
-      "source": "/look-alikes",
-      "why": "The mimic quiz becomes a tense game of observation and disguise."
+      "idea": "Electric Elder: a replica of the oldest surviving electric tram hunts by flickering lights, briefly going blind whenever the crew cuts its illumination.",
+      "source": "/trams/nmetl13.htm",
+      "why": "Light doubles as warning signal and vulnerability."
     },
     {
-      "idea": "Sonication Rattler: a buzz-pollination machine vibrates flowers, fasteners and armor until their contents shake loose.",
-      "source": "/pollination",
-      "why": "The same vibration that disarms a crew can be redirected to shake open a locked cache."
+      "idea": "Trust Boundary Patrols: rival independent-operator machines paint competing jurisdictions on the floor and fight anyone crossing their borders without a transfer.",
+      "source": "/trams/index.htm",
+      "why": "Melbourne’s many operators create a shifting territory game."
     },
     {
-      "idea": "Scent-Marking Territorialist: a patrol sprays volatile markers onto plants and attacks anyone crossing its invisible scent boundaries.",
-      "source": "/behaviors",
-      "why": "Wind and scent give the crew a way to redraw its territory."
+      "idea": "The Footnote Collector: an archival drone refuses to let a person pass until it has attached a citation to every object they carry; missing provenance triggers confiscation.",
+      "source": "/articles.htm",
+      "why": "A scholarly habit becomes an absurd negotiation under pressure."
     },
     {
-      "idea": "Nectar Concentrator: a machine repeatedly processes any liquid it finds into sticky droplets, immobilizing wheels and tools in glossy threads.",
-      "source": "/behaviors",
-      "why": "A routine feeding behavior becomes a messy terrain hazard with useful adhesive left behind."
+      "idea": "The Memorabilia Moth: a swarm stitches tickets, uniforms and photographs into a convincing conductor disguise, then steals more keepsakes to repair itself.",
+      "source": "/donations.htm",
+      "why": "Its changing costume provides clues to its past thefts."
     },
     {
-      "idea": "Partition Mason: a cavity-nesting builder divides a corridor into individual brood cells with scavenged partitions, trapping each traveler in a separate compartment.",
-      "source": "/nests",
-      "why": "Breaking through in the right order reunites the party; smashing blindly may collapse the route."
+      "idea": "Bellcord Mimic: a cable of tiny machines rings false stop and go signals, turning other tram constructs against one another.",
+      "source": "/bellcord.htm",
+      "why": "The conductor-driver communication system becomes a sound-based hazard."
     },
     {
-      "idea": "Scopa Sweeper: a leafcutter-shaped machine combs loose material into abdominal brushes, collecting keys, maps and metal shavings along with pollen.",
-      "source": "/anatomy",
-      "why": "Its underside is a moving lost-and-found that rewards a risky approach."
+      "idea": "Timeline Layer: a rail-laying machine keeps rebuilding the network as an animated sequence, replacing the path underfoot with a different era’s route.",
+      "source": "/papers/timeline.htm",
+      "why": "The crew can time a crossing as old and new routes overlap."
     },
     {
-      "idea": "Blood-Bee Hijacker: a Sphecodes-inspired infiltrator shadows sweat-bee machines and steals their stored provisions, then uses the stolen parts to repair itself.",
-      "source": "/sphecodes",
-      "why": "Following its thefts reveals both supply routes and the rival nest."
+      "idea": "Maintenance Clamp: a repair automaton diagnoses all movement as wear and pins travellers down for endless remedial work.",
+      "source": "/news/20250724.htm",
+      "why": "Its genuinely useful tools can be redirected toward a damaged ally."
     },
     {
-      "idea": "Squash Gatekeeper: a Xenoglossa-inspired solitary burrower accepts only pumpkin or squash pollen as proof of passage, and excavates under anyone carrying the wrong offering.",
-      "source": "/xenoglossa",
-      "why": "A very specific plant association becomes a solvable checkpoint."
+      "idea": "Sunday Timetabler: a patrol obsessed with the historical argument over Sunday morning service alternates between forcing everyone aboard and stopping all movement.",
+      "source": "/papers/sundaytrams.htm",
+      "why": "A historical scheduling dispute produces two readable combat phases."
     },
     {
-      "idea": "Fairy-Bee Pinprick: tiny Perdita-inspired machines emerge when their host flowers bloom, stitching packs shut with almost invisible wire.",
-      "source": "/perdita",
-      "why": "The small scale invites close inspection and makes a field of flowers a stealth encounter."
+      "idea": "Depot Junction Weaver: a building-sized spider extends rails from the historic Power Street and Wallen Road junction, drawing intruders into separate bays.",
+      "source": "/depot.htm",
+      "why": "The architecture itself divides the crew and offers routes for a reunion."
     },
     {
-      "idea": "Green Nest Switcher: an Augochloropsis-inspired unit can reorganize its ground nest from solitary chambers into a communal or semisocial defense when disturbed.",
-      "source": "/augochloropsis",
-      "why": "Its tactics change with the nest layout, so separating entrances can disrupt coordination."
+      "idea": "Open-Day Usher: a schedule machine opens a safe passage only on its warped second-and-fourth-Saturday cycle, then attempts to file late arrivals as exhibits.",
+      "source": "/visitors.htm",
+      "why": "Its clockwork rule can be predicted or tricked."
     },
     {
-      "idea": "Bumble Usurper: a social-parasite machine occupies an active bumble-machine nest and sends its workers to retrieve components for its own brood.",
-      "source": "/bombus",
-      "why": "The workers are potential allies if the crew exposes the usurper."
+      "idea": "Midnight Flyer: a swarm-built storybook tram leaps above the rails at night and casts miniature tram shadows that try to tow away unattended supplies.",
+      "source": "/shop/index.htm",
+      "why": "A whimsical flying vehicle creates a chase with moving shadows."
     },
     {
-      "idea": "Triangulin Hitchhiker: a wedge-beetle-inspired microbot catches a ride on a passing vehicle and drops off inside its destination to map the shelter.",
-      "source": "/natural-enemies",
-      "why": "Inspection and a clever decoy vehicle can turn the hidden passenger into a lead."
-    },
-    {
-      "idea": "Seasonal Prepupa: an armored capsule lies dormant through winter and unfolds into a different machine stage when warmed.",
-      "source": "/sociality",
-      "why": "Heat is both a tool for bypassing the capsule and the trigger that wakes it."
-    },
-    {
-      "idea": "Eighty-Four Variants: Lasioglossum-inspired scouts arrive in a crowd of subtly different models; a few hide in existing wood cavities while most tunnel beneath the ground.",
-      "source": "/lasioglossum",
-      "why": "Searching only the obvious burrows misses the ambush in the wood."
-    },
-    {
-      "idea": "Classification Bailiff: an automaton recites the ranks from order to clade and tries to force anything it encounters into the bee branch by attaching false antennae and wings.",
-      "source": "/what-is-a-bee",
-      "why": "Its absurdly precise categories create a disguise puzzle and a clear hierarchy to sabotage."
-    },
-    {
-      "idea": "Pollen Basket Collector: a drone packs its leg baskets with supplies meant for a safe garden, delivering them to a swarm nursery instead.",
-      "source": "/diet",
-      "why": "Tracking the oversized baskets leads to the stolen stores and their destination."
-    },
-    {
-      "idea": "Rare-Record Echo: a Nomia-inspired machine endlessly recreates the single recorded sighting as moving decoys, concealing its real body among duplicates.",
-      "source": "/nomia",
-      "why": "The crew must look for a physical trace instead of trusting the sighting alone."
-    },
-    {
-      "idea": "Spring Mining Drill: an Andrena-inspired excavator surfaces in the spring and leaves a maze of spoil heaps, only some of which conceal active shafts.",
-      "source": "/andrena",
-      "why": "The many entrances support a tactical search rather than a single obvious fight."
+      "idea": "Family History Indexer: a machine matches travellers to invented tramway employment records and assigns them compulsory shifts in the depot.",
+      "source": "/familyhistory.htm",
+      "why": "False identities can be exploited to get into restricted areas."
     }
   ],
   "allies": [
     {
-      "idea": "Bloom Relay: a network of surviving plant-tenders uses the guide’s April-to-September pairings to keep a sequence of real flowers available and signal safe passages.",
-      "source": "/beesblooms",
-      "why": "Protecting one bloom helps the next relay point stay connected."
+      "idea": "Volunteer repair circle: unpaid custodians know which damaged cars can still roll and can teach a crew to uncouple swarm parts without wrecking the originals.",
+      "source": "/volunteers.htm",
+      "why": "Their practical knowledge rewards cooperation and protects the collection."
     },
     {
-      "idea": "Patient Observer: a field scout identifies tiny machines by waiting, watching their behavior and taking multiple close views, then shares routes around patrols.",
-      "source": "/observation",
-      "why": "Careful observation provides an alternative to fighting every look-alike."
+      "idea": "The Bellcord Line: surviving conductors use an agreed series of bell pulls to coordinate safe movement through noisy depot bays.",
+      "source": "/bellcord.htm",
+      "why": "Players can learn and use a compact communication code."
     },
     {
-      "idea": "Habitat Stewards: a small cooperative maintains bare ground, stems and wood as separate refuges, and can hide a crew in whichever nest substrate the swarm overlooks.",
-      "source": "/beebasics",
-      "why": "Distinct refuge types give the crew meaningful choices about where to shelter."
+      "idea": "The Audio Describer: a guide gives precise spoken descriptions of changing track layouts and hazards to anyone navigating the dark.",
+      "source": "/visitors.htm",
+      "why": "A real access practice becomes a valuable shared navigation aid."
     },
     {
-      "idea": "Myth-Buster: a field guide expert recognizes that most native bees have solitary nests and points the crew toward scattered refuges when the swarm searches for one giant hive.",
-      "source": "/myths",
-      "why": "Correcting a familiar assumption reveals a distributed resistance network."
-    },
-    {
-      "idea": "Spring Beauty Courier: a surviving mining-bee ally follows the spring beauty pairing through woodland and carries a message between hidden refuges.",
-      "source": "/beesblooms",
-      "why": "Its seasonal flower route gives the crew a fragile, time-sensitive supply line."
+      "idea": "The Provenance Keeper: a custodian identifies donated photos and tickets, helping return stolen material and distinguish originals from swarm replicas.",
+      "source": "/donations.htm",
+      "why": "Recovery becomes a meaningful alternative to destroying everything."
     }
   ],
   "bosses": [
     {
-      "idea": "The Phenology Engine: a roaming machine garden combines the bloom calendar, habitat types and bee pairings into a forced schedule, summoning the right specialist at the wrong time and exhausting each refuge in turn.",
-      "source": "/beesblooms",
-      "why": "The crew can break its cycle by disrupting the plant-and-season signals that coordinate its waves."
+      "idea": "The Metropolitan Consolidator: a sprawling machine made of rival trust cars attempts to absorb every independent line into one obedient system; its competing sections can be turned against each other.",
+      "source": "/trams/index.htm",
+      "why": "The whole collection’s many operators become a boss with negotiable internal rivalries."
     },
     {
-      "idea": "The Grand Curator: a six-family taxonomic colossus collects bees, nests and habitat into a single moving specimen vault, insisting that conservation means immobilizing every living thing.",
-      "source": "/",
-      "why": "Each family compartment offers a different route in, and freeing the contents turns its collection against its control."
+      "idea": "The Eternal Depot: the 1916 shed has been infested by a preservation engine that considers a living, changing city an unacceptable threat to heritage; it tries to park the whole crew forever.",
+      "source": "/depot.htm",
+      "why": "The museum’s mission twists into a fight about keeping history alive and usable."
     },
     {
-      "idea": "The False Steward: a habitat-management machine interprets interacting threats as a mandate to eliminate every variable, flattening diverse nesting sites into one controlled enclosure.",
-      "source": "/threats",
-      "why": "Its apparently protective routines can be interrupted by restoring diverse, connected habitat in several places at once."
+      "idea": "The Cable Memory: an immense loop of moving cable beneath the city hauls replicas from different decades into a single impossible network, pulling its own armoured cars back into service when defeated.",
+      "source": "/papers/macmeikan/macmeikan1.htm",
+      "why": "The site’s cable history and preservation theme combine in a boss with a physical loop to interrupt."
     }
   ],
   "events": [
     {
-      "idea": "A red maple is humming with orchard-mason and cellophane machines in April; a genuine bee is trapped between their rival collection routes.",
-      "source": "/beesblooms",
-      "why": "A rescue can use the predictable traffic without destroying the tree."
+      "idea": "A loose bellcord is ringing conflicting instructions from two ends of a stationary car. The crew can trace the genuine signal before a second car rolls into the bay.",
+      "source": "/bellcord.htm",
+      "why": "A quick listening problem has a concrete consequence."
     },
     {
-      "idea": "A waterproofed ground tunnel has filled with rain, leaving a translucent bubble of air around a lost supply case.",
-      "source": "/nests",
-      "why": "The lining is both the obstacle and the thing keeping the supplies dry."
+      "idea": "A volunteer needs a hand moving an old tram away from an approaching maintenance clamp, but the safest route crosses a freshly laid swarm track.",
+      "source": "/news/20250724.htm",
+      "why": "A rescue creates a choice between speed and preserving the car."
     },
     {
-      "idea": "A nest patrol follows a scent-marked plant while a neighboring patrol claims the same stem; a breeze is about to merge their territories.",
-      "source": "/behaviors",
-      "why": "The crew can redirect the breeze to cause a diversion or prevent a fight."
+      "idea": "Two boundary patrols dispute which trust owns a junction. Each offers safe passage if the crew delivers a transfer to the other.",
+      "source": "/trams/index.htm",
+      "why": "Rival rules invite diplomacy, forgery or a well-timed dash."
     },
     {
-      "idea": "A sleeping aggregation of machine bees hangs from stems at dusk, one of them quietly transmitting a map of nearby refuges.",
-      "source": "/behaviors",
-      "why": "Getting the map without waking the cluster makes for a delicate heist."
+      "idea": "An animated network map on a workshop floor cycles through decades. A stranded mechanic can only be reached when two eras briefly connect.",
+      "source": "/papers/timeline.htm",
+      "why": "Timing and observation turn history into a traversal challenge."
     },
     {
-      "idea": "A flower fly look-alike and a real bee visit the same flower; a nervous sentry asks the crew to distinguish them before it opens the shelter.",
-      "source": "/look-alikes",
-      "why": "Careful observation earns trust and prevents an unnecessary attack."
+      "idea": "A gold coin opens a depot gate, but the mechanism keeps returning the coin and demanding another. A volunteer knows where to bypass the jam.",
+      "source": "/visitors.htm",
+      "why": "A familiar donation becomes a small mechanical mystery."
     },
     {
-      "idea": "A solitary nest contains an unfamiliar capsule among its provisions, and the host machine is minutes from sealing the chamber.",
-      "source": "/cuckoo-bees",
-      "why": "The crew must decide how to remove the intruder without collapsing the nest."
+      "idea": "An empty broad-gauge luxury car offers shelter while standard-width patrols pass. Its doors begin to close just as the crew spots a second passenger inside.",
+      "source": "/trams/vr53.htm",
+      "why": "A tempting refuge comes with a rescue decision."
     },
     {
-      "idea": "A patch of loosestrife has been drained of oil; a stranded oil-collector offers a shortcut if the crew can find an intact flower.",
-      "source": "/melittidae",
-      "why": "A small restoration task earns a guide with a very particular need."
+      "idea": "A bundle of old tickets and photographs is caught in a memorabilia swarm. Matching the pieces to a donated collection convinces a custodian to provide a map.",
+      "source": "/donations.htm",
+      "why": "A salvage scene rewards attention to ordinary historical objects."
     },
     {
-      "idea": "An overwintering adult-shaped capsule has been mistaken for scrap by scavengers building a fire.",
-      "source": "/sociality",
-      "why": "Moving the capsule or cooling the fire avoids waking a machine in the middle of camp."
+      "idea": "A replica No 20 has become wedged on a tight turn, blocking a corridor. It will move if the crew balances its single truck while a volunteer resets the points.",
+      "source": "/trams/vr20.htm",
+      "why": "A vehicle’s distinctive design makes a hands-on obstacle."
     },
     {
-      "idea": "A specialist drone keeps rejecting a heap of mixed pollen while its sunflower target blooms just beyond a buried patrol.",
-      "source": "/dieunomia",
-      "why": "The crew can use the single acceptable resource as bait to move the drone."
+      "idea": "The depot’s open-day clock announces closing while visitors are still inside. The crew has minutes to guide them out before the automated doors seal.",
+      "source": "/visitors.htm",
+      "why": "The routine of an open day supplies a clear deadline."
     },
     {
-      "idea": "An old wood cavity produces a stream of small sweat machines even after the ground entrances are sealed.",
-      "source": "/lasioglossum",
-      "why": "The unexpected nest location overturns the crew’s first theory and provides a second route."
+      "idea": "A cable tram set repeatedly returns to the same stretch of line, carrying a tool each time. Catching it without disrupting the moving cable could supply a needed repair.",
+      "source": "/trams/mtoccable.htm",
+      "why": "A circulating vehicle makes an approachable moving-platform challenge."
     },
     {
-      "idea": "A surveyor has one uncertain Nomia sighting and asks for another observation before marking a safe route on a county map.",
-      "source": "/nomia",
-      "why": "The crew can gather evidence without treating a single record as proof."
+      "idea": "A guide is mapping the collection by spoken description, but a bellcord mimic keeps interrupting. Protect the guide long enough to learn a route through the dark.",
+      "source": "/visitors.htm",
+      "why": "The reward is practical navigation rather than a generic prize."
     },
     {
-      "idea": "A buzz-pollination drone rattles a flower patch, accidentally shaking a hidden metal key out of a crevice.",
-      "source": "/pollination",
-      "why": "Waiting for the next vibration may recover the key without confronting the drone."
+      "idea": "A car ordered by one trust and delivered after a takeover is being pulled in opposite directions by two patrols. Freeing it might give both factions a reason to pause.",
+      "source": "/trams/mmtb104.htm",
+      "why": "A specific vehicle history makes a tug-of-war with room for negotiation."
     },
     {
-      "idea": "A spring-emerging mining machine has excavated beside a tiny planted refuge; removing it carelessly would cave in both entrances.",
-      "source": "/andrena",
-      "why": "The shared ground makes a precision rescue more interesting than a straight fight."
+      "idea": "A crew finds a depot bay filled with twenty tram-shaped silhouettes; only some are real vehicles, and the rest are swarm decoys waiting for an order.",
+      "source": "/news/20250712.htm",
+      "why": "Careful inspection can avoid damaging the collection."
     },
     {
-      "idea": "A counterfeit bumble controller has taken over an active nest; the workers still respond to an old provisioning signal.",
-      "source": "/bombus",
-      "why": "Finding and replaying the signal could turn a hostile patrol into a rescue force."
-    },
-    {
-      "idea": "A crew finds a stack of tiny provisions divided into cells by scavenged material; one partition is made from their missing route map.",
-      "source": "/nests",
-      "why": "Recovering the map requires choosing between a quick grab and preserving the occupied cells."
-    },
-    {
-      "idea": "A flowering corridor has a gap between spring and late summer; the surviving bloom relay needs a suitable intervening plant before its couriers can cross.",
-      "source": "/beebasics",
-      "why": "A habitat puzzle makes continuity through the season the objective."
+      "idea": "A newcomer has assembled an improvised exhibit about the old cable network, but the moving cable underneath keeps carrying its parts away.",
+      "source": "/news/20260505.htm",
+      "why": "A lighthearted repair task links exhibition-making to the machinery it describes."
     }
   ]
 }

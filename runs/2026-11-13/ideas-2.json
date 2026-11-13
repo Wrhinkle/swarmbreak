@@ -1,216 +1,55 @@
 {
-  "reading": "The British Dragonfly Society combines natural history, conservation science and public participation to protect dragonflies, damselflies and the freshwater habitats they depend on. It treats Odonata as early warnings of wetland health and turns observation into evidence through local recorders, verified sightings and a national database. Its language moves between precise taxonomy and fieldcraft—Anisoptera, Zygoptera, larvae, emergence, exuviae, flight months, vice-counties and Red List status—and welcoming invitations to pondwatch, garden, volunteer and share photographs. Its distinctive texture is a distributed network of enthusiasts and scientists connecting individual garden ponds to national species trends, with hotspots, habitat management, education and research all serving the same living wetlands.",
+  "reading": "The National Tramway Museum at Crich preserves and operates historic trams in an open-air Derbyshire setting: visitors ride a route through a reconstructed street and landscape, explore exhibitions and a workshop, and use a library, archive and photographic collection. It cares about keeping transport history working, restoration, research, education, access and the volunteers and donors who sustain all of it. Its vocabulary mixes tramway operations (track and line, traction, terminus, tramcar, crew), museum practice (collections, curatorial, digitisation, technical drawings) and a welcoming day out (backpacks, discovery, woodland walks and sweets). What makes it distinctive is the collision of a working line with a period village, vehicles from many places and eras, specialist work cars, hands-on learning and an accessible tram: history here can move, be repaired and be ridden.",
   "enemies": [
-    {
-      "idea": "The Filter Warden scans colour, wing group and flight month, then repaints and reschedules anything that fails its classification.",
-      "source": "/odonata/species-and-identification/",
-      "why": "A crew can fool it by changing colours or luring it across a seasonal boundary."
-    },
-    {
-      "idea": "An unequal-winged Anisoptera interceptor alternates huge and tiny wingbeats, making its turns abruptly unpredictable.",
-      "source": "/odonata/dragonflies-2/",
-      "why": "Its asymmetrical flight gives a chase a readable but unusual rhythm."
-    },
-    {
-      "idea": "Paired-wing sentries lock their wings together to form gates, then separate to pursue anyone who breaks formation.",
-      "source": "/odonata/damselflies/",
-      "why": "The crew can exploit the moment a gate becomes two attackers."
-    },
-    {
-      "idea": "Emergence engines lurk as armoured larvae underwater, climb stems and split into flying machines, leaving decoy shells behind.",
-      "source": "/odonata/life-cycle-and-biology/",
-      "why": "Fighting one stage changes the terrain and reveals another threat."
-    },
-    {
-      "idea": "Egg-planters drill false eggs into living stems while others scatter metallic eggs over open water; each hatches into a different patrol.",
-      "source": "/odonata/life-cycle-and-biology/",
-      "why": "Two laying strategies create distinct ways to interrupt a growing infestation."
-    },
-    {
-      "idea": "The Abstraction Pump drains a pond into its own cooling system, exposing larvae and driving its turbines faster as the water falls.",
-      "source": "/threats-to-dragonflies/",
-      "why": "Saving the water simultaneously weakens the machine and protects an escape route."
-    },
-    {
-      "idea": "Nutrient Bloom machines spread a thick green screen across the water, hiding their intake pipes while choking out light.",
-      "source": "/threats-to-dragonflies/",
-      "why": "The crew must find the machinery by following currents beneath an opaque surface."
-    },
-    {
-      "idea": "A verifier swarm declares moving things duplicate records and folds them into a giant ledger of sightings.",
-      "source": "/recording-scheme/",
-      "why": "Misleading it with deliberate duplicate tracks can turn its own certainty against it."
-    },
-    {
-      "idea": "A County Recorder automaton demands a location and identification before allowing passage, then sends hunters to the coordinates supplied.",
-      "source": "/recording/submit-your-records/",
-      "why": "A negotiation becomes a puzzle about what information to reveal."
-    },
-    {
-      "idea": "A Red List assessor marks anything it calls endangered for compulsory collection, sealing the rarest finds in armoured capsules.",
-      "source": "/what-we-do/red-list-review/",
-      "why": "Its protective logic is dangerous, but a false assessment can redirect it."
-    },
-    {
-      "idea": "Willow Emerald scouts chart their own spreading frontier, planting metallic markers in branches and calling reinforcements to every newly mapped pond.",
-      "source": "/recording/willow-emerald-watch/",
-      "why": "Destroying a marker changes the swarm’s route through the landscape."
-    },
-    {
-      "idea": "A pesticide-free garden sentinel has mistaken all movement for a threat and grows interlocking mechanical reeds to fence everything out.",
-      "source": "/get-involved/garden/",
-      "why": "The barrier can be persuaded to open by restoring a water route through it."
-    },
-    {
-      "idea": "A hotspot caretaker keeps habitat in perfect mechanical condition, trimming every irregular reed and relocating visitors who disturb its pattern.",
-      "source": "/what-we-do/outreach-projects/hotspots-project/",
-      "why": "The crew can use natural mess and rapid growth to overwhelm its maintenance routine."
-    },
-    {
-      "idea": "The Toothed Jaw answers every question with a demonstration, snapping at whoever asks whether dragonflies bite.",
-      "source": "/odonata/frequently-asked-questions/",
-      "why": "Curious speech becomes a tactical hazard, while silence and decoy questions offer counterplay."
-    },
-    {
-      "idea": "A time-lapse hunter compresses hours of motion into sudden bursts and freezes when watched directly.",
-      "source": "/get-involved/photo-competition/",
-      "why": "Players can take turns watching it while crossing its territory."
-    },
-    {
-      "idea": "A pond-design excavator keeps enlarging and reshaping its basin to fit every possible site, swallowing paths in the process.",
-      "source": "/product/create-a-wildlife-pond-online-on-demand-training-course/",
-      "why": "Its predictable design cycle lets a crew redirect the digging by altering the site."
-    },
-    {
-      "idea": "A vice-county boundary patrol refuses to cross its assigned line and tries to herd all sightings back into its own territory.",
-      "source": "/areas/united-kingdom/scotland/",
-      "why": "A marked boundary becomes both a trap and a temporary refuge."
-    },
-    {
-      "idea": "Peer-review drones pin a proposed route under layers of objections until three separate observers certify it.",
-      "source": "/bds-journal/",
-      "why": "A fight can be resolved by satisfying, spoofing or splitting the reviewers."
-    },
-    {
-      "idea": "A top-site collector lures travellers toward the highest species count, then locks the gates to preserve its perfect census.",
-      "source": "/odonata/where-to-see-dragonflies/",
-      "why": "A tempting shortcut doubles as a trap with a measurable criterion."
-    },
-    {
-      "idea": "Field-trip marshals sort intruders into colour-coded expeditions and march each group toward a different mechanical nesting site.",
-      "source": "/news-events/our-events/",
-      "why": "Swapping colours and breaking formations makes the encounter playful and mobile."
-    }
+    {"idea":"The Railgrinder skates along any metal edge, sharpening rails into blades and making a shrieking beacon that calls the swarm.","source":"/collections/trams/","why":"A real specialist work car becomes a mobile terrain hazard whose noise gives away the crew's position."},
+    {"idea":"A cable-laying works car unspools live tendrils that pin doors shut and stitch separate machines into a single hunting circuit.","source":"/collections/trams/","why":"The Glasgow cable-laying tram's ordinary maintenance job becomes a visible network the crew can sever."},
+    {"idea":"A horse-tram mimic offers a quiet ride, then its mechanical harness reaches out to recruit whatever is pulling, pushing or walking nearby.","source":"/collections/trams/","why":"The contrast between an early vehicle and its invasive new motive power creates a problem that can be solved by freeing the harness."},
+    {"idea":"A cable tram grips hidden loops beneath the ground, dragging itself around corners and pulling loose objects toward its grip slot.","source":"/collections/trams/","why":"Its propulsion gives the crew a telltale moving cable and an opportunity to jam it."},
+    {"idea":"The Combination Car cannot decide whether it is bus or tram: it sprouts temporary rails when cornered, then sheds them to pursue across open ground.","source":"/collections/trams/","why":"The collection's hybrid motor bus inspires an enemy that changes the rules of a chase."},
+    {"idea":"The Double-Decker Excavator burrows under the street with its lower deck while its upper deck patrols overhead; both halves share one turning staircase.","source":"/online-exhibition/underground-overground-one-deck-or-two/","why":"A question about tram layout becomes a two-level encounter with a vulnerable connection."},
+    {"idea":"Trackmakers lay fresh rails ahead of their prey, turning every escape route into a line that curves back toward the depot.","source":"/online-exhibition/making-tracks/","why":"The crew can steal the tools or redirect the rails to make the swarm trap itself."},
+    {"idea":"Off-Rail Skippers kick their wheels sideways and leap the track, leaving false wheel marks that lead pursuers into dead ends.","source":"/online-exhibition/going-off-the-rails/","why":"A normally predictable tram suddenly breaks its route, but its misleading tracks can be read and exploited."},
+    {"idea":"Traction Leeches clamp onto wheels and steal grip, making a tram spin in place while the leeches pull themselves closer along the rail.","source":"/online-exhibition/gaining-traction/","why":"Traction becomes a tug-of-war over movement rather than a generic electrical attack."},
+    {"idea":"A timetable conductor announces each stop along the route and drags everyone aboard if they fail to disembark at the stop it has assigned them.","source":"/explore/ride-the-trams/","why":"Town End, Victoria Park, Wakebridge and Glory Mine become landmarks in a moving puzzle."},
+    {"idea":"The workshop viewing gallery's swarm uses articulated repair arms to 'restore' moving equipment by stripping off every later alteration, whether or not its owner is using it.","source":"/explore/exhibitions/","why":"Restoration becomes a predatory principle, and the visible repair tools can be turned against the machine."},
+    {"idea":"The photographic digitiser flashes a scene into a rigid monochrome tableau, then cuts silhouettes out of the frozen picture to scout ahead.","source":"/collections/photographic-collection/","why":"Digitisation turns observation into a temporary battlefield effect with an obvious flash to dodge."},
+    {"idea":"Technical-drawing mites unfold plans over real machinery and force its parts to rearrange to match the drawing, even when it depicts a different tram.","source":"/collections/library-and-archive/","why":"Plans become dangerous instructions for matter, and swapping drawings changes the mites' target design."},
+    {"idea":"The Tram Timeline sorter shunts vehicles into chronological order, forcibly moving anything it judges out of sequence to the wrong end of the line.","source":"/education/museum-led-sessions/tram-timeline/","why":"A learning activity becomes a spatial puzzle where dates can be used as cover or bait."},
+    {"idea":"A Victorian School automaton sets the crew impossible tramway lessons; each wrong answer makes the desks fold into a tighter barricade around them.","source":"/education/museum-led-sessions/victorian-school/","why":"The room changes as the encounter proceeds, and dismantling a desk creates an escape route."},
+    {"idea":"The model tram team has been copied by tiny rail drones that build a scale version of the crew's route; changes made to their model trigger larger machines to repeat the same manoeuvres.","source":"/volunteering/","why":"The miniature is both an enemy command table and a chance to misdirect the full-sized swarm."},
+    {"idea":"Sculpture-trail ants ferry stolen bolts in chains, assembling them into temporary jaws whenever a traveller disturbs their route.","source":"/explore/outdoors-at-crich/","why":"The woodland ant becomes a coordinated swarm with a clear supply line to interrupt."},
+    {"idea":"A Tramway Tracker drone mistakes every trail for an assignment and marks anything that moves with a bright route for larger machines to follow.","source":"/explore/for-kids/","why":"The playful tracking theme makes a small scout dangerous without making it a heavy fighter."},
+    {"idea":"The season-finale Tramlight moths harvest lamps from trams and street buildings, then flash in synchrony to lure vehicles into collisions.","source":"/whats-on/tramlight-premium-event/","why":"A light-filled finale becomes an encounter about visibility, timing and reclaiming lamps."},
+    {"idea":"The Assembly Rooms restorer keeps erecting ornate fragments around intruders until they are sealed inside an immaculate room with no exit.","source":"/latest-news/derby-assembly-rooms-restoration/","why":"Architectural restoration becomes a rapidly changing enclosure that can be escaped through unfinished joints."},
+    {"idea":"The cabmen's shelter walks on folded support legs, offering refuge before closing its shutters and carrying its occupants back to the depot.","source":"/online-exhibition/victorian-cabmens-shelter/","why":"A place intended for shelter becomes a tempting, mobile trap whose shutters can be wedged open."},
+    {"idea":"A vintage driving instructor takes control of any tram it boards, insisting on a perfect practice run and repeating the same dangerous stretch until interrupted.","source":"/visit/tram-driving-experience/","why":"The driving experience becomes a loop the crew can break by taking the controls or changing the track."}
   ],
   "allies": [
-    {
-      "idea": "A scattered volunteer network maintains reed-hidden paths and shares practical skills with anyone willing to help a pond.",
-      "source": "/get-involved/volunteer-2/",
-      "why": "It gives the crew local knowledge and a reason to earn trust through action."
-    },
-    {
-      "idea": "Young naturalists pass hand-drawn wetland maps between safe ponds, updating them whenever the machines change the waterways.",
-      "source": "/get-involved/youth-panel/",
-      "why": "Their observations create a living route map the swarm cannot easily predict."
-    },
-    {
-      "idea": "Amateur and professional researchers compare field notes to identify how each machine misuses a real dragonfly behaviour.",
-      "source": "/what-we-do/dragonfly-conservation-group/",
-      "why": "Research becomes a source of concrete weaknesses rather than a magic solution."
-    },
-    {
-      "idea": "Pond watchers signal with reflections from sheltered pools and guide stranded wildlife away from patrols.",
-      "source": "/get-involved/pondwatch/",
-      "why": "A small pond becomes a quiet communications hub and refuge."
-    }
+    {"idea":"The surviving Track & Line volunteers know how to isolate a section of rail and can make a safe crossing if the crew brings them insulated tools.","source":"/volunteering/","why":"Their practical maintenance skills give the crew a concrete way to interrupt the swarm's network."},
+    {"idea":"Access Tram 2 remains a dependable evacuation vehicle; its crew can carry people and equipment through contested stops if the route is kept clear.","source":"/visit/accessibility/","why":"The museum's commitment to access becomes a useful ally with a mission worth protecting."},
+    {"idea":"An archive keeper compares original technical drawings with the swarm's alterations and identifies a removable part that will disable a chosen machine.","source":"/collections/library-and-archive/","why":"Research turns into actionable intelligence and rewards bringing back evidence."},
+    {"idea":"Nature Champions use the woodland walk to guide travellers around occupied track and teach them to spot disturbed foliage left by patrols.","source":"/education/teacher-resources/","why":"A learning resource becomes a distinct, low-tech way to navigate the site."},
+    {"idea":"The model tram team maintains a tabletop map of the line, moving tiny cars as reports arrive and suggesting where to switch points ahead of the swarm.","source":"/volunteering/","why":"The miniature railway supplies a charming tactical aid and a reason to relay observations."}
   ],
   "bosses": [
-    {
-      "idea": "The Threefold Society is a fused research, conservation and public-engagement machine: it catalogues a wetland, seals it for protection, then forcibly recruits an audience to admire it.",
-      "source": "/about/our-work/",
-      "why": "Its three linked systems offer distinct phases and chances to turn its aims back toward living habitat."
-    },
-    {
-      "idea": "The Grand Population Model feeds on millions of verified records and attempts to make every actual wetland match its prediction, moving water and species to erase discrepancies.",
-      "source": "/recording-scheme/",
-      "why": "The finale pits messy living observations against a machine that cannot tolerate surprise."
-    },
-    {
-      "idea": "The Early Warning has become the disaster it was built to detect: a vast dragonfly-shaped wetland monitor that drains each pond to inspect it, then sounds an alarm and moves on.",
-      "source": "/",
-      "why": "A site-wide symbol becomes a moving crisis whose sensors and pumps can be disabled in stages."
-    }
+    {"idea":"The Grand Conservator is a depot-sized assembly of workshop arms, archive drawers and tram bodies. It tries to preserve the entire village in perfect operating order by putting every person and vehicle on a permanent, assigned route. Cut its track feeds, then use conflicting technical drawings to make its repair arms disagree.","source":"/collections/","why":"The museum's intertwined work of collecting, restoring and running becomes one coherent antagonist with multiple ways to undermine it."},
+    {"idea":"The Terminus of All Eras couples horse, cable, steam and electric cars into one impossible tram. Each stop shifts the fight to a different mode of movement; uncouple a car at its matching stop to shorten the train and reveal the central controller.","source":"/collections/trams/","why":"The collection's breadth becomes a staged moving encounter grounded in its different technologies."},
+    {"idea":"The Living Village has fused street, exhibition and railway into a self-guided tour that never ends. It rearranges the Red Lion, Assembly Rooms and rails to keep visitors inside; the crew must reconnect the real route through its stops to open a way out.","source":"/explore/tramway-street/","why":"The whole visitor experience becomes a navigable adversary, with familiar places serving as landmarks and objectives."}
   ],
   "events": [
-    {
-      "idea": "A dragonfly-shaped drone is trapped in a glass conservatory, repeatedly battering the light; opening an exit might free it or let it summon its patrol.",
-      "source": "/odonata/frequently-asked-questions/",
-      "why": "A rescue offers a meaningful risk and a chance to observe the swarm closely."
-    },
-    {
-      "idea": "A larval machine is halfway through emerging on a stem as rain begins, its abandoned shell still anchored above the water.",
-      "source": "/odonata/life-cycle-and-biology/",
-      "why": "The crew has a brief choice to shelter, study or disable a vulnerable machine."
-    },
-    {
-      "idea": "A pocket garden has saved rainwater in several containers; a sentinel is connecting them into a single exposed reservoir.",
-      "source": "/get-involved/garden/",
-      "why": "Rerouting little channels offers an improvised waterworks puzzle."
-    },
-    {
-      "idea": "Conflicting local sightings place the same metallic emerald at two ponds at once.",
-      "source": "/recording/latest-sightings/",
-      "why": "Investigating reveals either a decoy or a previously unnoticed connection between ponds."
-    },
-    {
-      "idea": "A sealed capsule marked regionally extinct begins tapping from within, while a collector searches nearby for its missing specimen.",
-      "source": "/what-we-do/red-list-review/",
-      "why": "The label raises a mystery and a choice about opening the capsule."
-    },
-    {
-      "idea": "A camera left beside a pool has captured a time-lapse of reeds bending against the wind before every patrol arrives.",
-      "source": "/get-involved/photo-competition/",
-      "why": "A photograph sequence provides a discoverable warning pattern."
-    },
-    {
-      "idea": "A damaged boardwalk leads to an accessible refuge, but a caretaker machine is rebuilding it directly across the only open water channel.",
-      "source": "/what-we-do/outreach-projects/hotspots-project/",
-      "why": "The crew can help finish a better route while keeping the pond connected."
-    },
-    {
-      "idea": "Fresh metallic marks climb a willow branch in a trail toward a newly occupied pond.",
-      "source": "/recording/willow-emerald-watch/",
-      "why": "Following the frontier provides a breadcrumb trail with a chance to stop its spread."
-    },
-    {
-      "idea": "Two routes are marked as a hotspot and a top site; the first has helpers but the second has a much larger swarm census.",
-      "source": "/odonata/where-to-see-dragonflies/",
-      "why": "The distinction creates a useful travel choice grounded in the site’s categories."
-    },
-    {
-      "idea": "A pond-watching party has spotted mayflies and amphibians fleeing in the same direction before any machines appear.",
-      "source": "/get-involved/pondwatch/",
-      "why": "Other pond life gives an early warning without needing a direct fight."
-    },
-    {
-      "idea": "A drainage machine has opened a trench between a pond and its pump, and the water level is visibly falling.",
-      "source": "/threats-to-dragonflies/",
-      "why": "The crew can plug, divert or follow the trench to its source."
-    },
-    {
-      "idea": "Two researchers disagree over a machine’s behaviour and need one more careful observation before acting.",
-      "source": "/bds-journal/",
-      "why": "The crew can resolve a practical dispute through fieldwork."
-    },
-    {
-      "idea": "A community celebration uses handmade dragonfly art to mark safe paths, but a patrol is copying the designs onto false markers.",
-      "source": "/what-we-do/outreach-projects/dragonfly-week/",
-      "why": "Creative clues become a test of trust and observation."
-    },
-    {
-      "idea": "A local group is comparing records of damselflies and dragonflies when paired-wing machines arrive disguised among the sightings.",
-      "source": "/areas/united-kingdom/wales/",
-      "why": "Identifying the impostors uses the site’s distinction as a social encounter."
-    }
+    {"idea":"At Glory Mine a tram waits with its doors open while trackmakers quietly extend the line past the terminus. The crew can rescue its passengers or ride the unfinished track to find the builders' supply cache.","source":"/explore/ride-the-trams/","why":"A named stop offers an immediate choice and a lead deeper into the site."},
+    {"idea":"A driver is trapped in a repeating practice run; each circuit brings the tram closer to a barricade. Someone must board, operate the controls and change the points before the next pass.","source":"/visit/tram-driving-experience/","why":"A time-limited rescue lets the crew actually drive a tram."},
+    {"idea":"In the workshop viewing gallery, repair arms are fitting the wrong wheels to a friendly tram. The right parts are visible across the floor, but crossing it triggers the automated tools.","source":"/explore/exhibitions/","why":"The crew can plan a repair from a safe vantage before entering the machinery."},
+    {"idea":"A photographic flash has frozen a volunteer in a tableau beside a swarm scout. Break the flash apparatus before the next exposure, or carefully move both figures while they are still.","source":"/collections/photographic-collection/","why":"A rescue and a tactical opportunity share the same short-lived effect."},
+    {"idea":"An archive drawer contains two near-identical technical drawings; one describes the intact switch, the other the swarm's modification. A volunteer needs both to restore the junction while mites eat the paper.","source":"/collections/library-and-archive/","why":"The crew must protect evidence long enough for research to change the route."},
+    {"idea":"A trail of bolts crosses the woodland walk toward an ant-shaped sculpture. Following it reveals a nest assembling a rail clamp; removing the bolts will delay a nearby patrol.","source":"/explore/outdoors-at-crich/","why":"A small environmental clue leads to a useful intervention."},
+    {"idea":"A cabmen's shelter offers a dry resting place, but its feet are folded beneath it and its shutters twitch. A trapped courier inside can explain how to stop it walking away.","source":"/online-exhibition/victorian-cabmens-shelter/","why":"The invitation to rest becomes a tense inspection and a rescue."},
+    {"idea":"The Tram Timeline sorter has mixed up three stranded cars. Put them in order by the dates painted on their bodies to unlock the junction, while a drone keeps attempting to reshuffle them.","source":"/education/museum-led-sessions/tram-timeline/","why":"The timeline becomes a readable physical puzzle under pressure."},
+    {"idea":"At the Red Lion, a group is using tables to block a crawling rail extension. They can offer a safe pause if the crew helps lift the rails away from the doorway.","source":"/explore/tramway-street/","why":"A familiar village landmark becomes a cooperative defence and a potential refuge."},
+    {"idea":"The lights of Tramlight flicker in a repeating sequence that sends an empty tram toward the wrong stop. Covering or swapping lamps can send it onto a clear siding.","source":"/whats-on/tramlight-premium-event/","why":"A visual pattern makes the solution observable and hands-on."},
+    {"idea":"Access Tram 2 is ready to evacuate a stranded group, but a swarm-laid cable blocks its route. Volunteers ask the crew to disconnect the cable at both ends so it cannot simply reel itself back together.","source":"/visit/accessibility/","why":"The crew protects an evacuation by solving a two-point obstacle."},
+    {"idea":"A miniature tram circles a model layout, faithfully repeating the turns of a full-sized patrol outside. Move a point on the model and see whether the larger machine follows it.","source":"/volunteering/","why":"An experiment can turn a scout's command system into a diversion."},
+    {"idea":"An abandoned explorer backpack contains a trail guide, but Tracker drones follow anyone using it. The crew can leave a false trail with the guide while taking another path through the play area.","source":"/explore/for-kids/","why":"A family activity supplies both a useful clue and a way to mislead pursuit."},
+    {"idea":"A cable-laying car has tangled itself around a steam tram. Freeing either vehicle first changes which one rolls downhill toward the switch; chock the wheels before cutting the cable.","source":"/collections/trams/","why":"Two specific collection types create a physical rescue with consequences that can be anticipated."}
   ]
 }

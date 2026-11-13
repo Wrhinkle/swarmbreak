@@ -1,50 +1,45 @@
 {
-  "thread": "Follow the swarm into the small world of insects: begin with caterpillars and their transformations, rise over wetlands with dragonflies, and settle among the nests and varied lives of native bees. Along the way, wings, jaws, camouflage, and tiny architecture become building blocks for creatures.",
+  "thread": "Follow the rails from stations and signal boxes, through a yard of locomotives and carriages, and into a city aboard a tram. The swarm can become a semaphore, a wheel arrangement, or a trolley pole reaching for the wires.",
   "candidates": [
     {
-      "name": "Butterflies and Moths of North America",
-      "url": "https://www.butterfliesandmoths.org/",
-      "why": "Species accounts and sightings offer caterpillars, chrysalises, patterned wings, host plants, and flight seasons for a swarm that can change shape."
+      "name": "Ferrovie Nord Virtual Museum",
+      "url": "https://museo.ferrovienord.it/en/",
+      "why": "Start along a railway network of distinctive stations, vanished crossings, viaducts and workshops; interlocking levers and signals make a mechanical nervous system for the swarm."
     },
     {
-      "name": "British Dragonfly Society",
-      "url": "https://british-dragonflies.org.uk/",
-      "why": "Dragonfly and damselfly profiles, aquatic life cycles, habitats, and regional records bring hinged jaws, shimmering wings, and pond-dwelling young into the journey."
+      "name": "National Railway Museum, Adelaide",
+      "url": "https://nrm.org.au/",
+      "why": "Steam and diesel locomotives, royal carriages, freight vehicles, station equipment and signalling invite the swarm to assemble itself into an Australian train."
     },
     {
-      "name": "Minnesota Native Bees",
-      "url": "https://www.beesmn.org/",
-      "why": "A guide to bee families and genera, anatomy, nesting, and natural history supplies pollen-carrying bodies and many different ways to make a home."
+      "name": "National Tramway Museum",
+      "url": "https://tramway.co.uk/",
+      "why": "Finish in the streets among horse-drawn, steam and electric tramcars, with restoration projects, photographs and online exhibitions full of details to borrow."
     },
     {
-      "name": "BioKIDS",
-      "url": "https://biokids.umich.edu/",
-      "why": "The University of Michigan's critter catalog and invertebrate guides describe insect bodies, development, food, and habitats, with plenty of other small neighbors to encounter."
+      "name": "Melbourne Tram Museum",
+      "url": "https://www.trammuseum.org.au/",
+      "why": "A heritage depot shelters toast-rack cars, experimental trams and the familiar W class; articles trace the tracks, equipment and streets around them."
     },
     {
-      "name": "Animal Diversity Web",
-      "url": "https://animaldiversity.org/",
-      "why": "Linked insect groups and species accounts explore life cycles, behavior, reproduction, and relationships with other animals, offering many paths through the miniature world."
+      "name": "Tramway Museum Society of Victoria",
+      "url": "https://www.tramway.org.au/",
+      "why": "Cable and horse trams, work cars, motor vehicles and restoration projects offer spare parts and curious ancestors for a street-running swarm."
     },
     {
-      "name": "Cornell University Insect Collection",
-      "url": "https://cuic.entomology.cornell.edu/",
-      "why": "Collection pages span mayflies, dragonflies, beetles, bees, and other orders, while specimen images and research reveal the variety of insect forms."
+      "name": "Ballarat Tramway Museum",
+      "url": "https://btm.org.au/",
+      "why": "Individual tram profiles, local tramway history and online exhibits show how vehicles were built, used and restored along a historic city route."
     },
     {
-      "name": "UC Riverside Entomology Research Museum",
-      "url": "https://entmuseum.ucr.edu/",
-      "why": "Insect collections, public databases, and identification resources introduce specimens from deserts and beyond, including beetles, flies, and other six-legged forms."
+      "name": "Sydney Tramway Museum",
+      "url": "https://www.sydneytramwaymuseum.com.au/",
+      "why": "A fleet from Sydney and cities around the world offers many shapes of electric tram, along with overhead wires, depot work and preserved street equipment."
     },
     {
-      "name": "Missouri Department of Conservation",
-      "url": "https://mdc.mo.gov/",
-      "why": "Its field guide connects dragonfly larvae, butterflies, bees, and other invertebrates to the places where they live and the transformations they undergo."
-    },
-    {
-      "name": "Australian Museum",
-      "url": "https://australian.museum/",
-      "why": "Natural history collections and animal guides introduce Australian insects, including jewel-like Christmas beetles, alongside their habitats and unusual adaptations."
+      "name": "North Yorkshire Moors Railway",
+      "url": "https://www.nymr.co.uk/",
+      "why": "Historic stations, steam and diesel locomotives, wagons, signals and workshop practices provide another route through a working railway landscape."
     }
   ]
 }
