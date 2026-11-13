@@ -2,7 +2,7 @@
 
 You decide which enemies appear together and what the shop sells. You don't set stats or map rooms. The host builds a random map from the seed, places your packs on it, tunes enemy scale, and plays it with bots.
 
-You have `content.json` and `library.json`. After a failed attempt you also have `last-assembly.json` (the plan that failed) and `balance.json` (how the bots did on it).
+You have `content.json` and `library.json`. After a failed attempt you also have `last-assembly.json` (the latest failed plan) and `balance.json` (its complete report). When available, `balance-history.json` contains every failed plan in `plans` and the latest report in `report`; earlier plans do not have corresponding reports there. Compare their packs, elite rewards and shops before choosing a materially different plan. Do not attribute the latest report to earlier plans or repeat any failed plan.
 
 ## Rules
 - Each act has three bands: `early` (floors 1-5, easy only, packs of 1-2), `mid` (6-10), `late` (11-15, packs of 1-3, easy and regular).
@@ -16,7 +16,7 @@ You have `content.json` and `library.json`. After a failed attempt you also have
 - The shop should hold answers to the act's hard packs, but not all of them, so what to buy is a decision.
 - Difficulty should build. A pack in `late` should be harder than one in `early`, and no single pack should be the one that ends most runs.
 
-If `balance.json` is present, it lists problems and which packs caused the losses in `last-assembly.json`. Start from that plan and change the packs or shop that caused those specific problems. Don't start over. Enemy scale is handled for you, so don't try to compensate for it.
+If `balance.json` is present, it lists problems and which packs caused the losses in `last-assembly.json`. Start from that plan and investigate the reported losses alongside the packs, elite rewards and shops. A killer can be a boss, not a pack: inspect its role and routines in content and consider shop answers available before it. Compare the different bot rates and killers; negative gains show a failure, not its cause. Use the retained plans to avoid retrying prior combinations and form a different hypothesis. Don't start over. Enemy scale is handled for you, so don't try to compensate for it.
 
 ## Reading balance.json
 `rates` has one entry per bot. Compare each with `typical`. `killers` counts which fight ended each lost game.

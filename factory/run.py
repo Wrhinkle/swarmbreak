@@ -127,19 +127,19 @@ def begin(d, stage):
         (d / 'balance.json').unlink(missing_ok=True)
 
 
-def agent(name, output, inputs, check, search=False, optional_pair=(), rests_on=()):
+def agent(name, output, inputs, check, search=False, optional_pair=(), rests_on=(), optional_inputs=()):
     """Runs one agent in an empty folder holding only its inputs. Returns once `check` finds no problems.
     `rests_on` names files the check reads that the agent doesn't get. The pass is recorded against them, the inputs and the agent's rules."""
     problems = ''
     for attempt in range(RETRIES + 1):
         with tempfile.TemporaryDirectory() as work:
-            missing = [dest for dest, src in inputs.items() if dest not in optional_pair and not Path(src).is_file()]
+            missing = [dest for dest, src in inputs.items() if dest not in (*optional_pair, *optional_inputs) and not Path(src).is_file()]
             if missing:
                 sys.exit(f'{name} missing required inputs: {", ".join(missing)}')
             present = [dest for dest in optional_pair if Path(inputs[dest]).is_file()]
             if present and len(present) != len(optional_pair):
                 sys.exit(f'{name} requires optional retry inputs as a pair: {", ".join(optional_pair)}')
-            given = {dest: src for dest, src in inputs.items() if dest not in optional_pair or dest in present}
+            given = {dest: src for dest, src in inputs.items() if (dest not in (*optional_pair, *optional_inputs) or dest in present or (dest in optional_inputs and Path(src).is_file()))}
             for dest, src in given.items():
                 shutil.copy(src, Path(work) / dest)
             prompt = (AGENTS / f'{name}.md').read_text() + f'\n\nInput files in this folder: {", ".join(given) or "none"}. Write {Path(output).name} here and nothing else.'
@@ -161,7 +161,7 @@ def agent(name, output, inputs, check, search=False, optional_pair=(), rests_on=
                 continue
         problems = check()
         if not problems:
-            mark(output, True, [AGENTS / f'{name}.md', *(src for dest, src in inputs.items() if dest not in optional_pair), *rests_on])
+            mark(output, True, [AGENTS / f'{name}.md', *(src for dest, src in inputs.items() if dest not in (*optional_pair, *optional_inputs)), *rests_on])
             return
         print(f'[{name}] problems:\n{problems}', flush=True)
     Path(output).unlink(missing_ok=True)
@@ -351,7 +351,7 @@ def main():
                     mark(report, True, [AGENTS / 'gameplay.md', *played(d)])
                 return '' if ok else out
 
-            agent('gameplay', assembly, {'content.json': content, 'library.json': library, 'last-assembly.json': tried, 'balance.json': tried_report}, check_plan, optional_pair=('last-assembly.json', 'balance.json'))
+            agent('gameplay', assembly, {'content.json': content, 'library.json': library, 'last-assembly.json': tried, 'balance.json': tried_report, 'balance-history.json': history}, check_plan, optional_pair=('last-assembly.json', 'balance.json'), optional_inputs=('balance-history.json',))
             tried.unlink(missing_ok=True)
             tried_report.unlink(missing_ok=True)
             provenance.unlink(missing_ok=True)

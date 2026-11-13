@@ -177,6 +177,60 @@ class RetryInputsTest(unittest.TestCase):
         for name in ('assembly-tried.json', 'balance-tried.json', 'balance-tried-provenance.json', 'balance-history.json', 'balance-pending.json'):
             self.assertFalse((self.day / name).exists())
 
+    def test_worker_receives_retained_plans_and_latest_boss_report_on_retry(self):
+        (self.day / 'content.json').write_text(json.dumps({'acts': [{'creatures': [
+            {'id': 'perfect-habitat', 'tier': 'boss', 'role': 'healer',
+             'routines': ['triage', 'spawn', 'sweep+']}]}]}))
+        calls = []
+        def tool(*args):
+            if args[0] == 'tools/balance.ts':
+                (self.day / 'balance.json').write_text(json.dumps({
+                    'rates': [{'policy': 'typical', 'winRate': .50375,
+                               'killers': {'perfect-habitat': 190}}],
+                    'problems': ['Route choice changes the clear rate by only -11%',
+                                 'Routine edits change the clear rate by only -2%']}))
+                return False, 'failed'
+            return True, '{}'
+        def exercise(name, output, inputs, check, **kwargs):
+            self.assertIn('balance-history.json', inputs)
+            for shop in ('sweep', 'sweep+', 'triage'):
+                output.write_text(json.dumps(self.plan(shop)))
+                self.assertEqual(check(), 'failed')
+            history = json.loads(Path(inputs['balance-history.json']).read_text())
+            self.assertEqual([p['acts'][0]['shop'] for p in history['plans']],
+                             [['sweep'], ['sweep+'], ['triage']])
+            report = json.loads(history['report'])
+            self.assertEqual(report['rates'][0]['killers']['perfect-habitat'], 190)
+            self.assertIn('-11%', report['problems'][0])
+            self.assertIn('-2%', report['problems'][1])
+            output.write_text(json.dumps(self.plan('sweep')))
+            self.assertIn('unchanged', check())
+            raise RuntimeError('verified')
+        with self.assertRaisesRegex(RuntimeError, 'verified'):
+            self.main('gameplay', exercise, tool)
+
+    def test_agent_copies_new_history_into_next_worker_folder(self):
+        history = self.day / 'balance-history.json'
+        seen = []
+        def invoke(cmd, **kwargs):
+            work = Path(cmd[cmd.index('-C') + 1])
+            seen.append(json.loads((work / history.name).read_text()) if (work / history.name).exists() else None)
+            (work / 'output.json').write_text('{}')
+            return unittest.mock.Mock(returncode=0, stdout='', stderr='')
+        def check():
+            if len(seen) == 1:
+                history.write_text(json.dumps({'plans': [self.plan('sweep')],
+                                               'report': '{"problems":["perfect-habitat"]}'}))
+                return 'failed'
+            return ''
+        with patch.object(run, 'AGENTS', self.root), patch.object(run.subprocess, 'run', invoke):
+            (self.root / 'gameplay.md').write_text('prompt')
+            run.agent('gameplay', self.day / 'output.json', {'balance-history.json': history}, check,
+                      optional_inputs=('balance-history.json',))
+        self.assertIsNone(seen[0])
+        self.assertEqual(seen[1]['plans'][0]['acts'][0]['shop'], ['sweep'])
+        self.assertIn('perfect-habitat', seen[1]['report'])
+
     def test_agent_stops_after_three_failed_attempts(self):
         calls = []
         def invoke(*args, **kwargs):
