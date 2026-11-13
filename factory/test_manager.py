@@ -2153,6 +2153,56 @@ for conflict_after_move in (False, True):
         assert any(a[:3] == ('gh', 'pr', 'merge') for a in calls) != conflict_after_move
 print('ok moving base repeats merge verification and gate review')
 
+# Bot evidence must follow every bot commit on the PR, including when the two
+# files are changed together. Use real history rather than commit timestamps.
+with tempfile.TemporaryDirectory() as d:
+    repo = Path(d)
+    def g(*args):
+        return pr_team.sh('git', *args, cwd=repo).stdout.strip()
+    g('init', '-q'); g('config', 'user.email', 'test@example.com'); g('config', 'user.name', 'Test')
+    (repo / 'tools').mkdir()
+    sim, log = repo / 'tools/sim.ts', repo / 'tools/bot-strength.md'
+    sim.write_text('base'); log.write_text('base')
+    g('add', '.'); g('commit', '-qm', 'base'); base = g('rev-parse', 'HEAD')
+    log.write_text('old evidence'); g('commit', '-qam', 'evidence'); old_log = g('rev-parse', 'HEAD')
+    sim.write_text('changed bot'); g('commit', '-qam', 'bot'); bot = g('rev-parse', 'HEAD')
+    problem = pr_team.bot_strength_problem(base, bot, cwd=repo)
+    assert bot in problem and old_log in problem, problem
+    log.write_text('new evidence'); g('commit', '-qam', 'fresh evidence')
+    assert not pr_team.bot_strength_problem(base, g('rev-parse', 'HEAD'), cwd=repo)
+    sim.write_text('another bot'); log.write_text('matching evidence'); g('commit', '-qam', 'both')
+    assert not pr_team.bot_strength_problem(base, g('rev-parse', 'HEAD'), cwd=repo)
+    g('reset', '--hard', '-q', base)
+    sim.write_text('unlogged bot'); g('commit', '-qam', 'no evidence')
+    assert 'missing' in pr_team.bot_strength_problem(base, g('rev-parse', 'HEAD'), cwd=repo)
+print('ok bot strength evidence follows bot commits')
+
+# A stale entry stops the actual merge path before gate review.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'; root.mkdir()
+    (Path(d) / 'swarmbreak-pr-42' / 'node_modules').mkdir(parents=True)
+    calls = []
+    def stale_sh(*args, cwd=None, check=True):
+        calls.append(args)
+        if args[:3] == ('gh', 'pr', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
+        if args[:3] == ('git', 'status', '--porcelain'):
+            return SimpleNamespace(stdout='', returncode=0)
+        return SimpleNamespace(stdout='sha', returncode=0)
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=stale_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+         patch.object(pr_team, 'findings', return_value={'findings': [], 'review_session': {'commit_sha': 'sha', 'review_complete': True}}), \
+         patch.object(pr_team, 'merges_cleanly', return_value=True), patch.object(pr_team, 'verified', return_value=''), \
+         patch.object(pr_team, 'bot_strength_problem', return_value='bot commit B follows log commit A'), \
+         patch.object(pr_team, 'gate_review') as gate, patch.object(sys, 'argv', ['pr_team.py', '42', '--merge']):
+        try:
+            pr_team.main()
+            assert False, 'stale bot evidence must stop the merge'
+        except SystemExit as exc:
+            assert 'bot commit B follows log commit A' in str(exc)
+    assert not gate.called and not any(a[:3] == ('gh', 'pr', 'merge') for a in calls)
+print('ok stale bot evidence blocks before gate review')
+
 # Both lanes publish complete state, and unreadable state keeps the model paused.
 for lane in ('.foreman.json', '.runner.json'):
     with tempfile.TemporaryDirectory() as d:

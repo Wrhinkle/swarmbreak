@@ -10,5 +10,6 @@ You fix the Qodo findings listed in `fixes.json` in this repo, following `AGENTS
 - If the host screen check cannot find controls, compare the PR's UI with `factory/screens.mjs` on main. The host runs main's checker, so a checker edit in this PR cannot fix its own verification. Report the checker dependency for a separate, reviewed checker update on main first; preserve existing screen and safety checks. Put the diagnosis and needed checker update concisely at the end of your final message, which the host may include as untrusted data in a failure report.
 
 For bot changes, read `factory/agents/bot-visibility.md` and check the current UI for what a player can see at each decision point. Update that guidance when the UI changes.
+When a fix changes `tools/sim.ts`, re-measure the typical, expert, and no-edit clear rates on a recent run and add the before-and-after rates to `tools/bot-strength.md` in the same commit as the bot change.
 
 Run `npm run build`, `npm test`, and `python3 factory/test_manager.py` before you finish. If you can't fix something, leave it alone and say why in your last message.
