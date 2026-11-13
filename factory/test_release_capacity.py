@@ -15,6 +15,43 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_firebase_no_space_holds_retry_and_reports_uncertain_deployment(self):
+        manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
+        for mode in ('exit', 'spawn'):
+            commands = []
+            def command(*args, **kwargs):
+                commands.append(args)
+                if args[:3] == ('git', 'worktree', 'add'):
+                    tree = Path(args[4])
+                    (tree / 'public/runs/x').mkdir(parents=True)
+                    (tree / 'public/manifest.json').write_text(json.dumps(manifest))
+                    (tree / 'public/runs/x/run.json').write_text('{}')
+                    (tree / 'dist').mkdir()
+                if args == ('git', 'rev-parse', 'HEAD'):
+                    return SimpleNamespace(returncode=0, stdout='a' * 40, stderr='')
+                if args[0] == 'firebase':
+                    if mode == 'spawn':
+                        raise OSError(errno.ENOSPC, 'No space left on device')
+                    return SimpleNamespace(returncode=1, stdout='', stderr='No space left on device')
+                return SimpleNamespace(returncode=0, stdout='', stderr='')
+            with self.subTest(mode=mode), patch.object(manager, 'sh', side_effect=command), \
+                 patch.object(manager, 'release_check', return_value=('', 'revision')), \
+                 patch.object(manager, 'live_manifest', return_value=manifest), \
+                 patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+                 patch.object(manager, 'deploy_problems', return_value=[]), \
+                 patch.object(manager, 'capacity_detail', return_value='checkout: 12 bytes available'):
+                result = manager.release()
+                self.assertIn('Deploy outcome unknown: firebase deploy failed: no space left on device;', result)
+                self.assertIn('12 bytes available', result)
+                self.assertIn('verify', result.lower())
+                self.assertTrue(manager.persistent_release_blocker(result))
+                prior = 'release -> ' + result
+                self.assertTrue(manager.is_capacity_blocker(prior))
+                with patch.object(manager, 'release') as retry:
+                    self.assertEqual(manager.release_step([], previous=[prior]), prior)
+                    retry.assert_not_called()
+            self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
+
     def test_checkout_manifest_no_space_holds_release(self):
         commands = []
         def command(*args, **kwargs):

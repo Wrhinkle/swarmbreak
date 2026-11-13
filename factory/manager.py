@@ -670,8 +670,25 @@ def deploy(dry, rev=None):
                 raise
             if dry:
                 return f'Could deploy {manifest["runId"]}.'
-            r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
+            def firebase_capacity_failure(error):
+                failure = checkout_capacity_failure(error, tree, 'firebase deploy')
+                if not failure:
+                    return None
+                failure = failure.replace('Not deploying:', 'Deploy outcome unknown:', 1)
+                return cleanup_capacity_failure(
+                    f'{failure} Failing filesystem is unknown; verify the live manifest and revision '
+                    'before deciding whether to retry, as deployment may have started.')
+            try:
+                r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
+            except (OSError, SystemExit) as e:
+                failure = firebase_capacity_failure(e)
+                if failure:
+                    return failure
+                raise
             if r.returncode:
+                failure = firebase_capacity_failure(r.stdout + r.stderr)
+                if failure:
+                    return failure
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
             for _ in range(6):  # the CDN can serve the old manifest for a few seconds
                 served = live_manifest()
@@ -1060,6 +1077,7 @@ def main():
 
 def persistent_release_blocker(result):
     return result.startswith(('Missing run:', 'Not deploying: npm run build failed:',
+                              'Deploy outcome unknown: firebase deploy failed: no space left on device;',
                               'Not deploying: npm test failed:',
                               'Not deploying: release checkout failed: no space left on device;',
                               'Not deploying: release fetch failed: no space left on device;',
@@ -1071,6 +1089,9 @@ def persistent_release_blocker(result):
 
 
 def release_blocker_identity(result):
+    firebase = 'release -> Deploy outcome unknown: firebase deploy failed: no space left on device;'
+    if result.startswith(firebase):
+        return firebase
     for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'release checkout manifest', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
@@ -1080,6 +1101,8 @@ def release_blocker_identity(result):
 
 def is_capacity_blocker(result):
     identity = release_blocker_identity(result)
+    if identity == 'release -> Deploy outcome unknown: firebase deploy failed: no space left on device;':
+        return True
     return (identity.startswith('release -> Not deploying: ') and
             identity.endswith('failed: no space left on device;'))
 
