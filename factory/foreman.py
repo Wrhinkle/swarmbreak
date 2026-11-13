@@ -64,7 +64,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
 sys.path.insert(0, str(ROOT / 'factory'))
-from pr_team import REPO, WAITING, sh  # noqa: E402
+from pr_team import LOCK_COLLISION, REPO, WAITING, sh  # noqa: E402
 from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, deps, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
 from run import STAGES, checked, clashes  # noqa: E402
 
@@ -343,7 +343,7 @@ def main():
         r = SimpleNamespace(returncode=1, stdout=f'{e}', stderr='')
     out = r.stdout + r.stderr
     print(out[-4000:], flush=True)
-    if r.returncode and 'is already being worked' in out:
+    if kind in ('issue', 'pr') and r.returncode == LOCK_COLLISION:
         return  # a manager pass has it; not a failure
     if r.returncode == WAITING:
         # The worker may have pushed a fix. Its final marker names the exact head it awaits.
