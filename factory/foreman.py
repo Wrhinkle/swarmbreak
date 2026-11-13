@@ -224,10 +224,13 @@ def build_run(run_id):
     stage, out, moved = left(), '', False
     if stage:
         r = subprocess.run([sys.executable, str(tree / 'factory' / 'run.py'), run_id, '--from', stage], cwd=tree, capture_output=True, text=True)
-        keep_run(run_id, f'Checkpoint run {run_id} from {stage}, factory exit {r.returncode}', tree)
         out = r.stdout + r.stderr
         # Progress is a stage finished, not a new commit: merging main moves the branch on every try.
         moved = order(left()) > order(stage)
+        try:
+            keep_run(run_id, f'Checkpoint run {run_id} from {stage}, factory exit {r.returncode}', tree)
+        except SystemExit as e:
+            return SimpleNamespace(returncode=1, stdout=f'{out}\n{e}', stderr='', moved=moved)
         if r.returncode:
             return SimpleNamespace(returncode=r.returncode, stdout=out, stderr='', moved=moved)
     result = open_run(run_id, False, tree)

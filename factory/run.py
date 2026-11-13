@@ -278,22 +278,6 @@ def main():
             def evidence_error():
                 sys.exit('Gameplay retry evidence is missing or mismatched. Restore the matching failed plan, full balance report and provenance for this content, or restart the gameplay sequence with verified evidence.')
 
-            def recorded_content():
-                try:
-                    if history.exists():
-                        return json.loads(history.read_text())['content']
-                    return json.loads(provenance.read_text())['content.json']
-                except (OSError, ValueError, KeyError, TypeError):
-                    return None  # unreadable or absent: the checks below decide
-
-            # A rewritten content.json (the storymaker ran again) starts a new sequence: the failed plans were for other acts.
-            # Evidence for this same content is still checked below and still refuses a repeated plan.
-            recorded = recorded_content()
-            if recorded is not None and recorded != content_hash:
-                print('[gameplay] Retry evidence is for earlier content; starting a new gameplay sequence.', flush=True)
-                for p in (history, pending, tried, tried_report, provenance):
-                    p.unlink(missing_ok=True)
-
             failed = []
             if history.exists():
                 try:
