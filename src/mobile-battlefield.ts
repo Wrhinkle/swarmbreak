@@ -10,7 +10,7 @@ export function mobileBattlefield(inspect: (id: string) => void) {
   element.setAttribute('aria-label', 'Battlefield');
   const columns = [document.createElement('div'), document.createElement('div')];
   element.append(...columns);
-  const cards = new Map<string, { card: HTMLElement; health: HTMLElement; timing: HTMLElement; hpBar: HTMLProgressElement; atbBar: HTMLProgressElement }>();
+  const cards = new Map<string, { card: HTMLElement; feedback: HTMLElement; health: HTMLElement; timing: HTMLElement; hpBar: HTMLProgressElement; atbBar: HTMLProgressElement }>();
   return {
     element,
     update(fighters: CombatState['fighters'], tick = 0, events: CombatState['events'] = [], state?: CombatState) {
@@ -24,15 +24,20 @@ export function mobileBattlefield(inspect: (id: string) => void) {
             if (side === 'enemy') (card as HTMLButtonElement).type = 'button';
             const art = document.createElement('span'); art.className = f.creature.puppet ? 'battlefighter-art puppet' : 'battlefighter-art';
             art.style.backgroundImage = `url("${f.creature.sprite}")`;
+            const feedback = document.createElement('span'); feedback.className = 'battlefighter-feedback';
             const name = document.createElement('span'); name.className = 'battlefighter-name'; name.textContent = f.creature.name;
             const health = document.createElement('span'); health.className = 'battlefighter-health';
             const timing = document.createElement('span'); timing.className = 'battlefighter-health';
             const hpBar = document.createElement('progress'); hpBar.className = 'battlefighter-hp';
             const atbBar = document.createElement('progress'); atbBar.className = 'battlefighter-atb'; atbBar.max = 100;
-            card.append(art, atbBar, name, hpBar, health, timing);
+            card.append(art, feedback, atbBar, name, hpBar, health, timing);
             if (side === 'enemy') card.addEventListener('click', () => inspect(f.id));
-            entry = { card, health, timing, hpBar, atbBar }; cards.set(f.id, entry);
+            entry = { card, feedback, health, timing, hpBar, atbBar }; cards.set(f.id, entry);
           }
+          const recent = events.filter(e => e.target === f.id && tick >= e.t && tick - e.t < 6 && e.amount > 0);
+          const damage = recent.filter(e => e.kind === 'damage').reduce((sum, e) => sum + e.amount, 0);
+          const healing = recent.filter(e => e.kind === 'heal').reduce((sum, e) => sum + e.amount, 0);
+          entry.feedback.textContent = [damage ? `−${damage}` : '', healing ? `+${healing}` : ''].filter(Boolean).join('  ');
           entry.health.textContent = `${Math.ceil(f.hp)} / ${f.maxHp} HP${f.shield ? ` · ${Math.ceil(f.shield)} shield` : ''}`;
           entry.hpBar.max = f.maxHp; entry.hpBar.value = Math.max(0, f.hp);
           entry.hpBar.setAttribute('aria-label', `${f.creature.name} health`);
