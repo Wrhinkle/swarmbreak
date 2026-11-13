@@ -15,6 +15,139 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_predeploy_live_manifest_no_space_holds_release(self):
+        commands = []
+        def command(*args, **kwargs):
+            commands.append(args)
+            if args[:3] == ('git', 'worktree', 'add'):
+                tree = Path(args[4])
+                (tree / 'public').mkdir(parents=True)
+                (tree / 'public/manifest.json').write_text('{}')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with patch.object(manager, 'release_check', return_value=('', 'revision')), \
+             patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager, 'live_manifest', side_effect=OSError(errno.ENOSPC, 'No space left on device')), \
+             patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'):
+            result = manager.release()
+        self.assertIn('release live manifest failed: no space left on device', result)
+        self.assertIn('device 42', result)
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
+        self.assertFalse(any(cmd[0] in ('npm', 'firebase') for cmd in commands))
+        with patch.object(manager, 'release') as retry:
+            manager.release_step([], previous=['release -> ' + result])
+            retry.assert_not_called()
+
+    def test_firebase_no_space_holds_retry_and_reports_uncertain_deployment(self):
+        manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json', 'next': {'runId': 'y', 'runUrl': '/runs/y/run.json'}, 'extra': 'm' * 1200}
+        for mode in ('exit', 'spawn'):
+            commands = []
+            def command(*args, **kwargs):
+                commands.append(args)
+                if args[:3] == ('git', 'worktree', 'add'):
+                    tree = Path(args[4])
+                    (tree / 'public/runs/x').mkdir(parents=True)
+                    (tree / 'public/manifest.json').write_text(json.dumps(manifest))
+                    (tree / 'public/runs/x/run.json').write_text('{}')
+                    (tree / 'public/runs/y').mkdir(parents=True)
+                    (tree / 'public/runs/y/run.json').write_text('{}')
+                    (tree / 'dist').mkdir()
+                if args == ('git', 'rev-parse', 'HEAD'):
+                    return SimpleNamespace(returncode=0, stdout='a' * 40, stderr='')
+                if args[0] == 'firebase':
+                    if mode == 'spawn':
+                        raise OSError(errno.ENOSPC, 'No space left on device', '/other/full path')
+                    return SimpleNamespace(returncode=1, stdout='starting deploy', stderr="ENOSPC: no space left on device, open '/other/full path'\n" + 'z' * 3000)
+                return SimpleNamespace(returncode=0, stdout='', stderr='')
+            with self.subTest(mode=mode), patch.object(manager, 'sh', side_effect=command), \
+                 patch.object(manager, 'release_check', return_value=('', 'revision')), \
+                 patch.object(manager, 'live_manifest', return_value=manifest), \
+                 patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+                 patch.object(manager, 'deploy_problems', return_value=[]), \
+                 patch.object(manager, 'capacity_detail', side_effect=lambda path: f'{path}: 12 bytes available'), \
+                 patch.object(manager, 'record') as record:
+                result = manager.release()
+                self.assertIn('Deploy outcome unknown: firebase deploy failed: no space left on device;', result)
+                self.assertIn('12 bytes available', result)
+                self.assertIn('verify', result.lower())
+                self.assertIn('/other/full path: 12 bytes available', result)
+                self.assertIn('No space left on device' if mode == 'spawn' else 'ENOSPC:', result)
+                self.assertIn('expected revision: ' + 'a' * 40, result)
+                self.assertIn('expected raw manifest: ' + json.dumps(manifest), result)
+                self.assertIn('selected run: x', result)
+                self.assertTrue(manager.persistent_release_blocker(result))
+                with patch.object(manager, 'release', return_value=result):
+                    prior = manager.release_step([])
+                self.assertIn(json.dumps(manifest), prior)
+                self.assertIn('a' * 40, prior)
+                self.assertIn('/other/full path', prior)
+                self.assertIn(json.dumps(manifest), record.call_args.args[0]['result'])
+                self.assertTrue(manager.is_capacity_blocker(prior))
+                # A later main revision must not replace the identity in the hold.
+                with patch.object(manager, 'release_check', return_value=('', 'b' * 40)) as advanced, \
+                     patch.object(manager, 'release') as retry:
+                    self.assertEqual(manager.release_step([], previous=[prior]), prior)
+                    retry.assert_not_called()
+                    advanced.assert_not_called()
+            self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
+
+    def test_post_deploy_verification_no_space_holds_uncertain_release(self):
+        manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
+        commands = []
+        def command(*args, **kwargs):
+            commands.append(args)
+            if args[:3] == ('git', 'worktree', 'add'):
+                tree = Path(args[4])
+                (tree / 'public/runs/x').mkdir(parents=True)
+                (tree / 'public/manifest.json').write_text(json.dumps(manifest))
+                (tree / 'public/runs/x/run.json').write_text('{}')
+                (tree / 'dist').mkdir()
+            if args == ('git', 'rev-parse', 'HEAD'):
+                return SimpleNamespace(returncode=0, stdout='a' * 40, stderr='')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with patch.object(manager, 'release_check', return_value=('', 'revision')), \
+             patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager, 'live_manifest', side_effect=[manifest, OSError(errno.ENOSPC, 'No space left on device')]), \
+             patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+             patch.object(manager, 'deploy_problems', return_value=[]), \
+             patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'):
+            result = manager.release()
+        self.assertIn('Deploy outcome unknown:', result)
+        self.assertIn('verification', result.lower())
+        self.assertIn('a' * 40, result)
+        self.assertIn(json.dumps(manifest), result)
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertTrue(any(cmd[0] == 'firebase' for cmd in commands))
+        with patch.object(manager, 'release') as retry:
+            manager.release_step([], previous=['release -> ' + result])
+            retry.assert_not_called()
+
+    def test_checkout_add_no_space_preserves_cleanup_failure_and_holds_release(self):
+        commands = []
+        def command(*args, **kwargs):
+            commands.append(args)
+            if args[:3] == ('git', 'worktree', 'add'):
+                tree = Path(args[4])
+                tree.mkdir()
+                (tree / 'partial').write_text('preserve')
+                raise SystemExit('No space left on device')
+            return SimpleNamespace(returncode=1, stdout='', stderr='removal denied')
+        with tempfile.TemporaryDirectory() as parent, \
+             patch.object(manager.tempfile, 'gettempdir', return_value=parent), \
+             patch.object(manager, 'release_check', return_value=('', 'revision')), \
+             patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'):
+            result = manager.release()
+            tree = Path(next(cmd[4] for cmd in commands if cmd[:3] == ('git', 'worktree', 'add')))
+            self.assertEqual((tree / 'partial').read_text(), 'preserve')
+            self.assertIn(str(tree), result)
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertIn('release checkout failed: no space left on device', result)
+        self.assertIn('removal denied', result)
+        self.assertEqual([cmd for cmd in commands if cmd[:3] == ('git', 'worktree', 'remove')],
+                         [('git', 'worktree', 'remove', tree)])
+        self.assertFalse(any(cmd[0] in ('npm', 'firebase') for cmd in commands))
+
     def test_checkout_manifest_no_space_holds_release(self):
         commands = []
         def command(*args, **kwargs):
@@ -307,13 +440,21 @@ class ReleaseCapacityTest(unittest.TestCase):
                 original_cleanup(temp)
                 if failure == 'temporary cleanup exception':
                     raise OSError('cleanup error')
-            with self.subTest(failure=failure), patch.object(manager, 'sh', side_effect=command), \
+            with self.subTest(failure=failure), tempfile.TemporaryDirectory() as parent, \
+                 patch.object(manager.tempfile, 'gettempdir', return_value=parent), \
+                 patch.object(manager, 'sh', side_effect=command), \
                  patch.object(manager, 'live_manifest', return_value=manifest), \
                  patch.object(manager, 'effective', side_effect=lambda value, now: value), \
                  patch.object(manager, 'deploy_problems', return_value=[]), \
                  patch.object(Path, 'write_text', write), \
                  patch.object(manager.tempfile.TemporaryDirectory, 'cleanup', cleanup):
                 result = manager.deploy(False, 'revision')
+                tree = Path(next(cmd[4] for cmd in commands if cmd[:3] == ('git', 'worktree', 'add')))
+                self.assertEqual([cmd for cmd in commands if cmd[:3] == ('git', 'worktree', 'remove')],
+                                 [('git', 'worktree', 'remove', tree)])
+                if failure != 'temporary cleanup exception':
+                    self.assertTrue((tree / 'public/manifest.json').exists())
+                    self.assertIn(str(tree), result)
             self.assertTrue(manager.persistent_release_blocker(result))
             self.assertIn('release revision file failed: no space left on device', result)
             self.assertIn('cleanup error' if failure == 'temporary cleanup exception' else 'removal error', result)
