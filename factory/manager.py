@@ -675,8 +675,24 @@ def deploy(dry, rev=None):
                 if not failure:
                     return None
                 failure = failure.replace('Not deploying:', 'Deploy outcome unknown:', 1)
+                output = str(error)
+                # OSError.filename is reliable; for command output only accept an explicit
+                # path associated with an ENOSPC error, not arbitrary deploy output.
+                failing_path = getattr(error, 'filename', None)
+                if not failing_path:
+                    match = re.search(r"(?:ENOSPC|no space left on device)[^\n]*?['\"](/[^'\"\n]+)['\"]", output, re.I)
+                    failing_path = match.group(1) if match else None
+                source = (f'Firebase-reported path: {capacity_detail(failing_path)}'
+                          if failing_path and os.path.isabs(failing_path)
+                          else 'failing filesystem: unknown')
+                lines = output.splitlines()
+                relevant = next((line for line in lines if re.search(
+                    r'ENOSPC|no space left on device', line, re.I)), '')
+                evidence = f'{relevant[:2000]}\n{output[-2000:]}'
                 return cleanup_capacity_failure(
-                    f'{failure} Failing filesystem is unknown; verify the live manifest and revision '
+                    f'{failure} {source}; Firebase error: {evidence}; '
+                    f'expected revision: {deployed_rev}; expected raw manifest: {json.dumps(raw_manifest)}; '
+                    f'selected run: {manifest["runId"]}. Verify the live manifest and revision '
                     'before deciding whether to retry, as deployment may have started.')
             try:
                 r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
@@ -1120,12 +1136,13 @@ def release_step(failures, dry=False, previous=(), retry_capacity=False):
         diagnostic = f'release -> {result[-700:]}'
         capacity_identity = release_blocker_identity(full)
         if capacity_identity != full and len(result) > 700:
-            diagnostic = f'{capacity_identity} ... {result[-700:]}'
+            # Firebase may already have published: retain its complete release identity.
+            diagnostic = full if result.startswith('Deploy outcome unknown: firebase deploy') else f'{capacity_identity} ... {result[-700:]}'
         identity = release_blocker_identity(diagnostic)
         blocked = persistent_release_blocker(result) and any(release_blocker_identity(p) == identity for p in previous)
         recorded = f'Blocked: unchanged release failure: {result}' if blocked else result
         print(f'release: {recorded}', flush=True)
-        record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded[-1000:], 'dry': dry})
+        record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded if result.startswith('Deploy outcome unknown: firebase deploy') else recorded[-1000:], 'dry': dry})
         if FAILED.search(result) and not blocked:
             failures.append(diagnostic)
         if persistent_release_blocker(result):
