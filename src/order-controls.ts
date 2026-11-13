@@ -1,12 +1,10 @@
+import { OVERRIDE_COOLDOWN_TICKS, TICK_MS } from './library';
+
 type Choice = { id: string; label: string };
 type Fighter = { id: string; name: string; routines: Choice[] };
 
-export function orderStatus(state: { cooldown: number; queued: unknown | null }): string {
-  return state.queued ? 'Order queued.' : state.cooldown > 0 ? 'Order recharging.' : 'Order ready.';
-}
-
 /** Buttons cycle through the available choices without replacing the focused control. */
-export function orderSelectors(fighters: Fighter[], queue: (fighter: string, routine: string) => void): HTMLElement {
+export function orderSelectors(fighters: Fighter[], queue: (fighter: string, routine: string) => void, state: () => { cooldown: number; queued: { actorId: string } | null; result: string | null; fighters: { id: string; hp: number }[] }) {
   const group = document.createElement('div');
   group.className = 'order-controls';
   const crew = document.createElement('button');
@@ -14,6 +12,8 @@ export function orderSelectors(fighters: Fighter[], queue: (fighter: string, rou
   const button = document.createElement('button');
   crew.type = routine.type = button.type = 'button';
   button.textContent = 'Queue order';
+  const status = document.createElement('p');
+  status.className = 'order-status';
   let fighterIndex = 0, routineIndex = 0;
   const update = () => {
     const fighter = fighters[fighterIndex];
@@ -24,7 +24,12 @@ export function orderSelectors(fighters: Fighter[], queue: (fighter: string, rou
     routine.setAttribute('aria-label', `Manual routine: ${routine.textContent}. Activate to choose the next routine.`);
     crew.disabled = fighters.length < 2;
     routine.disabled = (fighter?.routines.length ?? 0) < 2;
-    button.disabled = !choice;
+    const current = state();
+    const actor = current.fighters.find(f => f.id === fighter?.id);
+    const queued = current.queued && current.fighters.some(f => f.id === current.queued!.actorId && f.hp > 0);
+    const reason = current.result ? 'Fight ended.' : !choice ? 'No routine available.' : !actor || actor.hp <= 0 ? 'Crew member is down.' : queued ? 'Order queued; wait until it is used.' : current.cooldown > 0 ? 'Shared cooldown recharging.' : 'Order ready.';
+    button.disabled = reason !== 'Order ready.';
+    status.textContent = reason;
   };
   crew.addEventListener('click', () => {
     const previous = fighters[fighterIndex]?.routines[routineIndex]?.id;
@@ -47,7 +52,7 @@ export function orderSelectors(fighters: Fighter[], queue: (fighter: string, rou
   };
   const limitation = document.createElement('p');
   limitation.className = 'order-limitation';
-  limitation.textContent = 'One order at a time; using it starts a shared cooldown.';
-  group.append(field('Order a crew member', crew), field('Manual routine', routine), button, limitation);
-  return group;
+  limitation.textContent = `One order at a time. Using it starts a shared cooldown of ${OVERRIDE_COOLDOWN_TICKS * TICK_MS / 1000} seconds at 1× speed.`;
+  group.append(field('Order a crew member', crew), field('Manual routine', routine), button, limitation, status);
+  return { element: group, update };
 }
