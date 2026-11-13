@@ -1,0 +1,1139 @@
+{
+ "title": "A Place to Change",
+ "swarm": {
+  "name": "The Caretakers",
+  "blurb": "A traveling swarm of insect-shaped machines. It studies living things, copies their changes, and tries to keep them safe."
+ },
+ "arc": "The Caretakers begin by collecting and sorting insects, apparently to complete a perfect reference specimen. The crew follows their shipments to a moth nursery and learns the specimens are being used to understand change, not to build a static collection. The swarm is trying to protect a threatened generation, but mistakes isolation for safety. At the final site it builds an enclosed habitat that blocks food, movement, and neighbors. Wren, Ox, and Kestrel break its control machinery and leave the living residents connected to the wider landscape. The swarm\u2019s purpose was care; its mistake was thinking care could be finished and sealed shut.",
+ "acts": [
+  {
+   "theme": "The collection",
+   "story": {
+    "intro": "Insect-shaped machines are gathering living specimens. Wren checks the empty cages. Ox finds tracks between them. Kestrel follows a scrape in the floor.",
+    "chapters": [
+     {
+      "title": "Parts",
+      "text": "Collectors sort wings, legs, and antennae into separate trays. Wren finds food left beside a cage. The machines may be keeping their specimens alive."
+     },
+     {
+      "title": "Care sheets",
+      "text": "Some cages are clean and stocked. Others contain the wrong leaves. Ox holds a door while Wren moves a caterpillar to better food."
+     },
+     {
+      "title": "The sorting room",
+      "text": "The collectors bring their trays to one large machine. Kestrel finds a seam in its armor. A route out points toward a moth nursery."
+     }
+    ],
+    "bossIntro": "The Grand Identifier closes its shields over the trays. Smaller collectors gather around it. Wren asks the crew to keep the cages intact.",
+    "outro": "Inside the last tray is a living caterpillar and a route to the nursery. Ox carries the cage. The swarm sends its remaining machines ahead."
+   },
+   "creatures": [
+    {
+     "id": "calendar-mite",
+     "name": "Calendar Mite",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/",
+     "blurb": "It rushes anything moving outside its assigned season.",
+     "look": "A brass tick with a round cream shell and six clock-hand legs."
+    },
+    {
+     "id": "facet-scout",
+     "name": "Facet Scout",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/insects/what-bug-is-this/insects.html",
+     "blurb": "Its eyes flash out of sequence to interrupt the crew.",
+     "look": "A small black fly with six green glass eyes and clear square wings."
+    },
+    {
+     "id": "burial-beetle",
+     "name": "Burial Beetle",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/publications/beetle-news/",
+     "blurb": "It carries useful gear away to a fresh mound.",
+     "look": "A squat brown beetle with spade jaws and dirt packed between its plates."
+    },
+    {
+     "id": "glossary-clamp",
+     "name": "Glossary Clamp",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/insects/glossary/",
+     "blurb": "It pins the wrong description to anything it can catch.",
+     "look": "A pale steel pincer on four jointed legs, with a hinged blank plate."
+    },
+    {
+     "id": "vent-siphon",
+     "name": "Vent Siphon",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike"
+     ],
+     "source": "/insects/what-bug-is-this/insects.html",
+     "blurb": "It forces air vents shut, then breaks through whatever covers them.",
+     "look": "A ribbed gray hose with a ring of black jaws and copper vents."
+    },
+    {
+     "id": "enclosure-keeper",
+     "name": "Enclosure Keeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/insects/caresheets/",
+     "blurb": "It repairs the collectors before tending the insects in their cages.",
+     "look": "A cream box on thin legs with a green glass tank and two sewing arms."
+    },
+    {
+     "id": "plot-allocator",
+     "name": "Plot Allocator",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/events/exhibitions.html",
+     "blurb": "Its measuring arms fold around damaged collectors.",
+     "look": "A low yellow survey frame with four long hinged legs and a folding metal screen."
+    },
+    {
+     "id": "referral-fly",
+     "name": "Referral Fly",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/membership/introduce-a-friend.html",
+     "blurb": "When damaged, its cluster breaks into more bodies.",
+     "look": "A knot of tiny blue flies around a hollow silver ring."
+    },
+    {
+     "id": "experiment-drone",
+     "name": "Experiment Drone",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "corrupt",
+      "strike"
+     ],
+     "source": "/bug-club/fun/experiments.html",
+     "blurb": "It changes the test whenever the crew finds a way through.",
+     "look": "A white disk with three jointed lenses and narrow transparent wings."
+    },
+    {
+     "id": "model-dragonfly",
+     "name": "Model Dragonfly",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "sweep"
+     ],
+     "source": "/bug-club/fun/build-bug.html",
+     "blurb": "Its oversized wings sweep the corridor as it gathers parts.",
+     "look": "A long green metal dragonfly with four broad ribbed wings and crooked wire legs."
+    },
+    {
+     "id": "year-engine",
+     "name": "Year Engine",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/publications/books/",
+     "blurb": "Its hard plates turn through the seasons and shelter the collectors.",
+     "look": "A round orange ladybird machine with rotating black plates and short steel legs."
+    },
+    {
+     "id": "grand-identifier",
+     "name": "Grand Identifier",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "spawn",
+      "strike"
+     ],
+     "source": "/insects/what-bug-is-this/",
+     "blurb": "It shields its sorting trays and calls collectors to fill them. Its last tray holds a living caterpillar and a route to a nursery.",
+     "look": "A towering brass beetle with many glass eyes, folding shields and open trays beneath its abdomen."
+    },
+    {
+     "id": "field-guide",
+     "name": "Field Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/membership/local-groups/",
+     "blurb": "A patient local guide marks safe routes and helps the injured.",
+     "look": "A short figure in a moss-green raincoat with a lens, satchel and walking stick."
+    },
+    {
+     "id": "care-keeper",
+     "name": "Care Keeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/insects/caresheets/",
+     "blurb": "This keeper shelters living caterpillars instead of collecting them.",
+     "look": "A small cream box on wooden legs carrying a clear tank of green leaves."
+    }
+   ],
+   "events": [
+    {
+     "id": "calendar-crossing",
+     "source": "/",
+     "look": "A brass tick beside a butterfly on a yellow flower.",
+     "title": "A date out of place",
+     "text": "A calendar mite waits for a butterfly it insists is not here yet. The flower patch has supplies, but the insect is in its path.",
+     "options": [
+      {
+       "label": "Guide the butterfly out",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren rests while the insect reaches cover."
+      },
+      {
+       "label": "Search the patch",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Ox retrieves loose supplies before the mite returns."
+      }
+     ]
+    },
+    {
+     "id": "wrong-leaves",
+     "source": "/insects/caresheets/",
+     "look": "A clear box of green leaves beside a small caterpillar.",
+     "title": "The wrong leaves",
+     "text": "A keeper has stocked an enclosure with the wrong food. It offers either medical supplies or a lesson in opening its catches.",
+     "options": [
+      {
+       "label": "Take the supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren makes use of the clean bandages."
+      },
+      {
+       "label": "Learn the latch",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel practices opening the stubborn catches."
+      }
+     ]
+    },
+    {
+     "id": "buried-cache",
+     "source": "/publications/beetle-news/",
+     "look": "A beetle beside a mound of dark earth and a metal box.",
+     "title": "Moving cache",
+     "text": "A beetle keeps burying a box. Intercept it now or follow it to its larger store.",
+     "options": [
+      {
+       "label": "Intercept the box",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew pulls loose coins from the box."
+      },
+      {
+       "label": "Follow the beetle",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The longer route costs the crew a few bruises, but reveals the store."
+      }
+     ]
+    },
+    {
+     "id": "spider-exam",
+     "source": "/insects/what-bug-is-this/arthropods.html",
+     "look": "A steel cage holding a gray spider and a white egg sac.",
+     "title": "Leg count",
+     "text": "An examiner will open one side of a divided cage. The spider and its egg sac are on opposite sides.",
+     "options": [
+      {
+       "label": "Free the spider",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The grateful observer shows Wren how to clear a fouled mechanism."
+      },
+      {
+       "label": "Recover the egg sac",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The observer treats the crew after taking the sac to safety."
+      }
+     ]
+    },
+    {
+     "id": "fairground-plot",
+     "source": "/events/exhibitions.html",
+     "look": "A folding measuring frame beside a crate of live insects.",
+     "title": "Room for a crate",
+     "text": "A metal plot is expanding across an exhibitor\u2019s path. The crew can hold its legs or buy a clear route.",
+     "options": [
+      {
+       "label": "Hold the frame",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Ox keeps the legs apart until the crate passes."
+      },
+      {
+       "label": "Buy a route",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The exhibitor pays the allocator with the crew\u2019s coins and gets through."
+      }
+     ]
+    },
+    {
+     "id": "field-trip",
+     "source": "/membership/local-groups/",
+     "look": "Two small groups on opposite sides of a green clearing.",
+     "title": "Separate trips",
+     "text": "Two field groups are walking toward the same patrol. One can offer spare money; the other knows a defensive drill.",
+     "options": [
+      {
+       "label": "Warn the first group",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "They share their travel fund in thanks."
+      },
+      {
+       "label": "Warn the second group",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns their way of bracing against a rush."
+      }
+     ]
+    }
+   ],
+   "name": "Amateur Entomologists' Society",
+   "url": "https://www.amentsoc.org/"
+  },
+  {
+   "theme": "The nursery",
+   "story": {
+    "intro": "At the nursery, the swarm has copied caterpillars, pupae, and adult moths. Kestrel expects a factory. Wren finds feeding stations.",
+    "chapters": [
+     {
+      "title": "Different forms",
+      "text": "Larvae and winged machines share the same markings. Ox spots empty shells among them. The swarm is studying how a body changes."
+     },
+     {
+      "title": "A generation",
+      "text": "Wren finds living moths in protected chambers. The swarm is raising them, not preserving a fixed collection. Its keepers still mistake closed doors for safety."
+     },
+     {
+      "title": "The next flight",
+      "text": "The nursery is packing for another move. Its records point toward a place with flowers and nesting sites. Kestrel follows the cables to the machine coordinating the flight."
+     }
+    ],
+    "bossIntro": "The False Field Guide unfolds around its nursery. It calls guards and repairs them as its wings sweep the floor. The living moths are inside.",
+    "outro": "The crew opens the nursery and releases the moths. The departing machines carry shelter parts toward the next site. Wren thinks they are trying to protect the brood."
+   },
+   "creatures": [
+    {
+     "id": "pink-marble",
+     "name": "Pink Marble",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/species/hedya-atropunctana/adult-2/",
+     "blurb": "It copies the nearest movement while its new wings dry.",
+     "look": "A small pink moth machine with rounded wings and silver pin joints.",
+     "key": "green"
+    },
+    {
+     "id": "hawthorn-miner",
+     "name": "Hawthorn Miner",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "bruiser",
+     "routines": [
+      "breach"
+     ],
+     "source": "/species/phyllonorycter-oxyacanthae/adult-1/",
+     "blurb": "It hollows supports and bites through shields.",
+     "look": "A tiny bronze larva with a pointed drill head and a leaf-shaped back."
+    },
+    {
+     "id": "groundling-marker",
+     "name": "Groundling Marker",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/species/chionodes-distinctella/adult/",
+     "blurb": "It marks intruders for the nursery patrol.",
+     "look": "A low black moth with narrow gray wings and a bright amber tail."
+    },
+    {
+     "id": "broom-changeling",
+     "name": "Broom Changeling",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/species/ceramica-pisi/larva-1/",
+     "blurb": "Its casing splits when the larva inside is threatened.",
+     "look": "A fat chestnut caterpillar with overlapping gray armor bands and six stubby feet."
+    },
+    {
+     "id": "sallow-sapper",
+     "name": "Sallow Sapper",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach"
+     ],
+     "source": "/species/pyrrhia-umbra/adult-1/",
+     "blurb": "It charges through cover to reach chalk for the nursery.",
+     "look": "A chalk-white moth with heavy shovel jaws, dusty wings and dark brown legs."
+    },
+    {
+     "id": "antenna-choir",
+     "name": "Antenna Choir",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/thumbnails/adelidae/",
+     "blurb": "Linked antennae call more patrols. Break the choir quickly.",
+     "look": "Three copper moths joined by long curved antennae, with narrow green wings."
+    },
+    {
+     "id": "glasswright",
+     "name": "Glasswright",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/whats-new/may-2023/",
+     "blurb": "It lays clear plates over damaged nursery guards.",
+     "look": "A green larva inside a clear faceted shell, with small black gripping arms."
+    },
+    {
+     "id": "pose-assessor",
+     "name": "Pose Assessor",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/identify/photo/",
+     "blurb": "Its flash stops moving targets for a better look.",
+     "look": "A squat silver camera on six insect legs with a large white circular lens."
+    },
+    {
+     "id": "broad-bar-calendar",
+     "name": "Broad-bar Calendar",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep"
+     ],
+     "source": "/species/scotopteryx-chenopodiata/adult-1/",
+     "blurb": "It releases a whole brood on the same mistaken schedule.",
+     "look": "A large tan moth with a dark straight band across wide angular wings."
+    },
+    {
+     "id": "brocade-colony",
+     "name": "Brocade Colony",
+     "tier": "elite",
+     "bodyPlan": "swarm",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/species/mniotype-solieri/adult/",
+     "blurb": "Its workers repair the nursery line while others fight.",
+     "look": "A cluster of brown moths weaving pale threads around a square wooden frame."
+    },
+    {
+     "id": "jewel-prospector",
+     "name": "Jewel Prospector",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/thumbnails/eriocraniidae/",
+     "blurb": "It wears reflective scales and pries open barricades.",
+     "look": "A broad hazel beetle with purple mirrored plates and two blunt digging jaws."
+    },
+    {
+     "id": "false-field-guide",
+     "name": "False Field Guide",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "patch",
+      "sweep+"
+     ],
+     "source": "/",
+     "blurb": "It assembles larvae and adults into a single model and repairs its brood. The nursery inside shows that the swarm is raising a generation, not merely collecting it.",
+     "look": "A giant moth with layered brown wings, a clear segmented nursery belly and many small silver limbs."
+    },
+    {
+     "id": "careful-identifier",
+     "name": "Careful Identifier",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/identification-disclaimer/",
+     "blurb": "They offer possibilities and know when the evidence is thin.",
+     "look": "A figure in a blue coat with a folding lens and a bundle of blank cards."
+    },
+    {
+     "id": "recorder-relay",
+     "name": "Recorder Relay",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/national-moth-recording-scheme/",
+     "blurb": "A volunteer-built station shares flight warnings and spare parts.",
+     "look": "A wooden tripod with a green lamp, copper antenna and a small tool drawer."
+    }
+   ],
+   "events": [
+    {
+     "id": "fading-pink",
+     "source": "/species/hedya-atropunctana/adult-2/",
+     "look": "A pink moth among three gray moths on a branch.",
+     "title": "Before the color fades",
+     "text": "A recorder asks for help identifying a newly emerged machine. There is time to mark it or move the recorder to safety.",
+     "options": [
+      {
+       "label": "Mark the machine",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The recorder shows Kestrel how to interrupt its flash."
+      },
+      {
+       "label": "Move the recorder",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The recorder shares a clean dressing."
+      }
+     ]
+    },
+    {
+     "id": "mined-cart",
+     "source": "/species/phyllonorycter-oxyacanthae/adult-1/",
+     "look": "A wooden cart with fine tunnels beside a hawthorn leaf.",
+     "title": "Two kinds of mine",
+     "text": "A supply cart and a hawthorn leaf have similar tunnels. Tracing the machine\u2019s route takes time; unloading the cart takes strength.",
+     "options": [
+      {
+       "label": "Trace the tunnels",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The route leads to a small cache."
+      },
+      {
+       "label": "Unload the cart",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The rescued driver offers medical supplies."
+      }
+     ]
+    },
+    {
+     "id": "light-trap",
+     "source": "/feedback/page3",
+     "look": "A glowing glass box holding two moth shapes.",
+     "title": "A crowded trap",
+     "text": "A living moth and a machine share a light trap. Opening it frees both. Separating them requires putting a hand inside.",
+     "options": [
+      {
+       "label": "Separate them",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The machine bites, but the moth escapes alone."
+      },
+      {
+       "label": "Open the trap",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "Both escape. The collector charges the crew for the broken latch."
+      }
+     ]
+    },
+    {
+     "id": "false-map",
+     "source": "/thumbnails/hepialidae/",
+     "look": "A brown moth perched on a signpost with patterned wings spread.",
+     "title": "The changing map",
+     "text": "A scout\u2019s wing markings suggest a shortcut. Watching it might reveal a trick; following it may find supplies.",
+     "options": [
+      {
+       "label": "Watch the wings",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox learns to use the scout\u2019s movements as cover."
+      },
+      {
+       "label": "Follow the route",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The route circles a stash before returning to the post."
+      }
+     ]
+    },
+    {
+     "id": "early-flight",
+     "source": "/species/scotopteryx-chenopodiata/adult-1/",
+     "look": "A brass clock beside a box with a glowing lamp.",
+     "title": "An early flight",
+     "text": "A station is announcing a mass emergence months early. Resetting it costs parts; leaving it running gives the crew time to rest.",
+     "options": [
+      {
+       "label": "Reset the station",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The false warning stops before it reaches the settlement."
+      },
+      {
+       "label": "Rest by the station",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren patches the crew while the warning continues."
+      }
+     ]
+    },
+    {
+     "id": "silent-relay",
+     "source": "/national-moth-recording-scheme/",
+     "look": "Two wooden signal towers separated by a dark gap.",
+     "title": "Second opinion",
+     "text": "One relay offers a warning, but its neighbor is silent. The crew can reconnect it or take the first station\u2019s spare equipment.",
+     "options": [
+      {
+       "label": "Reconnect the relay",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The climb hurts, but the two stations can compare their reports."
+      },
+      {
+       "label": "Take the spares",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The station gives up its spare fittings. The date remains uncertain."
+      }
+     ]
+    }
+   ],
+   "name": "UKMoths",
+   "url": "https://www.ukmoths.org.uk/"
+  },
+  {
+   "theme": "The connected habitat",
+   "story": {
+    "intro": "The swarm is building a habitat for its brood. It has flowers, nesting tubes, and a heavy perimeter. A bee waits outside the fence.",
+    "chapters": [
+     {
+      "title": "Shelter",
+      "text": "Leaves and hollow stems hold living nests. Ox stops a cleaner before it clears them. The swarm keeps adding walls around the remaining shelter."
+     },
+     {
+      "title": "Food and passage",
+      "text": "Flowers sit behind barriers that pollinators cannot cross. Wren opens a gap and watches a bee enter. The habitat needs traffic as well as shelter."
+     },
+     {
+      "title": "The perimeter",
+      "text": "The planters and nesting tubes connect to one control machine. Kestrel traces the seams between its modules. The swarm is trying to keep the brood safe by sealing everything in."
+     }
+    ],
+    "bossIntro": "The Perfect Habitat lowers its dome. Its arms sweep the perimeter while guards gather beneath it. Ox covers Wren as Kestrel heads for the control seams.",
+    "outro": "The control machine falls still. Openings remain between flowers, nests, and the land beyond. Wren checks the brood. Ox props up a damaged shelter. Kestrel leaves a gap in the fence."
+   },
+   "creatures": [
+    {
+     "id": "floss-separator",
+     "name": "Floss Separator",
+     "tier": "easy",
+     "bodyPlan": "plant",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/blog/how-to-collect-seeds-from-milkweed-pod-and-plan",
+     "blurb": "It catches travelers in drifting seed floss.",
+     "look": "A tan split pod on wire legs spilling white fibers around a silver claw."
+    },
+    {
+     "id": "stem-inspector",
+     "name": "Stem Inspector",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/pollinator-conservation/yards-and-gardens",
+     "blurb": "It drills occupied stems shut to keep their residents safe.",
+     "look": "A narrow brown bee-shaped drill with pale jointed legs and a hollow reed on its back."
+    },
+    {
+     "id": "atlas-pin",
+     "name": "Atlas Pin",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn"
+     ],
+     "source": "/community-science",
+     "blurb": "It calls a patrol to every fresh observation.",
+     "look": "A red glass sphere on a long pointed steel leg with two tiny black arms.",
+     "key": "green"
+    },
+    {
+     "id": "early-cleaner",
+     "name": "Early Cleaner",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/blog/leave-the-leaves",
+     "blurb": "It bundles leaf litter into shields, exposing the nests beneath.",
+     "look": "A low green rake machine with a rolling bundle of brown leaves across its front."
+    },
+    {
+     "id": "crop-comber",
+     "name": "Crop Comber",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/pollinator-conservation/farmland",
+     "blurb": "Its metal tendrils hold the crew still between crop rows.",
+     "look": "A yellow wheeled comb with curved steel teeth and coils of green wire."
+    },
+    {
+     "id": "nursery-tender",
+     "name": "Nursery Tender",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/pesticides/bee-safe-nursery-plants",
+     "blurb": "It restores the habitat guards with resin from false flowers.",
+     "look": "A ceramic pot on six legs with waxy blue flowers and a copper watering arm."
+    },
+    {
+     "id": "mussel-dredger",
+     "name": "Mussel Dredger",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach"
+     ],
+     "source": "/endangered-species",
+     "blurb": "Its shell closes over salvaged parts and breaks through cover.",
+     "look": "A dark olive mussel shell with riveted hinges and two muddy digging arms."
+    },
+    {
+     "id": "firefly-lantern",
+     "name": "Firefly Lantern",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/endangered-species",
+     "blurb": "False flashes draw a cloud of machine patrols.",
+     "look": "A black winged lantern with a glowing yellow abdomen and thin curved antennae."
+    },
+    {
+     "id": "habitat-carrier",
+     "name": "Habitat Carrier",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "sweep"
+     ],
+     "source": "/pollinator-conservation/habitat-kits",
+     "blurb": "Its planters fold into a wall around the swarm\u2019s guards.",
+     "look": "A broad green metal cart carrying three square planters on folding arms."
+    },
+    {
+     "id": "control-mimic",
+     "name": "Control Mimic",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "corrupt",
+      "strike"
+     ],
+     "source": "/pesticides",
+     "blurb": "It marks moving things and sends hunters after the mark.",
+     "look": "A black wasp machine with a striped yellow abdomen and a cage of tiny silver drones."
+    },
+    {
+     "id": "soil-plow",
+     "name": "Soil Plow",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach",
+      "strike+"
+     ],
+     "source": "/pollinator-conservation/farmland",
+     "blurb": "It follows vibrations and tears through defenses to reach them.",
+     "look": "A heavy rust-brown plow with six beetle legs and a broad pointed blade."
+    },
+    {
+     "id": "perfect-habitat",
+     "name": "Perfect Habitat",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "spawn",
+      "sweep+"
+     ],
+     "source": "/bring-back-the-pollinators",
+     "blurb": "It repairs its guards and calls more while its shelter closes over the landscape. Its sweeping arms keep every living thing inside, away from the food and neighbors it needs.",
+     "look": "A vast domed machine with green planter walls, tan nesting tubes and long steel arms sweeping around its base."
+    },
+    {
+     "id": "atlas-volunteer",
+     "name": "Atlas Volunteer",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/community-science",
+     "blurb": "They map safe paths with quiet hand signals.",
+     "look": "A figure in a gray field jacket with binoculars, gloves and a rolled blank map."
+    },
+    {
+     "id": "seed-keeper",
+     "name": "Seed Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/blog/how-to-collect-seeds-from-milkweed-pod-and-plan",
+     "blurb": "They save ripe seed for damaged patches and share supplies.",
+     "look": "A figure in a tan apron holding a shallow basket of brown pods and white fibers."
+    }
+   ],
+   "events": [
+    {
+     "id": "ripe-pod",
+     "source": "/blog/how-to-collect-seeds-from-milkweed-pod-and-plan",
+     "look": "A tan milkweed pod opening in the wind, with white fibers drifting.",
+     "title": "A pod in the wind",
+     "text": "A ripe pod is splitting as a separator approaches. The seed keeper offers medicine for help or a useful lesson.",
+     "options": [
+      {
+       "label": "Catch the seed",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The keeper shares a field dressing."
+      },
+      {
+       "label": "Learn the timing",
+       "effect": {
+        "type": "routine",
+        "id": "finish"
+       },
+       "result": "Kestrel learns to wait for the opening."
+      }
+     ]
+    },
+    {
+     "id": "sleeping-leaves",
+     "source": "/blog/leave-the-leaves",
+     "look": "A mound of brown leaves before a green rake machine.",
+     "title": "Someone under the leaves",
+     "text": "A cleaner is heading for a nest under the leaf litter. The crew can divert it with their gear or move the nest by hand.",
+     "options": [
+      {
+       "label": "Divert the cleaner",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The machine follows the sacrificed metal away from the nest."
+      },
+      {
+       "label": "Move the nest",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew takes a scrape carrying the nest to shelter."
+      }
+     ]
+    },
+    {
+     "id": "scrambled-kit",
+     "source": "/pollinator-conservation/habitat-kits",
+     "look": "Three square planters with green shoots and loose metal panels.",
+     "title": "A kit in pieces",
+     "text": "A habitat kit has been folded into a trap. Its builders offer a defensive lesson or their remaining funds for help.",
+     "options": [
+      {
+       "label": "Rebuild the shelter",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox learns to angle a planter into a shield."
+      },
+      {
+       "label": "Sort the plants",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The builders share the money left from their delivery."
+      }
+     ]
+    },
+    {
+     "id": "nursery-records",
+     "source": "/pesticides/bee-safe-nursery-plants",
+     "look": "Blue flowers in pots beside an open wooden drawer.",
+     "title": "Beautiful flowers",
+     "text": "A nursery\u2019s treatment records are missing. The crew can search before moving the plants or use the wait to recover.",
+     "options": [
+      {
+       "label": "Search the records",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The crew buys time from the cart driver and finds which plants are suitable."
+      },
+      {
+       "label": "Rest at the nursery",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren treats the crew while the plants stay where they are."
+      }
+     ]
+    },
+    {
+     "id": "firefly-signals",
+     "source": "/community-science",
+     "look": "Two yellow lights blinking over dark grass.",
+     "title": "Two sets of flashes",
+     "text": "Survey teams disagree about which lights are machines. Comparing signals takes time and exposes the crew to a patrol.",
+     "options": [
+      {
+       "label": "Compare the flashes",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "A patrol clips the crew, but the teams identify the lure."
+      },
+      {
+       "label": "Shield the observers",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns their way of holding position in the dark."
+      }
+     ]
+    },
+    {
+     "id": "blocked-bloom",
+     "source": "/advocacy",
+     "look": "A yellow flower inside a circular metal fence with a bee outside.",
+     "title": "A protected flower",
+     "text": "A boundary machine has fenced a bloom so tightly that a bee cannot reach it. The crew can buy access or pull a section loose.",
+     "options": [
+      {
+       "label": "Buy access",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The machine opens a narrow gate for the bee."
+      },
+      {
+       "label": "Pull the fence",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "Kestrel opens a gap, taking a cut from the bent metal."
+      }
+     ]
+    }
+   ],
+   "name": "The Xerces Society for Invertebrate Conservation",
+   "url": "https://xerces.org/"
+  }
+ ],
+ "id": "2026-11-14",
+ "seed": 1472907768
+}

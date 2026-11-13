@@ -1,0 +1,14 @@
+{
+  "thread": "Follow an insect from its curious body parts through a transformation into a winged adult, then out into the habitats it shares with other small creatures. The swarm can become antennae and jaws, caterpillars and moths, and finally pollinators and other inhabitants of the wild.",
+  "candidates": [
+    {"name": "Amateur Entomologists' Society", "url": "https://www.amentsoc.org/", "why": "An insect A–Z, anatomy and identification resources, and a glossary offer a starting kit of antennae, mouthparts, wings, and peculiar insect orders."},
+    {"name": "UKMoths", "url": "https://www.ukmoths.org.uk/", "why": "A richly illustrated guide to moth families and species, with caterpillars and other life stages as well as adults; leaf-miners, tiger moths, and scalloped wings can carry the transformation forward."},
+    {"name": "The Xerces Society for Invertebrate Conservation", "url": "https://xerces.org/", "why": "Profiles and conservation projects for bumble bees, fireflies, butterflies, and other invertebrates lead the swarm into nests, nighttime habitats, and the wider living landscape."},
+    {"name": "Australian Museum", "url": "https://australian.museum/", "why": "Its animal fact sheets and research collections include camouflage specialists, beetles, moths, and other insects with remarkable bodies and life cycles."},
+    {"name": "Buglife", "url": "https://www.buglife.org.uk/", "why": "Species pages and habitat projects introduce riverflies, solitary bees, beetles, and the bogs, grasslands, and waterways they inhabit."},
+    {"name": "UC Riverside Entomology Research Museum", "url": "https://entmuseum.ucr.edu/", "why": "Insect holdings, a desert insect survey, specimen preparation guides, and bug spotlights give the swarm a cabinet of bees, wasps, beetles, and collecting tools to explore."},
+    {"name": "Bohart Museum of Entomology", "url": "https://bohart.ucdavis.edu/", "why": "Insect fact sheets, native bee resources, special collections, and a cabbage white life-cycle guide turn specimens and their transformations into creature material."},
+    {"name": "Enns Entomology Museum", "url": "https://museum.insecta.missouri.edu/", "why": "Museum holdings, research projects, and locality images offer a route through insect groups and the places where specimens were collected."},
+    {"name": "British Bugs", "url": "https://www.britishbugs.org.uk/", "why": "Galleries and species lists of true bugs, alongside anatomy and ecology notes, provide shieldbugs, leafhoppers, and other small creatures with distinctive shapes."}
+  ]
+}

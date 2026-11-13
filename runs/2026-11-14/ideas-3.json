@@ -1,0 +1,226 @@
+{
+  "reading": "The Xerces Society is an international, science-based nonprofit conserving invertebrates and their habitats, from pollinators and soil life to freshwater mussels and fireflies. It combines research, monitoring, habitat restoration, pesticide reduction and policy with practical training, community science, partnerships and public education. Its vocabulary is unusually grounded: native plants, nesting sites, overwintering, milkweed, cover crops, field guides, habitat kits, transects and region-specific resources. It sees a yard, farm, roadside or waterway as linked living habitat, and treats small, overlooked animals as the foundation of much larger systems. Its distinctive character is the blend of ecological specificity, public participation and accessible, hopeful action, from leaving leaves in place to mapping a rare bee.",
+  "enemies": [
+    {
+      "idea": "Floss Separator: a milkweed pod automaton waits until seeds are ripe, then fires a drifting net of floss and sorts anything caught inside into seed or waste.",
+      "source": "/blog/how-to-collect-seeds-from-milkweed-pod-and-plan",
+      "why": "Its visible ripening timer lets a crew interrupt the harvest or use the wind against it."
+    },
+    {
+      "idea": "The Early Cleaner sweeps fallen leaves into armored bales, exposing sleeping nests; its rake only advances over ground it has declared tidy.",
+      "source": "/blog/leave-the-leaves",
+      "why": "The crew can build leaf barricades and protect a concealed winter refuge."
+    },
+    {
+      "idea": "A stem inspector taps hollow stalks for occupants, then plugs occupied stems with metal and carries them away as specimens.",
+      "source": "/pollinator-conservation/yards-and-gardens",
+      "why": "Its tapping telegraphs its route and makes protecting nesting sites a stealth puzzle."
+    },
+    {
+      "idea": "Cover-crop combers roll through a field, stitching metal tendrils between plants until the rows form a tightening cage.",
+      "source": "/pollinator-conservation/farmland",
+      "why": "The living crop becomes a shifting obstacle course that can be cut open."
+    },
+    {
+      "idea": "A certification auditor stamps every flower it reaches as compliant, replacing nectar with conductive resin and defending its perfect score.",
+      "source": "/business-partnerships",
+      "why": "Its scorecard provides both a target and a way to trick it into undoing its own work."
+    },
+    {
+      "idea": "A counterfeit nursery tender raises pesticide-laced blooms and invites pollinators toward them with immaculate artificial scent.",
+      "source": "/pesticides/bee-safe-nursery-plants",
+      "why": "A beautiful lure turns careful plant inspection into a rescue encounter."
+    },
+    {
+      "idea": "The transect walker paces an exact survey line, counting every moving silhouette as a butterfly and netting anything it cannot identify at a distance.",
+      "source": "/publications",
+      "why": "Its rigid route makes the danger predictable enough to exploit."
+    },
+    {
+      "idea": "Atlas pins crawl out of a community survey and impale the ground wherever a sighting is recorded, drawing patrols to the latest observation.",
+      "source": "/community-science",
+      "why": "Sharing useful information becomes a tactical risk until the pins are redirected."
+    },
+    {
+      "idea": "A monarch winter counter hangs from a coastal branch in a metallic cluster; when disturbed, its counting beads burst into pursuing winged drones.",
+      "source": "/blog/everything-you-need-to-know-about-visiting-californias-overwintering-monarchs",
+      "why": "Quiet movement can avoid a dramatic cascade of awakening machines."
+    },
+    {
+      "idea": "The region selector dispatches seed-mix drones that insist on planting one landscape’s plants everywhere, choking out local shelter with metal roots.",
+      "source": "/pollinator-resource-center",
+      "why": "The correct local seed mix can confuse its territorial instructions."
+    },
+    {
+      "idea": "Habitat-kit carriers assemble instant flower beds around intruders, then fold the planters shut like portable traps.",
+      "source": "/pollinator-conservation/habitat-kits",
+      "why": "The same modular pieces can be rearranged into cover or an escape route."
+    },
+    {
+      "idea": "A policy enforcer unfurls an endless protective boundary around a single flower and arrests anything that tries to cross, including its pollinators.",
+      "source": "/advocacy",
+      "why": "A rule meant to protect life becomes an absurd spatial puzzle."
+    },
+    {
+      "idea": "A biological-control mimic marks everything that moves as a pest, then releases smaller hunters that follow the mark rather than the target.",
+      "source": "/pesticides",
+      "why": "Marks can be transferred to turn a pack against its controller."
+    },
+    {
+      "idea": "A solitary-bee imitator drills individual holes in walls and launches from a different exit each time it is threatened.",
+      "source": "/pollinator-conservation/about-pollinators",
+      "why": "Tracking separate entrances rewards observation rather than indiscriminate destruction."
+    },
+    {
+      "idea": "A freshwater-mussel dredger clamps shut around useful objects and filters the stream for metal, leaving the water cloudy with churned sediment.",
+      "source": "/endangered-species",
+      "why": "Its slow opening offers a rescue window while water clarity changes the encounter."
+    },
+    {
+      "idea": "A badge examiner assigns protector tasks faster than anyone can finish them; each unfinished task unfolds another paper-thin mechanical warden.",
+      "source": "/education",
+      "why": "Cooperating to complete or cleverly reinterpret a task can stop the multiplication."
+    },
+    {
+      "idea": "A nesting-plant database gardener tags every stem with a number, severing any unregistered stem before a bee can use it.",
+      "source": "/community-science",
+      "why": "Crews can swap tags to save real nesting habitat and misdirect the cutter."
+    },
+    {
+      "idea": "The monarch lookalike patrol wears mismatched wings and challenges anything with the wrong pattern, changing its own markings after each alarm.",
+      "source": "/pollinator-conservation",
+      "why": "Recognizing the changing pattern becomes a tense game of identification."
+    },
+    {
+      "idea": "A soil-life plow listens for movement below ground and digs up every vibration, exposing its machinery when lured onto stone.",
+      "source": "/pollinator-conservation/farmland",
+      "why": "Footsteps and improvised vibrations let the crew control where it digs."
+    },
+    {
+      "idea": "A firefly survey lantern flashes an artificial response to every light it sees, calling a cloud of machines to the signal.",
+      "source": "/endangered-species",
+      "why": "A simple light code can lure patrols away from a living refuge."
+    },
+    {
+      "idea": "The pledge binder winds four mechanical ribbons around passersby, demanding flowers, shelter, no pesticides and a message before releasing them.",
+      "source": "/bring-back-the-pollinators",
+      "why": "The crew can satisfy its distorted rules with inventive small actions."
+    },
+    {
+      "idea": "A native-seed directory courier swaps the labels on seed packets and buries them in sealed metal caches across the landscape.",
+      "source": "/pollinator-conservation/native-plant-nursery-and-seed-directory",
+      "why": "Recovering and matching the packets turns a chase into a restoration opportunity."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A volunteer atlas crew uses quiet hand signals and field notes to map safe routes without attracting the machine pins.",
+      "source": "/community-science",
+      "why": "They turn careful observation into shared intelligence and welcome a passing crew into the work."
+    },
+    {
+      "idea": "A leaf-litter refuge of living overwintering insects shelters beneath a brush pile; its guardians know hidden paths through the garden.",
+      "source": "/blog/leave-the-leaves",
+      "why": "Protecting an apparently untidy patch earns guides and a safe place to rest."
+    },
+    {
+      "idea": "A seed keeper carries properly timed milkweed pods and knows how to separate seed from floss without losing either to the wind.",
+      "source": "/blog/how-to-collect-seeds-from-milkweed-pod-and-plan",
+      "why": "Their patient expertise can reclaim territory after the swarm passes."
+    },
+    {
+      "idea": "A habitat-kit team builds small islands of native flowers, shelter and nesting stems, connecting them one patch at a time.",
+      "source": "/pollinator-conservation/habitat-kits",
+      "why": "Each defended patch becomes a practical foothold for later journeys."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Perfect Habitat: a vast planning machine that can provide flowers, nests and shelter only by enclosing the whole landscape in a sterile mechanical display. Its flower, shelter and nesting modules must be freed in different ways.",
+      "source": "/bring-back-the-pollinators",
+      "why": "It distorts the site’s four practical steps into a multi-stage fight over what protection means."
+    },
+    {
+      "idea": "The Census of Everything: a mobile atlas assembled from survey instruments, field guides and counting drones; it keeps increasing its count by relabeling machines as living species.",
+      "source": "/community-science",
+      "why": "Crews can expose false observations and break its authority while protecting genuine sightings."
+    },
+    {
+      "idea": "The Landscape Manager joins farm machinery, pesticide sprayers and habitat planters into one engine that optimizes a single number and sacrifices every other living relationship.",
+      "source": "/our-work",
+      "why": "Its linked systems make the whole organization’s interconnected mission into a changing boss encounter."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A milkweed pod is about to split in a rising wind; gather the ripe seed before a floss separator reaches it.",
+      "source": "/blog/how-to-collect-seeds-from-milkweed-pod-and-plan",
+      "why": "A short timing challenge can end with seeds for a future refuge."
+    },
+    {
+      "idea": "A crew finds a sleeping nest beneath leaves in the path of an early cleaner; shift its route without shredding the shelter.",
+      "source": "/blog/leave-the-leaves",
+      "why": "The obvious obstacle is also someone’s winter home."
+    },
+    {
+      "idea": "A field observer needs one more sighting to complete a transect, but every false movement draws the survey machine closer.",
+      "source": "/publications",
+      "why": "A quiet observation challenge gives a noncombat route through danger."
+    },
+    {
+      "idea": "A habitat kit arrives with the right plants but its modular planters have been scrambled into a trap; sort and install them before dusk.",
+      "source": "/pollinator-conservation/habitat-kits",
+      "why": "The same pieces make both a spatial puzzle and a useful reward."
+    },
+    {
+      "idea": "A nursery offers gorgeous flowering plants whose treatment history is unclear; find the keeper’s records before moving them to a refuge.",
+      "source": "/pesticides/bee-safe-nursery-plants",
+      "why": "A choice that looks easy becomes an investigation into hidden risk."
+    },
+    {
+      "idea": "Two survey teams report contradictory firefly signals; one set is a machine lure, and the crew must compare flashes without disturbing the real insects.",
+      "source": "/community-science",
+      "why": "Pattern recognition and restraint matter more than speed."
+    },
+    {
+      "idea": "At a coastal grove, a hanging cluster begins to stir as the day warms; a patrol is approaching the same branch.",
+      "source": "/blog/everything-you-need-to-know-about-visiting-californias-overwintering-monarchs",
+      "why": "The crew can divert the patrol while preserving a moment of quiet wonder."
+    },
+    {
+      "idea": "A cover-crop field has become a metal maze, but a strip of undisturbed nesting ground offers a safe passage if the crew can recognize it.",
+      "source": "/pollinator-conservation/farmland",
+      "why": "Reading the landscape opens a route without fighting the entire field."
+    },
+    {
+      "idea": "A mislabeled seed delivery contains several regional mixes; local volunteers can restore a damaged patch if the crew matches the packets to their home landscape.",
+      "source": "/pollinator-conservation/plants-for-pollinators",
+      "why": "The reward is a persistent place of food and shelter."
+    },
+    {
+      "idea": "A roadside policy enforcer has cordoned off a bloom so completely that no pollinator can reach it; persuade or reroute it to leave a passage.",
+      "source": "/advocacy",
+      "why": "A protective boundary becomes a small, solvable social or mechanical problem."
+    },
+    {
+      "idea": "A pollinator-counting machine keeps mistaking a beetle for a bee and will erase the observation unless someone shows it another pollinator category.",
+      "source": "/pollinator-conservation/about-pollinators",
+      "why": "The encounter celebrates the site’s wider cast of pollinators."
+    },
+    {
+      "idea": "A garden cleanup machine is scheduled to trim hollow stems; residents need help marking occupied stems and delaying the machine until the shelter is safe.",
+      "source": "/pollinator-conservation/yards-and-gardens",
+      "why": "A routine maintenance decision becomes a cooperative defense."
+    },
+    {
+      "idea": "An aquatic survey team has lost a field guide near a mussel dredger; retrieve it while keeping the streambed from becoming a cloud of sediment.",
+      "source": "/endangered-species",
+      "why": "Movement and visibility become linked, encouraging a careful approach."
+    },
+    {
+      "idea": "A local gathering is trying to spread four simple pollinator protection steps, but a pledge binder is taking every promise literally.",
+      "source": "/bring-back-the-pollinators",
+      "why": "The crew can turn the binder’s own rules into an escape and a useful community project."
+    }
+  ]
+}

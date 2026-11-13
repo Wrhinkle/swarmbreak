@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.amentsoc.org",
+   "name": "Amateur Entomologists' Society",
+   "url": "https://www.amentsoc.org/",
+   "file": "runs/2026-11-14/sites/www.amentsoc.org.json"
+  },
+  {
+   "host": "www.ukmoths.org.uk",
+   "name": "UKMoths",
+   "url": "https://www.ukmoths.org.uk/",
+   "file": "runs/2026-11-14/sites/www.ukmoths.org.uk.json"
+  },
+  {
+   "host": "xerces.org",
+   "name": "The Xerces Society for Invertebrate Conservation",
+   "url": "https://xerces.org/",
+   "file": "runs/2026-11-14/sites/xerces.org.json"
+  }
+ ]
+}
