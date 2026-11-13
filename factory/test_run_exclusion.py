@@ -13,6 +13,57 @@ import run
 
 
 class RunExclusionTest(unittest.TestCase):
+    def test_builder_and_foreman_contend_in_both_orders(self):
+        # Exercise the two real lock entry points in separate processes. The
+        # protected bodies are replaced so the test never builds a real run.
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            lock, ready, finish, wrote = (root / name for name in ('lock', 'ready', 'finish', 'wrote'))
+            code = '''
+import sys, time
+from pathlib import Path
+from types import SimpleNamespace
+import run, foreman
+lock, ready, finish, wrote = map(Path, sys.argv[2:])
+run.run_lock_path = foreman.run_lock_path = lambda _: lock
+def body(*args):
+    wrote.write_text('entered')
+    ready.touch()
+    while not finish.exists(): time.sleep(.02)
+    return SimpleNamespace(returncode=0)
+if sys.argv[1] == 'run':
+    run.main = body
+    run.locked_main('2026-11-12')
+else:
+    foreman._build_run_locked = body
+    sys.exit(foreman.build_run('2026-11-12').returncode)
+'''
+            env = {**os.environ, 'PYTHONPATH': str(Path(run.__file__).parent)}
+            for first, second in (('run', 'foreman'), ('foreman', 'run')):
+                with self.subTest(first=first):
+                    for path in (ready, finish, wrote):
+                        path.unlink(missing_ok=True)
+                    args = [str(lock), str(ready), str(finish), str(wrote)]
+                    holder = subprocess.Popen([sys.executable, '-c', code, first, *args], env=env)
+                    try:
+                        deadline = time.monotonic() + 10
+                        while not ready.exists() and time.monotonic() < deadline:
+                            time.sleep(.02)
+                        self.assertTrue(ready.exists(), 'holder did not start')
+                        wrote.unlink()
+                        contender = subprocess.run([sys.executable, '-c', code, second, *args], env=env, timeout=10, capture_output=True)
+                        self.assertEqual(contender.returncode, run.RUN_BUSY)
+                        self.assertFalse(wrote.exists())
+                        finish.touch()
+                        self.assertEqual(holder.wait(timeout=10), 0)
+                        later = subprocess.run([sys.executable, '-c', code, second, *args], env=env, timeout=10, capture_output=True)
+                        self.assertEqual(later.returncode, 0)
+                        self.assertTrue(wrote.exists())
+                    finally:
+                        if holder.poll() is None:
+                            holder.kill()
+                        holder.wait(timeout=10)
+
     def test_writer_refuses_an_active_writer_before_starting(self):
         with tempfile.TemporaryDirectory() as temp:
             lock = Path(temp) / '2026-11-12.lock'
