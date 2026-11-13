@@ -15,6 +15,23 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_checkout_manifest_no_space_holds_release(self):
+        commands = []
+        def command(*args, **kwargs):
+            commands.append(args)
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with patch.object(manager, 'release_check', return_value=('', 'revision')), \
+             patch.object(manager, 'sh', side_effect=command), \
+             patch.object(Path, 'read_text', side_effect=OSError(errno.ENOSPC, 'No space left on device')), \
+             patch.object(manager, 'capacity_detail', return_value='checkout (device 42): 0 bytes available'):
+            result = manager.release()
+        self.assertIn('release checkout manifest failed: no space left on device', result)
+        self.assertIn('device 42', result)
+        self.assertTrue(manager.persistent_release_blocker(result))
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
+        self.assertFalse(any(cmd[0] in ('npm', 'firebase') for cmd in commands))
+
     def test_capacity_blocker_stops_scheduled_retry_until_host_requests_it(self):
         prior = 'release -> Not deploying: release checkout failed: no space left on device; device 42, 0 bytes'
         with patch.object(manager, 'release', return_value='Deployed.') as release, \
@@ -136,6 +153,21 @@ class ReleaseCapacityTest(unittest.TestCase):
                     manager.deploy(False, 'revision')
                 lookup.assert_called_once_with()
                 command.assert_not_called()
+
+    def test_full_tempdir_probe_reports_cleanup_failure_and_holds_release(self):
+        with patch.object(manager.tempfile, 'gettempdir', side_effect=FileNotFoundError('no usable directory')), \
+             patch.object(manager.tempfile, '_candidate_tempdir_list', return_value=['/full']), \
+             patch.object(manager.tempfile, 'mkstemp', return_value=(123, '/full/probe')), \
+             patch.object(manager.os, 'write', side_effect=OSError(errno.ENOSPC, 'No space left on device')), \
+             patch.object(manager.os, 'close'), \
+             patch.object(manager.os, 'unlink', side_effect=PermissionError('cleanup denied')), \
+             patch.object(manager, 'capacity_detail', return_value='/full (device 42): 0 bytes available'), \
+             patch.object(manager, 'sh') as command:
+            result = manager.deploy(False, 'revision')
+        self.assertTrue(manager.persistent_release_blocker(result))
+        self.assertIn('device 42', result)
+        self.assertIn('/full/probe: cleanup denied', result)
+        command.assert_not_called()
 
     def test_npm_no_space_is_a_capacity_blocker(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}

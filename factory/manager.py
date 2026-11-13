@@ -536,8 +536,10 @@ def npm_capacity_failure(error, tree, stage):
 def tempdir_capacity_failure():
     """Recover evidence hidden by tempfile's no-usable-directory error."""
     full = []
+    cleanup_errors = []
     for directory in tempfile._candidate_tempdir_list():
         path = None
+        exhausted = False
         try:
             fd, path = tempfile.mkstemp(dir=directory)
             try:
@@ -547,17 +549,26 @@ def tempdir_capacity_failure():
         except OSError as e:
             if e.errno == errno.ENOSPC:
                 full.append((directory, e))
+                exhausted = True
         else:
             # A candidate is usable now; do not infer an exhausted selection.
+            if cleanup_errors:
+                raise OSError(f'Probe cleanup failed: {"; ".join(cleanup_errors)}')
             return None
         finally:
             if path is not None:
-                os.unlink(path)
+                try:
+                    os.unlink(path)
+                except OSError as e:
+                    if not exhausted:
+                        raise
+                    cleanup_errors.append(f'{path}: {e}')
     if full:
         details = '; '.join(capacity_detail(directory) for directory, _ in full)
+        cleanup = f' Probe cleanup failed: {"; ".join(cleanup_errors)}.' if cleanup_errors else ''
         return (f'Not deploying: release checkout failed: no space left on device; '
                 f'checkout candidates at failure: {details}. '
-                'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+                f'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.{cleanup}')
     return None
 
 
@@ -613,7 +624,14 @@ def deploy(dry, rev=None):
 
         try:
             now = datetime.now(timezone.utc)
-            raw_manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
+            try:
+                raw_manifest = json.loads((tree / 'public/manifest.json').read_text())
+            except OSError as e:
+                failure = checkout_capacity_failure(e, tree, 'release checkout manifest')
+                if failure:
+                    return cleanup_capacity_failure(failure)
+                raise
+            live = effective(live_manifest(), now)
             manifest = effective(raw_manifest, now)
             has = lambda m: (tree / 'public' / m['runUrl'].lstrip('/')).exists()
             problems = deploy_problems(manifest, live, has(live), now, not manifest.get('next') or has(manifest['next']))
@@ -1048,11 +1066,12 @@ def persistent_release_blocker(result):
                               'Not deploying: release check failed: no space left on device;',
                               'Not deploying: release revision file failed: no space left on device;',
                               'Not deploying: release checkout revision failed: no space left on device;',
+                              'Not deploying: release checkout manifest failed: no space left on device;',
                               'Not deploying: npm ci failed: no space left on device;'))
 
 
 def release_blocker_identity(result):
-    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'npm ci', 'npm run build', 'npm test'):
+    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'release checkout manifest', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
             return capacity
