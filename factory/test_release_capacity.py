@@ -154,6 +154,21 @@ class ReleaseCapacityTest(unittest.TestCase):
                 lookup.assert_called_once_with()
                 command.assert_not_called()
 
+    def test_full_tempdir_probe_reports_cleanup_failure_and_holds_release(self):
+        with patch.object(manager.tempfile, 'gettempdir', side_effect=FileNotFoundError('no usable directory')), \
+             patch.object(manager.tempfile, '_candidate_tempdir_list', return_value=['/full']), \
+             patch.object(manager.tempfile, 'mkstemp', return_value=(123, '/full/probe')), \
+             patch.object(manager.os, 'write', side_effect=OSError(errno.ENOSPC, 'No space left on device')), \
+             patch.object(manager.os, 'close'), \
+             patch.object(manager.os, 'unlink', side_effect=PermissionError('cleanup denied')), \
+             patch.object(manager, 'capacity_detail', return_value='/full (device 42): 0 bytes available'), \
+             patch.object(manager, 'sh') as command:
+            result = manager.deploy(False, 'revision')
+        self.assertTrue(manager.persistent_release_blocker(result))
+        self.assertIn('device 42', result)
+        self.assertIn('/full/probe: cleanup denied', result)
+        command.assert_not_called()
+
     def test_npm_no_space_is_a_capacity_blocker(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
         for failed in [('npm', 'ci'), ('npm', 'run', 'build'), ('npm', 'test')]:
