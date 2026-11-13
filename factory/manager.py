@@ -414,6 +414,12 @@ def live_revision():
     return revision
 
 
+class GitChangeError(ValueError):
+    def __init__(self, message, stderr):
+        super().__init__(f'{message}: {stderr}')
+        self.stderr = stderr
+
+
 def game_changed(live_rev, rev):
     if live_rev is None:
         return True
@@ -421,7 +427,7 @@ def game_changed(live_rev, rev):
     diff = sh('git', 'diff', '--quiet', live_rev, rev, '--', *GAME_PATHS,
               ':(exclude,glob)src/**/*.test.ts', ':(exclude,glob)src/**/*.spec.ts', check=False)
     if diff.returncode not in (0, 1):
-        raise ValueError(f'cannot compare live revision {live_rev} to {rev}: {diff.stderr}')
+        raise GitChangeError(f'cannot compare live revision {live_rev} to {rev}', diff.stderr)
     if diff.returncode == 1:
         return True
     # A test-named module can still be imported by shipped code (or another test
@@ -429,13 +435,13 @@ def game_changed(live_rev, rev):
     names = sh('git', 'diff', '--name-only', '-z', '--no-renames', live_rev, rev, '--',
                ':(glob)src/**/*.test.ts', ':(glob)src/**/*.spec.ts', check=False)
     if names.returncode:
-        raise ValueError(f'cannot list changed tests: {names.stderr}')
+        raise GitChangeError('cannot list changed tests', names.stderr)
     for path in filter(None, names.stdout.split('\0')):
         name = Path(path).name.removesuffix('.ts')
         refs = sh('git', 'grep', '-F', '-l', name, rev, '--', *GAME_PATHS,
                   f':(exclude){path}', check=False)
         if refs.returncode not in (0, 1):
-            raise ValueError(f'cannot check references to {path}: {refs.stderr}')
+            raise GitChangeError(f'cannot check references to {path}', refs.stderr)
         if refs.returncode == 0:
             return True
     return False
@@ -505,6 +511,8 @@ def is_no_space(error, command=None):
     if isinstance(error, OSError):
         return error.errno == errno.ENOSPC
     # Only inspect output in the context of the command that produced it.
+    if command == 'git' and isinstance(error, GitChangeError):
+        return bool(re.search(r'^(?:fatal|error): [^\n]*no space left on device', error.stderr, re.I | re.M))
     if command == 'git' and isinstance(error, SystemExit):
         return bool(re.search(r'^git [^\n]* failed:\n(?:[^\n]*\n)*?(?:fatal|error): [^\n]*no space left on device', str(error), re.I))
     if command == 'npm' and isinstance(error, str):

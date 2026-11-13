@@ -27,6 +27,50 @@ class ReleaseCapacityTest(unittest.TestCase):
         self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
         self.assertIsNone(manager.checkout_capacity_failure('NOTENOSPC', '/tmp'))
 
+    def test_change_detection_git_failures_hold_until_explicit_retry(self):
+        manifest = {'runId': 'x'}
+        for failed in ('diff-quiet', 'diff-names', 'grep'):
+            for stderr, capacity in (('fatal: write failed: No space left on device', True),
+                                     ('fatal: permission denied', False),
+                                     ('note: No space left on device', False)):
+                calls = []
+                def command(*args, **kwargs):
+                    calls.append(args)
+                    if args[:2] == ('git', 'show'):
+                        return SimpleNamespace(stdout=json.dumps(manifest))
+                    if args[:2] == ('git', 'diff'):
+                        stage = 'diff-quiet' if '--quiet' in args else 'diff-names'
+                    elif args[:2] == ('git', 'grep'):
+                        stage = 'grep'
+                    else:
+                        return SimpleNamespace(returncode=0, stdout='revision', stderr='')
+                    if stage == failed:
+                        return SimpleNamespace(returncode=2, stdout='', stderr=stderr)
+                    return SimpleNamespace(returncode=0 if stage == 'diff-quiet' else 1 if stage == 'grep' else 0,
+                                           stdout='src/example.test.ts\0' if stage == 'diff-names' else '', stderr='')
+                with self.subTest(failed=failed, stderr=stderr), \
+                     patch.object(manager, 'sh', side_effect=command), \
+                     patch.object(manager, 'live_manifest', return_value=manifest), \
+                     patch.object(manager, 'live_revision', return_value='live'), \
+                     patch.object(manager, 'release_due', return_value=None), \
+                     patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+                     patch.object(manager, 'capacity_detail', return_value='disk full'), \
+                     patch.object(manager, 'record'), patch.object(manager, 'deploy') as deploy:
+                    failures = []
+                    prior = manager.release_step(failures)
+                    if capacity:
+                        self.assertTrue(manager.is_capacity_blocker(prior))
+                        count = len(calls)
+                        self.assertEqual(manager.release_step([], previous=[prior]), prior)
+                        self.assertEqual(len(calls), count)
+                        manager.release_step([], previous=[prior], retry_capacity=True)
+                        self.assertGreater(len(calls), count)
+                    else:
+                        self.assertEqual(prior, '')
+                        self.assertIn('Release check failed:', failures[0])
+                        self.assertFalse(manager.is_capacity_blocker(failures[0]))
+                    deploy.assert_not_called()
+
     def test_invalid_manifest_does_not_hold_next_scheduled_release(self):
         invalid = {'runId': 'x', 'opensAt': 'ENOSPC', 'runUrl': '/runs/x/run.json'}
         corrected = dict(invalid, opensAt='2026-01-01T00:00:00Z')
