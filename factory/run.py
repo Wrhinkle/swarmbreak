@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
 ACTS, RETRIES = 3, 2
 RUN_BUSY = 75
+_run_lock_fd = None
 STAGES = ['researcher', 'parser', 'storymaker', 'gameplay', 'art']
 EFFORT = {'researcher': 'medium', 'parser': 'medium', 'storymaker': 'high', 'gameplay': 'high', 'art': 'medium'}
 
@@ -22,8 +23,13 @@ def clean_env():
 
 
 def tool(*args):
-    r = subprocess.run(['npx', 'vite-node', *args], cwd=ROOT, capture_output=True, text=True)
+    r = subprocess.run(['npx', 'vite-node', *args], cwd=ROOT, capture_output=True, text=True, pass_fds=lock_fds())
     return r.returncode == 0, (r.stdout + r.stderr).strip()
+
+
+def run_art(run_id):
+    py = ROOT / 'factory/.venv/bin/python'
+    return subprocess.run([py, ROOT / 'factory/art.py', run_id], cwd=ROOT, env=clean_env(), pass_fds=lock_fds())
 
 
 def ledger_file(d):
@@ -361,8 +367,7 @@ def main():
         if want('art'):
             agent('art', brief, {'content.json': content}, lambda: '' if len(json.loads(brief.read_text()).get('acts', [])) == ACTS else f'Write {ACTS} acts.')
             if '--no-images' not in args:
-                py = ROOT / 'factory/.venv/bin/python'
-                if subprocess.run([py, ROOT / 'factory/art.py', run_id], cwd=ROOT, env=clean_env()).returncode:
+                if run_art(run_id).returncode:
                     sys.exit('Art failed. Stopping; nothing was opened.')
     print(f'Run {run_id} is ready. Open it with a reviewed PR.', flush=True)
 
@@ -377,7 +382,12 @@ def run_lock_path(run_id):
     return directory / f'{run_id}.lock'
 
 
+def lock_fds():
+    return (_run_lock_fd,) if _run_lock_fd is not None else ()
+
+
 def locked_main(run_id):
+    global _run_lock_fd
     # The common git directory is shared by worktrees. Keep the file in place:
     # unlinking it would let a second process lock a different inode.
     path = run_lock_path(run_id)
@@ -393,7 +403,11 @@ def locked_main(run_id):
         except (ValueError, OSError):
             pass
         if valid:
-            main()
+            _run_lock_fd = fd
+            try:
+                main()
+            finally:
+                _run_lock_fd = None
             return
     with path.open('a+') as lock:
         try:
@@ -401,7 +415,11 @@ def locked_main(run_id):
         except BlockingIOError:
             print(f'Run {run_id} is already being written; stopping.', file=sys.stderr)
             sys.exit(RUN_BUSY)
-        main()
+        _run_lock_fd = lock.fileno()
+        try:
+            main()
+        finally:
+            _run_lock_fd = None
 
 
 if __name__ == '__main__':
