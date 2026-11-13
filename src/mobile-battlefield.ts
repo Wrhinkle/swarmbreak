@@ -28,7 +28,7 @@ export function mobileBattlefield(inspect: (id: string) => void) {
             const feedback = document.createElement('span'); feedback.className = 'battlefighter-feedback';
             const name = document.createElement('span'); name.className = 'battlefighter-name'; name.textContent = f.creature.name;
             const health = document.createElement('span'); health.className = 'battlefighter-health';
-            const timing = document.createElement('span'); timing.className = 'battlefighter-health';
+            const timing = document.createElement('span'); timing.className = 'battlefighter-timing';
             const hpBar = document.createElement('progress'); hpBar.className = 'battlefighter-hp';
             const atbBar = document.createElement('progress'); atbBar.className = 'battlefighter-atb'; atbBar.max = 100;
             card.append(art, feedback, atbBar, name, hpBar, health, timing);
