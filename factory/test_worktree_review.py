@@ -25,6 +25,22 @@ class WorktreeReviewTest(unittest.TestCase):
         self.assertEqual(unknown['state'], 'uncertain')
         self.assertTrue(all(item['action'] == 'retain; manual review required' for item in report['worktrees']))
 
+    def test_issue_names_associate_local_merges_without_authorizing_cleanup(self):
+        names = ['swarmbreak-issue-7', 'swarmbreak-issue-7-dry',
+                 'swarmbreak-issue-8-dry', 'swarmbreak-issue-7-dry-extra']
+        inventory = {'worktrees': [
+            {'path': '/repo/' + name, 'status_entries': [], 'complete': True}
+            for name in names
+        ]}
+        items = review.review(inventory, 'Merge pull request #12 from org/fix/issue-7\n')['worktrees']
+        self.assertEqual(items[0]['association'], 'branch named in locally recorded merge for PR #12')
+        self.assertEqual(items[1]['association'],
+                         'issue name matches branch in locally recorded merge for PR #12; '
+                         'dry-run worktree is detached; match does not establish its contents or current status')
+        for item in items[2:]:
+            self.assertEqual(item['association'], 'unknown; verify current job and remote state')
+        self.assertTrue(all(item['action'] == 'retain; manual review required' for item in items))
+
     def test_ignored_files_and_incomplete_scans_are_not_clean(self):
         for entries, complete, expected in [(['!! cache/'], True, 'ignored'),
                                              ([], False, 'uncertain'),

@@ -13,7 +13,7 @@ from pathlib import Path
 MERGE = re.compile(r'^Merge pull request #(\d+) from [^/\s]+/(\S+)$')
 ISSUE_BRANCH = re.compile(r'^fix/issue-(\d+)$')
 PR = re.compile(r'^swarmbreak-pr-(\d+)$')
-ISSUE = re.compile(r'^swarmbreak-issue-(\d+)$')
+ISSUE = re.compile(r'^swarmbreak-issue-(\d+)(-dry)?$')
 
 
 def review(inventory, merge_subjects, active_path=None):
@@ -35,7 +35,11 @@ def review(inventory, merge_subjects, active_path=None):
             association = f'path named for locally recorded merged PR #{pr.group(1)}'
         elif issue and issue.group(1) in issues:
             numbers = ', #'.join(issues[issue.group(1)])
-            association = f'branch named in locally recorded merge for PR #{numbers}'
+            if issue.group(2):
+                association = (f'issue name matches branch in locally recorded merge for PR #{numbers}; '
+                               'dry-run worktree is detached; match does not establish its contents or current status')
+            else:
+                association = f'branch named in locally recorded merge for PR #{numbers}'
         entries = tree.get('status_entries')
         if not tree.get('complete') or entries is None:
             state = 'uncertain'
