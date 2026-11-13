@@ -2,7 +2,7 @@
 
 Every worker reads this before every job. One line per lesson; the coach keeps it current.
 
-- A big job is never a reason to change nothing. Do the next piece, report `partial` with what's left, and the next pass continues it.
+- A big job is never a reason to change nothing. If generated art is unavailable, check whether the request permits original local SVG or CSS art or another independent, usable slice; ship a compliant piece and report `partial` with the rest. Report `blocked` only when every useful piece needs the unavailable dependency or another listed blocker; do not claim a substitute meets an explicit art requirement unless it does.
 - PR #319's fixer made no changes for three open findings: old order controls still shown in battle, crew unable to choose routines or targets, and no screenshots of the redesigned fight. Its reason was not recorded, and host screen checks passed. When slicing UI work, check each review finding against the actual slice, fix assigned defects and supply requested visual evidence, or report the specific blocker; a passing host screen check alone does not resolve them.
 - A nested `sandbox-exec` fails inside your own sandbox ("sandbox_apply: Operation not permitted"). That alone isn't a blocker; the host reruns the checks outside it.
 - PR #199's new deletion check made a merge test's catch-all Git mock return a fake deletion and exit; when adding Git queries, update affected mocks to return realistic results and run the full manager suite, not only the new test.
