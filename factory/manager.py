@@ -536,8 +536,10 @@ def npm_capacity_failure(error, tree, stage):
 def tempdir_capacity_failure():
     """Recover evidence hidden by tempfile's no-usable-directory error."""
     full = []
+    cleanup_errors = []
     for directory in tempfile._candidate_tempdir_list():
         path = None
+        exhausted = False
         try:
             fd, path = tempfile.mkstemp(dir=directory)
             try:
@@ -547,17 +549,26 @@ def tempdir_capacity_failure():
         except OSError as e:
             if e.errno == errno.ENOSPC:
                 full.append((directory, e))
+                exhausted = True
         else:
             # A candidate is usable now; do not infer an exhausted selection.
+            if cleanup_errors:
+                raise OSError(f'Probe cleanup failed: {"; ".join(cleanup_errors)}')
             return None
         finally:
             if path is not None:
-                os.unlink(path)
+                try:
+                    os.unlink(path)
+                except OSError as e:
+                    if not exhausted:
+                        raise
+                    cleanup_errors.append(f'{path}: {e}')
     if full:
         details = '; '.join(capacity_detail(directory) for directory, _ in full)
+        cleanup = f' Probe cleanup failed: {"; ".join(cleanup_errors)}.' if cleanup_errors else ''
         return (f'Not deploying: release checkout failed: no space left on device; '
                 f'checkout candidates at failure: {details}. '
-                'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+                f'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.{cleanup}')
     return None
 
 
