@@ -40,6 +40,6 @@ export async function inspectFight({ press, waitButton, controls, shot, wait }) 
 // A successful driver must account for every screen at both viewport sizes.
 export function checkScreens(shots) {
   for (const width of [390, 1280]) for (const screen of ['map', 'fresh-fight', 'fight', 'shop', 'treasure', 'event', 'rest', 'crew', 'title']) {
-    if (!shots.some(s => s.width === width && s.screen === screen)) throw new Error(`missing ${screen} screen at ${width}px`);
+    if (!shots.some(s => s.width === width && s.screen === screen && !s.missing)) throw new Error(`missing ${screen} screen at ${width}px`);
   }
 }

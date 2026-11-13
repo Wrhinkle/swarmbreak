@@ -48,4 +48,5 @@ it('requires every expected host screen at both sizes', () => {
   const shots = [390, 1280].flatMap(width => screens.map(screen => ({ screen, width })));
   expect(() => checkScreens(shots)).not.toThrow();
   expect(() => checkScreens(shots.filter(s => !(s.width === 1280 && s.screen === 'crew')))).toThrow('missing crew screen at 1280px');
+  expect(() => checkScreens(shots.map(s => s.width === 390 && s.screen === 'shop' ? { ...s, missing: true } : s))).toThrow('missing shop screen at 390px');
 });
