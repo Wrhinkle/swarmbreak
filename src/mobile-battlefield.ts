@@ -1,6 +1,6 @@
 import { fightActions } from './fight-actions';
 import type { CombatState } from './combat';
-import { readiness } from './readiness';
+import { readiness, readinessProgress } from './readiness';
 
 /** A readable, independently scrolling battlefield for narrow screens. */
 export function mobileBattlefield(inspect: (id: string) => void) {
@@ -9,7 +9,7 @@ export function mobileBattlefield(inspect: (id: string) => void) {
   element.setAttribute('aria-label', 'Battlefield');
   const columns = [document.createElement('div'), document.createElement('div')];
   element.append(...columns);
-  const cards = new Map<string, { card: HTMLElement; health: HTMLElement; timing: HTMLElement }>();
+  const cards = new Map<string, { card: HTMLElement; health: HTMLElement; timing: HTMLElement; hpBar: HTMLProgressElement; atbBar: HTMLProgressElement }>();
   return {
     element,
     update(fighters: CombatState['fighters'], tick = 0, events: CombatState['events'] = []) {
@@ -26,11 +26,17 @@ export function mobileBattlefield(inspect: (id: string) => void) {
             const name = document.createElement('span'); name.className = 'battlefighter-name'; name.textContent = f.creature.name;
             const health = document.createElement('span'); health.className = 'battlefighter-health';
             const timing = document.createElement('span'); timing.className = 'battlefighter-health';
-            card.append(art, name, health, timing);
+            const hpBar = document.createElement('progress'); hpBar.className = 'battlefighter-hp';
+            const atbBar = document.createElement('progress'); atbBar.className = 'battlefighter-atb'; atbBar.max = 100;
+            card.append(art, name, health, timing, hpBar, atbBar);
             if (side === 'enemy') card.addEventListener('click', () => inspect(f.id));
-            entry = { card, health, timing }; cards.set(f.id, entry);
+            entry = { card, health, timing, hpBar, atbBar }; cards.set(f.id, entry);
           }
           entry.health.textContent = `${Math.ceil(f.hp)} / ${f.maxHp} HP${f.shield ? ` · ${Math.ceil(f.shield)} shield` : ''}`;
+          entry.hpBar.max = f.maxHp; entry.hpBar.value = Math.max(0, f.hp);
+          entry.hpBar.setAttribute('aria-label', `${f.creature.name} health`);
+          entry.atbBar.value = (readinessProgress(f, tick) ?? 0) * 100;
+          entry.atbBar.setAttribute('aria-label', `${f.creature.name}: ${readiness(f, tick)}`);
           entry.timing.textContent = `${readiness(f, tick)}${actions.has(f.id) ? ` · ${actions.get(f.id)}` : ''}`;
           return entry.card;
         });
