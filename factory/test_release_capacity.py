@@ -68,6 +68,37 @@ class ReleaseCapacityTest(unittest.TestCase):
                     advanced.assert_not_called()
             self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
 
+    def test_post_deploy_verification_no_space_holds_uncertain_release(self):
+        manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json'}
+        commands = []
+        def command(*args, **kwargs):
+            commands.append(args)
+            if args[:3] == ('git', 'worktree', 'add'):
+                tree = Path(args[4])
+                (tree / 'public/runs/x').mkdir(parents=True)
+                (tree / 'public/manifest.json').write_text(json.dumps(manifest))
+                (tree / 'public/runs/x/run.json').write_text('{}')
+                (tree / 'dist').mkdir()
+            if args == ('git', 'rev-parse', 'HEAD'):
+                return SimpleNamespace(returncode=0, stdout='a' * 40, stderr='')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with patch.object(manager, 'release_check', return_value=('', 'revision')), \
+             patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager, 'live_manifest', side_effect=[manifest, OSError(errno.ENOSPC, 'No space left on device')]), \
+             patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+             patch.object(manager, 'deploy_problems', return_value=[]), \
+             patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'):
+            result = manager.release()
+        self.assertIn('Deploy outcome unknown:', result)
+        self.assertIn('verification', result.lower())
+        self.assertIn('a' * 40, result)
+        self.assertIn(json.dumps(manifest), result)
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertTrue(any(cmd[0] == 'firebase' for cmd in commands))
+        with patch.object(manager, 'release') as retry:
+            manager.release_step([], previous=['release -> ' + result])
+            retry.assert_not_called()
+
     def test_checkout_add_no_space_preserves_cleanup_failure_and_holds_release(self):
         commands = []
         def command(*args, **kwargs):

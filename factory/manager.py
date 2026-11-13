@@ -708,8 +708,19 @@ def deploy(dry, rev=None):
                     return failure
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
             for _ in range(6):  # the CDN can serve the old manifest for a few seconds
-                served = live_manifest()
-                served_rev = live_revision()
+                try:
+                    served = live_manifest()
+                    served_rev = live_revision()
+                except OSError as e:
+                    failure = checkout_capacity_failure(e, tree, 'release verification')
+                    if not failure:
+                        raise
+                    return cleanup_capacity_failure(
+                        f'Deploy outcome unknown: release verification failed: no space left on device; '
+                        f'failing filesystem: unknown; checkout candidate: {capacity_detail(tree)}; '
+                        f'error: {e}; expected revision: {deployed_rev}; '
+                        f'expected raw manifest: {json.dumps(raw_manifest)}; '
+                        'Verify the live manifest and revision before deciding whether to retry.')
                 if served == raw_manifest and served_rev == deployed_rev:
                     break
                 time.sleep(10)
@@ -1095,6 +1106,7 @@ def main():
 def persistent_release_blocker(result):
     return result.startswith(('Missing run:', 'Not deploying: npm run build failed:',
                               'Deploy outcome unknown: firebase deploy failed: no space left on device;',
+                              'Deploy outcome unknown: release verification failed: no space left on device;',
                               'Not deploying: npm test failed:',
                               'Not deploying: release checkout failed: no space left on device;',
                               'Not deploying: release fetch failed: no space left on device;',
@@ -1109,6 +1121,9 @@ def release_blocker_identity(result):
     firebase = 'release -> Deploy outcome unknown: firebase deploy failed: no space left on device;'
     if result.startswith(firebase):
         return firebase
+    verification = 'release -> Deploy outcome unknown: release verification failed: no space left on device;'
+    if result.startswith(verification):
+        return verification
     for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'release checkout manifest', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
@@ -1118,7 +1133,8 @@ def release_blocker_identity(result):
 
 def is_capacity_blocker(result):
     identity = release_blocker_identity(result)
-    if identity == 'release -> Deploy outcome unknown: firebase deploy failed: no space left on device;':
+    if identity in ('release -> Deploy outcome unknown: firebase deploy failed: no space left on device;',
+                    'release -> Deploy outcome unknown: release verification failed: no space left on device;'):
         return True
     return (identity.startswith('release -> Not deploying: ') and
             identity.endswith('failed: no space left on device;'))
@@ -1137,13 +1153,13 @@ def release_step(failures, dry=False, previous=(), retry_capacity=False):
         diagnostic = f'release -> {result[-700:]}'
         capacity_identity = release_blocker_identity(full)
         if capacity_identity != full and len(result) > 700:
-            # Firebase may already have published: retain its complete release identity.
-            diagnostic = full if result.startswith('Deploy outcome unknown: firebase deploy') else f'{capacity_identity} ... {result[-700:]}'
+            # A deploy may already have published: retain its complete release identity.
+            diagnostic = full if result.startswith('Deploy outcome unknown:') else f'{capacity_identity} ... {result[-700:]}'
         identity = release_blocker_identity(diagnostic)
         blocked = persistent_release_blocker(result) and any(release_blocker_identity(p) == identity for p in previous)
         recorded = f'Blocked: unchanged release failure: {result}' if blocked else result
         print(f'release: {recorded}', flush=True)
-        record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded if result.startswith('Deploy outcome unknown: firebase deploy') else recorded[-1000:], 'dry': dry})
+        record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded if result.startswith('Deploy outcome unknown:') else recorded[-1000:], 'dry': dry})
         if FAILED.search(result) and not blocked:
             failures.append(diagnostic)
         if persistent_release_blocker(result):
