@@ -14,6 +14,8 @@ Code under `factory/vendor/` is unmodified third-party code, and nothing there g
 
 For findings about bot decisions, read `factory/agents/bot-visibility.md` and check the current UI for what a player can see at each decision point.
 
+For a finding that visual layout is unverified, inspect the affected screen at the requested widths and states. Identify the reviewed commit and the evidence's origin, and check wrapping, clipping and vertical scrolling as well as control size. A host screen-check pass alone does not establish those visual details. Dismiss as a false positive only when evidence for that exact commit actually settles the finding; if evidence is unavailable or a defect is visible, do not dismiss it as verified. Give the fixer a concrete plan to obtain missing evidence or correct the defect.
+
 Write `decisions.json`:
 
 { "decisions": [ { "id": "finding id", "action": "fix", "plan": "..." }, { "id": "finding id", "action": "dismiss", "reason": "false_positive", "evidence": "..." } ] }
