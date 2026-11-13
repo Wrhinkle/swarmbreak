@@ -452,6 +452,35 @@ def record_fixer_commit(tree, number, path, commits):
     (path.parent / 'pending').unlink()
 
 
+
+def assigned_findings(number, additions=()):
+    """Remember assigned IDs across reviews; missing or ambiguous attribution stays open."""
+    path, _ = fixer_state(number)
+    path = path.parent / 'assigned-findings.json'
+    if path.exists():
+        try:
+            saved = json.loads(path.read_text())
+            if (not isinstance(saved, dict) or any(not isinstance(k, str) or not k
+                    or not isinstance(v, str) for k, v in saved.items())):
+                raise ValueError('invalid finding ledger')
+        except (OSError, ValueError, UnicodeError) as exc:
+            sys.exit(f'Finding ledger for PR {number} is corrupt; stopping: {exc}')
+    else:
+        saved = {}
+    for finding in additions:
+        saved[finding['id']] = finding['title']
+    if additions:
+        save_rerequest(path, saved)
+    return saved
+
+
+def unresolved_assignments(assigned, findings):
+    # Only an explicit per-finding Qodo attribution can clear an assignment. Absence,
+    # unknown statuses, aggregate checks and the fixer's report do not prove a fix.
+    by_id = {f.get('id'): f for f in findings}
+    return [title for fid, title in assigned.items()
+            if by_id.get(fid, {}).get('attribution_status') not in ('implemented', 'dismissed')]
+
 def main():
     number, merge = sys.argv[1], '--merge' in sys.argv
     pr = json.loads(sh('gh', 'pr', 'view', number, '--repo', REPO, '--json', 'url,headRefName,baseRefName,state,headRefOid').stdout)
@@ -550,14 +579,14 @@ def main():
             if blockers:
                 sys.exit('Qodo blocks the fixes, so nothing was pushed:\n' + '\n'.join(f'- {b.get("title")}' for b in blockers))
 
-        # Push first: a finding is only marked done once its fix has landed.
+        # Record each assignment before pushing; aggregate checks cannot resolve individual findings.
+        if fixes:
+            assigned_findings(number, fixes)
+        # Push first: a finding is only dismissed once the reviewed changes have landed.
         sh('git', 'fetch', '-q', 'origin')
         if sh('git', 'merge-base', '--is-ancestor', f'origin/{head}', 'HEAD', cwd=tree, check=False).returncode:
             sys.exit(f'{head} moved while this ran. Stopping without a push.')
         sh('git', 'push', '-q', 'origin', f'HEAD:refs/heads/{head}', cwd=tree)
-        if fixes:
-            ids = ','.join(f['id'] for f in fixes)
-            sh(QODO, 'pr-review-session', 'mark-implemented', '--finding-ids', ids, '--explanation', f'Fixed in {sh("git", "rev-parse", "--short", "HEAD", cwd=tree).stdout.strip()}, tests pass, Qodo local review has no blocking findings.')
         for f, d in dismissals:
             sh(QODO, 'pr-review-session', 'dismiss', '--finding-ids', f['id'], '--reason', d['reason'], '--explanation', d['evidence'][:1900])
             print(f'Dismissed ({d["reason"]}): {f["title"]}: {d["evidence"][:200]}', flush=True)
@@ -578,12 +607,15 @@ def main():
             sys.exit(f'{base} did not update after moving during gate review. Not merging.')
         session = data.get('review_session') or {}
         still = [f for f in data['findings'] if is_open(f)]
+        unresolved = unresolved_assignments(assigned_findings(number), data['findings'])
         sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
         blocks = []
         if not reviewed(session, sha):
             blocks.append(f'Qodo has no finished review of {sha[:7]} (last: {str(session.get("commit_sha"))[:7]}, {session.get("status")})')
         if still:
             blocks.append(f'{len(still)} open findings: ' + '; '.join(f['title'] for f in still))
+        if unresolved:
+            blocks.append(f'{len(unresolved)} assigned findings lack individual resolution: ' + '; '.join(unresolved))
         # Build and test what main would become, so a PR behind main can't overwrite newer work.
         # ponytail: main can still move before the merge call below; a merge queue closes that gap if merges get frequent.
         if not merges_cleanly(tree, base):
