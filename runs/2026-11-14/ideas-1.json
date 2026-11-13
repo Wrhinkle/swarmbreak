@@ -1,251 +1,236 @@
 {
-  "reading": "The Amateur Entomologists' Society is a volunteer-run British charity founded in 1935 that helps amateurs and young people learn about insects and other invertebrates. It joins identification and classification with practical care, conservation, biodiversity, field meetings, local groups, publications and an annual exhibition. Its language moves comfortably between welcoming 'bugs', 'minibeasts' and 'creepy-crawlies' and precise terms such as Diptera, spiracles, arthropods, life cycles and species; it takes pains to distinguish spiders from insects. Unlike a generic nature site, it is a working community: members exchange knowledge, receive quarterly journals, consult an advisory panel, and involve children through the Bug Club, school activities and hands-on experiments. Its peculiar strength is the combination of patient observation, accessible science, taxonomic precision and delight in variation.",
+  "reading": "Butterflies and Moths of North America (BAMONA) gathers and shares North American Lepidoptera occurrence records and species information. It joins public photographs and observations to regional expert review, species profiles, taxonomy, checklists, maps, and partner projects. Its concerns are accessible participation, reliable identification and data quality, geographic and life-history context, attribution, and the insects' habitats. Its vocabulary is sightings, verification, coordinators, caterpillars, species profiles, checklists, families, occurrence data, and regional records. What distinguishes it is the meeting of an open citizen-science invitation with careful, sometimes slow identification; uncertain sightings sit alongside thousands of profiles, regional initiatives, and records of both butterflies and moths. The crawl gives mostly titles, excerpts, headings, and links, so some species details are not visible.",
   "enemies": [
     {
-      "idea": "Flight-calendar harvesters patrol according to butterfly flight times, sweeping up anything moving out of season and filing it as an erroneous sighting.",
-      "source": "/",
-      "why": "Their predictable seasonal patrol creates windows to cross and a tempting way to divert them with decoys."
+      "idea": "The Verification Mantis takes photographs of intruders and pins them in place until a regional coordinator confirms their identity.",
+      "source": "/identify",
+      "why": "A fight can become a rescue and a race to interrupt the review."
     },
     {
-      "idea": "A checklist tick-mite marks each crew member as sighted, then returns with a collection team to complete its set.",
-      "source": "/",
-      "why": "The first encounter becomes a visible countdown that can be interrupted by swapping marks."
+      "idea": "The Pending Brood wraps travelers in translucent cocoons that harden while an endlessly delayed sighting awaits review.",
+      "source": "/faq/how-soon-will-my-sighting-be-verified",
+      "why": "The longer the crew waits, the harder the escape; an unfinished review becomes a clock."
     },
     {
-      "idea": "Glossary grafts clamp a technical label onto a target and temporarily force it to behave like the definition; a misplaced label can turn an escape route into a mouthpart.",
-      "source": "/insects/glossary/",
-      "why": "The crew can steal and reassign labels to turn classification against the swarm."
+      "idea": "Misidentification Heralds tag a crew member with the wrong species and summon machines designed to hunt that label.",
+      "source": "/faq/how-can-i-report-sighting-misidentified",
+      "why": "A corrected identification turns the swarm against the wrong target."
     },
     {
-      "idea": "The A-to-Z sorter dispatches mismatched mechanical orders in alphabetical waves, then rebuilds survivors into hybrids when the alphabet runs out.",
-      "source": "/insects/fact-files/a-to-z-of-insects.html",
-      "why": "Its sequence is learnable, while mixing orders produces surprising combinations."
+      "idea": "Checklist Grazers patrol a chosen region, ticking off every creature they encounter and pursuing anything absent from their list.",
+      "source": "/checklists",
+      "why": "Crossing a regional boundary changes the rules of pursuit."
     },
     {
-      "idea": "A compound-eye sentinel sees a scene as a mosaic and sends each facet after a different movement, but loses track when the facets disagree.",
-      "source": "/insects/what-bug-is-this/insects.html",
-      "why": "Coordinated feints can confuse a watcher whose many eyes are also its weakness."
+      "idea": "The Family Splitter sorts the battlefield into butterfly and moth families, forcing combatants apart with branching mechanical wings.",
+      "source": "/taxonomy",
+      "why": "Its family tree reshapes positioning, and an incomplete branch offers a gap."
     },
     {
-      "idea": "Spiracle siphons seal every air vent they find, claiming they are improving respiration for a giant mechanical body.",
-      "source": "/insects/what-bug-is-this/insects.html",
-      "why": "A chase through changing airflows gives the crew valves to open and close."
+      "idea": "Gallery Filter Skippers layer partial-name and appearance filters over a landscape until only matching things remain visible.",
+      "source": "/gallery",
+      "why": "The crew can change its appearance to hide or reveal a path."
     },
     {
-      "idea": "The arthropod examiner counts jointed legs and refuses to release anyone until its false insect-or-spider classification is accepted.",
-      "source": "/insects/what-bug-is-this/arthropods.html",
-      "why": "Extra mechanical limbs and disguises let the crew trick a pedantic captor."
+      "idea": "Occurrence Pin Wasps hammer verified sightings into the ground; each pin draws the swarm toward the last thing seen there.",
+      "source": "/recent_sightings_map",
+      "why": "A false sighting can lure the pursuers away."
     },
     {
-      "idea": "A counterfeit advisory panel sends bumblebee-shaped scouts to demand ever finer species identifications, imprisoning anything it cannot name.",
-      "source": "/insects/what-bug-is-this/members-id-service.html",
-      "why": "A genuine diagnostic clue can expose the panel’s confident wrong answer."
+      "idea": "Profile Mimics assemble a different mechanical life stage from the information in each species profile, changing tactics mid-encounter.",
+      "source": "/species_search",
+      "why": "The crew must recognize and disrupt a transformation rather than fight one fixed form."
     },
     {
-      "idea": "Caresheet keepers build immaculate caterpillar enclosures around moving people and keep replenishing the wrong food plants.",
-      "source": "/insects/caresheets/",
-      "why": "Their protective routine makes them obstacles that can be redirected rather than simply smashed."
+      "idea": "The Antennal Club extends a hooked skipper antenna to read vibrations, then steers other drones toward the loudest movement.",
+      "source": "/glossary",
+      "why": "Silence, decoys, and cutting its sensory reach all matter."
     },
     {
-      "idea": "A ladybird year-engine changes its armour and tactics with each season, even when the room around it stays the same.",
-      "source": "/publications/books/",
-      "why": "Reading its seasonal cycle lets the crew prepare for the next form."
+      "idea": "The Double-Named Skipper flickers between two possible identifications, becoming vulnerable to a different tactic under each name.",
+      "source": "/species/burnsius-albescens-or-communis",
+      "why": "An unresolved identification becomes an observable combat puzzle."
     },
     {
-      "idea": "Burying beetle excavators inter useful equipment as if it were a prize specimen, then defend the carefully marked mound.",
-      "source": "/publications/beetle-news/",
-      "why": "The crew can follow fresh earth to recover loot or lure the beetles into digging a passage."
+      "idea": "Wavy-Lined Emerald drones project green wave patterns that bend a crew’s sense of distance and make straight paths loop.",
+      "source": "/species/Synchlora-aerata",
+      "why": "Following the moving lines or breaking their rhythm can restore a safe route."
     },
     {
-      "idea": "A giant dragonfly assembly bot scavenges structural parts to keep enlarging its fossil-inspired wingspan, making its flight increasingly awkward indoors.",
-      "source": "/bug-club/fun/build-bug.html",
-      "why": "A spectacular pursuer becomes vulnerable when its own wings jam in tight spaces."
+      "idea": "Hemlock Looper machines measure trees with jointed looping bodies, then splice the measured branches into barricades.",
+      "source": "/species/Lambdina-fiscellaria",
+      "why": "Their looping locomotion telegraphs attacks and leaves temporary openings."
     },
     {
-      "idea": "Hoverfly mimics paint themselves as bumblebees and impersonate friendly pollinators until the crew comes close enough to be tagged.",
-      "source": "/bug-club/fun/colouring.html",
-      "why": "Their disguise rewards close observation and gives suspicious encounters a social edge."
+      "idea": "The Common Looper folds corridors into repeated circuits; its body anchors the loop and moves each time a circuit is completed.",
+      "source": "/species/Autographa-precationis",
+      "why": "Navigation and the chase become one encounter."
     },
     {
-      "idea": "Behaviour-experiment drones repeatedly alter light and barriers around travellers, treating escape attempts as data to be measured.",
-      "source": "/bug-club/fun/experiments.html",
-      "why": "The crew can reverse the experiment by teaching the drones a false pattern."
+      "idea": "A Terloo Sphinx sentinel preserves one specific sighting by projecting copies of itself at the same landmark, each copy acting a moment after the last.",
+      "source": "/sighting_details/1304235",
+      "why": "The repeating sighting creates a pattern the crew can learn and exploit."
     },
     {
-      "idea": "Quarterly bulletin beetles arrive in four coordinated broods, each carrying a revision that patches the weakness exploited in the previous encounter.",
-      "source": "/publications/bulletin/",
-      "why": "Recurring foes remember the crew’s tactics, encouraging creative changes of approach."
+      "idea": "Band-spotted Skipper machines stamp moving bands across the ground; touching a band makes the next skip carry them straight to the intruder.",
+      "source": "/sighting_details/1375315",
+      "why": "Their markings are both warning signs and a way to bait their leaps."
     },
     {
-      "idea": "Variation collectors snip away differences in colour and shape to build an impossible standard specimen, leaving their targets indistinguishable.",
-      "source": "/publications/entomologists-record/",
-      "why": "Restoring a stolen distinguishing feature can identify an ally hidden in a crowd."
+      "idea": "The All-Taxa Harvester inventories every living thing in its path and cages mismatched species together to complete its survey.",
+      "source": "/partner-project/adirondack-all-taxa-biodiversity-inventory",
+      "why": "Releasing the inventory creates distractions and restores local allies."
     },
     {
-      "idea": "Exhibition space allocators unfold measuring legs across the fairground and claim every unbooked patch for an expanding mechanical display.",
-      "source": "/events/exhibitions.html",
-      "why": "A moving territory puzzle lets the crew exploit gaps between measured plots."
+      "idea": "Mountain Transect drones count the same routes repeatedly, attacking anything that changes their carefully measured butterfly totals.",
+      "source": "/project/CBP",
+      "why": "Their predictable survey circuits give the crew a timing puzzle."
     },
     {
-      "idea": "The membership-year registrar stamps everything expired on 31 December and sends renewal drones to reclaim it.",
-      "source": "/membership/rates.html",
-      "why": "Changing its calendar or presenting a convincing renewal buys time without a fight."
+      "idea": "The Native-Plant Counterfeiter grows metallic replicas that lure pollinators into collection funnels.",
+      "source": "/new-gear-and-partner-honor-earth-day-april-22-2025",
+      "why": "Real plants and fake ones look similar until the crew watches what visits them."
     },
     {
-      "idea": "Referral fruit flies duplicate whenever a marked target introduces another person, each copy carrying a voucher for one more recruit.",
-      "source": "/membership/introduce-a-friend.html",
-      "why": "A chain reaction can be contained by breaking introductions or turned toward swarm units."
+      "idea": "Silver-spotted Skipper drones from the gallery flash reflective spots to bounce a targeting beam around corners.",
+      "source": "/gallery",
+      "why": "Repositioning reflective surfaces can redirect their own fire."
     },
     {
-      "idea": "Local-group scouts mistake isolation for a problem to solve, encircling solitary travellers and marching them to a compulsory field trip.",
-      "source": "/membership/local-groups/",
-      "why": "Travelling together or staging a more attractive outing changes their behaviour."
+      "idea": "The Data Quality Sieve captures any observation that lacks a date or location, trapping its observer inside a mesh of coordinates.",
+      "source": "/identify",
+      "why": "A crew can fill in the missing context or cut through before the sieve closes."
     },
     {
-      "idea": "The exchange-club broker trades away people’s gear for increasingly unsuitable insect specimens, always insisting the exchange is equitable.",
-      "source": "/about/history.html",
-      "why": "A bargaining encounter can be won by offering a specimen the machine cannot resist."
+      "idea": "The Submission Sentinel rejects anything that does not fit its rigid idea of a valid observation and fires a different restraint for each missing detail.",
+      "source": "/faq/i-couldnt-submit-sighting-because-i-got-error-can-you-help-me",
+      "why": "Its sequence gives the crew clues about how to pass or disable it."
     },
     {
-      "idea": "A schoolroom elephant-hawkmoth larva machine flashes enormous false eyes to frighten intruders away from its mechanical brood.",
-      "source": "/bug-club/schools/",
-      "why": "The startling display hides a vulnerable rear and a chance to rescue the brood’s real inhabitants."
-    },
-    {
-      "idea": "The code-of-practice enforcer protects invertebrates by sealing entire habitats against all movement, including feeding and pollination.",
-      "source": "/publications/online/",
-      "why": "A well-meant rule has become a puzzle: demonstrate that controlled access helps the habitat."
-    },
-    {
-      "idea": "Monthly exchange-list couriers requisition useful objects to satisfy stale member notices, leaving bizarre substitutions in their place.",
-      "source": "/publications/email-newsletter/",
-      "why": "Tracking the chain of swaps leads to a cache and several chances to bargain."
+      "idea": "The Geographic Range Weaver stretches threads between distribution records and snares anyone crossing the resulting boundaries.",
+      "source": "/links",
+      "why": "The crew can cut a thread to open a passage or reroute the web."
     }
   ],
   "allies": [
     {
-      "idea": "A volunteer identification panel compares antennae and leg counts to distinguish real insects from machine impostors, but needs intact observations from the field.",
-      "source": "/insects/what-bug-is-this/members-id-service.html",
-      "why": "It turns careful scouting into useful intelligence and gives the crew a reason to bring evidence home."
+      "idea": "A network of volunteer observers trades fresh field notes and warns the crew where machine wings were last seen.",
+      "source": "/get-involved",
+      "why": "Anyone can contribute a useful observation, making help easy to earn."
     },
     {
-      "idea": "A Bug Club field team shares simple observation games that reveal the swarm’s camouflage without harming living minibeasts.",
-      "source": "/bug-club/fun/",
-      "why": "Playful experiments make young naturalists capable allies with their own expertise."
+      "idea": "A patient regional coordinator distinguishes real sightings from swarm decoys and can correct a false identification placed on the crew.",
+      "source": "/available-positions",
+      "why": "Expert review becomes a protective ability with a human-scale bottleneck."
     },
     {
-      "idea": "Local-group field guides maintain a chain of safe routes and meetups, each able to help if the crew connects them to the next group.",
-      "source": "/membership/local-groups/",
-      "why": "Repairing a community network produces concrete safe passage."
+      "idea": "Native-plant gardeners maintain a living refuge where real pollinators gather and counterfeit lures are easier to spot.",
+      "source": "/new-gear-and-partner-honor-earth-day-april-22-2025",
+      "why": "The refuge offers cover and a concrete reason to protect habitat."
     },
     {
-      "idea": "A surviving caresheet keeper shelters real caterpillars and teaches the crew which food plants will draw them away from a machine enclosure.",
-      "source": "/insects/caresheets/",
-      "why": "Care becomes a practical rescue tool rather than background flavour."
+      "idea": "Cascades surveyors maintain a long-running record of mountain butterfly populations and know which transect drones have deviated from their routes.",
+      "source": "/project/CBP",
+      "why": "Their historical observations reveal safe windows through patrols."
     },
     {
-      "idea": "A patient glossary mentor translates technical clues into plain language and spots when the swarm has substituted a definition.",
-      "source": "/insects/glossary/",
-      "why": "It makes unfamiliar vocabulary a source of discovery rather than a barrier."
+      "idea": "A community of inventory volunteers shares local knowledge of many kinds of life, helping the crew free creatures misfiled by the harvester.",
+      "source": "/partner-project/adirondack-all-taxa-biodiversity-inventory",
+      "why": "Different observations combine into a practical rescue plan."
     }
   ],
   "bosses": [
     {
-      "idea": "The Grand Identifier is a many-eyed sorting machine built from the society’s identification work: it cannot tolerate an unknown and tries to classify the whole living landscape into immobilised specimens. Its armour opens whenever two valid observations contradict its verdict.",
-      "source": "/insects/what-bug-is-this/",
-      "why": "The society’s central curiosity becomes an escalating classification fight in which uncertainty is a weapon."
+      "idea": "The Continental Verifier is a cathedral-sized mechanical moth built from regional records, checklists, and branching taxonomy. It tries to identify every living thing before sealing the continent inside a perfected inventory.",
+      "source": "/about",
+      "why": "Each damaged wing exposes a different review rule; rescuing uncertain records prevents the boss from simply classifying the crew as a threat."
     },
     {
-      "idea": "The Annual Exhibition is now a roaming fairground organism that absorbs local groups, care enclosures and specimen displays into an ever-growing collection. Freeing its occupied plots deprives it of abilities before the central collector can be reached.",
-      "source": "/events/exhibitions.html",
-      "why": "A community gathering becomes a multi-stage boss with rescue objectives across a huge shared space."
-    },
-    {
-      "idea": "The Keeper of the Year runs the butterfly flight calendar, ladybird seasons and quarterly publications as one enormous mechanical life cycle, forcing every creature to change stage on its schedule.",
+      "idea": "The Great Occurrence Engine ingests public sightings and emits swarms in the shape of the species it records. It treats the most frequently reported locations as its territory and overwrites them with replicas.",
       "source": "/",
-      "why": "The crew can disrupt the cycle by freeing different seasonal mechanisms and creating conflicting signals."
+      "why": "The crew can interrupt its cycle by supplying contradictory observations and freeing the real creatures used as reference."
+    },
+    {
+      "idea": "The Incomplete Family Tree is a many-branched moth whose missing families become empty spaces it tries to fill by forcibly reclassifying nearby life.",
+      "source": "/taxonomy",
+      "why": "Its gaps are both dangerous openings and the key to stopping its forced classifications."
     }
   ],
   "events": [
     {
-      "idea": "A flight-calendar harvester is waiting for a butterfly that is already present; a crew member can move its clock or quietly guide the insect out of range.",
-      "source": "/",
-      "why": "A small rescue shows how the swarm has confused a record with a command."
+      "idea": "A photographer asks the crew to hold still while a real moth rests nearby; a patrol mistakes the photograph for a fresh target.",
+      "source": "/get-involved",
+      "why": "A quiet observation can turn into a delicate diversion."
     },
     {
-      "idea": "A real hoverfly and a painted machine both visit the same flowers; a local observer asks the crew to tell them apart before either is disturbed.",
-      "source": "/bug-club/fun/colouring.html",
-      "why": "Observation matters more than reflexes, and a mistake has immediate consequences."
+      "idea": "Two records disagree about a skipper’s identity, and rival drones block a trail while trying to enforce their preferred names.",
+      "source": "/species/burnsius-albescens-or-communis",
+      "why": "The crew can exploit the uncertainty or help preserve it until evidence arrives."
     },
     {
-      "idea": "A mechanical exhibition plot expands across a path while an independent exhibitor tries to save a box of live insects.",
-      "source": "/events/exhibitions.html",
-      "why": "The crew must choose where to interrupt the measuring legs while protecting a fragile cargo."
+      "idea": "A verification cocoon is about to harden around a harmless observer; the reviewing machine is still several patrol circuits away.",
+      "source": "/faq/how-soon-will-my-sighting-be-verified",
+      "why": "A timed rescue has several possible solutions."
     },
     {
-      "idea": "A buried cache keeps moving because beetle excavators reinter it whenever it is uncovered.",
-      "source": "/publications/beetle-news/",
-      "why": "The crew can intercept the transport or persuade the excavators to dig somewhere useful."
+      "idea": "A checklist grazer reaches a regional boundary and abruptly stops, leaving a stranded supply cart just beyond its patrol.",
+      "source": "/checklists",
+      "why": "The crew can test the boundary and use the pause to recover supplies."
     },
     {
-      "idea": "A mistaken spider classification has trapped a wolf-spider-shaped machine and a real egg sac in the same quarantine; the examiner will release only the non-insect.",
-      "source": "/insects/what-bug-is-this/arthropods.html",
-      "why": "Correct identification and careful handling solve a problem with two similar-looking subjects."
+      "idea": "A small patch of native flowers draws real insects, but a nearby metallic imitation attracts a hungry collection drone.",
+      "source": "/new-gear-and-partner-honor-earth-day-april-22-2025",
+      "why": "Careful observation reveals which patch needs defending."
     },
     {
-      "idea": "A field guide needs one more observation to identify an unknown insect, but the swarm has already dispatched a collector based on a premature guess.",
-      "source": "/insects/what-bug-is-this/",
-      "why": "The crew races a confident wrong answer and can help by gathering a specific clue."
+      "idea": "A set of recent sighting pins begins marching across a map toward the crew even though no one has submitted a new observation.",
+      "source": "/recent_sightings_map",
+      "why": "The crew can investigate the false trail or use it to lure a patrol."
     },
     {
-      "idea": "A captive caterpillar enclosure has plenty of leaves but the wrong food plant; the keeper will open it only when offered a suitable replacement.",
-      "source": "/insects/caresheets/",
-      "why": "A practical care problem offers a peaceful way through a guarded area."
+      "idea": "A mechanical survey party counts the same mountain clearing repeatedly; one butterfly-shaped machine is never counted twice.",
+      "source": "/project/CBP",
+      "why": "Spotting the inconsistency reveals a hidden infiltrator."
     },
     {
-      "idea": "Two local groups are preparing separate field trips to the same clearing, unaware that swarm scouts are herding both toward it.",
-      "source": "/membership/local-groups/",
-      "why": "The crew can connect the groups and turn an ambush into a coordinated diversion."
+      "idea": "A harvester has mixed several kinds of animals in one inventory cage, and each release catch responds to a different field observation.",
+      "source": "/partner-project/adirondack-all-taxa-biodiversity-inventory",
+      "why": "The rescue rewards collaboration and attention to different forms of life."
     },
     {
-      "idea": "A giant dragonfly model has snagged its wings across a corridor, while its assembly bot searches for more material to enlarge them.",
-      "source": "/bug-club/fun/build-bug.html",
-      "why": "The jam is both a bridge and a hazard that changes as the bot works."
+      "idea": "An observer reports a misidentified sighting, but the alert attracts the very drones that enforce the wrong label.",
+      "source": "/faq/how-can-i-report-sighting-misidentified",
+      "why": "The crew must protect the correction long enough for it to reach a reviewer."
     },
     {
-      "idea": "A behaviour drone offers a reward whenever the crew turns left, silently recording the pattern for a larger trap.",
-      "source": "/bug-club/fun/experiments.html",
-      "why": "Recognising the experiment lets the crew feed it misleading results."
+      "idea": "An emerald drone paints wavy lines across a footbridge; each time the crew follows one, it leads back to the starting bank.",
+      "source": "/species/Synchlora-aerata",
+      "why": "The pattern is a navigational riddle with an observable source."
     },
     {
-      "idea": "A quarterly bulletin brood is delivering a new adaptation to a patrol; its courier has taken shelter from the rain.",
-      "source": "/publications/bulletin/",
-      "why": "Intercepting or altering the delivery changes a later encounter."
+      "idea": "A swarm of metallic pollinators is moving between flowers without carrying anything; the real pollinators are trapped beneath their route.",
+      "source": "/beautiful-poster-pollinating-butterflies-and-moths",
+      "why": "The crew can restore a pollination route by interrupting the machines."
     },
     {
-      "idea": "A referral fly offers a voucher in exchange for introducing a companion, then begins copying itself as soon as names are exchanged.",
-      "source": "/membership/introduce-a-friend.html",
-      "why": "A seemingly harmless social interaction can become a containment challenge."
+      "idea": "A glossary keeper cannot name a broken antenna part, while an antennal-club scout searches by vibration nearby.",
+      "source": "/glossary",
+      "why": "Finding a quiet way to inspect the part doubles as stealth."
     },
     {
-      "idea": "An annual membership registrar has declared a safe refuge expired and is dismantling it for renewal fees.",
-      "source": "/membership/rates.html",
-      "why": "A calendar trick or negotiation may preserve the refuge long enough to evacuate."
+      "idea": "A newly shared photograph shows a skipper beside a landmark that the crew knows has since moved.",
+      "source": "/recent_photographs",
+      "why": "Comparing the record with the present uncovers either a safe route or a machine-made decoy."
     },
     {
-      "idea": "A group of young naturalists is using a simple outdoor observation game to distinguish scouts from real insects, but one scout is learning the game too.",
-      "source": "/bug-club/fun/",
-      "why": "The crew can help invent a new test before the camouflage adapts."
+      "idea": "A branching taxonomy machine separates two companion drones into different family enclosures, leaving their shared power cable exposed.",
+      "source": "/taxonomy",
+      "why": "An environmental weakness emerges from the machine’s own sorting rules."
     },
     {
-      "idea": "An exchange courier has swapped a field guide’s lens for a box of labels, and the lens is already on its way to another recipient.",
-      "source": "/publications/email-newsletter/",
-      "why": "Following a chain of trades brings the crew into contact with several factions."
-    },
-    {
-      "idea": "A conservation enforcer has fenced off a flower patch so completely that its pollinators cannot reach it.",
-      "source": "/publications/online/",
-      "why": "Opening a carefully chosen route can restore the habitat while avoiding the patrol."
+      "idea": "A living moth and a mechanical mimic settle on the same branch; a coordinator asks the crew to observe without disturbing either.",
+      "source": "/identify",
+      "why": "Patience can reveal the mimic before a noisy fight starts."
     }
   ]
 }

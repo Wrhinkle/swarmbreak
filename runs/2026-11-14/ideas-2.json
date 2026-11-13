@@ -1,59 +1,261 @@
 {
-  "reading": "UKMoths is an identification guide to the moths of Great Britain and Ireland, built around illustrated species records, a systematic checklist and help for beginners and recorders. It cares about accurate, cautious identification, natural resting poses, contributor photographs and the accumulation of observations for conservation. Its vocabulary moves easily between common names and Latin names, family and checklist numbers, macro- and micro-moths, wingspan, flight period, larva, pupa, foodplant and similar species. Its character comes from treating tiny distinctions as meaningful: a foodplant can separate lookalikes, an adult may look unlike its larva, and some identities require more evidence than a photograph. Community contributions, missing-photo lists, regional guides and a national recording scheme make this a living collaborative field guide rather than just a gallery of pretty wings.",
+  "reading": "ENT 425 is a North Carolina State University general entomology teaching resource. It helps students recognize insects and their relatives, learn anatomy, development, behavior, ecology and evolutionary relationships, and apply that knowledge to pest management. It values close observation, accurate classification, ecological roles and hands-on collecting and preservation; it also conveys fascination with insects rather than treating all of them as pests. Its vocabulary moves between common names and scientific orders and families, spot ID characters, dichotomous keys, prolegs, cerci, mouthparts, wing venation, phylogeny and ecological categories. What makes this crawl distinctive is the combination of a highly granular Kwik-Key that branches on physical traits, image/name/tree routes into identification, a collection graded partly on ecological categories, field labs, broad Bug Bytes lessons and a North Carolina crop and pest list. The crawl provides excerpts and headings rather than full lesson text, so the ideas build on those visible details.",
   "enemies": [
-    {"idea":"Checklist Bailiffs: metal moths assign every moving thing a family and checklist number, then herd anything that won't fit into the doubtful-records appendix.","source":"/systematic-list/","why":"A fight can become a mischievous argument over classification; changing apparent features confuses their formation."},
-    {"idea":"Pink-Tinge Marbles: newly emerged machines blush pink and hide among three near-identical decoys; as their color fades, the real one changes places with a decoy.","source":"/species/hedya-atropunctana/adult-2/","why":"The fleeting emergence color gives the crew a short, observable window to spot the attacker."},
-    {"idea":"Rufous Minor Tribunal: three near-identical drones demand a definitive identification and clamp down on anyone who guesses from appearance alone.","source":"/species/oligia-versicolor/adult/","why":"The safe answer is uncertainty, turning an identification challenge into a way to avoid combat."},
-    {"idea":"Hawthorn Claim-Jumpers: tiny miners mistake any branching structure for their foodplant and tunnel through beams, cables and fences, leaving a lace of hollow supports.","source":"/species/phyllonorycter-oxyacanthae/adult-1/","why":"The crew can read the damage and lure them with a decoy branching frame."},
-    {"idea":"Broom Moth Changelings: woodland machines swap gray-brown and chestnut armor plates and alter their markings whenever a pursuer looks away.","source":"/species/ceramica-pisi/larva-1/","why":"Variable coloration makes tracking the same individual a puzzle instead of a simple target hunt."},
-    {"idea":"Broad-bar Calendar: a single-generation patrol lies dormant until its imagined July and August, then releases an entire season's worth of synchronized flyers at once.","source":"/species/scotopteryx-chenopodiata/adult-1/","why":"The crew can exploit its rigid flight schedule or accidentally trigger a concentrated emergence."},
-    {"idea":"Calcareous Sallow Sappers: coastal prospectors pulverize chalky ground into dust and build pale, unstable inland nests wherever they detect calcium.","source":"/species/pyrrhia-umbra/adult-1/","why":"Their geology-driven route creates collapsible terrain and a clear trail to follow."},
-    {"idea":"Moss Groundling Surveyors: scarce, ground-hugging machines mark isolated patches as exclusive territory and call the swarm when anything crosses between them.","source":"/species/chionodes-distinctella/adult/","why":"A few widely spaced sentries make a stealth route a question of reading territory boundaries."},
-    {"idea":"Brocade Advance: northward-marching mechanical moths weave a new foothold at each stop, converting warm sheltered walls into launch pads for the next colony.","source":"/species/mniotype-solieri/adult/","why":"A growing chain of outposts offers a moving front the crew can interrupt in several places."},
-    {"idea":"Rest-Pose Assessor: an experimental identification machine freezes moving targets with a flash so it can obtain one clear view of an adult at rest; larvae and pupae scramble its model.","source":"/identify/photo/","why":"Movement, immature disguises and its daily quota create several ways past its dangerous certainty."},
-    {"idea":"Size-Gate Moths: measuring machines insist on a size before offering a match, physically stretching and compressing intruders to make them fit their chosen category.","source":"/identify/","why":"A required measurement becomes a spatial hazard that can be tricked with oversized silhouettes."},
-    {"idea":"Missing-Picture Collectors: machines hunt species absent from the photographic record, trying to arrange living specimens into perfect portraits and imprisoning them in pools of hard light.","source":"/ukmoths-photos-wanted/","why":"Rescuing a specimen while keeping it in view creates a lively light-and-shadow problem."},
-    {"idea":"Doubtful Microdots: almost invisible drones from the questionable-records list copy the markings of better-documented species and use mistaken certainty to infiltrate defenses.","source":"/ukmoths-photos-wanted/micro","why":"The crew must gather more than one clue before deciding which tiny visitors are hostile."},
-    {"idea":"Fig-leaf Skeletonisers: insect machines strip broad leaves down to their veins and lace those veins together into flexible nets that close around travelers.","source":"/whats-new/august-2023/","why":"The dwindling foliage telegraphs a trap, and cutting the right veins can unravel it."},
-    {"idea":"Transparent Burnet Glasswrights: larval machines harvest wild thyme and extrude clear armor that renders their moving bodies visible only through its distortions.","source":"/whats-new/may-2023/","why":"Bending light and a distinctive scent make an invisible-looking opponent readable."},
-    {"idea":"Map-winged Swifts: fast scouts carry shifting maps on their wings and redraw routes behind them, causing anyone who follows their patterns to circle back into an ambush.","source":"/thumbnails/hepialidae/","why":"The crew can navigate by landmarks or capture a wing pattern before it changes."},
-    {"idea":"Longhorn Antenna Choir: copper-tipped machines link their oversized antennae across a clearing to make a living tripwire and broadcast the precise position of anything that touches it.","source":"/thumbnails/adelidae/","why":"The delicate network is both an alarm and a conductor the crew can redirect."},
-    {"idea":"Dogwood Cutters: shining little machines remove neat shapes from dogwood leaves and assemble the pieces into whirling, razor-edged camouflage suits.","source":"/thumbnails/heliozelidae/","why":"Their construction leaves recognizable gaps and gives the crew materials to use against them."},
-    {"idea":"Pollen-moth Sifters: black-headed machines comb every yellow speck from a landscape, clogging engines and lights with the pollen they stockpile.","source":"/thumbnails/micropterigidae/","why":"A harmless-seeming collection habit becomes an escalating equipment problem with an obvious lure."},
-    {"idea":"Day-Flying Imitators: bright machines pass for ordinary daytime wildlife until their patterned wings lock together into a sweeping net.","source":"/book-reviews/britains-day-flying-moths/","why":"They overturn the crew's assumption that a moth swarm only needs watching after dark."},
-    {"idea":"Natural-Pose Wardens: the swarm enforces a rule that every creature must remain in a convincing resting posture; twitching draws a restraining filament.","source":"/how-to-contribute/","why":"The party can choose between a tense stillness challenge and provoking the wardens into tangling one another."},
-    {"idea":"Spring Jewel Prospectors: oak-purple and hazel-colored machines quarry glossy scales from trees and use them as reflective armor, leaving distinct bare patches behind.","source":"/thumbnails/eriocraniidae/","why":"Their scavenging changes the landscape and their mirrored plating can turn their own flashes against them."},
-    {"idea":"Pyralid Antiquaries: old catalog machines cling to an aging identification scheme, rejecting new evidence and rearranging local moths to match their obsolete model.","source":"/book-reviews/british-pyralid-moths-goater/","why":"Contradictory observations can force their rigid logic into a paralyzing loop."},
-    {"idea":"Image-rights Enforcers: possessive sentries stamp every reflected wing pattern as claimed property and confiscate any reflective object that resembles their collection.","source":"/use-of-images/","why":"Mirrors and improvised decoys can distract them while their fixation makes an ordinary crossing complicated."}
+    {
+      "idea": "Pumpback: A plant-sucking machine taps hoses and machinery, draining coolant through a built-in pump until its swollen reservoir can be ruptured.",
+      "source": "/",
+      "why": "It turns a tiny feeding mechanism into a visible resource-stealing threat."
+    },
+    {
+      "idea": "Surface Tension Patrol: Long-legged strider machines skim ponds and ferry stolen parts; disturbing the surface breaks their formation.",
+      "source": "/insect-identification/order-hemiptera-suborder-heteroptera/family-gerridae/",
+      "why": "The crew can change the battlefield rather than simply chase a fast enemy."
+    },
+    {
+      "idea": "Head-or-tail decoy: A bristling caterpillar machine hides its true front among tufts; its false head draws attacks while the other end hauls away supplies.",
+      "source": "/",
+      "why": "Observation and misdirection become a fight mechanic."
+    },
+    {
+      "idea": "Airwake Sentinel: A cockroach-shaped sentry uses sensitive cerci hairs to detect an approaching air current and bolts to summon the swarm.",
+      "source": "/bug-bytes/defense/",
+      "why": "A slow approach, still air, or a diversion can beat its alarm."
+    },
+    {
+      "idea": "Lichen Ambusher: A machine moth arranges scrap as lichen camouflage on a wall, then detaches the wall-shaped armor when a crew passes.",
+      "source": "/crypsis/",
+      "why": "The background itself becomes a puzzle with a physical tell."
+    },
+    {
+      "idea": "Robber Interceptor: A robber-fly drone with a concave face and piercing stylate mouthparts snatches small machines in midair and converts them into ammunition.",
+      "source": "/insect-identification/order-diptera/family-asilidae/",
+      "why": "Interrupting its hunt can deprive it of the parts it needs."
+    },
+    {
+      "idea": "Vein Counter: A winged examiner counts crossveins and longitudinal veins, then cuts extra lines into any wing or fabric that fails its chosen ratio.",
+      "source": "/kwik-key-insecta05/",
+      "why": "A minute identification feature becomes a moving, readable attack pattern."
+    },
+    {
+      "idea": "Mask Snatcher: A larval machine unfolds a hinged labial mask to seize a tool at reach, then folds it under its head to lock the prize away.",
+      "source": "/kwik-key-insecta42/",
+      "why": "The weapon is also the weak point and creates a retrieval problem."
+    },
+    {
+      "idea": "Crochet Creeper: A soft-bodied crawler anchors hooked prolegs to a surface one at a time, towing whole sheets of flooring toward a recycling mouth.",
+      "source": "/kwik-key-insecta46/",
+      "why": "Its sequential anchors offer a tactical way to halt it."
+    },
+    {
+      "idea": "Three-Leg Foreman: A modular worker swaps raptorial grapples, fossorial drills and cursorial runners to capture, bury and pursue intruders in sequence.",
+      "source": "/kwik-key-insecta24/",
+      "why": "Its leg configuration announces its next job."
+    },
+    {
+      "idea": "Halteres Juggler: A one-pair-wing drone spins club-like halteres as stabilizers while carrying stolen parts; tangling them sends its cargo tumbling.",
+      "source": "/kwik-key-insecta02/",
+      "why": "Disabling balance creates an alternative to destroying the flyer."
+    },
+    {
+      "idea": "Scale Shedder: A machine cloaked in opaque flattened scales sheds a blinding metallic cloud whenever its body is inspected, leaving a distinct trail behind.",
+      "source": "/kwik-key-insecta04/",
+      "why": "Its defense also gives away its escape route."
+    },
+    {
+      "idea": "Proboscis Switcher: A machine rotates between a piercing tube to drain tanks, a coiled siphon to reel objects in, and mandibles to break them down.",
+      "source": "/kwik-key-insecta26/",
+      "why": "Each mouthpart announces a different range and counterplay."
+    },
+    {
+      "idea": "Pincer Auditor: A rear-pincered inspector clasps anything it cannot classify and drags it backward toward a sorting pit.",
+      "source": "/kwik-key-insecta23/",
+      "why": "The dangerous end is behind it, encouraging positional play."
+    },
+    {
+      "idea": "Time-stratum Dredger: A segmented machine dredges soft sediment for imaginary Cambrian ancestors and layers whatever it finds into jointed armor.",
+      "source": "/bug-bytes/arthropods/",
+      "why": "The arena gradually changes as its armor is built from local material."
+    },
+    {
+      "idea": "Sequence Splicer: A taxonomist machine compares scavenged fragments as if they were nucleotide sequences, then forcibly joins mismatched machines into a supposed lineage.",
+      "source": "/bug-bytes/systematics/",
+      "why": "Stopping a sorting cycle prevents an unpredictable composite enemy."
+    },
+    {
+      "idea": "Color Transducer: A compound-eyed drone converts light into faulty commands: a colored beam makes nearby swarm units change targets, including one another.",
+      "source": "/color-vision/",
+      "why": "Colored light becomes a tool the crew can manipulate."
+    },
+    {
+      "idea": "Entrainment Bell: A clockwork chorister synchronizes swarm foraging and molting to a recurring signal; every pulse brings a different coordinated rush.",
+      "source": "/periodic-behavior/",
+      "why": "The cycle is learnable and can be disrupted between pulses."
+    },
+    {
+      "idea": "Ecological Grader: A collector machine assigns everything an ecological category and pins down anything it cannot classify until its quota is complete.",
+      "source": "/students/lab-schedule/lab-1-collecting-preserving-part-1-meadow-field-trip/insect-collection-instructions-2/",
+      "why": "Its obsession with categories gives the crew a way to distract or confuse it."
+    },
+    {
+      "idea": "Stored-Product Borer: A tunneling machine treats crates, beams and stored supplies alike as food, leaving a hollow load-bearing shell.",
+      "source": "/insect-pests/plant-pests/",
+      "why": "A chase through weakened structures creates a rescue and navigation problem."
+    },
+    {
+      "idea": "Fanwing Scanner: A fan-wing machine sweeps branching antennae through rooms, triangulating movement; a tight space fouls its wide scanning array.",
+      "source": "/kwik-key-insecta03/",
+      "why": "The conspicuous antennae make its detection arc legible."
+    },
+    {
+      "idea": "Wasp-Waist Clamp: A narrow-jointed machine squeezes through gaps, then braces its thorax and abdomen on opposite sides to clamp a door shut.",
+      "source": "/kwik-key-insecta10/",
+      "why": "The same narrow joint that grants mobility is exposed when it braces."
+    },
+    {
+      "idea": "Jump-or-Run Pursuer: A patrol changes between spring-loaded hind legs for a long leap and running legs for a relentless ground pursuit.",
+      "source": "/kwik-key-insecta25/",
+      "why": "The crew can bait a leap into an obstacle or lead it over broken terrain."
+    },
+    {
+      "idea": "Branch Enforcer: A many-armed classifier forces unusual hexapods onto the insect branch, grafting extra parts onto anything that does not fit.",
+      "source": "/insect-identification/phylogenetic-outline/",
+      "why": "Its mistaken taxonomy is both sinister and mechanically reversible."
+    },
+    {
+      "idea": "Wing-Cover Splitter: A beetle-like machine seals its hard covers in a straight seam, then snaps them apart to launch a hidden membranous-wing scout.",
+      "source": "/kwik-key-insecta22/",
+      "why": "The seam telegraphs the moment to interrupt its deployment."
+    },
+    {
+      "idea": "Plant-Tissue Prospector: A crop-scout machine switches attachments for corn, peanuts and stored grain, searching every container for a host and sowing metal tags as it goes.",
+      "source": "/pest-list/",
+      "why": "Its crop-specific search routines can be exploited with decoy containers."
+    }
   ],
   "allies": [
-    {"idea":"The Careful Identifier: a battered field assistant offers several possible matches, points out missing evidence and refuses to turn a guess into a verdict.","source":"/identification-disclaimer/","why":"Its honest uncertainty gives the crew useful clues without solving the mystery for them."},
-    {"idea":"Recorder Relay: scattered volunteer-made observation stations compare location and date, warning the crew when a swarm flight period is approaching.","source":"/national-moth-recording-scheme/","why":"Protecting or reconnecting stations turns field observations into a practical early-warning network."},
-    {"idea":"Release Keeper: a gentle caretaker frees trapped moths and shows travelers how to open a swarm cocoon without crushing what is inside.","source":"/feedback/page3","why":"A small act of care earns the crew an ally and a nonviolent tool for rescue."},
-    {"idea":"The Resting-Pose Sketcher: a resilient field guide records living moths as they naturally settle, revealing the difference between real wing posture and a swarm imitation.","source":"/book-reviews/waring-and-townsend/","why":"Its observations expose disguises while rewarding patience and close looking."},
-    {"idea":"Missing-Species Scouts: tiny independent machines seek evidence of unpictured moths and trade safe paths for observations rather than capturing specimens.","source":"/ukmoths-photos-wanted/","why":"The same collecting impulse as the enemy can become a cooperative exploration game."}
+    {
+      "idea": "Meadow Observer: A surviving field observer maps open-ground insect activity and helps crews move through the meadow without disturbing its real inhabitants.",
+      "source": "/students/lab-schedule/lab-1-collecting-preserving-1-meadow-field-trip/",
+      "why": "It rewards patient observation and gives a living landscape a defender."
+    },
+    {
+      "idea": "Spot-ID Apprentice: A stubborn student-built guide uses visible characters and a dichotomous key to identify swarm adaptations and suggest safe routes.",
+      "source": "/students/lab-schedule/7147-2/",
+      "why": "The crew learns enemy tells through an ally with practical skills."
+    },
+    {
+      "idea": "Crypsis Gardener: A camouflage specialist arranges lichen, leaves and scrap into hiding places and teaches crews to spot the outline of an ambusher.",
+      "source": "/crypsis/",
+      "why": "The same principle used by a threat becomes a useful defense."
+    },
+    {
+      "idea": "Collection Curator: A careful curator records ecological roles and releases living finds, correcting the swarm’s habit of treating everything as a specimen.",
+      "source": "/students/lab-schedule/lab-1-collecting-preserving-part-1-meadow-field-trip/insect-collection-instructions-2/",
+      "why": "Its knowledge reveals which creatures and habitats need protection."
+    },
+    {
+      "idea": "Behavior Tutor: A field guide recognizes that a machine’s behavior can mix fixed routines with learned responses and helps the crew test both.",
+      "source": "/complex-behavior/",
+      "why": "It turns repeated encounters into discovery rather than a single answer."
+    }
   ],
   "bosses": [
-    {"idea":"The Grand Checklist: a colossal colony of numbered family-clusters reorganizes its own limbs whenever a specimen is identified, trying to sort the entire landscape into a single perfect taxonomy. Its doubtful-records chamber contains contradictory clues that can make its formations disagree.","source":"/systematic-list/","why":"It embodies the site's vast catalog and turns accumulating observations into a way to dismantle its changing defenses."},
-    {"idea":"The False Field Guide: a many-winged identification engine assembles adults, larvae, foodplants and flight periods into an apparently complete living model, then remakes anything that doesn't match. Its confidence falters when the crew presents several plausible lookalikes and evidence from different life stages.","source":"/","why":"The whole site's identification mission becomes a boss whose strength is certainty and whose weakness is real biological ambiguity."},
-    {"idea":"The National Recorder: an enormous moth-shaped relay mistakes every sighting for a command to reproduce, transforming a conservation record into a swarm forecast that fulfills itself. Isolating its observation stations lets the crew feed it a truthful but incomplete picture and interrupt the feedback loop.","source":"/national-moth-recording-scheme/","why":"A cooperative network becomes a strategic encounter across several locations, with observation itself as the contested resource."}
+    {
+      "idea": "The Grand Dichotomist: A many-limbed classification engine sorts the whole landscape by wing form, then by ever finer anatomical choices; anything that fails a branch is captured and rebuilt to fit.",
+      "source": "/kwik-key-insecta01/",
+      "why": "A boss fight unfolds as a branching identification puzzle, with each changed feature altering its next attack."
+    },
+    {
+      "idea": "The Phylogenetic Foundry: A towering mechanical tree grows branches of swarm orders and grafts captured parts into a rigid counterfeit ancestry; severed branches spawn their own specialized defenders.",
+      "source": "/insect-identification/phylogenetic-outline/",
+      "why": "The whole site’s concern with relationships becomes a multi-stage arena with meaningful branch choices."
+    },
+    {
+      "idea": "The Infinite Collection: A mobile vault tries to complete an ecological collection by capturing every role in the meadow, including the crew, while its sorting arms protect its fragile catalog.",
+      "source": "/students/lab-schedule/lab-1-collecting-preserving-part-1-meadow-field-trip/insect-collection-instructions-2/",
+      "why": "Freeing its captives changes the fight and turns preservation into a rescue."
+    }
   ],
   "events": [
-    {"idea":"A freshly emerged pink-tinged machine sits among faded lookalikes; a nearby recorder needs help marking it before the color disappears.","source":"/species/hedya-atropunctana/adult-2/","why":"A brief visual clue creates a low-stakes race to observe rather than destroy."},
-    {"idea":"Two crews argue over three nearly identical Rufous Minors while a swarm patrol approaches; admitting that the available view cannot confirm the identity gets everyone moving.","source":"/species/oligia-versicolor/adult/","why":"The tension rewards careful uncertainty and gives the crew a social choice."},
-    {"idea":"Hawthorn leaves bear tiny mines beside an identical-looking mined structure on a supply cart. The crew can trace the real foodplant to find where the machines entered.","source":"/species/phyllonorycter-oxyacanthae/adult-1/","why":"A plant association becomes a concrete tracking clue."},
-    {"idea":"A collector's light trap holds a living moth and a nearly identical machine. Opening it frees both unless the crew first finds a way to separate them.","source":"/feedback/page3","why":"The desire to release the animal creates a compact rescue puzzle."},
-    {"idea":"A sunny path seems safe until day-flying moth machines begin assembling a net between the flowers; a patient crew can cross while they reset their formation.","source":"/book-reviews/britains-day-flying-moths/","why":"A daytime encounter plays against an easy assumption and offers a timing challenge."},
-    {"idea":"A map-winged scout has landed on a signpost, its wings showing a route that contradicts every landmark. The crew can follow it, copy it or watch long enough to see it change.","source":"/thumbnails/hepialidae/","why":"The false map offers an immediately playable navigation choice."},
-    {"idea":"A recorder station is broadcasting a mass emergence months early because a broad-bar patrol's calendar has slipped. Resetting it could save the next settlement from a false alarm.","source":"/species/scotopteryx-chenopodiata/adult-1/","why":"The site's flight-period detail becomes a small repair with consequences for others."},
-    {"idea":"A wanted micro-moth appears on a leaf, but a collector drone is closing in. The crew has time to document it or shield it, unless they devise a way to do both.","source":"/ukmoths-photos-wanted/micro","why":"A missing record and a living specimen create a gentle, concrete dilemma."},
-    {"idea":"A fig tree has been reduced to a transparent lattice. A stranded traveler is caught in the woven veins, and every tug tightens a different strand.","source":"/whats-new/august-2023/","why":"A recognizable feeding trace becomes a tactile rescue problem."},
-    {"idea":"A field assistant asks for size before it will open a shelter; a pile of differently sized wings nearby belongs to the same changing swarm machine.","source":"/identify/","why":"The crew must decide what to measure when a required trait keeps changing."},
-    {"idea":"A chalky dust trail leads from the coast to a supply cache whose foundations have been hollowed out by sallow sappers.","source":"/species/pyrrhia-umbra/adult-1/","why":"The visible trail offers both a warning and a route to the nest."},
-    {"idea":"A cooperative observation station offers a warning about the next swarm flight, but its neighboring station has gone silent and must be reconnected to confirm the date.","source":"/national-moth-recording-scheme/","why":"The crew can act on partial information or spend time improving it."},
-    {"idea":"A pair of antennae stretches across a clearing like a tripwire; a small moth-shaped ally is stranded on the far side and cannot fly without sounding the alarm.","source":"/thumbnails/adelidae/","why":"A simple rescue invites inventive manipulation of a delicate sensor."},
-    {"idea":"An outdated guide insists a local moth cannot exist here, while the living insect rests in plain view. A stubborn catalog machine refuses passage until someone reconciles its records.","source":"/book-reviews/british-pyralid-moths-goater/","why":"The crew can use evidence, negotiation or an alternate route to overcome obsolete certainty."},
-    {"idea":"The experimental photo assessor has reached its daily limit, leaving a waiting group with an unknown moth-shaped machine. A human-scale inspection of posture, size and surroundings can still reveal useful clues.","source":"/identify/photo/","why":"A practical limitation prompts observation and cooperation instead of a single automatic answer."},
-    {"idea":"A northward-moving brocade colony is spinning a foothold on a warm wall occupied by harmless moths. The crew can redirect the machines toward an empty decoy wall.","source":"/species/mniotype-solieri/adult/","why":"A spreading front becomes a local problem with room for a nonviolent solution."}
+    {
+      "idea": "False dawn: A broken lamp triggers the swarm’s dawn foraging cycle at midnight; a crew can cover it, reset it, or slip past while the foragers leave.",
+      "source": "/periodic-behavior/",
+      "why": "A small environmental change reshapes a patrol schedule."
+    },
+    {
+      "idea": "The vanished moth: A moth-shaped machine disappears against lichen-covered scrap while a stranded observer insists it is still there; shifting a loose screen reveals its outline.",
+      "source": "/crypsis/",
+      "why": "A visual search has an actionable solution."
+    },
+    {
+      "idea": "The wrong branch: A sorting machine has caged a springtail-shaped helper as an insect; correcting its classification opens the cage but attracts a patrol.",
+      "source": "/bug-bytes/hexapods/",
+      "why": "A real distinction creates a rescue with a cost."
+    },
+    {
+      "idea": "One hook or two: Two crawlers carry matching supply cases, but only the one with two claws on each proleg holds a stolen repair kit; both are moving toward different tunnels.",
+      "source": "/kwik-key-insecta66/",
+      "why": "A small anatomical clue drives a time-sensitive choice."
+    },
+    {
+      "idea": "Surface crossing: A strider patrol blocks a pond crossing while a loose line trails behind it; the crew can snag the line or disturb the water to scatter the machines.",
+      "source": "/insect-identification/order-hemiptera-suborder-heteroptera/family-gerridae/",
+      "why": "A crossing offers stealth, timing and environmental solutions."
+    },
+    {
+      "idea": "Unfinished specimen: A collector has labeled a harmless helper but cannot decide its ecological category; the helper asks the crew to move its label before the collector returns.",
+      "source": "/students/lab-schedule/lab-1-collecting-preserving-part-1-meadow-field-trip/insect-collection-instructions-2/",
+      "why": "A bureaucracy’s delay gives the crew a small rescue opportunity."
+    },
+    {
+      "idea": "The borrowed light: A damaged pigment sensor mistakes a colored lamp for a command and redirects its drone escorts; a crew can move the lamp to open a route.",
+      "source": "/color-vision/",
+      "why": "The crew can experiment with light and watch the result."
+    },
+    {
+      "idea": "The meadow survey: A field observer needs a safe count of insects in an open meadow, but mechanical replicas are mixed among them; the crew can watch movement before intervening.",
+      "source": "/students/lab-schedule/lab-1-collecting-preserving-1-meadow-field-trip/",
+      "why": "Careful observation protects real wildlife while revealing a swarm outpost."
+    },
+    {
+      "idea": "A seam in the armor: A sealed machine blocks a passage; its wing covers meet along a straight seam that opens briefly whenever its hidden scout takes off.",
+      "source": "/kwik-key-insecta22/",
+      "why": "A visible anatomical feature supplies a timing window."
+    },
+    {
+      "idea": "The proleg dispute: Two sorting drones argue over whether a crawler has fewer or more than six pairs of prolegs; the crawler keeps folding one pair away while towing a stolen pack.",
+      "source": "/kwik-key-insecta68/",
+      "why": "The crew can exploit the disagreement or retrieve the pack during inspection."
+    },
+    {
+      "idea": "Misdirected harvest: A plant-feeding machine has tapped an irrigation hose and is filling a storage tank; diverting the water can stall it and restore the flow to a garden.",
+      "source": "/insect-pests/plant-pests/",
+      "why": "A simple rerouting problem resolves both an obstacle and a local need."
+    },
+    {
+      "idea": "Air-current alarm: A cerci-haired sentry guards a narrow corridor, reacting to gusts from a damaged fan; shutting off the fan leaves it alert to the crew’s own movement.",
+      "source": "/bug-bytes/defense/",
+      "why": "The obvious fix removes cover as well as noise, creating a tradeoff."
+    },
+    {
+      "idea": "Antenna rehearsal: A fan-wing drone tests its branched antennae against a pile of reflective scrap; rearranging the pieces sends its search away from a trapped helper.",
+      "source": "/kwik-key-insecta03/",
+      "why": "A mundane object turns into a small spatial puzzle."
+    },
+    {
+      "idea": "A clockwork molt: At a recurring signal a swarm worker sheds its casing, leaving a brief gap in its patrol and a discarded shell the crew could use as cover.",
+      "source": "/periodic-behavior/",
+      "why": "A repeated cycle offers a predictable opening and a useful prop."
+    },
+    {
+      "idea": "The family resemblance: A guide asks the crew to distinguish two similar machine families by visible characters before opening a shelter, because only one has been tracking refugees.",
+      "source": "/students/lab-schedule/lab-4-insect-families-identification-part-1/",
+      "why": "Identification has an immediate social consequence."
+    },
+    {
+      "idea": "A long history: A fossil-sorting machine has mistaken a crew member’s tool for an ancient specimen and is comparing it to layers of recovered scrap; retrieve it before the sorting belt carries it away.",
+      "source": "/bug-bytes/systematics/",
+      "why": "A scholarly technique produces a modest, tangible recovery mission."
+    }
   ]
 }
