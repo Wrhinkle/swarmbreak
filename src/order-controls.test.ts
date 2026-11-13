@@ -33,3 +33,10 @@ it('cycles choices without replacing the focused button and queues the selected 
     expect(crew.attributes['aria-label']).toContain('C');
   } finally { vi.unstubAllGlobals(); }
 });
+
+it('describes order availability without exposing the combat tick counter', async () => {
+  const { orderStatus } = await import('./order-controls');
+  expect(orderStatus({ cooldown: 0, queued: null })).toBe('Order ready.');
+  expect(orderStatus({ cooldown: 4, queued: null })).toBe('Order recharging.');
+  expect(orderStatus({ cooldown: 0, queued: { actorId: 'a', routineId: 'one' } })).toBe('Order queued.');
+});
