@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / 'factory' / 'agents'
 ACTS, RETRIES = 3, 2
+RUN_BUSY = 75
 STAGES = ['researcher', 'parser', 'storymaker', 'gameplay', 'art']
 EFFORT = {'researcher': 'medium', 'parser': 'medium', 'storymaker': 'high', 'gameplay': 'high', 'art': 'medium'}
 
@@ -383,7 +384,8 @@ def locked_main(run_id):
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
-            sys.exit(f'Run {run_id} is already being written; stopping.')
+            print(f'Run {run_id} is already being written; stopping.', file=sys.stderr)
+            sys.exit(RUN_BUSY)
         main()
 
 

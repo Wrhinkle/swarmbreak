@@ -14,8 +14,9 @@ class RunExclusionTest(unittest.TestCase):
             with lock.open('a+') as held:
                 fcntl.flock(held, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 with patch.object(run, 'run_lock_path', return_value=lock), patch.object(run, 'main') as main:
-                    with self.assertRaises(SystemExit):
+                    with self.assertRaises(SystemExit) as stopped:
                         run.locked_main('2026-11-12')
+                    self.assertEqual(stopped.exception.code, run.RUN_BUSY)
                     main.assert_not_called()
 
     def test_writer_holds_lock_until_main_returns(self):

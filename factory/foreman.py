@@ -66,7 +66,7 @@ if __name__ == '__main__':
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import LOCK_COLLISION, REPO, WAITING, sh  # noqa: E402
 from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, deps, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
-from run import STAGES, checked, clashes  # noqa: E402
+from run import RUN_BUSY, STAGES, checked, clashes  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
 STATE = ROOT / 'factory' / 'log' / ('.runner.json' if RUN_LANE else '.foreman.json')
@@ -225,6 +225,8 @@ def build_run(run_id):
     if stage:
         r = subprocess.run([sys.executable, str(tree / 'factory' / 'run.py'), run_id, '--from', stage], cwd=tree, capture_output=True, text=True)
         out = r.stdout + r.stderr
+        if r.returncode == RUN_BUSY:
+            return SimpleNamespace(returncode=RUN_BUSY, stdout=out, stderr='', moved=False)
         # Progress is a stage finished, not a new commit: merging main moves the branch on every try.
         moved = order(left()) > order(stage)
         try:
@@ -346,7 +348,7 @@ def main():
         r = SimpleNamespace(returncode=1, stdout=f'{e}', stderr='')
     out = r.stdout + r.stderr
     print(out[-4000:], flush=True)
-    if kind in ('issue', 'pr') and r.returncode == LOCK_COLLISION:
+    if (kind in ('issue', 'pr') and r.returncode == LOCK_COLLISION) or (kind == 'run' and r.returncode == RUN_BUSY):
         return  # a manager pass has it; not a failure
     if r.returncode == WAITING:
         # The worker may have pushed a fix. Its final marker names the exact head it awaits.

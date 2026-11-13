@@ -1676,6 +1676,33 @@ with tempfile.TemporaryDirectory() as d:
         assert json.loads(state_path.read_text())['waiting'][f'pr-55@{head[:7]}'] == 77
 print('ok foreman distinguishes lock collisions from fixer reports')
 
+# A busy run is held, including when it has an earlier evaluated failure.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    (root / 'factory' / 'log').mkdir(parents=True)
+    state_path = root / 'factory' / 'log' / 'state.json'
+    issue = {'number': 42, 'title': 'Run 2026-11-12', 'author': me, 'labels': [{'name': foreman.RUN}], 'body': ''}
+    for history in ('', json.dumps({'kind': 'foreman', 'job': 'issue-42', 'exit': 1, 'moved': False, 'lesson': 77, 'at': '2026-11-01'}) + '\n'):
+        log = root / 'factory' / 'log' / 'decisions.jsonl'
+        log.write_text(history)
+        with patch.object(foreman, 'ROOT', root), patch.object(foreman, 'STATE', state_path), patch.object(foreman, 'LOG', log), \
+                patch.object(foreman, 'RUN_LANE', True), patch.object(foreman, 'on_run_branch', return_value=False), \
+                patch.object(foreman, 'open_issues', return_value=[issue]), patch.object(foreman, 'sh', return_value=SimpleNamespace(stdout='')), \
+                patch.object(foreman, 'build_run', return_value=SimpleNamespace(returncode=foreman.RUN_BUSY, stdout='busy', stderr='')), \
+                patch.object(foreman, 'record') as record, patch.object(foreman, 'learn') as learn, patch.object(foreman, 'settle') as settle:
+            foreman.main()
+            assert not record.called and not learn.called and not settle.called and not state_path.exists()
+
+    tree = Path(d) / 'swarmbreak-run-2026-11-12'
+    (tree / 'factory' / '.venv').mkdir(parents=True)
+    with patch.object(foreman, 'ROOT', root), patch.object(foreman, 'sh'), patch.object(foreman, 'main_only', return_value=True), \
+            patch.object(foreman, 'install'), patch.object(foreman, 'run_problems', return_value=['missing']), \
+            patch.object(foreman, 'resume_stage', return_value='art'), patch.object(foreman, 'keep_run') as keep, \
+            patch.object(foreman, 'open_run') as opened, patch.object(foreman.subprocess, 'run', return_value=SimpleNamespace(returncode=foreman.RUN_BUSY, stdout='', stderr='busy')):
+        assert foreman.build_run('2026-11-12').returncode == foreman.RUN_BUSY
+        assert not keep.called and not opened.called
+print('ok busy runs do not checkpoint or change failure history')
+
 # A merged PR says in a comment where the host's screenshots are (issue 134). Only once merged: the folder is reused until then.
 with tempfile.TemporaryDirectory() as d:
     root = Path(d) / 'repo'
