@@ -598,18 +598,26 @@ def deploy(dry, rev=None):
         def cleanup_capacity_failure(failure):
             nonlocal cleaned, temp_cleanup_attempted
             cleanup_errors = []
+            removed_ok = False
             try:
-                removed = sh('git', 'worktree', 'remove', '--force', tree, check=False)
+                removed = sh('git', 'worktree', 'remove', tree, check=False)
                 if removed.returncode:
                     cleanup_errors.append(f'worktree removal failed: {(removed.stdout + removed.stderr)[-500:]}')
+                else:
+                    removed_ok = True
             except (Exception, SystemExit) as e:
                 cleanup_errors.append(f'worktree removal failed: {e}')
             temp_cleanup_attempted = True
-            try:
-                temp.cleanup()
-                cleaned = True
-            except (Exception, SystemExit) as e:
-                cleanup_errors.append(f'temporary directory cleanup failed: {e}')
+            if removed_ok:
+                try:
+                    temp.cleanup()
+                    cleaned = True
+                except (Exception, SystemExit) as e:
+                    cleanup_errors.append(f'temporary directory cleanup failed: {e}')
+            else:
+                # TemporaryDirectory's finalizer would otherwise delete a refused checkout.
+                temp._finalizer.detach()
+                cleanup_errors.append(f'checkout preserved for host inspection: {tree}')
             cleanup = '; '.join(cleanup_errors) if cleanup_errors else 'completed'
             return (f'{failure}; cleanup: {cleanup}; checkout parent after cleanup: '
                     f'{capacity_detail(Path(work).parent)}. '
@@ -632,7 +640,13 @@ def deploy(dry, rev=None):
                 if failure:
                     return cleanup_capacity_failure(failure)
                 raise
-            live = effective(live_manifest(), now)
+            try:
+                live = effective(live_manifest(), now)
+            except OSError as e:
+                failure = checkout_capacity_failure(e, tree, 'release live manifest')
+                if failure:
+                    return cleanup_capacity_failure(f'{failure} failing filesystem: unknown; error: {e}')
+                raise
             manifest = effective(raw_manifest, now)
             has = lambda m: (tree / 'public' / m['runUrl'].lstrip('/')).exists()
             problems = deploy_problems(manifest, live, has(live), now, not manifest.get('next') or has(manifest['next']))
@@ -1114,6 +1128,7 @@ def persistent_release_blocker(result):
                               'Not deploying: release revision file failed: no space left on device;',
                               'Not deploying: release checkout revision failed: no space left on device;',
                               'Not deploying: release checkout manifest failed: no space left on device;',
+                              'Not deploying: release live manifest failed: no space left on device;',
                               'Not deploying: npm ci failed: no space left on device;'))
 
 
@@ -1124,7 +1139,7 @@ def release_blocker_identity(result):
     verification = 'release -> Deploy outcome unknown: release verification failed: no space left on device;'
     if result.startswith(verification):
         return verification
-    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'release checkout manifest', 'npm ci', 'npm run build', 'npm test'):
+    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'release checkout manifest', 'release live manifest', 'npm ci', 'npm run build', 'npm test'):
         capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
         if result.startswith(capacity):
             return capacity
