@@ -32,6 +32,7 @@ SECRET = re.compile(r'gh[pousr]_\w{20,}|github_pat_|sk-[\w-]{20,}|AKIA[0-9A-Z]{1
 PRIVATE = re.compile(r'ridgeline|[\w.+-]+@[\w-]+\.[a-z]{2,}', re.I)
 MENTION = re.compile(r'(?<![\w`/])@[A-Za-z0-9][A-Za-z0-9-]*')
 NO_EVIDENCE = re.compile(r"\b(?:(?:can(?:not| not|'t|’t)|could(?: not|n't|n’t)|unable to)\s+(?:tell|establish|determine|verify|say)|(?:do not|don't|don’t)\s+know)\b[^.!?\n]*\b(?:what happened|what occurred)\b", re.I)
+MARKDOWN_TEMPLATE = re.compile(r'```markdown\r?\n(.*?)```', re.S)
 
 
 def post_problems(body, template=(), max_len=MAX_POST, *, challenge=False):
@@ -59,13 +60,13 @@ def post_problems(body, template=(), max_len=MAX_POST, *, challenge=False):
 
 
 def template_headings(challenge):
-    block = re.search(r'```markdown\n(.*?)```', challenge, re.S)
+    block = MARKDOWN_TEMPLATE.search(challenge)
     return [l.strip() for l in block.group(1).splitlines() if l.startswith('#')] if block else []
 
 
 def unfilled_links(body, challenge):
     """A template's 'link:' lines must hold a real URL, so a post can't say the evidence is missing and still go out."""
-    block = re.search(r'```markdown\n(.*?)```', challenge, re.S)
+    block = MARKDOWN_TEMPLATE.search(challenge)
     labels = [l.strip() for l in block.group(1).splitlines() if l.strip().lower().endswith('link:')] if block else []
     return [f'no URL after: {l}' for l in labels if not re.search(re.escape(l) + r'[*\s]*\[?[^\n]*https?://', body)]
 
