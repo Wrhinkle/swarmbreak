@@ -1,3 +1,4 @@
+import { order, type CombatState } from './combat';
 import { OVERRIDE_COOLDOWN_TICKS, TICK_MS } from './library';
 
 type Choice = { id: string; label: string };
@@ -59,4 +60,11 @@ export function orderSelectors(fighters: Fighter[], queue: (fighter: string, rou
   limitation.textContent = `One order at a time. Using it starts a shared cooldown of ${OVERRIDE_COOLDOWN_TICKS * TICK_MS / 1000} seconds at 1× speed.`;
   group.append(field('Order a crew member', crew), field('Manual routine', routine), button, limitation, status);
   return { element: group, update };
+}
+
+/** Apply an order and report whether this action was accepted. */
+export function submitOrder(state: CombatState, actorId: string, routineId: string) {
+  const next = order(state, actorId, routineId);
+  const wasBlocked = state.queued && state.fighters.some(f => f.id === state.queued!.actorId && f.hp > 0);
+  return { state: next, message: next.queued && !wasBlocked ? 'Order queued.' : 'Order unavailable.' };
 }
