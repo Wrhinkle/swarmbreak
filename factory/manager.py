@@ -598,18 +598,26 @@ def deploy(dry, rev=None):
         def cleanup_capacity_failure(failure):
             nonlocal cleaned, temp_cleanup_attempted
             cleanup_errors = []
+            removed_ok = False
             try:
-                removed = sh('git', 'worktree', 'remove', '--force', tree, check=False)
+                removed = sh('git', 'worktree', 'remove', tree, check=False)
                 if removed.returncode:
                     cleanup_errors.append(f'worktree removal failed: {(removed.stdout + removed.stderr)[-500:]}')
+                else:
+                    removed_ok = True
             except (Exception, SystemExit) as e:
                 cleanup_errors.append(f'worktree removal failed: {e}')
             temp_cleanup_attempted = True
-            try:
-                temp.cleanup()
-                cleaned = True
-            except (Exception, SystemExit) as e:
-                cleanup_errors.append(f'temporary directory cleanup failed: {e}')
+            if removed_ok:
+                try:
+                    temp.cleanup()
+                    cleaned = True
+                except (Exception, SystemExit) as e:
+                    cleanup_errors.append(f'temporary directory cleanup failed: {e}')
+            else:
+                # TemporaryDirectory's finalizer would otherwise delete a refused checkout.
+                temp._finalizer.detach()
+                cleanup_errors.append(f'checkout preserved for host inspection: {tree}')
             cleanup = '; '.join(cleanup_errors) if cleanup_errors else 'completed'
             return (f'{failure}; cleanup: {cleanup}; checkout parent after cleanup: '
                     f'{capacity_detail(Path(work).parent)}. '

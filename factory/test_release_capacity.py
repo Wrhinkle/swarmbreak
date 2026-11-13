@@ -127,22 +127,25 @@ class ReleaseCapacityTest(unittest.TestCase):
         def command(*args, **kwargs):
             commands.append(args)
             if args[:3] == ('git', 'worktree', 'add'):
+                tree = Path(args[4])
+                tree.mkdir()
+                (tree / 'partial').write_text('preserve')
                 raise SystemExit('No space left on device')
             return SimpleNamespace(returncode=1, stdout='', stderr='removal denied')
-        original_cleanup = manager.tempfile.TemporaryDirectory.cleanup
-        def cleanup(temp):
-            original_cleanup(temp)
-            raise OSError('temporary cleanup denied')
-        with patch.object(manager, 'release_check', return_value=('', 'revision')), \
+        with tempfile.TemporaryDirectory() as parent, \
+             patch.object(manager.tempfile, 'gettempdir', return_value=parent), \
+             patch.object(manager, 'release_check', return_value=('', 'revision')), \
              patch.object(manager, 'sh', side_effect=command), \
-             patch.object(manager.tempfile.TemporaryDirectory, 'cleanup', cleanup), \
              patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'):
             result = manager.release()
+            tree = Path(next(cmd[4] for cmd in commands if cmd[:3] == ('git', 'worktree', 'add')))
+            self.assertEqual((tree / 'partial').read_text(), 'preserve')
+            self.assertIn(str(tree), result)
         self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
         self.assertIn('release checkout failed: no space left on device', result)
         self.assertIn('removal denied', result)
-        self.assertIn('temporary cleanup denied', result)
-        self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
+        self.assertEqual([cmd for cmd in commands if cmd[:3] == ('git', 'worktree', 'remove')],
+                         [('git', 'worktree', 'remove', tree)])
         self.assertFalse(any(cmd[0] in ('npm', 'firebase') for cmd in commands))
 
     def test_checkout_manifest_no_space_holds_release(self):
@@ -437,13 +440,21 @@ class ReleaseCapacityTest(unittest.TestCase):
                 original_cleanup(temp)
                 if failure == 'temporary cleanup exception':
                     raise OSError('cleanup error')
-            with self.subTest(failure=failure), patch.object(manager, 'sh', side_effect=command), \
+            with self.subTest(failure=failure), tempfile.TemporaryDirectory() as parent, \
+                 patch.object(manager.tempfile, 'gettempdir', return_value=parent), \
+                 patch.object(manager, 'sh', side_effect=command), \
                  patch.object(manager, 'live_manifest', return_value=manifest), \
                  patch.object(manager, 'effective', side_effect=lambda value, now: value), \
                  patch.object(manager, 'deploy_problems', return_value=[]), \
                  patch.object(Path, 'write_text', write), \
                  patch.object(manager.tempfile.TemporaryDirectory, 'cleanup', cleanup):
                 result = manager.deploy(False, 'revision')
+                tree = Path(next(cmd[4] for cmd in commands if cmd[:3] == ('git', 'worktree', 'add')))
+                self.assertEqual([cmd for cmd in commands if cmd[:3] == ('git', 'worktree', 'remove')],
+                                 [('git', 'worktree', 'remove', tree)])
+                if failure != 'temporary cleanup exception':
+                    self.assertTrue((tree / 'public/manifest.json').exists())
+                    self.assertIn(str(tree), result)
             self.assertTrue(manager.persistent_release_blocker(result))
             self.assertIn('release revision file failed: no space left on device', result)
             self.assertIn('cleanup error' if failure == 'temporary cleanup exception' else 'removal error', result)
