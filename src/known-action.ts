@@ -9,7 +9,9 @@ export function knownAction(state: CombatState, fighter: Fighter): string {
   else if (fighter.charging) parts.push('Charging: Charge (target undetermined)');
   if (state.queued?.actorId === fighter.id) {
     const name = ROUTINES[state.queued.routineId]?.name;
-    if (name) parts.push(`Queued: ${name}`);
+    if (name) parts.push(fighter.charging && !fighter.stunned
+      ? `Queued: ${name} (consumed by Charge unless stunned first)`
+      : `Queued: ${name}`);
   }
   return parts.join(' · ');
 }

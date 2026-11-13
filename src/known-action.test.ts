@@ -12,6 +12,8 @@ it('shows only actions already present in combat state, without predicting targe
   expect(knownAction(state, crew)).toBe('Queued: Strike');
   enemy.charging = true;
   expect(knownAction(state, enemy)).toBe('Charging: Charge (target undetermined)');
+  crew.charging = true;
+  expect(knownAction(state, crew)).toBe('Charging: Charge (target undetermined) · Queued: Strike (consumed by Charge unless stunned first)');
   crew.stunned = true;
   expect(knownAction(state, crew)).toBe('Stunned (turn skipped) · Queued: Strike');
   enemy.hp = 0;
