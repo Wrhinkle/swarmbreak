@@ -594,13 +594,6 @@ def deploy(dry, rev=None):
     temp_cleanup_attempted = False
     try:
         tree = Path(work) / 'main'
-        try:
-            sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
-        except (SystemExit, OSError) as e:
-            failure = checkout_capacity_failure(e, Path(work).parent)
-            if failure:
-                return failure
-            raise
         cleaned = False
         def cleanup_capacity_failure(failure):
             nonlocal cleaned, temp_cleanup_attempted
@@ -621,6 +614,14 @@ def deploy(dry, rev=None):
             return (f'{failure}; cleanup: {cleanup}; checkout parent after cleanup: '
                     f'{capacity_detail(Path(work).parent)}. '
                     'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+
+        try:
+            sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
+        except (SystemExit, OSError) as e:
+            failure = checkout_capacity_failure(e, Path(work).parent)
+            if failure:
+                return cleanup_capacity_failure(failure)
+            raise
 
         try:
             now = datetime.now(timezone.utc)

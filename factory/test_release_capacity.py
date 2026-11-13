@@ -68,6 +68,29 @@ class ReleaseCapacityTest(unittest.TestCase):
                     advanced.assert_not_called()
             self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
 
+    def test_checkout_add_no_space_preserves_cleanup_failure_and_holds_release(self):
+        commands = []
+        def command(*args, **kwargs):
+            commands.append(args)
+            if args[:3] == ('git', 'worktree', 'add'):
+                raise SystemExit('No space left on device')
+            return SimpleNamespace(returncode=1, stdout='', stderr='removal denied')
+        original_cleanup = manager.tempfile.TemporaryDirectory.cleanup
+        def cleanup(temp):
+            original_cleanup(temp)
+            raise OSError('temporary cleanup denied')
+        with patch.object(manager, 'release_check', return_value=('', 'revision')), \
+             patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager.tempfile.TemporaryDirectory, 'cleanup', cleanup), \
+             patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'):
+            result = manager.release()
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertIn('release checkout failed: no space left on device', result)
+        self.assertIn('removal denied', result)
+        self.assertIn('temporary cleanup denied', result)
+        self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
+        self.assertFalse(any(cmd[0] in ('npm', 'firebase') for cmd in commands))
+
     def test_checkout_manifest_no_space_holds_release(self):
         commands = []
         def command(*args, **kwargs):
