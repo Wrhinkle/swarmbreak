@@ -1,5 +1,5 @@
 import { fightActions } from './fight-actions';
-import { enemyIntent } from './enemy-intent';
+import { knownAction } from './known-action';
 import type { CombatState } from './combat';
 import { readiness, readinessProgress } from './readiness';
 
@@ -9,6 +9,7 @@ export function mobileBattlefield(inspect: (id: string) => void) {
   element.className = 'mobile-battlefield';
   element.setAttribute('aria-label', 'Battlefield');
   const columns = [document.createElement('div'), document.createElement('div')];
+  columns[0].setAttribute('aria-label', 'Crew'); columns[1].setAttribute('aria-label', 'Enemies');
   element.append(...columns);
   const cards = new Map<string, { card: HTMLElement; feedback: HTMLElement; health: HTMLElement; timing: HTMLElement; hpBar: HTMLProgressElement; atbBar: HTMLProgressElement }>();
   return {
@@ -43,7 +44,7 @@ export function mobileBattlefield(inspect: (id: string) => void) {
           entry.hpBar.setAttribute('aria-label', `${f.creature.name} health`);
           entry.atbBar.value = (readinessProgress(f, tick) ?? 0) * 100;
           entry.atbBar.setAttribute('aria-label', `${f.creature.name}: ${readiness(f, tick)}`);
-          entry.timing.textContent = `${readiness(f, tick)}${side === 'enemy' && state && f.hp > 0 ? ` · Intent now: ${enemyIntent(state, f)} (may change)` : ''}${actions.has(f.id) ? ` · ${actions.get(f.id)}` : ''}`;
+          entry.timing.textContent = `${readiness(f, tick)}${state && knownAction(state, f) ? ` · ${knownAction(state, f)}` : ''}${actions.has(f.id) ? ` · ${actions.get(f.id)}` : ''}`;
           return entry.card;
         });
         const column = columns[index];
