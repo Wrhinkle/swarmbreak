@@ -363,7 +363,7 @@ def main():
         print(f'[foreman] {e}', flush=True)
         st['cooldown_until'] = time.time() + 600
     save_state(st)
-    record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'lesson': st['waiting'].get(key), 'tail': out[-600:]})
+    record({'kind': 'foreman', 'job': key, 'exit': r.returncode, 'moved': bool(getattr(r, 'moved', False)), 'lesson': st['waiting'].get(key), 'tail': out[-600:]})
 
 
 def evaluated(key, log):
@@ -371,7 +371,7 @@ def evaluated(key, log):
     `log` is the decision log. The main checkout's sync reorders it, so the records are read by their own times."""
     had = False
     for e in sorted((e for e in map(json.loads, log) if e.get('kind') == 'foreman' and e.get('job') == key), key=lambda e: e.get('at', '')):
-        had = bool(e.get('exit')) and (had or bool(e.get('lesson')))
+        had = bool(e.get('exit')) and not e.get('moved') and (had or bool(e.get('lesson')))  # a run that moved starts over
     return had
 
 
@@ -390,7 +390,7 @@ def settle(st, r, out, kind, number, key, coach, prs, log=()):
                     parked.update(json.loads(path.read_text()).get('waiting', {}))
             stuck = [number] + [int(k.split('-')[1].split('@')[0]) for k, n in parked.items() if n == number]
             why = 'The coach couldn\'t work out how to unblock this'
-        elif kind in ('issue', 'pr') and evaluated(key, log):
+        elif kind in ('issue', 'pr', 'run') and evaluated(key, log):  # a run that moved returned above
             stuck, why = [number], 'This failed again after the lesson filed for it was closed'
         else:
             st['waiting'][key] = learn(kind, number, out)
