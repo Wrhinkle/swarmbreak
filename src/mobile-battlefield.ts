@@ -28,7 +28,7 @@ export function mobileBattlefield(inspect: (id: string) => void) {
             const timing = document.createElement('span'); timing.className = 'battlefighter-health';
             const hpBar = document.createElement('progress'); hpBar.className = 'battlefighter-hp';
             const atbBar = document.createElement('progress'); atbBar.className = 'battlefighter-atb'; atbBar.max = 100;
-            card.append(art, name, health, timing, hpBar, atbBar);
+            card.append(art, atbBar, name, hpBar, health, timing);
             if (side === 'enemy') card.addEventListener('click', () => inspect(f.id));
             entry = { card, health, timing, hpBar, atbBar }; cards.set(f.id, entry);
           }
