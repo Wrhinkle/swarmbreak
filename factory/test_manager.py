@@ -548,13 +548,15 @@ with tempfile.TemporaryDirectory() as d:
             pass
 
 # A full release-checkout filesystem is reported without retrying or deleting work.
-with patch('manager.sh', side_effect=SystemExit('git worktree add failed: No space left on device')) as no_space, \
+with patch('manager.sh', side_effect=[SystemExit('git worktree add failed: No space left on device'),
+                                      SimpleNamespace(returncode=1, stdout='', stderr='not registered')]) as no_space, \
      patch('manager.shutil.disk_usage', return_value=SimpleNamespace(total=1000, free=12)), \
      patch('manager.os.stat', return_value=SimpleNamespace(st_dev=42)):
     failure = manager.deploy(True, 'checked-revision')
     assert 'device 42' in failure and '12 bytes available of 1000' in failure, failure
     assert 'No files reclaimed' in failure
-    assert no_space.call_count == 1
+    assert no_space.call_count == 2
+    assert no_space.call_args.args[:3] == ('git', 'worktree', 'remove')
 assert manager.checkout_capacity_failure(OSError(28, 'No space left on device'), '/tmp').startswith('Not deploying:')
 assert manager.checkout_capacity_failure(OSError(13, 'Permission denied'), '/tmp') is None
 
