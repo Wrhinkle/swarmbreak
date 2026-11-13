@@ -112,8 +112,19 @@ def review_fixer_changes(tree, head, pr, fixes, dismissals):
         local = json.loads(r.stdout)
         if r.returncode or not isinstance(local, dict) or not isinstance(local.get('findings'), list):
             raise ValueError('review failed or findings missing')
-        if any(not isinstance(f, dict) for f in local['findings']):
-            raise ValueError('invalid finding')
+        if not isinstance(local.get('meta'), dict) or not isinstance(local['meta'].get('coverage'), dict) or local['meta']['coverage'].get('complete') is not True:
+            raise ValueError('review coverage incomplete')
+        if not isinstance(local.get('finding_state'), dict) or local['finding_state'].get('complete') is not True:
+            raise ValueError('finding inventory incomplete')
+        if any(not isinstance(f, dict) or f.get('action_level') not in ('action_required', 'remediation_recommended') for f in local['findings']):
+            raise ValueError('invalid finding or action level')
+        buckets = [local['finding_state'].get(k) for k in ('introduced', 'resolved', 'still_open', 'dismissed')]
+        if any(not isinstance(b, list) or any(not isinstance(i, str) or not i for i in b) for b in buckets):
+            raise ValueError('invalid finding inventory')
+        ids = [f.get('id') for f in local['findings']]
+        assigned = [i for b in buckets for i in b]
+        if any(not isinstance(i, str) or not i for i in ids) or len(set(ids)) != len(ids) or len(set(assigned)) != len(assigned) or set(ids) != set(assigned):
+            raise ValueError('inconsistent finding inventory')
     except (ValueError, TypeError) as exc:
         sys.exit(f'Qodo local review gave no result ({exc}), so nothing was committed or pushed:\n{(r.stdout + r.stderr)[-800:]}')
     blockers = [f for f in local['findings'] if f.get('action_level') == 'action_required']
@@ -124,6 +135,7 @@ def review_fixer_changes(tree, head, pr, fixes, dismissals):
     sh('git', 'add', '-A', cwd=tree)
     if sh('git', 'write-tree', cwd=tree).stdout.strip() != reviewed_tree:
         sys.exit('Fixer changes moved during Qodo review; nothing was committed or pushed.')
+    return reviewed_tree
 
 
 def is_open(f):
@@ -560,11 +572,13 @@ def main():
                         break
             if problems:
                 sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{report}{problems}')
-            review_fixer_changes(tree, head, pr, fixes, dismissals)
+            reviewed_tree = review_fixer_changes(tree, head, pr, fixes, dismissals)
             titles = '\n'.join(f'- {f["title"]}' for f in fixes)
             attribution = 'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'
             ledger, commits = begin_fixer_commit(number)
             sh('git', 'commit', '-q', '-m', f'Fix Qodo findings on PR #{number}\n\n{titles}\n\n{attribution}', cwd=tree)
+            if sh('git', 'rev-parse', 'HEAD^{tree}', cwd=tree).stdout.strip() != reviewed_tree:
+                sys.exit(f'Commit tree differs from Qodo review; nothing was pushed. The commit and pending attempt are in {tree} for inspection.')
             record_fixer_commit(tree, number, ledger, commits)
 
         # Push first: a finding is only marked done once its fix has landed.
