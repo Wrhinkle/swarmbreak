@@ -77,6 +77,34 @@ class FixerReviewTests(unittest.TestCase):
                 self.review([], response=response)
         self.review([{'action_level': 'remediation_recommended'}])
 
+    def test_informational_findings_and_mixed_blockers(self):
+        self.review([{'title': 'Advisory', 'action_level': 'informational'}])
+        with self.assertRaisesRegex(SystemExit, 'Qodo blocks'):
+            self.review([{'title': 'Advisory', 'action_level': 'informational'},
+                         {'title': 'Blocker', 'action_level': 'action_required'}])
+
+    def test_inventory_accepts_objects_and_mixed_representations(self):
+        findings = [{'id': 'a', 'action_level': 'informational'},
+                    {'id': 'b', 'action_level': 'remediation_recommended'}]
+        base = {'findings': findings, 'meta': {'coverage': {'complete': True}}}
+        for entries in ([findings[0], findings[1]], [findings[0], 'b']):
+            with self.subTest(entries=entries):
+                self.review([], response={**base, 'finding_state': {'complete': True, 'introduced': entries,
+                                               'resolved': [], 'still_open': [], 'dismissed': []}})
+        blocking = {'id': 'a', 'action_level': 'action_required', 'title': 'Blocker'}
+        with self.assertRaisesRegex(SystemExit, 'Qodo blocks'):
+            self.review([], response={**base, 'findings': [blocking], 'finding_state': {
+                'complete': True, 'introduced': [blocking], 'resolved': [], 'still_open': [], 'dismissed': []}})
+
+    def test_inventory_rejects_malformed_duplicate_and_mismatched_entries(self):
+        finding = {'id': 'a', 'action_level': 'informational'}
+        base = {'findings': [finding], 'meta': {'coverage': {'complete': True}}}
+        for entries in ([{}, 'a'], [{'id': ''}], [{'id': 1}], ['a', {'id': 'a'}],
+                        [{'id': 'other'}], [], [None]):
+            with self.subTest(entries=entries), self.assertRaisesRegex(SystemExit, 'nothing was committed'):
+                self.review([], response={**base, 'finding_state': {'complete': True, 'introduced': entries,
+                                               'resolved': [], 'still_open': [], 'dismissed': []}})
+
     def test_failed_or_invalid_review_stops(self):
         for result in [SimpleNamespace(stdout='{}', stderr='', returncode=0),
                        SimpleNamespace(stdout='{"findings": []}', stderr='', returncode=1)]:

@@ -116,13 +116,15 @@ def review_fixer_changes(tree, head, pr, fixes, dismissals):
             raise ValueError('review coverage incomplete')
         if not isinstance(local.get('finding_state'), dict) or local['finding_state'].get('complete') is not True:
             raise ValueError('finding inventory incomplete')
-        if any(not isinstance(f, dict) or f.get('action_level') not in ('action_required', 'remediation_recommended') for f in local['findings']):
+        if any(not isinstance(f, dict) or f.get('action_level') not in ('action_required', 'remediation_recommended', 'informational') for f in local['findings']):
             raise ValueError('invalid finding or action level')
         buckets = [local['finding_state'].get(k) for k in ('introduced', 'resolved', 'still_open', 'dismissed')]
-        if any(not isinstance(b, list) or any(not isinstance(i, str) or not i for i in b) for b in buckets):
+        if any(not isinstance(b, list) for b in buckets):
+            raise ValueError('invalid finding inventory')
+        assigned = [i.get('id') if isinstance(i, dict) else i for b in buckets for i in b]
+        if any(not isinstance(i, str) or not i for i in assigned):
             raise ValueError('invalid finding inventory')
         ids = [f.get('id') for f in local['findings']]
-        assigned = [i for b in buckets for i in b]
         if any(not isinstance(i, str) or not i for i in ids) or len(set(ids)) != len(ids) or len(set(assigned)) != len(assigned) or set(ids) != set(assigned):
             raise ValueError('inconsistent finding inventory')
     except (ValueError, TypeError) as exc:
