@@ -15,6 +15,29 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_predeploy_live_manifest_no_space_holds_release(self):
+        commands = []
+        def command(*args, **kwargs):
+            commands.append(args)
+            if args[:3] == ('git', 'worktree', 'add'):
+                tree = Path(args[4])
+                (tree / 'public').mkdir(parents=True)
+                (tree / 'public/manifest.json').write_text('{}')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with patch.object(manager, 'release_check', return_value=('', 'revision')), \
+             patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager, 'live_manifest', side_effect=OSError(errno.ENOSPC, 'No space left on device')), \
+             patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'):
+            result = manager.release()
+        self.assertIn('release live manifest failed: no space left on device', result)
+        self.assertIn('device 42', result)
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertTrue(any(cmd[:3] == ('git', 'worktree', 'remove') for cmd in commands))
+        self.assertFalse(any(cmd[0] in ('npm', 'firebase') for cmd in commands))
+        with patch.object(manager, 'release') as retry:
+            manager.release_step([], previous=['release -> ' + result])
+            retry.assert_not_called()
+
     def test_firebase_no_space_holds_retry_and_reports_uncertain_deployment(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json', 'next': {'runId': 'y', 'runUrl': '/runs/y/run.json'}, 'extra': 'm' * 1200}
         for mode in ('exit', 'spawn'):
