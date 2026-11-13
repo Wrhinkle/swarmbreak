@@ -45,6 +45,7 @@ class RetryInputsTest(unittest.TestCase):
                           'elites': [{'id': 'e', 'reward': 'r'}], 'shop': [shop]}]}
 
     def test_history_rejects_a_b_a_and_ignored_fields_and_resumes(self):
+        (self.day / 'content.json').write_text('{"story":"one"}')
         calls = []
         def tool(*args):
             calls.append(args[0])
@@ -76,9 +77,13 @@ class RetryInputsTest(unittest.TestCase):
             raise RuntimeError('verified')
         with self.assertRaisesRegex(RuntimeError, 'verified'):
             self.main('gameplay', resume, tool)
-        (self.day / 'content.json').write_text('different content')
-        with self.assertRaisesRegex(SystemExit, 'missing or mismatched'):
-            self.main('gameplay', resume, tool)
+        evidence = {p.name: p.read_bytes() for p in self.day.glob('*tried*.json')}
+        evidence['balance-history.json'] = (self.day / 'balance-history.json').read_bytes()
+        for content in ('{"story":"different"}', '{ "story": "one" }\n'):
+            (self.day / 'content.json').write_text(content)
+            with self.assertRaisesRegex(SystemExit, 'missing or mismatched'):
+                self.main('gameplay', resume, tool)
+            self.assertEqual({name: (self.day / name).read_bytes() for name in evidence}, evidence)
 
     def test_interrupted_failure_recovers_only_after_history_replacement(self):
         def tool(*args):
