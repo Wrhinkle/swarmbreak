@@ -446,7 +446,7 @@ def release_check():
         try:
             sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
         except (SystemExit, OSError) as e:
-            if is_no_space(e):
+            if is_no_space(e, 'git'):
                 return (f'Not deploying: release fetch failed: no space left on device; '
                         f'failing filesystem: unknown; repository candidate: {capacity_detail(ROOT)}; '
                         f'git output: {str(e)[-1000:]}'), None
@@ -460,7 +460,7 @@ def release_check():
                                and game_changed(live_revision(), rev)):
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
-        if is_no_space(e):
+        if is_no_space(e, 'git'):
             return (f'Not deploying: release check failed: no space left on device; '
                     f'failing filesystem: unknown; repository candidate: {capacity_detail(ROOT)}; '
                     f'error: {str(e)[-1000:]}'), None
@@ -501,14 +501,23 @@ def capacity_detail(directory):
             return f'{path}: capacity unavailable ({e})'
 
 
-def is_no_space(error):
-    return (isinstance(error, OSError) and error.errno == errno.ENOSPC or
-            bool(re.search(r'\bENOSPC\b|no space left on device', str(error), re.I)))
+def is_no_space(error, command=None):
+    if isinstance(error, OSError):
+        return error.errno == errno.ENOSPC
+    # Only inspect output in the context of the command that produced it.
+    if command == 'git' and isinstance(error, SystemExit):
+        return bool(re.search(r'^git [^\n]* failed:\n(?:[^\n]*\n)*?(?:fatal|error): [^\n]*no space left on device', str(error), re.I))
+    if command == 'npm' and isinstance(error, str):
+        return bool(re.search(r'^npm (?:ERR!|error) code ENOSPC\s*$', error, re.I | re.M) or
+                    re.search(r'^(?:Error: )?ENOSPC: [^\n]+', error, re.M))
+    if command == 'firebase' and isinstance(error, str):
+        return bool(re.search(r'^(?:Error: )?ENOSPC: [^\n]+', error, re.M))
+    return False
 
 
-def checkout_capacity_failure(error, directory, stage='release checkout'):
+def checkout_capacity_failure(error, directory, stage='release checkout', command=None):
     """Describe a release capacity failure without deleting or retrying any work."""
-    if not is_no_space(error):
+    if not is_no_space(error, command):
         return None
     return (f'Not deploying: {stage} failed: no space left on device; '
             f'checkout candidate at failure: {capacity_detail(directory)}. '
@@ -517,7 +526,7 @@ def checkout_capacity_failure(error, directory, stage='release checkout'):
 
 def npm_capacity_failure(error, tree, stage):
     """Capture npm's evidence and candidate volumes before the checkout is removed."""
-    if not checkout_capacity_failure(error, tree, stage):
+    if not is_no_space(error, 'npm'):
         return None
     match = re.search(r'^npm (?:ERR!|error) path (.+)$', error, re.M | re.I)
     failing_path = match.group(1).strip() if match else ''
@@ -628,7 +637,7 @@ def deploy(dry, rev=None):
         try:
             sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
         except (SystemExit, OSError) as e:
-            failure = checkout_capacity_failure(e, Path(work).parent)
+            failure = checkout_capacity_failure(e, Path(work).parent, command='git')
             if failure:
                 return cleanup_capacity_failure(failure)
             raise
@@ -672,7 +681,7 @@ def deploy(dry, rev=None):
             try:
                 deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
             except (SystemExit, OSError) as e:
-                failure = checkout_capacity_failure(e, tree, 'release checkout revision')
+                failure = checkout_capacity_failure(e, tree, 'release checkout revision', command='git')
                 if failure:
                     return cleanup_capacity_failure(failure)
                 raise
@@ -688,7 +697,7 @@ def deploy(dry, rev=None):
             if dry:
                 return f'Could deploy {manifest["runId"]}.'
             def firebase_capacity_failure(error):
-                failure = checkout_capacity_failure(error, tree, 'firebase deploy')
+                failure = checkout_capacity_failure(error, tree, 'firebase deploy', command='firebase')
                 if not failure:
                     return None
                 failure = failure.replace('Not deploying:', 'Deploy outcome unknown:', 1)

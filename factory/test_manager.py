@@ -548,7 +548,7 @@ with tempfile.TemporaryDirectory() as d:
             pass
 
 # A full release-checkout filesystem is reported without retrying or deleting work.
-with patch('manager.sh', side_effect=[SystemExit('git worktree add failed: No space left on device'),
+with patch('manager.sh', side_effect=[SystemExit('git worktree add failed:\nfatal: No space left on device'),
                                       SimpleNamespace(returncode=1, stdout='', stderr='not registered')]) as no_space, \
      patch('manager.shutil.disk_usage', return_value=SimpleNamespace(total=1000, free=12)), \
      patch('manager.os.stat', return_value=SimpleNamespace(st_dev=42)):
@@ -987,7 +987,7 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     def capacity(stage, free, diagnostic):
         with patch('manager.capacity_detail', return_value=f'{free} bytes available'), patch('manager.sh') as npm:
             npm.return_value = SimpleNamespace(returncode=1, stdout='')
-            return manager.npm_capacity_failure('no space left on device\n' + diagnostic * 2100, '/tmp', stage)
+            return manager.npm_capacity_failure('npm error code ENOSPC\n' + diagnostic * 2100, '/tmp', stage)
 
     first = capacity('npm ci', 12, 'a')
     second = capacity('npm ci', 8, 'b')
