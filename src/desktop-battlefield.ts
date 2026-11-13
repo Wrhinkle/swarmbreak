@@ -1,16 +1,16 @@
-/** Positions are in the 900px canvas coordinate space, with two columns per side. */
+/** Positions are in the 900px canvas coordinate space, with three columns per side. */
 export function desktopRows(list: { creature: { puppet?: unknown } }[], side: 'crew' | 'enemy') {
   const left = side === 'crew' ? 20 : 515;
   let y = 10, column = 0;
   return list.map(({ creature }) => {
     if (creature.puppet) {
-      if (column) { y += 164 + 98; column = 0; }
+      if (column) { y += 120 + 98; column = 0; }
       const row = { x: left + 4, y, size: 370, bottom: y + 370 + 88 };
       y = row.bottom + 10;
       return row;
     }
-    const row = { x: left + column * 205, y, size: 164, bottom: y + 164 + 88 };
-    if (++column === 2) { y = row.bottom + 10; column = 0; }
+    const row = { x: left + column * 130, y, size: 120, bottom: y + 120 + 88 };
+    if (++column === 3) { y = row.bottom + 10; column = 0; }
     return row;
   });
 }

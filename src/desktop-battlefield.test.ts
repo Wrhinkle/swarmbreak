@@ -1,6 +1,15 @@
 import { expect, it, vi } from 'vitest';
 import { bindDesktopInspection, desktopHit, desktopRows } from './desktop-battlefield';
 
+it('places three ordinary fighters on one compact row on each side', () => {
+  for (const side of ['crew', 'enemy'] as const) {
+    const rows = desktopRows(Array.from({ length: 3 }, () => ({ creature: {} })), side);
+    expect(new Set(rows.map(row => row.y)).size).toBe(1);
+    expect(Math.max(...rows.map(row => row.bottom))).toBeLessThanOrEqual(240);
+    rows.forEach((row, i) => expect(desktopHit(rows, row.x + 1, row.bottom - 1)).toBe(i));
+  }
+});
+
 it('fits a large boss and other fighters without overlap on either side', () => {
   for (const fighters of [
     [{ creature: { puppet: true } }, { creature: {} }, { creature: {} }],
