@@ -15,6 +15,18 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_enospc_code_without_message_holds_release(self):
+        with patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'), \
+             patch.object(manager, 'sh', side_effect=SystemExit('git fetch: ENOSPC')):
+            result, revision = manager.release_check()
+        self.assertIsNone(revision)
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        with patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'), \
+             patch.object(manager, 'sh', return_value=SimpleNamespace(returncode=1, stdout='', stderr='')):
+            result = manager.npm_capacity_failure('npm error code ENOSPC', '/tmp', 'npm ci')
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertIsNone(manager.checkout_capacity_failure('NOTENOSPC', '/tmp'))
+
     def test_predeploy_live_manifest_no_space_holds_release(self):
         commands = []
         def command(*args, **kwargs):
@@ -40,7 +52,7 @@ class ReleaseCapacityTest(unittest.TestCase):
 
     def test_firebase_no_space_holds_retry_and_reports_uncertain_deployment(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json', 'next': {'runId': 'y', 'runUrl': '/runs/y/run.json'}, 'extra': 'm' * 1200}
-        for mode in ('exit', 'spawn'):
+        for mode in ('exit', 'spawn', 'code'):
             commands = []
             def command(*args, **kwargs):
                 commands.append(args)
@@ -57,7 +69,9 @@ class ReleaseCapacityTest(unittest.TestCase):
                 if args[0] == 'firebase':
                     if mode == 'spawn':
                         raise OSError(errno.ENOSPC, 'No space left on device', '/other/full path')
-                    return SimpleNamespace(returncode=1, stdout='starting deploy', stderr="ENOSPC: no space left on device, open '/other/full path'\n" + 'z' * 3000)
+                    message = ("ENOSPC: open '/other/full path'" if mode == 'code' else
+                               "ENOSPC: no space left on device, open '/other/full path'")
+                    return SimpleNamespace(returncode=1, stdout='starting deploy', stderr=message + '\n' + 'z' * 3000)
                 return SimpleNamespace(returncode=0, stdout='', stderr='')
             with self.subTest(mode=mode), patch.object(manager, 'sh', side_effect=command), \
                  patch.object(manager, 'release_check', return_value=('', 'revision')), \

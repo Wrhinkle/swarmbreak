@@ -446,8 +446,7 @@ def release_check():
         try:
             sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
         except (SystemExit, OSError) as e:
-            if (isinstance(e, OSError) and e.errno == errno.ENOSPC or
-                    'no space left on device' in str(e).lower()):
+            if is_no_space(e):
                 return (f'Not deploying: release fetch failed: no space left on device; '
                         f'failing filesystem: unknown; repository candidate: {capacity_detail(ROOT)}; '
                         f'git output: {str(e)[-1000:]}'), None
@@ -461,8 +460,7 @@ def release_check():
                                and game_changed(live_revision(), rev)):
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
-        if (isinstance(e, OSError) and e.errno == errno.ENOSPC or
-                'no space left on device' in str(e).lower()):
+        if is_no_space(e):
             return (f'Not deploying: release check failed: no space left on device; '
                     f'failing filesystem: unknown; repository candidate: {capacity_detail(ROOT)}; '
                     f'error: {str(e)[-1000:]}'), None
@@ -503,10 +501,14 @@ def capacity_detail(directory):
             return f'{path}: capacity unavailable ({e})'
 
 
+def is_no_space(error):
+    return (isinstance(error, OSError) and error.errno == errno.ENOSPC or
+            bool(re.search(r'\bENOSPC\b|no space left on device', str(error), re.I)))
+
+
 def checkout_capacity_failure(error, directory, stage='release checkout'):
     """Describe a release capacity failure without deleting or retrying any work."""
-    if not (isinstance(error, OSError) and error.errno == errno.ENOSPC or
-            'no space left on device' in str(error).lower()):
+    if not is_no_space(error):
         return None
     return (f'Not deploying: {stage} failed: no space left on device; '
             f'checkout candidate at failure: {capacity_detail(directory)}. '
@@ -663,7 +665,7 @@ def deploy(dry, rev=None):
                         return cleanup_capacity_failure(failure)
                     raise
                 if r.returncode:
-                    failure = npm_capacity_failure(r.stdout + r.stderr, tree, ' '.join(cmd))
+                    failure = npm_capacity_failure(r.stdout + '\n' + r.stderr, tree, ' '.join(cmd))
                     if failure:
                         return cleanup_capacity_failure(failure)
                     return f'Not deploying: {" ".join(cmd)} failed: {r.stdout[-500:]}'
@@ -717,7 +719,7 @@ def deploy(dry, rev=None):
                     return failure
                 raise
             if r.returncode:
-                failure = firebase_capacity_failure(r.stdout + r.stderr)
+                failure = firebase_capacity_failure(r.stdout + '\n' + r.stderr)
                 if failure:
                     return failure
                 return f'Deploy failed: {(r.stdout + r.stderr)[-500:]}'
