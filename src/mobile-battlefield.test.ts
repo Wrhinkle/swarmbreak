@@ -48,9 +48,15 @@ it('shows both sides and updates health while preserving the enemy inspect contr
     fighters[1].routines = ['breach', 'strike'];
     const state = { fighters } as CombatState;
     field.update(fighters, 4, [], state);
-    expect(enemy.children[6].textContent).toContain('Intent now: ⚔ Strike (may change)');
+    expect(enemy.children[6].textContent).toBe('Turn readiness: 50%');
     fighters[0].shield = 3; field.update(fighters, 4, [], state);
-    expect(enemy.children[6].textContent).toContain('Intent now: ⚔ Breach (may change)');
+    expect(enemy.children[6].textContent).toBe('Turn readiness: 50%');
+    state.queued = { actorId: 'c0', routineId: 'strike' };
+    field.update(fighters, 4, [], state);
+    expect(ally.children[6].textContent).toContain('Queued: Strike');
+    fighters[1].charging = true;
+    field.update(fighters, 4, [], state);
+    expect(enemy.children[6].textContent).toContain('Charging: Charge (target undetermined)');
     enemy.listeners.click(); expect(inspect).toHaveBeenCalledWith('e0');
     fighters[1].hp = 4; fighters[1].shield = 2; field.update(fighters);
     expect(root.children[1].children[0]).toBe(enemy);
