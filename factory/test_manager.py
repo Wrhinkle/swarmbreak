@@ -4,6 +4,7 @@ import os, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
+from unittest.mock import patch
 from manager import SITE, act, gate_verdict, unfilled_links, check_post, deploy_problems, post_problems, template_headings
 from test_screen_browser import test_screen_browser
 
@@ -22,11 +23,20 @@ for supported in ['We can establish what happened from the merged PR.', 'We know
 assert post_problems('We could not determine what occurred.') == []
 assert check_post({'top_level': "I can't tell what happened."}, {'ours': [], 'waiting': [], 'challenge': ''})
 assert template_headings('x\n```markdown\n## A\ntext\n## B\n```\n') == ['## A', '## B']
+for newline in ('\n', '\r\n'):
+    challenge = newline.join(['```markdown', '## Evidence', 'Proof link:', '```'])
+    assert template_headings(challenge) == ['## Evidence']
+    assert unfilled_links('## Evidence\nProof link: missing', challenge) == ['no URL after: Proof link:']
+    thread = {'ours': [], 'waiting': [], 'challenge': challenge}
+    assert any('missing template heading' in p for p in check_post({'top_level': 'Proof link: missing'}, thread))
+    assert any('no URL after' in p for p in check_post({'top_level': '## Evidence\nProof link: missing'}, thread))
+    assert any('credential' in p for p in check_post({'top_level': '## Evidence\nProof link: missing\ntoken ghp_' + 'a' * 30}, thread))
+    with patch('manager.dead_links', return_value=[]):
+        assert check_post({'top_level': f'## Evidence\nProof link: {SITE}'}, thread) == []
 t = {'ours': [{'url': 'u', 'body': 'b'}], 'waiting': [{'id': 'R1', 'parent': 'C1'}], 'challenge': ''}
 assert any('already' in p for p in check_post({'top_level': good}, t))
 assert any('unknown id' in p for p in check_post({'replies': [{'to': 'R9', 'body': 'ok'}]}, t))
 assert check_post({'replies': [{'to': 'R1', 'body': 'ok'}]}, t) == []
-from unittest.mock import patch
 with patch('manager.posted_today', return_value=0):
     reply = {'to': 'R1', 'body': 'We could not determine what occurred.'}
     assert check_post({'replies': [reply]}, t) == []
