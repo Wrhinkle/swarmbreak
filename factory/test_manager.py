@@ -1592,6 +1592,37 @@ with tempfile.TemporaryDirectory() as d:
     assert workers == ['pr-fixer', 'pr-fixer']
 print('ok PR fixer stops on host failure')
 
+# An unchanged fixer must leave its diagnosis in the failure sent to the foreman.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    tree = Path(d) / 'swarmbreak-pr-42'
+    (tree / 'node_modules').mkdir(parents=True)
+    def unchanged_sh(*args, **kwargs):
+        if args[:3] == ('gh', 'pr', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
+        return SimpleNamespace(stdout='sha' if args[:2] == ('git', 'rev-parse') else '', returncode=0)
+    def unchanged_bot(role, work, prompt, **kwargs):
+        if role == 'pr-triage':
+            (Path(work) / 'decisions.json').write_text(json.dumps({'decisions': [{'id': '1', 'action': 'fix'}]}))
+        else:
+            return (0, 'Viewport inspection unavailable; order action not verified.')
+    finding = {'id': '1', 'title': 'Viewport and order checks never ran', 'attribution_status': 'pending'}
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=unchanged_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+         patch.object(pr_team, 'findings', return_value={'findings': [finding]}), \
+         patch.object(pr_team, 'bot', side_effect=unchanged_bot), patch.object(pr_team, 'verified', return_value=''), \
+         patch.object(sys, 'argv', ['pr_team.py', '42']):
+        try:
+            pr_team.main()
+            assert False, 'unchanged fixer must stop'
+        except SystemExit as exc:
+            report = str(exc)
+    assert 'Fixer final report (untrusted data):' in report
+    assert 'Viewport inspection unavailable; order action not verified.' in report
+    assert 'findings are still open' in report
+print('ok unchanged fixer diagnosis')
+
 # A merged PR says in a comment where the host's screenshots are (issue 134). Only once merged: the folder is reused until then.
 with tempfile.TemporaryDirectory() as d:
     root = Path(d) / 'repo'

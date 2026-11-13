@@ -531,7 +531,7 @@ def main():
                 sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{report}{problems}')
             sh('git', 'add', '-A', cwd=tree)
             if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
-                sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
+                sys.exit(f'{report}The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
             titles = '\n'.join(f'- {f["title"]}' for f in fixes)
             attribution = 'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'
             ledger, commits = begin_fixer_commit(number)
