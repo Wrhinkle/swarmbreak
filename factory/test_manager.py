@@ -1313,13 +1313,22 @@ for log, stuck in [([], False), ([ran(1, 1)], False),                      # a p
         foreman.settle(state, SimpleNamespace(returncode=1), 'failed', 'issue', 42, 'issue-42', False, [], log)
     assert learn.called != stuck and state['waiting'] == ({} if stuck else {'issue-42': 99}), log
     assert [c.args[1:6] for c in edit.call_args_list] == ([('issue', 'edit', '42', '--repo', foreman.REPO), ('issue', 'comment', '42', '--repo', foreman.REPO)] if stuck else []), log
-# A run is the one job that can fail having moved on, a stage at a time, and it never becomes stuck this way.
+# A run can fail having moved on, a stage at a time, and that isn't an evaluation. A run that failed without moving is
+# evaluated once like any job: run #256 filed 69 identical lessons in a day before this.
 state = {'waiting': {}, 'cooldown_until': 0}
 with patch('foreman.sh') as edit, patch('foreman.learn', return_value=99) as learn:
     foreman.settle(state, SimpleNamespace(returncode=1, moved=True), 'failed', 'run', 42, 'issue-42', False, [], [ran(1, 1, 99)])
     assert not learn.called and not edit.called and not state['waiting']
-    foreman.settle(state, SimpleNamespace(returncode=1, moved=False), 'failed', 'run', 42, 'issue-42', False, [], [ran(1, 1, 99)])
+    foreman.settle(state, SimpleNamespace(returncode=1, moved=False), 'failed', 'run', 42, 'issue-42', False, [], [])
     assert learn.called and not edit.called and state['waiting'] == {'issue-42': 99}
+    learn.reset_mock(); state['waiting'] = {}
+    foreman.settle(state, SimpleNamespace(returncode=1, moved=False), 'failed', 'run', 42, 'issue-42', False, [], [ran(1, 1, 99)])
+    assert not learn.called and [c.args[1:3] for c in edit.call_args_list] == [('issue', 'edit'), ('issue', 'comment')]
+    # A pass that moved a stage since the lesson is a new start: the next stage's failure gets its own lesson.
+    edit.reset_mock(); learn.reset_mock(); state['waiting'] = {}
+    moved = json.dumps({'at': 2, 'kind': 'foreman', 'job': 'issue-42', 'exit': 1, 'moved': True, 'lesson': 99})
+    foreman.settle(state, SimpleNamespace(returncode=1, moved=False), 'failed', 'run', 42, 'issue-42', False, [], [ran(1, 1, 99), moved])
+    assert learn.called and not edit.called
 print('ok foreman evaluates once')
 
 # The foreman refuses both ignored and ordinary untracked inputs, before importing them.
@@ -1388,6 +1397,18 @@ with tempfile.TemporaryDirectory() as d:
                 patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')), patch('foreman.open_run', return_value='Run X not opened: missing art'):
             built = foreman.build_run('X')
         assert (built.returncode, built.moved) == (1, moved), (stages, built)
+    # A failed push still reports the stage's progress to the evaluate-once decision.
+    for stages, moved in ((['art', None], True), (['art', 'art'], False)):
+        with patch.object(foreman, 'ROOT', Path(d) / 'repo'), patch('foreman.sh'), patch('foreman.main_only', return_value=True), patch('foreman.install'), \
+                patch('foreman.run_problems', return_value=['missing art']), patch('foreman.resume_stage', side_effect=stages), \
+                patch('foreman.keep_run', side_effect=SystemExit('push failed')), \
+                patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout='stage output', stderr='')):
+            built = foreman.build_run('X')
+        assert built.returncode == 1 and built.moved == moved and 'push failed' in built.stdout and 'stage output' in built.stdout
+        state = {'waiting': {}, 'cooldown_until': 0}
+        with patch('foreman.sh') as edit, patch('foreman.learn') as learn:
+            foreman.settle(state, built, built.stdout, 'run', 42, 'issue-42', False, [], [ran(1, 1, 99)])
+            assert bool(edit.called) != moved and not learn.called
     # A build cut off while writing run.json is rebuilt from its first unchecked stage; the half-written file doesn't crash the pass.
     cut = Path(d) / 'swarmbreak-run-X' / 'public' / 'runs' / 'X' / 'run.json'
     cut.parent.mkdir(parents=True)
