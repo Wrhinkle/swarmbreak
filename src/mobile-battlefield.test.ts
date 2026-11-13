@@ -64,6 +64,7 @@ it('shows both sides and updates health while preserving the enemy inspect contr
     enemy.focus();
     const summon = { ...fighters[1], id: 'e1', creature: { ...fighters[1].creature, name: 'Summon' } };
     field.update([...fighters, summon]);
+    root.children[1].children[1].listeners.click(); expect(inspect).toHaveBeenLastCalledWith('e1');
     expect(doc.activeElement).toBe(enemy);
     field.update([fighters[0], summon, fighters[1]]);
     expect(doc.activeElement).toBe(enemy);
