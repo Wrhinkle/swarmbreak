@@ -4,7 +4,7 @@
 Usage: python3 factory/run.py 2026-11-04 [--from researcher|parser|storymaker|gameplay|art] [--no-images]
 Stage output lands in runs/<id>/. Nothing here commits, pushes, deploys, or opens a run.
 """
-import hashlib, json, os, re, shutil, subprocess, sys, tempfile, uuid
+import fcntl, hashlib, json, os, re, shutil, subprocess, sys, tempfile, uuid
 from pathlib import Path
 from codex_failure import stop_on_codex_failure
 from urllib.parse import urlparse
@@ -366,5 +366,26 @@ def main():
     print(f'Run {run_id} is ready. Open it with a reviewed PR.', flush=True)
 
 
+def run_lock_path(run_id):
+    if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', run_id):
+        sys.exit('Invalid run id')
+    common = subprocess.run(['git', 'rev-parse', '--path-format=absolute', '--git-common-dir'],
+                            cwd=ROOT, capture_output=True, text=True, check=True)
+    directory = Path(common.stdout.strip()) / 'swarmbreak-run-locks'
+    directory.mkdir(exist_ok=True)
+    return directory / f'{run_id}.lock'
+
+
+def locked_main(run_id):
+    # The common git directory is shared by worktrees. Keep the file in place:
+    # unlinking it would let a second process lock a different inode.
+    with run_lock_path(run_id).open('a+') as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            sys.exit(f'Run {run_id} is already being written; stopping.')
+        main()
+
+
 if __name__ == '__main__':
-    main()
+    locked_main(sys.argv[1])
