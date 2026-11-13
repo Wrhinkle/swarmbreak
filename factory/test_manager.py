@@ -1644,6 +1644,67 @@ with tempfile.TemporaryDirectory() as d:
     assert 'findings are still open' in report
 print('ok unchanged fixer diagnosis')
 
+# A partial fixer commit cannot close its assigned findings or bypass the merge gate,
+# including when a later Qodo response omits one of them.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    tree = Path(d) / 'swarmbreak-pr-42'
+    (tree / 'node_modules').mkdir(parents=True)
+    assigned = [
+        {'id': '1', 'title': 'fixed part', 'attribution_status': 'pending'},
+        {'id': '2', 'title': 'remaining safety defect', 'attribution_status': 'pending', 'action_level': 'action_required'},
+    ]
+    calls, heads, fixed = [], iter(['old', 'old', 'new', 'new']), [False]
+    def partial_sh(*args, cwd=None, check=True):
+        calls.append(args)
+        if args[:3] == ('gh', 'pr', 'view'):
+            out = json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'})
+        elif args[:3] == ('git', 'status', '--porcelain'):
+            out = ' M factory/example.py' if fixed[0] else ''
+        elif args[:3] == ('git', 'diff', '--cached'):
+            return SimpleNamespace(stdout='', stderr='', returncode=1)
+        elif args[:2] == (pr_team.QODO, 'review'):
+            out = json.dumps({'findings': []})
+        elif args == ('git', 'rev-parse', 'HEAD'):
+            out = next(heads)
+        elif args[:2] == ('git', 'rev-parse'):
+            out = 'new' if args[-1] == 'origin/head' else 'base'
+        else:
+            out = ''
+        return SimpleNamespace(stdout=out, stderr='', returncode=0)
+    def partial_bot(role, work, prompt, **kwargs):
+        if role == 'pr-triage':
+            (Path(work) / 'decisions.json').write_text(json.dumps({'decisions': [{'id': f['id'], 'action': 'fix'} for f in assigned]}))
+        else:
+            fixed[0] = True
+            return (0, 'Fixed the first finding; the safety defect remains.')
+    reviews = [
+        {'findings': assigned},
+        {'findings': [dict(assigned[0], attribution_status='implemented')],
+         'review_session': {'commit_sha': 'new', 'review_complete': True}},
+    ]
+    with patch.object(pr_team.Path, 'home', return_value=Path(d)), patch.object(pr_team, 'ROOT', root), \
+         patch.object(pr_team, 'sh', side_effect=partial_sh), patch.object(pr_team, 'hold'), \
+         patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=1), \
+         patch.object(pr_team, 'begin_fixer_commit', return_value=(None, [])), patch.object(pr_team, 'record_fixer_commit'), \
+         patch.object(pr_team, 'findings', side_effect=[reviews[0], reviews[1], reviews[1]]), patch.object(pr_team, 'bot', side_effect=partial_bot), \
+         patch.object(pr_team, 'verified', return_value=''), patch.object(pr_team, 'merges_cleanly', return_value=True), \
+         patch.object(sys, 'argv', ['pr_team.py', '42', '--merge']):
+        try:
+            pr_team.main()
+            assert False, 'an unresolved assigned finding must block merging'
+        except SystemExit as exc:
+            assert 'remaining safety defect' in str(exc)
+        assert not any('mark-implemented' in call for call in calls)
+        assert not any(call[:3] == ('gh', 'pr', 'merge') for call in calls)
+        remembered = pr_team.assigned_findings('42')
+        assert remembered == {'1': 'fixed part', '2': 'remaining safety defect'}
+        assert pr_team.unresolved_assignments(remembered, reviews[-1]['findings']) == ['remaining safety defect']
+        assert pr_team.unresolved_assignments(remembered, [dict(f, attribution_status='implemented') for f in assigned]) == []
+        assert pr_team.unresolved_assignments(remembered, [dict(f, attribution_status='unknown') for f in assigned]) == list(remembered.values())
+print('ok partial fixer findings remain individually open')
+
 # Only the lock helper's exit status identifies a collision; worker output is untrusted.
 with tempfile.TemporaryDirectory() as d:
     root = Path(d) / 'repo'
