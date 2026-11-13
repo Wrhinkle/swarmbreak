@@ -1,6 +1,10 @@
 type Choice = { id: string; label: string };
 type Fighter = { id: string; name: string; routines: Choice[] };
 
+export function orderStatus(state: { cooldown: number; queued: unknown | null }): string {
+  return state.queued ? 'Order queued.' : state.cooldown > 0 ? 'Order recharging.' : 'Order ready.';
+}
+
 /** Buttons cycle through the available choices without replacing the focused control. */
 export function orderSelectors(fighters: Fighter[], queue: (fighter: string, routine: string) => void): HTMLElement {
   const group = document.createElement('div');
