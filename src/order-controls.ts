@@ -2,6 +2,7 @@ import { OVERRIDE_COOLDOWN_TICKS, TICK_MS } from './library';
 
 type Choice = { id: string; label: string };
 type Fighter = { id: string; name: string; routines: Choice[] };
+let nextStatusId = 0;
 
 /** Buttons cycle through the available choices without replacing the focused control. */
 export function orderSelectors(fighters: Fighter[], queue: (fighter: string, routine: string) => void, state: () => { cooldown: number; queued: { actorId: string } | null; result: string | null; fighters: { id: string; hp: number }[] }) {
@@ -14,6 +15,9 @@ export function orderSelectors(fighters: Fighter[], queue: (fighter: string, rou
   button.textContent = 'Queue order';
   const status = document.createElement('p');
   status.className = 'order-status';
+  status.id = `order-status-${++nextStatusId}`;
+  status.setAttribute('role', 'status');
+  button.setAttribute('aria-describedby', status.id);
   let fighterIndex = 0, routineIndex = 0;
   const update = () => {
     const fighter = fighters[fighterIndex];
@@ -29,7 +33,7 @@ export function orderSelectors(fighters: Fighter[], queue: (fighter: string, rou
     const queued = current.queued && current.fighters.some(f => f.id === current.queued!.actorId && f.hp > 0);
     const reason = current.result ? 'Fight ended.' : !choice ? 'No routine available.' : !actor || actor.hp <= 0 ? 'Crew member is down.' : queued ? 'Order queued; wait until it is used.' : current.cooldown > 0 ? 'Shared cooldown recharging.' : 'Order ready.';
     button.disabled = reason !== 'Order ready.';
-    status.textContent = reason;
+    if (status.textContent !== reason) status.textContent = reason;
   };
   crew.addEventListener('click', () => {
     const previous = fighters[fighterIndex]?.routines[routineIndex]?.id;
