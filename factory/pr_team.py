@@ -95,6 +95,37 @@ def findings(url):
     return json.loads(sh(QODO, 'pr-review-session', 'findings', '--pr-url', url, '--json').stdout)
 
 
+def review_fixer_changes(tree, head, pr, fixes, dismissals):
+    """Stage and review the exact changes that may be committed, with the task as data."""
+    sh('git', 'add', '-A', cwd=tree)
+    if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
+        sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
+    reviewed_tree = sh('git', 'write-tree', cwd=tree).stdout.strip()
+    context = {'notes': f'Task: {pr.get("title", "")}\n\n{pr.get("body") or ""}'[:6000],
+               'decisions': [f'Fix "{f["title"]}": {f["plan"]}' for f in fixes] +
+                            [f'Dismissed "{f["title"]}" as {d["reason"]}: {d["evidence"]}'[:1000] for f, d in dismissals],
+               'recent_work': ['Fixer changes for this PR, before commit.']}
+    env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
+    r = subprocess.run([QODO, 'review', '--base', f'origin/{head}', '--json', '--context-file', '-'],
+                       cwd=tree, input=json.dumps(context), capture_output=True, text=True, env=env, timeout=1800)
+    try:
+        local = json.loads(r.stdout)
+        if r.returncode or not isinstance(local, dict) or not isinstance(local.get('findings'), list):
+            raise ValueError('review failed or findings missing')
+        if any(not isinstance(f, dict) for f in local['findings']):
+            raise ValueError('invalid finding')
+    except (ValueError, TypeError) as exc:
+        sys.exit(f'Qodo local review gave no result ({exc}), so nothing was committed or pushed:\n{(r.stdout + r.stderr)[-800:]}')
+    blockers = [f for f in local['findings'] if f.get('action_level') == 'action_required']
+    print(f'Qodo local review: {len(local["findings"])} findings, {len(blockers)} blocking', flush=True)
+    if blockers:
+        sys.exit('Qodo blocks the fixes, so nothing was committed or pushed:\n' + '\n'.join(f'- {b.get("title")}' for b in blockers))
+    # Include new files and detect any change made during review before committing.
+    sh('git', 'add', '-A', cwd=tree)
+    if sh('git', 'write-tree', cwd=tree).stdout.strip() != reviewed_tree:
+        sys.exit('Fixer changes moved during Qodo review; nothing was committed or pushed.')
+
+
 def is_open(f):
     return f.get('attribution_status') in OPEN
 
@@ -452,7 +483,7 @@ def record_fixer_commit(tree, number, path, commits):
 
 def main():
     number, merge = sys.argv[1], '--merge' in sys.argv
-    pr = json.loads(sh('gh', 'pr', 'view', number, '--repo', REPO, '--json', 'url,headRefName,baseRefName,state,headRefOid').stdout)
+    pr = json.loads(sh('gh', 'pr', 'view', number, '--repo', REPO, '--json', 'url,headRefName,baseRefName,state,headRefOid,title,body').stdout)
     if pr['state'] != 'OPEN':
         sys.exit(f'PR {number} is {pr["state"]}.')
     url, head, base = pr['url'], pr['headRefName'], pr['baseRefName']
@@ -529,24 +560,12 @@ def main():
                         break
             if problems:
                 sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{report}{problems}')
-            sh('git', 'add', '-A', cwd=tree)
-            if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
-                sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
+            review_fixer_changes(tree, head, pr, fixes, dismissals)
             titles = '\n'.join(f'- {f["title"]}' for f in fixes)
             attribution = 'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'
             ledger, commits = begin_fixer_commit(number)
             sh('git', 'commit', '-q', '-m', f'Fix Qodo findings on PR #{number}\n\n{titles}\n\n{attribution}', cwd=tree)
             record_fixer_commit(tree, number, ledger, commits)
-            # Qodo checks the fixes before anything leaves this Mac.
-            r = sh(QODO, 'review', '--base', f'origin/{head}', '--json', cwd=tree, check=False)
-            try:
-                local = json.loads(r.stdout)
-            except json.JSONDecodeError:
-                sys.exit(f'Qodo local review gave no result, so nothing was pushed:\n{(r.stdout + r.stderr)[-800:]}')
-            blockers = [f for f in local.get('findings', []) if f.get('action_level') == 'action_required']
-            print(f'Qodo local review: {len(local.get("findings", []))} findings, {len(blockers)} blocking', flush=True)
-            if blockers:
-                sys.exit('Qodo blocks the fixes, so nothing was pushed:\n' + '\n'.join(f'- {b.get("title")}' for b in blockers))
 
         # Push first: a finding is only marked done once its fix has landed.
         sh('git', 'fetch', '-q', 'origin')

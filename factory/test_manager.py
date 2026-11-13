@@ -576,6 +576,8 @@ from test_release_capacity import ReleaseCapacityTest
 assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(ReleaseCapacityTest)).wasSuccessful()
 from test_capacity_inventory import InventoryTest
 assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(InventoryTest)).wasSuccessful()
+from test_review_fixer_changes import FixerReviewTests
+assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(FixerReviewTests)).wasSuccessful()
 
 # Deploy checks reject a future base even immediately before opening, but permit a reserve.
 for manifest, moment, should_deploy in [
