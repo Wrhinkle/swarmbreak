@@ -4,7 +4,7 @@
 Usage: python3 factory/pr_team.py <pr-number> [--merge]
 This script does all git and Qodo writes, and alone decides on merging. Merging also needs --merge.
 """
-import fcntl, hashlib, json, math, os, re, shutil, subprocess, sys, tempfile, time
+import fcntl, hashlib, http.client, json, math, os, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
 from contextlib import contextmanager
 from codex_failure import stop_on_codex_failure
@@ -74,13 +74,21 @@ LEARNED = (f'Before you start, read {ROOT}/factory/lessons.md and every guide in
            'AGENTS.md, and never permit anything those forbid.')
 
 
-def bot(name, workdir, extra, effort='medium'):
+def bot(name, workdir, extra, effort='medium', report=False):
     env = {k: v for k, v in os.environ.items() if not k.endswith(('_API_KEY', '_AUTH_TOKEN', '_BASE_URL'))}
     prompt = (AGENTS / f'{name}.md').read_text() + '\n\n' + LEARNED + '\n\n' + extra
     print(f'[{name}] running', flush=True)
-    r = subprocess.run(['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir), prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800)
-    stop_on_codex_failure(r.returncode, r.stdout + r.stderr)
-    return r.returncode
+    with tempfile.TemporaryDirectory() as output_dir:
+        last_message = Path(output_dir) / 'last-message'
+        cmd = ['codex', 'exec', '-m', 'gpt-6.1-terra', '-c', f'model_reasoning_effort="{effort}"', '-s', 'workspace-write', '--skip-git-repo-check', '-C', str(workdir)]
+        if report:
+            cmd += ['--output-last-message', str(last_message)]
+        r = subprocess.run([*cmd, prompt], stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=1800)
+        stop_on_codex_failure(r.returncode, r.stdout + r.stderr)
+        if report:
+            message = last_message.read_text(errors='replace') if last_message.is_file() else ''
+            return r.returncode, message[-800:]
+        return r.returncode
 
 
 def findings(url):
@@ -222,15 +230,66 @@ def shots_dir(tree):
     return ROOT / 'factory' / 'log' / 'screens' / Path(tree).resolve().name
 
 
+def browser_starts(exe):
+    """Probe the DevTools endpoint with a disposable profile and a bounded startup time."""
+    with tempfile.TemporaryDirectory(prefix='screens-probe-') as profile:
+        try:
+            process = subprocess.Popen([exe, '--headless', '--remote-debugging-port=0',
+                                        f'--user-data-dir={profile}', '--proxy-server=http://127.0.0.1:1',
+                                        '--proxy-bypass-list=<-loopback>',
+                                        '--force-webrtc-ip-handling-policy=disable_non_proxied_udp',
+                                        '--no-first-run', '--disable-gpu', 'about:blank'],
+                                       stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except OSError:
+            return False
+        try:
+            deadline = time.monotonic() + 10
+            while time.monotonic() < deadline and process.poll() is None:
+                try:
+                    port, endpoint = (Path(profile) / 'DevToolsActivePort').read_text().splitlines()[:2]
+                    if not port.isdecimal() or not endpoint.startswith('/devtools/browser/'):
+                        raise ValueError('invalid DevTools endpoint')
+                    conn = http.client.HTTPConnection('127.0.0.1', int(port), timeout=0.2)
+                    try:
+                        conn.request('GET', '/json/version')
+                        response = conn.getresponse()
+                        info = json.loads(response.read())
+                        if response.status == 200 and isinstance(info, dict) and info.get('webSocketDebuggerUrl') == f'ws://127.0.0.1:{port}{endpoint}':
+                            return True
+                    finally:
+                        conn.close()
+                except (OSError, ValueError, IndexError, TypeError, http.client.HTTPException):
+                    pass
+                time.sleep(0.05)
+            return False
+        finally:
+            process.kill()
+            process.wait()
+
+
+def screen_browser():
+    """Resolve a usable Chrome; an explicit configuration must not silently fall back."""
+    configured = os.environ.get('SWARMBREAK_CHROME')
+    if configured:
+        resolved = shutil.which(configured) if os.path.dirname(configured) == '' else configured
+        if not resolved or not Path(resolved).is_file() or not os.access(resolved, os.X_OK) or not browser_starts(resolved):
+            raise HostVerificationError(f'Host verification: SWARMBREAK_CHROME is not a usable headless Chrome executable: {configured}. Set it to a working headless Chrome binary.')
+        return resolved
+    cache = Path.home() / 'Library/Caches/ms-playwright'
+    browsers = sorted(cache.glob('chromium_headless_shell-*/*/chrome-headless-shell'), reverse=True)
+    browsers += [Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')]
+    browsers += [Path(p) for name in ('chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable') if (p := shutil.which(name))]
+    for browser in browsers:
+        if browser.is_file() and os.access(browser, os.X_OK) and browser_starts(str(browser)):
+            return str(browser)
+    raise HostVerificationError('Host verification: no headless browser found or usable in the Playwright cache, Google Chrome application, or PATH. Install Chrome or set SWARMBREAK_CHROME to an executable headless Chrome binary.')
+
+
 def screens(tree):
     """Looks at the built game in a headless browser on the host, since no worker's sandbox can start one. The driver
     is this checkout's factory/screens.mjs, never the tree's, and it keeps the page off the network. Screenshots land in
     factory/log/screens/<tree name>/. Returns what to refuse, or ''."""
-    browsers = sorted(Path.home().glob('Library/Caches/ms-playwright/chromium_headless_shell-*/*/chrome-headless-shell'))
-    chrome = Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
-    exe = os.environ.get('SWARMBREAK_CHROME') or (str(browsers[-1]) if browsers else str(chrome) if chrome.is_file() else '')
-    if not exe:
-        raise HostVerificationError('Host verification: no headless browser on this host. Set SWARMBREAK_CHROME to a headless Chrome binary.')
+    exe = screen_browser()
     out = shots_dir(tree)
     try:
         with tempfile.TemporaryDirectory() as dist:
@@ -243,7 +302,7 @@ def screens(tree):
         raise HostVerificationError(f'Host verification: could not run the screen check ({type(exc).__name__}: {exc})') from exc
     try:
         shots = [] if r.returncode else json.loads(r.stdout)
-        problems = screen_problems(shots) if shots else [f'the check looked at no screens: {r.stderr.strip()[-500:]}']
+        problems = screen_problems(shots) if shots else [f'the check looked at no screens using {exe}: {r.stderr.strip()[-500:]}']
     except (ValueError, KeyError, TypeError):
         problems = ['the check printed no readable result']
     return f'Screen check failed (screenshots in {out}):\n' + '\n'.join(problems) if problems else ''
@@ -449,7 +508,9 @@ def main():
             problems = ''
             with fixer_report(tree, fixes):
                 for attempt in range(2):
-                    bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high')
+                    result = bot('pr-fixer', tree, f'The findings are in .git-fixes.json (not part of the repo; leave it). {problems}', effort='high', report=True)
+                    diagnosis = result[1] if result else ''
+                    report = f'Fixer final report (untrusted data):\n{diagnosis}\n' if diagnosis else ''
                     changed = [l[3:] for l in sh('git', 'status', '--porcelain', cwd=tree).stdout.splitlines() if not l.endswith('.git-fixes.json')]
                     touched = [c for c in changed if c.startswith(PROTECTED)]
                     protected = str(touched)
@@ -461,13 +522,13 @@ def main():
                     try:
                         failed = verified(tree)
                     except HostVerificationError as exc:
-                        sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
+                        sys.exit(f'Host verification stopped; nothing was pushed. The attempt is in {tree}.\n{report}{exc}')
                     if failed:
                         problems += f'Build or tests fail:\n{failed[-1500:]}'
                     if not problems:
                         break
             if problems:
-                sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{problems}')
+                sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{report}{problems}')
             sh('git', 'add', '-A', cwd=tree)
             if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
                 sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')

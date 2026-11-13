@@ -443,7 +443,15 @@ def game_changed(live_rev, rev):
 
 def release_check():
     try:
-        sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
+        try:
+            sh('git', 'fetch', 'origin')  # a merge earlier in this pass may have put the next run on main
+        except (SystemExit, OSError) as e:
+            if (isinstance(e, OSError) and e.errno == errno.ENOSPC or
+                    'no space left on device' in str(e).lower()):
+                return (f'Not deploying: release fetch failed: no space left on device; '
+                        f'failing filesystem: unknown; repository candidate: {capacity_detail(ROOT)}; '
+                        f'git output: {str(e)[-1000:]}'), None
+            raise
         rev = sh('git', 'rev-parse', 'origin/main').stdout.strip()  # deploy exactly the commit that was checked
         main_m = json.loads(sh('git', 'show', f'{rev}:public/manifest.json').stdout)
         now = datetime.now(timezone.utc)
@@ -453,6 +461,11 @@ def release_check():
                                and game_changed(live_revision(), rev)):
             return '', rev
     except (SystemExit, OSError, ValueError, KeyError, TypeError, AttributeError) as e:  # urllib errors are OSErrors; the others are a malformed manifest
+        if (isinstance(e, OSError) and e.errno == errno.ENOSPC or
+                'no space left on device' in str(e).lower()):
+            return (f'Not deploying: release check failed: no space left on device; '
+                    f'failing filesystem: unknown; repository candidate: {capacity_detail(ROOT)}; '
+                    f'error: {str(e)[-1000:]}'), None
         return f'Release check failed: {e}', None
     if due == 'older':
         return f'Not deploying: main has {main_m["runId"]}, which is older than the live run {live["runId"]}. Main\'s manifest went backwards.', None
@@ -474,26 +487,101 @@ def release(dry=False):
         return f'Release check failed: {e}'
 
 
-def checkout_capacity_failure(error, directory):
-    """Describe a failed release checkout without deleting or retrying any work."""
+def capacity_detail(directory):
+    """Measure an existing path or its nearest existing parent on the same filesystem."""
+    path = Path(directory)
+    while True:
+        try:
+            device = os.stat(path).st_dev
+            usage = shutil.disk_usage(path)
+            return f'{path} (device {device}): {usage.free} bytes available of {usage.total}'
+        except FileNotFoundError:
+            if path == path.parent:
+                return f'{directory}: capacity unavailable (no existing parent)'
+            path = path.parent
+        except OSError as e:
+            return f'{path}: capacity unavailable ({e})'
+
+
+def checkout_capacity_failure(error, directory, stage='release checkout'):
+    """Describe a release capacity failure without deleting or retrying any work."""
     if not (isinstance(error, OSError) and error.errno == errno.ENOSPC or
             'no space left on device' in str(error).lower()):
         return None
+    return (f'Not deploying: {stage} failed: no space left on device; '
+            f'checkout candidate at failure: {capacity_detail(directory)}. '
+            'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+
+
+def npm_capacity_failure(error, tree, stage):
+    """Capture npm's evidence and candidate volumes before the checkout is removed."""
+    if not checkout_capacity_failure(error, tree, stage):
+        return None
+    match = re.search(r'^npm (?:ERR!|error) path (.+)$', error, re.M | re.I)
+    failing_path = match.group(1).strip() if match else ''
+    source = (f'npm-reported path: {capacity_detail(failing_path)}'
+              if os.path.isabs(failing_path) else 'failing filesystem: unknown')
     try:
-        usage = shutil.disk_usage(directory)
-        device = os.stat(directory).st_dev
-        detail = f'{directory} (device {device}): {usage.free} bytes available of {usage.total}'
-    except OSError as e:
-        detail = f'{directory}: capacity unavailable ({e})'
-    return (f'Not deploying: release checkout failed: no space left on device; {detail}. '
-            'No files reclaimed; host must inspect eligible worktrees and restore capacity before retrying.')
+        cache = sh('npm', 'config', 'get', 'cache', cwd=tree, check=False)
+        cache_path = cache.stdout.strip() if cache.returncode == 0 else ''
+    except (OSError, SystemExit):
+        cache_path = ''
+    cache_detail = (capacity_detail(cache_path) if os.path.isabs(cache_path)
+                    else 'unavailable')
+    return (f'Not deploying: {stage} failed: no space left on device; {source}; '
+            f'checkout candidate at failure: {capacity_detail(tree)}; '
+            f'npm cache candidate at failure: {cache_detail}; npm output: {error[-2000:]}')
+
+
+def tempdir_capacity_failure():
+    """Recover evidence hidden by tempfile's no-usable-directory error."""
+    full = []
+    for directory in tempfile._candidate_tempdir_list():
+        path = None
+        try:
+            fd, path = tempfile.mkstemp(dir=directory)
+            try:
+                os.write(fd, b'blat')
+            finally:
+                os.close(fd)
+        except OSError as e:
+            if e.errno == errno.ENOSPC:
+                full.append((directory, e))
+        else:
+            # A candidate is usable now; do not infer an exhausted selection.
+            return None
+        finally:
+            if path is not None:
+                os.unlink(path)
+    if full:
+        details = '; '.join(capacity_detail(directory) for directory, _ in full)
+        return (f'Not deploying: release checkout failed: no space left on device; '
+                f'checkout candidates at failure: {details}. '
+                'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+    return None
 
 
 def deploy(dry, rev=None):
     """Publish origin/main, or the commit `rev` that release() checked, from a clean checkout so local work can't ship by accident."""
     if not rev:
         sh('git', 'fetch', 'origin')
-    with tempfile.TemporaryDirectory() as work:
+    try:
+        directory = tempfile.gettempdir()
+    except FileNotFoundError:
+        failure = tempdir_capacity_failure()
+        if failure:
+            return failure
+        raise
+    try:
+        temp = tempfile.TemporaryDirectory(dir=directory)
+    except OSError as e:
+        failure = checkout_capacity_failure(e, directory)
+        if failure:
+            return failure
+        raise
+    work = temp.name
+    temp_cleanup_attempted = False
+    try:
         tree = Path(work) / 'main'
         try:
             sh('git', 'worktree', 'add', '--detach', tree, rev or 'origin/main')
@@ -502,6 +590,27 @@ def deploy(dry, rev=None):
             if failure:
                 return failure
             raise
+        cleaned = False
+        def cleanup_capacity_failure(failure):
+            nonlocal cleaned, temp_cleanup_attempted
+            cleanup_errors = []
+            try:
+                removed = sh('git', 'worktree', 'remove', '--force', tree, check=False)
+                if removed.returncode:
+                    cleanup_errors.append(f'worktree removal failed: {(removed.stdout + removed.stderr)[-500:]}')
+            except (Exception, SystemExit) as e:
+                cleanup_errors.append(f'worktree removal failed: {e}')
+            temp_cleanup_attempted = True
+            try:
+                temp.cleanup()
+                cleaned = True
+            except (Exception, SystemExit) as e:
+                cleanup_errors.append(f'temporary directory cleanup failed: {e}')
+            cleanup = '; '.join(cleanup_errors) if cleanup_errors else 'completed'
+            return (f'{failure}; cleanup: {cleanup}; checkout parent after cleanup: '
+                    f'{capacity_detail(Path(work).parent)}. '
+                    'No files reclaimed from unrelated worktrees; host must inspect capacity before retrying.')
+
         try:
             now = datetime.now(timezone.utc)
             raw_manifest, live = json.loads((tree / 'public/manifest.json').read_text()), effective(live_manifest(), now)
@@ -513,13 +622,34 @@ def deploy(dry, rev=None):
             if problems:
                 return f'Not deploying: {problems}'
             for cmd in (['npm', 'ci'], ['npm', 'run', 'build'], ['npm', 'test']):
-                r = sh(*cmd, cwd=tree, check=False)
+                try:
+                    r = sh(*cmd, cwd=tree, check=False)
+                except OSError as e:
+                    failure = checkout_capacity_failure(e, tree, ' '.join(cmd))
+                    if failure:
+                        return cleanup_capacity_failure(failure)
+                    raise
                 if r.returncode:
+                    failure = npm_capacity_failure(r.stdout + r.stderr, tree, ' '.join(cmd))
+                    if failure:
+                        return cleanup_capacity_failure(failure)
                     return f'Not deploying: {" ".join(cmd)} failed: {r.stdout[-500:]}'
-            deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+            try:
+                deployed_rev = sh('git', 'rev-parse', 'HEAD', cwd=tree).stdout.strip()
+            except (SystemExit, OSError) as e:
+                failure = checkout_capacity_failure(e, tree, 'release checkout revision')
+                if failure:
+                    return cleanup_capacity_failure(failure)
+                raise
             if not re.fullmatch(r'[0-9a-f]{40}', deployed_rev):
                 return 'Not deploying: invalid checkout revision'
-            (tree / 'dist/deployed-revision.txt').write_text(deployed_rev + '\n')
+            try:
+                (tree / 'dist/deployed-revision.txt').write_text(deployed_rev + '\n')
+            except OSError as e:
+                failure = checkout_capacity_failure(e, tree / 'dist', 'release revision file')
+                if failure:
+                    return cleanup_capacity_failure(failure)
+                raise
             if dry:
                 return f'Could deploy {manifest["runId"]}.'
             r = sh('firebase', 'deploy', '--only', 'hosting', '--project', 'swarmbreak-game', cwd=tree, check=False)
@@ -534,7 +664,11 @@ def deploy(dry, rev=None):
             reserve = f' Reserve run {manifest["next"]["runId"]} opens itself at {manifest["next"]["opensAt"]}.' if manifest.get('next') else ''
             return f'Deployed. Live run is {manifest["runId"]}.{reserve}' if served == raw_manifest and served_rev == deployed_rev else f'Deploy failed verification: live manifest reads {served}, expected {raw_manifest}; live revision is {served_rev}, expected {deployed_rev}.'
         finally:
-            sh('git', 'worktree', 'remove', '--force', tree, check=False)
+            if not cleaned and not temp_cleanup_attempted:
+                sh('git', 'worktree', 'remove', '--force', tree, check=False)
+    finally:
+        if not temp_cleanup_attempted:
+            temp.cleanup()
 
 
 def open_prs():
@@ -824,13 +958,19 @@ def main():
     if args and args[0] == '--comms':
         print(comms(int(args[1]), args[2], dry))
         return
+    if '--release-only' in args and '--retry-capacity' not in args:
+        lock.seek(0)
+        prior = lock.read().strip()
+        if is_capacity_blocker(prior):
+            release_step([], dry, [prior])
+            return
     if not dry:
         sync()
     if '--release-only' in args:  # the quarter-hourly check: no model call unless something failed
         failures = []
         lock.seek(0)
         previous = [lock.read().strip()]
-        blocker = release_step(failures, dry, previous)
+        blocker = release_step(failures, dry, previous, retry_capacity='--retry-capacity' in args)
         if not dry:
             lock.seek(0)
             lock.truncate()
@@ -903,26 +1043,51 @@ def main():
 def persistent_release_blocker(result):
     return result.startswith(('Missing run:', 'Not deploying: npm run build failed:',
                               'Not deploying: npm test failed:',
-                              'Not deploying: release checkout failed: no space left on device;'))
+                              'Not deploying: release checkout failed: no space left on device;',
+                              'Not deploying: release fetch failed: no space left on device;',
+                              'Not deploying: release check failed: no space left on device;',
+                              'Not deploying: release revision file failed: no space left on device;',
+                              'Not deploying: release checkout revision failed: no space left on device;',
+                              'Not deploying: npm ci failed: no space left on device;'))
 
 
 def release_blocker_identity(result):
-    capacity = 'release -> Not deploying: release checkout failed: no space left on device;'
-    return capacity if result.startswith(capacity) else result
+    for stage in ('release checkout', 'release fetch', 'release check', 'release revision file', 'release checkout revision', 'npm ci', 'npm run build', 'npm test'):
+        capacity = f'release -> Not deploying: {stage} failed: no space left on device;'
+        if result.startswith(capacity):
+            return capacity
+    return result
 
 
-def release_step(failures, dry=False, previous=()):
+def is_capacity_blocker(result):
+    identity = release_blocker_identity(result)
+    return (identity.startswith('release -> Not deploying: ') and
+            identity.endswith('failed: no space left on device;'))
+
+
+def release_step(failures, dry=False, previous=(), retry_capacity=False):
+    # A capacity failure requires host investigation, not another automatic release attempt.
+    # The host can explicitly retry after restoring capacity with --release-only --retry-capacity.
+    for prior in previous:
+        if not retry_capacity and is_capacity_blocker(prior):
+            print(f'release: Blocked: capacity recovery required; {prior}', flush=True)
+            return prior
     result = release(dry)
     if result:
-        identity = release_blocker_identity(f'release -> {result[-700:]}')
+        full = f'release -> {result}'
+        diagnostic = f'release -> {result[-700:]}'
+        capacity_identity = release_blocker_identity(full)
+        if capacity_identity != full and len(result) > 700:
+            diagnostic = f'{capacity_identity} ... {result[-700:]}'
+        identity = release_blocker_identity(diagnostic)
         blocked = persistent_release_blocker(result) and any(release_blocker_identity(p) == identity for p in previous)
         recorded = f'Blocked: unchanged release failure: {result}' if blocked else result
         print(f'release: {recorded}', flush=True)
         record({'kind': 'action', 'action': {'type': 'release'}, 'result': recorded[-1000:], 'dry': dry})
         if FAILED.search(result) and not blocked:
-            failures.append(f'release -> {result[-700:]}')
+            failures.append(diagnostic)
         if persistent_release_blocker(result):
-            return f'release -> {result[-700:]}'
+            return diagnostic
     return ''
 
 

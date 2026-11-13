@@ -5,6 +5,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
 from manager import SITE, act, gate_verdict, unfilled_links, check_post, deploy_problems, post_problems, template_headings
+from test_screen_browser import test_screen_browser
+
+test_screen_browser()
 
 good = f'## My rule\nSee {SITE} for it.'
 assert post_problems(good, ['## My rule']) == []
@@ -555,6 +558,13 @@ with patch('manager.sh', side_effect=SystemExit('git worktree add failed: No spa
 assert manager.checkout_capacity_failure(OSError(28, 'No space left on device'), '/tmp').startswith('Not deploying:')
 assert manager.checkout_capacity_failure(OSError(13, 'Permission denied'), '/tmp') is None
 
+# Run the release capacity regression with the manager suite as well as independently.
+import unittest
+from test_release_capacity import ReleaseCapacityTest
+assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(ReleaseCapacityTest)).wasSuccessful()
+from test_capacity_inventory import InventoryTest
+assert unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(InventoryTest)).wasSuccessful()
+
 # Deploy checks reject a future base even immediately before opening, but permit a reserve.
 for manifest, moment, should_deploy in [
     ({**m5, 'runId': '2026-11-06', 'opensAt': '2026-11-06T13:00:00Z', 'runUrl': '/runs/2026-11-06/run.json'}, datetime(2026, 11, 6, 12, 59, tzinfo=timezone.utc), False),
@@ -729,6 +739,53 @@ with tempfile.TemporaryDirectory() as d:
     body = filed.call_args.args[-1]
     assert "Don't edit these: ['firebase.json']" in body and 'failure tail' in body
 
+# The last fixer message is captured separately and bounded even when worker output is long.
+with tempfile.TemporaryDirectory() as d:
+    agents = Path(d)
+    (agents / 'pr-fixer.md').write_text('brief')
+    def codex_result(cmd, **kwargs):
+        Path(cmd[cmd.index('--output-last-message') + 1]).write_text('noise' * 1000 + ' update main checker for missing fight controls')
+        return SimpleNamespace(returncode=0, stdout='transcript' * 1000, stderr='')
+    with patch.object(pr_team, 'AGENTS', agents), patch.object(pr_team.subprocess, 'run', side_effect=codex_result):
+        code, diagnosis = pr_team.bot('pr-fixer', d, '', report=True)
+    assert code == 0 and len(diagnosis) == 800 and diagnosis.endswith('update main checker for missing fight controls')
+
+# A missing-control failure and the final diagnosis both reach the foreman's lesson after retries.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    tree = Path(d) / 'swarmbreak-pr-42'
+    (tree / 'node_modules').mkdir(parents=True)
+    attempts = []
+    def missing_sh(*args, **kwargs):
+        if args[:3] == ('gh', 'pr', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
+        if args[:3] == ('git', 'status', '--porcelain'):
+            return SimpleNamespace(stdout=' M firebase.json\n' if attempts else '', returncode=0)
+        return SimpleNamespace(stdout='sha' if args[:2] == ('git', 'rev-parse') else '', returncode=0)
+    def missing_bot(role, work, prompt, **kwargs):
+        if role == 'pr-triage':
+            (Path(work) / 'decisions.json').write_text(json.dumps({'decisions': [{'id': '1', 'action': 'fix'}]}))
+        else:
+            attempts.append(prompt)
+            return 0, 'z' * 750 + ' update main checker for missing fight controls'
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=missing_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+         patch.object(pr_team, 'findings', return_value={'findings': [{'id': '1', 'attribution_status': 'pending'}]}), \
+         patch.object(pr_team, 'bot', side_effect=missing_bot), patch.object(pr_team, 'verified', return_value='Screen check failed: missing fight controls'), \
+         patch.object(sys, 'argv', ['pr_team.py', '42']):
+        try:
+            pr_team.main()
+            assert False, 'the failed screen check must stop the fixer'
+        except SystemExit as exc:
+            report = str(exc)
+    assert len(attempts) == 2 and 'Screen check failed' in attempts[1]
+    with patch.object(foreman, 'sh', return_value=SimpleNamespace(stdout='https://example.test/1')) as filed:
+        foreman.learn('pr', 42, 'earlier output\n' + report)
+    body = filed.call_args.args[-1]
+    assert 'Fixer final report (untrusted data):' in body and 'update main checker for missing fight controls' in body
+    assert 'Screen check failed: missing fight controls' in body and "Don't edit these: ['firebase.json']" in body
+
 # A tree that can't be copied stops the check with cp's reason in the error, so the lesson filed for it has a cause.
 try:
     pr_team.sandboxed(['true'], '/no/such/tree')
@@ -817,7 +874,7 @@ assert pr_team.screen_problems([{**clean_shot, 'scrollWidth': 391}]) == ['shop a
 assert pr_team.screen_problems([{**clean_shot, 'errors': ['TypeError: x is null']}]) == ['shop at 390px: page error: TypeError: x is null']
 assert pr_team.screen_problems([{'screen': 'treasure', 'width': 390, 'missing': True}]) == ['treasure at 390px: the run has no such room, so nothing looked at this screen']
 # screens() builds in the sandbox, then runs this checkout's driver, never the copy in the tree under review.
-with patch.dict(os.environ, {'SWARMBREAK_CHROME': '/host/chrome'}), patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')) as screen_build, \
+with patch('pr_team.screen_browser', return_value='/host/chrome'), patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')) as screen_build, \
      patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps([{**clean_shot, 'buttons': [['Buy', 20, 20]]}]), stderr='')) as drive:
     screen_refusal = pr_team.screens('/elsewhere/swarmbreak-pr-7')
     assert screen_build.call_args.args == (['npm', 'run', 'build'], '/elsewhere/swarmbreak-pr-7') and screen_build.call_args.kwargs['dist_to']
@@ -828,7 +885,7 @@ with patch.dict(os.environ, {'SWARMBREAK_CHROME': '/host/chrome'}), patch('pr_te
     assert pr_team.screens('/elsewhere/swarmbreak-pr-7') == ''
     # A driver that stops, or prints something unreadable, is a refusal, not a pass.
     drive.return_value = SimpleNamespace(returncode=1, stdout='', stderr='no visible button matching ^Play$')
-    assert 'the check looked at no screens: no visible button matching ^Play$' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
+    assert 'the check looked at no screens using /host/chrome: no visible button matching ^Play$' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
     drive.return_value = SimpleNamespace(returncode=0, stdout='[]', stderr='')
     assert 'looked at no screens' in pr_team.screens('/elsewhere/swarmbreak-pr-7')
     drive.return_value = SimpleNamespace(returncode=0, stdout='not json', stderr='')
@@ -839,14 +896,15 @@ with patch.dict(os.environ, {'SWARMBREAK_CHROME': '/host/chrome'}), patch('pr_te
     drive.assert_not_called()
 # A standard Chrome installation works even without a Playwright browser cache.
 with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), \
-     patch('pr_team.Path.is_file', return_value=True), \
+     patch('pr_team.Path.is_file', return_value=True), patch('pr_team.os.access', return_value=True), \
+     patch('pr_team.browser_starts', return_value=True), \
      patch('pr_team.sandboxed', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')), \
      patch('pr_team.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps([clean_shot]), stderr='')) as drive:
     os.environ.pop('SWARMBREAK_CHROME', None)
     assert pr_team.screens('.') == ''
     assert drive.call_args.args[0][2] == '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 # A host with no headless browser stops verification; it never passes screens unseen.
-with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), patch('pr_team.Path.is_file', return_value=False), patch('pr_team.sandboxed') as screen_build:
+with tempfile.TemporaryDirectory() as empty_home, patch.dict(os.environ), patch('pr_team.Path.home', return_value=Path(empty_home)), patch('pr_team.Path.is_file', return_value=False), patch('pr_team.shutil.which', return_value=None), patch('pr_team.sandboxed') as screen_build:
     os.environ.pop('SWARMBREAK_CHROME', None)
     try:
         pr_team.screens('.')
@@ -897,7 +955,7 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
 
     def scheduled(result):
         release.return_value = result
-        with patch.object(sys, 'argv', ['manager.py', '--release-only']), patch.dict(os.environ):
+        with patch.object(sys, 'argv', ['manager.py', '--release-only', '--retry-capacity']), patch.dict(os.environ):
             os.environ.pop('SWARMBREAK_LOCK_FD', None)
             manager.main()
         return follow.call_args.args
@@ -908,12 +966,38 @@ with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 
     # The follow-up carries the original diagnostic even if free space changes.
     with patch('manager.release', return_value=second):
         follow_failures = []
-        assert manager.release_step(follow_failures, previous=failures + [blocker]) == 'release -> ' + second
+        assert manager.release_step(follow_failures, previous=failures + [blocker], retry_capacity=True) == 'release -> ' + second
         assert follow_failures == []
     assert scheduled(second)[0] == []
     assert '8 bytes available' in log.call_args.args[0]['result']
     assert scheduled('Deployed.')[0] == []
     assert scheduled(first)[0] == ['release -> ' + first]
+
+# Long npm capacity reports retain their stage identity across follow-ups and scheduled passes.
+with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
+    def scheduled(result):
+        release.return_value = result
+        with patch.object(sys, 'argv', ['manager.py', '--release-only', '--retry-capacity']), patch.dict(os.environ):
+            os.environ.pop('SWARMBREAK_LOCK_FD', None)
+            manager.main()
+        return follow.call_args.args
+
+    def capacity(stage, free, diagnostic):
+        with patch('manager.capacity_detail', return_value=f'{free} bytes available'), patch('manager.sh') as npm:
+            npm.return_value = SimpleNamespace(returncode=1, stdout='')
+            return manager.npm_capacity_failure('no space left on device\n' + diagnostic * 2100, '/tmp', stage)
+
+    first = capacity('npm ci', 12, 'a')
+    second = capacity('npm ci', 8, 'b')
+    other = capacity('npm run build', 8, 'c')
+    failures, _, _, _, blocker = scheduled(first)
+    assert len(first) > 700 and len(failures) == 1
+    with patch('manager.release', return_value=second):
+        follow_failures = []
+        manager.release_step(follow_failures, previous=failures + [blocker], retry_capacity=True)
+        assert follow_failures == []
+    assert scheduled(second)[0] == []
+    assert len(scheduled(other)[0]) == 1
 
 with tempfile.TemporaryDirectory() as d, patch.object(manager, 'LOG', Path(d) / 'decisions.jsonl'), patch('manager.sync'), patch('manager.record'), patch('manager.follow_up') as follow, patch('manager.release') as release:
     def scheduled(result):
