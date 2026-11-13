@@ -14,7 +14,8 @@ export function fightControls(key) {
     queue: !!buttons.find(b => b.textContent === 'Queue order' && b.checkVisibility()),
     auto: auto?.textContent.trim() ?? '',
     pending: !!actor,
+    // Auto plus one choice per routine the pending fighter carries, the same choices the old order form offered.
     choices: !!actor && choices.some(b => b.textContent.trim() === 'Auto') &&
-      choices.some(b => b.textContent.trim() && b.textContent.trim() !== 'Auto'),
+      choices.filter(b => b.textContent.trim() && b.textContent.trim() !== 'Auto').length >= (actor.routines?.length || 1),
   };
 }

@@ -4,7 +4,7 @@ import { fightControls } from './screen-fight-controls.mjs';
 const button = (textContent, { visible = true, disabled = false } = {}) => ({
   textContent, checkVisibility: () => visible, matches: () => disabled,
 });
-function page({ choices = [], pending = true, auto = true, legacy = false } = {}) {
+function page({ choices = [], pending = true, auto = true, legacy = false, routines = ['strike'] } = {}) {
   const buttons = [...(auto ? [button('Auto battle: off')] : []), ...choices,
     ...(legacy ? [button('Queue order')] : [])];
   vi.stubGlobal('document', {
@@ -14,7 +14,7 @@ function page({ choices = [], pending = true, auto = true, legacy = false } = {}
     ] : [],
   });
   vi.stubGlobal('localStorage', { getItem: () => JSON.stringify({ today: { combat: {
-    atb: { pending: pending ? 'crew-1' : null }, fighters: [{ id: 'crew-1' }],
+    atb: { pending: pending ? 'crew-1' : null }, fighters: [{ id: 'crew-1', routines }],
   } } }) });
   return fightControls('save');
 }
@@ -29,6 +29,11 @@ describe('host fight control inspection', () => {
     const choices = [button('Auto'), button('Strike')];
     expect(page({ choices }).choices).toBe(true);
     expect(page({ choices, pending: false }).choices).toBe(false);
+  });
+  it('requires a choice for every routine the pending fighter carries', () => {
+    const choices = [button('Auto'), button('Strike')];
+    expect(page({ choices, routines: ['strike', 'patch'] }).choices).toBe(false);
+    expect(page({ choices: [...choices, button('Patch')], routines: ['strike', 'patch'] }).choices).toBe(true);
   });
   it('retains the legacy queued-order controls', () => {
     const fight = page({ auto: false, legacy: true });
