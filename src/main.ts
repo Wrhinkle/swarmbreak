@@ -173,7 +173,7 @@ function startFight(n:MapNode){ screen='fight'; clear(); stageHeading(`${n.kind}
   if(!combat)return;
   const state=combat, crew=state.fighters.filter(f=>f.side==='crew'), enemies=state.fighters.filter(f=>f.side==='enemy');
   const groups=([['crew',crew],['enemy',enemies]] as const).map(([side,list])=>({side,list,rows:desktopRows(list,side)}));
-  const height=Math.max(420,...groups.map(g=>(g.rows.at(-1)?.bottom??0)+10));
+  const height=Math.max(228,...groups.map(g=>(g.rows.at(-1)?.bottom??0)+10));
   if(canvas.height!==height)canvas.height=height;
   const ctx=canvas.getContext('2d');if(!ctx)return;
   ctx.clearRect(0,0,900,height);ctx.imageSmoothingEnabled=true;ctx.fillStyle='#203730';ctx.fillRect(0,0,900,height);

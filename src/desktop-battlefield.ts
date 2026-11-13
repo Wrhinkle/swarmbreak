@@ -9,7 +9,7 @@ export function desktopRows(list: { creature: { puppet?: unknown } }[], side: 'c
       y = row.bottom + 10;
       return row;
     }
-    const row = { x: left + column * 205, y, size: 164, bottom: y + 164 + 88 };
+    const row = { x: left + column * 174, y, size: 164, bottom: y + 164 + 88 };
     if (++column === 2) { y = row.bottom + 10; column = 0; }
     return row;
   });

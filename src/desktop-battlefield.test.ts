@@ -1,6 +1,19 @@
 import { expect, it, vi } from 'vitest';
 import { bindDesktopInspection, desktopHit, desktopRows } from './desktop-battlefield';
 
+it('places ordinary fighters at desktop display size without overlap on either side', () => {
+  for (const side of ['crew', 'enemy'] as const) {
+    const rows = desktopRows(Array.from({ length: 3 }, () => ({ creature: {} })), side);
+    // At 1280px the 900px-wide canvas includes 6px borders on both sides.
+    rows.forEach((row, i) => {
+      expect(row.size * (900 - 12) / 900).toBeGreaterThanOrEqual(160);
+      expect(side === 'crew' ? row.x + row.size <= 450 : row.x >= 450 && row.x + row.size <= 900).toBe(true);
+      expect(desktopHit(rows, row.x + 1, row.bottom - 1)).toBe(i);
+      rows.slice(i + 1).forEach(other => expect(row.x + row.size <= other.x || other.x + other.size <= row.x || row.bottom <= other.y || other.bottom <= row.y).toBe(true));
+    });
+  }
+});
+
 it('fits a large boss and other fighters without overlap on either side', () => {
   for (const fighters of [
     [{ creature: { puppet: true } }, { creature: {} }, { creature: {} }],
