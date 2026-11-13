@@ -130,6 +130,49 @@ else:
                     pass
                 parent.wait(timeout=5)
 
+    def test_art_process_keeps_lock_after_builder_is_killed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            lock, ready, finish = root / 'run.lock', root / 'ready', root / 'finish'
+            python = root / 'factory/.venv/bin/python'
+            python.parent.mkdir(parents=True)
+            python.write_text('#!' + sys.executable + "\nimport os, time\nfrom pathlib import Path\n"
+                              "Path(os.environ['READY']).touch()\n"
+                              "while not Path(os.environ['FINISH']).exists(): time.sleep(.02)\n")
+            python.chmod(0o755)
+            code = ("import run, sys; from pathlib import Path; "
+                    "run.ROOT=Path(sys.argv[1]); run.run_lock_path=lambda _: Path(sys.argv[2]); "
+                    "run.main=lambda: run.run_art('2026-11-12'); run.locked_main('2026-11-12')")
+            env = {**os.environ, 'READY': str(ready), 'FINISH': str(finish),
+                   'PYTHONPATH': str(Path(run.__file__).parent)}
+            parent = subprocess.Popen([sys.executable, '-c', code, str(root), str(lock)], env=env, start_new_session=True)
+            try:
+                deadline = time.monotonic() + 10
+                while not ready.exists() and time.monotonic() < deadline:
+                    time.sleep(.02)
+                self.assertTrue(ready.exists(), 'art process did not start')
+                parent.kill()
+                parent.wait(timeout=5)
+                with lock.open('a+') as other:
+                    with self.assertRaises(BlockingIOError):
+                        fcntl.flock(other, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    finish.touch()
+                    deadline = time.monotonic() + 10
+                    while True:
+                        try:
+                            fcntl.flock(other, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                            break
+                        except BlockingIOError:
+                            if time.monotonic() >= deadline:
+                                self.fail('art process did not release the lock')
+                            time.sleep(.02)
+            finally:
+                try:
+                    os.killpg(parent.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                parent.wait(timeout=5)
+
     def test_writer_releases_lock_when_main_raises(self):
         with tempfile.TemporaryDirectory() as temp:
             lock = Path(temp) / '2026-11-12.lock'

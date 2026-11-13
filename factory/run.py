@@ -27,6 +27,11 @@ def tool(*args):
     return r.returncode == 0, (r.stdout + r.stderr).strip()
 
 
+def run_art(run_id):
+    py = ROOT / 'factory/.venv/bin/python'
+    return subprocess.run([py, ROOT / 'factory/art.py', run_id], cwd=ROOT, env=clean_env(), pass_fds=lock_fds())
+
+
 def ledger_file(d):
     """Where run folder `d`'s passed checks are recorded: the repository's own git folder, which every worktree shares.
     It is in no commit and in no worker's workspace, so a branch, a PR or an agent can't hand the host a pass."""
@@ -362,8 +367,7 @@ def main():
         if want('art'):
             agent('art', brief, {'content.json': content}, lambda: '' if len(json.loads(brief.read_text()).get('acts', [])) == ACTS else f'Write {ACTS} acts.')
             if '--no-images' not in args:
-                py = ROOT / 'factory/.venv/bin/python'
-                if subprocess.run([py, ROOT / 'factory/art.py', run_id], cwd=ROOT, env=clean_env()).returncode:
+                if run_art(run_id).returncode:
                     sys.exit('Art failed. Stopping; nothing was opened.')
     print(f'Run {run_id} is ready. Open it with a reviewed PR.', flush=True)
 
