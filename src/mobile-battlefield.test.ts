@@ -28,28 +28,33 @@ it('shows both sides and updates health while preserving the enemy inspect contr
     const root = field.element as unknown as Element;
     const ally = root.children[0].children[0], enemy = root.children[1].children[0];
     for (const card of [ally, enemy]) expect(card.children.map(child => child.className)).toEqual([
-      'battlefighter-art', 'battlefighter-atb', 'battlefighter-name', 'battlefighter-hp', 'battlefighter-health', 'battlefighter-health',
+      'battlefighter-art', 'battlefighter-feedback', 'battlefighter-atb', 'battlefighter-name', 'battlefighter-hp', 'battlefighter-health', 'battlefighter-health',
     ]);
-    expect(ally.children[2].textContent).toBe('Ally');
-    expect(enemy.children[4].textContent).toBe('9 / 12 HP');
-    expect(enemy.children[5].textContent).toBe('Turn readiness: 0%');
+    expect(ally.children[3].textContent).toBe('Ally');
+    expect(enemy.children[5].textContent).toBe('9 / 12 HP');
+    expect(enemy.children[6].textContent).toBe('Turn readiness: 0%');
     field.update(fighters, 4);
-    expect(enemy.children[5].textContent).toBe('Turn readiness: 50%');
-    expect((enemy.children[3] as unknown as HTMLProgressElement).value).toBe(9);
-    expect((enemy.children[3] as unknown as HTMLProgressElement).max).toBe(12);
-    expect((enemy.children[1] as unknown as HTMLProgressElement).value).toBe(50);
+    expect(enemy.children[6].textContent).toBe('Turn readiness: 50%');
+    expect((enemy.children[4] as unknown as HTMLProgressElement).value).toBe(9);
+    expect((enemy.children[4] as unknown as HTMLProgressElement).max).toBe(12);
+    expect((enemy.children[2] as unknown as HTMLProgressElement).value).toBe(50);
     field.update(fighters, 4, [{ t: 4, kind: 'action', actor: 'e0', target: 'e0', amount: 0, routine: 'strike' }, { t: 4, kind: 'damage', actor: 'e0', target: 'c0', amount: 1, routine: 'strike' }]);
-    expect(enemy.children[5].textContent).toBe('Turn readiness: 50% · Acted: Strike → Ally');
+    expect(enemy.children[6].textContent).toBe('Turn readiness: 50% · Acted: Strike → Ally');
+    expect(ally.children[1].textContent).toBe('−1');
+    field.update(fighters, 5, [{ t: 5, kind: 'heal', actor: 'c0', target: 'c0', amount: 3, routine: 'patch' }, { t: 5, kind: 'damage', actor: 'e0', target: 'c0', amount: 2, routine: 'strike' }]);
+    expect(ally.children[1].textContent).toBe('−2  +3');
+    field.update(fighters, 11, [{ t: 5, kind: 'heal', actor: 'c0', target: 'c0', amount: 3, routine: 'patch' }]);
+    expect(ally.children[1].textContent).toBe('');
     fighters[1].routines = ['breach', 'strike'];
     const state = { fighters } as CombatState;
     field.update(fighters, 4, [], state);
-    expect(enemy.children[5].textContent).toContain('Intent now: ⚔ Strike (may change)');
+    expect(enemy.children[6].textContent).toContain('Intent now: ⚔ Strike (may change)');
     fighters[0].shield = 3; field.update(fighters, 4, [], state);
-    expect(enemy.children[5].textContent).toContain('Intent now: ⚔ Breach (may change)');
+    expect(enemy.children[6].textContent).toContain('Intent now: ⚔ Breach (may change)');
     enemy.listeners.click(); expect(inspect).toHaveBeenCalledWith('e0');
     fighters[1].hp = 4; fighters[1].shield = 2; field.update(fighters);
     expect(root.children[1].children[0]).toBe(enemy);
-    expect(enemy.children[4].textContent).toBe('4 / 12 HP · 2 shield');
+    expect(enemy.children[5].textContent).toBe('4 / 12 HP · 2 shield');
     enemy.focus();
     const summon = { ...fighters[1], id: 'e1', creature: { ...fighters[1].creature, name: 'Summon' } };
     field.update([...fighters, summon]);
