@@ -40,6 +40,12 @@ it('shows both sides and updates health while preserving the enemy inspect contr
     expect((enemy.children[1] as unknown as HTMLProgressElement).value).toBe(50);
     field.update(fighters, 4, [{ t: 4, kind: 'action', actor: 'e0', target: 'e0', amount: 0, routine: 'strike' }, { t: 4, kind: 'damage', actor: 'e0', target: 'c0', amount: 1, routine: 'strike' }]);
     expect(enemy.children[5].textContent).toBe('Turn readiness: 50% · Acted: Strike → Ally');
+    fighters[1].routines = ['breach', 'strike'];
+    const state = { fighters } as CombatState;
+    field.update(fighters, 4, [], state);
+    expect(enemy.children[5].textContent).toContain('Intent now: ⚔ Strike (may change)');
+    fighters[0].shield = 3; field.update(fighters, 4, [], state);
+    expect(enemy.children[5].textContent).toContain('Intent now: ⚔ Breach (may change)');
     enemy.listeners.click(); expect(inspect).toHaveBeenCalledWith('e0');
     fighters[1].hp = 4; fighters[1].shield = 2; field.update(fighters);
     expect(root.children[1].children[0]).toBe(enemy);
