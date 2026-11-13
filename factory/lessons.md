@@ -6,6 +6,7 @@ Every worker reads this before every job. One line per lesson; the coach keeps i
 - A nested `sandbox-exec` fails inside your own sandbox ("sandbox_apply: Operation not permitted"). That alone isn't a blocker; the host reruns the checks outside it.
 - PR #199's new deletion check made a merge test's catch-all Git mock return a fake deletion and exit; when adding Git queries, update affected mocks to return realistic results and run the full manager suite, not only the new test.
 - UI work is judged by looking at it. A long word in a big font can wrap mid-word at 390px; size headings with `clamp()` and check both widths.
+- PR #298's evidence-only guidance met a host that rejects unchanged fixes and marks all assigned findings implemented after any changed fix; when changing this flow, support reviewable evidence tied to the verified commit and track each finding separately, leaving unavailable visual inspections unresolved. A screen-check pass alone does not establish wrapping, clipping, or vertical scroll.
 - PR #221 replaced fight controls expected by the host's screen checker, and PR #258's alternate Auto battle branch let missing order controls pass. Land a reviewed checker update on main first; preserve every existing control check in every accepted path, then verify the UI PR against main's checker.
 - During play nothing may sit outside the game stage: footers and credits outside it make the page scroll on phones.
 - A worktree has no `factory/.venv`; scripts that need it must use the main checkout's, not fail on a missing path.
