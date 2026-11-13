@@ -3,7 +3,7 @@ export function desktopRows(list: { creature: { puppet?: unknown } }[], side: 'c
   let y = 10;
   return list.map(f => {
     const size = f.creature.puppet ? 370 : 164;
-    const row = { x: side === 'crew' ? 70 : 900 - 70 - size, y, size, bottom: y + size + 88 };
+    const row = { x: side === 'crew' ? 70 : 900 - 70 - size, y, size, bottom: y + size + 122 };
     y = row.bottom + 10;
     return row;
   });

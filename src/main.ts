@@ -3,6 +3,7 @@ import { fightActions } from './fight-actions';
 import { enemyIntent } from './enemy-intent';
 import { readiness, readinessProgress } from './readiness';
 import { desktopRows } from './desktop-battlefield';
+import { drawDesktopIntent } from './desktop-intent';
 import { turnOrder } from './turn-order';
 import { mobileBattlefield } from './mobile-battlefield';
 import { fightPaint } from './fight-paint';
@@ -194,6 +195,7 @@ function startFight(n:MapNode){ screen='fight'; clear(); stageHeading(`${n.kind}
    ctx.fillStyle='#29312a';ctx.fillRect(x+4,y+size+49,size-8,5);ctx.fillStyle='#82cfbe';ctx.fillRect(x+4,y+size+49,(size-8)*Math.min(1,Math.max(0,f.shield/f.maxHp)),5);
    const progress=readinessProgress(f,state.t);ctx.fillStyle='#29312a';ctx.fillRect(x+4,y+size+58,size-8,10);ctx.fillStyle=progress===1?'#ffdf83':'#8bb7ed';ctx.fillRect(x+4,y+size+58,(size-8)*(progress??0),10);
    ctx.fillStyle='#f3e6ca';ctx.fillText(progress===null?'ATB: unavailable':progress===1?'ATB: ready':`ATB: ${Math.round(progress*100)}%`,x+4,y+size+82,size-8);
+   if(side==='enemy') drawDesktopIntent(ctx,enemyIntent(state,f),x,y+size,size);
    if(inspected===f.id){ctx.strokeStyle='#b3f1da';ctx.strokeRect(x,y,size,bottom-y);}
    drawFeedback(ctx,flashes,f.id,x+size/2,y+size/4,state.t);
   });
