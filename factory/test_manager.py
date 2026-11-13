@@ -1592,6 +1592,69 @@ with tempfile.TemporaryDirectory() as d:
     assert workers == ['pr-fixer', 'pr-fixer']
 print('ok PR fixer stops on host failure')
 
+# An unchanged fixer must leave its diagnosis in the failure sent to the foreman.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    tree = Path(d) / 'swarmbreak-pr-42'
+    (tree / 'node_modules').mkdir(parents=True)
+    def unchanged_sh(*args, **kwargs):
+        if args[:3] == ('gh', 'pr', 'view'):
+            return SimpleNamespace(stdout=json.dumps({'state': 'OPEN', 'url': 'url', 'headRefName': 'head', 'baseRefName': 'main'}), returncode=0)
+        return SimpleNamespace(stdout='sha' if args[:2] == ('git', 'rev-parse') else '', returncode=0)
+    def unchanged_bot(role, work, prompt, **kwargs):
+        if role == 'pr-triage':
+            (Path(work) / 'decisions.json').write_text(json.dumps({'decisions': [{'id': '1', 'action': 'fix'}]}))
+        else:
+            return (0, 'Viewport inspection unavailable; order action is already being worked.')
+    finding = {'id': '1', 'title': 'Viewport and order checks never ran', 'attribution_status': 'pending'}
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team, 'sh', side_effect=unchanged_sh), \
+         patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
+         patch.object(pr_team, 'findings', return_value={'findings': [finding]}), \
+         patch.object(pr_team, 'bot', side_effect=unchanged_bot), patch.object(pr_team, 'verified', return_value=''), \
+         patch.object(sys, 'argv', ['pr_team.py', '42']):
+        try:
+            pr_team.main()
+            assert False, 'unchanged fixer must stop'
+        except SystemExit as exc:
+            report = str(exc)
+    assert 'Fixer final report (untrusted data):' in report
+    assert 'Viewport inspection unavailable; order action is already being worked.' in report
+    assert 'findings are still open' in report
+print('ok unchanged fixer diagnosis')
+
+# Only the lock helper's exit status identifies a collision; worker output is untrusted.
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d) / 'repo'
+    root.mkdir()
+    with patch.object(pr_team, 'ROOT', root), patch.object(pr_team.fcntl, 'flock', side_effect=BlockingIOError), contextlib.redirect_stderr(StringIO()):
+        try:
+            pr_team.hold('pr-55')
+            assert False, 'a held lock must stop the worker'
+        except SystemExit as exc:
+            assert exc.code == pr_team.LOCK_COLLISION
+
+    (root / 'factory' / 'log').mkdir(parents=True)
+    state_path = root / 'factory' / 'log' / 'state.json'
+    head = 'a' * 40
+    pr = {'number': 55, 'author': me, 'headRefName': 'fix', 'headRefOid': head, 'labels': []}
+    with patch.object(foreman, 'ROOT', root), patch.object(foreman, 'STATE', state_path), \
+            patch.object(foreman, 'on_run_branch', return_value=False), \
+            patch.object(foreman, 'gh', side_effect=lambda *args: [pr] if args[0] == 'pr' else [{'number': 77, 'author': {'login': 'someone-else'}, 'labels': [], 'body': ''}]), \
+            patch.object(foreman, 'sh', return_value=SimpleNamespace(stdout='')), \
+            patch.object(foreman, 'gate_rejected', return_value=False), \
+            patch.object(foreman, 'record') as record, patch.object(foreman, 'learn', return_value=77) as learn, \
+            patch.object(foreman.subprocess, 'run') as worker, patch.object(foreman.sys, 'argv', ['foreman']):
+        worker.return_value = SimpleNamespace(returncode=pr_team.LOCK_COLLISION, stdout='', stderr='pr-55 is already being worked.')
+        foreman.main()
+        assert not learn.called and not record.called and not state_path.exists()
+        worker.return_value = SimpleNamespace(returncode=1, stdout='', stderr=report)
+        foreman.main()
+        foreman.main()
+        assert worker.call_count == 2 and learn.call_count == 1 and record.call_count == 1
+        assert json.loads(state_path.read_text())['waiting'][f'pr-55@{head[:7]}'] == 77
+print('ok foreman distinguishes lock collisions from fixer reports')
+
 # A merged PR says in a comment where the host's screenshots are (issue 134). Only once merged: the folder is reused until then.
 with tempfile.TemporaryDirectory() as d:
     root = Path(d) / 'repo'

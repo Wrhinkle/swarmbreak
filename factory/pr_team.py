@@ -16,6 +16,7 @@ REPO = 'Wrhinkle/swarmbreak'
 ROUNDS, QODO_WAIT = 2, 300
 REREQUEST_START_WAIT = 3600  # Allow a queued review to appear across foreman passes.
 WAITING = 75  # EX_TEMPFAIL: Qodo hasn't reviewed the head yet. The foreman rechecks later; it isn't a failure.
+LOCK_COLLISION = 73  # A worker could not acquire the per-issue or per-PR lock.
 OPEN = {'pending', 'partial_implementation', 'not_implemented', 'focus_areas_edited'}
 # Agents may fix factory code; every factory/ change still goes to the gate reviewer (gated_paths). Locked: the rules,
 # hosting, install scripts that run on this Mac, the balance limits, the gate reviewer's own brief, vendored code, and the
@@ -64,7 +65,8 @@ def hold(name):
     try:
         fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except OSError:
-        sys.exit(f'{name} is already being worked.')
+        print(f'{name} is already being worked.', file=sys.stderr)
+        sys.exit(LOCK_COLLISION)
     return f
 
 
@@ -531,7 +533,7 @@ def main():
                 sys.exit(f'Fixer didn\'t get to green, so nothing was pushed. The attempt is in {tree}.\n{report}{problems}')
             sh('git', 'add', '-A', cwd=tree)
             if sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
-                sys.exit(f'The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
+                sys.exit(f'{report}The fixer changed nothing, and these findings are still open: {[f["title"] for f in fixes]}. Not merging.')
             titles = '\n'.join(f'- {f["title"]}' for f in fixes)
             attribution = 'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'
             ledger, commits = begin_fixer_commit(number)
