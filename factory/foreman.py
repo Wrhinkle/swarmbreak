@@ -66,7 +66,7 @@ if __name__ == '__main__':
 sys.path.insert(0, str(ROOT / 'factory'))
 from pr_team import LOCK_COLLISION, REPO, WAITING, sh  # noqa: E402
 from manager import COMMS, GONE, HELD, HUMAN, LOG, OWNER, REFUSED, RUN, comms, comms_task, deps, gate_rejected, keep_run, on_run_branch, open_run, record, run_paths, run_problems, thread  # noqa: E402
-from run import RUN_BUSY, STAGES, checked, clashes  # noqa: E402
+from run import RUN_BUSY, STAGES, checked, clashes, run_lock_path  # noqa: E402
 
 RUN_LANE = '--lane' in sys.argv and sys.argv[sys.argv.index('--lane') + 1] == 'run'
 STATE = ROOT / 'factory' / 'log' / ('.runner.json' if RUN_LANE else '.foreman.json')
@@ -202,6 +202,15 @@ def install(tree):
 
 def build_run(run_id):
     """Builds, checkpoints and opens one run in its own worktree, leaving this checkout on main for the code lane."""
+    with run_lock_path(run_id).open('a+') as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return SimpleNamespace(returncode=RUN_BUSY, stdout=f'Run {run_id} is already being written; stopping.', stderr='', moved=False)
+        return _build_run_locked(run_id, lock.fileno())
+
+
+def _build_run_locked(run_id, lock_fd):
     tree, branch = ROOT.parent / f'swarmbreak-run-{run_id}', f'run/{run_id}'
     if not tree.exists():
         if tip(f'refs/heads/{branch}'):
@@ -223,7 +232,8 @@ def build_run(run_id):
     order = lambda stage: STAGES.index(stage) if stage else len(STAGES)
     stage, out, moved = left(), '', False
     if stage:
-        r = subprocess.run([sys.executable, str(tree / 'factory' / 'run.py'), run_id, '--from', stage], cwd=tree, capture_output=True, text=True)
+        r = subprocess.run([sys.executable, str(tree / 'factory' / 'run.py'), run_id, '--from', stage], cwd=tree, capture_output=True, text=True,
+                           pass_fds=(lock_fd,), env={**os.environ, 'SWARMBREAK_RUN_LOCK_FD': str(lock_fd)})
         out = r.stdout + r.stderr
         if r.returncode == RUN_BUSY:
             return SimpleNamespace(returncode=RUN_BUSY, stdout=out, stderr='', moved=False)

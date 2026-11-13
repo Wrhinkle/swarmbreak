@@ -1395,7 +1395,7 @@ with tempfile.TemporaryDirectory() as d:
         with patch.object(foreman, 'ROOT', Path(d) / 'repo'), patch('foreman.sh'), patch('foreman.main_only', return_value=True), patch('foreman.install'), \
                 patch('foreman.run_problems', return_value=['missing art']), patch('foreman.resume_stage', side_effect=stages), patch('foreman.keep_run'), \
                 patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout='', stderr='')), patch('foreman.open_run', return_value='Run X not opened: missing art'):
-            built = foreman.build_run('X')
+            built = foreman._build_run_locked('X', 0)
         assert (built.returncode, built.moved) == (1, moved), (stages, built)
     # A failed push still reports the stage's progress to the evaluate-once decision.
     for stages, moved in ((['art', None], True), (['art', 'art'], False)):
@@ -1403,7 +1403,7 @@ with tempfile.TemporaryDirectory() as d:
                 patch('foreman.run_problems', return_value=['missing art']), patch('foreman.resume_stage', side_effect=stages), \
                 patch('foreman.keep_run', side_effect=SystemExit('push failed')), \
                 patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout='stage output', stderr='')):
-            built = foreman.build_run('X')
+            built = foreman._build_run_locked('X', 0)
         assert built.returncode == 1 and built.moved == moved and 'push failed' in built.stdout and 'stage output' in built.stdout
         state = {'waiting': {}, 'cooldown_until': 0}
         with patch('foreman.sh') as edit, patch('foreman.learn') as learn:
@@ -1416,7 +1416,7 @@ with tempfile.TemporaryDirectory() as d:
         cut.write_text(text)
         with patch.object(foreman, 'ROOT', Path(d) / 'repo'), patch('foreman.sh'), patch('foreman.main_only', return_value=True), patch('foreman.install'), patch('foreman.keep_run'), \
                 patch('foreman.subprocess.run', return_value=SimpleNamespace(returncode=1, stdout='', stderr='')) as rebuilt:
-            assert foreman.build_run('X').returncode == 1
+            assert foreman._build_run_locked('X', 0).returncode == 1
             assert any(c.args[0][-2:] == ['--from', 'researcher'] for c in rebuilt.call_args_list)  # the ledger's git calls share the stub
         assert m.run_problems('X', Path(d) / 'swarmbreak-run-X') == ['X has an unreadable run.json']
 # A fence in a failed job's output can't close the lesson's quote.
@@ -1699,7 +1699,7 @@ with tempfile.TemporaryDirectory() as d:
             patch.object(foreman, 'install'), patch.object(foreman, 'run_problems', return_value=['missing']), \
             patch.object(foreman, 'resume_stage', return_value='art'), patch.object(foreman, 'keep_run') as keep, \
             patch.object(foreman, 'open_run') as opened, patch.object(foreman.subprocess, 'run', return_value=SimpleNamespace(returncode=foreman.RUN_BUSY, stdout='', stderr='busy')):
-        assert foreman.build_run('2026-11-12').returncode == foreman.RUN_BUSY
+        assert foreman._build_run_locked('2026-11-12', 0).returncode == foreman.RUN_BUSY
         assert not keep.called and not opened.called
 print('ok busy runs do not checkpoint or change failure history')
 

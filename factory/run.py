@@ -380,7 +380,22 @@ def run_lock_path(run_id):
 def locked_main(run_id):
     # The common git directory is shared by worktrees. Keep the file in place:
     # unlinking it would let a second process lock a different inode.
-    with run_lock_path(run_id).open('a+') as lock:
+    path = run_lock_path(run_id)
+    inherited = os.environ.pop('SWARMBREAK_RUN_LOCK_FD', None)
+    if inherited is not None:
+        valid = False
+        try:
+            fd = int(inherited)
+            stat, expected = os.fstat(fd), path.stat()
+            if (stat.st_dev, stat.st_ino) == (expected.st_dev, expected.st_ino):
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                valid = True
+        except (ValueError, OSError):
+            pass
+        if valid:
+            main()
+            return
+    with path.open('a+') as lock:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
