@@ -196,6 +196,12 @@ def main():
     want = lambda stage: STAGES.index(stage) >= STAGES.index(start)
     d = ROOT / 'runs' / run_id
     d.mkdir(parents=True, exist_ok=True)
+    # Upstream stages can replace the content that retry evidence describes.
+    # Stop before any stage writes; recovery must preserve the whole sequence.
+    retry_files = ('balance-history.json', 'balance-pending.json', 'assembly-tried.json',
+                   'balance-tried.json', 'balance-tried-provenance.json')
+    if STAGES.index(start) < STAGES.index('gameplay') and any((d / name).exists() for name in retry_files):
+        sys.exit('Gameplay retry evidence exists. Preserve and verify the old attempt before restarting upstream stages; see factory/lessons.md.')
     rel = lambda p: str(Path(p).relative_to(ROOT))
     picks, sites_file, content, assembly, brief = d / 'picks.json', d / 'sites.json', d / 'content.json', d / 'assembly.json', d / 'art-brief.json'
     with tempfile.TemporaryDirectory() as shared:
