@@ -11,6 +11,7 @@
 // own copy, never the one in the tree under review.
 // usage: node screens.mjs <chrome> <dist> <outDir>
 import { spawn } from 'node:child_process';
+import { walkthrough, inspectFight, checkScreens } from './screen-flow.mjs';
 import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
@@ -89,6 +90,13 @@ try {
     }
     throw new Error(`no visible button matching ${pattern}`);
   };
+  const waitButton = async pattern => {
+    for (let i = 0; i < 100; i++) {
+      if (await js(p => [...document.querySelectorAll('button')].some(b => b.checkVisibility() && new RegExp(p, 'i').test(b.textContent.trim())), pattern)) return;
+      await sleep(100);
+    }
+    throw new Error(`no visible button matching ${pattern}`);
+  };
   const shots = [];
   mkdirSync(out, { recursive: true });
   for (const [width, height] of SIZES) {
@@ -119,26 +127,20 @@ try {
     await js(() => localStorage.clear()).catch(() => {});
     await cdp('Page.navigate', { url: SITE });
     await press('^Play$');
-    for (const title of ['The daily run', 'Choose your route', 'Your crew', 'In a fight', 'Give an order', 'Bring an ally home']) {
-      const shown = await js(() => document.querySelector('.walkthrough h1')?.textContent);
-      if (shown !== title) throw new Error(`expected walkthrough step "${title}", got "${shown}"`);
-      await press(title === 'Bring an ally home' ? '^Finish$' : '^Next$');
-    }
+    await walkthrough({ heading: () => js(() => document.querySelector('.walkthrough h1')?.textContent), press });
     await shot('map');
     const firstFight = acts[0].nodes.find(n => n.floor === 0 && n.kind === 'fight' && !n.hidden);
     if (!firstFight) throw new Error('no visible first-floor fight to test');
     const entered = await js(label => { const b = [...document.querySelectorAll('button.route')].find(b => b.textContent.includes(label)); b?.click(); return !!b; }, firstFight.label);
     if (!entered) throw new Error(`first-floor fight "${firstFight.label}" is not reachable`);
-    await press('^Pause$');
-    await press('^Resume$');
-    await sleep(600); // allow the fight animation and simulation to run
-    await press('^Pause$');
-    const fight = await js(() => ({ canvas: !!document.querySelector('canvas[aria-label^="Fight:"]'),
+    await inspectFight({ press, waitButton, shot, wait: sleep, controls: () => js(() => ({ canvas: !!document.querySelector('canvas[aria-label^="Fight:"]'),
       crew: !![...document.querySelectorAll('legend')].find(e => e.textContent === 'Order a crew member'),
       routine: !![...document.querySelectorAll('legend')].find(e => e.textContent === 'Manual routine'),
-      queue: !![...document.querySelectorAll('button')].find(b => b.textContent === 'Queue order' && b.checkVisibility()) }));
-    if (!Object.values(fight).every(Boolean)) throw new Error(`first fight controls missing: ${JSON.stringify(fight)}`);
-    await shot('fresh-fight');
+      queue: !![...document.querySelectorAll('button')].find(b => b.textContent === 'Queue order' && b.checkVisibility()),
+      autoBattle: !![...document.querySelectorAll('button')].find(b => /^Auto battle: (on|off)$/.test(b.textContent) && b.checkVisibility()),
+      decision: !![...document.querySelectorAll('[aria-label="Combat action"] button')].find(b => b.textContent === 'Auto' && b.checkVisibility()),
+      manual: !![...document.querySelectorAll('[aria-label="Combat action"] button')].find(b => b.textContent !== 'Auto' && b.checkVisibility()),
+    })) });
     for (const kind of ROOMS) if (await resume(kind)) await shot(kind); else shots.push({ screen: kind, width, missing: true });
     await resume(''); await press('crew'); await shot('crew');
     await js(() => localStorage.clear());
@@ -146,6 +148,7 @@ try {
     await js(() => new Promise(r => setTimeout(r, 300))).catch(() => {});
     await shot('title');
   }
+  checkScreens(shots);
   console.log(JSON.stringify(shots));
   const pageErrors = shots.flatMap(s => (s.errors ?? []).map(error => `${s.screen} at ${s.width}px: ${error}`));
   if (pageErrors.length) { console.error(pageErrors.join('\n')); code = 1; }
