@@ -78,3 +78,23 @@ it('cycles choices without replacing the focused button and queues the selected 
     expect(button.disabled).toBe(true); expect(status.textContent).toMatch(/ended/i);
   } finally { vi.unstubAllGlobals(); }
 });
+
+it('announces accepted and rejected orders, including replacing a fallen fighter’s order', async () => {
+  const { createCombat, step } = await import('./combat');
+  const { submitOrder } = await import('./order-controls');
+  const creature = (id: string): import('./types').Creature => ({ id, name: id, blurb: '', sprite: '', bodyPlan: 'construct', role: 'bruiser', tier: 'ally', routines: ['strike'], source: '/' });
+  let state = createCombat([{ creature: creature('a') }, { creature: creature('b') }], [creature('enemy')], 1);
+  let result = submitOrder(state, 'c0', 'strike');
+  expect(result.message).toBe('Order queued.');
+  result = submitOrder(result.state, 'c1', 'strike');
+  expect(result.message).toBe('Order unavailable.');
+  state = result.state;
+  state.fighters[0].hp = 0;
+  result = submitOrder(state, 'c1', 'strike');
+  expect(result.state.queued).toEqual({ actorId: 'c1', routineId: 'strike' });
+  expect(result.message).toBe('Order queued.');
+  state = result.state;
+  state.fighters[1].nextAction = 1;
+  state = step(state);
+  expect(submitOrder(state, 'c1', 'strike').message).toBe('Order unavailable.');
+});
