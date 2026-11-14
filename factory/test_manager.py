@@ -202,6 +202,11 @@ with patch('manager.gh', return_value={'data': {'repository': {'discussion': Non
         m.thread(4); raise AssertionError('a missing discussion must exit')
     except SystemExit as e:
         assert m.GONE in str(e)
+# GitHub returns a discussion with CRLF line ends. The template checks read LF, so an entry was never held to its headings or links.
+with patch('manager.gh', return_value={'data': {'repository': {'discussion': {'id': 'D', 'title': 'Day', 'createdAt': '2026-11-10T00:00:00Z', 'comments': {'nodes': []},
+                                                                               'body': 'Share\r\n```markdown\r\n## PR\r\nPR link:\r\n```\r\n'}}}}):
+    crlf = m.thread(9)['challenge']
+    assert template_headings(crlf) == ['## PR'] and unfilled_links('PR link: none yet', crlf)
 def gh_says(msg):
     return patch('manager.gh', side_effect=SystemExit(f'gh api graphql failed:\ngh: {msg}'))
 with gh_says('Could not resolve to a Discussion with the number of 4.'):
