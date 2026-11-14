@@ -44,6 +44,22 @@ class RetryInputsTest(unittest.TestCase):
         return {'acts': [{'packs': {'early': [['a']], 'mid': [['a']], 'late': [['a']]},
                           'elites': [{'id': 'e', 'reward': 'r'}], 'shop': [shop]}]}
 
+    def test_upstream_restart_preserves_each_retry_artifact_before_any_stage(self):
+        artifacts = ('balance-history.json', 'balance-pending.json', 'assembly-tried.json',
+                     'balance-tried.json', 'balance-tried-provenance.json')
+        for artifact in artifacts:
+            for stage in ('researcher', 'parser', 'storymaker'):
+                with self.subTest(artifact=artifact, stage=stage):
+                    path = self.day / artifact
+                    path.write_text('retained evidence')
+                    before = (self.day / 'content.json').read_bytes()
+                    with self.assertRaisesRegex(SystemExit, 'retry evidence'):
+                        self.main(stage, lambda *a, **kw: self.fail('agent ran'),
+                                  lambda *a: self.fail('tool ran'))
+                    self.assertEqual(path.read_text(), 'retained evidence')
+                    self.assertEqual((self.day / 'content.json').read_bytes(), before)
+                    path.unlink()
+
     def test_history_rejects_a_b_a_and_ignored_fields_and_resumes(self):
         (self.day / 'content.json').write_text('{"story":"one"}')
         calls = []
