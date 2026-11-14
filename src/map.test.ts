@@ -30,3 +30,11 @@ describe('map presentation', () => {
     expect(new Set(Object.values(mapIconPaths)).size).toBeGreaterThanOrEqual(7);
   });
 });
+
+it('places the current position and travel choices before optional story and the full map', async () => {
+  const { appendMapSections } = await import('./map');
+  const children: string[] = [];
+  const root = { append: (...items: string[]) => children.push(...items) };
+  appendMapSections(root as unknown as HTMLElement, 'routes' as unknown as HTMLElement, 'story' as unknown as HTMLElement, 'sheet' as unknown as HTMLElement);
+  expect(children).toEqual(['routes', 'story', 'sheet']);
+});
