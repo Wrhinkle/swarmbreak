@@ -28,7 +28,7 @@ it('shows both sides and updates health while preserving the enemy inspect contr
     const root = field.element as unknown as Element;
     const ally = root.children[0].children[0], enemy = root.children[1].children[0];
     for (const card of [ally, enemy]) expect(card.children.map(child => child.className)).toEqual([
-      'battlefighter-art', 'battlefighter-feedback', 'battlefighter-atb', 'battlefighter-name', 'battlefighter-hp', 'battlefighter-health', 'battlefighter-health',
+      'battlefighter-art', 'battlefighter-feedback', 'battlefighter-atb', 'battlefighter-name', 'battlefighter-hp', 'battlefighter-health', 'battlefighter-timing',
     ]);
     expect(ally.children[3].textContent).toBe('Ally');
     expect(enemy.children[5].textContent).toBe('9 / 12 HP');
