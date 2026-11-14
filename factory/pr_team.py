@@ -318,6 +318,38 @@ def merges_cleanly(tree, base):
     return True
 
 
+def prepare_rebuild(tree, base, sha, number):
+    """Prepare a verified single-commit draft locally; leave the original branch untouched."""
+    ancestor = sh('git', 'merge-base', f'origin/{base}', sha, cwd=tree).stdout.strip()
+    authors = sh('git', 'log', '--reverse', '--format=%an <%ae>', f'{ancestor}..{sha}', cwd=tree).stdout.splitlines()
+    authors = list(dict.fromkeys(a for a in authors if a))
+    if not authors:
+        sys.exit('Cannot rebuild a PR without an author.')
+    with tempfile.TemporaryDirectory() as work:
+        patch = Path(work) / 'pr.patch'
+        with patch.open('wb') as out:
+            subprocess.run(['git', 'diff', '--binary', ancestor, sha], cwd=tree, stdout=out, check=True)
+        sh('git', 'checkout', '-q', '--detach', f'origin/{base}', cwd=tree)
+        applied = sh('git', 'apply', '--3way', '--index', patch, cwd=tree, check=False)
+        if applied.returncode:
+            sh('git', 'reset', '-q', '--hard', cwd=tree)
+            sh('git', 'checkout', '-q', '--detach', sha, cwd=tree)
+            return None
+    try:
+        failed = verified(tree)
+    except HostVerificationError as exc:
+        sys.exit(f'Rebuild verification stopped; nothing was pushed. The attempt is in {tree}.\n{exc}')
+    if failed:
+        sys.exit(f'Rebuild verification failed; nothing was pushed. The attempt is in {tree}.\n{failed[-1500:]}')
+    if not sh('git', 'diff', '--cached', '--quiet', cwd=tree, check=False).returncode:
+        sys.exit('Rebuild produced no changes; nothing was pushed.')
+    trailers = ''.join(f'\nCo-authored-by: {author}' for author in authors[1:])
+    sh('git', 'commit', '-q', '--author', authors[0], '-m', f'Rebuild PR #{number} on {base}\n{trailers}', cwd=tree)
+    branch = f'rebuild/pr-{number}-{time.time_ns()}'
+    sh('git', 'branch', branch, 'HEAD', cwd=tree)
+    return branch
+
+
 def reviewed(s, sha):
     """Only a review Qodo marked complete, of exactly this commit, counts. Never loosen this: it is the merge check."""
     return s.get('commit_sha') == sha and bool(s.get('review_complete'))
@@ -619,7 +651,11 @@ def main():
         # Build and test what main would become, so a PR behind main can't overwrite newer work.
         # ponytail: main can still move before the merge call below; a merge queue closes that gap if merges get frequent.
         if not merges_cleanly(tree, base):
-            blocks.append(f'{head} conflicts with {base}')
+            if not blocks:
+                branch = prepare_rebuild(tree, base, sha, number)
+                if branch:
+                    sys.exit(f'{head} conflicts with {base}; verified local rebuild saved on {branch}. Nothing was pushed; replacement PR creation is not yet automated.')
+            blocks.append(f'{head} conflicts with {base}; automatic rebuild could not apply the diff')
         else:
             try:
                 failed = verified(tree)

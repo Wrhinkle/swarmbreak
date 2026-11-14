@@ -311,6 +311,45 @@ with tempfile.TemporaryDirectory() as d:
     git('add', '.'); git('commit', '-qm', 'conflict')
     assert not merges_cleanly(d, 'main') and Path(d, 'a').read_text() == '3'
 
+# Rebuild a PR as one verified local commit on the new base, retaining its author and source branch.
+from pr_team import prepare_rebuild
+from unittest.mock import patch
+with tempfile.TemporaryDirectory() as d:
+    def git_rebuild(*args):
+        return subprocess.run(['git', '-c', 'user.name=Committer', '-c', 'user.email=c@example.test', *args], cwd=d, check=True, capture_output=True, text=True).stdout.strip()
+    git_rebuild('init', '-q', '-b', 'main')
+    Path(d, 'base').write_text('base')
+    git_rebuild('add', '.'); git_rebuild('commit', '-qm', 'base')
+    git_rebuild('checkout', '-qb', 'pr')
+    Path(d, 'change').write_text('PR change')
+    git_rebuild('add', '.'); git_rebuild('commit', '-qm', 'PR change', '--author', 'Original <original@example.test>')
+    old = git_rebuild('rev-parse', 'HEAD')
+    git_rebuild('checkout', '-q', 'main')
+    Path(d, 'base').write_text('new main')
+    git_rebuild('commit', '-qam', 'main moved')
+    base = git_rebuild('rev-parse', 'HEAD')
+    git_rebuild('update-ref', 'refs/remotes/origin/main', base)
+    git_rebuild('checkout', '-q', 'pr')
+    with patch('pr_team.verified', return_value='') as check:
+        branch = prepare_rebuild(d, 'main', old, '42')
+    assert check.call_count == 1
+    assert git_rebuild('rev-parse', f'{branch}^') == base
+    assert git_rebuild('rev-parse', 'pr') == old
+    assert git_rebuild('show', '-s', '--format=%an <%ae>', branch) == 'Original <original@example.test>'
+    assert Path(d, 'change').read_text() == 'PR change'
+    assert Path(d, 'base').read_text() == 'new main'
+    assert not git_rebuild('status', '--porcelain')
+    # A conflicting patch is abandoned without altering the original branch or leaving conflict state.
+    git_rebuild('checkout', '-q', 'pr')
+    Path(d, 'base').write_text('PR conflict')
+    git_rebuild('commit', '-qam', 'conflict')
+    conflict = git_rebuild('rev-parse', 'HEAD')
+    with patch('pr_team.verified') as check:
+        assert prepare_rebuild(d, 'main', conflict, '42') is None
+    check.assert_not_called()
+    assert git_rebuild('rev-parse', 'HEAD') == conflict
+    assert not git_rebuild('status', '--porcelain')
+
 # Only an explicit approve passes the gate review.
 with tempfile.TemporaryDirectory() as d:
     v = Path(d, 'v.json')
@@ -2309,6 +2348,7 @@ for conflict_after_move in (False, True):
              patch.object(pr_team, 'hold'), patch.object(pr_team, 'wait_for_review'), patch.object(pr_team, 'fixer_rounds', return_value=0), \
              patch.object(pr_team, 'findings', return_value={'findings': [], 'review_session': {'commit_sha': 'sha', 'review_complete': True}}), \
              patch.object(pr_team, 'merges_cleanly', side_effect=[True, not conflict_after_move]) as clean, \
+             patch.object(pr_team, 'prepare_rebuild', return_value=None) as rebuild, \
              patch.object(pr_team, 'verified', return_value='') as verify, patch.object(pr_team, 'changed_paths', return_value=['factory/pr_team.py']), \
              patch.object(pr_team, 'gate_review', return_value=(True, 'ok')) as gate, \
              patch.object(sys, 'argv', ['pr_team.py', '42', '--merge']), redirect_stdout(StringIO()):
@@ -2322,6 +2362,7 @@ for conflict_after_move in (False, True):
                 pr_team.main()
         assert clean.call_count == 2 and verify.call_count == (1 if conflict_after_move else 2)
         assert gate.call_count == (1 if conflict_after_move else 2)
+        assert rebuild.call_count == (1 if conflict_after_move else 0)
         assert any(a[:3] == ('gh', 'pr', 'merge') for a in calls) != conflict_after_move
 print('ok moving base repeats merge verification and gate review')
 
