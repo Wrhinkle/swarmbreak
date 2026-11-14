@@ -7,13 +7,13 @@ import type { Creature, GameEvent, MapNode, Run } from '../src/types';
 export interface Policy {
   name: string;
   route: 'smart' | 'random'; // how it picks rooms and event options
-  build: 'search' | 'heuristic' | 'none'; // search tries loadouts against the coming fight; none never edits routines
-  care?: number; // chance a searching player bothers to set up for a given fight, default 1
+  build: 'search' | 'heuristic' | 'none'; // search prepares selectively; none never edits routines
+  care?: number; // chance a searching player bothers to prepare for a given fight, default 1
   noise: number; // chance any one decision is made at random
   start?: number; // force this column on the first floor
 }
 export const NOVICE: Policy = { name: 'novice', route: 'random', build: 'none', noise: 0 };
-export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'search', care: 0.5, noise: 0.2 }; // reads the enemy and sets up for about half the fights
+export const TYPICAL: Policy = { name: 'typical', route: 'smart', build: 'search', care: 0.5, noise: 0.2 }; // prepares for about half the fights
 export const EXPERT: Policy = { name: 'expert', route: 'smart', build: 'search', noise: 0 };
 export const NO_ROUTE: Policy = { ...TYPICAL, name: 'typical, random route', route: 'random' };
 export const NO_BUILD: Policy = { ...TYPICAL, name: 'typical, no routine edits', build: 'none' };
@@ -23,7 +23,7 @@ export interface RunResult { won: boolean; floor: number; lostTo?: string; ticks
 
 export const rng = (seed: number) => { let state = seed >>> 0; return () => { state = (state + 0x6d2b79f5) | 0; let n = Math.imul(state ^ (state >>> 15), 1 | state); n ^= n + Math.imul(n ^ (n >>> 7), 61 | n); return ((n ^ (n >>> 14)) >>> 0) / 4294967296; }; };
 const conditional = (id: string) => ROUTINES[id]?.condition !== 'always';
-const WANT_HEAL = ['patch+', 'patch', 'triage', 'cover'], WANT_HIT = ['strike+', 'finish', 'breach', 'sweep+', 'sweep', 'charge', 'jam', 'corrupt', 'brace', 'last_stand', 'purge'];
+const WANT_HEAL = ['patch+'], WANT_HIT = ['strike+'];
 
 export function play(run: Run, random: () => number, policy: Policy): RunResult {
   const member = (c: Creature, active: boolean): Member => { const max = fighter(c, 'crew', 'x').maxHp; return { creature: c, hp: max, max, routines: c.routines.slice(0, SLOTS_START), slots: SLOTS_START, active }; };
@@ -34,15 +34,14 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
   const active = () => crew.filter(c => c.active);
   const health = () => { const up = active(); return up.reduce((n, c) => n + c.hp / c.max, 0) / up.length; };
   const fightWith = (n: MapNode, creature: (id: string) => Creature) => simulate(createCombat(active().map(c => ({ creature: { ...c.creature, routines: [...c.routines] }, hp: c.hp })), n.encounter!.map(creature), run.seed), 3000);
-  const value = (f: ReturnType<typeof simulate>) => (f.result === 'win' ? 10 : 0) + f.fighters.filter(x => x.side === 'crew' && !x.summonedBy).reduce((t, x) => t + x.hp / x.maxHp, 0);
   // Bring reserves in for the fallen, the same as the crew screen allows.
   const swapReserves = () => { for (const dead of active().filter(c => c.hp <= 0)) { const sub = crew.find(c => !c.active && c.hp > 0); if (sub) { dead.active = false; sub.active = true; } } };
-  // Equip what's in the pool with no knowledge of the coming fight.
-  const equip = () => {
+  // Favor routines with clear benefits: earlier healing and a stronger basic attack.
+  const equip = (shielded: boolean) => {
     for (const id of [...pool]) {
       if (!(policy.noise === 0 || random() >= policy.noise)) continue;
       const heals = WANT_HEAL.includes(id);
-      if (!heals && !WANT_HIT.includes(id)) continue;
+      if (!heals && !WANT_HIT.includes(id) && !(id === 'breach' && shielded)) continue;
       const m = active().filter(c => !c.routines.includes(id) && (c.creature.role === 'healer') === heals).sort((a, b) => a.routines.length - b.routines.length)[0];
       if (!m) continue;
       if (m.routines.length >= m.slots) { if (gold < 50 || m.slots >= SLOTS_MAX) continue; gold -= 50; m.slots++; }
@@ -50,24 +49,22 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
     }
     for (const c of active()) c.routines.sort((a, b) => Number(conditional(b)) - Number(conditional(a)));
   };
-  // Enemy routines are public, so a careful player sets up for the fight: try each option, keep what helps.
-  const search = (n: MapNode, creature: (id: string) => Creature) => {
-    for (const c of active()) {
-      for (const id of [...c.routines]) {
-        const before = c.routines, best = value(fightWith(n, creature));
-        c.routines = [id, ...before.filter(x => x !== id)];
-        if (value(fightWith(n, creature)) <= best) c.routines = before;
-      }
-      for (const id of [...new Set(pool)]) {
-        const before = c.routines, best = value(fightWith(n, creature));
-        c.routines = c.routines.length < c.slots ? [id, ...before] : [id, ...before.slice(0, -1)];
-        if (value(fightWith(n, creature)) > best) { pool.splice(pool.indexOf(id), 1); if (before.length >= c.slots) pool.push(before[before.length - 1]); }
-        else c.routines = before;
-      }
-    }
-  };
   for (const [actIndex, act] of run.acts.entries()) {
     const creature = (id: string) => act.creatures.find(c => c.id === id)!;
+    const shields = (n: MapNode) => !n.hidden && n.encounter?.some(id => creature(id)?.routines.some(r => ['guard_self', 'guard_ally'].includes(ROUTINES[r]?.action)));
+    const upcomingShields = (n: MapNode): boolean => {
+      const seen = new Set<string>(), pending = [...n.next];
+      while (pending.length) {
+        const id = pending.pop()!;
+        if (seen.has(id)) continue;
+        seen.add(id);
+        const next = act.nodes.find(x => x.id === id);
+        if (!next) continue;
+        if (shields(next)) return true;
+        pending.push(...next.next);
+      }
+      return false;
+    };
     let legal = act.nodes.filter(n => n.floor === 0);
     if (policy.start !== undefined && actIndex === 0) legal = legal.filter(n => n.x === policy.start);
     while (legal.length) {
@@ -86,7 +83,7 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
       floor = actIndex * 16 + n.floor; route.push(n.id);
       if (n.encounter?.length) {
         swapReserves();
-        if (editing) { equip(); if (policy.build === 'search' && random() < (policy.care ?? 1)) search(n, creature); }
+        if (editing && (policy.build === 'heuristic' || random() < (policy.care ?? 1))) equip(!!shields(n));
         const end = fightWith(n, creature);
         ticks += end.t; fights++;
         if (end.result !== 'win') return { won: false, floor, lostTo: n.encounter.join('+'), ticks, fights, route };
@@ -96,12 +93,13 @@ export function play(run: Run, random: () => number, policy: Policy): RunResult 
         if (n.kind === 'elite' && act.shop.length) pool.push(act.shop[(n.floor + run.seed) % act.shop.length]);
       }
       if (n.kind === 'rest') {
-        const upgrade = editing && health() > .75 ? crew.flatMap(c => c.routines.map((r, j) => ({ c, j, up: ROUTINES[r]?.upgradesTo }))).find(x => x.up) : undefined;
+        // Wide Sweep also fires against one foe, where it deals less damage than Strike.
+        const upgrade = editing && health() > .75 ? crew.flatMap(c => c.routines.map((r, j) => ({ c, j, up: ROUTINES[r]?.upgradesTo }))).find(x => x.up && x.up !== 'sweep+') : undefined;
         if (upgrade) upgrade.c.routines[upgrade.j] = upgrade.up!;
         else crew.forEach(c => { c.hp = Math.min(c.max, c.hp + Math.round(c.max * .3)); });
       }
       if (n.kind === 'treasure') { const id = act.shop[0]; if (editing && id && !crew.some(c => c.routines.includes(id)) && !pool.includes(id)) pool.push(id); else gold += 40; }
-      if (n.kind === 'shop' && editing) for (const id of act.shop) if (ROUTINES[id].price && ROUTINES[id].price <= gold && !pool.includes(id) && !crew.some(c => c.routines.includes(id)) && (WANT_HEAL.includes(id) || WANT_HIT.includes(id))) { gold -= ROUTINES[id].price; pool.push(id); }
+      if (n.kind === 'shop' && editing) for (const id of act.shop) if (ROUTINES[id].price && ROUTINES[id].price <= gold && !pool.includes(id) && !crew.some(c => c.routines.includes(id)) && (WANT_HEAL.includes(id) || WANT_HIT.includes(id) || (id === 'breach' && upcomingShields(n) && active().some(c => c.creature.role !== 'healer' && (c.routines.length < c.slots || (c.slots < SLOTS_MAX && gold >= ROUTINES[id].price + 50))) && (policy.build === 'heuristic' || random() < (policy.care ?? 1))))) { gold -= ROUTINES[id].price; pool.push(id); }
       if (n.kind === 'event') {
         const e = act.events.find(e => e.id === n.eventId) as GameEvent;
         const worth = (fx: GameEvent['options'][number]['effect']) => fx.type === 'heal' ? fx.amount * (1 - health()) * 4 : fx.type === 'damage' ? -fx.amount * 3 / Math.max(.2, health()) : fx.type === 'gold' ? fx.amount / 60 : fx.type === 'routine' ? (editing ? 1 : 0) : 0;
