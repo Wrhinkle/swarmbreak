@@ -15,6 +15,93 @@ import manager
 
 
 class ReleaseCapacityTest(unittest.TestCase):
+    def test_enospc_code_without_message_holds_release(self):
+        with patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'), \
+             patch.object(manager, 'sh', side_effect=SystemExit('git fetch origin failed:\nfatal: cannot write: No space left on device')):
+            result, revision = manager.release_check()
+        self.assertIsNone(revision)
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        with patch.object(manager, 'capacity_detail', return_value='device 42: 0 bytes available'), \
+             patch.object(manager, 'sh', return_value=SimpleNamespace(returncode=1, stdout='', stderr='')):
+            result = manager.npm_capacity_failure('npm error code ENOSPC', '/tmp', 'npm ci')
+        self.assertTrue(manager.is_capacity_blocker('release -> ' + result))
+        self.assertIsNone(manager.checkout_capacity_failure('NOTENOSPC', '/tmp'))
+
+    def test_change_detection_git_failures_hold_until_explicit_retry(self):
+        manifest = {'runId': 'x'}
+        for failed in ('diff-quiet', 'diff-names', 'grep'):
+            for stderr, capacity in (('fatal: write failed: No space left on device', True),
+                                     ('fatal: permission denied', False),
+                                     ('note: No space left on device', False)):
+                calls = []
+                def command(*args, **kwargs):
+                    calls.append(args)
+                    if args[:2] == ('git', 'show'):
+                        return SimpleNamespace(stdout=json.dumps(manifest))
+                    if args[:2] == ('git', 'diff'):
+                        stage = 'diff-quiet' if '--quiet' in args else 'diff-names'
+                    elif args[:2] == ('git', 'grep'):
+                        stage = 'grep'
+                    else:
+                        return SimpleNamespace(returncode=0, stdout='revision', stderr='')
+                    if stage == failed:
+                        return SimpleNamespace(returncode=2, stdout='', stderr=stderr)
+                    return SimpleNamespace(returncode=0 if stage == 'diff-quiet' else 1 if stage == 'grep' else 0,
+                                           stdout='src/example.test.ts\0' if stage == 'diff-names' else '', stderr='')
+                with self.subTest(failed=failed, stderr=stderr), \
+                     patch.object(manager, 'sh', side_effect=command), \
+                     patch.object(manager, 'live_manifest', return_value=manifest), \
+                     patch.object(manager, 'live_revision', return_value='live'), \
+                     patch.object(manager, 'release_due', return_value=None), \
+                     patch.object(manager, 'effective', side_effect=lambda value, now: value), \
+                     patch.object(manager, 'capacity_detail', return_value='disk full'), \
+                     patch.object(manager, 'record'), patch.object(manager, 'deploy') as deploy:
+                    failures = []
+                    prior = manager.release_step(failures)
+                    if capacity:
+                        self.assertTrue(manager.is_capacity_blocker(prior))
+                        count = len(calls)
+                        self.assertEqual(manager.release_step([], previous=[prior]), prior)
+                        self.assertEqual(len(calls), count)
+                        manager.release_step([], previous=[prior], retry_capacity=True)
+                        self.assertGreater(len(calls), count)
+                    else:
+                        self.assertEqual(prior, '')
+                        self.assertIn('Release check failed:', failures[0])
+                        self.assertFalse(manager.is_capacity_blocker(failures[0]))
+                    deploy.assert_not_called()
+
+    def test_invalid_manifest_does_not_hold_next_scheduled_release(self):
+        invalid = {'runId': 'x', 'opensAt': 'ENOSPC', 'runUrl': '/runs/x/run.json'}
+        corrected = dict(invalid, opensAt='2026-01-01T00:00:00Z')
+        live = dict(corrected, runId='older', opensAt='2025-12-31T00:00:00Z')
+        def command(*args, **kwargs):
+            if args[:2] == ('git', 'show'):
+                return SimpleNamespace(stdout=json.dumps(manifest[0]))
+            return SimpleNamespace(stdout='revision')
+        manifest = [invalid]
+        with patch.object(manager, 'sh', side_effect=command), \
+             patch.object(manager, 'live_manifest', return_value=live), \
+             patch.object(manager, 'deploy', return_value='deployed') as deploy, \
+             patch.object(manager, 'record'):
+            failures = []
+            first = manager.release_step(failures)
+            self.assertFalse(manager.is_capacity_blocker(first))
+            self.assertEqual(first, '')
+            self.assertIn('ENOSPC', failures[0])
+            manifest[0] = corrected
+            manager.release_step([], previous=failures)
+            deploy.assert_called_once_with(False, 'revision')
+
+    def test_unrelated_npm_output_does_not_hold_release(self):
+        for output in ('a package mentions ENOSPC in its documentation',
+                       'npm error message ENOSPC is a sample value',
+                       'a log mentions no space left on device'):
+            with self.subTest(output=output):
+                self.assertIsNone(manager.npm_capacity_failure(output, '/tmp', 'npm ci'))
+        self.assertFalse(manager.is_no_space(ValueError('ENOSPC'), 'git'))
+        self.assertFalse(manager.is_no_space(OSError(errno.EACCES, 'ENOSPC')))
+
     def test_predeploy_live_manifest_no_space_holds_release(self):
         commands = []
         def command(*args, **kwargs):
@@ -40,7 +127,7 @@ class ReleaseCapacityTest(unittest.TestCase):
 
     def test_firebase_no_space_holds_retry_and_reports_uncertain_deployment(self):
         manifest = {'runId': 'x', 'runUrl': '/runs/x/run.json', 'next': {'runId': 'y', 'runUrl': '/runs/y/run.json'}, 'extra': 'm' * 1200}
-        for mode in ('exit', 'spawn'):
+        for mode in ('exit', 'spawn', 'code'):
             commands = []
             def command(*args, **kwargs):
                 commands.append(args)
@@ -57,7 +144,9 @@ class ReleaseCapacityTest(unittest.TestCase):
                 if args[0] == 'firebase':
                     if mode == 'spawn':
                         raise OSError(errno.ENOSPC, 'No space left on device', '/other/full path')
-                    return SimpleNamespace(returncode=1, stdout='starting deploy', stderr="ENOSPC: no space left on device, open '/other/full path'\n" + 'z' * 3000)
+                    message = ("ENOSPC: open '/other/full path'" if mode == 'code' else
+                               "ENOSPC: no space left on device, open '/other/full path'")
+                    return SimpleNamespace(returncode=1, stdout='starting deploy', stderr=message + '\n' + 'z' * 3000)
                 return SimpleNamespace(returncode=0, stdout='', stderr='')
             with self.subTest(mode=mode), patch.object(manager, 'sh', side_effect=command), \
                  patch.object(manager, 'release_check', return_value=('', 'revision')), \
@@ -130,7 +219,7 @@ class ReleaseCapacityTest(unittest.TestCase):
                 tree = Path(args[4])
                 tree.mkdir()
                 (tree / 'partial').write_text('preserve')
-                raise SystemExit('No space left on device')
+                raise SystemExit('git worktree add failed:\nfatal: No space left on device')
             return SimpleNamespace(returncode=1, stdout='', stderr='removal denied')
         with tempfile.TemporaryDirectory() as parent, \
              patch.object(manager.tempfile, 'gettempdir', return_value=parent), \
@@ -209,7 +298,7 @@ class ReleaseCapacityTest(unittest.TestCase):
             self.assertEqual(release.call_count, 2)
 
     def test_release_check_no_space_after_fetch_is_a_blocker(self):
-        for error in (OSError(errno.ENOSPC, 'disk full'), SystemExit('No space left on device')):
+        for error in (OSError(errno.ENOSPC, 'disk full'), SystemExit('git rev-parse origin/main failed:\nfatal: No space left on device')):
             with self.subTest(error=error), \
                  patch.object(manager, 'sh', side_effect=[SimpleNamespace(stdout=''), error]) as command, \
                  patch.object(manager, 'capacity_detail', return_value='repository (device 42): 0 bytes available of 1000'), \
@@ -225,7 +314,7 @@ class ReleaseCapacityTest(unittest.TestCase):
             deploy.assert_not_called()
 
     def test_fetch_no_space_reports_capacity_and_stops_before_release(self):
-        with patch.object(manager, 'sh', side_effect=SystemExit('git fetch: No space left on device')) as command, \
+        with patch.object(manager, 'sh', side_effect=SystemExit('git fetch origin failed:\nfatal: No space left on device')) as command, \
              patch.object(manager, 'capacity_detail', return_value='repository (device 42): 0 bytes available of 1000'), \
              patch.object(manager, 'deploy') as deploy:
             result = manager.release()
@@ -314,7 +403,7 @@ class ReleaseCapacityTest(unittest.TestCase):
                     (tree / 'public/manifest.json').write_text(json.dumps(manifest))
                     (tree / 'public/runs/x/run.json').write_text('{}')
                 return SimpleNamespace(returncode=int(args == failed), stdout='',
-                                       stderr='No space left on device' if args == failed else '')
+                                       stderr='npm error code ENOSPC' if args == failed else '')
             with self.subTest(failed=failed), patch.object(manager, 'sh', side_effect=command), \
                  patch.object(manager, 'live_manifest', return_value=manifest), \
                  patch.object(manager, 'effective', side_effect=lambda value, now: value), \
@@ -366,7 +455,7 @@ class ReleaseCapacityTest(unittest.TestCase):
                 (tree / 'public/manifest.json').write_text(json.dumps(manifest))
                 (tree / 'public/runs/x/run.json').write_text('{}')
             if args == ('git', 'rev-parse', 'HEAD'):
-                raise SystemExit('git rev-parse: No space left on device')
+                raise SystemExit('git rev-parse HEAD failed:\nfatal: No space left on device')
             return SimpleNamespace(returncode=0, stdout='', stderr='')
         with patch.object(manager, 'release_check', return_value=('', 'revision')), \
              patch.object(manager, 'sh', side_effect=command), \
@@ -477,7 +566,7 @@ class ReleaseCapacityTest(unittest.TestCase):
                     return SimpleNamespace(returncode=0, stdout='/cache', stderr='')
                 if args == ('npm', 'ci'):
                     path = 'npm error path /cache\n' if reported else ''
-                    return SimpleNamespace(returncode=1, stdout='', stderr=path + 'No space left on device')
+                    return SimpleNamespace(returncode=1, stdout='', stderr=path + 'npm error code ENOSPC\nnpm error No space left on device')
                 return SimpleNamespace(returncode=0, stdout='', stderr='')
             def stat(path):
                 return SimpleNamespace(st_dev=99 if str(path) == '/cache' else 42)
