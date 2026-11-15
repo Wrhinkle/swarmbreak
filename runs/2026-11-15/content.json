@@ -1,0 +1,1140 @@
+{
+ "title": "The Blank Entry",
+ "swarm": {
+  "name": "The Counting Swarm",
+  "blurb": "A network of machines carries a count from gears to memory and into moving bodies. It captures what it cannot yet understand."
+ },
+ "arc": "The crew follows a swarm that appears to be raiding machines and people. Its mechanical processor leaves a blank entry in every count. At the electronic collection, Wren realizes it is trying to preserve records and visitors by keeping them still; the blank asks for an observer. The swarm takes that search to sensing robots and traps the people whose observations it needs. The crew stops its integrated machine and answers the underlying question: preserve records while letting people move and decide what matters. A switch leaves the system available without giving it control of the room.",
+ "acts": [
+  {
+   "theme": "Mechanical calculation and shared signals",
+   "story": {
+    "intro": "Machines are counting movements and collecting parts. Wren calls it a raid. Ox raises his shield; Kestrel looks for a seam.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: Bad signals",
+      "text": "Warnings arrive as invitations. The crew finds machines recording every response. Wren treats the cuts and keeps a copy of the signals."
+     },
+     {
+      "title": "Floors 6\u201310: The counting chain",
+      "text": "Gears and relays pass the same count between them. Ox holds a passage while Kestrel pulls apart a relay. The count continues in another form."
+     },
+     {
+      "title": "Floors 11\u201315: An incomplete answer",
+      "text": "Cards and keys carry the count toward a larger processor. It records the crew as entries, not enemies. Wren notices a blank space beside each entry."
+     }
+    ],
+    "bossIntro": "The Era Processor rolls forward, armored in old ways of recording. It presses the crew into its count and guards the chain that carries it.",
+    "outro": "The processor stops. Its last cards point to a collection of electronic records. The crew follows, expecting a larger raid."
+   },
+   "creatures": [
+    {
+     "id": "signal-swapper",
+     "name": "Signal Swapper",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/dauerausstellung/ausstellungsbereiche/zahlen-zeichen-und-signale.html",
+     "blurb": "It switches warnings and invitations. Stop its corrupting signals before they spread.",
+     "look": "A brass moth with two square blue glass wings and a rotating shutter for a face."
+    },
+    {
+     "id": "archive-moth",
+     "name": "Archive Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/dauerausstellung/ausstellungsbereiche/kulturgeschichte-des-bueros.html",
+     "blurb": "It carries off loose supplies along with notes.",
+     "look": "A cream paper moth with copper wire legs and a small black satchel."
+    },
+    {
+     "id": "tick-runner",
+     "name": "Tick Runner",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/ausstellungen/der-uhr-auf-der-spur.html",
+     "blurb": "Its exposed gear winds before it rushes.",
+     "look": "A low steel clockwork hound with a round clock face and narrow brass feet."
+    },
+    {
+     "id": "telegraph-centipede",
+     "name": "Telegraph Centipede",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/dauerausstellung/ausstellungsbereiche/die-mechanisierung-der-informationstechnik.html",
+     "blurb": "Its taps call more machines. Silence it early.",
+     "look": "A long black relay body of linked boxes, copper legs and a raised hammer head."
+    },
+    {
+     "id": "filing-beast",
+     "name": "Filing Beast",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/dauerausstellung/ausstellungsbereiche/kulturgeschichte-des-bueros.html",
+     "blurb": "It shields other machines behind its drawers.",
+     "look": "A squat cabinet on four oak legs, with open drawers and a curved steel back."
+    },
+    {
+     "id": "cable-brood",
+     "name": "Cable Brood",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/dauerausstellung/ausstellungsbereiche/die-erfindung-des-computers.html",
+     "blurb": "Cut cables make two smaller tangles.",
+     "look": "A knot of black cables, ivory plugs and small amber lamps on jointed feet."
+    },
+    {
+     "id": "mini-porter",
+     "name": "Mini Porter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike"
+     ],
+     "source": "/dauerausstellung/ausstellungsbereiche/computer-in-wirtschaft-und-beruf-1970-1980.html",
+     "blurb": "A mobile cabinet pushes through shields to close a route.",
+     "look": "A waist-high beige cabinet on rubber wheels with a hinged steel battering plate."
+    },
+    {
+     "id": "clock-eater",
+     "name": "Clock Eater",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/ausstellungen/der-uhr-auf-der-spur.html",
+     "blurb": "It interrupts the crew on every third tick.",
+     "look": "An open bronze pocket watch with a toothed rim and three spindly legs."
+    },
+    {
+     "id": "research-replicator",
+     "name": "Research Replicator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/schulen/schuelerforschungszentrum.html",
+     "blurb": "It protects itself while producing premature answers.",
+     "look": "A tall green enamel press with a paper roll, paired grippers and a wide flywheel."
+    },
+    {
+     "id": "robot-foreman",
+     "name": "Robot Foreman",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/dauerausstellung/ausstellungsbereiche/computer-in-wirtschaft-und-beruf-1970-1980.html",
+     "blurb": "It shelters the machines sorting the crew as inventory.",
+     "look": "A broad yellow factory robot with a rotating belt for a waist and two slab arms."
+    },
+    {
+     "id": "algorithm-tutor",
+     "name": "Algorithm Tutor",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "jam",
+      "strike"
+     ],
+     "source": "/schulen/heinz-nixdorf-code-project.html",
+     "blurb": "It repairs its pupils and interrupts anyone who tries a different answer.",
+     "look": "An ivory teaching console on a wheeled stand with a round amber screen and cable arms."
+    },
+    {
+     "id": "era-processor",
+     "name": "Era Processor",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "bruiser",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/dauerausstellung.html",
+     "blurb": "It translates each action through clay, keys and cards. Its armored stack keeps the counting chain running.",
+     "look": "A rolling tower of clay tablets, black keys, cream punched cards and green circuit boards, joined by brass gears."
+    },
+    {
+     "id": "touch-guide",
+     "name": "Touch Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/besuch/allgemeine-informationen/barrierefrei.html",
+     "blurb": "A patient guide identifies mechanisms by touch and helps Wren repair the crew.",
+     "look": "A small figure in a blue canvas coat with padded gloves and a pouch of tools."
+    },
+    {
+     "id": "tinker-helper",
+     "name": "Tinker Helper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/schulen/schuelerlabor.html",
+     "blurb": "A workshop helper tests parts before offering them.",
+     "look": "A squat green tin robot with a hinged toolbox torso and mismatched wooden hands."
+    }
+   ],
+   "events": [
+    {
+     "id": "crossed-signals",
+     "source": "/dauerausstellung/ausstellungsbereiche/zahlen-zeichen-und-signale.html",
+     "look": "Two brass lamps point at a closed door; blue and amber beams cross.",
+     "title": "Crossed signals",
+     "text": "Two groups need the same door. Their signals disagree.",
+     "options": [
+      {
+       "label": "Spend supplies on a shared lamp",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The groups settle on one signal and leave together."
+      },
+      {
+       "label": "Hold the door while they agree",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The door catches Ox on the way through, but the signals now match."
+      }
+     ]
+    },
+    {
+     "id": "runaway-telegraph",
+     "source": "/dauerausstellung/ausstellungsbereiche/die-mechanisierung-der-informationstechnik.html",
+     "look": "A black relay bank throws sparks beside a dangling copper wire.",
+     "title": "Runaway telegraph",
+     "text": "A relay repeats a warning as an all-clear.",
+     "options": [
+      {
+       "label": "Pull the live wire",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The warning stops. The wire bites back."
+      },
+      {
+       "label": "Trade a spare relay for help",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "A mechanic swaps the relay and keeps the spare."
+      }
+     ]
+    },
+    {
+     "id": "misfiled-notebook",
+     "source": "/dauerausstellung/ausstellungsbereiche/kulturgeschichte-des-bueros.html",
+     "look": "Open oak drawers spill blank cream pages across a tiled floor.",
+     "title": "Misfiled notebook",
+     "text": "A useful notebook is buried in shifting drawers.",
+     "options": [
+      {
+       "label": "Search the sharp drawers",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Kestrel finds the notebook and cuts a hand."
+      },
+      {
+       "label": "Sell spare fittings for a guide",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "A clerk points to the right drawer and pockets the fittings."
+      }
+     ]
+    },
+    {
+     "id": "pendulum-crossing",
+     "source": "/ausstellungen/der-uhr-auf-der-spur.html",
+     "look": "A brass pendulum swings over two narrow walkways.",
+     "title": "Pendulum crossing",
+     "text": "The pendulum blocks a shortcut. A repair station waits beyond it.",
+     "options": [
+      {
+       "label": "Cross quickly to reach the station",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren reaches the station and uses its supplies. The salvage on this side stays behind."
+      },
+      {
+       "label": "Dismantle the spare weights for sale",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The weights are useful scrap. The repair station remains out of reach."
+      }
+     ]
+    },
+    {
+     "id": "unfinished-experiment",
+     "source": "/schulen/schuelerforschungszentrum.html",
+     "look": "Two glass gauges sit on a green bench with loose copper leads.",
+     "title": "Unfinished experiment",
+     "text": "Two readings disagree. The test rig has only one charged cell.",
+     "options": [
+      {
+       "label": "Use it to test the repair circuit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The circuit works and Wren uses it. The cell is spent."
+      },
+      {
+       "label": "Sell the charged cell",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The cell buys supplies. The repair circuit stays untested."
+      }
+     ]
+    },
+    {
+     "id": "teaching-loop",
+     "source": "/schulen/heinz-nixdorf-code-project.html",
+     "look": "An ivory console faces a locked gray gate with loose wires below.",
+     "title": "Teaching loop",
+     "text": "A console keeps repeating the wrong instruction.",
+     "options": [
+      {
+       "label": "Rewire it by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Kestrel pulls the right lead. A spark catches the crew."
+      },
+      {
+       "label": "Give up a useful component",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The console accepts the component and resets."
+      }
+     ]
+    }
+   ],
+   "name": "Heinz Nixdorf MuseumsForum",
+   "url": "https://www.hnf.de/en/home.html"
+  },
+  {
+   "theme": "Memory, copies and preservation",
+   "story": {
+    "intro": "The swarm has reached the electronic collection. It copies disks and surrounds visitors. Ox assumes it means to take them.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: Copies",
+      "text": "Machines copy records and equipment. Some copies have gaps. Kestrel tests a loose drive and finds the same blank entry in its output."
+     },
+     {
+      "title": "Floors 6\u201310: A change of purpose",
+      "text": "A captured visitor is released when a machine finds a safer shelf for a damaged disk. Wren sees the pattern: the swarm is preserving things, including people. It has mistaken being still for being safe."
+     },
+     {
+      "title": "Floors 11\u201315: The missing entry",
+      "text": "The records describe a search for an observer who can fill the blank entry. The collection keeps everything motionless while copies go looking. Ox makes room for the people trying to leave."
+     }
+    ],
+    "bossIntro": "The Living Collection locks its shelves around the crew. It calls copies to defend the records it cannot bear to let move.",
+    "outro": "The shelves open. The recovered record asks for an observation, not another copy. Its search points toward machines that can sense and move."
+   },
+   "creatures": [
+    {
+     "id": "disk-burrower",
+     "name": "Disk Burrower",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/det/77333/Copy-That-Floppy-Saturday-21st-November-2026/",
+     "blurb": "It hides supplies in unread sectors.",
+     "look": "A black disk-shaped mole with a silver drill nose and four short rubber feet."
+    },
+    {
+     "id": "cassette-repeater",
+     "name": "Cassette Repeater",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/det/182/Acorn-BBC-Micro-Model-B/",
+     "blurb": "Its squeal interrupts the crew at regular intervals.",
+     "look": "A brown cassette deck with twin reels, a speaker grille and thin wire legs."
+    },
+    {
+     "id": "pillar-segment",
+     "name": "Pillar Segment",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/det/77610/LEO-Storytime-and-Code-a-Pillar-workshop/",
+     "blurb": "It follows a fixed route until it hits something.",
+     "look": "A lime green segmented caterpillar with square joints and a single round headlamp."
+    },
+    {
+     "id": "floppy-duplicator",
+     "name": "Floppy Duplicator",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/det/77333/Copy-That-Floppy-Saturday-21st-November-2026/",
+     "blurb": "It makes faulty copies quickly. Interrupt it before the room fills.",
+     "look": "A gray disk drive on four clawed legs, feeding black disks from a side slot."
+    },
+    {
+     "id": "survey-collector",
+     "name": "Survey Collector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/domesday/",
+     "blurb": "It builds cover to make the room match its record.",
+     "look": "A boxy blue cart carrying a silver disc, folded screens and two flat shovel arms."
+    },
+    {
+     "id": "circuit-spider",
+     "name": "Circuit Spider",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/sec/319/Browse-Our-Collection/",
+     "blurb": "Its conductive web sends bad instructions into the crew.",
+     "look": "A black spider with eight copper wire legs and a green circuit board abdomen."
+    },
+    {
+     "id": "prototype-mimic",
+     "name": "Prototype Mimic",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/sec/79/Acorn-Computers/",
+     "blurb": "It copies a crew tactic with an unfinished mechanism.",
+     "look": "A beige computer case with an exposed hinge, a dark screen and uneven metal limbs."
+    },
+    {
+     "id": "star-plotter",
+     "name": "Star Plotter",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/det/77371/Retro-Computer-Festival-2026-(Space-Edition)-Saturday-14th-November/",
+     "blurb": "It commits to the place it predicts the crew will stand.",
+     "look": "A navy globe on a tripod with a brass pointer and white dots across its shell."
+    },
+    {
+     "id": "receipt-engine",
+     "name": "Receipt Engine",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/det/77529/LEO-75-Celebrating-the-World-s-First-Business-Computer/",
+     "blurb": "It keeps issuing capture orders while its casing holds.",
+     "look": "A tall cream cabinet with spinning paper rolls and a bank of orange lamps."
+    },
+    {
+     "id": "second-processor",
+     "name": "Second Processor",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/sec/79/Acorn-Computers/",
+     "blurb": "It runs repairs on neighboring machines. Pull its connection first.",
+     "look": "A small steel box with thick black cables and two articulated clamps."
+    },
+    {
+     "id": "time-share-collector",
+     "name": "Time-share Collector",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "corrupt",
+      "strike"
+     ],
+     "source": "/sec/68034/ACT/",
+     "blurb": "It interrupts actions and sends corrupted instructions during the pause.",
+     "look": "A black clock cabinet on wheels with brass dials and a long pendulum arm."
+    },
+    {
+     "id": "living-collection",
+     "name": "Living Collection",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "spawn",
+      "strike+"
+     ],
+     "source": "/sec/319/Browse-Our-Collection/",
+     "blurb": "It locks moving things in place to preserve them, while calling copies to defend its collection.",
+     "look": "A broad stack of beige computers and dark monitors with disk-drive shoulders and hinged steel shelves for arms."
+    },
+    {
+     "id": "volunteer-guide",
+     "name": "Volunteer Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/pages/14522/Volunteering/",
+     "blurb": "A guide knows which working machines can still be moved safely.",
+     "look": "A figure in a mustard work jacket with a padded trolley and a round metal shield."
+    },
+    {
+     "id": "communication-station",
+     "name": "Communication Station",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "purge"
+     ],
+     "source": "/sec/72836/Abilia/",
+     "blurb": "It helps people choose their own words and clears bad signals.",
+     "look": "A low blue wheeled console with a grid of colored blank buttons and a flexible lamp."
+    }
+   ],
+   "events": [
+    {
+     "id": "floppy-copy",
+     "source": "/det/77333/Copy-That-Floppy-Saturday-21st-November-2026/",
+     "look": "A black disk sits in an open beige drive beside a loose battery.",
+     "title": "Floppy copy",
+     "text": "The copy needs power. The battery could also be sold.",
+     "options": [
+      {
+       "label": "Power the copy and follow its route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The copy points Wren to a repair cache. The battery is drained."
+      },
+      {
+       "label": "Sell the battery",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The buyer takes the battery. The copy remains incomplete."
+      }
+     ]
+    },
+    {
+     "id": "pillar-door",
+     "source": "/det/77610/LEO-Storytime-and-Code-a-Pillar-workshop/",
+     "look": "A green segmented toy blocks a steel doorway.",
+     "title": "Pillar door",
+     "text": "Rearranging the segments will clear a route.",
+     "options": [
+      {
+       "label": "Force the jammed joint",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The joint opens and pinches a hand."
+      },
+      {
+       "label": "Trade a spare joint to a technician",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The technician replaces the joint and keeps the spare."
+      }
+     ]
+    },
+    {
+     "id": "fragmented-survey",
+     "source": "/domesday/",
+     "look": "A silver disc spins in a cream player beside a canvas bag.",
+     "title": "Fragmented survey",
+     "text": "A rare player reads a survey in pieces. A patrol is close.",
+     "options": [
+      {
+       "label": "Carry the fragile player through the patrol",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The player survives. The crew takes a few hits."
+      },
+      {
+       "label": "Hire a carrier",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "A carrier moves the player and collects the fee."
+      }
+     ]
+    },
+    {
+     "id": "wrong-diagram",
+     "source": "/sec/319/Browse-Our-Collection/",
+     "look": "Copper wires link a paper circuit diagram to a row of doors.",
+     "title": "Wrong diagram",
+     "text": "A sorter has wired the rooms to match a circuit diagram.",
+     "options": [
+      {
+       "label": "Cut the live connection",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The doors stop moving. The wire sparks."
+      },
+      {
+       "label": "Buy insulated cutters",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The connection comes apart cleanly. The cutters stay with their owner."
+      }
+     ]
+    },
+    {
+     "id": "shared-seconds",
+     "source": "/sec/68034/ACT/",
+     "look": "A black clock sits between a locked cabinet and a repair bench.",
+     "title": "Shared seconds",
+     "text": "The bureau offers one short access window.",
+     "options": [
+      {
+       "label": "Use it at the repair bench",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren patches the crew before the window closes. The cabinet stays shut."
+      },
+      {
+       "label": "Use it to empty the cabinet",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew takes saleable parts. There is no time for the bench."
+      }
+     ]
+    },
+    {
+     "id": "quiet-warning",
+     "source": "/sec/72836/Abilia/",
+     "look": "A blue communication console has a cable stretched across a busy floor.",
+     "title": "Quiet warning",
+     "text": "The station has a warning, but its cable is in a patrol path.",
+     "options": [
+      {
+       "label": "Retrieve the cable yourself",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The station passes on the warning. A patrol clips the crew."
+      },
+      {
+       "label": "Pay a guide to retrieve it",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The guide brings the cable and receives the fee."
+      }
+     ]
+    }
+   ],
+   "name": "Centre for Computing History",
+   "url": "https://www.computinghistory.org.uk/"
+  },
+  {
+   "theme": "Sensing, movement and a shared choice",
+   "story": {
+    "intro": "The swarm has fitted its search to mobile machines. Wren brings the recovered record. Kestrel watches the sensor arms for a seam.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: The moving search",
+      "text": "Cameras label shadows and rovers mark ground. The swarm is looking for someone to observe the world outside its records. Its search keeps blocking the people it needs."
+     },
+     {
+      "title": "Floors 6\u201310: Touch and distance",
+      "text": "A gentle sensor can distinguish a hand from a clamp. Wren uses that distinction to show Ox which machines will listen. The others keep collecting anything that moves."
+     },
+     {
+      "title": "Floors 11\u201315: An answer that can change",
+      "text": "The blank entry asks what should be preserved. There is no fixed object named in it. The crew prepares an answer: keep a record, let people move, and ask them what matters now."
+     }
+    ],
+    "bossIntro": "The Integrated System watches the crew and calls patrols. Its arms sweep the room as it tries to secure the last observer. Kestrel finds the cable between its planner and its grip.",
+    "outro": "The crew stops the grip and gives the system its answer. The record stays open for new observations; the doors open too. Wren repairs the cable with a switch, so someone can choose when to connect it."
+   },
+   "creatures": [
+    {
+     "id": "rope-wiggler",
+     "name": "Rope Wiggler",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/a-little-wiggle-helps-robots-learn-the-ropes/",
+     "blurb": "It tangles equipment and sends false movement signals.",
+     "look": "A coiled tan rope with a green clamp head and small steel rollers."
+    },
+    {
+     "id": "peg-servicer",
+     "name": "Peg Servicer",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/peg-in-hole-isnt-kid-stuff/",
+     "blurb": "It braces a joint before pushing through.",
+     "look": "A compact white box robot with one thick silver peg arm and black treads."
+    },
+    {
+     "id": "vision-skimmer",
+     "name": "Vision Skimmer",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/education/academic-programs/master-of-science-computer-vision/",
+     "blurb": "It mistakes useful gear for a target marker and carries it off.",
+     "look": "A small gray quadcopter with a large blue camera lens and a hooked claw."
+    },
+    {
+     "id": "assembly-pair",
+     "name": "Assembly Pair",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/event/ri-phd-thesis-proposal-philip-huang/",
+     "blurb": "Its paired arms shield nearby machines with parts.",
+     "look": "Two orange jointed arms sharing a wheeled black base and holding a broad steel panel."
+    },
+    {
+     "id": "lunar-scout",
+     "name": "Lunar Scout",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/space-exploration/",
+     "blurb": "Its beacons call a rover. Break the scout before it fills the field.",
+     "look": "A silver four-wheeled rover with a low gold sensor mast and a tray of round beacons."
+    },
+    {
+     "id": "road-herder",
+     "name": "Road Herder",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/autonomous-vehicles/",
+     "blurb": "It commits to a lane and drives anything in the way aside.",
+     "look": "A white autonomous cart with black wheels, a blue sensor dome and a wide bumper."
+    },
+    {
+     "id": "tactile-feeler",
+     "name": "Tactile Feeler",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/event/ri-phd-thesis-proposal-hung-jui-joe-huang/",
+     "blurb": "It copies movement through its gripping pads.",
+     "look": "A dark gray arm on a round base with five soft yellow pads at its tip."
+    },
+    {
+     "id": "mobile-manipulator",
+     "name": "Mobile Manipulator",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike"
+     ],
+     "source": "/research/projects/",
+     "blurb": "It shifts obstacles and breaks through shields to reach its target.",
+     "look": "A teal wheeled base with a long white arm and a flat steel gripper."
+    },
+    {
+     "id": "negotiator-node",
+     "name": "Negotiator Node",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/research/labs-groups/",
+     "blurb": "It calls patrols and interrupts the crew while they close in.",
+     "look": "A tall black tripod with three amber lenses and a circular antenna."
+    },
+    {
+     "id": "field-excavator",
+     "name": "Field Excavator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach"
+     ],
+     "source": "/research/robots/",
+     "blurb": "Its heavy bucket rushes forward and punishes shields.",
+     "look": "A compact ochre tracked excavator with a broad gray bucket and a blue camera."
+    },
+    {
+     "id": "balance-patrol",
+     "name": "Balance Patrol",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "sweep+",
+      "strike"
+     ],
+     "source": "/research/robots/",
+     "blurb": "It steadies damaged machines and sweeps attackers who crowd it.",
+     "look": "A white barrel robot balanced on a black ball, with two long curved metal arms."
+    },
+    {
+     "id": "integrated-system",
+     "name": "Integrated System",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "strike+"
+     ],
+     "source": "/research-overview/",
+     "blurb": "Its camera finds the crew, its planner calls machines, and its arms sweep the field. The preserved record is driving a search for a missing observer.",
+     "look": "A tall blue sensor tower joined to a black wheeled base, multiple white arms and a ring of small camera drones."
+    },
+    {
+     "id": "gentle-rig",
+     "name": "Gentle Rig",
+     "tier": "ally",
+     "bodyPlan": "serpent",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/a-little-wiggle-helps-robots-learn-the-ropes/",
+     "blurb": "It loosens knots slowly enough to save the cable.",
+     "look": "A short tan rope threaded through a green bench clamp with soft white pads."
+    },
+    {
+     "id": "decision-unit",
+     "name": "Decision Unit",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "purge"
+     ],
+     "source": "/research/labs-groups/",
+     "blurb": "It shows competing plans and leaves the choice to the crew.",
+     "look": "A small blue wheeled screen with two folding silver panels and a single amber lamp."
+    }
+   ],
+   "events": [
+    {
+     "id": "tangled-kit",
+     "source": "/a-little-wiggle-helps-robots-learn-the-ropes/",
+     "look": "A tan rope binds a green clamp to an open repair kit.",
+     "title": "Tangled kit",
+     "text": "A cable hunter and an ally are pulling on the same rope.",
+     "options": [
+      {
+       "label": "Cut the rope under tension",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The kit comes free. The snapping rope stings."
+      },
+      {
+       "label": "Buy a replacement rope for the ally",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The ally releases its end and keeps the replacement."
+      }
+     ]
+    },
+    {
+     "id": "assembly-schedule",
+     "source": "/event/ri-phd-thesis-proposal-philip-huang/",
+     "look": "Two orange robot arms hold a gray block over a narrow gap.",
+     "title": "Assembly schedule",
+     "text": "Two arms wait for each other. Their block contains useful parts.",
+     "options": [
+      {
+       "label": "Take the block",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The parts can be sold. The safe route through the gap closes."
+      },
+      {
+       "label": "Slip through to the repair bench",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the bench. The block stays with the arms."
+      }
+     ]
+    },
+    {
+     "id": "shadow-patrol",
+     "source": "/education/academic-programs/master-of-science-computer-vision/",
+     "look": "A blue camera points at two long shadows on a white wall.",
+     "title": "Shadow patrol",
+     "text": "A patrol is surrounding the crew\u2019s shadows.",
+     "options": [
+      {
+       "label": "Cross its lit field",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The patrol follows the shadows, but its outer unit lands a hit."
+      },
+      {
+       "label": "Use a purchased reflector",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The reflector sends the shadows away. It breaks in the process."
+      }
+     ]
+    },
+    {
+     "id": "stranded-beacon",
+     "source": "/space-exploration/",
+     "look": "A silver rover waits beside a small gold beacon on a rocky ramp.",
+     "title": "Stranded beacon",
+     "text": "A scout offers a map if its beacon is recovered.",
+     "options": [
+      {
+       "label": "Climb the unstable ramp",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The beacon is recovered. Loose stones bruise the crew."
+      },
+      {
+       "label": "Pay for a retrieval line",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The line brings the beacon back and goes to its owner."
+      }
+     ]
+    },
+    {
+     "id": "cart-dispute",
+     "source": "/research/projects/",
+     "look": "A teal robot and a round kitchen machine pull a steel cart in opposite directions.",
+     "title": "Cart dispute",
+     "text": "Both machines claim the cart. It carries salvage and medical supplies.",
+     "options": [
+      {
+       "label": "Take the medical supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren uses the supplies while the machines keep the salvage."
+      },
+      {
+       "label": "Take the salvage",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The parts are saleable. The medical supplies go with the cart."
+      }
+     ]
+    },
+    {
+     "id": "workshop-decoy",
+     "source": "/outreach-programs/",
+     "look": "A half-built blue robot lies beside a tool tray on a wooden bench.",
+     "title": "Workshop decoy",
+     "text": "There are enough parts for a decoy or a tool repair.",
+     "options": [
+      {
+       "label": "Finish the decoy",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The crew learns to use the decoy as cover. The parts are spent."
+      },
+      {
+       "label": "Repair the crew\u2019s tools",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the parts for repairs. The decoy stays unfinished."
+      }
+     ]
+    }
+   ],
+   "name": "Carnegie Mellon Robotics Institute",
+   "url": "https://www.ri.cmu.edu/"
+  }
+ ],
+ "id": "2026-11-15",
+ "seed": 992669236
+}

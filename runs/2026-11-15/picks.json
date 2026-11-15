@@ -1,0 +1,45 @@
+{
+  "thread": "Follow a calculation from gears and punched cards into electronic computers, then give it a body that can sense and move. The swarm encounters mechanical arithmetic, memory and interfaces, and robots built to explore their surroundings.",
+  "candidates": [
+    {
+      "name": "Heinz Nixdorf MuseumsForum",
+      "url": "https://www.hnf.de/en/home.html",
+      "why": "Its exhibition travels from numbers and mechanical information processing to early computers and personal machines: gears, keys, punched cards and circuits could all become creatures."
+    },
+    {
+      "name": "Centre for Computing History",
+      "url": "https://www.computinghistory.org.uk/",
+      "why": "A richly catalogued collection of computers, peripherals, games and software offers the swarm keyboards, screens, storage devices and curious interfaces to inhabit."
+    },
+    {
+      "name": "Carnegie Mellon Robotics Institute",
+      "url": "https://www.ri.cmu.edu/",
+      "why": "Robot and research project archives introduce machines with cameras, limbs, wheels and sensors, taking the swarm from computation into movement and perception."
+    },
+    {
+      "name": "Computer History Museum",
+      "url": "https://computerhistory.org/",
+      "why": "Online exhibits, timelines and collections trace calculating devices, mainframes, software and early robots, with punch cards, tape drives and computer mice ready to animate."
+    },
+    {
+      "name": "The National Museum of Computing",
+      "url": "https://www.tnmoc.org/",
+      "why": "Galleries and digital trails explore working historic computers and their restoration, inviting creatures made from valves, switches, paper tape and memory."
+    },
+    {
+      "name": "Science Museum Group Collection",
+      "url": "https://collection.sciencemuseumgroup.org.uk/",
+      "why": "Its computing and data processing objects include slide rules, logic units, early computers and calculators, alongside many other instrument collections."
+    },
+    {
+      "name": "Miraikan – The National Museum of Emerging Science and Innovation",
+      "url": "https://www.miraikan.jst.go.jp/en/",
+      "why": "Exhibitions on robots and emerging technologies offer humanoid machines, communication devices and experiments in how people and machines interact."
+    },
+    {
+      "name": "Museum of Computing Machinery, University of Pisa",
+      "url": "https://www.msc.sma.unipi.it/en/",
+      "why": "Its collection describes arithmometers, pocket calculators, the Pisan Electronic Calculator and giant Olivetti and Cray machines, with many distinctive mechanical and electronic forms."
+    }
+  ]
+}

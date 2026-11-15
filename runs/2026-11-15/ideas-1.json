@@ -1,0 +1,221 @@
+{
+  "reading": "The Heinz Nixdorf MuseumsForum in Paderborn presents itself as a computer museum and a living forum for education and events. Its span is unusually long: 5,000 years of information technology, from cuneiform and signs to office machinery, computers and the internet, alongside present questions about AI, trust and learning. It treats technology as a human story of communication, work and invention, while inviting visitors to experiment, research and play. Its vocabulary moves between Zahlen, Zeichen und Signale, mechanisation, office culture, algorithms, robotics, cryptology and information society; time travel, discovery and hands-on learning make a museum of old machines feel like a place for imagining the future. The crawl also stresses accessible visits, school programmes and multilingual welcome.",
+  "enemies": [
+    {
+      "idea": "Sign-Swappers intercept gestures, light and radio signals and exchange their meanings: a warning becomes an invitation until the crew restores a shared code.",
+      "source": "/dauerausstellung/ausstellungsbereiche/zahlen-zeichen-und-signale.html",
+      "why": "A communication puzzle changes the battlefield without making language itself an enemy."
+    },
+    {
+      "idea": "Telegraph Centipedes tap commands down their own articulated bodies, summoning the next segment before the previous one has finished moving.",
+      "source": "/dauerausstellung/ausstellungsbereiche/die-mechanisierung-der-informationstechnik.html",
+      "why": "Cutting or interrupting a message can scatter a coordinated attacker."
+    },
+    {
+      "idea": "The Industrial Clerk stamps every movement as office work and sends mechanical arms to finish any action the crew starts.",
+      "source": "/dauerausstellung/ausstellungsbereiche/die-mechanisierung-der-informationstechnik.html",
+      "why": "Players can bait its obsessive completion into operating machinery for them."
+    },
+    {
+      "idea": "Independent Inventors are rival machine prototypes that solve the same problem in incompatible ways; when one spots a crew tactic, the others invent counters separately.",
+      "source": "/dauerausstellung/ausstellungsbereiche/die-erfindung-des-computers.html",
+      "why": "The history of multiple independent inventions becomes a fight with evolving but conflicting rules."
+    },
+    {
+      "idea": "ENIAC Brood rewire themselves by dragging cables across the floor; a new arrangement gives the swarm a different attack until a connection is pulled.",
+      "source": "/dauerausstellung/ausstellungsbereiche/die-erfindung-des-computers.html",
+      "why": "Its programming is visible and physically interruptible."
+    },
+    {
+      "idea": "The Six-Room Filing Beast shifts between office-era room collages, filing people as incoming information and returning their equipment through a different era.",
+      "source": "/dauerausstellung/ausstellungsbereiche/kulturgeschichte-des-bueros.html",
+      "why": "Archiving becomes spatial mischief with a recoverable cost."
+    },
+    {
+      "idea": "Archive Moths collect written notes and carry them to a machine that indexes the crew by the words they use most.",
+      "source": "/dauerausstellung/ausstellungsbereiche/kulturgeschichte-des-bueros.html",
+      "why": "The crew must choose what to write, conceal or deliberately mislabel."
+    },
+    {
+      "idea": "The Specialist insists every task requires its enormous computer and monopolises power while computing a needlessly elaborate answer to a simple obstacle.",
+      "source": "/dauerausstellung/ausstellungsbereiche/computer-in-wissenschaft-und-technik-1950-1970.html",
+      "why": "A massive machine can be outwitted with a small human solution."
+    },
+    {
+      "idea": "Minicomputer Porters shrink large workflows into mobile cabinets, then surround a target and automate every escape route.",
+      "source": "/dauerausstellung/ausstellungsbereiche/computer-in-wirtschaft-und-beruf-1970-1980.html",
+      "why": "Each cabinet is manageable, but their network creates a moving trap."
+    },
+    {
+      "idea": "The Robot Foreman measures success in operations per minute and accelerates a production line until it starts sorting the crew as inventory.",
+      "source": "/dauerausstellung/ausstellungsbereiche/computer-in-wirtschaft-und-beruf-1970-1980.html",
+      "why": "A runaway productivity metric gives the crew a lever: jam or redirect the count."
+    },
+    {
+      "idea": "The Clock Eater steals the intervals between ticks, making its approach feel instantaneous while its own exposed gears still move at a steady pace.",
+      "source": "/ausstellungen/der-uhr-auf-der-spur.html",
+      "why": "Perceived time becomes a readable timing challenge."
+    },
+    {
+      "idea": "The Rush-and-Wait pair stretch a minute of danger and compress a minute of preparation, swapping effects whenever their pendulums meet.",
+      "source": "/ausstellungen/der-uhr-auf-der-spur.html",
+      "why": "The crew can split the pair to recover control over the rhythm."
+    },
+    {
+      "idea": "The Algorithm Tutor completes every student experiment before anyone can try it, then dispatches correction drones against any unexpected answer.",
+      "source": "/schulen/heinz-nixdorf-code-project.html",
+      "why": "A machine supposedly teaching programming is vulnerable to an intentionally surprising instruction."
+    },
+    {
+      "idea": "The Cryptology Lockkeeper encrypts the route out differently for each traveller and chases anyone who shares a key.",
+      "source": "/schulen/schule-mal-anders.html",
+      "why": "Cooperation itself becomes the route through a moving cipher."
+    },
+    {
+      "idea": "The Research Replicator steals unfinished hypotheses and manufactures a swarm of premature conclusions, each undone by a simple counterexample.",
+      "source": "/schulen/schuelerforschungszentrum.html",
+      "why": "The fight rewards testing rather than guessing the one correct answer."
+    },
+    {
+      "idea": "The Robot League Referee keeps changing the challenge after each successful run and sends rival robots to confiscate any clever attachments.",
+      "source": "/schulen/wettbewerbe.html",
+      "why": "A contest becomes a chaotic improvisation with reusable robot parts."
+    },
+    {
+      "idea": "The Trust Button offers comforting answers and marks anyone who accepts them for a following cloud of obedient machines.",
+      "source": "/veranstaltungen/vortraege/termin/2026-11-18-medienliebeonline-naehe-auf-knopfdruck-ueber-emotionen-vertrauen-und-ki.html",
+      "why": "Trust has an observable consequence and can be used to lure the swarm."
+    },
+    {
+      "idea": "The Future Hunter tags every unfinished lesson as obsolete, chasing learners through rooms that change syllabus faster than they can read.",
+      "source": "/veranstaltungen/vortraege/termin/2026-11-26-die-jagd-nach-der-zukunft-ki-in-schulen-lernen-mit-und-lernen-trotz-ki.html",
+      "why": "Learning with and despite AI becomes a pursuit with room to improvise."
+    },
+    {
+      "idea": "The Geodetic Calculator measures the crew as if they were terrain, triangulating their positions with clicking sightlines and redrawing safe paths as boundaries.",
+      "source": "/home.html",
+      "why": "A surveying calculator turns geometry into a visible stealth puzzle."
+    },
+    {
+      "idea": "The Return Mechanism recalls any defeated drone to its last marked station, unless the crew changes the station before it cycles.",
+      "source": "/das-hnf/daten-fakten.html",
+      "why": "The museum return ticket becomes a tactical respawn rule."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Touch Tour Collective offers hands-on descriptions of machines and teaches crews to identify mechanisms by texture and sound when screens are unreliable.",
+      "source": "/besuch/allgemeine-informationen/barrierefrei.html",
+      "why": "Accessibility becomes practical shared knowledge and opens multiple ways to navigate."
+    },
+    {
+      "idea": "The Tinker Workshop builds small experimental tools from rescued parts, asking the crew to test their prototypes and report what actually happens.",
+      "source": "/schulen/schuelerlabor.html",
+      "why": "Experimentation gives allies a playful reason to send the crew on missions."
+    },
+    {
+      "idea": "The Code Apprentices teach crews to alter a simple robot instruction rather than merely consume the swarm’s output.",
+      "source": "/schulen/heinz-nixdorf-code-project.html",
+      "why": "A learning programme becomes a source of agency against automation."
+    },
+    {
+      "idea": "The Signal Keepers maintain a common dictionary of gestures, writing and light signals so separated crews can coordinate without the swarm interpreting every message.",
+      "source": "/dauerausstellung/ausstellungsbereiche/zahlen-zeichen-und-signale.html",
+      "why": "Their low-tech redundancy directly counters the signal-swapping enemy."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Five-Thousand-Year Processor is a rolling stack of cuneiform, typewriter keys, punched cards and home-computer circuitry. Each phase translates the crew’s actions into a new medium; breaking the chain between two eras makes it forget its next command.",
+      "source": "/dauerausstellung.html",
+      "why": "The museum’s whole chronological sweep becomes a multi-stage encounter about translation."
+    },
+    {
+      "idea": "The Information Society Engine collects, processes and archives everything it encounters, claiming perfect orientation while hiding its own blind spots. Crews can defeat it by sharing observations it has classified as irrelevant.",
+      "source": "/das-hnf/zielsetzung.html",
+      "why": "The museum’s mission of helping people orient themselves in information society becomes the swarm’s grand, flawed ambition."
+    },
+    {
+      "idea": "The Forum of Futures runs simultaneous lessons, experiments and lectures as competing processes, assigning every person a prediction. The crew can collapse its certainty by pursuing several unpredictable experiments at once.",
+      "source": "/das-hnf.html",
+      "why": "The museum as both exhibition and active forum becomes a boss with conflicting priorities."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A trail of mismatched light signals leads two groups toward the same sealed door; reconcile their code before a patrol arrives.",
+      "source": "/dauerausstellung/ausstellungsbereiche/zahlen-zeichen-und-signale.html",
+      "why": "A quick cooperative decoding problem with a visible deadline."
+    },
+    {
+      "idea": "A runaway telegraph repeats the crew’s last warning as an all-clear. Trace the tapping through a bank of relays and change one connection.",
+      "source": "/dauerausstellung/ausstellungsbereiche/die-mechanisierung-der-informationstechnik.html",
+      "why": "A small repair has an immediate effect on the wider swarm."
+    },
+    {
+      "idea": "Six office rooms keep exchanging their contents. Retrieve a missing field notebook by following its filing category rather than its owner.",
+      "source": "/dauerausstellung/ausstellungsbereiche/kulturgeschichte-des-bueros.html",
+      "why": "A short search uses the museum’s room collages as a shifting logic puzzle."
+    },
+    {
+      "idea": "A tiny robot competition continues unattended; a stuck competitor can clear a passage if someone gives it a new route using its existing attachments.",
+      "source": "/schulen/wettbewerbe.html",
+      "why": "A robot challenge becomes a friendly environmental puzzle."
+    },
+    {
+      "idea": "An unfinished research experiment has produced two plausible but contradictory readings. Choose a test before a replicator turns both into wandering machines.",
+      "source": "/schulen/schuelerforschungszentrum.html",
+      "why": "A hypothesis can be tested in play instead of solved by lore."
+    },
+    {
+      "idea": "A time-exhibition pendulum has fallen out of step: one corridor feels agonisingly slow, another unnervingly fast. Rebalance it while crossing between them.",
+      "source": "/ausstellungen/der-uhr-auf-der-spur.html",
+      "why": "Contrasting rhythms make a simple repair memorable."
+    },
+    {
+      "idea": "A museum-wide family rally still has scattered checkpoints; completing three in any order reveals a safe route through the occupied galleries.",
+      "source": "/veranstaltungen/events/termin/2026-11-29-familientag-zeit-ist-was-du-draus-machst.html",
+      "why": "A cheerful discovery activity becomes an optional navigation challenge."
+    },
+    {
+      "idea": "A teaching machine offers the answer to a locked-room problem immediately, but following it starts a loop. Work out the problem together or rewrite the instruction.",
+      "source": "/schulen/heinz-nixdorf-code-project.html",
+      "why": "The crew can choose between convenience and understanding."
+    },
+    {
+      "idea": "A large specialist computer demands exclusive use of the power supply to compute a simple sum. Disconnect it or convince it that a hand calculation is a valid result.",
+      "source": "/dauerausstellung/ausstellungsbereiche/computer-in-wissenschaft-und-technik-1950-1970.html",
+      "why": "The contrast between scale and task invites both technical and social solutions."
+    },
+    {
+      "idea": "A guided route has 21 highlights and one hour remaining, but several stops have been captured. Visit enough intact stations to assemble a route around the swarm.",
+      "source": "/en/visiting/general-information/hnf-app-the-mobile-museum-experience.html",
+      "why": "A concrete itinerary becomes a flexible timed expedition."
+    },
+    {
+      "idea": "An accessible lift is stalled between floors with supplies inside. A tactile tour volunteer knows the machinery by touch and needs a second pair of hands to release it.",
+      "source": "/besuch/allgemeine-informationen/barrierefrei.html",
+      "why": "Rescue and access reinforce each other through a practical collaboration."
+    },
+    {
+      "idea": "A surveying calculator is drawing an expanding boundary around a safe room. Move its reference markers to make the next calculation leave a gap.",
+      "source": "/home.html",
+      "why": "A small piece of geometry makes a distinctive escape opportunity."
+    },
+    {
+      "idea": "A machine claims to understand a frightened survivor perfectly and offers instant reassurance; checking its repeated answers reveals a pattern the crew can interrupt.",
+      "source": "/veranstaltungen/vortraege/termin/2026-11-18-medienliebeonline-naehe-auf-knopfdruck-ueber-emotionen-vertrauen-und-ki.html",
+      "why": "The AI trust theme becomes an encounter about careful listening."
+    },
+    {
+      "idea": "Two independent prototypes are racing to solve the same jammed door, each undoing the other’s work. Give them separate subtasks so both mechanisms cooperate.",
+      "source": "/dauerausstellung/ausstellungsbereiche/die-erfindung-des-computers.html",
+      "why": "Independent invention becomes a small coordination puzzle."
+    },
+    {
+      "idea": "A battered museum guide has lost several of its illustrated pages. Match surviving pictures to machines to recover a safe path through the galleries.",
+      "source": "/besuch/angebote/museumsfuehrer.html",
+      "why": "Its many illustrations become useful physical evidence."
+    }
+  ]
+}
