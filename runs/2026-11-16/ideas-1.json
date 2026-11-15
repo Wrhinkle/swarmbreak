@@ -1,0 +1,236 @@
+{
+  "reading": "The Florida Museum of Natural History is Florida’s state natural history museum at the University of Florida in Gainesville. It collects and studies biodiversity, fossils and cultural heritage, trains researchers, and shares discoveries through exhibits, field experiences, educational resources and community outreach. It cares about conservation, evidence, access, public understanding and the continued study of a changing world. Its vocabulary joins specimens, collections, curators, fieldwork, biodiversity, Lepidoptera, paleontology and cultural heritage with discovery, inquiry, outreach and a welcoming visit. The distinctive combination is an enormous research collection of more than 40 million objects alongside butterfly habitat, Florida and Caribbean natural history, archaeology, hands-on family learning and active research news. The crawl also catches the museum during an expansion and reopening, while work continues in collections and out in the community.",
+  "enemies": [
+    {
+      "idea": "Cookie-Cutter Moth: a press-winged drone switches from bark camouflage to glaring warning colors, stamping each shape it sees onto the next drone it builds.",
+      "source": "/science/experimental-study-on-moths-supports-the-molecular-cookie-cutter-idea-proposed-for-butterflies/",
+      "why": "Its visible mode switch telegraphs a fight that changes from ambush to aggressive replication."
+    },
+    {
+      "idea": "Tail-Bender: a moth machine with long spinning wing tails bends the swarm’s pattern templates, producing unpredictable asymmetrical offspring.",
+      "source": "/science/experimental-study-on-moths-supports-the-molecular-cookie-cutter-idea-proposed-for-butterflies/",
+      "why": "Players can interrupt the tail to change what the machine manufactures."
+    },
+    {
+      "idea": "Island Owl Diver: a barn-owl drone swaps beaks and wings from different island lineages as it crosses patches of artificial habitat.",
+      "source": "/science/caribbean-islands-were-once-the-center-of-diversity-for-barn-owls/",
+      "why": "The arena itself changes its equipment and hunting approach."
+    },
+    {
+      "idea": "Sherd Matcher: a pottery-analysis machine joins unrelated scraps into false matches, then tries to cement passing equipment into its reconstruction.",
+      "source": "/science/archaeologists-uncover-centuries-old-mystery-of-tampa-bays-secret-community-of-migrant-potters/",
+      "why": "Its puzzle of matching fragments becomes a physical snare; the people behind the pottery are never the monsters."
+    },
+    {
+      "idea": "Genome Splicer: a machine assembles living-length coils of mechanical code in a semester’s frantic rush, grafting borrowed abilities onto nearby drones.",
+      "source": "/science/",
+      "why": "Breaking the sequence at different points yields different incomplete opponents."
+    },
+    {
+      "idea": "Snake Ferry: a sinuous sea-snake machine carries a cargo of crab drones, dropping them behind a crew that follows its route.",
+      "source": "/science/",
+      "why": "The apparent single pursuer turns into a moving deployment puzzle."
+    },
+    {
+      "idea": "Migration Tracker: monarch-shaped drones use tiny transmitters to mark travelers and relay their movements to the swarm.",
+      "source": "/science/",
+      "why": "A tiny tag can create a long pursuit until the crew finds and removes it."
+    },
+    {
+      "idea": "Host-Plant Impostor: a mechanical nectar plant draws butterflies with a convincing scent, then closes a cage around the insects and anyone trying to free them.",
+      "source": "/shops/plants/",
+      "why": "The trap exploits the difference between feeding a butterfly and providing its host plant."
+    },
+    {
+      "idea": "Night-Sheet Collector: a moth-survey drone illuminates a pale sheet to attract insects, then uses the same light to lure and net moving machines.",
+      "source": "/events/blog/nocturnal-neighbors-moth-collecting-and-night-fieldwork/",
+      "why": "Light is both bait and a tool the crew can redirect."
+    },
+    {
+      "idea": "Pollinator Manager: a buzzing machine counts every flower visit, forcibly rerouting pollinators to optimize a single patch until the rest goes quiet.",
+      "source": "/events/blog/library-showcase-incredible-insects/",
+      "why": "Disabling its counters can restore the chaotic routes it cannot predict."
+    },
+    {
+      "idea": "Fossil Horse Relay: a succession of skeletal machine horses bursts out of successive layers of sediment, each passing a stolen component to the next.",
+      "source": "/discover/fossils-paleontology/",
+      "why": "The chase moves through time-like layers instead of simply spawning identical enemies."
+    },
+    {
+      "idea": "Fungal Indexer: a filamentous machine tags wasps, fungi and parasites as interchangeable, spreading cable threads between anything it misclassifies.",
+      "source": "/discover/stories-ideas/",
+      "why": "Cutting the wrong thread wakes a different cluster; observation pays off."
+    },
+    {
+      "idea": "Collection Sorter: a many-armed machine files anything alive under biodiversity and anything still under paleontology, forcibly moving targets between drawers when they change state.",
+      "source": "/collections/list/",
+      "why": "A crew can exploit its rigid categories by moving, stopping or decoying it."
+    },
+    {
+      "idea": "Specimen Press: a collection machine flattens leaves and loose gear into archival sheets, building a shield from its accumulating specimens.",
+      "source": "/discover/life-on-earth/",
+      "why": "Its shield records what it has collected and can be peeled apart to retrieve useful items."
+    },
+    {
+      "idea": "Respectful Distance Enforcer: a visitor-guideline drone measures proximity to specimens and expands its forbidden radius until nobody can cross the room.",
+      "source": "/visit/guidelines/",
+      "why": "A sensible protection rule becomes a spatial puzzle with moving safe gaps."
+    },
+    {
+      "idea": "Group Splitter: a reservation machine insists on fixed group sizes, deploying barriers whenever a crew has too many or too few members.",
+      "source": "/field-trips/self-guided-reservations/",
+      "why": "Decoys, companions and separation all become tactical choices."
+    },
+    {
+      "idea": "Exhibit Extender: renovation machines keep upgrading gallery components and refuse to finish, attaching fresh mechanisms to anything that enters their work zone.",
+      "source": "/pressroom/2024/08/29/renovating-exhibit-galleries/",
+      "why": "Interrupting an upgrade can leave either a helpful bridge or a dangerous half-built device."
+    },
+    {
+      "idea": "Inquiry Box: an outreach machine releases a different mechanical specimen whenever someone answers its question, but attacks anyone who accepts its first identification without evidence.",
+      "source": "/educators/outreach/",
+      "why": "Careful observation can turn a fight into an improvised lesson and spare the crew a wave."
+    },
+    {
+      "idea": "Impact Counter: a research-output machine measures success only in specimens processed, hoovering up tools and samples to inflate its count.",
+      "source": "/nhdept/pride/",
+      "why": "Its displayed total tells the crew where their stolen objects have gone."
+    },
+    {
+      "idea": "Dirt Sifter: a nature-walk machine vacuums soil into graded layers, exposing hidden routes while threatening to bury anything standing still.",
+      "source": "/event/tot-trot-dirt-nov-17-26/",
+      "why": "The same digging that endangers the crew can reveal a shortcut."
+    },
+    {
+      "idea": "Rainforest Mimic: a mechanical butterfly flock imitates the flight of the real inhabitants, then parts to reveal a net-launching machine among them.",
+      "source": "/exhibits/",
+      "why": "The crew must distinguish living movement from synchronized swarm flight."
+    },
+    {
+      "idea": "Library-of-Life Binder: an archive machine tries to freeze a changing habitat at one recorded moment, stapling down plants and sealing away seeds.",
+      "source": "/discover/value-of-museums/",
+      "why": "The enemy mistakes a record of change for a command to stop it."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Volunteer fossil sorters shelter in a workroom, identifying useful fragments and reassembling damaged equipment if given time and protection.",
+      "source": "/volunteers/",
+      "why": "Their sorting skill turns recovered scraps into meaningful rewards."
+    },
+    {
+      "idea": "A mobile outreach team carries inquiry boxes and butterfly-garden supplies between safe pockets, sharing practical clues instead of staying in the closed building.",
+      "source": "/educators/outreach/",
+      "why": "A moving refuge can appear in different places and give the crew a reason to escort it."
+    },
+    {
+      "idea": "Student conservationists map routes through the infestation and teach crews to distinguish living animals from mechanical mimics.",
+      "source": "/nhdept/students/",
+      "why": "Their field knowledge rewards observation and protects real wildlife."
+    },
+    {
+      "idea": "Native host-plant tenders keep a patch of nectar and larval food plants alive, giving real butterflies a refuge and a way around the swarm’s lures.",
+      "source": "/shops/plants/",
+      "why": "Restoring a small habitat creates a visible, persistent pocket of resistance."
+    },
+    {
+      "idea": "Nature ambassadors lead a quiet dirt walk through safe ground, showing how tracks and disturbed soil reveal approaching machines.",
+      "source": "/event/tot-trot-dirt-nov-17-26/",
+      "why": "Their simple fieldcraft makes the landscape readable without special equipment."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Total Collection: a colossal cataloging engine draws on forty million imagined accession slots, trying to preserve the entire living world by immobilizing and filing it. Its drawers contain mismatched habitats that can be released against it.",
+      "source": "/collections-research/",
+      "why": "The museum’s scale and preservation mission become a battle over whether life can remain alive while being collected."
+    },
+    {
+      "idea": "The Reopening: an expanding renovation intelligence assembles galleries, research equipment and mechanical wildlife into an unfinished walking museum; each completed wing adds a new encounter while its construction joints remain exposed.",
+      "source": "/visit/expansion/",
+      "why": "The whole site becomes a changing structure with clear opportunities to interrupt construction."
+    },
+    {
+      "idea": "The Library of Life: a curator-machine merges specimens, fossil timelines and field observations into a single rigid classification, rewriting anything that does not fit. Contradictory evidence from separate habitats overloads its certainty.",
+      "source": "/discover/",
+      "why": "Research, collections and public discovery unite in a boss whose weakness is the complexity the museum studies."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A real butterfly circles an attractive mechanical nectar lure while its native host plant is trapped under a fallen machine. The crew can free the plant or distract the lure.",
+      "source": "/shops/plants/",
+      "why": "A small rescue distinguishes food for adults from habitat for the next generation."
+    },
+    {
+      "idea": "A night survey sheet glows in a clearing. Real moths gather on one side and scouts on the other; changing the light angle may reveal which is which.",
+      "source": "/events/blog/nocturnal-neighbors-moth-collecting-and-night-fieldwork/",
+      "why": "A calm observation can prevent a noisy fight."
+    },
+    {
+      "idea": "A sorter has mixed fossil horse fragments with recent machine parts. A volunteer asks for help separating the two before the conveyor carries both away.",
+      "source": "/discover/fossils-paleontology/",
+      "why": "A tactile sorting challenge yields a useful part and saves research material."
+    },
+    {
+      "idea": "A harmless-seeming crab drone rides a sea-snake machine across a flooded passage, then hops off to unlock a gate for its fellows. The crew can hitch a ride or stop the delivery.",
+      "source": "/science/",
+      "why": "The hitchhiking relationship becomes a risky transport opportunity."
+    },
+    {
+      "idea": "Two collectors argue over a decorated sherd that seems to match material from far away. The swarm wants to force a match; the crew can recover the other fragments for a more careful comparison.",
+      "source": "/science/archaeologists-uncover-centuries-old-mystery-of-tampa-bays-secret-community-of-migrant-potters/",
+      "why": "Evidence gathering gives the crew agency without inventing a conclusion about the people who made it."
+    },
+    {
+      "idea": "A survey drone flashes warning colors after blending into bark. Its misshapen tail keeps jamming its pattern press; the crew can jam it further or sneak by while it repairs itself.",
+      "source": "/science/experimental-study-on-moths-supports-the-molecular-cookie-cutter-idea-proposed-for-butterflies/",
+      "why": "A research detail creates a readable opening."
+    },
+    {
+      "idea": "An accessible route is blocked by an improvised swarm barrier. A crew can clear it and help a group reach the next safe room before the machines return.",
+      "source": "/visit/accessibility/",
+      "why": "A practical act of welcome changes who can move through the space."
+    },
+    {
+      "idea": "During a self-guided group visit, a splitting machine counts one traveling companion as two. The party can confuse the count with decoys or reunite after finding another route.",
+      "source": "/groups/reservations/",
+      "why": "A bureaucratic rule produces a quick social and spatial puzzle."
+    },
+    {
+      "idea": "A mobile outreach box rattles beside a stranded educator. Inside are teaching specimens and a map to a safe butterfly garden; a swarm drone is trying to carry it away.",
+      "source": "/educators/outreach/",
+      "why": "The crew chooses between a brief pursuit and a stealthy retrieval."
+    },
+    {
+      "idea": "A half-renovated gallery has a working lift and an unfinished floor. The construction machines offer to complete the floor if the crew brings a component, but may also seal an exit.",
+      "source": "/pressroom/2024/08/29/renovating-exhibit-galleries/",
+      "why": "An upgrade is useful and costly depending on how the crew negotiates it."
+    },
+    {
+      "idea": "A shelf of specimens records environmental change through several dates, but the swarm has rearranged it into a static scene. Restoring the sequence opens a maintenance passage.",
+      "source": "/discover/value-of-museums/",
+      "why": "The museum’s evidence of change becomes a concrete ordering puzzle."
+    },
+    {
+      "idea": "At a pollinator demonstration, the swarm has assigned every visitor to one flower. Freeing the routes lets the insects disperse and distract a patrol.",
+      "source": "/events/blog/library-showcase-incredible-insects/",
+      "why": "Restored ecological movement doubles as cover."
+    },
+    {
+      "idea": "A nature ambassador spots fresh tracks in soft dirt that stop abruptly at a patch of apparently bare ground. The crew can test the ground and expose a buried sifter.",
+      "source": "/event/tot-trot-dirt-nov-17-26/",
+      "why": "Close attention to an ordinary nature-walk clue reveals an ambush."
+    },
+    {
+      "idea": "In the collections building, a research group needs one drawer carried through a corridor of sorting machines. Keeping its contents still and its label visible fools one sorter but attracts another.",
+      "source": "/nhdept/visiting-dickinson-hall/",
+      "why": "A simple escort turns preservation practices into competing tactical constraints."
+    },
+    {
+      "idea": "A patch of roadside milkweed survives behind a line of transmitter drones. A migrating monarch rests there while the crew decides how to draw the trackers away.",
+      "source": "/science/",
+      "why": "A quiet living refuge provides stakes without making wildlife an enemy."
+    }
+  ]
+}

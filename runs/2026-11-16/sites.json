@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.floridamuseum.ufl.edu",
+   "name": "Florida Museum of Natural History",
+   "url": "https://www.floridamuseum.ufl.edu/histarch/ceramic-types/",
+   "file": "runs/2026-11-16/sites/www.floridamuseum.ufl.edu.json"
+  },
+  {
+   "host": "tileweb.ashmolean.org",
+   "name": "TileWeb, Ashmolean Museum",
+   "url": "https://tileweb.ashmolean.org/",
+   "file": "runs/2026-11-16/sites/tileweb.ashmolean.org.json"
+  },
+  {
+   "host": "tileheritage.org",
+   "name": "Tile Heritage Foundation",
+   "url": "https://tileheritage.org/",
+   "file": "runs/2026-11-16/sites/tileheritage.org.json"
+  }
+ ]
+}

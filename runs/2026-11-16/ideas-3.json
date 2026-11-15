@@ -1,0 +1,226 @@
+{
+  "reading": "The Tile Heritage Foundation is a member-supported nonprofit devoted to researching, documenting and preserving ceramic surfaces, especially American tile history. It connects a public archive of objects, images, publications and industry records with research assistance, grants, an installation registry, education and a living network of makers, installers, collectors and volunteers. It cares about attribution, conservation, craftsmanship and giving both historic and contemporary work a future. Its vocabulary is tactile and communal: shards, snippets, glaze, installations, archives, tile hubs, artisans, research, restoration and “talk tiles.” Its distinctive character comes from treating ordinary architectural surfaces as evidence and art, linking handcrafted traditions and industrial processes, and inviting the public to help locate and recognize work in place.",
+  "enemies": [
+    {
+      "idea": "Registry Rovers scan floors for exceptional installations, then lift entire rooms onto articulated legs to add them to their traveling collection.",
+      "source": "/registry/",
+      "why": "The battlefield walks away under the crew; saving an installation means stopping its supposed protector."
+    },
+    {
+      "idea": "A Submission Sniffer hunts unlisted home installations by tracing the seams between private and public spaces; it projects decoy maps to lure witnesses out.",
+      "source": "/submit-a-site/",
+      "why": "The promise of confidential locations becomes a tense game of protecting a secret without revealing it."
+    },
+    {
+      "idea": "Grant Review Kilns demand a research proposal before opening a passage, then fire any rejected idea into a brittle ceramic duplicate that attacks its author.",
+      "source": "/doty-research-grant/",
+      "why": "A conservation research review becomes a puzzle where inventive proposals and fragile copies matter."
+    },
+    {
+      "idea": "Dating Calipers clamp onto surfaces and assign them a false age; anything they label ancient begins crumbling, while anything labeled new is stripped of its history.",
+      "source": "/research-services/",
+      "why": "The identification tool changes the terrain according to its wrong verdict."
+    },
+    {
+      "idea": "Archive File Centipedes join historic and contemporary company records into a long, armored body and swallow any loose evidence that might correct their tangled provenance.",
+      "source": "/submit-archival-materials/",
+      "why": "Their mixed-up joints offer a physical way to untangle competing histories."
+    },
+    {
+      "idea": "Image-Collection Mirrors reproduce a tile pattern perfectly but omit one crucial shard; the missing shape becomes a doorway through which the swarm strikes.",
+      "source": "/tile-heritage-collection/",
+      "why": "Finding the absence in an apparently complete image reveals the ambush."
+    },
+    {
+      "idea": "Catalog Pressers roll historic tile catalog patterns over the ground, stamping misleading replacement designs on every surface they cross.",
+      "source": "/historic-tile-publications/",
+      "why": "A crew can read the approaching pattern and use catalog knowledge to find a safe seam."
+    },
+    {
+      "idea": "Dust-Press Mites compact loose clay and dust into identical armored tiles around anything that stands still.",
+      "source": "/richard-prosser-biography-by-susan-darby/",
+      "why": "An industrial process becomes a fast encasement hazard that rewards movement and moisture."
+    },
+    {
+      "idea": "Craftline Mimics make every tile by hand with mechanical fingers, then attack any maker whose irregular marks prove the copies are not authentic.",
+      "source": "/world-tile-history/",
+      "why": "Handmade variation becomes both the clue and the swarm’s obsession."
+    },
+    {
+      "idea": "Certification Gauges measure the wrong qualities: they test how well a living passage resists being crossed and seal it when it passes.",
+      "source": "/tcna/",
+      "why": "Quality standards produce a reverse obstacle course where failure opens the route."
+    },
+    {
+      "idea": "Training Trowels drill the same installation lesson forever, spreading adhesive across escape routes and setting loose tiles into rigid formations.",
+      "source": "/installation-professionals/",
+      "why": "The crew can interrupt the repeated lesson or turn its predictable rhythm to their advantage."
+    },
+    {
+      "idea": "Tile Hub Chorus repeats local installation clues as overlapping directions, drawing travelers into a maze of mismatched regional patterns.",
+      "source": "/tile-and-mosaic-organizations/",
+      "why": "Listening for the one consistent local detail can cut through the misleading chorus."
+    },
+    {
+      "idea": "The Overstock Broker pairs every shortage with an absurd surplus, burying vital tools under mountains of unwanted tile.",
+      "source": "/resource-center-to-donate-tiles-and-other-material-for-re-use/",
+      "why": "A practical reuse network becomes a chaotic resource-exchange encounter."
+    },
+    {
+      "idea": "Story-Tile Collectors pry narrative tiles from walls and reorder them until every tale ends with the swarm taking possession of the place.",
+      "source": "/1739-2/",
+      "why": "Reassembling a sequence of images can undo the enemy’s rewritten ending."
+    },
+    {
+      "idea": "The Showcase Wall unfolds into competing sample panels that trap visitors inside a shifting room of luxury, economy and sustainability claims.",
+      "source": "/artisan-showcase-exhibits-at-coverings-26/",
+      "why": "Each panel offers a different material property to exploit rather than a simple damage target."
+    },
+    {
+      "idea": "A False Masterpiece Inspector stamps uncertain fragments as conclusive masterpieces and sends replicas to suppress contradictory evidence.",
+      "source": "/confirmation-of-a-masterpiece/",
+      "why": "A small identification mystery gives the crew a way to defeat a growing force of replicas."
+    },
+    {
+      "idea": "Bridge Kilns assemble ceramic crossings one segment at a time, then rearrange their arches to strand anyone who trusted the span.",
+      "source": "/pottery-bridges-around-the-world/",
+      "why": "A crossing becomes a moving structural puzzle with visible points of failure."
+    },
+    {
+      "idea": "Moving Crate Carriers endlessly transport the collection across the country, mistaking every stationary object for a neglected archive item.",
+      "source": "/events/",
+      "why": "The moving convoy can be infiltrated, redirected or unpacked to rescue what it carries."
+    },
+    {
+      "idea": "Installation Claimants demand the names of every artisan, designer and architect before allowing a floor to be crossed; unknown credits cause the floor to fold shut.",
+      "source": "/submit-a-notable-tile-installation/",
+      "why": "An honest gap in attribution creates a problem solved through investigation or negotiation."
+    },
+    {
+      "idea": "The Entry-Floor Usher rearranges decorative tiles beneath approaching feet so that every route leads back to the threshold.",
+      "source": "/notable-installations/",
+      "why": "A real installation type becomes a navigable pattern puzzle without imitating a person."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Tile Hub Keepers exchange local knowledge by tapping patterns through intact floors, guiding crews to safe installations and away from false routes.",
+      "source": "/tile-and-mosaic-organizations/",
+      "why": "Their network makes listening and mapping valuable tools."
+    },
+    {
+      "idea": "Volunteer Shard Menders fit damaged fragments together without hiding the cracks, restoring routes the swarm cannot imitate exactly.",
+      "source": "/volunteer/",
+      "why": "Their visible repairs turn imperfections into reliable safe markers."
+    },
+    {
+      "idea": "The Identification Circle compares glaze, shape and context before naming a mystery tile, exposing the Inspector’s premature claims.",
+      "source": "/confirmation-of-a-masterpiece/",
+      "why": "Careful uncertainty becomes an active defense against false certainty."
+    },
+    {
+      "idea": "The Reuse Couriers move surplus material to isolated crews and trade one useful offcut for another.",
+      "source": "/resource-center-to-donate-tiles-and-other-material-for-re-use/",
+      "why": "A resource network creates practical favors and unexpected equipment."
+    },
+    {
+      "idea": "Registry Witnesses remember contemporary and historic installations in place and can point out when a Rover has moved one.",
+      "source": "/the-national-tile-installation-registry/",
+      "why": "Crowdsourced memory helps restore the relationship between an object and its setting."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Guardian of Every Surface is a vast walking archive that preserves tile by sealing every installation, maker and visitor inside a single flawless ceramic shell. Its historic and contemporary plates must be separated to expose the empty space where new work belongs.",
+      "source": "/mission_statement/",
+      "why": "The whole preservation mission has become an oppressive final encounter with a clear physical contradiction."
+    },
+    {
+      "idea": "The Grand Registry grows by connecting the heritage of each installation to a production line that manufactures an approved copy. Cut the lines between copied sites and their records before it turns the whole landscape into one repeating pattern.",
+      "source": "/registry/",
+      "why": "The site’s bridge between history and industry becomes a network-wide fight about sameness and place."
+    },
+    {
+      "idea": "The Repository Kiln feeds on archive files, images, publications and actual tiles, firing them into one supposedly permanent master tile. Rescued fragments retain different temperatures and can crack its uniform shell.",
+      "source": "/tile-heritage-collection/",
+      "why": "The foundation’s varied collection becomes a multi-stage encounter where each kind of evidence matters."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A crew finds an installation being mapped by a Rover while its owner pleads to keep the location private; they must divert the survey without destroying the tile.",
+      "source": "/submit-a-site/",
+      "why": "A concrete choice turns the registry’s privacy promise into a rescue."
+    },
+    {
+      "idea": "A grant-review kiln offers passage for a research proposal, but the only evidence is scattered among three mismatched fragments.",
+      "source": "/doty-research-grant/",
+      "why": "A short investigation lets the crew use curiosity instead of force."
+    },
+    {
+      "idea": "A hub keeper taps a route through the floor while a hostile chorus repeats almost the same rhythm one beat late.",
+      "source": "/tile-and-mosaic-organizations/",
+      "why": "The difference can be heard and tested under pressure."
+    },
+    {
+      "idea": "A convoy of archive crates is headed the wrong way; one crate hums with a trapped volunteer, while another contains irreplaceable tile images.",
+      "source": "/events/",
+      "why": "A moving rescue offers priorities and a chance to redirect the whole convoy."
+    },
+    {
+      "idea": "An entry floor rearranges itself whenever someone crosses it; a loose tile at the threshold shows the original repeat.",
+      "source": "/notable-installations/",
+      "why": "A pattern observed in miniature solves a spatial trap."
+    },
+    {
+      "idea": "Two couriers each have a surplus the other needs, but the swarm’s broker keeps delivering both loads to the same empty room.",
+      "source": "/resource-center-to-donate-tiles-and-other-material-for-re-use/",
+      "why": "A small exchange creates an ally and useful supplies."
+    },
+    {
+      "idea": "A dust press is compacting a cloud into a wall, trapping a half-finished handmade tile on the far side.",
+      "source": "/richard-prosser-biography-by-susan-darby/",
+      "why": "The crew must act before a changing barrier hardens."
+    },
+    {
+      "idea": "A damaged story-tile wall depicts a journey in the wrong order; restoring its sequence reveals a passage hidden behind the final scene.",
+      "source": "/1739-2/",
+      "why": "The narrative is both a physical puzzle and a route."
+    },
+    {
+      "idea": "A research caliper declares a contemporary repair ancient, making it crumble; a witness can identify the repair if given time to examine it.",
+      "source": "/research-services/",
+      "why": "Protecting a researcher creates a clear deadline and reversible stakes."
+    },
+    {
+      "idea": "At an abandoned hands-on clay activity, a half-made tile carries a maker’s distinctive fingerprint that the swarm’s copies lack.",
+      "source": "/artisan-tile-from-tile-fest-supports-thf/",
+      "why": "A modest craft activity provides a useful authentication clue."
+    },
+    {
+      "idea": "An installation certification drill repeatedly seals a doorway with fresh tile; the crew can cross during the brief interval when the trowel returns for mortar.",
+      "source": "/installation-professionals/",
+      "why": "A hostile routine becomes a timing challenge."
+    },
+    {
+      "idea": "Two archive files disagree about a fragment’s maker because the swarm has exchanged their labels; matching the fragment to its image restores both records.",
+      "source": "/tile-heritage-collection/",
+      "why": "Attribution becomes a tactile comparison with a satisfying correction."
+    },
+    {
+      "idea": "A ceramic bridge grows across a gap, but each added arch removes one behind it; stranded couriers need a counterweight to finish crossing.",
+      "source": "/pottery-bridges-around-the-world/",
+      "why": "The crew can cooperate with the bridge’s strange construction instead of simply fighting it."
+    },
+    {
+      "idea": "A showcase sample promises an exceptionally durable route, but the next panel is a flexible mosaic that can slip through a narrow crack.",
+      "source": "/artisan-showcase-exhibits-at-coverings-26/",
+      "why": "Contrasting material properties offer a meaningful route choice."
+    },
+    {
+      "idea": "A living archive of contemporary work is being filed as completed history; a maker needs a blank tile delivered before the swarm seals the studio.",
+      "source": "/submit-archival-materials/",
+      "why": "Recording history as it happens becomes a small race to keep creation possible."
+    }
+  ]
+}

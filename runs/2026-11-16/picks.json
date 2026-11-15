@@ -1,0 +1,50 @@
+{
+  "thread": "Follow clay from the potter's hands through the heat of the kiln and out onto the walls and floors of buildings. The swarm can become a coiled vessel, a glazed shard, or a patterned tile finding its place in a larger design.",
+  "candidates": [
+    {
+      "name": "The Digital Museum of Taiwan Ceramics",
+      "url": "https://digital.ceramics.ntpc.gov.tw/en-us/index.htm",
+      "why": "Clay-forming techniques, glazes, fuels and traditional kilns give the swarm hands, tools and fiery chambers to inhabit; exhibitions and collections add a variety of finished forms."
+    },
+    {
+      "name": "Florida Museum of Natural History",
+      "url": "https://www.floridamuseum.ufl.edu/histarch/ceramic-types/",
+      "why": "Its digital ceramic type collection offers hundreds of historical pottery types, with sherds, vessel forms, pastes, glazes and decorative motifs to reassemble into creatures."
+    },
+    {
+      "name": "Tiles and Architectural Ceramics Society",
+      "url": "https://tilesoc.org.uk/tacs/",
+      "why": "Tile-maker records, identification guides and a gazetteer of architectural ceramics turn the finished clay into patterned surfaces, marked tile backs and creatures attached to buildings."
+    },
+    {
+      "name": "Regional Ceramics Museum of Deruta",
+      "url": "https://www.museoceramicadideruta.it/en/",
+      "why": "Deruta's majolica, lustre decoration, historic pottery town and excavated San Salvatore kilns offer pots, clay settling vats and fire chambers."
+    },
+    {
+      "name": "PotWeb, Ashmolean Museum",
+      "url": "https://potweb.ashmolean.org/",
+      "why": "Ceramic collections arranged across periods and regions contain drinking vessels, burial urns, stoneware and porcelain, with distinctive shapes and painted skins."
+    },
+    {
+      "name": "TileWeb, Ashmolean Museum",
+      "url": "https://tileweb.ashmolean.org/",
+      "why": "Watercolours of medieval paving tiles preserve fish borders, knights and other designs, organized by buildings and counties for a swarm of patterned floor dwellers."
+    },
+    {
+      "name": "Tile Heritage Foundation",
+      "url": "https://tileheritage.org/",
+      "why": "American tile history, historic manufacturers, architectural terra cotta and mosaic preservation offer a trail from ceramic workshops to decorated surfaces."
+    },
+    {
+      "name": "Victoria and Albert Museum",
+      "url": "https://www.vam.ac.uk/",
+      "why": "Its tile collection ranges from medieval floor tiles and Dutch panels to roof tiles and ceramic stoves, with many designs and forms for creatures to borrow."
+    },
+    {
+      "name": "Deutsches Museum",
+      "url": "https://www.deutsches-museum.de/en/",
+      "why": "The ceramics exhibition traces clay from ancient storage vessels and painted pottery to porcelain and technical ceramic insulators, adding unexpected industrial forms."
+    }
+  ]
+}

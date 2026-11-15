@@ -1,0 +1,1134 @@
+{
+ "title": "The Space Between Tiles",
+ "swarm": {
+  "name": "The Joint",
+  "blurb": "A swarm of machines that collects shapes and forces them into a single growing ceramic surface."
+ },
+ "arc": "The Joint first appears to be collecting and preserving specimens, including pottery fragments. At the tile archive, the crew learns that collection was only a means: the swarm is using records as patterns for one continuous pavement, dragging real objects together rather than merely reuniting their images. It carries that pattern to working buildings, where its registry press seals installations and people into a permanent copy. Wren, Ox and Kestrel break the press and leave the recovered tiles to be returned with local knowledge, preserving room for repair and new work.",
+ "acts": [
+  {
+   "theme": "The collecting impulse",
+   "story": {
+    "intro": "The swarm is packing a living museum into drawers. Wren finds a clay shard among the specimens. Ox holds a corridor while Kestrel checks where the drawers go.",
+    "chapters": [
+     {
+      "title": "Things that move",
+      "text": "Mechanical moths copy the shapes around them. Real insects scatter when the presses start. Wren asks the crew to watch before striking."
+     },
+     {
+      "title": "Things that fit",
+      "text": "Sorters force unrelated shards together. Kestrel finds a seam between two pieces that were never a pair. The swarm keeps the crack as if it were a guide."
+     },
+     {
+      "title": "Things that stay",
+      "text": "Drawers close around specimens and tools alike. Ox keeps one open long enough to see a tile pattern scratched inside. The same pattern leads out of the collection."
+     }
+    ],
+    "bossIntro": "The Total Collection blocks the route with stacked drawers. It braces the stack whenever the crew reaches for a specimen. Kestrel points to the joints.",
+    "outro": "The cabinet breaks open. Among the loose drawers is a copy of a tile watercolour. The swarm carries its pattern onward. It seems to want a complete collection."
+   },
+   "creatures": [
+    {
+     "id": "moth-press",
+     "name": "Cookie-Cutter Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/science/experimental-study-on-moths-supports-the-molecular-cookie-cutter-idea-proposed-for-butterflies/",
+     "blurb": "It stamps copies from a wing-shaped die. Stop the press before the air fills.",
+     "look": "A small brass moth with flat brown wings, a hinged stamping die and pale cream antennae."
+    },
+    {
+     "id": "owl-diver",
+     "name": "Island Owl Diver",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/science/caribbean-islands-were-once-the-center-of-diversity-for-barn-owls/",
+     "blurb": "It folds its wings and dives at the nearest gap.",
+     "look": "A bone-white mechanical owl with a round face, narrow bronze wings and hooked feet."
+    },
+    {
+     "id": "dirt-sifter",
+     "name": "Dirt Sifter",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/event/tot-trot-dirt-nov-17-26/",
+     "blurb": "Its shaking screen throws grit into moving parts.",
+     "look": "A squat ochre vacuum on three wheels, with a mesh tray and a curled hose."
+    },
+    {
+     "id": "sherd-matcher",
+     "name": "Sherd Matcher",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/science/archaeologists-uncover-centuries-old-mystery-of-tampa-bays-secret-community-of-migrant-potters/",
+     "blurb": "It braces its neighbors with badly matched pottery. Break its cover.",
+     "look": "A four-armed frame holding uneven tan and blue pottery shards in metal clamps."
+    },
+    {
+     "id": "host-impostor",
+     "name": "Host-Plant Impostor",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/shops/plants/",
+     "blurb": "It lures visitors with false flowers and fouls their gear.",
+     "look": "A green metal stalk with yellow funnel flowers and a cage of curved leaves."
+    },
+    {
+     "id": "night-collector",
+     "name": "Night-Sheet Collector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/events/blog/nocturnal-neighbors-moth-collecting-and-night-fieldwork/",
+     "blurb": "Its lamp calls mechanical moths to the sheet.",
+     "look": "A wheeled lamp beside a stretched ivory sheet, with little brass moths gathered underneath."
+    },
+    {
+     "id": "specimen-press",
+     "name": "Specimen Press",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/discover/life-on-earth/",
+     "blurb": "It packs its shield with whatever lies within reach.",
+     "look": "A low wooden press with two broad green plates and copper screw handles."
+    },
+    {
+     "id": "horse-relay",
+     "name": "Fossil Horse Relay",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "finish"
+     ],
+     "source": "/discover/fossils-paleontology/",
+     "blurb": "Its jointed legs carry stolen parts to the next machine.",
+     "look": "A pale skeletal horse machine with rust-brown joints and a small crate in its ribs."
+    },
+    {
+     "id": "collection-sorter",
+     "name": "Collection Sorter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike+"
+     ],
+     "source": "/collections/list/",
+     "blurb": "It separates moving things from still things, with no regard for either.",
+     "look": "A tall gray filing cabinet on six legs, with long sorting arms and open empty drawers."
+    },
+    {
+     "id": "inquiry-box",
+     "name": "Inquiry Box",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/educators/outreach/",
+     "blurb": "Its lid releases a succession of mechanical specimens.",
+     "look": "A blue wooden case with a hinged lid, brass legs and tiny mechanical shells inside."
+    },
+    {
+     "id": "life-binder",
+     "name": "Life Binder",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/discover/value-of-museums/",
+     "blurb": "It repairs the machines pinning a changing habitat in place.",
+     "look": "A green cabinet with a curved stapling arm, coiled tubing and leaf-shaped metal plates."
+    },
+    {
+     "id": "total-collection",
+     "name": "The Total Collection",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/collections-research/",
+     "blurb": "It stacks drawers into a moving wall and locks specimens inside. Break through its shield to open the collection.",
+     "look": "A towering cabinet on thick iron legs, its cream drawers bulging with clay shards and brass leaves."
+    },
+    {
+     "id": "fossil-sorter",
+     "name": "Fossil Sorter",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/volunteers/",
+     "blurb": "A volunteer-made helper sorts fragments and patches damaged gear.",
+     "look": "A small tan wheeled cart with padded trays, a jointed repair arm and a canvas tool bag."
+    },
+    {
+     "id": "plant-tender",
+     "name": "Host-Plant Tender",
+     "tier": "ally",
+     "bodyPlan": "plant",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/shops/plants/",
+     "blurb": "It guards native plants while the crew passes.",
+     "look": "A green walking watering can with broad leaf-shaped shields and a brass spout."
+    }
+   ],
+   "events": [
+    {
+     "id": "plant-rescue",
+     "source": "/shops/plants/",
+     "look": "A fallen gray machine pins a leafy green plant beside a yellow metal flower.",
+     "title": "Host plant",
+     "text": "A butterfly circles a false flower. Its host plant is trapped beneath the lure.",
+     "options": [
+      {
+       "label": "Lift the machine",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The plant is free. The machine catches the crew on the way up."
+      },
+      {
+       "label": "Strip the lure for parts",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The flower comes apart. The plant remains pinned until help arrives."
+      }
+     ]
+    },
+    {
+     "id": "sheet-choice",
+     "source": "/events/blog/nocturnal-neighbors-moth-collecting-and-night-fieldwork/",
+     "look": "A white field sheet glows beside a hooded brass lamp and dark trees.",
+     "title": "Night sheet",
+     "text": "Moths and metal scouts gather on opposite sides of a lit sheet. The lamp has a useful lens.",
+     "options": [
+      {
+       "label": "Take the lens",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The crew fits the lens as a guard. The survey loses its light."
+      },
+      {
+       "label": "Leave the lamp and rest",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The survey continues while the crew catches its breath."
+      }
+     ]
+    },
+    {
+     "id": "fossil-sort",
+     "source": "/discover/fossils-paleontology/",
+     "look": "Pale bone fragments and steel parts ride a narrow conveyor.",
+     "title": "Mixed fragments",
+     "text": "A volunteer needs fossil fragments separated from machine parts before the belt carries both away.",
+     "options": [
+      {
+       "label": "Stop the belt by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The fragments are saved. The belt bites back."
+      },
+      {
+       "label": "Salvage the loose metal",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew takes the metal. The volunteer must chase the remaining fragments."
+      }
+     ]
+    },
+    {
+     "id": "sherd-choice",
+     "source": "/science/archaeologists-uncover-centuries-old-mystery-of-tampa-bays-secret-community-of-migrant-potters/",
+     "look": "Two uneven pottery fragments lie beside an open padded case.",
+     "title": "A possible match",
+     "text": "Two fragments look related. A collector offers supplies for time spent comparing them.",
+     "options": [
+      {
+       "label": "Help compare",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the pause and shared supplies to mend the crew. The match remains uncertain."
+      },
+      {
+       "label": "Take the spare packing clips",
+       "effect": {
+        "type": "gold",
+        "amount": 20
+       },
+       "result": "The collector keeps working without the crew. The clips have value."
+      }
+     ]
+    },
+    {
+     "id": "outreach-box",
+     "source": "/educators/outreach/",
+     "look": "A blue case rests under a steel claw beside a folded canvas shelter.",
+     "title": "Outreach case",
+     "text": "A mobile educator needs the case pulled from a machine. Its spare fittings could also help the crew.",
+     "options": [
+      {
+       "label": "Pull it free",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The educator recovers the case. The claw scrapes the crew."
+      },
+      {
+       "label": "Take the spare fittings",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The crew learns to clear fouled gear. The educator must retrieve the case alone."
+      }
+     ]
+    },
+    {
+     "id": "renovation-lift",
+     "source": "/pressroom/2024/08/29/renovating-exhibit-galleries/",
+     "look": "A yellow lift stands over an unfinished gray floor and a pile of bolts.",
+     "title": "Unfinished floor",
+     "text": "A lift works, but the floor beneath it is incomplete. The construction machine will lend a guard plate for a box of fasteners.",
+     "options": [
+      {
+       "label": "Pay for the plate",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The machine takes the fasteners and opens the lift."
+      },
+      {
+       "label": "Keep the fasteners and take the plate",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The crew takes the loose plate. The unfinished lift remains closed."
+      }
+     ]
+    }
+   ],
+   "name": "Florida Museum of Natural History",
+   "url": "https://www.floridamuseum.ufl.edu/histarch/ceramic-types/"
+  },
+  {
+   "theme": "A pattern mistaken for a place",
+   "story": {
+    "intro": "The watercolour leads to an archive of tile designs. The swarm is pulling scattered pieces into one floor. Kestrel assumes it is finishing the collection.",
+    "chapters": [
+     {
+      "title": "Copies travel",
+      "text": "A drawing can bring two distant fragments together on a page. The swarm copies the drawing, then drags the actual tiles across the floor. Ox keeps a path clear."
+     },
+     {
+      "title": "The wrong reunion",
+      "text": "The swarm leaves a safe tile crate to seize a matching piece. Wren notices it is building a pavement, not filling drawers. The collection was a supply of patterns."
+     },
+     {
+      "title": "The space between",
+      "text": "Knots and mosaics close every gap in the growing floor. Kestrel finds that the borrowed pieces have different edges. The seams still open under pressure."
+     }
+    ],
+    "bossIntro": "The Master Pavement joins the borrowed patterns into one surface. It sends out replacements as fast as gaps appear. Ox raises his shield while Kestrel works at a seam.",
+    "outro": "The pavement breaks into separate pieces. Beneath it is a route map to tiled buildings. The swarm is taking its pattern there, where it can cover surfaces that are still in use."
+   },
+   "creatures": [
+    {
+     "id": "roundel-weaver",
+     "name": "Roundel Weaver",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/Study04.html",
+     "blurb": "Its loops snag equipment while other machines close in.",
+     "look": "A small brass loom on six legs trailing cream loops and blue ceramic beads."
+    },
+    {
+     "id": "innovation-carrier",
+     "name": "Innovation Carrier",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/Study05.html",
+     "blurb": "It copies a tactic and carries it down the line.",
+     "look": "A thin blue tile with four copper wings and a hinged reflective face."
+    },
+    {
+     "id": "county-patrol",
+     "name": "County Patrol",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/parker-hore/b001.html",
+     "blurb": "It seizes loose supplies for a boundary that keeps moving.",
+     "look": "Two square ochre tiles on tiny iron legs with a dangling empty pouch."
+    },
+    {
+     "id": "mosaic-millipede",
+     "name": "Cosmati Millipede",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/Study02.html",
+     "blurb": "Its mosaic segments separate when the body is damaged.",
+     "look": "A long segmented millipede of white stone, green glass and dark red ceramic.",
+     "key": "green"
+    },
+    {
+     "id": "a3-sweeper",
+     "name": "A3 Sweeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/Assembly.html",
+     "blurb": "It hides behind its broad scanning plate before rolling forward.",
+     "look": "A wide ivory rectangular machine on low wheels with a glass belly and brass rollers."
+    },
+    {
+     "id": "provenance-retriever",
+     "name": "Provenance Retriever",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/Study03.html",
+     "blurb": "It drags tiles toward their recorded sites, regardless of what lies between.",
+     "look": "A low gray mechanical hound with a clamp jaw and a tile strapped to its back."
+    },
+    {
+     "id": "heraldic-misidentifier",
+     "name": "Heraldic Misidentifier",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/Study06.html",
+     "blurb": "It marks the crew for other machines with a false pattern.",
+     "look": "A bronze beetle with a shield-shaped blue shell and a pair of stamping pincers."
+    },
+    {
+     "id": "knot-garden",
+     "name": "Knot Garden",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/Study10.html",
+     "blurb": "Its loose loops divide and tighten around moving feet.",
+     "look": "A cluster of cream ceramic loops with dark green joints and thin metal legs."
+    },
+    {
+     "id": "northkeeper",
+     "name": "Northkeeper",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike+"
+     ],
+     "source": "/allestree/FloorPlan.html",
+     "blurb": "Its compass turns while the pavement shifts. Interrupt it before the crew is pinned.",
+     "look": "A bronze compass disk on four tile legs, with a long needle and a heavy rotating base."
+    },
+    {
+     "id": "citation-chain",
+     "name": "Citation Chain",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/Bibliography.html",
+     "blurb": "Its linked volumes summon more machines into the pattern.",
+     "look": "A chain of blue ceramic book shapes with copper hinges and a lantern-like head."
+    },
+    {
+     "id": "reunion-engine",
+     "name": "Reunion Engine",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "cover",
+      "strike"
+     ],
+     "source": "/Framework.html",
+     "blurb": "It repairs machines that pull distant pieces together.",
+     "look": "A many-jointed iron frame carrying mismatched ochre, cream and blue tiles in padded claws."
+    },
+    {
+     "id": "master-pavement",
+     "name": "Master Pavement",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike+"
+     ],
+     "source": "/Study00.html",
+     "blurb": "It builds a single floor from knots, mosaic and borrowed shards. It shields itself and calls replacements as the design spreads.",
+     "look": "A huge low pavement on iron legs, layered with blue knots, white triangles and green glass tiles; gaps expose copper gears."
+    },
+    {
+     "id": "watercolour-keeper",
+     "name": "Watercolour Keeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/",
+     "blurb": "It preserves a useful impression without moving the original tile.",
+     "look": "A small wheeled easel holding translucent blue and ochre sheets, with a brush-like repair arm."
+    },
+    {
+     "id": "survey-helper",
+     "name": "Survey Helper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/Study03.html",
+     "blurb": "It marks a tile\u2019s location and protects the crew while they work.",
+     "look": "A compact brass tripod with a green hood, padded arms and a rolled blank survey sheet."
+    }
+   ],
+   "events": [
+    {
+     "id": "split-watercolour",
+     "source": "/Framework.html",
+     "look": "Two translucent tile paintings lie apart as a brass claw approaches.",
+     "title": "Two halves",
+     "text": "Two watercolour fragments make a pattern when held together. A reunion machine is close.",
+     "options": [
+      {
+       "label": "Hold the fragments together",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The pattern is recorded. The claw catches the crew."
+      },
+      {
+       "label": "Sell a spare frame",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The fragments stay apart for now. The frame pays for supplies."
+      }
+     ]
+    },
+    {
+     "id": "scanner-fade",
+     "source": "/Assembly.html",
+     "look": "A bright scanner shines over a blue and ochre watercolour.",
+     "title": "Fading colour",
+     "text": "Each scan removes a little colour from a volunteer\u2019s original. The lamp has a useful shield.",
+     "options": [
+      {
+       "label": "Redirect the lamp",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The volunteer saves the original and shares a first-aid kit."
+      },
+      {
+       "label": "Take the shield",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The crew gains a guard plate. The volunteer must stop the scanner alone."
+      }
+     ]
+    },
+    {
+     "id": "tile-location",
+     "source": "/Study03.html",
+     "look": "A loose tan tile sits between a padded crate and a stone floor.",
+     "title": "Where it belongs",
+     "text": "A tile has records of both its original floor and its current safe storage. A retriever is coming.",
+     "options": [
+      {
+       "label": "Protect the crate",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The tile stays safely packed. The retriever lands a blow."
+      },
+      {
+       "label": "Trade the spare padding",
+       "effect": {
+        "type": "gold",
+        "amount": 20
+       },
+       "result": "The crew gets supplies. The tile\u2019s keepers must decide where to put it."
+      }
+     ]
+    },
+    {
+     "id": "roundel-net",
+     "source": "/Study04.html",
+     "look": "A cream looped net catches a survey tripod over a mosaic floor.",
+     "title": "Tangled survey",
+     "text": "A surveyor is caught in a patterned net. Pulling quickly will tighten it; undoing it takes time.",
+     "options": [
+      {
+       "label": "Cut the net",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The surveyor is free. A snapped wire strikes the crew."
+      },
+      {
+       "label": "Follow the loops",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The surveyor gets free slowly and shares medical supplies. The machine has time to escape."
+      }
+     ]
+    },
+    {
+     "id": "north-marker",
+     "source": "/allestree/FloorPlan.html",
+     "look": "A brass compass stands on a floor of turning blue and white squares.",
+     "title": "Moving north",
+     "text": "A marker turns with the floor. Its heavy base can stabilize the crew or be sold.",
+     "options": [
+      {
+       "label": "Use the base as a shield",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The marker is dismantled. The crew carries its base."
+      },
+      {
+       "label": "Sell the brass base",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew gains supplies. The marker can no longer guide anyone."
+      }
+     ]
+    },
+    {
+     "id": "knot-floor",
+     "source": "/Study10.html",
+     "look": "A metal tool lies inside a ring of interlaced green ceramic loops.",
+     "title": "Tight knot",
+     "text": "Loops tighten around a dropped tool. Following them backward will take time.",
+     "options": [
+      {
+       "label": "Pull it free",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The tool comes loose. The loops lash the crew."
+      },
+      {
+       "label": "Work backward",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The crew rests between careful turns and frees the tool. A patrol moves ahead."
+      }
+     ]
+    }
+   ],
+   "name": "TileWeb, Ashmolean Museum",
+   "url": "https://tileweb.ashmolean.org/"
+  },
+  {
+   "theme": "Keeping room for change",
+   "story": {
+    "intro": "The swarm reaches tiled walls and floors. It lifts whole installations to feed a line of copies. Wren finds people still working in the rooms being sealed.",
+    "chapters": [
+     {
+      "title": "Surfaces in use",
+      "text": "Registry machines lift floors with the rooms still on them. Ox holds a panel up while people pass underneath. The swarm treats an occupied place as another part to store."
+     },
+     {
+      "title": "Repairs and gaps",
+      "text": "Menders leave cracks visible in their repairs. The swarm fills those gaps with identical tiles. Kestrel finds the joins between the originals and the copies."
+     },
+     {
+      "title": "A place to work",
+      "text": "The copied pattern leads to a central press. It is sealing makers and visitors inside the surfaces it collects. Wren keeps the route open for those leaving."
+     }
+    ],
+    "bossIntro": "The Grand Registry pulls installed tiles into its press and sends copies back out. Its shield closes over the feed. Ox takes the first sweep while Kestrel looks for the join.",
+    "outro": "The press stops. Its captured tiles can be returned with help from the people who know their places. Wren patches the crew. Ox holds the door for a maker carrying a blank tile. Kestrel leaves the remaining seams alone."
+   },
+   "creatures": [
+    {
+     "id": "dust-mites",
+     "name": "Dust-Press Mites",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/richard-prosser-biography-by-susan-darby/",
+     "blurb": "They pack loose dust into hard little plates.",
+     "look": "A cluster of round tan metal mites carrying square clay plates in their jaws."
+    },
+    {
+     "id": "submission-sniffer",
+     "name": "Submission Sniffer",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/submit-a-site/",
+     "blurb": "It noses out hidden routes and steals loose supplies.",
+     "look": "A small gray mechanical hound with a long brass snout and blue glass eyes."
+    },
+    {
+     "id": "training-trowel",
+     "name": "Training Trowel",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/installation-professionals/",
+     "blurb": "It spreads adhesive in the same obstructive stroke.",
+     "look": "A silver trowel on three thin legs, dragging a pale gray ribbon of mortar."
+    },
+    {
+     "id": "dating-calipers",
+     "name": "Dating Calipers",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/research-services/",
+     "blurb": "They clamp down and foul anything they misidentify.",
+     "look": "A large bronze caliper with jointed legs and chipped green ceramic pads."
+    },
+    {
+     "id": "file-centipede",
+     "name": "File Centipede",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/submit-archival-materials/",
+     "blurb": "Its armored records protect nearby machines.",
+     "look": "A long centipede of cream ceramic file boxes joined by dark iron hinges."
+    },
+    {
+     "id": "image-mirror",
+     "name": "Image Mirror",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/tile-heritage-collection/",
+     "blurb": "It repeats the crew\u2019s tactics from behind a nearly complete pattern.",
+     "look": "An upright blue and cream mosaic mirror with one square missing and four small wheels."
+    },
+    {
+     "id": "catalog-presser",
+     "name": "Catalog Presser",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/historic-tile-publications/",
+     "blurb": "It rolls a repeated pattern over everything in its path.",
+     "look": "A heavy ochre roller with raised geometric shapes, pulled by two black iron legs."
+    },
+    {
+     "id": "hub-chorus",
+     "name": "Hub Chorus",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/tile-and-mosaic-organizations/",
+     "blurb": "Its competing taps interrupt the crew\u2019s rhythm.",
+     "look": "A cluster of small blue tile disks on copper legs, each with a hinged tapping arm."
+    },
+    {
+     "id": "registry-rover",
+     "name": "Registry Rover",
+     "tier": "elite",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike+"
+     ],
+     "source": "/registry/",
+     "blurb": "It lifts whole surfaces and shields the machines that attach them.",
+     "look": "A broad tiled floor on six heavy iron legs, with padded clamps dangling underneath."
+    },
+    {
+     "id": "false-inspector",
+     "name": "False Inspector",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike+"
+     ],
+     "source": "/confirmation-of-a-masterpiece/",
+     "blurb": "It sends out copies to enforce a premature identification.",
+     "look": "A tall cream ceramic frame with a brass stamping arm and a tray of identical small tiles."
+    },
+    {
+     "id": "bridge-kiln",
+     "name": "Bridge Kiln",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/pottery-bridges-around-the-world/",
+     "blurb": "It fires replacement segments and repairs the machines carrying them.",
+     "look": "A squat charcoal kiln on wheeled arches, glowing orange through a round open mouth."
+    },
+    {
+     "id": "grand-registry",
+     "name": "The Grand Registry",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "sweep+"
+     ],
+     "source": "/registry/",
+     "blurb": "It connects captured installations to a line of copies. Break its shield and stop its reinforcements before it seals the next surface.",
+     "look": "A vast walking press of cream and green tiles with a rotating shield, iron legs and a train of small tile machines emerging from its base."
+    },
+    {
+     "id": "shard-mender",
+     "name": "Shard Mender",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/volunteer/",
+     "blurb": "It repairs broken edges while leaving the seams visible.",
+     "look": "A small ochre work cart with padded claws, a soldering arm and a tray of uneven shards."
+    },
+    {
+     "id": "reuse-courier",
+     "name": "Reuse Courier",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/resource-center-to-donate-tiles-and-other-material-for-re-use/",
+     "blurb": "It carries useful offcuts and shields the crew with a spare panel.",
+     "look": "A sturdy blue handcart on four wheels with a cream tile shield and bundled offcuts."
+    }
+   ],
+   "events": [
+    {
+     "id": "private-site",
+     "source": "/submit-a-site/",
+     "look": "A survey claw reaches toward a tiled doorway behind a closed gate.",
+     "title": "A private place",
+     "text": "An owner asks the crew to divert a machine mapping a private installation. Its survey parts are valuable.",
+     "options": [
+      {
+       "label": "Divert the claw",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The owner keeps the location private. The claw strikes the crew."
+      },
+      {
+       "label": "Take loose survey parts",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew gets useful parts. The owner has to lead the machine away."
+      }
+     ]
+    },
+    {
+     "id": "tap-route",
+     "source": "/tile-and-mosaic-organizations/",
+     "look": "Blue floor tiles surround a small brass tapping device.",
+     "title": "One beat late",
+     "text": "A hub keeper taps a safe route. A hostile chorus follows a beat late.",
+     "options": [
+      {
+       "label": "Follow the keeper",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The keeper guides the crew to a sheltered rest. The chorus spreads elsewhere."
+      },
+      {
+       "label": "Take the tapping plate",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The plate can interrupt a machine. The keeper loses a way to signal."
+      }
+     ]
+    },
+    {
+     "id": "crate-convoy",
+     "source": "/events/",
+     "look": "Two wooden crates ride separate wheeled frames along a tiled floor.",
+     "title": "Two crates",
+     "text": "One runaway crate carries a volunteer. Another holds tile images. There is only time to catch one.",
+     "options": [
+      {
+       "label": "Stop the volunteer\u2019s crate",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The volunteer is safe. The crew takes a blow from the frame."
+      },
+      {
+       "label": "Recover the image crate",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The images are saved and the grateful archivist offers supplies. Others pursue the volunteer."
+      }
+     ]
+    },
+    {
+     "id": "entry-floor",
+     "source": "/notable-installations/",
+     "look": "Cream and blue tiles shift around one loose square at a doorway.",
+     "title": "Threshold",
+     "text": "A floor rearranges underfoot. A loose tile shows the original repeat and has a sturdy edge.",
+     "options": [
+      {
+       "label": "Follow the repeat",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The crew reaches a quiet landing. The loose tile stays behind."
+      },
+      {
+       "label": "Take the tile as a guard",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The crew gains a shield. The original repeat is harder for others to read."
+      }
+     ]
+    },
+    {
+     "id": "mortar-drill",
+     "source": "/installation-professionals/",
+     "look": "A steel trowel seals a doorway with gray mortar and square tiles.",
+     "title": "Training drill",
+     "text": "A trowel seals the doorway, then pauses for mortar. Its spare mortar could be traded.",
+     "options": [
+      {
+       "label": "Cross during the pause",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew slips through but catches a flying tile."
+      },
+      {
+       "label": "Trade the spare mortar",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The crew gets supplies. The doorway seals again."
+      }
+     ]
+    },
+    {
+     "id": "blank-tile",
+     "source": "/submit-archival-materials/",
+     "look": "A blank cream tile rests on a workbench beside an iron shutter.",
+     "title": "Still making",
+     "text": "A maker needs a blank tile carried into a studio before the shutter closes. A merchant offers supplies for the same tile.",
+     "options": [
+      {
+       "label": "Carry it inside",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The maker can continue working. The shutter clips the crew."
+      },
+      {
+       "label": "Trade the tile",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew gets supplies. The maker must find another blank."
+      }
+     ]
+    }
+   ],
+   "name": "Tile Heritage Foundation",
+   "url": "https://tileheritage.org/"
+  }
+ ],
+ "id": "2026-11-16",
+ "seed": 940233119
+}

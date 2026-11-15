@@ -1,0 +1,454 @@
+{
+  "host": "tileweb.ashmolean.org",
+  "url": "https://tileweb.ashmolean.org/",
+  "crawledAt": "2026-11-15T22:08:32.923Z",
+  "pages": [
+    {
+      "path": "/",
+      "title": "TileWeb: Paving-tile Watercolours Online",
+      "section": "home",
+      "excerpt": "The archive of the Parker - Hore Collection is a family story covering the period from the 1840s to the onset of World War II in 1939. It is a portrait of a granddaughter's dedicated completion of a t",
+      "headings": [],
+      "links": [
+        "/Framework.html",
+        "/Background.html",
+        "/Team.html",
+        "/allestree/HomePage.html",
+        "/Links.html",
+        "/Study00.html",
+        "/parker-hore/b002.html",
+        "/Bibliography.html"
+      ]
+    },
+    {
+      "path": "/Framework.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Framework",
+      "section": "Framework.html",
+      "excerpt": "The aims of the Sharing Museum Skills Millennium Award were:- The Millennium Award has enabled the digital reunification of some 3,000 items of the divided archive into a single digital catalogue. Thi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Bridges%2bMellor.html",
+        "/Assembly.html",
+        "/Evaluation.html"
+      ]
+    },
+    {
+      "path": "/Background.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Background",
+      "section": "Background.html",
+      "excerpt": "In the nineteeth century ceramic historians believed that medieval decorative tiles threw more light on the tastes and preoccupations of early craftsmen and their patrons than did earthenware vessels.",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Bridges%2bMellor.html"
+      ]
+    },
+    {
+      "path": "/Team.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: TileWeb Team",
+      "section": "Team.html",
+      "excerpt": "The lead researcher was Maureen Mellor who co-ordinated the project between the Commandery Museum, Worcester and the Ashmolean Museum, Oxford, compiled the database and web pages. Tim Bridges, Collect",
+      "headings": [],
+      "links": [
+        "/HomePage.html"
+      ]
+    },
+    {
+      "path": "/allestree/HomePage.html",
+      "title": "TileWeb: The Allestree Library at Christ Church, Oxford",
+      "section": "allestree",
+      "excerpt": "The Allestree Library at Christ Church, Oxford The Allestree Library at Christ Church is very much one of Oxford's hidden treasures – in several different ways. Here, a small barely-known room above t",
+      "headings": [
+        "The Allestree Library at Christ Church, Oxford, and its Tiled Pavement",
+        "Acknowledgements"
+      ],
+      "links": [
+        "/allestree/HomePage.html",
+        "/allestree/Allestree.html",
+        "/allestree/TheLibrary.html",
+        "/allestree/FloorPlan.html"
+      ]
+    },
+    {
+      "path": "/Links.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Links",
+      "section": "Links.html",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html"
+      ]
+    },
+    {
+      "path": "/Study00.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 0",
+      "section": "Study00.html",
+      "excerpt": "Decorated paving tiles have attracted considerable scholarly study during the nineteenth and twentieth centuries but their decoration has received less attention. The watercolours of the Parker-Hore c",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study01.html",
+        "/Study02.html",
+        "/Study03.html",
+        "/Study04.html",
+        "/Study05.html",
+        "/Study06.html",
+        "/Study07.html",
+        "/Study08.html",
+        "/Study09.html",
+        "/Study10.html"
+      ]
+    },
+    {
+      "path": "/parker-hore/b002.html",
+      "title": "TileWeb: Bedfordshire (B002)",
+      "section": "parker-hore",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/parker-hore/a001.html",
+        "/parker-hore/b001.html",
+        "/parker-hore/b003.html",
+        "/parker-hore/z097.html",
+        "/parker-hore/b002.html"
+      ]
+    },
+    {
+      "path": "/Bibliography.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Bibliography",
+      "section": "Bibliography.html",
+      "excerpt": "K. Beaulah, `Medieval Paving Tiles' in Fired Earth: 1000 Years of Tiles in Europe , Richard Dennis Publications/Tiles and Architectural Ceramics Society, 1991. I. M Betts, Medieval `Westminster' Floor",
+      "headings": [],
+      "links": [
+        "/HomePage.html"
+      ]
+    },
+    {
+      "path": "/HomePage.html",
+      "title": "TileWeb: Paving-tile Watercolours Online",
+      "section": "HomePage.html",
+      "excerpt": "The archive of the Parker - Hore Collection is a family story covering the period from the 1840s to the onset of World War II in 1939. It is a portrait of a granddaughter's dedicated completion of a t",
+      "headings": [],
+      "links": [
+        "/Framework.html",
+        "/Background.html",
+        "/Team.html",
+        "/allestree/HomePage.html",
+        "/Links.html",
+        "/Study00.html",
+        "/parker-hore/b002.html",
+        "/Bibliography.html"
+      ]
+    },
+    {
+      "path": "/Bridges%2bMellor.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Background",
+      "section": "Bridges%2bMellor.html",
+      "excerpt": "An archive of Paving-tiles in the Parker-Hore Collection, Worcester, and in the Ashmolean Museum. Oxford Tim Bridges and Maureen Mellor originally published in The Journal of British Archaeology Assoc",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Background.html",
+        "/Bridges%2bMellor.html"
+      ]
+    },
+    {
+      "path": "/Assembly.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Assembly",
+      "section": "Assembly.html",
+      "excerpt": "The mechanism of assembly started with liaison and briefing of volunteers, and the experimental scanning of watercolours. The Millennium Commission generously funded an A3 scanner which speeded the ca",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Framework.html",
+        "/Evaluation.html"
+      ]
+    },
+    {
+      "path": "/Evaluation.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Evaluation",
+      "section": "Evaluation.html",
+      "excerpt": "The extent to which the project has achieved its aims can be addressed under the broad headings set out as follows: Community benefits to host museum: Worcester Worcester City Council's mission includ",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Assembly.html",
+        "/Framework.html"
+      ]
+    },
+    {
+      "path": "/allestree/Allestree.html",
+      "title": "TileWeb: The Allestree Library at Christ Church, Oxford: The Library",
+      "section": "allestree",
+      "excerpt": "The Allestree Library at Christ Church, Oxford Richard Allestree was born in Shropshire, and educated at the free school in Coventry before he came up to Christ Church in 1637. After only six months h",
+      "headings": [
+        "Richard Allestree (1621-1681)"
+      ],
+      "links": [
+        "/allestree/HomePage.html",
+        "/allestree/Allestree.html",
+        "/allestree/TheLibrary.html",
+        "/allestree/FloorPlan.html"
+      ]
+    },
+    {
+      "path": "/allestree/TheLibrary.html",
+      "title": "TileWeb: The Allestree Library at Christ Church, Oxford: The Library",
+      "section": "allestree",
+      "excerpt": "The Allestree Library at Christ Church, Oxford There is a bias towards theology, but there are many other subjects, including classics, science, medicine, mathematics, and patristics. As a discrete co",
+      "headings": [
+        "The Library"
+      ],
+      "links": [
+        "/allestree/HomePage.html",
+        "/allestree/Allestree.html",
+        "/allestree/TheLibrary.html",
+        "/allestree/FloorPlan.html"
+      ]
+    },
+    {
+      "path": "/allestree/FloorPlan.html",
+      "title": "TileWeb: The Allestree Library at Christ Church, Oxford: The Floor Plan",
+      "section": "allestree",
+      "excerpt": "The Allestree Library at Christ Church, Oxford @copy; Copyright University of Oxford, Ashmolean Museum",
+      "headings": [
+        "Survey plan of the tiled floor, north is at the top"
+      ],
+      "links": [
+        "/allestree/HomePage.html",
+        "/allestree/FloorPlan.html",
+        "/allestree/Allestree.html",
+        "/allestree/TheLibrary.html"
+      ]
+    },
+    {
+      "path": "/Study01.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 1",
+      "section": "Study01.html",
+      "excerpt": "Initially the designers of the great pavements in England may have been trained as metalworkers, employed at court. During the thirteenth century a new craftworker emerged in England, Wales and Scotla",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study00.html",
+        "/Study02.html"
+      ]
+    },
+    {
+      "path": "/Study02.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 2",
+      "section": "Study02.html",
+      "excerpt": "Mosaic flooring was popular in antiquity and Cosmati pavements of porphyry, marble and glass were popular in the Mediterranean basin in the twelfth century. Some still survive in situ in Britain, as a",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study01.html",
+        "/Study00.html",
+        "/Study03.html"
+      ]
+    },
+    {
+      "path": "/Study03.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 3",
+      "section": "Study03.html",
+      "excerpt": "The exact location of each of the tiles recorded in the Parker-Hore Collection is of great importance. Many of these tiles have now been removed, some to the safe storage of a museum, others have been",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study02.html",
+        "/Study00.html",
+        "/Study04.html"
+      ]
+    },
+    {
+      "path": "/Study04.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 4",
+      "section": "Study04.html",
+      "excerpt": "Silk was used in the service of the Church and the State. The oldest surviving Byzantine silk textiles include motifs inspired by earlier Persian designs. The pearl roundels and fleur-de-lys were late",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study03.html",
+        "/Study00.html",
+        "/Study05.html"
+      ]
+    },
+    {
+      "path": "/Study05.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 5",
+      "section": "Study05.html",
+      "excerpt": "Innovation, Communication and Interaction Technological and artistic innovations are spread in various ways and at different speeds, specific factors often function as accelerators and others as suppr",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study04.html",
+        "/Study00.html",
+        "/Study06.html"
+      ]
+    },
+    {
+      "path": "/Study06.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 6",
+      "section": "Study06.html",
+      "excerpt": "Heraldry is a fascinating subject and its art and language was understood by every medieval soldier. Knights were dressed in plate armour and it was difficult to recognise which army they belonged too",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study05.html",
+        "/Study00.html",
+        "/Study07.html"
+      ]
+    },
+    {
+      "path": "/Study07.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 7",
+      "section": "Study07.html",
+      "excerpt": "During the Middle Ages very few people could write or read. Lettering may therefore have held a fascination for designers, tilers and their patrons. Tiles with initials, and alphabet tiles were popula",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study06.html",
+        "/Study00.html",
+        "/Study08.html"
+      ]
+    },
+    {
+      "path": "/Study08.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 8",
+      "section": "Study08.html",
+      "excerpt": "Some delightful figurative drawings can be seen in the archive (e.g. A019 and A020 ), some portray garments in great detail, a few Saints are also depicted. The earliest animal to be depicted on decor",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study07.html",
+        "/Study00.html",
+        "/Study09.html"
+      ]
+    },
+    {
+      "path": "/Study09.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 9",
+      "section": "Study09.html",
+      "excerpt": "Geometric designs were favoured by Islamic designers, the court artist in the Islamic world often contributed to carpet and textile design. Architectural symbols were in use on tiles from as early as ",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study08.html",
+        "/Study00.html",
+        "/Study10.html"
+      ]
+    },
+    {
+      "path": "/Study10.html",
+      "title": "TileWeb: Paving-tile Watercolours Online: Study of Architectural Ceramics 10",
+      "section": "Study10.html",
+      "excerpt": "Fleur-de-lys, quatrefoils, rosettes, roses and knot designs The fleur-de-lys, originally a Persian motif, was adopted by Clovis (King of the Franks 465 - 511 AD) and finally became France's heraldic e",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/Study09.html",
+        "/Study00.html"
+      ]
+    },
+    {
+      "path": "/parker-hore/a001.html",
+      "title": "TileWeb: Hampshire (A001)",
+      "section": "parker-hore",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/parker-hore/a002.html",
+        "/parker-hore/z097.html",
+        "/parker-hore/a001.html"
+      ]
+    },
+    {
+      "path": "/parker-hore/b001.html",
+      "title": "TileWeb: Bedfordshire (B001)",
+      "section": "parker-hore",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/parker-hore/a001.html",
+        "/parker-hore/a559.html",
+        "/parker-hore/b002.html",
+        "/parker-hore/z097.html",
+        "/parker-hore/b001.html"
+      ]
+    },
+    {
+      "path": "/parker-hore/b003.html",
+      "title": "TileWeb: Bedfordshire (B003)",
+      "section": "parker-hore",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/parker-hore/a001.html",
+        "/parker-hore/b002.html",
+        "/parker-hore/b004.html",
+        "/parker-hore/z097.html",
+        "/parker-hore/b003.html"
+      ]
+    },
+    {
+      "path": "/parker-hore/z097.html",
+      "title": "TileWeb: Derbyshire (Z097)",
+      "section": "parker-hore",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/parker-hore/a001.html",
+        "/parker-hore/z096.html"
+      ]
+    },
+    {
+      "path": "/parker-hore/a002.html",
+      "title": "TileWeb: Hampshire (A002)",
+      "section": "parker-hore",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/parker-hore/a001.html",
+        "/parker-hore/a003.html",
+        "/parker-hore/z097.html",
+        "/parker-hore/a002.html"
+      ]
+    },
+    {
+      "path": "/parker-hore/a559.html",
+      "title": "TileWeb: Northamptonshire (A559)",
+      "section": "parker-hore",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/parker-hore/a001.html",
+        "/parker-hore/a558.html",
+        "/parker-hore/b001.html",
+        "/parker-hore/z097.html",
+        "/parker-hore/a559.html"
+      ]
+    },
+    {
+      "path": "/parker-hore/b004.html",
+      "title": "TileWeb: Bedfordshire (B004)",
+      "section": "parker-hore",
+      "excerpt": "� Copyright of this digital resource will be held jointly by the Ashmolean Museum, Worcester City Museum & Art Gallery and by the Worcestershire Archaeological Society. Copyright of the original drawi",
+      "headings": [],
+      "links": [
+        "/HomePage.html",
+        "/parker-hore/a001.html",
+        "/parker-hore/b003.html",
+        "/parker-hore/b005.html",
+        "/parker-hore/z097.html",
+        "/parker-hore/b004.html"
+      ]
+    }
+  ]
+}
