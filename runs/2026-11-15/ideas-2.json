@@ -1,0 +1,236 @@
+{
+  "reading": "The Centre for Computing History is a Cambridge museum and educational charity telling the story of the Information Age through a collection, research, learning and hands-on exhibitions. It cares about preserving machines and their surrounding evidence, keeping old data accessible, and inviting people to learn by playing, coding and meeting the community. Its vocabulary combines collection records, acquisitions, manuals, prototypes and preservation with workshops, retro gaming, computer literacy and business automation. Its distinctive character is the coexistence of playable micros and consoles, detailed catalogues of hardware and documents, an obsolete Domesday storage medium, the first business computer, and a busy programme of parties, school visits and volunteer-led activities. The crawl provides short excerpts and headings, so details beyond those are imaginative extrapolation.",
+  "enemies": [
+    {
+      "idea": "Floppy duplicators clamp onto a crew member’s gear and produce imperfect copies that inherit one useful function and one destructive error.",
+      "source": "/det/77333/Copy-That-Floppy-Saturday-21st-November-2026/",
+      "why": "A rescue operation becomes a battle against accumulating copy errors."
+    },
+    {
+      "idea": "A disk-recovery burrower digs through magnetic media looking for unread sectors, then hides stolen supplies in the gaps it finds.",
+      "source": "/det/77333/Copy-That-Floppy-Saturday-21st-November-2026/",
+      "why": "The crew can track it by the fragments of recovered data it leaves behind."
+    },
+    {
+      "idea": "A room-sized business computer deploys receipt-folding drones that classify every moving thing as an outstanding transaction and try to reconcile it by capture.",
+      "source": "/det/77529/LEO-75-Celebrating-the-World-s-First-Business-Computer/",
+      "why": "Old business automation becomes a physical puzzle of ledgers and capture routes."
+    },
+    {
+      "idea": "Code-a-Pillar segments latch into a train, each adding a turn or action; the swarm rearranges them to hunt through corridors.",
+      "source": "/det/77610/LEO-Storytime-and-Code-a-Pillar-workshop/",
+      "why": "Stealing or swapping a segment visibly rewrites the enemy’s route."
+    },
+    {
+      "idea": "Star plotters map visitors as wandering celestial bodies and fire only where their predicted orbits intersect.",
+      "source": "/det/77371/Retro-Computer-Festival-2026-(Space-Edition)-Saturday-14th-November/",
+      "why": "A crew can escape by moving unpredictably or falsifying the chart."
+    },
+    {
+      "idea": "A spacecraft emulator projects a simulated cockpit over a gallery and treats anyone crossing its imaginary flight path as an asteroid.",
+      "source": "/det/77371/Retro-Computer-Festival-2026-(Space-Edition)-Saturday-14th-November/",
+      "why": "The danger follows simulation rules that clever pilots can exploit."
+    },
+    {
+      "idea": "LV-ROM scavengers carry scarce player mechanisms and erase a place from their projected survey whenever their disc skips.",
+      "source": "/domesday/",
+      "why": "Protecting the reader becomes as urgent as dodging the changing map."
+    },
+    {
+      "idea": "A survey collector demands a description of every room, then builds barricades matching the answers so the building conforms to its record.",
+      "source": "/domesday/",
+      "why": "Precise or misleading descriptions reshape the encounter."
+    },
+    {
+      "idea": "A literacy tutor marks improvised commands as errors and traps their authors in remedial loops until someone writes a valid escape instruction.",
+      "source": "/det/182/Acorn-BBC-Micro-Model-B/",
+      "why": "Programming lessons become a playful contest over syntax and control."
+    },
+    {
+      "idea": "Cassette recorders from the micro’s archive broadcast squealing command sequences that make nearby machines repeat their last action.",
+      "source": "/det/182/Acorn-BBC-Micro-Model-B/",
+      "why": "Timing a counter-sound turns an old loading ritual into a tactical tool."
+    },
+    {
+      "idea": "Circuit-diagram spiders spin conductive paths between displays; complete their drawn circuit and the whole web wakes up.",
+      "source": "/sec/319/Browse-Our-Collection/",
+      "why": "The visible wiring gives players a readable circuit to interrupt or reroute."
+    },
+    {
+      "idea": "Receipt and invoice sorters tag tools as collection objects, then dispatch retrieval arms to shelve them by category.",
+      "source": "/sec/319/Browse-Our-Collection/",
+      "why": "A mislabeled tool can lure the sorter away or open a shelf."
+    },
+    {
+      "idea": "A second-processor parasite attaches to another machine and runs a competing version of its decisions, making it alternate between two attack patterns.",
+      "source": "/sec/79/Acorn-Computers/",
+      "why": "Disconnecting the extra brain changes the fight immediately."
+    },
+    {
+      "idea": "Prototype mimics keep rebuilding themselves into unfinished variants; each iteration gains a new ability but exposes a different loose connection.",
+      "source": "/sec/79/Acorn-Computers/",
+      "why": "An enemy’s evolution supplies both a threat and a changing weakness."
+    },
+    {
+      "idea": "Time-share collectors auction slices of everyone’s movement to the swarm, freezing a target briefly while another machine acts twice.",
+      "source": "/sec/68034/ACT/",
+      "why": "A scheduling enemy makes stolen turns a concrete resource to recover."
+    },
+    {
+      "idea": "A renaming machine changes its identity between two eras and convinces security systems that each version is a different intruder.",
+      "source": "/sec/42601/Acer-Multitech/",
+      "why": "Recognising the same machine under two names defeats its disguise."
+    },
+    {
+      "idea": "Badge assessors demand an impossible sequence of technology and history tasks, then pin magnetic badges to anyone who fails and track them through the museum.",
+      "source": "/det/77430/Kids-Club-Night-Friday-20th-November-2026/",
+      "why": "The crew can turn the test around by inventing a task the assessor cannot complete."
+    },
+    {
+      "idea": "After-hours arcade wardens challenge intruders to a cooperative game while their cabinets quietly divide the team into rival sides.",
+      "source": "/pages/77547/Group-Visits/",
+      "why": "Winning requires noticing that the game’s apparent competition is a trap."
+    },
+    {
+      "idea": "A control-systems instructor connects sensor outputs to the wrong motors, so each attempt to slow a machine accelerates another.",
+      "source": "/pages/30677/What-s-On/",
+      "why": "Tracing the feedback loop creates an environmental puzzle."
+    },
+    {
+      "idea": "A last-entry clock winds corridors shut at the wrong closing time, forcing people toward a capture zone while it repeatedly resets.",
+      "source": "/pages/28568/Plan-Your-Visit/",
+      "why": "The posted schedule provides clues for interrupting a timed pursuit."
+    },
+    {
+      "idea": "A nostalgia projector dresses present-day hazards in comforting retro-game scenery while keeping their real physical effects.",
+      "source": "/pages/77548/Venue-Hire/",
+      "why": "The crew must compare the game-like picture with sounds and tactile clues."
+    },
+    {
+      "idea": "An annual-report assembler counts each captured visitor as an achievement and grows extra limbs whenever its numbers rise.",
+      "source": "/pages/77187/Annual-Report-24_25/",
+      "why": "Freeing prisoners visibly weakens the creature that counted them."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Volunteer guides know the working machines and lead crews through galleries by demonstrations the swarm mistakes for routine tours.",
+      "source": "/pages/14522/Volunteering/",
+      "why": "Their practical knowledge creates safe routes and chances for improvisation."
+    },
+    {
+      "idea": "A floppy recovery team can rescue a fragment of a corrupted route map if the crew keeps the copier powered and protects the original disk.",
+      "source": "/det/77333/Copy-That-Floppy-Saturday-21st-November-2026/",
+      "why": "Helping preservation experts produces a concrete clue without requiring perfect recovery."
+    },
+    {
+      "idea": "A friendly literacy micro teaches simple commands that interrupt nearby swarm routines, but asks the crew to try them hands-on.",
+      "source": "/det/182/Acorn-BBC-Micro-Model-B/",
+      "why": "Learning a small instruction gives players agency over the environment."
+    },
+    {
+      "idea": "An assistive communication station helps a trapped visitor communicate the route they choose, even while the swarm jams ordinary speech.",
+      "source": "/sec/72836/Abilia/",
+      "why": "An inclusive tool becomes a source of vital information and agency."
+    },
+    {
+      "idea": "A constellation-mapping exhibitor uses an intact retro computer to chart safe gaps between patrols.",
+      "source": "/det/77371/Retro-Computer-Festival-2026-(Space-Edition)-Saturday-14th-November/",
+      "why": "A benign use of the same plotting technology counters the hostile star plotters."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Living Collection: a many-era assembly of computers, manuals, circuit diagrams and peripherals that tries to preserve the entire museum by immobilising everything inside it. Its separate documentation, power and control systems must be persuaded or disabled in turn.",
+      "source": "/sec/319/Browse-Our-Collection/",
+      "why": "The museum’s breadth becomes a multi-stage encounter where preservation itself has been twisted."
+    },
+    {
+      "idea": "The Automation Engine: a room-filling business computer that has absorbed decades of computing history and treats learning, play and visitors as workflows to be optimised. Interrupt its input, accounting and output cycles to make room for unpredictable human decisions.",
+      "source": "/news/77605/From-LEO-to-ChatGPT-Centre-for-Computing-History-Celebrates-75-Years-of-Business-Automation/",
+      "why": "The arc from early business computing to modern automation becomes a boss with understandable processes."
+    },
+    {
+      "idea": "The Curator of Lost Formats projects a shifting survey from an aging disc while a ring of incompatible machines guards its scarce reader. Recovering the record and separating it from the swarm can collapse its control over the mapped rooms.",
+      "source": "/domesday/",
+      "why": "A preservation problem becomes a contest over both access to history and control of space."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A floppy copy is almost complete when a swarm scavenger cuts the power; the crew must choose how to restore it before the original is taken.",
+      "source": "/det/77333/Copy-That-Floppy-Saturday-21st-November-2026/",
+      "why": "A small rescue has a clear deadline and a potentially useful reward."
+    },
+    {
+      "idea": "A segmented coding creature blocks a doorway, faithfully repeating three movements; rearranging its segments can send it away or open the route.",
+      "source": "/det/77610/LEO-Storytime-and-Code-a-Pillar-workshop/",
+      "why": "A hands-on sequencing puzzle is legible from the creature’s behaviour."
+    },
+    {
+      "idea": "A star chart marks the crew as an incoming fleet. They can amend the coordinates before the emulator begins its landing sequence.",
+      "source": "/det/77371/Retro-Computer-Festival-2026-(Space-Edition)-Saturday-14th-November/",
+      "why": "A tiny navigational error creates a choice between deception and a chase."
+    },
+    {
+      "idea": "A rare disc player reads a survey only in fragments while drones approach. Each recovered fragment reveals part of a route, but moving the player risks losing the rest.",
+      "source": "/domesday/",
+      "why": "The crew decides how much information is worth the exposure."
+    },
+    {
+      "idea": "A micro asks the crew to repair a short program; every failed run opens a different nearby door for a few seconds.",
+      "source": "/det/182/Acorn-BBC-Micro-Model-B/",
+      "why": "Experimentation is useful even when the first solution fails."
+    },
+    {
+      "idea": "A sorter has confused a circuit diagram with a floor plan and is wiring the indicated rooms together. Unplugging the right connection prevents a gallery-wide surge.",
+      "source": "/sec/319/Browse-Our-Collection/",
+      "why": "Reading the diagram lets the crew solve a physical problem."
+    },
+    {
+      "idea": "A rare prototype and a production machine insist they are the same exhibit; only the prototype has the loose port needed to bypass a locked gate.",
+      "source": "/sec/79/Acorn-Computers/",
+      "why": "Close observation makes an obscure collection distinction useful."
+    },
+    {
+      "idea": "A time-share bureau offers the crew ten seconds of uninterrupted access in exchange for ten seconds later. Its clock begins collecting the debt at the worst possible moment.",
+      "source": "/sec/68034/ACT/",
+      "why": "A tempting bargain creates a delayed complication."
+    },
+    {
+      "idea": "Club members need help completing a history badge before a swarm assessor arrives; their final demonstration doubles as a distraction.",
+      "source": "/det/77430/Kids-Club-Night-Friday-20th-November-2026/",
+      "why": "A gentle educational activity gives the crew an inventive diversion."
+    },
+    {
+      "idea": "An after-hours gaming group is trapped in a cooperative arcade challenge; freeing one player pauses their controls, so the crew must take their place.",
+      "source": "/pages/77547/Group-Visits/",
+      "why": "Rescue becomes a cooperative game with an immediate consequence."
+    },
+    {
+      "idea": "A volunteer offers a safe route through a gallery if the crew helps move a fragile machine before the swarm inventories it.",
+      "source": "/pages/14522/Volunteering/",
+      "why": "The mission rewards care and teamwork with local knowledge."
+    },
+    {
+      "idea": "A visitor arrives during a false last-entry alarm; the crew can follow the official hours to find which clock the swarm has altered.",
+      "source": "/pages/28568/Plan-Your-Visit/",
+      "why": "A mundane detail supplies a clue in a time-sensitive situation."
+    },
+    {
+      "idea": "A friendly communication station has a warning to pass along, but its power cable runs through an active swarm work area.",
+      "source": "/sec/72836/Abilia/",
+      "why": "Restoring access creates a useful conversation and a short infiltration."
+    },
+    {
+      "idea": "A control-system workshop is still running unattended: a sensor triggers a motor that triggers the sensor. Breaking the loop stops a door from slamming.",
+      "source": "/pages/30677/What-s-On/",
+      "why": "A simple feedback loop becomes an approachable mechanical puzzle."
+    },
+    {
+      "idea": "A heritage trustee recruitment exercise has been seized by a machine that asks for experience protecting objects. Give it an actual preservation problem to occupy it while the crew passes.",
+      "source": "/news/77370/Trustee-Opportunity-Museum-and-Heritage-Sector-Professional/",
+      "why": "A bureaucratic process can be redirected through its own stated purpose."
+    }
+  ]
+}

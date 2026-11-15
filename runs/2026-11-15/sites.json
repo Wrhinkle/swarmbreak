@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.hnf.de",
+   "name": "Heinz Nixdorf MuseumsForum",
+   "url": "https://www.hnf.de/en/home.html",
+   "file": "runs/2026-11-15/sites/www.hnf.de.json"
+  },
+  {
+   "host": "www.computinghistory.org.uk",
+   "name": "Centre for Computing History",
+   "url": "https://www.computinghistory.org.uk/",
+   "file": "runs/2026-11-15/sites/www.computinghistory.org.uk.json"
+  },
+  {
+   "host": "www.ri.cmu.edu",
+   "name": "Carnegie Mellon Robotics Institute",
+   "url": "https://www.ri.cmu.edu/",
+   "file": "runs/2026-11-15/sites/www.ri.cmu.edu.json"
+  }
+ ]
+}

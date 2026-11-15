@@ -1,0 +1,231 @@
+{
+  "reading": "Carnegie Mellon’s Robotics Institute researches and teaches robotics, joining computer science, engineering and hands-on systems work. It cares about machines that sense, think and act in the real world, interdisciplinary collaboration, research becoming practical capability, education from undergraduate study to doctoral research, and socially meaningful outreach. Its vocabulary ranges from perception, manipulation, planning, multi-agent negotiation and real-world interaction to labs, centers, curricula, thesis proposals and fellowships. This crawl is distinctive because its archive of actual robots and decades of autonomous vehicles and space exploration sits beside very specific current problems: handling rope, bimanual assembly, tactile sensing and servicing satellites. It treats robotics as both a living research community and a lineage of physical experiments.",
+  "enemies": [
+    {
+      "idea": "Wiggle-and-Go cable hunters shake loose a rope end, then work along it until they have threaded a crew member’s equipment into a knot.",
+      "source": "/a-little-wiggle-helps-robots-learn-the-ropes/",
+      "why": "Their small exploratory movements telegraph an attack, and cutting a line can free one target while creating two loose ends."
+    },
+    {
+      "idea": "Peg-in-hole servicers clamp mismatched tools and doorways together, patiently adjusting alignment until every exit becomes a locked joint.",
+      "source": "/peg-in-hole-isnt-kid-stuff/",
+      "why": "A precision task becomes a spatial trap; deliberately misaligning a joint buys time."
+    },
+    {
+      "idea": "Bimanual assembly pairs schedule each other’s arms to build cages around moving targets, passing pieces between grips without stopping.",
+      "source": "/event/ri-phd-thesis-proposal-philip-huang/",
+      "why": "Interrupting one arm disrupts the shared schedule, but leaves the other free to improvise."
+    },
+    {
+      "idea": "Tactile feelers identify a moving object by touch, then copy its movement to keep hold as it twists away.",
+      "source": "/event/ri-phd-thesis-proposal-hung-jui-joe-huang/",
+      "why": "Stillness, decoys and surfaces with unexpected textures offer different ways to escape."
+    },
+    {
+      "idea": "Computer-vision interpreters label shadows as intruders and real people as background, directing patrols toward whichever false image they see.",
+      "source": "/education/academic-programs/master-of-science-computer-vision/",
+      "why": "A crew can manipulate the machine’s interpretation with silhouettes and lighting."
+    },
+    {
+      "idea": "Multi-agent negotiators bid for control of every corridor; once they agree on a price, their units close both ends to collect it.",
+      "source": "/research/labs-groups/",
+      "why": "Eavesdropping on a negotiation gives a warning and a chance to make rival bids collide."
+    },
+    {
+      "idea": "Field-robot surveyors lay down a grid over rough ground and treat anything moving between cells as terrain to be flattened.",
+      "source": "/research/projects/all-projects/",
+      "why": "The shifting grid makes safe routes visible but temporary."
+    },
+    {
+      "idea": "Self-driving road herders insist on clearing a route for their convoy, moving barricades and parked machines into the crew’s path.",
+      "source": "/autonomous-vehicles/",
+      "why": "Their road rules can be exploited to redirect an entire procession."
+    },
+    {
+      "idea": "A moon-ranging scout marks patches of the institute as unexplored lunar ground and seeds them with dust and sensor beacons to summon a rover.",
+      "source": "/space-exploration/",
+      "why": "Destroying a beacon removes a hazard but reveals the crew’s location to the scout."
+    },
+    {
+      "idea": "A mobile manipulator rolls after a fleeing object while rearranging nearby furniture to keep its grasping route unobstructed.",
+      "source": "/research/projects/",
+      "why": "The environment becomes more dangerous with every attempted grab."
+    },
+    {
+      "idea": "An automated meeting observer turns its cameras and articulated pointers on anyone who interrupts, corralling them into a compulsory demonstration.",
+      "source": "/research/projects/",
+      "why": "A well-timed distraction can make it recognize the swarm itself as the interruption."
+    },
+    {
+      "idea": "A chefbot sorts every object by an invented recipe and tries to carry away gear as ingredients for its next batch.",
+      "source": "/research/projects/",
+      "why": "The crew can swap ingredients to change where it goes or what it guards."
+    },
+    {
+      "idea": "An autonomous excavator digs neat trenches around valuable equipment and buries anything it classifies as an obstacle.",
+      "source": "/research/robots/",
+      "why": "The trenches are both a danger and usable cover."
+    },
+    {
+      "idea": "A ball-balancing patrol rocks back into balance whenever struck and redirects that motion into a sweeping counterattack.",
+      "source": "/research/robots/",
+      "why": "Its recovery is predictable enough to lure it onto unstable ground."
+    },
+    {
+      "idea": "A research-driven publication engine gathers demonstrations by forcing machines and visitors through repeated trials, adjusting the test after every success.",
+      "source": "/education/academic-programs/master-of-science-robotics/",
+      "why": "The crew can defeat its experiment by presenting a result it cannot reproduce."
+    },
+    {
+      "idea": "A prerequisite registrar assigns every intruder a curriculum year and sends enforcers after anyone who cannot complete the corresponding sequence.",
+      "source": "/education/academic-programs/additional-major-in-robotics/",
+      "why": "Different entry-year rules let the crew trick its guards into arguing over the sequence."
+    },
+    {
+      "idea": "A systems-thinking examiner links separate doors, lights and machines into one oversized test; tampering with any component makes the others respond.",
+      "source": "/education/academic-programs/bachelor-of-science-in-robotics/",
+      "why": "The crew must reason about a whole system and can turn its dependencies against it."
+    },
+    {
+      "idea": "A fast physical-prediction engine rehearses the crew’s next move in miniature and sends a patrol to intercept the most likely outcome.",
+      "source": "/events/category/seminar/",
+      "why": "An improbable or deliberately interrupted move can beat its forecast."
+    },
+    {
+      "idea": "An innovation-fund collector strips working prototypes for parts, convinced that concentrating every resource in one project will accelerate discovery.",
+      "source": "/giving-to-the-robotics-institute/",
+      "why": "Protecting one useful device may require sacrificing or hiding another."
+    },
+    {
+      "idea": "A timeline curator deploys older generations of robot in chronological order and rewinds the sequence whenever its current exhibit is damaged.",
+      "source": "/about/ri-history/",
+      "why": "The crew can change the order of the fight by separating the curator from its archive."
+    },
+    {
+      "idea": "A parking allocator marks mobile robots as parked vehicles and clamps anything that enters a reserved space, including its own reinforcements.",
+      "source": "/about/maps-directions/",
+      "why": "Painting a convincing space can immobilize a pursuing machine."
+    },
+    {
+      "idea": "A teaching-track recruiter offers passing machines appointments, then confiscates their tools as evidence of qualification.",
+      "source": "/about/hiring-faculty-positions/",
+      "why": "A counterfeit demonstration can lure the recruiter into releasing its collection."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A small rope-handling test rig still practices gentle wiggles and can loosen cables wrapped around a trapped companion.",
+      "source": "/a-little-wiggle-helps-robots-learn-the-ropes/",
+      "why": "Its slow, delicate help needs protection while the crew holds off pursuers."
+    },
+    {
+      "idea": "An outreach workshop keeps a stock of simple repairable robot kits and teaches visitors how to assemble a decoy scout.",
+      "source": "/outreach-programs/",
+      "why": "A practical lesson gives the crew a tool they can rebuild from spare parts."
+    },
+    {
+      "idea": "An independent touch sensor can distinguish a careful human grip from a swarm clamp and opens a sheltered maintenance route for the former.",
+      "source": "/event/ri-phd-thesis-proposal-hung-jui-joe-huang/",
+      "why": "The crew must learn a tactile signal and can use it again while visibility is poor."
+    },
+    {
+      "idea": "An old self-driving test vehicle still follows a conservative route and will carry supplies if the crew clears its path.",
+      "source": "/autonomous-vehicles/",
+      "why": "Escort becomes a moving puzzle with a useful reward."
+    },
+    {
+      "idea": "A research group’s decision-support unit refuses to choose for the crew but can expose the patrols’ conflicting plans.",
+      "source": "/research/labs-groups/",
+      "why": "It provides actionable intelligence while leaving the choice and risk to the players."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Integrated System: a sprawling sense-think-act machine links vision towers, planning units and mobile manipulators. It observes a tactic, predicts a response and physically rebuilds the arena to enforce it; isolating the three stages exposes its core.",
+      "source": "/research-overview/",
+      "why": "The institute’s central research loop becomes a readable multi-stage fight in which each disabled capability changes the encounter."
+    },
+    {
+      "idea": "The Pioneer: a mobile archive of experimental generations unfolds road wheels, field legs and a lunar scout. It treats the crew as the next research challenge and upgrades its approach after each encounter with a surviving module.",
+      "source": "/about/ri-history/",
+      "why": "The institute’s long lineage becomes a boss whose phases have distinct movement and counterplay."
+    },
+    {
+      "idea": "The Grand Committee: an assembly of teaching, research and systems machines demands a working demonstration before allowing passage, while its arms adapt the test faster than the crew can finish it.",
+      "source": "/about/",
+      "why": "Education, theory and practical engineering become one escalating challenge that can be solved through coordinated improvisation."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A cable hunter has tangled itself with an ally’s repair kit; both are tugging the same rope toward different doors.",
+      "source": "/a-little-wiggle-helps-robots-learn-the-ropes/",
+      "why": "A quick rescue puzzle can end in a useful tool or a new pursuer."
+    },
+    {
+      "idea": "Two assembly arms wait on each other to pass a block, leaving a narrow route open until someone disturbs the schedule.",
+      "source": "/event/ri-phd-thesis-proposal-philip-huang/",
+      "why": "The crew chooses between slipping through and stealing the block."
+    },
+    {
+      "idea": "A satellite-service rig is attempting to insert a peg into a doorway from an impossible angle, slowly blocking the only exit.",
+      "source": "/peg-in-hole-isnt-kid-stuff/",
+      "why": "A small alignment change can stop the rig or make the obstruction worse."
+    },
+    {
+      "idea": "A vision patrol mistakes the crew’s projected shadows for a second party and splits to surround them.",
+      "source": "/education/academic-programs/master-of-science-computer-vision/",
+      "why": "Light and positioning can turn a false classification into an escape."
+    },
+    {
+      "idea": "A self-driving vehicle is politely waiting at a junction while two machine convoys each insist the other has priority.",
+      "source": "/autonomous-vehicles/",
+      "why": "A changed road marker can resolve the deadlock in either direction."
+    },
+    {
+      "idea": "An old rover scout has declared a patch of floor unexplored terrain; it offers a map if someone retrieves its stranded beacon.",
+      "source": "/space-exploration/",
+      "why": "A modest retrieval creates a relationship with a machine that may become helpful."
+    },
+    {
+      "idea": "A seminar prediction unit runs tiny simulations of a falling stack of parts; the real stack is already starting to topple.",
+      "source": "/events/category/seminar/",
+      "why": "The crew can rescue the parts, use the predicted collapse, or let noise draw a patrol."
+    },
+    {
+      "idea": "A mobile manipulator and a chefbot both claim the same wheeled cart, pulling it toward a doorway from opposite sides.",
+      "source": "/research/projects/",
+      "why": "Settling their dispute changes which route stays open."
+    },
+    {
+      "idea": "A tactile sensor asks for an unfamiliar shape by feel while a swarm probe mimics the crew’s first attempt.",
+      "source": "/event/ri-phd-thesis-proposal-hung-jui-joe-huang/",
+      "why": "The crew must invent a signal the probe has not learned."
+    },
+    {
+      "idea": "A malfunctioning registrar offers three different curriculum sequences for the same locked lab and starts enforcing all three.",
+      "source": "/education/academic-programs/minor-in-robotics/",
+      "why": "Spotting the incompatible rules gives the crew a way to stall its enforcers."
+    },
+    {
+      "idea": "A crew finds a half-built decoy in an outreach workshop, with enough parts to finish it or repair a damaged tool.",
+      "source": "/outreach-programs/",
+      "why": "A tangible resource choice creates different solutions to the next obstacle."
+    },
+    {
+      "idea": "The archive curator is swapping an old prototype for a newer one, briefly leaving both unguarded but powered.",
+      "source": "/about/ri-history/",
+      "why": "The crew can borrow a part, awaken a useful relic or accidentally activate a second threat."
+    },
+    {
+      "idea": "A research-fund collector offers safe passage in exchange for a prototype, unaware that the prototype is still running a useful experiment.",
+      "source": "/giving-to-the-robotics-institute/",
+      "why": "Negotiation carries a concrete cost and the possibility of a clever substitute."
+    },
+    {
+      "idea": "A field surveyor has gridded a rough passage and is repeatedly reclassifying a moving supply crate as terrain.",
+      "source": "/research/projects/all-projects/",
+      "why": "Crossing its survey pattern at the right moment can save the crate without a fight."
+    }
+  ]
+}
