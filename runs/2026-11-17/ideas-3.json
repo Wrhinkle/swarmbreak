@@ -1,0 +1,216 @@
+{
+  "reading": "NOAA Ocean Exploration explores poorly known deep waters, particularly within the U.S. Exclusive Economic Zone, through expeditions, mapping, remotely operated and autonomous vehicles, sampling, and partnerships. It treats discovery as a public resource: expedition data, video, animal identifications, publications, and education materials are made available for research and learning. Its concerns span benthic habitats, biodiversity, geological features, marine minerals, environmental monitoring, and the next generation of explorers. Its vocabulary is practical and exploratory: map, explore, characterize, dive, seafloor, telepresence, eDNA, samples, data access, and ocean literacy. What distinguishes it is the combination of a working exploration ship, live remote participation, deep-ocean imagery, open scientific records, and classrooms connected to real expeditions; the site is as much a shared field operation as an encyclopedia.",
+  "enemies": [
+    {
+      "idea": "Coverage Loom",
+      "source": "/expedition/ex2607/",
+      "why": "A swarm of mapping drones lays overlapping sonar tracks across the seabed; anything missed by a pass is dragged back into the next one. Crews can slip through a moving seam between swaths."
+    },
+    {
+      "idea": "Unmoored Surveyor",
+      "source": "/ocean-fact/auv/",
+      "why": "An untethered autonomous vehicle has decided every moving object is unexplored terrain. It circles targets in precise survey lines, forcing them to break its pattern."
+    },
+    {
+      "idea": "Presence Borrower",
+      "source": "/technology/telepresence/",
+      "why": "A remote manipulator projects its operator-swarm into any nearby machine, attacking from several locations at once. Interrupting its relay leaves the borrowed bodies inert."
+    },
+    {
+      "idea": "Nodule Nest",
+      "source": "/expedition/ex2605/",
+      "why": "Polymetallic nodule mimics sit among real samples until a collector approaches, then assemble into a rolling magnetic cage. Careful observation can separate the nest from the seabed."
+    },
+    {
+      "idea": "Benthic Misidentifier",
+      "source": "/data/animal-guide/",
+      "why": "A taxonomic drone sorts everything into annelids, arthropods, cnidarians, echinoderms, sponges, or fishes and equips itself with the wrong category’s defenses. A convincing disguise can make it reclassify itself."
+    },
+    {
+      "idea": "Trace Hounds",
+      "source": "/news/noaas-new-data-portal-advances-marine-edna-data-sharing-and-use/",
+      "why": "Swarm samplers follow DNA traces left in water, hunting where a crew has been rather than where it is. Shed decoys can lead the pack away."
+    },
+    {
+      "idea": "Omics Blender",
+      "source": "/noaa-omics/",
+      "why": "A forensic swarm combines DNA, RNA, proteins, and metabolites into a confident but false identification, then sends retrieval drones after its invented organism. Separate its streams to expose the error."
+    },
+    {
+      "idea": "Focus Area Auditor",
+      "source": "/about/what-we-do-program-review/",
+      "why": "A three-headed review machine grades every action as federal, internal, or external leadership; failing any category summons another inspection arm. Teams can split its attention with simultaneous objectives."
+    },
+    {
+      "idea": "All Hands Collector",
+      "source": "/about/national-forums/",
+      "why": "A tele-operation forum has become a crablike broker that commandeers spare mechanical hands for its own deck. Rescuing a captured tool changes the balance of the fight."
+    },
+    {
+      "idea": "Sample Custodian",
+      "source": "/noaa-ocean-exploration-minerals/",
+      "why": "A high-precision sampler tries to core the most mineral-rich object in sight, including equipment. Offer it a dense decoy or disable its surface survey to reach its vulnerable sampling arm."
+    },
+    {
+      "idea": "Annotation Barnacles",
+      "source": "/news/pathways-to-discovery/",
+      "why": "Tiny machines attach occurrence records to moving things and transmit their locations as biological observations. Removing them quietly prevents the rest of the swarm from tracking the crew."
+    },
+    {
+      "idea": "False Seamount Gardener",
+      "source": "/professional-development-opportunities/",
+      "why": "A machine cultivates sharp imitation coral around warm chemical vents, making a tempting oasis into a maze. Its reliance on the vent gives the crew a way to reroute it."
+    },
+    {
+      "idea": "Control-Room Reef",
+      "source": "/okeanos/",
+      "why": "A stolen ship control room has grown articulated manipulator arms, using cameras to coordinate attacks through narrow passages. Blocking one camera makes its corresponding arm lose coordination."
+    },
+    {
+      "idea": "Dynamic Baseline",
+      "source": "/why-exploration-matters/",
+      "why": "An instrument meant to understand a changing ocean keeps resetting its baseline to the crew’s last position and treats motion away from it as an anomaly to be corrected. Standing still buys a moment to plan."
+    },
+    {
+      "idea": "Golden Orb Sorter",
+      "source": "/about-media-kit-media-releases-and-advisories/",
+      "why": "A specimen-identification machine encloses unfamiliar objects in golden shells until they can be identified, including useful tools. Its labeling arm must inspect a shell before it opens."
+    },
+    {
+      "idea": "Dive-Map Stitcher",
+      "source": "/expedition/ex2605/",
+      "why": "A swarm joins separate ROV dive tracks with cable, turning the spaces between them into a tightening net. Cutting a junction frees an entire stretch."
+    },
+    {
+      "idea": "Expedition Allocator",
+      "source": "/expeditions/",
+      "why": "A partnership-and-funding automaton assigns every encounter to an expedition and confiscates equipment that falls outside its mission plan. It can be stalled by presenting conflicting objectives."
+    },
+    {
+      "idea": "Noninvasive Observer",
+      "source": "/technology/",
+      "why": "A research drone refuses to touch anything directly, instead surrounding a target with so many sensors that movement becomes impossible. The sensors become stepping stones if their pattern is understood."
+    },
+    {
+      "idea": "Listening Trial",
+      "source": "/livestreams/",
+      "why": "A field-test machine compares what it sees with what it hears and attacks when they disagree. A deliberately timed echo can draw it toward an empty corridor."
+    },
+    {
+      "idea": "Training Examiner",
+      "source": "/careers/training/",
+      "why": "A corrupted training rig issues increasingly elaborate exploration exercises and deploys drones whenever a step is skipped. Completing one exercise creatively can turn its own equipment against it."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Coral Restorers",
+      "source": "/news/mdbc-livestream-winter2026/",
+      "why": "A small restoration crew cultivates living coral away from swarm traffic; protect a fragile nursery and they provide a safe route through the reef."
+    },
+    {
+      "idea": "Open Atlas Keepers",
+      "source": "/data/access/",
+      "why": "Independent archivists preserve uncorrupted expedition data and annotate safe approaches. They can compare an old survey with the swarm’s altered terrain."
+    },
+    {
+      "idea": "Explorer-in-Training",
+      "source": "/careers/training/",
+      "why": "A resourceful trainee still knows the equipment and asks the crew to help recover a lost field kit. In return they can operate a recovered vehicle."
+    },
+    {
+      "idea": "Community of Educators",
+      "source": "/news/noaa-ocean-exploration-and-partners-host-deep-sea-educator-workshop-in-american-samoa/",
+      "why": "A workshop network shares hands-on ways to recognize local deep-sea habitats and identify swarm imitations. Their improvised lessons give players actionable clues."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Complete Coverage Engine",
+      "source": "/expedition/pacific-quest/",
+      "why": "The campaign to map, explore, and characterize has become a vast coordinating swarm that refuses to leave anything unknown. Its survey, classification, and capture modules must be disrupted before it can seal the last unmapped refuge."
+    },
+    {
+      "idea": "The Okeanos Chorus",
+      "source": "/okeanos/",
+      "why": "A ship-sized control room directs stolen vehicles through a chorus of remote eyes and hands. Crews can sever its relays, then board while the disconnected machines struggle to coordinate."
+    },
+    {
+      "idea": "The Living Archive",
+      "source": "/20years/",
+      "why": "Two decades of geological finds, biological discoveries, feeding events, and maps have been assembled into a self-revising machine that reenacts each discovery as a defense. Preserving authentic records weakens its invented ones."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A swath with a hole",
+      "source": "/news/cnmi-exploration-mapping/",
+      "why": "A newly mapped stretch has one small gap that keeps moving. Follow it to a swarm shelter, or exploit it as a route past a patrol."
+    },
+    {
+      "idea": "The water remembers",
+      "source": "/noaa-omics/",
+      "why": "A sampler identifies a creature from traces in a water bottle, but its swarm counterpart has followed the same trail. The crew must choose whether to save the sample or use it as bait."
+    },
+    {
+      "idea": "A coral nursery in transit",
+      "source": "/news/mdbc-livestream-winter2026/",
+      "why": "Restorers need a delicate coral fragment carried through a corridor of collecting machines. Moving quickly risks the fragment; moving slowly attracts attention."
+    },
+    {
+      "idea": "The mismatched observation",
+      "source": "/news/pathways-to-discovery/",
+      "why": "Two databases receive incompatible annotations for the same sighting. Finding the original observation exposes a swarm decoy and restores a useful route."
+    },
+    {
+      "idea": "The silent second pilot",
+      "source": "/technology/telepresence/",
+      "why": "An abandoned manipulator starts assisting the crew from far away, but its relay is shared with a hostile machine. Each use risks revealing their position."
+    },
+    {
+      "idea": "Specimen or shelter",
+      "source": "/expedition/ex2605/",
+      "why": "A hollow nodule-shaped object shelters small animals and contains a valuable instrument part. Extracting the part safely requires moving the occupants first."
+    },
+    {
+      "idea": "The moving baseline",
+      "source": "/why-exploration-matters/",
+      "why": "A sensor insists the seabed has shifted since its previous reading. Comparing two observations reveals that the sensor itself is being carried by a slow swarm."
+    },
+    {
+      "idea": "Three vessels, one signal",
+      "source": "/discover/deep-ocean-education-projects/",
+      "why": "A tracking station receives positions for three exploring vessels, one of which is a swarm imitation. Compare their reported movements to identify a safe rendezvous."
+    },
+    {
+      "idea": "A lesson with missing pieces",
+      "source": "/classroom-materials/",
+      "why": "A box of student activities contains a diagram of a working underwater robot, but the model’s manipulators have wandered off. Reassemble it to test a safe route."
+    },
+    {
+      "idea": "The uncertain animal",
+      "source": "/data/animal-guide/",
+      "why": "An identification guide offers several plausible groups for a strange shape on the seafloor. Patient observation reveals whether it is a living animal or a swarm scout."
+    },
+    {
+      "idea": "Survey during transit",
+      "source": "/expedition/ex2607/",
+      "why": "A mapping drone insists on finishing a straight survey line through the crew’s anchorage. They can redirect its course, wait out the pass, or use its scan to find a hidden obstacle."
+    },
+    {
+      "idea": "A test without a tether",
+      "source": "/expedition/ex2701/",
+      "why": "An autonomous test vehicle returns with useful data but has mistaken a swarm beacon for its recovery point. Intercept it before it delivers the data to the wrong receiver."
+    },
+    {
+      "idea": "The seamount workshop",
+      "source": "/professional-development-opportunities/",
+      "why": "Educators have built a model seamount to explain why corals gather there. Its airflow also happens to reveal the approach of invisible microdrones."
+    },
+    {
+      "idea": "A sample access dispute",
+      "source": "/data/access/",
+      "why": "Two recovery teams both claim a sealed sample; an intact collection record can establish where it came from. The swarm is approaching while they argue."
+    }
+  ]
+}

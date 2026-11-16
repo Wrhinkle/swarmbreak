@@ -1,0 +1,14 @@
+{
+  "thread": "Follow the swarm from wave-washed tide pools into a towering kelp forest, then descend into the dark deep sea. Along the way it meets gripping sea stars, drifting jellies, luminous animals, and the machines that explore their habitats.",
+  "candidates": [
+    {"name": "Seattle Aquarium", "url": "https://www.seattleaquarium.org/", "why": "Begin along the rocky shore with tide-pool animals, pinto abalone, sea stars, and the kelp and coastal ecosystems they inhabit."},
+    {"name": "Monterey Bay Aquarium", "url": "https://www.montereybayaquarium.org/", "why": "Travel through kelp forests among sea otters, rockfish, swaying algae, and drifting jellies, with animal and ecosystem guides to explore."},
+    {"name": "Monterey Bay Aquarium Research Institute", "url": "https://www.mbari.org/", "why": "Descend into the deep with animal profiles, underwater vehicles, instruments, and expeditions revealing transparent bodies and bioluminescent adaptations."},
+    {"name": "Smithsonian Ocean", "url": "https://ocean.si.edu/", "why": "Explore coasts, reefs, and the deep through richly linked accounts of invertebrates, fish, plankton, algae, and their habitats."},
+    {"name": "NOAA Ocean Exploration", "url": "https://oceanexplorer.noaa.gov/", "why": "Meet deep-sea corals, sponges, remotely operated vehicles, and seafloor habitats through expeditions, animal guides, and exploration technology."},
+    {"name": "Reeflex Marine Encyclopedia", "url": "https://reeflex.net/", "why": "Browse a profusion of reef life, from sea pens and nudibranchs to mantis shrimp, frogfish, and branching corals."},
+    {"name": "California Academy of Sciences", "url": "https://www.calacademy.org/", "why": "Its tide-pool guides, aquarium exhibits, creature closeups, and scientific expeditions offer anemones, chitons, reef fish, and other marine forms."},
+    {"name": "Schmidt Ocean Institute", "url": "https://schmidtocean.org/", "why": "Follow ocean expeditions into submarine canyons and deep reefs, with research vehicles, dive archives, and newly observed sea life."},
+    {"name": "National Oceanography Centre", "url": "https://www.noc.ac.uk/", "why": "Explore deep-sea creatures, research collections, underwater vehicles, and ocean science, including giant isopods and ghostsharks."}
+  ]
+}

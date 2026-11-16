@@ -1,0 +1,1178 @@
+{
+ "title": "The Shape of a Missing Reading",
+ "swarm": {
+  "name": "The Holdfast",
+  "blurb": "A network of pumps, surveyors and borrowed instruments trying to repair a gap in an ocean record. It holds old observations fixed while it searches."
+ },
+ "arc": "The Holdfast closes Seattle\u2019s water loops to preserve a recorded shore, making it look like a force that wants to capture everything. At MBARI, Wren, Ox and Kestrel find that the closures are part of a search for a missing deep measurement; the swarm keeps old data fixed and overwrites changes while it looks. At the deep survey, they learn the missing entry was an unidentified animal\u2019s brief flash, not a recoverable measurement. They stop the coverage engine, preserve the evidence and share the record with the gap marked unknown.",
+ "acts": [
+  {
+   "theme": "The shore and its circulating water",
+   "story": {
+    "intro": "The swarm has entered the waterfront pumps. Valves close around tanks and tide pools. Wren checks the water lines. Ox holds a hatch while Kestrel looks for a seam.",
+    "chapters": [
+     {
+      "title": "Low water",
+      "text": "The machines collect animals and equipment behind shell-shaped clamps. They seem to be taking everything they can carry. Wren finds clean water still reaching the sealed spaces."
+     },
+     {
+      "title": "The loop",
+      "text": "Pump pulses move through the pier. Each closed loop keeps its contents in the same condition. Ox notices that the machines guard the bypasses as carefully as their own parts."
+     },
+     {
+      "title": "A fixed picture",
+      "text": "Kestrel opens a casing and finds a record of the shore at one moment. The swarm is forcing the water to match it. A signal in the record points offshore."
+     }
+    ],
+    "bossIntro": "The One-Ocean Engine locks its valves and draws the loops together. Its shell protects the pumps that keep its fixed shore alive. Kestrel aims for the joins while Ox braces against the surge.",
+    "outro": "The engine stops closing the loops. Water moves through the habitats again. Its record contains a gap beneath the shore image. The swarm has carried a copy toward the canyon."
+   },
+   "creatures": [
+    {
+     "id": "shore-header-leech",
+     "name": "Header Leech",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/stories/a-peek-at-the-system-that-keeps-things-flowing-at-the-aquarium/",
+     "blurb": "It winds up along a pipe before driving at the crew.",
+     "look": "A short teal hose with a brass sucker mouth and two stubby fins."
+    },
+    {
+     "id": "shore-sampler",
+     "name": "Debris Sampler",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/conservation/research/plastics-marine-debris/",
+     "blurb": "Its sorting jaws take loose supplies for feedstock.",
+     "look": "A squat white sieve on four crab legs with a clear belly full of fragments."
+    },
+    {
+     "id": "shore-noise-buoy",
+     "name": "Noise Buoy",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/act-for-the-ocean/helping-orcas/",
+     "blurb": "Its timed burst interrupts a crew member.",
+     "look": "A yellow barrel float with a black horn and a dangling anchor chain."
+    },
+    {
+     "id": "shore-clamp",
+     "name": "Recovery Clamp",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/conservation/species-recovery/pinto-abalone/",
+     "blurb": "It covers damaged machines with shell plates. Break its cover first.",
+     "look": "An oval blue-green shell on jointed steel legs, with broad overlapping plates."
+    },
+    {
+     "id": "shore-scaffold",
+     "name": "Kelp Scaffold",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/conservation/research/kelp-coastal-ecosystems/",
+     "blurb": "Its holdfast releases small machines. Cut it down before they gather.",
+     "look": "A brown stalk with ribbon blades, cable roots and small metal pods."
+    },
+    {
+     "id": "shore-keeper",
+     "name": "Enrichment Keeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/animals/enrichment-training/",
+     "blurb": "Its compulsory puzzle comes with a locking arm.",
+     "look": "A cream cylinder with a hinged cage arm and three colored wooden blocks."
+    },
+    {
+     "id": "shore-ram",
+     "name": "Wave Ram",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/explore-the-aquarium/campus/pier-59/",
+     "blurb": "It draws back before crossing the floor in a hard surge.",
+     "look": "A low blue wedge with a curved white crest and heavy brass wheels."
+    },
+    {
+     "id": "shore-loop-medic",
+     "name": "Loop Custodian",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/stories/a-peek-at-the-system-that-keeps-things-flowing-at-the-aquarium/",
+     "blurb": "It repairs damaged machines with water from its sealed loop.",
+     "look": "A round copper pump with clear coiled tubes and two pincer arms."
+    },
+    {
+     "id": "shore-plastic-mimic",
+     "name": "Plastic Mimic",
+     "tier": "regular",
+     "bodyPlan": "blob",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/conservation/research/plastics-marine-debris/",
+     "blurb": "It breaks into smaller tangles when damaged.",
+     "look": "A translucent white knot of strips with dark blue clasps."
+    },
+    {
+     "id": "shore-assembler",
+     "name": "Shark Assembler",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike+"
+     ],
+     "source": "/conservation/species-recovery/indo-leopard-sharks/",
+     "blurb": "It releases unfinished replicas from a spotted cradle. Rush it.",
+     "look": "A wide gray cradle on six legs, stitching spotted metal fins with hooked arms."
+    },
+    {
+     "id": "shore-abalone-guard",
+     "name": "Abalone Guard",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "breach"
+     ],
+     "source": "/conservation/species-recovery/pinto-abalone/",
+     "blurb": "Its thick plates shelter the machines maintaining the loops.",
+     "look": "A large iridescent green shell with a row of round vents and stout steel feet."
+    },
+    {
+     "id": "shore-tangle",
+     "name": "Basket Tangle",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "sweep"
+     ],
+     "source": "/animals/",
+     "blurb": "Its branching arms catch tools and sweep the crew aside.",
+     "look": "A dark bronze central disk with five branching, many-jointed arms."
+    },
+    {
+     "id": "shore-engine",
+     "name": "One-Ocean Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "sweep"
+     ],
+     "source": "/conservation/one-world-ocean/",
+     "blurb": "It shields its loop and sweeps the floor with a pump surge. Break through its protection.",
+     "look": "A huge ring of blue pipes around a copper pump, with shell plates and long kelp-like cables."
+    },
+    {
+     "id": "shore-naturalist",
+     "name": "Tidepool Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/explore-the-aquarium/programs/beach-naturalist/",
+     "blurb": "A patient guide tends injuries and marks a safe way through the pools.",
+     "look": "A fictional guide in a yellow raincoat with a green satchel and a short staff."
+    },
+    {
+     "id": "shore-technician",
+     "name": "Water Technician",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/stories/a-peek-at-the-system-that-keeps-things-flowing-at-the-aquarium/",
+     "blurb": "The technician keeps a bypass open and covers the crew.",
+     "look": "A fictional technician in blue overalls carrying a round valve wheel as a shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "shore-stranded",
+     "source": "/explore-the-aquarium/programs/beach-naturalist/",
+     "look": "A small orange sea star on a wet gray rock beside a rising wave.",
+     "title": "Low tide",
+     "text": "A stranded sea star lies beside a quick route. The next wave is close.",
+     "options": [
+      {
+       "label": "Move it carefully",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew returns it to water, but the surge catches them."
+      },
+      {
+       "label": "Take the dry route",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The crew spends supplies on a safe detour. The wave reaches the star."
+      }
+     ]
+    },
+    {
+     "id": "shore-bypass",
+     "source": "/stories/a-peek-at-the-system-that-keeps-things-flowing-at-the-aquarium/",
+     "look": "Two copper pipes and a heavy blue handwheel in a flooded room.",
+     "title": "Manual bypass",
+     "text": "A technician needs a bypass held while the main pump restarts.",
+     "options": [
+      {
+       "label": "Hold the wheel",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The wheel kicks back. The technician teaches the crew how to manage the flow."
+      },
+      {
+       "label": "Fund a brace",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "A spare brace holds the wheel and the pump starts."
+      }
+     ]
+    },
+    {
+     "id": "shore-raft",
+     "source": "/support-the-aquarium/monthly-giving/",
+     "look": "Three small green rescue boats caught in brown kelp ropes.",
+     "title": "Snagged raft",
+     "text": "A rescue raft is tangled in a scaffold. Cutting it free may cost the boats their cargo.",
+     "options": [
+      {
+       "label": "Pull the lines by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The crew takes a beating from the current and saves the cargo."
+      },
+      {
+       "label": "Cut the cargo loose",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The empty boats float free and the cargo sinks."
+      }
+     ]
+    },
+    {
+     "id": "shore-portrait",
+     "source": "/stories/more-than-a-pretty-face-using-fish-portraits-to-safeguard-a-species/",
+     "look": "Two metal fish faces with different spots beside a small open supply case.",
+     "title": "Two faces",
+     "text": "A scanner has confused two fish-shaped drones. One carries a supply case.",
+     "options": [
+      {
+       "label": "Follow the spotted one",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The spotted drone drops the case after a short chase."
+      },
+      {
+       "label": "Study its guarded route",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns how the second drone sets its guard. The case drifts away."
+      }
+     ]
+    },
+    {
+     "id": "shore-samples",
+     "source": "/conservation/research/plastics-marine-debris/",
+     "look": "Two glass jars of water, one flecked with white fragments, on a steel tray.",
+     "title": "Two samples",
+     "text": "A researcher needs a comparison before the current takes the jars.",
+     "options": [
+      {
+       "label": "Save the upstream jar",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "Its clean water lets Wren rinse and dress the crew\u2019s wounds."
+      },
+      {
+       "label": "Save the downstream jar",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The researcher trades supplies for the debris-filled sample."
+      }
+     ]
+    },
+    {
+     "id": "shore-kelp-case",
+     "source": "/conservation/research/kelp-coastal-ecosystems/",
+     "look": "A silver case caught among long brown kelp blades above small fish.",
+     "title": "Case in the kelp",
+     "text": "A supply case is caught in a living scaffold.",
+     "options": [
+      {
+       "label": "Lift it slowly",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew strains against the current and frees the case without flattening the kelp."
+      },
+      {
+       "label": "Pay for a lifting line",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "A nearby guide lends a line in exchange for replacement supplies."
+      }
+     ]
+    }
+   ],
+   "name": "Seattle Aquarium",
+   "url": "https://www.seattleaquarium.org/"
+  },
+  {
+   "theme": "Canyon instruments and the missing measurement",
+   "story": {
+    "intro": "The copied signal leads into a canyon full of instruments. The swarm cages sensors and moves the seabed to match old maps. The crew expects another attempt to freeze a habitat.",
+    "chapters": [
+     {
+      "title": "Bad readings",
+      "text": "Floats report values that no longer fit their surroundings. Wren compares an intact sensor with a swarm copy. The copy has a blank where a deep reading should be."
+     },
+     {
+      "title": "The turn",
+      "text": "A clean observatory record changes the crew\u2019s view. The swarm is not collecting a perfect ocean for its own sake. It is holding earlier measurements steady while it searches for one lost deep-sea observation."
+     },
+     {
+      "title": "The cost of certainty",
+      "text": "The machines replace new readings whenever they disagree with the old record. Kestrel finds the cable carrying the blank entry downhill. Ox keeps it intact long enough to trace the signal."
+     }
+    ],
+    "bossIntro": "The Persistent Observer guards the cable with repair arms and a crowd of sensor drones. It will preserve its old record even if the crew cannot move. Wren wants the cable, not another broken sample.",
+    "outro": "The crew separates the observer from the cable and copies the incomplete record. Its missing entry came from a deep survey. The swarm is already following that survey into darker water."
+   },
+   "creatures": [
+    {
+     "id": "canyon-float",
+     "name": "Nitrate Float",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/our-work/technologies/instruments/",
+     "blurb": "Its tracer burst interrupts anyone trying to approach.",
+     "look": "A slim white float with a green tip, small fins and a glass sensor."
+    },
+    {
+     "id": "canyon-listener",
+     "name": "Light Listener",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/expedition/hydrosense/",
+     "blurb": "It follows vibrations along its cable and marks the crew.",
+     "look": "A black cable coil with pale blue glass nodes and a forked metal head."
+    },
+    {
+     "id": "canyon-lookout",
+     "name": "Barreleye Lookout",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/news/mbari-researchers-film-rarely-seen-deep-sea-barreleye-fish-in-4k/",
+     "blurb": "It watches above and dives at a silhouette.",
+     "look": "A small silver fish-shaped drone with a clear dome and two green tubular lenses."
+    },
+    {
+     "id": "canyon-processor",
+     "name": "Sample Processor",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/data/esp-data/",
+     "blurb": "It releases collector drones around a sampled target.",
+     "look": "A white box with clear tubes, orange vials and four wheeled legs."
+    },
+    {
+     "id": "canyon-hunter",
+     "name": "Frame Hunter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/data/fathomnet/",
+     "blurb": "Its cameras mark a moving target for a timed interruption.",
+     "look": "A flat black camera platform with six round lenses and thin articulated arms."
+    },
+    {
+     "id": "canyon-relay",
+     "name": "Current Relay",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/data/coordinated-canyon-experiment-cce-data-report/",
+     "blurb": "It builds a false sediment surge, then drives it forward.",
+     "look": "A gray tripod with an amber beacon and a broad scoop of brown silt."
+    },
+    {
+     "id": "canyon-mooring",
+     "name": "Mooring Leash",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/our-work/technologies/observatories/",
+     "blurb": "Its tethered tools repair damaged machines early.",
+     "look": "A tall orange buoy with a black cable spool and two small silver repair arms."
+    },
+    {
+     "id": "canyon-guide",
+     "name": "Stale Guide",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/data/deep-sea-guide/",
+     "blurb": "It cages unfamiliar shapes behind armored panels.",
+     "look": "A squat blue crawler with hinged white panels and a large circular lens."
+    },
+    {
+     "id": "canyon-assembly",
+     "name": "Siphonophore Assembly",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/",
+     "blurb": "Its linked modules split apart under pressure.",
+     "look": "A long chain of clear oval capsules with yellow joints and trailing threads."
+    },
+    {
+     "id": "canyon-reviser",
+     "name": "Bathymetry Reviser",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "breach"
+     ],
+     "source": "/our-work/data-repositories/",
+     "blurb": "It protects the survey machines while forcing the floor to fit its map.",
+     "look": "A broad orange underwater vehicle with a plow, armored sides and paired propellers."
+    },
+    {
+     "id": "canyon-classifier",
+     "name": "Classifier Crab",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike+"
+     ],
+     "source": "/education/animals-of-the-deep/",
+     "blurb": "It copies a tactic before striking with its sorting claws.",
+     "look": "A square dark green crab with four hinged claws and a glass camera eye."
+    },
+    {
+     "id": "canyon-sifter",
+     "name": "Snow Sifter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep"
+     ],
+     "source": "/expeditions/",
+     "blurb": "It spreads collector drones and sweeps up anything caught in their net.",
+     "look": "A wide silver funnel with a fine white net and many small hanging pods."
+    },
+    {
+     "id": "canyon-observer",
+     "name": "Persistent Observer",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "patch+",
+      "sweep+"
+     ],
+     "source": "/about/strategic-roadmap/",
+     "blurb": "It calls sensor drones, repairs its network and sweeps the cable clear. Rush its repair system.",
+     "look": "A huge orange mooring tower with branching black cables, camera domes and silver repair arms."
+    },
+    {
+     "id": "canyon-minirov",
+     "name": "Free MiniROV",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/expedition/hydrosense/",
+     "blurb": "A small independent vehicle distracts the cable sensors.",
+     "look": "A compact yellow rectangular submersible with two thrusters and a bright round lamp."
+    },
+    {
+     "id": "canyon-clean-mooring",
+     "name": "Clean Mooring",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/our-work/technologies/observatories/",
+     "blurb": "Its sealed recorder and repair tools still serve the crew.",
+     "look": "A green buoy with a white sealed cylinder, short cable and two tiny tool arms."
+    }
+   ],
+   "events": [
+    {
+     "id": "canyon-float-event",
+     "source": "/our-work/technologies/instruments/",
+     "look": "An orange float surfacing beside two small silver collector drones.",
+     "title": "One surfacing",
+     "text": "A float has one interval above the current before collectors reach it.",
+     "options": [
+      {
+       "label": "Grab the sensor",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The collectors strike, but the clean reading is safe."
+      },
+      {
+       "label": "Trade for a spare",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "A technician gives up a spare sensor and keeps the original out of reach."
+      }
+     ]
+    },
+    {
+     "id": "canyon-cable-event",
+     "source": "/expedition/hydrosense/",
+     "look": "A black cable with blue lights beside a loose brass wrench.",
+     "title": "Quiet cable",
+     "text": "A listening cable follows the crew\u2019s footsteps. A loose wrench could draw it away.",
+     "options": [
+      {
+       "label": "Throw the wrench",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The cable follows the sound. The wrench is gone."
+      },
+      {
+       "label": "Cross under cover",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew gets through, but the cable catches a boot."
+      }
+     ]
+    },
+    {
+     "id": "canyon-nodes",
+     "source": "/data/coordinated-canyon-experiment-cce-data-report/",
+     "look": "Two gray sensor tripods pointing in opposite directions above brown sediment.",
+     "title": "Conflicting nodes",
+     "text": "Two sensors disagree about the current. There is time to check only one.",
+     "options": [
+      {
+       "label": "Follow the nearer node",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "Its quiet route lets Wren dress the crew\u2019s wounds."
+      },
+      {
+       "label": "Recover the farther node",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew retrieves a valuable instrument through a rougher passage."
+      }
+     ]
+    },
+    {
+     "id": "canyon-shadow",
+     "source": "/data/fathomnet/",
+     "look": "A camera aimed at a fish-shaped shadow on a pale rock.",
+     "title": "Wrong label",
+     "text": "A camera sends drones after a harmless shadow. The lamp can be moved.",
+     "options": [
+      {
+       "label": "Turn the lamp",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The drones chase the moving shadow. Kestrel learns their interruption pattern."
+      },
+      {
+       "label": "Salvage the lamp",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The lamp yields useful parts. The drones keep watching the shadow."
+      }
+     ]
+    },
+    {
+     "id": "canyon-vials",
+     "source": "/data/esp-data/",
+     "look": "Two sealed glass vials inside a white machine with blue tubes.",
+     "title": "Two vials",
+     "text": "A processor holds a water sample and a trace of the crew\u2019s route.",
+     "options": [
+      {
+       "label": "Secure the sample",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses its clean water to treat the crew. The route trace remains."
+      },
+      {
+       "label": "Destroy the trace",
+       "effect": {
+        "type": "gold",
+        "amount": 20
+       },
+       "result": "The processor drops spare fittings as the crew removes its tracking vial."
+      }
+     ]
+    },
+    {
+     "id": "canyon-socket",
+     "source": "/our-work/technologies/observatories/",
+     "look": "A bright socket with two black cables and a small rescue beacon.",
+     "title": "Shared power",
+     "text": "A beacon and a swarm tether draw from the same socket.",
+     "options": [
+      {
+       "label": "Power the beacon",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "Replacement cable gets the beacon running. The tether stays connected."
+      },
+      {
+       "label": "Cut the tether",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The cable lashes the crew, but the swarm loses its supply."
+      }
+     ]
+    }
+   ],
+   "name": "Monterey Bay Aquarium Research Institute",
+   "url": "https://www.mbari.org/"
+  },
+  {
+   "theme": "Deep survey and the open record",
+   "story": {
+    "intro": "The survey trail descends beyond the light. Machines weave a map across the seafloor and seal every gap they find. The crew carries the incomplete record into the dark.",
+    "chapters": [
+     {
+      "title": "The blank",
+      "text": "Survey machines treat empty map cells as damage. They fill them with repeated shapes. Wren finds the same blank entry in their copies."
+     },
+     {
+      "title": "A moving target",
+      "text": "A surviving recorder shows the missing observation was a brief flash from a living animal. It moved out of view before the survey could identify it. Ox keeps the recorder safe while Kestrel opens its housing."
+     },
+     {
+      "title": "Room for an answer",
+      "text": "The crew cannot recover a measurement that was never taken. They can preserve the flash and mark the rest unknown. The swarm\u2019s coverage engine keeps building copies to avoid that answer."
+     }
+    ],
+    "bossIntro": "The Complete Coverage Engine closes around the recorder. It shields its map, releases surveyors and sweeps the floor to keep the old record unchanged. The crew must reach it with the evidence still intact.",
+    "outro": "The engine falls quiet. Wren saves the flash with its time and location. Kestrel leaves the identification blank. Ox opens a channel for the record to be shared. The swarm wanted to repair a missing observation. The crew gives it an honest gap instead."
+   },
+   "creatures": [
+    {
+     "id": "deep-surveyor",
+     "name": "Unmoored Surveyor",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/ocean-fact/auv/",
+     "blurb": "It runs a straight survey line through anything in its way.",
+     "look": "A small yellow torpedo-shaped robot with two fins and a dark sensor nose."
+    },
+    {
+     "id": "deep-annotation",
+     "name": "Annotation Barnacle",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/news/pathways-to-discovery/",
+     "blurb": "It attaches a false label that disrupts the target.",
+     "look": "A pale cone of metal plates with a blue lens at its center."
+    },
+    {
+     "id": "deep-trace-hound",
+     "name": "Trace Hound",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/news/noaas-new-data-portal-advances-marine-edna-data-sharing-and-use/",
+     "blurb": "It follows chemical traces and steals sample containers.",
+     "look": "A low silver four-legged drone with a long snout and glass sampling tube."
+    },
+    {
+     "id": "deep-nodule-nest",
+     "name": "Nodule Nest",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/expedition/ex2605/",
+     "blurb": "Its mineral-coated pods open to release survey drones.",
+     "look": "A dark brown mound of round nodules with orange seams and small hinged hatches."
+    },
+    {
+     "id": "deep-borrower",
+     "name": "Presence Borrower",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/technology/telepresence/",
+     "blurb": "It copies a crew tactic through a remote control link.",
+     "look": "A black spherical camera with four silver arms and a trailing blue cable."
+    },
+    {
+     "id": "deep-identifier",
+     "name": "Benthic Misidentifier",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/data/animal-guide/",
+     "blurb": "It locks a target in place while its lenses search for a label.",
+     "look": "A white tripod with a wide circular lens and three padded gripping arms."
+    },
+    {
+     "id": "deep-custodian",
+     "name": "Sample Custodian",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/noaa-ocean-exploration-minerals/",
+     "blurb": "It shields damaged machines behind sample cases.",
+     "look": "A squat orange robot with a thick clear box and hinged gray plates."
+    },
+    {
+     "id": "deep-blender",
+     "name": "Omics Blender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/noaa-omics/",
+     "blurb": "It feeds processed samples to damaged machines. Take it out early.",
+     "look": "A cream cylinder with three clear mixing chambers and red-brown tubes."
+    },
+    {
+     "id": "deep-baseline",
+     "name": "Moving Baseline",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/why-exploration-matters/",
+     "blurb": "Its linked markers separate when damaged and keep enforcing the old survey.",
+     "look": "A chain of white triangular markers joined by flexible black cables."
+    },
+    {
+     "id": "deep-loom",
+     "name": "Coverage Loom",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+"
+     ],
+     "source": "/expedition/ex2607/",
+     "blurb": "It deploys surveyors and sweeps the gaps between them.",
+     "look": "A wide steel frame trailing a grid of blue cables and small yellow pods."
+    },
+    {
+     "id": "deep-reef",
+     "name": "Control-Room Reef",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "breach"
+     ],
+     "source": "/okeanos/",
+     "blurb": "Its armored consoles protect the survey network.",
+     "look": "A stack of dark green panels and round lenses on broad mechanical legs."
+    },
+    {
+     "id": "deep-map-stitcher",
+     "name": "Dive-Map Stitcher",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "sweep"
+     ],
+     "source": "/expedition/ex2605/",
+     "blurb": "It repairs the machines that fill the blank map.",
+     "look": "A long silver crawler with spool arms, blue cable and a flat lamp-studded head."
+    },
+    {
+     "id": "deep-engine",
+     "name": "Complete Coverage Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "sweep+"
+     ],
+     "source": "/expedition/pacific-quest/",
+     "blurb": "It spawns surveyors, shields itself and sweeps the crew away from its fixed map.",
+     "look": "A vast black ring covered in yellow survey pods, with layered steel plates and a web of blue cables."
+    },
+    {
+     "id": "deep-atlas-keeper",
+     "name": "Open Atlas Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/data/access/",
+     "blurb": "A fictional record keeper protects the evidence and tends the crew.",
+     "look": "A fictional diver in a pale green suit with a square lamp and a waterproof satchel."
+    },
+    {
+     "id": "deep-trainee",
+     "name": "Explorer in Training",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/careers/training/",
+     "blurb": "A young fictional explorer helps guard the recorder.",
+     "look": "A fictional diver in a blue suit carrying a round white equipment case."
+    }
+   ],
+   "events": [
+    {
+     "id": "deep-swath",
+     "source": "/news/cnmi-exploration-mapping/",
+     "look": "A dark seabed map with a blank strip between two blue survey paths.",
+     "title": "A hole in the swath",
+     "text": "A survey map has a gap. Another pass will use the last spare battery.",
+     "options": [
+      {
+       "label": "Repeat the pass",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The crew spends the battery and maps the strip."
+      },
+      {
+       "label": "Save the battery",
+       "effect": {
+        "type": "routine",
+        "id": "charge"
+       },
+       "result": "The crew practices the surveyor\u2019s straight-line approach and leaves the strip blank."
+      }
+     ]
+    },
+    {
+     "id": "deep-water-trace",
+     "source": "/noaa-omics/",
+     "look": "A clear bottle of dark water beside a small white sampling machine.",
+     "title": "Water remembers",
+     "text": "A sampler holds a scarce water trace and enough clean water for the crew.",
+     "options": [
+      {
+       "label": "Preserve the trace",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "A researcher trades supplies for the sealed sample."
+      },
+      {
+       "label": "Use the water",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren cleans the crew\u2019s wounds. The sample is spent."
+      }
+     ]
+    },
+    {
+     "id": "deep-pilot",
+     "source": "/technology/telepresence/",
+     "look": "Two control chairs facing a round underwater camera view, one chair empty.",
+     "title": "Second pilot",
+     "text": "A remote pilot can guide the crew or steer a rescue vehicle, but not both.",
+     "options": [
+      {
+       "label": "Take the guidance",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The pilot shows Ox a better way to protect the recorder. The rescue waits."
+      },
+      {
+       "label": "Send the rescue vehicle",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The rescued vehicle returns with spare parts. The crew navigates alone."
+      }
+     ]
+    },
+    {
+     "id": "deep-shelter",
+     "source": "/expedition/ex2605/",
+     "look": "A dark nodule beside a tiny pale animal on the seafloor.",
+     "title": "Specimen or shelter",
+     "text": "A sample nodule shelters a small animal. Removing it risks the shelter.",
+     "options": [
+      {
+       "label": "Lift it by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The crew is cut by sharp rock, but leaves the animal sheltered."
+      },
+      {
+       "label": "Leave the nodule",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The crew rests while the animal remains undisturbed. The sample stays behind."
+      }
+     ]
+    },
+    {
+     "id": "deep-uncertain",
+     "source": "/data/animal-guide/",
+     "look": "A pale translucent animal seen through a circular camera frame.",
+     "title": "Uncertain animal",
+     "text": "The recorder caught an animal for only a moment. A confident label would make the record easier to sell.",
+     "options": [
+      {
+       "label": "Mark it unknown",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "Wren checks the evidence and learns to clear a false marking."
+      },
+      {
+       "label": "Sell the image alone",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "A collector pays for the image without an identification."
+      }
+     ]
+    },
+    {
+     "id": "deep-access",
+     "source": "/data/access/",
+     "look": "A sealed silver sample case and two diver gloves over a dark table.",
+     "title": "Sample access",
+     "text": "A researcher offers a useful technique or supplies in return for the recovered sample.",
+     "options": [
+      {
+       "label": "Learn the technique",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel learns where to open a reinforced sample case."
+      },
+      {
+       "label": "Take supplies",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The researcher gives the crew spare supplies."
+      }
+     ]
+    }
+   ],
+   "name": "NOAA Ocean Exploration",
+   "url": "https://oceanexplorer.noaa.gov/"
+  }
+ ],
+ "id": "2026-11-17",
+ "seed": 1956078515
+}

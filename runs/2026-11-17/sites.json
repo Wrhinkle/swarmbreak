@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.seattleaquarium.org",
+   "name": "Seattle Aquarium",
+   "url": "https://www.seattleaquarium.org/",
+   "file": "runs/2026-11-17/sites/www.seattleaquarium.org.json"
+  },
+  {
+   "host": "www.mbari.org",
+   "name": "Monterey Bay Aquarium Research Institute",
+   "url": "https://www.mbari.org/",
+   "file": "runs/2026-11-17/sites/www.mbari.org.json"
+  },
+  {
+   "host": "oceanexplorer.noaa.gov",
+   "name": "NOAA Ocean Exploration",
+   "url": "https://oceanexplorer.noaa.gov/",
+   "file": "runs/2026-11-17/sites/oceanexplorer.noaa.gov.json"
+  }
+ ]
+}

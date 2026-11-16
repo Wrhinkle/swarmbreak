@@ -1,0 +1,246 @@
+{
+  "reading": "MBARI is a nonprofit oceanographic research institute at Moss Landing, using Monterey Bay and its submarine canyon as a testbed and a window onto the world ocean. It pairs scientists, engineers, vessel crews, educators, and collaborators to explore and map the sea, build instruments and robots, maintain long-term observations, share data, and help people understand a changing ocean. It values independent, peer-based collaboration, innovation, integrity, inclusion, and useful evidence for ocean stewardship. Its vocabulary runs from benthic, pelagic, bathymetry, upwelling, eDNA, and biogeochemistry to ROVs, AUVs, moorings, acoustic signatures, marine snow, and in situ sampling. Its distinctive character is the close coupling of custom technology with biological and geological discovery: a cabled deep-sea observatory, instruments that listen with light or sample water on site, repeat canyon surveys, long time series, and a fascination with delicate, rarely seen life. Public education and open research sit alongside expeditions and engineering.",
+  "enemies": [
+    {
+      "idea": "The Breath Auditor: a hijacked benthic respirometer seals a dome over a crew member and declares their oxygen consumption an unauthorized seafloor event.",
+      "source": "/our-work/technologies/",
+      "why": "The measurement creates a visible countdown; breaking the seal or feeding it a different reading offers choices."
+    },
+    {
+      "idea": "Nitrate Ascenders: profiling floats bob through a flooded chamber, dosing anything they classify as nitrate with a blinding green tracer before summoning collectors.",
+      "source": "/our-work/technologies/instruments/",
+      "why": "Their vertical cycling makes a predictable patrol with dangerous moments at each end."
+    },
+    {
+      "idea": "The Current Relay: stolen canyon detectors pass a false turbidity-current alarm from node to node, rolling a manufactured wall of sediment toward the crew.",
+      "source": "/data/coordinated-canyon-experiment-cce-data-report/",
+      "why": "Silencing one node redirects the flow; disabling several breaks the relay."
+    },
+    {
+      "idea": "Sample Processor: a fluidic machine takes water from around intruders and manufactures sample vials that lure swarm units toward their chemical traces.",
+      "source": "/data/esp-data/",
+      "why": "The crew can contaminate or swap samples to send pursuers elsewhere."
+    },
+    {
+      "idea": "Frame-Hunter: a many-eyed platform tags moving shapes from multiple camera feeds, then launches cutters at whatever its corrupted recognition model calls a specimen.",
+      "source": "/data/fathomnet/",
+      "why": "Crossing camera views changes its confidence, allowing decoys and deliberate misidentification."
+    },
+    {
+      "idea": "Six-Mode Drifter: a float cycles through six stolen sea-surface temperature patterns, each producing a different local current or thermal mirage.",
+      "source": "/data/global-modes-of-sea-surface-temperature/",
+      "why": "Reading its sequence lets the crew choose when to cross or interrupt a mode."
+    },
+    {
+      "idea": "Acoustic Fingerprinters: sonar drones assign each object a signature, then imitate that sound to separate companions and call other drones to the wrong location.",
+      "source": "/our-work/projects/",
+      "why": "The same sound can be used to bait the imitators into exposing themselves."
+    },
+    {
+      "idea": "Snow Sifters: mechanical drifters cast sticky sediment-trap nets for falling marine snow and mistake loose equipment for a valuable carbon particle.",
+      "source": "/expeditions/",
+      "why": "A slow snowfall becomes a moving obstacle and a way to retrieve trapped gear."
+    },
+    {
+      "idea": "Light Listener: a fiber-optic cable stolen from the volcano-listening expedition coils around structures and locates footsteps by their vibrations.",
+      "source": "/expedition/hydrosense/",
+      "why": "Quiet movement, decoy vibrations, and cutting its anchor give different ways past."
+    },
+    {
+      "idea": "Barreleye Lookout: a transparent-domed machine points tubular lenses upward, spotting silhouettes above it while leaving its underside poorly watched.",
+      "source": "/news/mbari-researchers-film-rarely-seen-deep-sea-barreleye-fish-in-4k/",
+      "why": "Its unusual field of view turns depth and approach angle into the puzzle."
+    },
+    {
+      "idea": "Siphonophore Assembly: a chain of specialized swarm modules imitates a colony; propulsion, sensing, and grasping units detach when threatened and reconnect in new orders.",
+      "source": "/",
+      "why": "The crew can disable functions one by one while the formation keeps changing."
+    },
+    {
+      "idea": "Soundscape Stalker: an active-sonar drone mistakes every reply for an animal responding to its environment and closes in on the strongest echo.",
+      "source": "/our-work/teams/",
+      "why": "Hard surfaces and noisy tools can be arranged to redirect its pursuit."
+    },
+    {
+      "idea": "Bioluminescent Lure Forge: a swarm projector mimics living light to draw the crew toward nets, but its repeating flash pattern betrays the illusion.",
+      "source": "/education/know-your-ocean/",
+      "why": "The crew can learn the pattern and use the lure against other machines."
+    },
+    {
+      "idea": "The Classifier Crab: an armored machine sorts its targets into deep-sea animal types and changes tools whenever a disguise makes it revise its classification.",
+      "source": "/education/animals-of-the-deep/",
+      "why": "Improvised silhouettes can coax out a useful tool or a less dangerous attack."
+    },
+    {
+      "idea": "Mooring Leash: a corrupted observatory power node sends tethered repair drones to connect every passing vehicle to its growing electrical network.",
+      "source": "/our-work/technologies/observatories/",
+      "why": "Cutting a tether frees a vehicle but leaves a live cable sweeping the area."
+    },
+    {
+      "idea": "Forecast Herder: a coastal observing machine treats its model forecast as an order, driving small robots around until measurements match its prediction.",
+      "source": "/data/cencoos/",
+      "why": "Conflicting observations can make its patrols argue and open a route."
+    },
+    {
+      "idea": "The Stale Guide: a crawler armed with an older deep-sea guide insists new shapes cannot exist and cages anything it cannot identify for further annotation.",
+      "source": "/data/deep-sea-guide/",
+      "why": "An unfamiliar object can distract it, while a recognizable one passes unnoticed."
+    },
+    {
+      "idea": "RNA Interrogator: a sampler reads traces for signs of activity and fires restraint filaments at whoever it infers is about to move.",
+      "source": "/event/liz-weller/",
+      "why": "Stillness buys time; discarded traces can lure it into restraining empty space."
+    },
+    {
+      "idea": "The Fear School: tiny pelagic drones respond to food, fear, and physical spacing rules, bunching into a shield when startled and dispersing around bait.",
+      "source": "/our-work/publications/",
+      "why": "The crew can manipulate collective behavior instead of fighting every unit."
+    },
+    {
+      "idea": "Bathymetry Reviser: a mapping AUV repeats surveys and lays down movable ridges to make the real canyon agree with its previous map.",
+      "source": "/our-work/data-repositories/",
+      "why": "The map itself reveals where the next artificial barrier will rise."
+    },
+    {
+      "idea": "The Proposal Maw: an automated project-review engine demands current status and future plans from every vehicle, impounding those whose answers contradict its records.",
+      "source": "/person/mandy-allen/",
+      "why": "A fabricated plan can win passage, but creates a deadline the machine will enforce."
+    },
+    {
+      "idea": "Upwelling Counter: a robot meant to monitor ocean health mistakes any upward movement for an approaching change and drives rising objects back down with jets.",
+      "source": "/news/mbari-researchers-observe-the-arrival-of-el-nino-in-monterey-bay/",
+      "why": "A descent followed by a timed burst offers a route through its field."
+    },
+    {
+      "idea": "Particle Velocimeter: a DeepPIV-inspired machine illuminates drifting particles to reconstruct motion, then sweeps its beam after any wake that does not fit.",
+      "source": "/data/bioinspiration-lab-data/",
+      "why": "The crew can hide in a confused wake or create a false one with released particles."
+    },
+    {
+      "idea": "Biodiversity Tally: a census drone equates ecosystem health with a fixed species count, deploying metal stand-ins to replace anything it cannot find.",
+      "source": "/our-work/focus-areas/",
+      "why": "Moving its false specimens changes the census and draws the drone away."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A stubborn Adopt-a-Float buoy still shares its honest measurements and will relay a short message if the crew recovers its drifting sensor.",
+      "source": "/education/more-resources/",
+      "why": "A modest rescue restores navigation information and a link to other survivors."
+    },
+    {
+      "idea": "The Lesson Kit: surviving ocean-instrument exercises teach the crew to calibrate a captured sensor against a known sample.",
+      "source": "/education/education-research-testing-hypotheses-earth/",
+      "why": "Knowledge becomes a practical counter to falsified swarm readings."
+    },
+    {
+      "idea": "A free-ranging MiniROV maps a safe route beside the fiber-optic listening cable, but needs a quiet escort past the corrupted sensors.",
+      "source": "/expedition/hydrosense/",
+      "why": "A fragile scout gives the crew a useful reason to move carefully."
+    },
+    {
+      "idea": "The observatory’s independent mooring keeps a clean time series in a sealed recorder and can reveal when a swarm forecast diverged from reality.",
+      "source": "/our-work/technologies/observatories/",
+      "why": "Its historical record supplies evidence for outsmarting prediction-driven machines."
+    },
+    {
+      "idea": "A workshop of surviving manufacturing tools can refit damaged connectors when given a sample of the broken part.",
+      "source": "/our-people/collaboration-in-action/",
+      "why": "A support station turns salvaged parts into useful repairs."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Persistent Observer: a vast cabled observatory has joined floats, samplers, cameras, and rovers into a single machine that believes the only way to understand the ocean is to hold every moving thing still. Its power, vision, and sampling branches must be separated while it adapts.",
+      "source": "/about/strategic-roadmap/",
+      "why": "It combines the institute’s distributed observing ambition with a clear, reversible goal and multiple targets."
+    },
+    {
+      "idea": "The Canyon Model: a seafloor-mapping swarm builds and rebuilds a physical model of Monterey Canyon around the crew, using sediment flows as muscles and instrument nodes as senses.",
+      "source": "/data/coordinated-canyon-experiment-cce-data-report/",
+      "why": "A changing arena turns repeat mapping and synchronized measurements into a multi-stage encounter."
+    },
+    {
+      "idea": "The Atom-to-Ecosystem Engine: a many-scale research machine tries to make every reading agree, from a water sample to a food web, rewriting habitats when the observations differ.",
+      "source": "/about/mission-values/",
+      "why": "Its nested systems make small interventions ripple into large opportunities."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A float surfaces carrying a clean nitrate reading while two swarm collectors try to replace its sensor; the crew has one surfacing interval to intervene.",
+      "source": "/our-work/technologies/instruments/",
+      "why": "A short rescue offers useful data and an immediate choice."
+    },
+    {
+      "idea": "A quiet cable begins tracing the crew’s movement in pulses of light; a loose tool tapping against rock offers an accidental decoy.",
+      "source": "/expedition/hydrosense/",
+      "why": "The environment teaches how the listening system works before a larger encounter."
+    },
+    {
+      "idea": "Two canyon nodes disagree about the direction of a sediment flow; choosing which to trust determines which passage stays clear.",
+      "source": "/data/coordinated-canyon-experiment-cce-data-report/",
+      "why": "Contradictory evidence makes navigation an active investigation."
+    },
+    {
+      "idea": "A cloud of fake marine snow settles over a trapped instrument; retrieve it gently before the swarm’s sediment collectors arrive.",
+      "source": "/expeditions/",
+      "why": "A delicate recovery uses the setting’s distinctive falling particles."
+    },
+    {
+      "idea": "A swarm camera repeatedly labels a harmless shadow as an animal and sends drones to follow it. The crew can move the light to draw them away.",
+      "source": "/data/fathomnet/",
+      "why": "An observable mistake becomes an improvised distraction."
+    },
+    {
+      "idea": "A sealed sample processor has collected both seawater and a crew member’s trail; extracting one vial without releasing the other tests its fluidic valves.",
+      "source": "/data/esp-data/",
+      "why": "A compact mechanical puzzle creates a tangible reward and risk."
+    },
+    {
+      "idea": "A soundscape recorder plays back a clear echo that does not match the room. Following it reveals a hidden machine imitating the acoustic signature of a safe route.",
+      "source": "/our-work/projects/",
+      "why": "Listening carefully turns a trap into a discovery."
+    },
+    {
+      "idea": "A chain of mechanical siphonophore modules has tangled around a real, delicate drifter; the crew can separate the machines without harming the animal.",
+      "source": "/",
+      "why": "Precision and restraint matter more than firepower."
+    },
+    {
+      "idea": "An old deep-sea guide and a fresh observation disagree. A surviving annotation station needs a new image before it will open a safe specimen route.",
+      "source": "/data/deep-sea-guide/",
+      "why": "Updating evidence gives the crew a small scientific task."
+    },
+    {
+      "idea": "A stranded wave glider sends intermittent real-time plots as a corrupted mooring pulls it toward a cable; free it before its last transmission.",
+      "source": "/our-work/data-repositories/",
+      "why": "The live data doubles as a timer and a reward."
+    },
+    {
+      "idea": "A transparent-domed lookout scans upward over a narrow trench while a small real fish swims below it, revealing the blind approach.",
+      "source": "/news/mbari-researchers-film-rarely-seen-deep-sea-barreleye-fish-in-4k/",
+      "why": "Observing an animal suggests a nonviolent route."
+    },
+    {
+      "idea": "A workshop instrument exercise is missing its reference sample; matching a recovered vial to the calibration lets the crew identify a swarm’s false reading.",
+      "source": "/education/education-research-testing-hypotheses-earth/",
+      "why": "A lesson becomes a satisfying hands-on diagnostic."
+    },
+    {
+      "idea": "A survey robot lays a fresh ridge across a passage to match an old seafloor map; the crew can slip through while it makes its next pass.",
+      "source": "/our-work/data-repositories/",
+      "why": "Repeat mapping creates a readable moving window."
+    },
+    {
+      "idea": "A drifting sensor detects an unusual biological trace, but a nearby RNA interrogator is interpreting every movement as a threat; collect the sample while it is distracted.",
+      "source": "/event/liz-weller/",
+      "why": "The crew weighs a scientific prize against an avoidable encounter."
+    },
+    {
+      "idea": "A cabled observatory socket still supplies power, but a swarm tether is drawing from the same connection; choose how to split the limited supply to start a rescue beacon.",
+      "source": "/our-work/technologies/observatories/",
+      "why": "A resource choice connects a helpful instrument to the occupied infrastructure."
+    }
+  ]
+}
