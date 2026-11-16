@@ -261,8 +261,9 @@ def main():
             agent('storymaker', content, inputs, check_content, rests_on=[sites_file])
 
         if want('gameplay'):
-            begin(d, 'gameplay')
             report = d / 'balance.json'
+            # The old report is no longer a pass, but may be needed for recovery.
+            mark(report, False)
             # Keep the whole retry sequence together so a resume can recover its last pair.
             tried, tried_report = d / 'assembly-tried.json', d / 'balance-tried.json'
             provenance = d / 'balance-tried-provenance.json'
@@ -315,6 +316,9 @@ def main():
                         evidence_error()
                 except (OSError, ValueError, KeyError, TypeError):
                     evidence_error()
+
+            # Do not discard a retained report until retry evidence has passed its guard.
+            begin(d, 'gameplay')
 
             def check_plan():
                 bad = result(tool('tools/checks.ts', 'assembly', rel(assembly), rel(content)))
