@@ -157,8 +157,10 @@ class RetryInputsTest(unittest.TestCase):
 
     def test_missing_or_mismatched_evidence_stops(self):
         (self.day / 'assembly-tried.json').write_text(json.dumps(self.plan('a')))
+        (self.day / 'balance.json').write_text('retained full report')
         with self.assertRaisesRegex(SystemExit, 'missing or mismatched'):
             self.main('gameplay', lambda *a, **k: self.fail('worker started'), lambda *a: (True, '{}'))
+        self.assertEqual((self.day / 'balance.json').read_text(), 'retained full report')
 
     def test_success_cleans_retry_evidence(self):
         def tool(*args):
