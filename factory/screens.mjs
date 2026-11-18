@@ -11,6 +11,7 @@
 // own copy, never the one in the tree under review.
 // usage: node screens.mjs <chrome> <dist> <outDir>
 import { spawn } from 'node:child_process';
+import { screenTime } from './screen-clock.mjs';
 import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
@@ -28,12 +29,14 @@ const inside = path => {
   if (!file.startsWith(root + sep)) throw new Error(`${path} is outside the built folder`);
   return file;
 };
-let acts; // read before the browser starts, so a build that points outside itself opens nothing
+let acts, screenNow; // read before the browser starts, so a build that points outside itself opens nothing
 try {
   const manifest = JSON.parse(readFileSync(inside('manifest.json')));
   // The page plays the next run once it has opened (currentRun in src/save.ts). Room ids must come from the same run.
-  const live = manifest.next && Date.parse(manifest.next.opensAt) <= Date.now() ? manifest.next : manifest;
+  const now = Date.now();
+  const live = manifest.next && Date.parse(manifest.next.opensAt) <= now ? manifest.next : manifest;
   acts = JSON.parse(readFileSync(inside(live.runUrl))).acts;
+  ({ time: screenNow } = screenTime(manifest, now));
 } catch (e) { console.error(String(e.message ?? e)); process.exit(1); }
 
 const server = createServer((req, res) => {
@@ -75,6 +78,8 @@ try {
   const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
   const cdp = (method, params = {}) => send(method, params, sessionId);
   await cdp('Page.enable'); await cdp('Runtime.enable');
+  // Keep the built run open for the whole check, even when its real date has passed.
+  await cdp('Page.addScriptToEvaluateOnNewDocument', { source: `Date.now = () => ${screenNow};` });
   const js = async (fn, ...args) => {
     const r = await cdp('Runtime.evaluate', { expression: `(${fn})(...${JSON.stringify(args)})`, returnByValue: true });
     if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description ?? r.exceptionDetails.text);
