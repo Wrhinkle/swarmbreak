@@ -16,7 +16,8 @@ import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import { extname, join, sep } from 'node:path';
 
-const [exe, dist, out] = process.argv.slice(2);
+const [exe, dist, out, requested] = process.argv.slice(2);
+if (requested && !['camp-empty', 'camp-populated'].includes(requested)) throw new Error('unknown requested screen/state');
 const KEY = 'swarmbreak-save-v1', SITE = 'http://game.test/';
 const SIZES = [[390, 844], [1280, 800]], ROOMS = ['fight', 'shop', 'treasure', 'event', 'rest'];
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' };
@@ -28,12 +29,13 @@ const inside = path => {
   if (!file.startsWith(root + sep)) throw new Error(`${path} is outside the built folder`);
   return file;
 };
-let acts; // read before the browser starts, so a build that points outside itself opens nothing
+let acts, run; // read before the browser starts, so a build that points outside itself opens nothing
 try {
   const manifest = JSON.parse(readFileSync(inside('manifest.json')));
   // The page plays the next run once it has opened (currentRun in src/save.ts). Room ids must come from the same run.
   const live = manifest.next && Date.parse(manifest.next.opensAt) <= Date.now() ? manifest.next : manifest;
-  acts = JSON.parse(readFileSync(inside(live.runUrl))).acts;
+  run = JSON.parse(readFileSync(inside(live.runUrl)));
+  acts = run.acts;
 } catch (e) { console.error(String(e.message ?? e)); process.exit(1); }
 
 const server = createServer((req, res) => {
@@ -118,6 +120,21 @@ try {
     await cdp('Page.navigate', { url: SITE });
     await js(() => localStorage.clear()).catch(() => {});
     await cdp('Page.navigate', { url: SITE });
+    if (requested) {
+      const ally = run.crew?.[0];
+      if (requested === 'camp-populated' && !ally) throw new Error('no ally available for populated camp');
+      await js((k, ally, populated) => {
+        const camp = populated ? [{ ally, runId: 'review-run', wonAt: '2026-01-01', sites: ['Review site'] }] : [];
+        localStorage.setItem(k, JSON.stringify({ version: 1, camp, today: null, results: {} }));
+      }, KEY, ally, requested === 'camp-populated');
+      await cdp('Page.navigate', { url: SITE });
+      await press('^Camp');
+      const visible = await js(() => ({ title: document.querySelector('[role=heading][aria-level="1"]')?.textContent ?? document.querySelector('h1')?.textContent, text: document.body.innerText }));
+      if (visible.title !== 'Camp' || (requested === 'camp-empty' ? !visible.text.includes('Your camp is quiet.') : !visible.text.includes(ally.name)))
+        throw new Error(`requested ${requested}, but camp state was not shown`);
+      await shot(requested);
+      continue;
+    }
     await press('^Play$');
     for (const title of ['The daily run', 'Choose your route', 'Your crew', 'In a fight', 'Give an order', 'Bring an ally home']) {
       const shown = await js(() => document.querySelector('.walkthrough h1')?.textContent);

@@ -6,8 +6,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 from datetime import datetime, timezone
 from unittest.mock import patch
 from manager import SITE, act, gate_verdict, unfilled_links, check_post, deploy_problems, post_problems, template_headings
+from test_capture_review import test_capture_review
 from test_screen_browser import test_screen_browser
 
+test_capture_review()
 test_screen_browser()
 
 good = f'## My rule\nSee {SITE} for it.'
