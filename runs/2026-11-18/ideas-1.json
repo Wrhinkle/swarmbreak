@@ -1,0 +1,226 @@
+{
+  "reading": "The Weald & Downland Living Museum is an independent heritage charity in the South Downs: it rescues and cares for historic buildings and artefacts, and brings roughly a thousand years of ordinary rural life to life through working demonstrations, gardens, animals, learning and seasonal events. It values the often-overlooked lives of people who cooked, built and worked in these places, the practical transmission of traditional crafts, conservation, accessibility, community support and sustainable land management. Its vocabulary is tactile and active: rescued buildings, vernacular, timber framing, conservation, gathering, making, preparing, craft demonstrations, rural and domestic life, field to fork. What makes it distinctive is the outdoor collection of more than 50 buildings across 40 acres, from a reconstructed Saxon hall to the modern timber Gridshell, where a working watermill, Tudor kitchen and living landscape meet specialist conservation degrees and school workshops. Membership, donations, volunteers and venue hire help sustain the place; the crawl offers glimpses and truncated excerpts rather than complete descriptions of every activity.",
+  "enemies": [
+    {
+      "idea": "Millstone Reapers: swarm cogs occupy the Lurgashall watermill and grind any loose metal into powder for the hive, slowing whenever the water is diverted.",
+      "source": "/plan-your-visit/things-to-see-do/",
+      "why": "A familiar working building becomes a moving resource puzzle with a clear mechanical weakness."
+    },
+    {
+      "idea": "Newdigate Ovenbacks carry the bakehouse fire inside iron bellies; they roll out piping-hot replicas of objects they have swallowed, each containing a scout.",
+      "source": "/plan-your-visit/things-to-see-do/",
+      "why": "The crew can use the counterfeit objects as bait or discover the scouts before they hatch."
+    },
+    {
+      "idea": "Winkhurst Hearth Hands mistake every intruder for an ingredient and try to sort them into a vast Tudor kitchen preparation line.",
+      "source": "/plan-your-visit/things-to-see-do/",
+      "why": "Hearth tools and the sequence of preparing a meal create a comic, escalating encounter."
+    },
+    {
+      "idea": "Gridshell Weavers lace flexible timber-like limbs into a dome around a target, tightening each crossing as its victim struggles.",
+      "source": "/whats-on/exhibitions/",
+      "why": "A structural idea becomes a trap that can be escaped by carefully releasing intersections."
+    },
+    {
+      "idea": "Mini Builder Piglets construct straw, stick and brick shells around the swarm’s vulnerable workers; each shell has a different way in.",
+      "source": "/schools/early-years-foundation-stage/",
+      "why": "A familiar building exercise becomes a sequence of improvised engineering challenges."
+    },
+    {
+      "idea": "Field-to-Fork Harvesters trace wheat through every stage to bread, seizing anything the crew carries that could pass for a tool, crop or finished loaf.",
+      "source": "/schools/key-stage-1/",
+      "why": "Its rigid production logic can be confused by swapping the stages or presenting decoys."
+    },
+    {
+      "idea": "Victorian Chore Automata scrub tracks out of the earth and polish weapons until their edges are useless, insisting every mess must be corrected.",
+      "source": "/schools/key-stage-2/",
+      "why": "Their desire to tidy creates both a hazard and a way to erase the crew’s trail."
+    },
+    {
+      "idea": "Schoolroom Straighteners unfold rulers and hinged backs to force everyone into perfect posture; they freeze if presented with a convincing lesson.",
+      "source": "/schools/key-stage-2/",
+      "why": "An absurd rule governs their attacks and offers a nonviolent opening."
+    },
+    {
+      "idea": "Tudor Building Examiners assemble false timber frames around people and mark every joint that moves as a failure.",
+      "source": "/schools/key-stages-3-4/",
+      "why": "The crew must demonstrate a sound joint or dismantle a frame before the assessment ends."
+    },
+    {
+      "idea": "Everlasting Willow Wreaths are swarm tendrils woven into self-closing rings that snag tools and braid them into the next wreath.",
+      "source": "/courses/",
+      "why": "Cutting a ring frees its contents but gives the other rings loose material to work with."
+    },
+    {
+      "idea": "Coppice Cutters prune living cover down to identical stubs on a ruthless rotation, then build fast-growing barricades from the cuttings.",
+      "source": "/about/sustainability/",
+      "why": "Their predictable cycle gives stealthy crews a window and changes the terrain over time."
+    },
+    {
+      "idea": "Bug-House Wardens fill nesting compartments with metal insects, then release a different tiny specialist from each chamber.",
+      "source": "/about/sustainability/",
+      "why": "Players can block or rearrange chambers to change the encounter before it starts."
+    },
+    {
+      "idea": "Meadow Pollinators dust machines with wildflower pollen to disguise them as blooms, drawing helpers close before the flowers unfold into grasping arms.",
+      "source": "/about/sustainability/",
+      "why": "The pretty camouflage rewards observation and can be turned against the swarm."
+    },
+    {
+      "idea": "Collection Claimants attempt to catalogue every object they encounter as one of the museum’s artefacts, fastening it to a mobile rack.",
+      "source": "/fundraising/",
+      "why": "A fight becomes a scramble to retrieve equipment from a growing travelling collection."
+    },
+    {
+      "idea": "Lifetime Ushers offer unlimited entry to a looping route of rescued houses, quietly replacing exits each time a visitor accepts another tour.",
+      "source": "/membership/become-a-member/",
+      "why": "Their promise is tempting, and escaping requires noticing the repeated route."
+    },
+    {
+      "idea": "Vernacular Indexers scan buildings for ordinary construction details, then strip away any beam they cannot immediately classify.",
+      "source": "/resources/library/",
+      "why": "The danger grows from the museum’s mission to document everyday buildings; obscure details can delay them."
+    },
+    {
+      "idea": "Court Barn Menders repair broken swarm parts with whatever is at hand, including the crew’s gear, until the original object is unrecognisable.",
+      "source": "/the-repair-shop/",
+      "why": "Interrupting repairs or supplying a deliberately awkward spare part changes the fight."
+    },
+    {
+      "idea": "Stallkeeper Swarms arrange found objects into a hundred miniature market stalls and barter for the crew’s useful supplies with ingenious but useless duplicates.",
+      "source": "/events/christmas-market/",
+      "why": "A market negotiation can become a chase when a duplicate begins walking away."
+    },
+    {
+      "idea": "Substitution Clerks replace missing objects with increasingly inappropriate equivalents, confidently declaring each swap a valid course substitution.",
+      "source": "/resources/terms-and-conditions/",
+      "why": "Their literal substitution rule gives players room to argue, trick or redirect them."
+    },
+    {
+      "idea": "Little Red Hen Collectors demand help at every stage of making bread and surround anyone who declines with grain-sorting pincers.",
+      "source": "/schools/early-years-foundation-stage/",
+      "why": "Cooperating buys time, while skipping a step lets the crew sabotage the process."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Unfinished Crew: independent volunteer repairers pass hand signals through the buildings and know where the swarm’s routines leave gaps.",
+      "source": "/volunteer/",
+      "why": "They provide local knowledge in exchange for practical help, rather than solving the problem for the crew."
+    },
+    {
+      "idea": "The Route Keepers maintain a quiet, navigable circuit and share information about terrain and alternative ways around the grounds.",
+      "source": "/plan-your-visit/accessibility/",
+      "why": "Their route network gives the crew options and makes access a useful shared resource."
+    },
+    {
+      "idea": "Bursary Apprentices practise traditional building techniques on scrap, making removable braces that can hold a doorway against the swarm.",
+      "source": "/courses/bursary-funding/",
+      "why": "Learning and material resourcefulness turn into a concrete tactical advantage."
+    },
+    {
+      "idea": "Meadow Stewards shelter real pollinators and use coppiced branches to screen safe passages from metal scouts.",
+      "source": "/about/sustainability/",
+      "why": "Land management becomes a patient, renewable form of resistance."
+    },
+    {
+      "idea": "Domestic-life interpreters keep an uninfected hearth and teach the crew ordinary techniques that swarm machines cannot easily improvise.",
+      "source": "/discover/",
+      "why": "Everyday knowledge becomes a source of surprising solutions."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Keeper of the Humble Past is a mobile composite of rescued rooms that tries to preserve ordinary life by sealing living people inside perfect, unchanging household scenes.",
+      "source": "/about/",
+      "why": "Its preservation mission has become captivity; freeing each room weakens a different part of the boss."
+    },
+    {
+      "idea": "The Grand Gridshell is a vast swarm lattice that gathers historic buildings beneath its frame and reorganises them into one enormous machine for demonstrating the past forever.",
+      "source": "/whats-on/exhibitions/",
+      "why": "Flexible structure, rescued architecture and live demonstration combine in a battlefield the crew can reshape joint by joint."
+    },
+    {
+      "idea": "The Master Demonstrator conducts a thousand years of rural work at once, assigning everything a place in an endless curriculum and rebuilding any lesson that is interrupted.",
+      "source": "/learning/",
+      "why": "Players can disrupt its authority by completing, changing or teaching a lesson of their own."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A demonstration changes with the season halfway through: swarm workers abandon one task for another, leaving a safe route open for only a few minutes.",
+      "source": "/events/this-month/",
+      "why": "The changing daily programme creates a time-sensitive opportunity."
+    },
+    {
+      "idea": "Beside the millpond, a café table slowly drifts toward the watermill carrying a useful bundle of supplies; swarm scouts are watching the water.",
+      "source": "/plan-your-visit/eating-drinking/",
+      "why": "A small retrieval offers stealth, distraction or an improvised waterside rescue."
+    },
+    {
+      "idea": "A wheat-to-bread demonstration has stalled because its mill and oven disagree about which step comes first.",
+      "source": "/schools/key-stage-1/",
+      "why": "Restoring the sequence can feed allies or divert the harvesters."
+    },
+    {
+      "idea": "A swarm schoolroom demands a perfectly straight line of chairs before it will release a captured tool.",
+      "source": "/schools/key-stage-2/",
+      "why": "The crew can comply, exploit the geometry or use the commotion to retrieve it."
+    },
+    {
+      "idea": "A willow wreath keeps weaving itself shut around a useful key; each cut strand becomes part of a second, smaller wreath.",
+      "source": "/courses/",
+      "why": "A tactile puzzle rewards unweaving and patience over repeated cutting."
+    },
+    {
+      "idea": "A coppice crew is about to clear the screen hiding a safe path. Redirecting its cutting pattern saves the cover and provides spare poles.",
+      "source": "/about/sustainability/",
+      "why": "One quick intervention changes the landscape and yields useful materials."
+    },
+    {
+      "idea": "Two swarm traders each claim the same handmade object and demand a judge; both will accept a creative trade.",
+      "source": "/events/christmas-market/",
+      "why": "A low-stakes dispute can earn a tool, a guide or a noisy distraction."
+    },
+    {
+      "idea": "Metal insects are dressing a tree for a seasonal celebration, but their decorations are snagging a bundle of the crew’s supplies.",
+      "source": "/whats-on/",
+      "why": "The crew can retrieve the bundle by joining the ritual or carefully removing the ornaments."
+    },
+    {
+      "idea": "A counting machine will open a shelter only for a group of fifteen; it keeps counting the same scout twice.",
+      "source": "/plan-your-visit/group-visits/",
+      "why": "A simple threshold invites clever use of shadows, decoys or arithmetic."
+    },
+    {
+      "idea": "A swarm courier offers three sealed gifts: one visit, a year of membership or a course. Each redirects a patrol in a different way when presented.",
+      "source": "/fundraising/gift-vouchers/",
+      "why": "A choice of apparently harmless gifts becomes a portable tactical resource."
+    },
+    {
+      "idea": "A mender has fixed a useful tool but attached it to a swarm component. The crew must separate the two before the component wakes.",
+      "source": "/the-repair-shop/",
+      "why": "A tempting repair becomes a delicate salvage operation."
+    },
+    {
+      "idea": "Three little mechanical builders argue over straw, sticks and bricks for a shelter as a patrol approaches.",
+      "source": "/schools/early-years-foundation-stage/",
+      "why": "Helping one finish creates cover with a material-specific strength and weakness."
+    },
+    {
+      "idea": "A scattered stack of museum magazines from different decades holds sketches of a building before the swarm rearranged it.",
+      "source": "/resources/museum-magazine/",
+      "why": "Putting the issues in order reveals a former route through the site."
+    },
+    {
+      "idea": "A clock strikes in the Gridshell and three successive waves of machines repeat the same movement with small changes.",
+      "source": "/events/afterhours-achristmascarol/",
+      "why": "Watching the variations reveals when to cross the lattice safely."
+    },
+    {
+      "idea": "A period garden has been shifted by the swarm, so the familiar path ends at a fence of newly planted mechanical flowers.",
+      "source": "/plan-your-visit/museum-map/",
+      "why": "The crew can restore a landmark or take an unpredictable shortcut through the garden."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "thread": "Follow a building from its raw parts through the hands and tools that shape it, then step inside the finished structures. The swarm can become a brick, a carpenter's plane, a timber joint, or a roof sheltering a whole room.",
+  "candidates": [
+    {
+      "name": "Miles Lewis Heritage Building Materials Collection",
+      "url": "https://omeka.cloud.unimelb.edu.au/mlbh_collection/",
+      "why": "A university collection of bricks, lime and cement, finishes, ironmongery and roofing gives the swarm a cabinet of building parts and material textures to inhabit."
+    },
+    {
+      "name": "Weald & Downland Living Museum",
+      "url": "https://www.wealddown.co.uk/",
+      "why": "Carpenters' planes, augers and chisels meet pegged timber joints, historic building fragments and a modern timber gridshell: a workshop full of tools and structures coming together."
+    },
+    {
+      "name": "Ballenberg Swiss Open-Air Museum",
+      "url": "https://ballenberg.ch/en/",
+      "why": "Swiss houses and outbuildings offer thatch, stone-weighted shingles, timber framing, tiled stoves, granaries and drying kilns for the swarm to assemble into places."
+    },
+    {
+      "name": "Chiltern Open Air Museum",
+      "url": "https://www.coam.org.uk/",
+      "why": "Rescued buildings range from a thatched barn and timber-framed cottage to a tin chapel, forge and prefabricated house, each with its own shape and history."
+    },
+    {
+      "name": "The Wood Database",
+      "url": "https://www.wood-database.com/",
+      "why": "Hundreds of wood species and guides to grain, pores, strength and drying let the swarm begin as a richly patterned building material."
+    },
+    {
+      "name": "Science Museum Group Collection",
+      "url": "https://collection.sciencemuseumgroup.org.uk/",
+      "why": "Its hand and machine tool collections include moulding planes, brace drills and saws, while engineering models show how shaped parts become larger structures."
+    },
+    {
+      "name": "National Building Museum",
+      "url": "https://nbm.org/",
+      "why": "Architectural models, building fragments, material samples and construction drawings invite the swarm to explore buildings at several scales."
+    },
+    {
+      "name": "HistoricBridges.org",
+      "url": "https://historicbridges.org/",
+      "why": "Photographed bridges and guides to trusses, arches and other structural forms offer an ending where beams and joints grow into crossings."
+    }
+  ]
+}

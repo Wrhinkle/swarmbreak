@@ -1,0 +1,226 @@
+{
+  "reading": "Chiltern Open Air Museum is a volunteer-founded, self-funded charity in Buckinghamshire that rescues and re-erects threatened vernacular buildings, interprets ordinary Chiltern life over roughly two millennia, and runs a working historic farm. Its 45 acres combine reconstructed homes and workplaces with livestock, period gardens, orchards, woodland and meadows. It cares about conservation, practical skills, shared memories, learning, accessibility and keeping heritage alive through use. Its language is hands-on heritage, living history, rescue, re-erection, craft demonstrations, farmstead, stories and community. The distinctive tension is that buildings already displaced from their original settings sit together as a full-size model village, while craftspeople, volunteers, interpreters and visitors continually make that assembled past active.",
+  "enemies": [
+    {
+      "idea": "Re-erectors dismantle occupied shelters beam by beam and rebuild them elsewhere, complete with occupants, to add them to the collection.",
+      "source": "/historicbuildings",
+      "why": "Their slow, visible relocation creates a moving maze and a chance to rescue a building mid-transfer."
+    },
+    {
+      "idea": "Prefab assemblers snap interchangeable bungalow panels around intruders, making temporary rooms that keep extending.",
+      "source": "/buildings/amersham-prefab",
+      "why": "The crew can pull panels free and turn the modular trap against its builders."
+    },
+    {
+      "idea": "A barn-to-cottage converter divides every room in two, then disputes which half owns the people inside.",
+      "source": "/buildings/leagrave-cottage",
+      "why": "Its conversion of a barn into two homes becomes a spatial puzzle with competing halves."
+    },
+    {
+      "idea": "Roundhouse thatchers keep rebuilding a roof over anything left standing still, sealing it beneath layers of swarm-laid thatch.",
+      "source": "/iron-age-roundhouse-rebuild",
+      "why": "Stopping or redirecting the builders matters more than simply breaking their work."
+    },
+    {
+      "idea": "Lace bobbin spiders pin routes into intricate patterns of wire, tightening the weave when anyone follows a repeated step.",
+      "source": "/blogs/lacemaking-in-the-chilterns",
+      "why": "The pattern is both a snare and a readable map of safe movement."
+    },
+    {
+      "idea": "Charcoal kiln crawlers stack timber around themselves and smoulder, blinding pursuers while producing black armour.",
+      "source": "/blogs/charcoal-burning",
+      "why": "Ventilation and timing can turn their own kiln into an opening."
+    },
+    {
+      "idea": "Sock-making machines knit metal tubes over boots and tools, linking a whole group into one clumsy chain.",
+      "source": "/wild-about-wool",
+      "why": "A ridiculous textile hazard becomes a cooperative unravelling challenge."
+    },
+    {
+      "idea": "Mechanical sheepdogs herd anyone crossing the farmstead into pens, treating people and sheep alike as inventory.",
+      "source": "/chilternfarm",
+      "why": "The crew can redirect the herders with decoys and gates."
+    },
+    {
+      "idea": "A willow sculptor weaves flexible cages around moving targets, continually reshaping them into ornamental figures.",
+      "source": "/willow-weaving-workshop",
+      "why": "Cut strands spring back into new obstacles unless the weaving rhythm is interrupted."
+    },
+    {
+      "idea": "Pottery-wheel drones centre a target in spinning clay and build walls upward around it, leaving a candle-holder chimney at the top.",
+      "source": "/wheel-thrown-pottery-workshop",
+      "why": "The growing vessel gives trapped characters a visible deadline and an escape route."
+    },
+    {
+      "idea": "Forge apprentices hammer scavenged metal into self-correcting hinges that attach themselves to doors, shields and limbs.",
+      "source": "/blacksmithing-workshop",
+      "why": "Hot new hinges can be bent before they cool, turning enemy repairs into tools."
+    },
+    {
+      "idea": "An orchard press patrol gathers every fallen apple and squeezes it into sticky pools, then tries to press anything caught in them.",
+      "source": "/blogs/autumn-apples-orchards-folklore-and-the-story-behind-the-harvest",
+      "why": "The harvest machinery creates terrain that can trap its own operators."
+    },
+    {
+      "idea": "Hedge-laying machines fold living boundaries across paths and stitch them shut with mechanical stakes.",
+      "source": "/heritage-crafts",
+      "why": "A familiar rural skill becomes a changing barricade that can be opened by finding the working end."
+    },
+    {
+      "idea": "A camera-skill hunter frames its targets and freezes whenever they leave its composition; it advances only while it has a clear shot.",
+      "source": "/camera-skills",
+      "why": "Cover and changes of viewpoint become the central tactic."
+    },
+    {
+      "idea": "A photo-editing machine erases shadows and apparent exits from its projected view, steering travellers toward a carefully cropped ambush.",
+      "source": "/easy-photo-editing",
+      "why": "The crew can compare the projection with physical clues to expose the deception."
+    },
+    {
+      "idea": "Costumed interpreter drones insist every visitor belongs to one historical household and pursue anyone who breaks their assigned role.",
+      "source": "/living-history-encounters",
+      "why": "Playing along can buy time while inconsistent details expose the machines."
+    },
+    {
+      "idea": "A bandstand conductor broadcasts a marching rhythm that synchronises nearby swarm units; interrupting its beat makes them stumble out of step.",
+      "source": "/music-on-the-bandstand",
+      "why": "The crew can fight the coordination system through rhythm and silence."
+    },
+    {
+      "idea": "An invasive surveying machine marks every unfamiliar plant and machine as an intruder, uprooting both without understanding the habitat.",
+      "source": "/blogs/native-and-invasive-species-of-the-chilterns",
+      "why": "Its indiscriminate classification can be exploited, but the surrounding habitat needs protection."
+    },
+    {
+      "idea": "A toll-house collector demands a piece of every object crossing its threshold, assembling the collected parts into a patchwork body.",
+      "source": "/historicbuildings",
+      "why": "The crew can bargain with expendable parts or recover valuable pieces from its construction."
+    },
+    {
+      "idea": "Natural-dye vats send out coloured thread scouts that mark routes for different swarm trades; mixing colours sends the wrong specialists to the wrong job.",
+      "source": "/heritage-crafts",
+      "why": "A craft process becomes a legible signalling system the crew can sabotage."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Volunteer conservators know which beams belong together and can quietly dismantle swarm additions without damaging the rescued buildings.",
+      "source": "/joinus",
+      "why": "Their practical knowledge opens routes that brute force would close."
+    },
+    {
+      "idea": "Gardeners maintain a chain of period gardens as quiet refuges, using familiar planting patterns to signal safe paths.",
+      "source": "/gardensandnature",
+      "why": "The landscape becomes a human-readable network hidden among the machines."
+    },
+    {
+      "idea": "Campfire storytellers trade memories of home, food and journeys; their different versions confound the swarm’s attempt to assign everyone one fixed history.",
+      "source": "/heritagestories",
+      "why": "Sharing a story earns local knowledge and can disrupt a rigid classification."
+    },
+    {
+      "idea": "A farm team guides the real flock to safety and teaches the crew how to redirect the mechanical herders.",
+      "source": "/chilternfarm",
+      "why": "Protecting living animals becomes a practical alliance."
+    },
+    {
+      "idea": "A sensory trail keeper offers quiet routes and alternative ways to notice approaching machinery.",
+      "source": "/resources",
+      "why": "The crew gains several ways to navigate rather than relying on a single sense."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Great Re-erector is a walking assembly of rescued-building frames. It tries to preserve the whole district by taking it apart and arranging it as one perfectly ordered museum.",
+      "source": "/historicbuildings",
+      "why": "Each salvaged structure gives it a different tactic; freeing its component buildings progressively changes the battlefield."
+    },
+    {
+      "idea": "The Curator of Living History conducts crafts, farming and costumed machines into a seamless pageant, assigning every person a permanent part in an endlessly repeated day.",
+      "source": "/activities",
+      "why": "The crew can disrupt its script by introducing conflicting stories, improvisation and unfinished work."
+    },
+    {
+      "idea": "The Roundhouse That Must Be Used grows by adding every craft and dwelling it encounters to its circular frame, sheltering occupants while refusing to let them leave.",
+      "source": "/iron-age-roundhouse-rebuild",
+      "why": "Its protective purpose gives the crew a way to negotiate while they dismantle its expanding roof."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A cottage has been split overnight; two doors now open into the same narrow room, and a trapped conservator needs the dividing frame removed.",
+      "source": "/buildings/leagrave-cottage",
+      "why": "A small rescue reveals the converter before the crew encounters it."
+    },
+    {
+      "idea": "A flock is safely penned, but mechanical sheepdogs are circling the gate. The farm team needs a diversion to move the animals.",
+      "source": "/chilternfarm",
+      "why": "A rescue can be solved with gates, decoys or patient herding."
+    },
+    {
+      "idea": "The orchard press is collecting apples before the harvesters can store any for winter. A few intact baskets would win the gardeners’ trust.",
+      "source": "/blogs/autumn-apples-orchards-folklore-and-the-story-behind-the-harvest",
+      "why": "A modest salvage task turns into a choice of timing around the press."
+    },
+    {
+      "idea": "Someone has laid a lace pattern across a path; one loose bobbin marks a safe way through, but pulling it may unravel the whole barrier.",
+      "source": "/blogs/lacemaking-in-the-chilterns",
+      "why": "The crew chooses between a quiet crossing and a useful disruption."
+    },
+    {
+      "idea": "A kiln is smoking beside the bodger’s area. Inside, a trapped tool chest is slowly being sealed under new timber.",
+      "source": "/blogs/charcoal-burning",
+      "why": "The smoke and heat make a simple recovery a timed problem."
+    },
+    {
+      "idea": "A deserted pottery wheel is still spinning a clay wall around a small lantern; stopping it without crushing the lantern takes a steady hand.",
+      "source": "/wheel-thrown-pottery-workshop",
+      "why": "A quiet skill challenge offers useful light."
+    },
+    {
+      "idea": "At the bandstand, machines respond to a tune played by nobody visible. A missing beat briefly leaves the path clear.",
+      "source": "/music-on-the-bandstand",
+      "why": "Careful listening offers a nonviolent opening."
+    },
+    {
+      "idea": "Volunteers are trying to replace a roundhouse roof before the swarm claims the materials. They need a watch while the last bundles are carried in.",
+      "source": "/iron-age-roundhouse-rebuild",
+      "why": "Defending a working building makes conservation an immediate objective."
+    },
+    {
+      "idea": "An interpreter drone invites the crew into a cottage scene and cannot account for an object from another period.",
+      "source": "/living-history-encounters",
+      "why": "A small historical contradiction can create a distraction."
+    },
+    {
+      "idea": "A willow cage contains an abandoned supply bundle, but cutting one side makes the other tighten.",
+      "source": "/willow-weaving-workshop",
+      "why": "The weaving gives a physical puzzle with an observable mechanism."
+    },
+    {
+      "idea": "A trail keeper has marked two routes around a noisy worksite: one quieter, one shorter. Both need a fallen branch moved.",
+      "source": "/resources",
+      "why": "A meaningful route choice brings the site’s sensory landscape into play."
+    },
+    {
+      "idea": "A folk tune in Northolt Barn makes a nearby building frame vibrate; changing the melody reveals which joint the swarm added.",
+      "source": "/folk-in-the-barn",
+      "why": "Music becomes a diagnostic tool for a conservation puzzle."
+    },
+    {
+      "idea": "A sock machine has knitted a length of metallic yarn through several door handles. Pulling one opens another and alerts a patrol.",
+      "source": "/wild-about-wool",
+      "why": "The crew can trace and rethread a small mechanical network."
+    },
+    {
+      "idea": "A prefab wall panel has been carried into the wrong era of the site. Returning it exposes a concealed path behind its temporary replacement.",
+      "source": "/buildings/amersham-prefab",
+      "why": "The displaced building parts make navigation and repair overlap."
+    },
+    {
+      "idea": "At a campfire, two storytellers remember the same place differently. A listening classifier stalls while trying to decide which memory to keep.",
+      "source": "/heritagestories",
+      "why": "The crew can protect the storytellers or use the machine’s uncertainty to slip past."
+    }
+  ]
+}
