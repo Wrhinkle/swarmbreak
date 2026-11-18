@@ -1,0 +1,1141 @@
+{
+ "title": "Room for a Door",
+ "swarm": {
+  "name": "The Keepers",
+  "blurb": "A swarm of builders and collectors that repairs structures, gathers materials and guards the spaces it makes."
+ },
+ "arc": "The Keepers strip a working museum for parts, making the crew think they want materials. Their sealed rooms suggest a plan to trap people. At the second site the crew finds the rooms sheltering people from other machines: the swarm is protecting them, but will not let them leave. A damaged sample cabinet leads it to a wood collection, where its search for an exact replacement makes it take more and more specimens. Wren proves a sound repair can use available pieces. With the cabinet repaired and a door held open, the swarm accepts a shelter people can enter and leave.",
+ "acts": [
+  {
+   "theme": "Working rooms and the craft of repair",
+   "story": {
+    "intro": "The swarm has taken over workshops and is carrying away fittings. Wren finds fresh seams in a locked room. Ox holds the door while Kestrel pulls it open. Inside, a table has been set for people who are not there.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: Useful things",
+      "text": "Machines collect tools, grain and timber. Kestrel thinks they are stripping the site for parts. Wren notices that damaged machines get repairs before the goods are moved."
+     },
+     {
+      "title": "Floors 6\u201310: Rooms under cover",
+      "text": "The swarm builds rooms around its stores. Ox finds doors sealed from the outside. Wren finds blankets inside, carefully folded and unused."
+     },
+     {
+      "title": "Floors 11\u201315: A place held still",
+      "text": "The rooms have hearths, tables and no working exits. The Keeper keeps repairing their walls. Kestrel marks the joints that hold its roof together."
+     }
+    ],
+    "bossIntro": "The Keeper folds its lattice over a row of rooms. Workers bring more boards to seal the doors. Ox takes the first blow while Kestrel looks for a joint to open.",
+    "outro": "The doors open. No one was inside, but each room was prepared for an occupant. A swarm carrier leaves with a sketch of a larger roof. The crew follows."
+   },
+   "creatures": [
+    {
+     "id": "mill-chip",
+     "name": "Mill Chip",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/plan-your-visit/things-to-see-do/",
+     "blurb": "Loose mill teeth gather around anyone carrying metal.",
+     "look": "A cluster of small grey cog teeth with stubby legs and flour-white dust."
+    },
+    {
+     "id": "willow-loop",
+     "name": "Willow Loop",
+     "tier": "easy",
+     "bodyPlan": "plant",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/courses/",
+     "blurb": "Its tightening ring catches a weapon at the wrong moment.",
+     "look": "A brown willow ring with four twig legs and a hooked green tip."
+    },
+    {
+     "id": "meadow-decoy",
+     "name": "Meadow Decoy",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/about/sustainability/",
+     "blurb": "It hides among flowers and makes off with loose supplies.",
+     "look": "A brass insect with pale yellow petal wings and a hooked abdomen."
+    },
+    {
+     "id": "ovenback",
+     "name": "Ovenback",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/plan-your-visit/things-to-see-do/",
+     "blurb": "It bakes small scouts in its belly. Break the oven before another batch emerges.",
+     "look": "A squat black iron oven on four wheels, with an orange mouth and a tall bent chimney."
+    },
+    {
+     "id": "court-mender",
+     "name": "Court Mender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/the-repair-shop/",
+     "blurb": "It patches damaged machines with borrowed parts. Stop its repairs first.",
+     "look": "A narrow wooden frame with a canvas tool apron, pincers and a curved brass needle."
+    },
+    {
+     "id": "coppice-cutter",
+     "name": "Coppice Cutter",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/about/sustainability/",
+     "blurb": "It folds cut branches into cover for wounded machines.",
+     "look": "A walking bundle of hazel poles with green shoots and broad woven branch shields."
+    },
+    {
+     "id": "frame-examiner",
+     "name": "Frame Examiner",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/schools/key-stages-3-4/",
+     "blurb": "It locks moving joints in place, including those of the crew.",
+     "look": "A tall oak frame on hinged feet with a square clamp and a brass plumb bob."
+    },
+    {
+     "id": "grain-harvester",
+     "name": "Grain Harvester",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/schools/key-stage-1/",
+     "blurb": "It takes tools as if they were the next step in making bread.",
+     "look": "A straw-colored wheeled hopper with a curved sickle arm and flour-dusted sack."
+    },
+    {
+     "id": "gridshell-weaver",
+     "name": "Gridshell Weaver",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/whats-on/exhibitions/",
+     "blurb": "It bends a lattice around itself and covers its damaged neighbors.",
+     "look": "A dome of thin tan timber ribs on jointed legs, bound at each crossing with dark pegs."
+    },
+    {
+     "id": "bug-house-warden",
+     "name": "Bug House Warden",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/about/sustainability/",
+     "blurb": "Its compartments open one by one to release scouts.",
+     "look": "A tall wooden nesting box on six legs, its round compartments filled with brass insects."
+    },
+    {
+     "id": "collection-claimant",
+     "name": "Collection Claimant",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "jam",
+      "strike"
+     ],
+     "source": "/fundraising/",
+     "blurb": "Its rack gathers tools and locks them behind swinging bars.",
+     "look": "A rolling dark timber rack with empty hooks, jointed arms and a wire cage."
+    },
+    {
+     "id": "humble-keeper",
+     "name": "Keeper of the Humble Past",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "spawn",
+      "strike"
+     ],
+     "source": "/about/",
+     "blurb": "It seals people into furnished rooms and sends workers to repair every opening. Break its cover and stop its workers to let the rooms open.",
+     "look": "A towering stack of small timber rooms on iron legs, with shuttered windows, a hearth glow and a flexible lattice roof."
+    },
+    {
+     "id": "route-keeper",
+     "name": "Route Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/plan-your-visit/accessibility/",
+     "blurb": "Keeps paths open and points out firm ground.",
+     "look": "A short figure in a moss-green coat with a walking staff and a broad wooden shield."
+    },
+    {
+     "id": "barn-mender",
+     "name": "Barn Mender",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/volunteer/",
+     "blurb": "A volunteer repairer who shares spare thread with Wren.",
+     "look": "A sturdy figure in a tan apron with a canvas tool roll and a wooden mallet."
+    }
+   ],
+   "events": [
+    {
+     "id": "millpond-table",
+     "source": "/plan-your-visit/eating-drinking/",
+     "look": "A wooden table drifting on a green pond, with a canvas bundle and mill wheel beyond.",
+     "title": "Drifting table",
+     "text": "The table carries food and a purse toward the mill wheel. There is time to grab only one.",
+     "options": [
+      {
+       "label": "Take the food",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren shares the dry food."
+      },
+      {
+       "label": "Take the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Ox hooks the purse ashore."
+      }
+     ]
+    },
+    {
+     "id": "bread-order",
+     "source": "/schools/key-stage-1/",
+     "look": "A sack of grain, a stone hand mill and a warm brick oven in a timber room.",
+     "title": "First things first",
+     "text": "A stalled bread line has flour and a sealed cash box. Fixing one part will start the machinery again.",
+     "options": [
+      {
+       "label": "Bake the flour",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The crew eats before the line starts."
+      },
+      {
+       "label": "Open the box",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "Kestrel finds coins as the mill starts."
+      }
+     ]
+    },
+    {
+     "id": "willow-key",
+     "source": "/courses/",
+     "look": "A brown woven wreath around a brass key and a small locked tool case.",
+     "title": "Tight weave",
+     "text": "A wreath holds a key to a tool case. The case has a coin tray and a set of bracing instructions. The closing wreath allows one reach.",
+     "options": [
+      {
+       "label": "Take the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The tray comes free before the weave tightens."
+      },
+      {
+       "label": "Study the brace",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns to set his feet before the case closes."
+      }
+     ]
+    },
+    {
+     "id": "coppice-path",
+     "source": "/about/sustainability/",
+     "look": "Cut hazel poles lie across a narrow green path beneath a row of stumps.",
+     "title": "Cutting cycle",
+     "text": "A cutter is returning. The crew can carry poles to a shelter or salvage a dropped purse before it arrives.",
+     "options": [
+      {
+       "label": "Reinforce the shelter",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The crew rests behind the poles."
+      },
+      {
+       "label": "Retrieve the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "Kestrel recovers the purse and clears the path."
+      }
+     ]
+    },
+    {
+     "id": "market-dispute",
+     "source": "/events/christmas-market/",
+     "look": "Two wooden stalls face each other across a muddy lane, a single brass tool between them.",
+     "title": "One tool",
+     "text": "Two traders offer different payment for judging their dispute. Each wants the tool.",
+     "options": [
+      {
+       "label": "Award it to the left stall",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The left trader pays from a tin box."
+      },
+      {
+       "label": "Award it to the right stall",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The right trader shows Wren how to clear a fouled mechanism."
+      }
+     ]
+    },
+    {
+     "id": "schoolroom-line",
+     "source": "/schools/key-stage-2/",
+     "look": "A row of small wooden chairs points toward a closed cupboard in a plain schoolroom.",
+     "title": "Straight chairs",
+     "text": "A machine will open the cupboard after the chairs are aligned. The work will leave time to take either its supplies or its coins.",
+     "options": [
+      {
+       "label": "Take supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "Wren packs the bandages."
+      },
+      {
+       "label": "Take coins",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "Ox pockets the coins before the machine returns."
+      }
+     ]
+    }
+   ],
+   "name": "Weald & Downland Living Museum",
+   "url": "https://www.wealddown.co.uk/"
+  },
+  {
+   "theme": "Rescued buildings and the people they shelter",
+   "story": {
+    "intro": "The carrier reaches a place full of rescued buildings. The swarm joins their frames beneath a single roof. Kestrel expects another empty trap. A farm keeper asks the crew to open a gate.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: Buildings on the move",
+      "text": "Wall panels and roof bundles travel toward the same frame. Ox helps keep a route clear for the farm team. The swarm guards the route too, though it attacks anyone who tries to leave it."
+     },
+     {
+      "title": "Floors 6\u201310: Occupied shelter",
+      "text": "The crew finds people sheltered under a swarm roof. They say it kept other machines out, then closed the doors on them. Wren treats a trapped worker. Kestrel stops calling the rooms stores."
+     },
+     {
+      "title": "Floors 11\u201315: A roof without a door",
+      "text": "The roof takes in more buildings and more people. Its guards repair every exit. Ox holds an opening while the others guide people out; Kestrel traces its supports."
+     }
+    ],
+    "bossIntro": "The roof lowers over the last open passage. Its workers rush to close the gap and shield one another. Wren gets the evacuees clear while Ox and Kestrel take on the frame.",
+    "outro": "The roof falls open and the people leave. Among its supports is a damaged sample cabinet, packed with mismatched wood. The swarm takes the cabinet and heads for a place where it can identify the pieces."
+   },
+   "creatures": [
+    {
+     "id": "prefab-panel",
+     "name": "Prefab Panel",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/buildings/amersham-prefab",
+     "blurb": "It plants itself across a doorway and braces.",
+     "look": "A cream rectangular wall panel on two metal feet, with a square window and hinged arms."
+    },
+    {
+     "id": "lace-bobbin",
+     "name": "Lace Bobbin",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/blogs/lacemaking-in-the-chilterns",
+     "blurb": "Its thread tangles the crew\u2019s hands.",
+     "look": "A pale wooden bobbin on wire legs trailing loops of white thread."
+    },
+    {
+     "id": "orchard-pip",
+     "name": "Orchard Pip",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/blogs/autumn-apples-orchards-folklore-and-the-story-behind-the-harvest",
+     "blurb": "It rolls away with whatever fits in its basket.",
+     "look": "A cluster of brown seeds around a tiny wicker basket with green leaf fins."
+    },
+    {
+     "id": "cottage-converter",
+     "name": "Cottage Converter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/buildings/leagrave-cottage",
+     "blurb": "It divides a room, then splits its own frame when damaged.",
+     "look": "A narrow timber frame on wheels with two mismatched doors and a sliding partition."
+    },
+    {
+     "id": "roundhouse-thatcher",
+     "name": "Roundhouse Thatcher",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/iron-age-roundhouse-rebuild",
+     "blurb": "It shields damaged workers under fresh bundles of straw.",
+     "look": "A straw-clad figure with a conical back, long wooden arms and a wide thatch bundle."
+    },
+    {
+     "id": "farm-dog",
+     "name": "Gate Dog",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/chilternfarm",
+     "blurb": "It charges anyone approaching a gate.",
+     "look": "A low iron dog with a brown wood-plank back, round wheels and a blunt snout."
+    },
+    {
+     "id": "kiln-stoker",
+     "name": "Kiln Stoker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/blogs/charcoal-burning",
+     "blurb": "It sends small soot-coated workers out of its kiln.",
+     "look": "A squat charcoal-black kiln with stubby legs, a hinged lid and orange cracks."
+    },
+    {
+     "id": "lace-mender",
+     "name": "Lace Mender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/blogs/lacemaking-in-the-chilterns",
+     "blurb": "It stitches broken machines together. Cut short its repairs.",
+     "look": "A cream spindle-bodied machine with six thin arms, a needle and a coil of white thread."
+    },
+    {
+     "id": "building-bearer",
+     "name": "Building Bearer",
+     "tier": "elite",
+     "bodyPlan": "colossus",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "brace",
+      "strike"
+     ],
+     "source": "/historicbuildings",
+     "blurb": "It carries a whole wall and charges through obstacles to add it to the roof.",
+     "look": "A broad timber walker carrying a brick wall on its back, with stone feet and iron braces."
+    },
+    {
+     "id": "pageant-director",
+     "name": "Pageant Director",
+     "tier": "elite",
+     "bodyPlan": "humanoid",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/activities",
+     "blurb": "It assigns machines to stations and calls replacements when interrupted.",
+     "look": "A tall wooden figure with a fan of hinged arms, a plain brass mask and a dark blue coat."
+    },
+    {
+     "id": "kiln-press",
+     "name": "Kiln Press",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike+"
+     ],
+     "source": "/blogs/charcoal-burning",
+     "blurb": "Its heavy lid cracks shields protecting the crew.",
+     "look": "A round black kiln on iron wheels with a thick hinged lid and glowing orange vents."
+    },
+    {
+     "id": "roundhouse-roof",
+     "name": "The Roof That Must Be Used",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "sweep"
+     ],
+     "source": "/iron-age-roundhouse-rebuild",
+     "blurb": "It gathers rooms beneath its roof and stations workers at every opening. It shelters people from the swarm outside, then refuses to let them leave.",
+     "look": "A huge straw cone on moving timber posts, with small doors around its base and woven walls that unfold like arms."
+    },
+    {
+     "id": "farm-keeper",
+     "name": "Farm Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/chilternfarm",
+     "blurb": "Keeps the animals moving and holds gates for the crew.",
+     "look": "A broad figure in a brown coat carrying a wooden gate panel and a crook."
+    },
+    {
+     "id": "story-keeper",
+     "name": "Story Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/heritagestories",
+     "blurb": "Remembers the people who used the buildings and helps Wren tend evacuees.",
+     "look": "An elderly-looking wooden automaton in a blue shawl, with a satchel of clean cloth."
+    }
+   ],
+   "events": [
+    {
+     "id": "split-cottage",
+     "source": "/buildings/leagrave-cottage",
+     "look": "Two cottage doors open onto a narrow timber partition with a tool bag wedged beneath it.",
+     "title": "Two doors",
+     "text": "A conservator is clear of the split room. Their bag and a coin box remain under the shifting frame. There is time for one.",
+     "options": [
+      {
+       "label": "Pull out the bag",
+       "effect": {
+        "type": "routine",
+        "id": "patch"
+       },
+       "result": "Wren learns a quick stitch from the supplies."
+      },
+      {
+       "label": "Pull out the box",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "Kestrel slides the box out before the frame settles."
+      }
+     ]
+    },
+    {
+     "id": "farm-gate",
+     "source": "/chilternfarm",
+     "look": "A wooden gate stands between a flock of sheep and two metal dogs.",
+     "title": "Gate duty",
+     "text": "The farm team offers food or a purse for helping the flock through. Only one can be spared.",
+     "options": [
+      {
+       "label": "Take food",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The flock passes and the crew eats."
+      },
+      {
+       "label": "Take the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The flock passes and the keeper pays."
+      }
+     ]
+    },
+    {
+     "id": "orchard-press",
+     "source": "/blogs/autumn-apples-orchards-folklore-and-the-story-behind-the-harvest",
+     "look": "A wooden apple press stands over two baskets, one full of apples and one holding a small purse.",
+     "title": "Last baskets",
+     "text": "The press is descending. Ox can pull out one basket before it lands.",
+     "options": [
+      {
+       "label": "Save the apples",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The crew shares the unbruised fruit."
+      },
+      {
+       "label": "Save the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "Ox retrieves the purse as the press closes."
+      }
+     ]
+    },
+    {
+     "id": "lace-path",
+     "source": "/blogs/lacemaking-in-the-chilterns",
+     "look": "White thread stretches between wooden pegs across a narrow path, with a bobbin at one edge.",
+     "title": "Loose end",
+     "text": "The loose bobbin can be traded, or its pattern can teach a way to catch an enemy off balance. Taking one chance unravels the thread.",
+     "options": [
+      {
+       "label": "Trade the bobbin",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "A nearby craftsperson pays for the intact bobbin."
+      },
+      {
+       "label": "Study the pattern",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "Kestrel learns where to snag a moving joint."
+      }
+     ]
+    },
+    {
+     "id": "smoking-kiln",
+     "source": "/blogs/charcoal-burning",
+     "look": "A low smoking charcoal kiln stands beside a half-buried tool chest.",
+     "title": "Hot chest",
+     "text": "The chest holds coins and a steel wedge. Smoke forces a quick choice.",
+     "options": [
+      {
+       "label": "Grab the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "Ox pulls out the purse and backs away."
+      },
+      {
+       "label": "Grab the wedge",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel takes the wedge and leaves the chest to cool."
+      }
+     ]
+    },
+    {
+     "id": "roof-bundles",
+     "source": "/iron-age-roundhouse-rebuild",
+     "look": "A ring of timber posts supports half a straw roof, with bundles stacked beneath it.",
+     "title": "Last bundles",
+     "text": "The roof crew can pay in food or teach a guarding stance. They need the same help either way.",
+     "options": [
+      {
+       "label": "Ask for food",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The last bundles go up and the crew eats."
+      },
+      {
+       "label": "Learn the stance",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox practices holding a gap while the bundles go up."
+      }
+     ]
+    }
+   ],
+   "name": "Chiltern Open Air Museum",
+   "url": "https://www.coam.org.uk/"
+  },
+  {
+   "theme": "Wood, evidence and uncertain identification",
+   "story": {
+    "intro": "The swarm brings the sample cabinet to a collection of wood. Its machines test and sort pieces for the damaged shelter. Wren finds old repairs inside the cabinet. Someone once kept it working with whatever wood was available.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: Tests",
+      "text": "Machines weigh, press and inspect samples. Kestrel sees them reject pieces that do not match a single measure. The cabinet keeps those rejects in a separate drawer."
+     },
+     {
+      "title": "Floors 6\u201310: The wrong answer",
+      "text": "A surviving identifier offers several possible matches for the shelter wood. The swarm demands one certain answer and takes more samples. Ox protects the identifier while Wren compares the old repairs."
+     },
+     {
+      "title": "Floors 11\u201315: A workable repair",
+      "text": "The repairs use several woods. No single sample will recreate the shelter exactly. Wren and the steward assemble a sound patch from the available pieces. Kestrel carries it toward the cabinet."
+     }
+    ],
+    "bossIntro": "The Xylarium opens its drawers and calls inspectors to defend them. Its roots sweep across the floor. The crew must get through the guarded cabinet with Wren\u2019s patch.",
+    "outro": "Wren fits the patch into the damaged cabinet. The Xylarium tests it, leaves the drawer open and stops collecting. The shelter was its original job; it had been trying to rebuild it exactly, then keep its occupants safe inside. Ox props the door open. The swarm lets people pass."
+   },
+   "creatures": [
+    {
+     "id": "balsa-lifter",
+     "name": "Balsa Lifter",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/balsa/",
+     "blurb": "Several light lifters take loose equipment together.",
+     "look": "A pale wood glider with four thin wings and a small hooked wire basket."
+    },
+    {
+     "id": "pore-drone",
+     "name": "Pore Drone",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/wood-articles/hardwood-anatomy/",
+     "blurb": "Its moving ring of holes catches limbs between the rays.",
+     "look": "A cluster of tan wooden discs with round dark holes and thin radial spokes."
+    },
+    {
+     "id": "abura-clerk",
+     "name": "Abura Clerk",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/abura/",
+     "blurb": "It repeatedly clamps the same object into two different drawers.",
+     "look": "A small ochre cabinet on jointed legs with two open drawers and a brass clamp."
+    },
+    {
+     "id": "warp-kiln",
+     "name": "Warp Kiln",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/wood-articles/drying-wood-at-home/",
+     "blurb": "Its cupped boards close into a protective shell.",
+     "look": "A low drying rack on wheels, carrying curved tan boards around a dark metal core."
+    },
+    {
+     "id": "sample-collector",
+     "name": "Sample Collector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/trade/",
+     "blurb": "It takes fragments of equipment to fill its specimen tray.",
+     "look": "A boxy brown collector with a shallow grid of wooden compartments and long pincers."
+    },
+    {
+     "id": "burl-colony",
+     "name": "Burl Colony",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/amboyna/",
+     "blurb": "It grows knotted patches over damaged machines.",
+     "look": "A low knotted amber wood growth with short root legs and looping grain."
+    },
+    {
+     "id": "filter-hunter",
+     "name": "Filter Hunter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/wood-filter/",
+     "blurb": "It narrows its search until its clamps catch the crew.",
+     "look": "A narrow brass frame on three legs with several round lenses and a folding clamp."
+    },
+    {
+     "id": "name-twins",
+     "name": "Name Twins",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/australian-blackwood/",
+     "blurb": "One calls another from a cabinet. Rush it before the room fills.",
+     "look": "Two joined wooden figures, one nearly black and one golden brown, with matching round heads."
+    },
+    {
+     "id": "janka-bailiff",
+     "name": "Janka Bailiff",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach",
+      "strike"
+     ],
+     "source": "/top-ten-hardest-woods/",
+     "blurb": "Its steel ball drives through a shield after a slow windup.",
+     "look": "A heavy iron press on four wooden legs, with a polished steel ball on a long piston."
+    },
+    {
+     "id": "strength-champion",
+     "name": "Strength Champion",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike+"
+     ],
+     "source": "/worlds-strongest-woods/",
+     "blurb": "It braces behind layered timber and tests the crew\u2019s shields in return.",
+     "look": "A broad wooden machine with four overlapping shields of different brown grains and a steel hammer."
+    },
+    {
+     "id": "endgrain-gatekeeper",
+     "name": "Endgrain Gatekeeper",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/wood-articles/wood-identification-guide/",
+     "blurb": "It clamps a target for inspection while calling specimen drones.",
+     "look": "A tall dark wood clamp with a circular brass magnifying lens and a tray of small wooden discs."
+    },
+    {
+     "id": "universal-xylarium",
+     "name": "Universal Xylarium",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "sweep+"
+     ],
+     "source": "/about/",
+     "blurb": "It collects specimens to identify the wood in its damaged shelter. It summons inspectors, shields them with drawers and sweeps the room with its roots. Conflicting samples leave gaps in its cabinet.",
+     "look": "A vast brown specimen cabinet on branching wooden roots, with open drawers of pale and dark wood blocks and a brass lens above."
+    },
+    {
+     "id": "doubtful-identifier",
+     "name": "Doubtful Identifier",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/wood-articles/the-truth-behind-wood-identification/",
+     "blurb": "It offers several possible matches and asks for better evidence.",
+     "look": "A small oak box on three legs with a brass lens and a hinged sample tray."
+    },
+    {
+     "id": "sample-steward",
+     "name": "Sample Steward",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/donating-wood-samples/",
+     "blurb": "It shares reference blocks and helps Wren repair the damaged cabinet.",
+     "look": "A compact tan wooden cabinet with a curved handle, four wheels and a tray of small wood blocks."
+    }
+   ],
+   "events": [
+    {
+     "id": "drying-rack",
+     "source": "/wood-articles/drying-wood-at-home/",
+     "look": "Cupped boards close around a small open specimen case on a timber rack.",
+     "title": "Cupped boards",
+     "text": "The case holds a purse and a useful repair guide. The boards are closing around it.",
+     "options": [
+      {
+       "label": "Take the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "Ox pulls out the purse before the boards meet."
+      },
+      {
+       "label": "Read the guide",
+       "effect": {
+        "type": "routine",
+        "id": "patch"
+       },
+       "result": "Wren reads the repair guide as the case closes."
+      }
+     ]
+    },
+    {
+     "id": "maple-sort",
+     "source": "/wood-articles/differences-between-hard-maple-and-soft-maple/",
+     "look": "Two pale wood blocks rest on a balance beside a brass magnifier.",
+     "title": "Two maples",
+     "text": "A sorter offers coins or a lesson for helping it compare endgrain. It can spare only one.",
+     "options": [
+      {
+       "label": "Take the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The sorter pays after the samples are compared."
+      },
+      {
+       "label": "Take the lesson",
+       "effect": {
+        "type": "routine",
+        "id": "finish"
+       },
+       "result": "Kestrel learns to find a weakness at the end of a cut."
+      }
+     ]
+    },
+    {
+     "id": "sample-trade",
+     "source": "/trade/",
+     "look": "A wooden tray holds a dark sample block beside a small leather purse.",
+     "title": "Sample trade",
+     "text": "A trader offers either a purse or a shield technique for the crew\u2019s spare sample.",
+     "options": [
+      {
+       "label": "Trade for coins",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The trader takes the sample and hands over the purse."
+      },
+      {
+       "label": "Trade for instruction",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox practices the technique while the trader packs the sample."
+      }
+     ]
+    },
+    {
+     "id": "hardness-test",
+     "source": "/top-ten-hardest-woods/",
+     "look": "A steel ball is embedded in a wooden beam beneath a small iron press.",
+     "title": "Stuck ball",
+     "text": "The press shakes the ceiling. The crew can stop it and rest, or use the brief opening to pull its coin box free.",
+     "options": [
+      {
+       "label": "Stop the press",
+       "effect": {
+        "type": "heal",
+        "amount": 0.1
+       },
+       "result": "The crew rests once the ceiling is still."
+      },
+      {
+       "label": "Pull the coin box",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "Kestrel gets the box and scrambles clear of the first falling chips."
+      }
+     ]
+    },
+    {
+     "id": "moisture-doors",
+     "source": "/wood-and-moisture/",
+     "look": "Two wooden doors flank a metal vent, one swollen shut and one slightly open.",
+     "title": "Dry air",
+     "text": "Changing the vent will open one door and close the other. Behind them are food and a coin box.",
+     "options": [
+      {
+       "label": "Open the food store",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren finds dry provisions."
+      },
+      {
+       "label": "Open the cash store",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "Ox brings out the box."
+      }
+     ]
+    },
+    {
+     "id": "strength-chart",
+     "source": "/worlds-strongest-woods/",
+     "look": "A wooden dial points toward three plain doors beneath a set of weights.",
+     "title": "Different strengths",
+     "text": "The dial opens one door at a time. One room holds a purse; another contains a diagram for a sweeping attack.",
+     "options": [
+      {
+       "label": "Open the purse room",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew retrieves the purse."
+      },
+      {
+       "label": "Open the diagram room",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "Kestrel studies the diagram before the dial resets."
+      }
+     ]
+    }
+   ],
+   "name": "The Wood Database",
+   "url": "https://www.wood-database.com/"
+  }
+ ],
+ "id": "2026-11-18",
+ "seed": 1138441401
+}

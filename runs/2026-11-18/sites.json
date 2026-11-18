@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.wealddown.co.uk",
+   "name": "Weald & Downland Living Museum",
+   "url": "https://www.wealddown.co.uk/",
+   "file": "runs/2026-11-18/sites/www.wealddown.co.uk.json"
+  },
+  {
+   "host": "www.coam.org.uk",
+   "name": "Chiltern Open Air Museum",
+   "url": "https://www.coam.org.uk/",
+   "file": "runs/2026-11-18/sites/www.coam.org.uk.json"
+  },
+  {
+   "host": "www.wood-database.com",
+   "name": "The Wood Database",
+   "url": "https://www.wood-database.com/",
+   "file": "runs/2026-11-18/sites/www.wood-database.com.json"
+  }
+ ]
+}

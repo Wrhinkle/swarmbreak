@@ -1,0 +1,277 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [
+          [
+            "mill-chip"
+          ],
+          [
+            "willow-loop"
+          ],
+          [
+            "meadow-decoy",
+            "mill-chip"
+          ],
+          [
+            "willow-loop",
+            "meadow-decoy"
+          ]
+        ],
+        "mid": [
+          [
+            "ovenback"
+          ],
+          [
+            "court-mender",
+            "mill-chip"
+          ],
+          [
+            "coppice-cutter",
+            "meadow-decoy"
+          ],
+          [
+            "frame-examiner",
+            "mill-chip"
+          ],
+          [
+            "grain-harvester",
+            "willow-loop"
+          ]
+        ],
+        "late": [
+          [
+            "court-mender",
+            "grain-harvester"
+          ],
+          [
+            "coppice-cutter",
+            "willow-loop",
+            "meadow-decoy"
+          ],
+          [
+            "ovenback",
+            "mill-chip"
+          ],
+          [
+            "frame-examiner",
+            "grain-harvester"
+          ],
+          [
+            "coppice-cutter",
+            "mill-chip",
+            "meadow-decoy"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "gridshell-weaver",
+          "reward": "route-keeper"
+        },
+        {
+          "id": "bug-house-warden",
+          "reward": "barn-mender"
+        },
+        {
+          "id": "collection-claimant",
+          "reward": "route-keeper"
+        },
+        {
+          "id": "collection-claimant",
+          "reward": "barn-mender"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch",
+        "brace",
+        "jam",
+        "finish",
+        "strike+"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "prefab-panel"
+          ],
+          [
+            "lace-bobbin"
+          ],
+          [
+            "orchard-pip",
+            "prefab-panel"
+          ],
+          [
+            "lace-bobbin",
+            "orchard-pip"
+          ]
+        ],
+        "mid": [
+          [
+            "cottage-converter"
+          ],
+          [
+            "farm-dog",
+            "orchard-pip"
+          ],
+          [
+            "kiln-stoker"
+          ],
+          [
+            "lace-mender",
+            "lace-bobbin"
+          ],
+          [
+            "roundhouse-thatcher",
+            "orchard-pip"
+          ]
+        ],
+        "late": [
+          [
+            "lace-mender",
+            "prefab-panel"
+          ],
+          [
+            "roundhouse-thatcher",
+            "lace-bobbin"
+          ],
+          [
+            "kiln-stoker",
+            "prefab-panel"
+          ],
+          [
+            "cottage-converter",
+            "lace-bobbin"
+          ],
+          [
+            "farm-dog",
+            "prefab-panel"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "building-bearer",
+          "reward": "farm-keeper"
+        },
+        {
+          "id": "pageant-director",
+          "reward": "story-keeper"
+        },
+        {
+          "id": "kiln-press",
+          "reward": "farm-keeper"
+        },
+        {
+          "id": "building-bearer",
+          "reward": "story-keeper"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch+",
+        "cover",
+        "jam",
+        "finish",
+        "charge"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "balsa-lifter"
+          ],
+          [
+            "pore-drone"
+          ],
+          [
+            "abura-clerk",
+            "balsa-lifter"
+          ],
+          [
+            "pore-drone",
+            "balsa-lifter"
+          ]
+        ],
+        "mid": [
+          [
+            "warp-kiln",
+            "balsa-lifter"
+          ],
+          [
+            "sample-collector",
+            "abura-clerk"
+          ],
+          [
+            "burl-colony",
+            "balsa-lifter"
+          ],
+          [
+            "filter-hunter",
+            "pore-drone"
+          ],
+          [
+            "name-twins"
+          ]
+        ],
+        "late": [
+          [
+            "burl-colony",
+            "sample-collector"
+          ],
+          [
+            "warp-kiln",
+            "balsa-lifter",
+            "pore-drone"
+          ],
+          [
+            "name-twins",
+            "abura-clerk"
+          ],
+          [
+            "filter-hunter",
+            "sample-collector"
+          ],
+          [
+            "warp-kiln",
+            "balsa-lifter",
+            "abura-clerk"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "janka-bailiff",
+          "reward": "doubtful-identifier"
+        },
+        {
+          "id": "strength-champion",
+          "reward": "sample-steward"
+        },
+        {
+          "id": "endgrain-gatekeeper",
+          "reward": "doubtful-identifier"
+        },
+        {
+          "id": "janka-bailiff",
+          "reward": "sample-steward"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch+",
+        "triage",
+        "jam",
+        "finish",
+        "strike+"
+      ]
+    }
+  ]
+}

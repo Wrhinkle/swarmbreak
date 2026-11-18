@@ -1,0 +1,231 @@
+{
+  "reading": "The Wood Database is a growing, contributor-supported reference for identifying, comparing, and working with woods around the world. Its species profiles put common and scientific names, distribution, dried weight, specific gravity, strength, appearance, workability and safety into a common frame; articles turn those facts into practical shop and identification advice. It cares about careful distinctions, honest uncertainty, sample evidence, health, and the pressures on vulnerable species as well as the pleasure of unusual wood. Its language moves from endgrain, pores, rays, parenchyma, heartwood, burl and figure to Janka hardness, modulus of rupture, moisture and shrinkage. What makes it distinctive is the combination of a collector's physical samples and trading culture with anatomical detective work, numerical rankings qualified by asterisks, and warnings that familiar names or attractive appearances can mislead.",
+  "enemies": [
+    {
+      "idea": "Janka Bailiff: a steel ball on a jointed press pursues the crew, trying to indent every object and rank it by the force required.",
+      "source": "/top-ten-hardest-woods/",
+      "why": "Its attack is a recognizable test that turns the terrain into a record of failed attempts."
+    },
+    {
+      "idea": "Four-Index Champion: a ranking machine changes armor between hardness, bending stiffness, rupture and crushing strength, crowning itself winner by whichever index currently favors it.",
+      "source": "/worlds-strongest-woods/",
+      "why": "The crew can exploit the gap between competing definitions of strength."
+    },
+    {
+      "idea": "Endgrain Gatekeeper: a magnifying machine clamps objects for inspection, sanding away disguises and refusing passage until it has assigned a species.",
+      "source": "/wood-articles/wood-identification-guide/",
+      "why": "A staged investigation becomes a tense inspection with several ways to mislead or interrupt it."
+    },
+    {
+      "idea": "Pore Choir: a lattice of vessel-shaped drones rearranges its holes and radiating arms into different endgrain patterns to surround intruders.",
+      "source": "/wood-articles/hardwood-anatomy/",
+      "why": "Pore arrangement and rays become a shifting spatial puzzle."
+    },
+    {
+      "idea": "Warp Kiln: a mobile drying rack draws moisture unevenly from cover, cupping boards into jaws and twisting bridges out of alignment.",
+      "source": "/wood-articles/drying-wood-at-home/",
+      "why": "A familiar drying defect continually changes the battlefield."
+    },
+    {
+      "idea": "Hygroscopic Siphon: a sponge-bodied machine drinks ambient moisture, swelling to block a route, then dries and shrinks through cracks after its quarry.",
+      "source": "/wood-and-moisture/",
+      "why": "The same body alternates between barricade and infiltrator."
+    },
+    {
+      "idea": "Glue Denier: oily-grained swarm units shed water-based adhesive and pull apart repaired defenses; freshly opened surfaces briefly let the crew bind them.",
+      "source": "/gluing-oily-tropical-hardwoods/",
+      "why": "The problem of bonding oily grain becomes a tactile counterplay window."
+    },
+    {
+      "idea": "Maple Sorter: a weighing arm and endgrain scanner label everything hard or soft maple, then deliver crushing pressure according to the verdict.",
+      "source": "/wood-articles/differences-between-hard-maple-and-soft-maple/",
+      "why": "Overlapping density ranges let an improvised decoy draw the wrong response."
+    },
+    {
+      "idea": "Oak Diviner: a red-and-white sorting machine sprays harmless fictional indicator mist and waits for a color change before sealing its target into one of two corrals.",
+      "source": "/wood-articles/distinguishing-red-oak-from-white-oak/",
+      "why": "Its delayed classification gives the crew time to switch targets or scramble the test."
+    },
+    {
+      "idea": "False Certainty: a guessing engine offers a multiple-choice identification and attacks anyone who challenges its confident but unsupported answer.",
+      "source": "/wood-articles/the-truth-behind-wood-identification/",
+      "why": "It turns the article’s warning about identification limits into an argumentative adversary."
+    },
+    {
+      "idea": "Alias Hounds: three linked machines answer to the different common names of camatillo, each calling the others when it hears an alias.",
+      "source": "/camatillo/",
+      "why": "Names become an audible alarm system the crew can intentionally trigger elsewhere."
+    },
+    {
+      "idea": "Obsolete Genus Clerk: an Abura collector carries both Fleroya and Mitragyna labels and repeatedly recaptures anything refiled under the other name.",
+      "source": "/abura/",
+      "why": "A taxonomic update creates an absurd, interruptible filing loop."
+    },
+    {
+      "idea": "Burl Colony: an amboyna-inspired swarm grows knotted armor onto any passing Pterocarpus-shaped machine and claims the host as a separate species.",
+      "source": "/amboyna/",
+      "why": "The crew can detach the valuable-looking growth or use it to confuse the colony."
+    },
+    {
+      "idea": "Olive-Ash Impostor: a machine paints dark streaks across ash-like shells and recruits guards who mistake its figure for a separate species.",
+      "source": "/olive-ash/",
+      "why": "A visual resemblance becomes a disguise that can be exposed by closer inspection."
+    },
+    {
+      "idea": "Masur Maze Weaver: birch-grain bots loop their figured tracks into misleading paths, and the same pattern appears on several different shells.",
+      "source": "/masur-birch/",
+      "why": "A figure shared across species makes pattern matching unreliable in a chase."
+    },
+    {
+      "idea": "Balsa Lift Thieves: featherweight flying machines steal heavier equipment by linking together, but scatter if their load shifts.",
+      "source": "/balsa/",
+      "why": "Low dried weight suggests a cooperative enemy whose formation can be broken."
+    },
+    {
+      "idea": "Blackwood Ballast: a dense African-blackwood-shelled crawler anchors itself to structures and drags them down with retracting cables.",
+      "source": "/african-blackwood/",
+      "why": "Its exceptional weight is both a threat and a way to trap it on weak footing."
+    },
+    {
+      "idea": "Pine Splitters: a paired soft-pine and hard-pine machine swaps shells to bait crews into assuming both will bend or break alike.",
+      "source": "/pine-wood-an-overall-guide/",
+      "why": "Variation within one genus rewards observation over a quick label."
+    },
+    {
+      "idea": "Density Podium: heaviest-wood drones stack themselves in ranked order, making the lowest-ranked machine climb onto anything heavier it encounters.",
+      "source": "/top-ten-heaviest-woods/",
+      "why": "The ranking drives a clumsy, escalating tower the crew can topple."
+    },
+    {
+      "idea": "Blackwood Name Twins: African and Australian blackwood machines share a call sign but carry different family markers; one can summon the other across the floor.",
+      "source": "/australian-blackwood/",
+      "why": "A shared common name masks two distinct identities and creates a mistaken-identity encounter."
+    },
+    {
+      "idea": "Filter Hunter: a many-sensor machine eliminates targets by hardwood features, strength numbers and endgrain until only the crew remains in its search.",
+      "source": "/wood-filter/",
+      "why": "Each new criterion telegraphs how to make a decoy qualify instead."
+    },
+    {
+      "idea": "Sample Tax Collector: a corrupted specimen-trading machine demands a piece of every unusual object, then assembles the collected fragments into replacement limbs.",
+      "source": "/trade/",
+      "why": "Its appetite creates a negotiation, a loss to prevent, and visible evidence of earlier encounters."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Doubtful Identifier: a surviving diagnostic machine gives several possible matches and tells the crew which evidence would distinguish them.",
+      "source": "/wood-articles/the-truth-behind-wood-identification/",
+      "why": "Its uncertainty produces useful leads instead of a magic answer."
+    },
+    {
+      "idea": "Sample Steward: a small collector rescues labeled physical specimens and trades a verified reference sample for help recovering its scattered collection.",
+      "source": "/donating-wood-samples/",
+      "why": "Its collection gives crews tangible tools for fooling or checking classifiers."
+    },
+    {
+      "idea": "Darkwood Substitute Scout: a surviving advisor finds alternative woods when the swarm targets slow-growing dark species.",
+      "source": "/ebony-dark-outlook-dark-woods/",
+      "why": "It offers a practical route around a resource conflict while reflecting the site’s conservation concern."
+    },
+    {
+      "idea": "Safety Attendant: an uncorrupted shop unit warns of dust exposure and guides crews to clean air and protective equipment.",
+      "source": "/wood-articles/wood-allergies-and-toxicity/",
+      "why": "It turns the reference’s care for woodworkers into a useful refuge."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Universal Xylarium: a vast specimen cabinet on mechanical roots hunts for one example of everything, converting captured objects into labeled anatomy, properties and distribution records. Its specimen drawers disagree and can be opened to disrupt its classification.",
+      "source": "/about/",
+      "why": "The site’s ambition to collect and organize wood knowledge becomes a boss with many exploitable contradictions."
+    },
+    {
+      "idea": "The Asterisk King: a composite champion cycles through hardness, stiffness, rupture and crush rankings, rewriting the arena whenever its chosen definition of strongest changes.",
+      "source": "/worlds-strongest-woods/",
+      "why": "Winning requires challenging the metric rather than simply hitting the hardest target."
+    },
+    {
+      "idea": "The Endgrain Oracle: a magnifier-crowned swarm core claims absolute identification, assembling pores, rays and misleading names into an enormous moving cross-section; contradictory specimens interrupt its predictions.",
+      "source": "/wood-articles/wood-identification-guide/",
+      "why": "It combines the site’s microscopic detective work and uncertainty into a spectacular final puzzle."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A rack of drying boards is cupping around a trapped specimen case; the crew can brace the rack before its kiln-drone returns.",
+      "source": "/wood-articles/drying-wood-at-home/",
+      "why": "A rescue has a visible, slowly tightening deadline."
+    },
+    {
+      "idea": "A sorter weighs two maple samples whose density ranges overlap and keeps changing their labels; offering endgrain evidence may settle the dispute.",
+      "source": "/wood-articles/differences-between-hard-maple-and-soft-maple/",
+      "why": "A second clue succeeds where a single measurement fails."
+    },
+    {
+      "idea": "A sample trader offers a rare reference block for one the crew carries, but a swarm collector is following its inventory trail.",
+      "source": "/trade/",
+      "why": "A useful bargain also changes who is being followed."
+    },
+    {
+      "idea": "Two small machines argue whether the same dark-streaked ash is olive or ash; their dispute blocks a narrow passage until someone identifies it as figured ash.",
+      "source": "/olive-ash/",
+      "why": "A semantic distinction becomes a solvable social obstacle."
+    },
+    {
+      "idea": "A portable hardness tester is stuck with its ball embedded in a beam, and its repeated pulls are shaking loose the ceiling.",
+      "source": "/top-ten-hardest-woods/",
+      "why": "A test instrument creates an immediate physical problem."
+    },
+    {
+      "idea": "An identification station insists a painted object is solid timber; a clean edge reveals the deception and may divert its patrol.",
+      "source": "/wood-articles/wood-identification-guide/",
+      "why": "Careful surface inspection gives the crew a way to manipulate a hunter."
+    },
+    {
+      "idea": "A moisture-driven door swells shut while a nearby drying vent makes another panel shrink open; the crew must route airflow to choose a passage.",
+      "source": "/wood-and-moisture/",
+      "why": "Hygroscopic movement becomes a small environmental puzzle."
+    },
+    {
+      "idea": "A line of tiny machines ranks an impossibly heavy specimen as champion, then discovers it cannot carry the trophy away.",
+      "source": "/top-ten-heaviest-woods/",
+      "why": "A ranking becomes a comic opportunity to recover a stranded object."
+    },
+    {
+      "idea": "A specimen drawer holds two labels for Abura, one using the obsolete genus; matching both labels to the same sample unlocks its case.",
+      "source": "/abura/",
+      "why": "Taxonomic revision makes a compact reconciliation puzzle."
+    },
+    {
+      "idea": "A burl colony has grown over a useful mechanism; separating the knotted growth from its host frees the mechanism but wakes the colony.",
+      "source": "/amboyna/",
+      "why": "The site’s distinction between a figure and a species creates a clear choice."
+    },
+    {
+      "idea": "An anatomy projector casts pore arrangements and rays over a floor; a patrol follows one pattern while the crew can walk another.",
+      "source": "/wood-articles/hardwood-anatomy/",
+      "why": "Microscopic structure becomes navigable cover."
+    },
+    {
+      "idea": "A damaged reference unit offers several possible identifications and asks for an extra clue before it will unlock its store of samples.",
+      "source": "/wood-articles/the-truth-behind-wood-identification/",
+      "why": "The crew participates in careful identification rather than guessing a password."
+    },
+    {
+      "idea": "An old strength chart awards three different champions depending on the selected index; rotating the indicator opens three different doors.",
+      "source": "/worlds-strongest-woods/",
+      "why": "The chart’s qualified rankings translate directly into route choice."
+    },
+    {
+      "idea": "A rack of alternative dark woods is being guarded from a machine that accepts only the darkest sample; the crew can redirect it with a convincing substitute.",
+      "source": "/ebony-dark-outlook-dark-woods/",
+      "why": "A conservation-minded alternative doubles as a decoy."
+    },
+    {
+      "idea": "A mislabeled crate of very light balsa has been tied down with huge chains; freeing it lets the crew float a line over a gap.",
+      "source": "/balsa/",
+      "why": "The contrast between expected and actual weight provides an improvised tool."
+    }
+  ]
+}
