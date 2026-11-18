@@ -1,0 +1,216 @@
+{
+  "reading": "The British Trust for Ornithology is a bird and nature charity that joins volunteer observers with professional scientists. It collects long-running observations, studies migration, breeding, survival and distribution, and turns evidence into conservation decisions. It cares about rigorous, open data, bird welfare, training, inclusion and making participation possible for beginners as well as experts. Its vocabulary is fieldwork: surveys, ringing, retrapping, records, population trends, habitats, species codes, atlas squares and acoustic identification. What makes it distinctive is the combination of everyday garden watching and national-scale datasets stretching back decades, with regional networks, youth activities, maps, sound analysis and practical advice all feeding the same shared picture of birds.",
+  "enemies": [
+    {
+      "idea": "The Acoustic Misidentifier listens for audible and ultrasonic wildlife, then stamps every noise with the wrong species; its summoned mechanical flock changes shape with each mistake.",
+      "source": "/data/tools-products/acoustic-pipeline",
+      "why": "A crew can lure it into summoning a useful mismatch with carefully chosen sounds."
+    },
+    {
+      "idea": "The Retrapping Adult circles back to anything it has marked, fastening another numbered ring on each return until its target can barely move.",
+      "source": "/data/list-bto-data-tools-and-maps",
+      "why": "Its predictable repeat visits create a trap the crew can turn around."
+    },
+    {
+      "idea": "A Nest Record Keeper builds wire nests around unattended equipment, then defends the inventory as if every object were an egg.",
+      "source": "/data/availability",
+      "why": "Leaving a decoy object can redirect a territorial defender without a fight."
+    },
+    {
+      "idea": "The Winter Atlas overlays an old distribution on the landscape and freezes paths into the habitats its records expect to find.",
+      "source": "/data/availability",
+      "why": "The crew must navigate a mismatch between the current terrain and a historical map."
+    },
+    {
+      "idea": "BirdFacts Place Warden assigns every traveller to a county, island or recovery area; crossing its invisible boundary triggers a pursuit by local mechanical birds.",
+      "source": "/learn/about-birds/birdfacts",
+      "why": "A changing border makes position and timing matter."
+    },
+    {
+      "idea": "A Species Code Shrike replaces names on supplies with terse field codes and confiscates anything the crew cannot identify.",
+      "source": "/data",
+      "why": "A quick decoding puzzle doubles as an inventory crisis."
+    },
+    {
+      "idea": "The Validation Pecker attacks observations that disagree with its model, drilling holes in evidence until all the records match.",
+      "source": "/data/availability/quality",
+      "why": "Protecting an inconvenient observation becomes a moving defence encounter."
+    },
+    {
+      "idea": "Sampling Squares unfold into marching quadrats that count the crew repeatedly whenever anyone steps across their edges.",
+      "source": "/data/availability/quality",
+      "why": "Their rigid survey pattern gives the crew a learnable route through danger."
+    },
+    {
+      "idea": "A Ring Reporter patrols for tagged birds and mistakenly fits tracking rings to tools, boots and vehicle wheels so the swarm can follow them.",
+      "source": "/get-involved/report-something",
+      "why": "The crew can plant a ring on a decoy and watch the pursuit go elsewhere."
+    },
+    {
+      "idea": "A Cuckoo Tracker follows a false migration signal and drops clockwork cuckoos into any shelter it finds, where they eject the occupants’ equipment.",
+      "source": "/get-involved/volunteer/projects",
+      "why": "Its trail advertises its approach, but the intruding machines can take over a safe camp."
+    },
+    {
+      "idea": "Garden Feeding Engines dispense a magnetic imitation of bird food, drawing small swarm units together into a dense, hungry cloud.",
+      "source": "/learn/helping-birds",
+      "why": "Cutting off or moving the feed changes the shape of the whole encounter."
+    },
+    {
+      "idea": "A Nest Box Inspector shuts anything box-shaped and declares it occupied, trapping supplies behind a fiercely guarded entrance.",
+      "source": "/learn/helping-birds",
+      "why": "A harmless-looking cache turns into a rescue and extraction problem."
+    },
+    {
+      "idea": "Foraging Fingerprinters scan marks left by feeding birds, then pursue whoever left the nearest matching tracks, whether or not they made them.",
+      "source": "/learn/about-birds",
+      "why": "The crew can confuse the hunters by making overlapping trails."
+    },
+    {
+      "idea": "Gull ID Tutors swap their plumage panels between passes and challenge intruders to identify the same machine twice; wrong answers draw a diving flock.",
+      "source": "/event/2151",
+      "why": "Observation of changing details gives the crew a non-combat way past."
+    },
+    {
+      "idea": "The Impact Assessor projects GIS-shaped development boundaries and declares anything inside them an obstruction to be removed.",
+      "source": "/data/tools-products/data-reports",
+      "why": "The moving outline creates visible safe and unsafe ground."
+    },
+    {
+      "idea": "A Regional Organiser relays an alarm from one survey district to the next, assembling local swarm patrols wherever the crew is reported.",
+      "source": "/get-involved/volunteer/regional-network",
+      "why": "Interrupting a relay prevents the next district from mobilising."
+    },
+    {
+      "idea": "The Survey Recruiter offers an innocent garden count, then assigns participants an endless route and sends mechanical chaperones after anyone who stops.",
+      "source": "/get-involved",
+      "why": "A familiar beginner-friendly task becomes an escape from an expanding route."
+    },
+    {
+      "idea": "The Movetech Follower fixes on a telemetry signal and copies its route exactly, even when the signal has been attached to a rolling object.",
+      "source": "/data/tools-products",
+      "why": "The crew can steer a dangerous pursuer with a disposable transmitter."
+    },
+    {
+      "idea": "The Archive Collator binds observations from different decades into one enormous mechanical specimen, adding an extra limb whenever it finds a new record.",
+      "source": "/about/history",
+      "why": "Separating records by period can dismantle a monster whose growth is visible."
+    },
+    {
+      "idea": "A Breeding Bird Survey Counter marches a fixed route and treats every repeated sighting as a new intruder, escalating its response each time the crew crosses its path.",
+      "source": "/get-involved/volunteer/projects",
+      "why": "The route is predictable, but careless movement makes the encounter worse."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A volunteer regional network passes sightings between safe field stations, warning crews which routes the swarm has occupied.",
+      "source": "/get-involved/volunteer/regional-network",
+      "why": "Local knowledge turns scattered safe places into a navigable network."
+    },
+    {
+      "idea": "An independent record validator compares field notes from several observers and exposes false swarm sightings before they send a crew into an ambush.",
+      "source": "/data/availability/quality",
+      "why": "The crew can bring back evidence to restore reliable intelligence."
+    },
+    {
+      "idea": "A garden bird watcher maintains clean feeders and a quiet refuge where real birds still gather, revealing when mechanical imitations have infiltrated a flock.",
+      "source": "/learn/helping-birds",
+      "why": "Careful observation makes a peaceful place useful without making the birds fight."
+    },
+    {
+      "idea": "A youth training circle shares binoculars and fieldcraft, teaching crews how to recognise a patrol by its flight and call.",
+      "source": "/our-work/youth",
+      "why": "A safe lesson gives a practical advantage on the next journey."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Great Census is a continent-spanning assemblage of ringing records, garden counts and breeding surveys. It believes a population is safe only when every individual is numbered and held still; its survey arms lock down one habitat after another.",
+      "source": "/data/availability",
+      "why": "Each survey arm has its own counting rule, letting a crew disrupt the boss in stages."
+    },
+    {
+      "idea": "The Framer of Futures uses the strategy’s charting, data and forecasting machinery to enforce one supposedly perfect future for birds and people, flattening any habitat that does not match its prediction.",
+      "source": "/our-work/difference/strategy",
+      "why": "The crew can challenge its forecast by protecting living evidence of a different future."
+    },
+    {
+      "idea": "The Threefold Observatory fuses birds, science and people into one giant machine: mechanical flocks gather specimens, analysis engines classify them and a network of surveyors closes every exit.",
+      "source": "/about",
+      "why": "Its three interdependent systems offer different ways for a crew to break its control."
+    }
+  ],
+  "events": [
+    {
+      "idea": "At a wetland taster session, a survey machine keeps counting its own reflection as another waterbird. The crew can cover the reflection before its tally calls in reinforcements.",
+      "source": "/our-work/training",
+      "why": "A small observation puzzle can prevent a much larger encounter."
+    },
+    {
+      "idea": "A wintering waterfowl flock gathers near a reserve while imitation calls drift from the reeds. A young birding group asks the crew to locate the speaker without disturbing the birds.",
+      "source": "/event/2155",
+      "why": "Stealth and care matter more than shooting at the first movement."
+    },
+    {
+      "idea": "Two gull-shaped drones exchange plumage panels between observation sessions. A learner needs help matching each machine to its earlier flight pattern.",
+      "source": "/event/2151",
+      "why": "Players get a compact identification challenge with a satisfying reveal."
+    },
+    {
+      "idea": "An atlas survey square is missing its latest record, and an old map has sent a patrol to the wrong habitat. Carry a fresh observation to a field station before the patrol returns.",
+      "source": "/data/availability",
+      "why": "Old and new evidence create a timed delivery with a clear purpose."
+    },
+    {
+      "idea": "A tagged object rolls past with a tracking drone in pursuit; its signal turns out to come from a ring fastened around a loose wheel.",
+      "source": "/get-involved/report-something",
+      "why": "The crew can choose whether to recover the ring, follow the drone or send it astray."
+    },
+    {
+      "idea": "A restored habitat monitoring recorder is full of real calls mixed with machine imitations. Sorting the sounds reveals a safe passage between patrols.",
+      "source": "/data/tools-products/acoustic-pipeline",
+      "why": "Listening becomes a useful exploration tool."
+    },
+    {
+      "idea": "A garden count has recorded the same mechanical blackbird at every feeder on a street. Volunteers need someone to follow it and find where it is being repaired.",
+      "source": "/get-involved/volunteer/projects",
+      "why": "A mundane repeated sighting leads naturally to a small raid."
+    },
+    {
+      "idea": "A nest box has been sealed by a malfunctioning inspector while a volunteer’s field notebook is inside. Open it without drawing the guardian back.",
+      "source": "/learn/helping-birds",
+      "why": "A modest retrieval rewards patience and ingenuity."
+    },
+    {
+      "idea": "A stack of observations has failed validation because one observer recorded an unusual bird. The crew can find a second record and keep the machine from destroying the first.",
+      "source": "/data/availability/quality",
+      "why": "The encounter makes uncertainty and corroboration part of play."
+    },
+    {
+      "idea": "Two regional field stations have different reports of a patrol. Carry both sets of notes between them to discover the machine is travelling a loop.",
+      "source": "/get-involved/volunteer/regional-network",
+      "why": "Reconciling local knowledge reveals a reliable opening."
+    },
+    {
+      "idea": "A development assessment machine has drawn a boundary through a footpath. Its shape changes between breeding season and winter; the crew must cross while the boundary is being recalculated.",
+      "source": "/data/tools-products/data-reports",
+      "why": "Seasonal data creates a visible, moving timing challenge."
+    },
+    {
+      "idea": "A survey volunteer’s binoculars have been taken by a machine that collects field equipment. Trade a decoy for them before the next count begins.",
+      "source": "/learn/skills",
+      "why": "A practical tool matters immediately, and a swap can solve the problem quietly."
+    },
+    {
+      "idea": "An ultrasonic detector points towards bats, but a swarm beacon is broadcasting above human hearing nearby. A crew with the right recorder can trace the false signal to its source.",
+      "source": "/data/tools-products/acoustic-pipeline",
+      "why": "The crew discovers an invisible hazard through an instrument rather than a warning sign."
+    },
+    {
+      "idea": "A migrating cuckoo’s tracking signal appears to jump between two places. One signal is a machine decoy; following the wrong one leads to a patrol.",
+      "source": "/",
+      "why": "Comparing two tracks makes route choice a meaningful gamble."
+    }
+  ]
+}

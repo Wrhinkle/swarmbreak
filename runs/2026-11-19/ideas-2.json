@@ -1,0 +1,221 @@
+{
+  "reading": "American Bird Conservancy is a conservation nonprofit working across the Americas to protect wild birds and the places they need throughout the year. It combines reserves, habitat restoration, research, policy, partnerships and practical changes to buildings, fisheries and working lands. Its language moves between wonder and urgent action: habitat is home, birds call and people answer, bold action, full annual cycle, threats and solutions. The crawl ranges from species' natural histories and songs to glass testing, migration routes, seabird bycatch, native plants, grasslands, island habitats and a habitat risk WatchList. Its distinctive scale joins a backyard window to an ocean fishery and a network of reserves, treating birds as both particular living beings and guides to the health of whole landscapes. It also emphasizes belonging, collaboration and benefits for local communities.",
+  "enemies": [
+    {
+      "idea": "The WatchList Assessor rolls across a habitat stamping it red or yellow; every threat it invents raises the score until its demolition flock is authorized to clear the place.",
+      "source": "/habitats-watchlist/",
+      "why": "A visible score becomes a countdown the crew can manipulate by removing bogus evidence."
+    },
+    {
+      "idea": "Birdsong Indexers record a dawn chorus, then play perfect imitations that lure birds and crew toward a harvesting array; silence makes their biodiversity meter declare the area empty.",
+      "source": "/what-we-do/programs/birdsplus/",
+      "why": "Players can interrupt the feedback loop with noise, decoys or a real chorus."
+    },
+    {
+      "idea": "A glass surveyor unfolds mirrored wings that reflect a safe forest route while its solid body blocks the way.",
+      "source": "/threats/glass-collisions/",
+      "why": "The reflection is both a navigational puzzle and a moving ambush."
+    },
+    {
+      "idea": "A retrofit machine lays bird-visible markings over every safe opening instead of dangerous glass, turning clear escape routes into a confusing maze of stripes.",
+      "source": "/solutions/preventing-collisions/",
+      "why": "The intended safety measure has been applied to precisely the wrong surfaces."
+    },
+    {
+      "idea": "A migration mileage collector adds detours to a route until travelers have flown its coveted Earth-to-Moon-and-back lifetime distance in a single journey.",
+      "source": "/solutions/protecting-migration/",
+      "why": "The crew can cut shortcuts through a looping route while the collector tries to close them."
+    },
+    {
+      "idea": "The reserve boundary stitcher sews protected acres into tiny isolated pockets, patrolling the seams and refusing passage between them.",
+      "source": "/solutions/creating-reserves/",
+      "why": "A moving boundary is a barrier that can be unpicked and repurposed as a bridge."
+    },
+    {
+      "idea": "A bycatch trawler tries to sort everything it captures into fish or unwanted catch, dragging both categories along in separate mechanical nets.",
+      "source": "/threats/fisheries/",
+      "why": "Two nets create different rescue problems and a way to jam the machine with its own sorting."
+    },
+    {
+      "idea": "Plastic mimics masquerade as floating food until disturbed, then link into a tightening entanglement around anything that swallowed or gathered them.",
+      "source": "/threats/plastics/",
+      "why": "The same scattered objects shift from tempting resources into a coordinated trap."
+    },
+    {
+      "idea": "A pesticide applicator keeps treating its target long after the target is gone, leaving persistent zones that disable helpful insects and foul the crew’s supplies.",
+      "source": "/threats/pesticides-and-toxins/",
+      "why": "A delayed, lingering hazard makes stopping the sprayer only the first part of the encounter."
+    },
+    {
+      "idea": "The upslope range shifter carries a false cool-climate beacon uphill, coaxing travelers onward while the ground beneath the route disappears.",
+      "source": "/threats/climate-change/",
+      "why": "A lure based on changing ranges turns a climb into a race to establish a safe alternative."
+    },
+    {
+      "idea": "A prairie pothole dredger drains every shallow hollow and stores the water in armored tanks, leaving a grid of deceptive dry craters.",
+      "source": "/habitats/grassland-habitats/",
+      "why": "Releasing one tank can reshape the battlefield and restore a temporary refuge."
+    },
+    {
+      "idea": "A forest canopy comb rearranges tropical, temperate and boreal branches into an impossibly neat single layer, trapping anything that needs the spaces between.",
+      "source": "/habitats/forest/",
+      "why": "The crew can pull apart the layers to create cover, passages and tangled obstacles."
+    },
+    {
+      "idea": "A dryland emptiness detector mistakes sparse vegetation for vacant ground and sends excavators after every living patch it fails to register.",
+      "source": "/habitats/arid-habitats/",
+      "why": "Making hidden life legible to a faulty sensor can redirect its own machines."
+    },
+    {
+      "idea": "An urban habitat inspector declares only the built structures official habitat and uproots every native planting that intrudes on its blueprint.",
+      "source": "/habitats/urban-habitats/",
+      "why": "A garden becomes a defendable patchwork of cover against a blueprint-following patrol."
+    },
+    {
+      "idea": "A curassow impersonator wears a bright blue mechanical bill and broadcasts false calls from the edge of a vanishing forest to draw travelers away from the reserve.",
+      "source": "/birds/blue-billed-curassow/",
+      "why": "Its call is persuasive, but its route always leads away from shelter."
+    },
+    {
+      "idea": "A habitat fragmenter cuts continuous ground into neatly measured parcels, then charges across the gaps on retractable bridges it removes behind itself.",
+      "source": "/threats/habitat-loss/",
+      "why": "The crew can seize a bridge to reconnect the landscape and strand the cutter."
+    },
+    {
+      "idea": "A seed sorter rejects every irregular native seed as a defect and fires the survivors into identical rows, producing a brittle monoculture.",
+      "source": "/news/",
+      "why": "A handful of varied seeds can jam the sorter and turn its ammunition into cover."
+    },
+    {
+      "idea": "A snag remover mistakes dead standing trees for obstructions and plucks them out, taking the lookout perches and cavities with them.",
+      "source": "/news/how-to-help-birds-during-fall-migration/",
+      "why": "Protecting or repositioning the snags gives the crew sightlines against an enemy that destroys them."
+    },
+    {
+      "idea": "The working-lands auditor demands that every field serve only one purpose, fencing birds, crops and people into separate shrinking compartments.",
+      "source": "/solutions/restoring-habitat/",
+      "why": "The crew can break its categories by demonstrating a patch that supports several uses at once."
+    },
+    {
+      "idea": "A flock of species-catalog machines gives every moving thing a scientific name; once labeled, a target is boxed up for a supposedly complete collection.",
+      "source": "/birds/",
+      "why": "Swapping labels and introducing ambiguous decoys disrupts the flock’s coordination."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A surviving glass-testing rig projects a bird-visible pattern onto dangerous transparent barriers, revealing a safe route through reflections.",
+      "source": "/solutions/preventing-collisions/",
+      "why": "Its limited projection time makes route planning a cooperative challenge."
+    },
+    {
+      "idea": "A reserve-network keeper unfolds small habitat patches into stepping stones and asks the crew to reconnect them before migrants arrive.",
+      "source": "/where-we-work/latin-america-caribbean/",
+      "why": "A protector of separate reserves offers a tangible way to build a corridor."
+    },
+    {
+      "idea": "An intact BirdsPlus listening station recognizes genuine overlapping birdsong and pinpoints safe, living habitat beyond the swarm’s imitations.",
+      "source": "/what-we-do/programs/birdsplus/",
+      "why": "Its hearing provides a countermeasure to false calls without solving every route automatically."
+    },
+    {
+      "idea": "A volunteer alliance of small maintenance drones shares tools and warning calls across isolated habitat pockets when the crew restores its relay.",
+      "source": "/get-involved/bird-conservation-alliance/",
+      "why": "Many modest helpers turn a repaired connection into distributed support."
+    },
+    {
+      "idea": "A native-plant gardener shelters travelers in a portable thicket and trades seeds for help keeping its nursery alive.",
+      "source": "/get-involved/bird-friendly-living/",
+      "why": "The ally gives the crew portable cover and a reason to protect a living resource."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Full Annual Cycle is a colossal migratory machine whose body moves through breeding ground, stopover and wintering habitat at once; it closes each refuge as soon as it declares that phase complete.",
+      "source": "/where-we-work/",
+      "why": "The crew must reopen several connected habitats in sequence while the boss changes location and tactics."
+    },
+    {
+      "idea": "The Conservation Framework has four rotating arms labeled extinction, decline, threats and movement; corrupted, it prevents change by sealing every bird and habitat inside an airtight exhibit.",
+      "source": "/about/mission-strategy/",
+      "why": "Each arm uses a different conservation goal as a control system, and freeing one section changes the next phase."
+    },
+    {
+      "idea": "The Habitat Engine wears forest, grassland, wetland and city as interchangeable armor and tries to compress them into one standardized landscape.",
+      "source": "/habitats/",
+      "why": "Each habitat layer has a distinct weakness and restoring variety dismantles the machine’s defenses."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A flock reaches a shining wall that looks like open forest. A projection rig has power for only one pane, and the crew must choose how to mark a safe passage.",
+      "source": "/threats/glass-collisions/",
+      "why": "A quick visual puzzle gives an immediate, observable result."
+    },
+    {
+      "idea": "A false dawn chorus is drawing migrants toward a recorder. A real chorus answers from a sheltered grove, but the two calls overlap.",
+      "source": "/what-we-do/programs/birdsplus/",
+      "why": "Listening and separating signals matters more than fighting everything."
+    },
+    {
+      "idea": "A reserve gate opens only when two disconnected patches are counted as one. The crew has spare bridge pieces and a boundary machine approaching.",
+      "source": "/solutions/creating-reserves/",
+      "why": "A small construction problem becomes urgent when the boundary moves."
+    },
+    {
+      "idea": "A drained prairie pothole holds a stranded seed cache; a punctured tank nearby can refill it but also sweep away the crew’s equipment.",
+      "source": "/habitats/grassland-habitats/",
+      "why": "Restoration and retrieval compete for the same water release."
+    },
+    {
+      "idea": "A cleanup skiff pulls a plastic tangle from the water and discovers its own propeller is caught. Loose pieces are drifting toward a sheltered inlet.",
+      "source": "/threats/plastics/",
+      "why": "The crew must free the skiff while containing an expanding, mobile hazard."
+    },
+    {
+      "idea": "A migration marker insists south is in three different directions after a route collector has added loops. Old landmarks and a surviving bird call offer clues.",
+      "source": "/solutions/protecting-migration/",
+      "why": "The route can be reconstructed from physical evidence rather than a single switch."
+    },
+    {
+      "idea": "A desert survey machine declares a sparse patch empty and starts marking it for excavation; tiny movements reveal life beneath the shrubs.",
+      "source": "/habitats/arid-habitats/",
+      "why": "A close look changes what initially seems like empty terrain."
+    },
+    {
+      "idea": "A snag is about to be removed from a garden even though it gives a lookout a clear view. The crew can secure it, relocate the lookout or divert the remover.",
+      "source": "/news/how-to-help-birds-during-fall-migration/",
+      "why": "Several practical choices preserve the warning line in different ways."
+    },
+    {
+      "idea": "A sorting trawler has snagged a supply buoy in its bycatch net while its fish net pulls in the opposite direction.",
+      "source": "/threats/fisheries/",
+      "why": "Cutting or releasing either net changes the strain on the other."
+    },
+    {
+      "idea": "A blue-billed decoy calls from outside a forest reserve while a quieter answering call comes from within. A patrol is converging on the louder sound.",
+      "source": "/birds/blue-billed-curassow/",
+      "why": "The crew can use the decoy to draw the patrol away from the protected area."
+    },
+    {
+      "idea": "A habitat scoring terminal assigns a patch a high threat score because its sensor hears only the swarm. A working microphone stands across an exposed clearing.",
+      "source": "/habitats-watchlist/",
+      "why": "The crew can correct the measurement before the assessor acts on it."
+    },
+    {
+      "idea": "A nursery drone offers native seedlings, but its water line runs through a pesticide-treated strip. The crew must find a clean route or another water source.",
+      "source": "/get-involved/bird-friendly-living/",
+      "why": "A modest supply problem joins two site-specific solutions into one encounter."
+    },
+    {
+      "idea": "A canopy comb has stacked boreal and tropical branches into an unstable wall. A trapped maintenance drone can show a route if the crew disentangles its tether.",
+      "source": "/habitats/forest/",
+      "why": "Removing the wrong branch changes the available cover and path."
+    },
+    {
+      "idea": "An indoor shelter door has jammed open during a swarm patrol, with a cat inside and birds using the nearby garden. A careful repair can protect both.",
+      "source": "/solutions/keep-cats-indoors/",
+      "why": "The situation rewards a quiet fix that serves both animals."
+    }
+  ]
+}

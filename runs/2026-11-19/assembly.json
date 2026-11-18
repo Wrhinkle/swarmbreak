@@ -1,0 +1,313 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [
+          [
+            "a1-call-counterfeit"
+          ],
+          [
+            "a1-record-mite"
+          ],
+          [
+            "a1-sample-skimmer"
+          ],
+          [
+            "a1-call-counterfeit",
+            "a1-sample-skimmer"
+          ],
+          [
+            "a1-record-mite",
+            "a1-sample-skimmer"
+          ]
+        ],
+        "mid": [
+          [
+            "a1-specimen-sorter",
+            "a1-sample-skimmer"
+          ],
+          [
+            "a1-minmi-armourer",
+            "a1-call-counterfeit"
+          ],
+          [
+            "a1-reef-sifter",
+            "a1-record-mite"
+          ],
+          [
+            "a1-web-identifier",
+            "a1-sample-skimmer"
+          ],
+          [
+            "a1-pipefish-brooder"
+          ],
+          [
+            "a1-freezer-custodian",
+            "a1-call-counterfeit"
+          ]
+        ],
+        "late": [
+          [
+            "a1-freezer-custodian",
+            "a1-reef-sifter"
+          ],
+          [
+            "a1-minmi-armourer",
+            "a1-sample-skimmer",
+            "a1-call-counterfeit"
+          ],
+          [
+            "a1-pipefish-brooder",
+            "a1-specimen-sorter"
+          ],
+          [
+            "a1-web-identifier",
+            "a1-reef-sifter"
+          ],
+          [
+            "a1-minmi-armourer",
+            "a1-record-mite"
+          ],
+          [
+            "a1-freezer-custodian",
+            "a1-sample-skimmer",
+            "a1-record-mite"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "a1-hotel-foreman",
+          "reward": "a1-call-listener"
+        },
+        {
+          "id": "a1-gantry-walker",
+          "reward": "a1-conservator"
+        },
+        {
+          "id": "a1-renovator",
+          "reward": "a1-call-listener"
+        },
+        {
+          "id": "a1-hotel-foreman",
+          "reward": "a1-call-listener"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch",
+        "triage",
+        "purge",
+        "jam",
+        "finish",
+        "brace"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "a2-plastic-mimic"
+          ],
+          [
+            "a2-seed-sorter"
+          ],
+          [
+            "a2-glass-surveyor"
+          ],
+          [
+            "a2-seed-sorter",
+            "a2-glass-surveyor"
+          ],
+          [
+            "a2-plastic-mimic",
+            "a2-seed-sorter"
+          ]
+        ],
+        "mid": [
+          [
+            "a2-chorus-indexer"
+          ],
+          [
+            "a2-boundary-stitcher",
+            "a2-seed-sorter"
+          ],
+          [
+            "a2-pothole-dredger",
+            "a2-glass-surveyor"
+          ],
+          [
+            "a2-canopy-comb",
+            "a2-plastic-mimic"
+          ],
+          [
+            "a2-curassow-decoy",
+            "a2-seed-sorter"
+          ],
+          [
+            "a2-range-shifter",
+            "a2-glass-surveyor"
+          ]
+        ],
+        "late": [
+          [
+            "a2-boundary-stitcher",
+            "a2-curassow-decoy",
+            "a2-seed-sorter"
+          ],
+          [
+            "a2-pothole-dredger",
+            "a2-plastic-mimic"
+          ],
+          [
+            "a2-chorus-indexer",
+            "a2-glass-surveyor"
+          ],
+          [
+            "a2-range-shifter",
+            "a2-plastic-mimic",
+            "a2-glass-surveyor"
+          ],
+          [
+            "a2-boundary-stitcher",
+            "a2-canopy-comb"
+          ],
+          [
+            "a2-pothole-dredger",
+            "a2-seed-sorter",
+            "a2-glass-surveyor"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "a2-habitat-fragmenter",
+          "reward": "a2-reserve-keeper"
+        },
+        {
+          "id": "a2-watchlist-assessor",
+          "reward": "a2-listening-station"
+        },
+        {
+          "id": "a2-bycatch-trawler",
+          "reward": "a2-reserve-keeper"
+        },
+        {
+          "id": "a2-habitat-fragmenter",
+          "reward": "a2-reserve-keeper"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch",
+        "triage",
+        "purge",
+        "jam",
+        "finish",
+        "charge",
+        "strike+"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "a3-ring-reporter"
+          ],
+          [
+            "a3-sampling-square"
+          ],
+          [
+            "a3-garden-feeder"
+          ],
+          [
+            "a3-ring-reporter",
+            "a3-sampling-square"
+          ],
+          [
+            "a3-ring-reporter",
+            "a3-garden-feeder"
+          ]
+        ],
+        "mid": [
+          [
+            "a3-acoustic-misidentifier"
+          ],
+          [
+            "a3-place-warden"
+          ],
+          [
+            "a3-validation-pecker",
+            "a3-sampling-square"
+          ],
+          [
+            "a3-nest-box-inspector",
+            "a3-ring-reporter"
+          ],
+          [
+            "a3-cuckoo-tracker"
+          ],
+          [
+            "a3-regional-organiser"
+          ]
+        ],
+        "late": [
+          [
+            "a3-place-warden",
+            "a3-ring-reporter"
+          ],
+          [
+            "a3-regional-organiser",
+            "a3-ring-reporter"
+          ],
+          [
+            "a3-acoustic-misidentifier",
+            "a3-validation-pecker"
+          ],
+          [
+            "a3-cuckoo-tracker",
+            "a3-sampling-square"
+          ],
+          [
+            "a3-nest-box-inspector",
+            "a3-garden-feeder"
+          ],
+          [
+            "a3-regional-organiser",
+            "a3-sampling-square"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "a3-archive-collator",
+          "reward": "a3-garden-watcher"
+        },
+        {
+          "id": "a3-impact-assessor",
+          "reward": "a3-record-validator"
+        },
+        {
+          "id": "a3-movetech-follower",
+          "reward": "a3-garden-watcher"
+        },
+        {
+          "id": "a3-impact-assessor",
+          "reward": "a3-record-validator"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch",
+        "triage",
+        "purge",
+        "jam",
+        "finish",
+        "brace"
+      ]
+    }
+  ]
+}

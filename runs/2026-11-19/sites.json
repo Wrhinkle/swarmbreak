@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "australian.museum",
+   "name": "Australian Museum",
+   "url": "https://australian.museum/",
+   "file": "runs/2026-11-19/sites/australian.museum.json"
+  },
+  {
+   "host": "abcbirds.org",
+   "name": "American Bird Conservancy",
+   "url": "https://abcbirds.org/",
+   "file": "runs/2026-11-19/sites/abcbirds.org.json"
+  },
+  {
+   "host": "www.bto.org",
+   "name": "British Trust for Ornithology",
+   "url": "https://www.bto.org/",
+   "file": "runs/2026-11-19/sites/www.bto.org.json"
+  }
+ ]
+}

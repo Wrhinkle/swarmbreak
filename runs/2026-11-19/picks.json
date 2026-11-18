@@ -1,0 +1,13 @@
+{
+  "thread": "Follow a bird from its nest into the air and across a migration route. The swarm meets patterned eggs and ingenious nests, takes on feathers and beaks, and travels between distant habitats with the birds.",
+  "candidates": [
+    {"name": "Australian Museum", "url": "https://australian.museum/", "why": "Its ornithology collection includes eggs, feathers and nests, including a nest built in an old boot and magpie nests made of wire; its animal profiles offer many birds to hatch into."},
+    {"name": "American Bird Conservancy", "url": "https://abcbirds.org/", "why": "A bird library ranges across the Americas and Hawai‘i, with distinctive beaks, plumage and behaviors, while habitat pages offer forests, grasslands and wetlands to inhabit."},
+    {"name": "British Trust for Ornithology", "url": "https://www.bto.org/", "why": "Bird ringing, tracking and migration projects follow birds on their travels, with species information and field methods that could become tags, routes and winged travelers."},
+    {"name": "Birds Canada", "url": "https://www.birdscanada.org/", "why": "Bird monitoring programs, important bird places and conservation technology offer migratory species, observation stations and habitats across Canada."},
+    {"name": "All About Birds", "url": "https://www.allaboutbirds.org/", "why": "Cornell's bird identification articles and natural-history features introduce birds through their shapes, calls, feeding strategies and lives in the wild."},
+    {"name": "Bird Conservancy of the Rockies", "url": "https://www.birdconservancy.org/", "why": "Bird banding, monitoring and grassland projects bring together songbirds, field equipment and the landscapes birds cross."},
+    {"name": "National Audubon Society", "url": "https://www.audubon.org/", "why": "Its North American bird guide and habitat material describe a wide variety of birds, their feeding, nesting and migration."},
+    {"name": "BirdLife International", "url": "https://www.birdlife.org/", "why": "Birds and conservation projects from many regions offer the swarm islands, flyways and species from across the world."}
+  ]
+}

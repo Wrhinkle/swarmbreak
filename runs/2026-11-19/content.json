@@ -1,0 +1,1264 @@
+{
+ "title": "A Place to Return",
+ "swarm": {
+  "name": "The Keepers",
+  "blurb": "A swarm of collecting machines trying to keep birds safe by controlling where they go."
+ },
+ "arc": "The Keepers first appear to be collecting nests for storage. Their trail leads through linked habitats, where the crew learns they are preserving the entire migration route by closing each refuge after use. The final field stations reveal why: the swarm treats any change in its bird count as danger. Its Great Census gathers birds to freeze the count. Wren, Ox and Kestrel open the system and leave the living birds free to move, while independent observers continue to update their records.",
+ "acts": [
+  {
+   "theme": "Nests and collections",
+   "story": {
+    "intro": "The swarm is taking nests into storage. Wren checks a broken egg while Ox holds the door. Kestrel finds a trail of wire and feathers.",
+    "chapters": [
+     {
+      "title": "A place to keep things",
+      "text": "Drawers fill with nests and tools alike. The crew takes the swarm for a collector. Wren finds careful padding around an empty nest."
+     },
+     {
+      "title": "The wrong keeper",
+      "text": "Machines guard their cargo as if it were still occupied. Ox shields a conservator moving a real nest. Kestrel finds the same route marked on several crates."
+     },
+     {
+      "title": "A route out",
+      "text": "The crates point toward distant habitats. The swarm is copying the birds\u2019 route as well as their nests. The crew follows the markings to the largest cabinet."
+     }
+    ],
+    "bossIntro": "The Total Collection closes its drawers around the nests. Kestrel sets the crowbar in a seam. Ox raises the shield.",
+    "outro": "The cabinet opens. Wren helps the conservators recover the nests. A route marker points onward, and the swarm takes flight."
+   },
+   "creatures": [
+    {
+     "id": "a1-call-counterfeit",
+     "name": "Call Counterfeit",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/aap/hop-to-it-scientists-ask-aussies-to-help-id-frogs/",
+     "blurb": "Its repeated croak interrupts anyone trying to listen.",
+     "look": "A squat brass frog with a round speaker throat and jointed tin legs."
+    },
+    {
+     "id": "a1-record-mite",
+     "name": "Record Mite",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/get-involved/citizen-science/",
+     "blurb": "A cloud of transcribers breaks apart when damaged.",
+     "look": "A loose cloud of tiny ivory rollers with black ink wheels."
+    },
+    {
+     "id": "a1-sample-skimmer",
+     "name": "Sample Skimmer",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/about/organisation/media-centre/two-new-cleaner-wrasse-species-identified/",
+     "blurb": "It removes loose fittings as if they were parasites.",
+     "look": "A slim blue and yellow fish machine with a hinged pincer mouth."
+    },
+    {
+     "id": "a1-specimen-sorter",
+     "name": "Specimen Sorter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/learn/collections/natural-science/",
+     "blurb": "It marks anything moving for storage.",
+     "look": "A narrow brass frame on wheels with folding measuring arms and a blue lens."
+    },
+    {
+     "id": "a1-minmi-armourer",
+     "name": "Minmi Armourer",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/exhibition/dinosaurs/",
+     "blurb": "It packs scrap onto its back before it charges.",
+     "look": "A low brown mechanical dinosaur with overlapping slate plates and a blunt tail."
+    },
+    {
+     "id": "a1-reef-sifter",
+     "name": "Reef Sifter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/get-involved/amri/lirs/",
+     "blurb": "It sweeps the floor for material and leaves a wake of grit.",
+     "look": "A squat teal tracked vacuum with a wide scoop and trailing sand chute."
+    },
+    {
+     "id": "a1-web-identifier",
+     "name": "Web Identifier",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/inside-out/online-experiments-activities/",
+     "blurb": "It lays a detection web and arrests anything that disturbs it.",
+     "look": "A black mechanical spider with eight thin silver legs and a spool abdomen."
+    },
+    {
+     "id": "a1-pipefish-brooder",
+     "name": "Pipefish Brooder",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/blog/",
+     "blurb": "Its row of pods releases mechanics when threatened.",
+     "look": "A long green pipefish machine with cream oval pods along its belly."
+    },
+    {
+     "id": "a1-freezer-custodian",
+     "name": "Freezer Custodian",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/learn/collections/natural-science/",
+     "blurb": "It patches nearby machines with frozen copies of their missing parts.",
+     "look": "A boxy white cart with blue frost on its tubes and two delicate grippers."
+    },
+    {
+     "id": "a1-hotel-foreman",
+     "name": "Hotel Foreman",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/inside-out/online-experiments-activities/",
+     "blurb": "Its drilled chambers turn salvage into a steady supply of workers.",
+     "look": "A tall bundle of bamboo-colored metal tubes on six stubby legs."
+    },
+    {
+     "id": "a1-gantry-walker",
+     "name": "Gantry Walker",
+     "tier": "elite",
+     "bodyPlan": "colossus",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach",
+      "strike"
+     ],
+     "source": "/exhibition/dinosaurs-of-patagonia/",
+     "blurb": "Its long steps threaten anyone hiding behind a shield.",
+     "look": "A tall bone-white skeletal machine with a gantry spine and heavy square feet."
+    },
+    {
+     "id": "a1-renovator",
+     "name": "Renovator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/aap/building-net-zero-architects-call-for-housing-rethink/",
+     "blurb": "It seals gaps and shields its fellow collectors.",
+     "look": "A broad yellow construction machine carrying stacked grey panels on its back."
+    },
+    {
+     "id": "a1-total-collection",
+     "name": "Total Collection",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/learn/collections/",
+     "blurb": "Its drawers protect the machines carrying nests to storage. It mistakes a closed drawer for a safe home.",
+     "look": "A towering cabinet on skeletal legs, with open wooden drawers, brass arms and a nest held in a glass cage."
+    },
+    {
+     "id": "a1-call-listener",
+     "name": "Call Listener",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/get-involved/citizen-science/",
+     "blurb": "It compares calls and mends damaged field gear.",
+     "look": "A small green recording cart with a dish antenna and a spool of thread."
+    },
+    {
+     "id": "a1-conservator",
+     "name": "Conservator",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/learn/collections/",
+     "blurb": "A careful packer shields fragile cargo on its way out.",
+     "look": "A short figure in a beige padded coat carrying a square wooden shield and rolls of cloth."
+    }
+   ],
+   "events": [
+    {
+     "id": "a1-event-the-appraiser",
+     "source": "/treasured-finds/",
+     "look": "A brass rolling bench holds a smooth stone beneath a magnifying lens.",
+     "title": "The Appraiser",
+     "text": "A machine has taken a visitor\u2019s stone. It will accept a curious piece of scrap in exchange.",
+     "options": [
+      {
+       "label": "Trade scrap",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The appraiser takes the scrap. The visitor gets the stone."
+      },
+      {
+       "label": "Prize it loose",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The stone comes free. The grippers catch the crew."
+      }
+     ]
+    },
+    {
+     "id": "a1-event-false-croak",
+     "source": "/aap/hop-to-it-scientists-ask-aussies-to-help-id-frogs/",
+     "look": "A green frog peers from a wall beside a brass speaker.",
+     "title": "False Croak",
+     "text": "A live call overlaps a mechanical loop. A wall panel blocks the frog.",
+     "options": [
+      {
+       "label": "Pry the panel",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The frog escapes as the sharp panel slips."
+      },
+      {
+       "label": "Buy a listening coil",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The coil finds the latch and the frog hops clear."
+      }
+     ]
+    },
+    {
+     "id": "a1-event-loose-tail",
+     "source": "/get-involved/services/touring-exhibits/",
+     "look": "A pale skeleton tail protrudes from a broken wooden crate.",
+     "title": "Loose Tail",
+     "text": "A dinosaur tail blocks the route. The rest of its frame waits nearby.",
+     "options": [
+      {
+       "label": "Lift it together",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The tail is reunited with its frame. The lift strains the crew."
+      },
+      {
+       "label": "Hire a trolley",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The tail rolls away on a borrowed trolley."
+      }
+     ]
+    },
+    {
+     "id": "a1-event-coral-beads",
+     "source": "/get-involved/amri/lirs/",
+     "look": "Silver beads drift around a blue buoy in dark water.",
+     "title": "Drifting Beads",
+     "text": "Beads are closing around a research buoy. The crew can redirect them or cut the buoy free.",
+     "options": [
+      {
+       "label": "Move the lamp",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The beads follow the lamp. Its battery is spent."
+      },
+      {
+       "label": "Cut the buoy free",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The buoy floats clear. Sharp beads cut through gloves."
+      }
+     ]
+    },
+    {
+     "id": "a1-event-quiet-room",
+     "source": "/event/early-birds-access-mornings/",
+     "look": "A dim doorway faces a small cluster of noisy metal insects.",
+     "title": "Quiet Room",
+     "text": "Repair machines are heading toward a quiet refuge. The keeper has spare bandages but needs a diversion.",
+     "options": [
+      {
+       "label": "Set a decoy",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The machines follow the decoy. The keeper shares bandages."
+      },
+      {
+       "label": "Rest briefly",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The crew rests while the keeper guides visitors to another exit."
+      }
+     ]
+    },
+    {
+     "id": "a1-event-hotel-tubes",
+     "source": "/inside-out/online-experiments-activities/",
+     "look": "A bundle of hollow tan tubes contains tiny metal larvae.",
+     "title": "Occupied Tubes",
+     "text": "Machine larvae are crowding an insect hotel. Removing the tubes takes tools or bare hands.",
+     "options": [
+      {
+       "label": "Use a cutting kit",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The tubes come out cleanly. The kit is used up."
+      },
+      {
+       "label": "Pull them out",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The tubes are cleared. A larva nips a hand."
+      }
+     ]
+    },
+    {
+     "id": "a1-event-packing",
+     "source": "/learn/collections/",
+     "look": "A soft cloth nest rests between two wooden packing boxes.",
+     "title": "Packing Day",
+     "text": "A conservator needs padding for fragile specimens. One spare roll would help.",
+     "options": [
+      {
+       "label": "Give a roll",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The specimens are packed. The crew parts with the roll."
+      },
+      {
+       "label": "Take the slow route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.1
+       },
+       "result": "The conservator lends a quiet space to rest while arranging another route."
+      }
+     ]
+    }
+   ],
+   "name": "Australian Museum",
+   "url": "https://australian.museum/"
+  },
+  {
+   "theme": "Habitats and migration",
+   "story": {
+    "intro": "The wire trail crosses open habitat. Wren expects another storehouse. Ox finds nests being carried between patches instead.",
+    "chapters": [
+     {
+      "title": "Connected ground",
+      "text": "The swarm marks out forest, grassland and water. It leaves narrow paths between them. Kestrel follows a machine carrying a nest rather than hiding it."
+     },
+     {
+      "title": "A moving collection",
+      "text": "The crew discovers the turn: the swarm is trying to preserve the whole journey, not just the nest. It closes each refuge after its travelers pass. Living birds still need to come back."
+     },
+     {
+      "title": "The return trip",
+      "text": "Ox holds a crossing while Wren helps a tired traveler. Kestrel finds the route ends at a moving machine. Its markers lead onward to a network of observations."
+     }
+    ],
+    "bossIntro": "The Full Annual Cycle folds three habitats around itself. Its guards gather as the exits close. The crew moves to keep a path open.",
+    "outro": "The machine falls and its refuges open. Birds can cross again. Wren finds a tracking ring among the wreckage, and the crew follows its signal."
+   },
+   "creatures": [
+    {
+     "id": "a2-plastic-mimic",
+     "name": "Plastic Mimic",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/threats/plastics/",
+     "blurb": "Loose pieces join around anything that moves.",
+     "look": "A drifting cluster of pale blue plastic strips with hooked metal tips."
+    },
+    {
+     "id": "a2-seed-sorter",
+     "name": "Seed Sorter",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/news/",
+     "blurb": "It pockets irregular seeds and scatters the rest.",
+     "look": "A small green hopper on wheels with a funnel head and two sorting claws."
+    },
+    {
+     "id": "a2-glass-surveyor",
+     "name": "Glass Surveyor",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/threats/glass-collisions/",
+     "blurb": "Its reflected wings make a solid barrier look like a route.",
+     "look": "A silver-winged bird machine with a dark glass chest and narrow beak."
+    },
+    {
+     "id": "a2-chorus-indexer",
+     "name": "Chorus Indexer",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/what-we-do/programs/birdsplus/",
+     "blurb": "Its perfect imitation draws other machines to the flock.",
+     "look": "A round brown bird machine with a bell-shaped throat and cream wing bars."
+    },
+    {
+     "id": "a2-boundary-stitcher",
+     "name": "Boundary Stitcher",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/solutions/creating-reserves/",
+     "blurb": "It shields the machines dividing neighboring patches.",
+     "look": "A bronze sewing machine on long legs trailing thick black thread."
+    },
+    {
+     "id": "a2-pothole-dredger",
+     "name": "Pothole Dredger",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/habitats/grassland-habitats/",
+     "blurb": "It stores water and uses it to repair nearby machines.",
+     "look": "A squat ochre pump with a round blue tank and a wide shovel mouth."
+    },
+    {
+     "id": "a2-canopy-comb",
+     "name": "Canopy Comb",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/habitats/forest/",
+     "blurb": "Its metal teeth jam the paths between layers of branches.",
+     "look": "A green trunk on wheels with a wide rake crown and tangled brown branches."
+    },
+    {
+     "id": "a2-curassow-decoy",
+     "name": "Curassow Decoy",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/birds/blue-billed-curassow/",
+     "blurb": "It lures travelers with a false call, then charges.",
+     "look": "A black mechanical bird with curled crest, bright blue bill and white belly."
+    },
+    {
+     "id": "a2-range-shifter",
+     "name": "Range Shifter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/threats/climate-change/",
+     "blurb": "Its false beacon draws travelers away from useful shelter.",
+     "look": "A tall white tripod carrying a blue beacon and folded metal wings."
+    },
+    {
+     "id": "a2-habitat-fragmenter",
+     "name": "Habitat Fragmenter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach",
+      "strike"
+     ],
+     "source": "/threats/habitat-loss/",
+     "blurb": "It breaks routes into parcels and charges across the gaps.",
+     "look": "A heavy rust-brown crawler with two shearing arms and a retractable bridge."
+    },
+    {
+     "id": "a2-watchlist-assessor",
+     "name": "Watchlist Assessor",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/habitats-watchlist/",
+     "blurb": "It calls a demolition flock to every patch it marks as unsafe.",
+     "look": "A black wheeled survey tower with a yellow lens and a rack of angular markers."
+    },
+    {
+     "id": "a2-bycatch-trawler",
+     "name": "Bycatch Trawler",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "sweep",
+      "strike"
+     ],
+     "source": "/threats/fisheries/",
+     "blurb": "Its nets split and sweep across everyone nearby.",
+     "look": "A low steel boat machine with two net arms and a turquoise hull."
+    },
+    {
+     "id": "a2-full-annual-cycle",
+     "name": "Full Annual Cycle",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep",
+      "strike+"
+     ],
+     "source": "/where-we-work/",
+     "blurb": "It carries breeding ground, stopover and winter refuge in a single moving frame. It summons guards and sweeps the crew away as it seals each refuge.",
+     "look": "A vast winged machine carrying three open baskets of reeds, branches and dry grass, with jointed legs and bronze feathers."
+    },
+    {
+     "id": "a2-listening-station",
+     "name": "Listening Station",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/what-we-do/programs/birdsplus/",
+     "blurb": "It picks out living calls and repairs damaged receivers.",
+     "look": "A compact green field recorder with two round microphones and a canvas repair pouch."
+    },
+    {
+     "id": "a2-reserve-keeper",
+     "name": "Reserve Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/where-we-work/latin-america-caribbean/",
+     "blurb": "The keeper carries bridge pieces between isolated patches.",
+     "look": "A figure in a tan field jacket carrying a folded wooden bridge and round shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "a2-event-glass-wall",
+     "source": "/threats/glass-collisions/",
+     "look": "A flock approaches a tall clear pane reflecting trees.",
+     "title": "Glass Wall",
+     "text": "A projection rig can mark one pane. Its battery is nearly empty.",
+     "options": [
+      {
+       "label": "Power the rig",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The marked pane warns the flock. The battery must be replaced."
+      },
+      {
+       "label": "Hang cloth by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The cloth marks the pane. A sharp edge cuts the crew."
+      }
+     ]
+    },
+    {
+     "id": "a2-event-dawn-chorus",
+     "source": "/what-we-do/programs/birdsplus/",
+     "look": "A brass recorder sits between a dark grove and a line of reeds.",
+     "title": "Dawn Chorus",
+     "text": "A false call draws migrants toward a recorder. The real chorus comes from the grove.",
+     "options": [
+      {
+       "label": "Break the recorder",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The false call stops. Its casing snaps back."
+      },
+      {
+       "label": "Buy a signal filter",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The filter reveals the grove without disturbing the flock."
+      }
+     ]
+    },
+    {
+     "id": "a2-event-reserve-gate",
+     "source": "/solutions/creating-reserves/",
+     "look": "Two grassy patches face one another across a narrow gap.",
+     "title": "Reserve Gate",
+     "text": "A reserve gate needs a bridge between two patches before a boundary machine arrives.",
+     "options": [
+      {
+       "label": "Spend the bridge kit",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The patches connect and travelers cross."
+      },
+      {
+       "label": "Build from scrap",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The bridge holds. Handling the sharp scrap takes a toll."
+      }
+     ]
+    },
+    {
+     "id": "a2-event-pothole",
+     "source": "/habitats/grassland-habitats/",
+     "look": "A blue tank leans over a dry hollow filled with seeds.",
+     "title": "Dry Hollow",
+     "text": "A punctured tank can refill the hollow, but the rush may scatter the seed cache.",
+     "options": [
+      {
+       "label": "Brace the tank",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The water flows slowly. The bracing materials are spent."
+      },
+      {
+       "label": "Catch the seeds",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The cache is saved. The rush knocks the crew down."
+      }
+     ]
+    },
+    {
+     "id": "a2-event-cleanup-skiff",
+     "source": "/threats/plastics/",
+     "look": "A small skiff is tangled in pale strips beside a reed bed.",
+     "title": "Tangled Skiff",
+     "text": "A cleanup skiff is caught in its own load. Loose plastic drifts toward an inlet.",
+     "options": [
+      {
+       "label": "Cut the propeller free",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The skiff catches the drifting pieces. A blade cuts a glove."
+      },
+      {
+       "label": "Buy a tow line",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The skiff reaches shore with its load intact."
+      }
+     ]
+    },
+    {
+     "id": "a2-event-migration-marker",
+     "source": "/solutions/protecting-migration/",
+     "look": "A crooked metal arrow stands among grasses and scattered feathers.",
+     "title": "Three Souths",
+     "text": "A marker points in three directions. A reliable landmark is visible across rough ground.",
+     "options": [
+      {
+       "label": "Cross to the landmark",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew corrects the marker after a bruising climb."
+      },
+      {
+       "label": "Hire a local guide",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The guide checks the landmark and sets the marker straight."
+      }
+     ]
+    },
+    {
+     "id": "a2-event-snag",
+     "source": "/news/how-to-help-birds-during-fall-migration/",
+     "look": "A hollow grey tree stands above a small garden.",
+     "title": "The Snag",
+     "text": "A machine is about to remove a dead tree used as a lookout. It can be secured or the lookout can be moved.",
+     "options": [
+      {
+       "label": "Secure the tree",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "Braces keep the tree standing. The lookout stays."
+      },
+      {
+       "label": "Move the lookout",
+       "effect": {
+        "type": "heal",
+        "amount": 0.1
+       },
+       "result": "The lookout lends the crew a safe place to rest after moving to a new perch."
+      }
+     ]
+    }
+   ],
+   "name": "American Bird Conservancy",
+   "url": "https://abcbirds.org/"
+  },
+  {
+   "theme": "Observation and change",
+   "story": {
+    "intro": "The signal leads to a network of field stations. The swarm is counting birds along the route. Wren notices that its totals never change.",
+    "chapters": [
+     {
+      "title": "The same sighting",
+      "text": "Machines count the same bird again and again. Ox protects a watcher\u2019s notes. Kestrel finds tracking rings fitted to abandoned tools."
+     },
+     {
+      "title": "Evidence that moves",
+      "text": "Independent observations disagree with the swarm\u2019s fixed count. Wren compares the records and finds birds returning to places the swarm has closed. The discrepancy draws surveyors."
+     },
+     {
+      "title": "A safe number",
+      "text": "The swarm gathers birds to stop the count changing. Its answer is confinement: it thinks anything moving or missing is in danger. The crew follows the surveyors to the counting machine."
+     }
+    ],
+    "bossIntro": "The Great Census closes its ringed arms. Surveyors pour out as it counts the crew among its subjects. Ox braces; Kestrel looks for the mechanism between the rings.",
+    "outro": "The count stops. Wren passes the surviving notes to the field stations, where observers can revise them as birds move. The birds leave on their own routes. Ox opens the last cage, and Kestrel puts down the crowbar."
+   },
+   "creatures": [
+    {
+     "id": "a3-ring-reporter",
+     "name": "Ring Reporter",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/get-involved/report-something",
+     "blurb": "It steals loose gear and leaves a tracking ring in its place.",
+     "look": "A grey mechanical bird with a circular clamp beak and thin orange legs."
+    },
+    {
+     "id": "a3-sampling-square",
+     "name": "Sampling Square",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/data/availability/quality",
+     "blurb": "It counts every crossing and interrupts anyone caught inside.",
+     "look": "A low square frame on four little wheels with a rotating blue lens."
+    },
+    {
+     "id": "a3-garden-feeder",
+     "name": "Garden Feeder",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/learn/helping-birds",
+     "blurb": "Its magnetic feed calls small machines to the garden.",
+     "look": "A green metal feeder on a tripod with a circular tray and hinged lid."
+    },
+    {
+     "id": "a3-acoustic-misidentifier",
+     "name": "Acoustic Misidentifier",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/data/tools-products/acoustic-pipeline",
+     "blurb": "It mistakes every noise for a summons and sends out a mechanical flock.",
+     "look": "A black field recorder on six legs with a large silver listening dish."
+    },
+    {
+     "id": "a3-place-warden",
+     "name": "Place Warden",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/learn/about-birds/birdfacts",
+     "blurb": "It charges anyone crossing the boundary it has assigned.",
+     "look": "A dark blue bird machine with a long pointed beak and broad cream wings."
+    },
+    {
+     "id": "a3-validation-pecker",
+     "name": "Validation Pecker",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/data/availability/quality",
+     "blurb": "It damages records that disagree with its expected count.",
+     "look": "A woodpecker-shaped machine with a yellow head, black body and steel drill bill."
+    },
+    {
+     "id": "a3-nest-box-inspector",
+     "name": "Nest Box Inspector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/learn/helping-birds",
+     "blurb": "It shuts boxes and protects them as occupied nests.",
+     "look": "A square brown box on legs with a round entrance and hinged metal shutters."
+    },
+    {
+     "id": "a3-cuckoo-tracker",
+     "name": "Cuckoo Tracker",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/get-involved/volunteer/projects",
+     "blurb": "It follows a tracking signal and sends clockwork birds into shelters.",
+     "look": "A long grey bird machine with barred wings and a row of small brass pods."
+    },
+    {
+     "id": "a3-regional-organiser",
+     "name": "Regional Organiser",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/get-involved/volunteer/regional-network",
+     "blurb": "It relays warnings and repairs patrol machines between stations.",
+     "look": "A green field radio on a wheeled frame with two antennae and a repair arm."
+    },
+    {
+     "id": "a3-archive-collator",
+     "name": "Archive Collator",
+     "tier": "elite",
+     "bodyPlan": "colossus",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "breach",
+      "strike"
+     ],
+     "source": "/about/history",
+     "blurb": "It binds old observations into a single body that breaks into smaller pursuers.",
+     "look": "A tall stack of tan folders bound by steel ribs, with many jointed arms and a single blue lens."
+    },
+    {
+     "id": "a3-impact-assessor",
+     "name": "Impact Assessor",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach",
+      "strike"
+     ],
+     "source": "/data/tools-products/data-reports",
+     "blurb": "Its moving boundary turns shelter into a target.",
+     "look": "A broad orange tracked projector with a flat glass face and two heavy cutting arms."
+    },
+    {
+     "id": "a3-movetech-follower",
+     "name": "Movetech Follower",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "sweep",
+      "strike"
+     ],
+     "source": "/data/tools-products",
+     "blurb": "It copies a tracking signal and mirrors the crew\u2019s actions.",
+     "look": "A streamlined silver bird machine with antenna feathers and a glowing green tail."
+    },
+    {
+     "id": "a3-great-census",
+     "name": "Great Census",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "strike+"
+     ],
+     "source": "/data/availability",
+     "blurb": "It gathers birds to keep its count fixed. It summons surveyors and sweeps across the crew when its count is disturbed. Its records reveal the swarm\u2019s aim: safety through a world that never changes.",
+     "look": "A towering brass survey machine with ring-shaped arms, a rotating dish head and cages of empty perches around its base."
+    },
+    {
+     "id": "a3-record-validator",
+     "name": "Record Validator",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/data/availability/quality",
+     "blurb": "The validator compares independent notes and patches damaged equipment.",
+     "look": "A figure in a blue field coat carrying a satchel, a notebook and a small tool roll."
+    },
+    {
+     "id": "a3-garden-watcher",
+     "name": "Garden Watcher",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/learn/helping-birds",
+     "blurb": "The watcher spots imitation birds and shelters travelers.",
+     "look": "A figure in a green raincoat carrying binoculars and a round wooden shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "a3-event-unusual-sighting",
+     "source": "/data/availability/quality",
+     "look": "A field notebook lies beneath a brass drill beside binoculars.",
+     "title": "Unusual Sighting",
+     "text": "A machine is about to destroy an unusual observation. A second record could support it.",
+     "options": [
+      {
+       "label": "Find a second record",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The records agree. The search through rough ground bruises the crew."
+      },
+      {
+       "label": "Buy time from a courier",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The courier brings a second record before the drill starts."
+      }
+     ]
+    },
+    {
+     "id": "a3-event-reflection",
+     "source": "/our-work/training",
+     "look": "A survey machine peers into still water at its own reflection.",
+     "title": "One More Bird",
+     "text": "A survey machine counts its reflection again and again. Its tally will soon call a patrol.",
+     "options": [
+      {
+       "label": "Cover the water",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "A borrowed sheet hides the reflection and the count stops."
+      },
+      {
+       "label": "Tilt the machine",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The lens points away. The machine knocks into the crew."
+      }
+     ]
+    },
+    {
+     "id": "a3-event-gull-panels",
+     "source": "/event/2151",
+     "look": "Two grey gull machines exchange white wing panels on a post.",
+     "title": "Swapped Wings",
+     "text": "A learner needs help distinguishing two drones that have swapped panels.",
+     "options": [
+      {
+       "label": "Follow their flight",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The flight patterns identify both drones. A low pass clips the crew."
+      },
+      {
+       "label": "Rent binoculars",
+       "effect": {
+        "type": "gold",
+        "amount": -20
+       },
+       "result": "The learner matches the drones from a safe distance."
+      }
+     ]
+    },
+    {
+     "id": "a3-event-old-atlas",
+     "source": "/data/availability",
+     "look": "An old map and a fresh field note lie on a wooden table.",
+     "title": "Old Atlas",
+     "text": "A patrol follows an old map. A field station needs a fresh observation before the patrol returns.",
+     "options": [
+      {
+       "label": "Run the note over",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The station receives the correction. The crew takes a hard fall."
+      },
+      {
+       "label": "Pay a courier",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The courier delivers the note in time."
+      }
+     ]
+    },
+    {
+     "id": "a3-event-loose-wheel",
+     "source": "/get-involved/report-something",
+     "look": "A small wheel with a brass ring rolls ahead of a tracking drone.",
+     "title": "Loose Wheel",
+     "text": "A drone is chasing a ring fixed to a loose wheel. The ring could be recovered or used as a decoy.",
+     "options": [
+      {
+       "label": "Grab the ring",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The ring comes free. The wheel clips the crew."
+      },
+      {
+       "label": "Rig a decoy",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "A purchased spring sends the wheel and drone down an empty track."
+      }
+     ]
+    },
+    {
+     "id": "a3-event-mixed-calls",
+     "source": "/data/tools-products/acoustic-pipeline",
+     "look": "A field recorder sits among reeds with headphones draped over it.",
+     "title": "Mixed Calls",
+     "text": "Real calls and machine imitations fill a recorder. Sorting them will reveal a safer passage.",
+     "options": [
+      {
+       "label": "Work through the tape",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The crew rests while Wren finds a gap between patrols."
+      },
+      {
+       "label": "Buy a sound filter",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The filter separates the calls quickly and reveals the passage."
+      }
+     ]
+    },
+    {
+     "id": "a3-event-field-stations",
+     "source": "/get-involved/volunteer/regional-network",
+     "look": "Two small huts stand on opposite sides of a grassy ridge.",
+     "title": "Two Reports",
+     "text": "Two stations disagree about a patrol. Carrying their notes across the ridge should explain why.",
+     "options": [
+      {
+       "label": "Cross the ridge",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The notes reveal one machine traveling a loop. The climb is rough."
+      },
+      {
+       "label": "Pay a messenger",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The messenger compares the notes and returns with the patrol\u2019s loop."
+      }
+     ]
+    }
+   ],
+   "name": "British Trust for Ornithology",
+   "url": "https://www.bto.org/"
+  }
+ ],
+ "id": "2026-11-19",
+ "seed": 144586393
+}
