@@ -1,0 +1,201 @@
+{
+  "reading": "The Musée international d’horlogerie in La Chaux-de-Fonds collects, exhibits, studies and cares for instruments devoted to measuring time. Its interests run from the history of precision and resonators to the human relationship with time, and from acquisitions and restoration to hands-on learning. Its vocabulary is unusually tactile and temporal: pendulum, balance spring, femtosecond, thematic cells, treasures, the red thread, workshops and guided discoveries. The permanent exhibition organizes subjects in exhaustive thematic cells, while changing exhibitions, friends' tours and a festival shared with other city museums make the collection a place to explore together. The crawl presents parallel French, German and Italian versions; many linked subjects are named but their full pages are not included.",
+  "enemies": [
+    {
+      "idea": "Pendulum Sweepers: long-armed swarm machines swing through a room in a predictable arc, knocking anything out of rhythm into the next swing.",
+      "source": "/fr/expositions-temporaires/a-la-femtoseconde-pres/",
+      "why": "The pendulum's regularity gives a crew an intelligible rhythm to exploit or disrupt."
+    },
+    {
+      "idea": "Balance-Spring Snarers: coiled machines wind up when disturbed, then snap back along the exact path of the disturbance, tangling whoever caused it.",
+      "source": "/fr/expositions-temporaires/a-la-femtoseconde-pres/",
+      "why": "A watch's regulating spring becomes a readable cause-and-effect trap."
+    },
+    {
+      "idea": "Femtosecond Auditors measure hesitation instead of time and attack during the tiny pauses between a crew's actions.",
+      "source": "/de/sonderaustellungen/auf-die-femtosekunde-genau/",
+      "why": "The exhibition's question of precision turns ordinary indecision into a tactical liability."
+    },
+    {
+      "idea": "Second-Setters patrol in conflicting pairs, each insisting its own second is the standard; anything caught between their beats is repeatedly jerked out of sync.",
+      "source": "/de/sonderaustellungen/auf-die-femtosekunde-genau/",
+      "why": "The question of who sets the time becomes a fight over overlapping rhythms."
+    },
+    {
+      "idea": "Alveole Collectors build expanding thematic cells around whatever they find, sealing a person or tool into the category it most resembles.",
+      "source": "/fr/exposition-permanente/",
+      "why": "The museum's exhaustive thematic cells become a capture mechanic with obvious seams to break."
+    },
+    {
+      "idea": "Red-Thread Spinners stitch separate exhibit cells together with taut red wire, then follow the vibrations of anyone who cuts or crosses it.",
+      "source": "/fr/exposition-permanente/",
+      "why": "A unifying exhibition thread becomes both navigation aid and alarm system."
+    },
+    {
+      "idea": "Treasure Wardens mark the most useful object in a crew's possession as an unmissable treasure and try to lock it away for safekeeping.",
+      "source": "/it/mostre-permanenti/",
+      "why": "The crew must decide whether to protect, bait with or surrender a prized tool."
+    },
+    {
+      "idea": "Acquisition Appraisers attach tiny inventory tags to unattended equipment; once tagged, a flock carries it away as a recent purchase.",
+      "source": "/fr/expositions-temporaires/nouvelles-acquisitions/",
+      "why": "The annual display of purchases becomes a mischievous heist that can be interrupted."
+    },
+    {
+      "idea": "Donation Solicitors offer to carry damaged gear, then interpret any handoff as a permanent gift to the collection.",
+      "source": "/fr/expositions-temporaires/nouvelles-acquisitions/",
+      "why": "A seemingly helpful exchange turns on a concrete action the crew can notice and avoid."
+    },
+    {
+      "idea": "Workshop Assemblers invite passersby to finish a mechanism, then use every completed part to build more swarm bodies.",
+      "source": "/fr/agenda/festival-des-ateliers/36",
+      "why": "A participatory learning activity becomes a tempting source of enemy reinforcements."
+    },
+    {
+      "idea": "Parcours Shepherds rearrange workshop stations into a looping obstacle course, rewarding progress with components that secretly add another station.",
+      "source": "/it/calendario/festival-dei-laboratori/36",
+      "why": "A hands-on route becomes a puzzle whose apparent rewards sustain the loop."
+    },
+    {
+      "idea": "False Friends lead a free tour of the treasures, pausing at each stop until the group has unconsciously fallen into step with the swarm.",
+      "source": "/fr/agenda/visites-des-amismih/1",
+      "why": "A friendly guided visit becomes an ambush that can be broken by deliberately changing pace."
+    },
+    {
+      "idea": "Sunday Chimers wake on the first Sunday of the month and call nearby machines to assemble for an unauthorized treasure tour.",
+      "source": "/de/kalender/amismih-fuhrungen/1",
+      "why": "The real tour's monthly cadence creates a recurring, anticipatable threat."
+    },
+    {
+      "idea": "Collection Composites wear mismatched time-measuring instruments and swap their moving parts mid-fight to change their attack rhythm.",
+      "source": "/it/le-mostre-temporanee/l-uomo-e-il-tempo/",
+      "why": "A collection of instruments becomes an enemy whose silhouette reveals its current behavior."
+    },
+    {
+      "idea": "Timekeepers of Humanity count a person's remaining actions as if they were clock ticks and try to immobilize anyone whose count reaches zero.",
+      "source": "/fr/expositions-temporaires/lhomme-et-le-temps/",
+      "why": "The theme of people and time becomes a visible countdown the crew can interrupt."
+    },
+    {
+      "idea": "Festival Hybrids combine the fine-art, history, rural-craft and animal-museum workshop themes into strange modular bodies, changing tools as they encounter different materials.",
+      "source": "/fr/agenda/festival-des-ateliers/36",
+      "why": "The multi-museum festival produces surprising combinations instead of another ordinary clockwork creature."
+    },
+    {
+      "idea": "First-Sunday Heralds announce a tour at 10:30 and try to herd anyone nearby through a ninety-minute circuit without stopping.",
+      "source": "/it/calendario/",
+      "why": "A precise recurring schedule becomes a moving encounter with a clear start and end."
+    },
+    {
+      "idea": "Opening-Hour Shutters prowl from Tuesday to Sunday and fold around anything still moving after five, treating it as an exhibit that must be secured.",
+      "source": "/it/",
+      "why": "The stated hours turn a familiar closing ritual into a timed pursuit."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A surviving circle of museum friends knows a free route between treasures and can guide a crew around the swarm's regular patrols.",
+      "source": "/fr/agenda/visites-des-amismih/1",
+      "why": "Their tradition of guided discovery gives the crew knowledgeable help without making them combatants."
+    },
+    {
+      "idea": "Workshop makers assemble temporary decoy mechanisms from spare parts and teach the crew how to change a machine's rhythm.",
+      "source": "/fr/agenda/festival-des-ateliers/36",
+      "why": "The educational workshop becomes a practical way to improvise against the swarm."
+    },
+    {
+      "idea": "A stubborn reference pendulum keeps an independent beat; nearby allies can use it to recognize when the swarm has falsified the apparent time.",
+      "source": "/fr/expositions-temporaires/a-la-femtoseconde-pres/",
+      "why": "The same pursuit of precision that powers enemies gives the crew a dependable countermeasure."
+    },
+    {
+      "idea": "A loose red thread still leads through the thematic cells to safety, provided the crew distinguishes it from the swarm's taut alarm wires.",
+      "source": "/fr/exposition-permanente/",
+      "why": "The exhibition's connecting thread becomes a useful but imperfect guide."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Universal Measure: a vast assembly of captured timepieces that tries to make every person, machine and room obey one perfect beat. Breaking its pendulum exposes its spring, but each disabled regulator makes the remaining beat less predictable.",
+      "source": "/fr/expositions-temporaires/lhomme-et-le-temps/",
+      "why": "The museum's collection devoted to measuring time becomes a whole-site struggle between precision and human freedom."
+    },
+    {
+      "idea": "The Exhaustive Curator: a walking cluster of thematic cells that absorbs objects, classifies them and adds a new compartment for anything it cannot explain. It can be overloaded by presenting it with an object that fits several themes at once.",
+      "source": "/fr/exposition-permanente/",
+      "why": "The ambition to present each subject exhaustively becomes a boss with an inventive, collection-shaped weakness."
+    },
+    {
+      "idea": "The Acquisitions Engine stages an endless annual salon, sending out appraisers to bring back gear and rebuilding itself from every supposed gift or purchase. Its collection can be reclaimed by interrupting the sorting line.",
+      "source": "/fr/expositions-temporaires/nouvelles-acquisitions/",
+      "why": "Collecting turns into a visible supply chain, so rescuing equipment and weakening the boss are the same task."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A free first-Sunday tour is about to start, but one guide is a swarm imitation. The crew can compare the guides' routes before anyone follows.",
+      "source": "/fr/agenda/visites-des-amismih/1",
+      "why": "A small social mystery grows naturally from the friends' recurring visits."
+    },
+    {
+      "idea": "A workshop table is assembling its own clockwork animal from parts meant for a family activity. Finish it as a decoy or take it apart before it wakes.",
+      "source": "/fr/agenda/festival-des-ateliers/36",
+      "why": "A creative activity offers two useful ways to handle a budding threat."
+    },
+    {
+      "idea": "A pendulum has jammed across a passage, and each attempt to move it winds a nearby balance spring tighter.",
+      "source": "/fr/expositions-temporaires/a-la-femtoseconde-pres/",
+      "why": "Two actual resonator types make a compact physical puzzle."
+    },
+    {
+      "idea": "Two machines disagree about the length of a second; between their beats a door briefly opens. The crew can listen and cross, or recalibrate one machine.",
+      "source": "/de/sonderaustellungen/auf-die-femtosekunde-genau/",
+      "why": "The question of how a second is defined becomes a timing challenge."
+    },
+    {
+      "idea": "An acquisition carrier has tagged a crew member's tool as a donation and is heading toward the collection with it.",
+      "source": "/fr/expositions-temporaires/nouvelles-acquisitions/",
+      "why": "A low-stakes chase makes the collection's appetite personal."
+    },
+    {
+      "idea": "A red thread leads through three thematic cells, but one branch is a taut alarm wire. A gentle tug reveals which is loose.",
+      "source": "/fr/exposition-permanente/",
+      "why": "The exhibition's organizing thread becomes a test of attention."
+    },
+    {
+      "idea": "A machine is assembling an obstacle course for a workshop and keeps moving the final station. The crew can finish its circuit or remove the station it uses to plan the next one.",
+      "source": "/it/calendario/festival-dei-laboratori/36",
+      "why": "A workshop route becomes a contained puzzle with more than one solution."
+    },
+    {
+      "idea": "At 10:30 on the first Sunday, a tour flock starts moving; its steady procession briefly leaves a neighboring corridor unguarded.",
+      "source": "/it/calendario/",
+      "why": "A known schedule creates an opportunity as well as a hazard."
+    },
+    {
+      "idea": "Near closing time, shutters begin securing instruments while a valuable independent clock is still outside its case. The crew can rescue it before the shutters arrive.",
+      "source": "/it/",
+      "why": "The museum's stated hours provide a clear deadline for a rescue."
+    },
+    {
+      "idea": "A thematic cell has classified a useful tool as an unmissable treasure; its keeper will release it only if offered a plausible substitute.",
+      "source": "/it/mostre-permanenti/",
+      "why": "The exhibition's treasures and cells produce a playful trade problem."
+    },
+    {
+      "idea": "A mixed-up workshop machine offers the crew a choice of art, history, rural craft or animal parts; one combination makes a harmless decoy and another attracts the swarm.",
+      "source": "/fr/agenda/festival-des-ateliers/36",
+      "why": "The participating museums give the crew ingredients for an experiment."
+    },
+    {
+      "idea": "A collection composite has lost its beat and is slowly walking in circles. The crew can pass quietly or retrieve the timepiece it dropped as a component.",
+      "source": "/it/le-mostre-temporanee/l-uomo-e-il-tempo/",
+      "why": "A momentary failure in a time-measuring machine creates a choice between stealth and salvage."
+    },
+    {
+      "idea": "A free tour has stalled at a treasure while its clockwork escort waits for everyone to stand perfectly still. A passing crew can draw it away with an irregular ticking sound.",
+      "source": "/de/kalender/amismih-fuhrungen/1",
+      "why": "A guided visit turns into a small rescue based on the swarm's fixation on regularity."
+    }
+  ]
+}

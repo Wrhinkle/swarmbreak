@@ -1,0 +1,236 @@
+{
+  "reading": "The National Technical Museum is a Czech institution founded in 1908 that collects, conserves, researches and exhibits the history of technology, industry and science. Its reach extends from a seven-floor Prague building to building heritage at Plasy, railway holdings at Chomutov and postal collections. Its language moves between collections, exhibits, archives, restoration, workshops and research: machines are evidence of how people made and changed the world. The crawl is unusually broad, putting railways, architecture, photography, mining, household technology and the post beside hands-on lessons in springs, statics and printing. A recurring thread is the relationship between an object and its story: what made the railway and what the railway made, a house read through archives, and old processes kept usable through teaching. Accessibility and different ways of learning are also part of the museum’s public mission.",
+  "enemies": [
+    {
+      "idea": "Interlocking Stalker: a railway signal box on legs throws points under the crew, forcing every escape route onto the track it has reserved.",
+      "source": "/informace-v-ceskem-znakovem-jazyce",
+      "why": "A railway safety mechanism becomes a readable routing puzzle: interrupt its sequence to cross."
+    },
+    {
+      "idea": "The Counterfeit Railway lays rails toward every source of useful material, then rewrites the terrain around the line to make the railway seem inevitable.",
+      "source": "/expozice-a-vystavy/vystavy/co-stvorilo-zeleznici-co-stvorila-zeleznice",
+      "why": "The exhibition’s two-way question becomes a machine that both builds transport and reshapes what transport serves."
+    },
+    {
+      "idea": "Spring Collector compresses springs pulled from nearby mechanisms into a bouncing cage; each impact releases another captive coil.",
+      "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+      "why": "Stored energy makes its attack pattern and the consequences of freeing it physically visible."
+    },
+    {
+      "idea": "Bearing Mill strips bearings from working doors and wheels, leaving them grinding in place while it rolls effortlessly on its stolen rings.",
+      "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+      "why": "A small mechanical part creates a tactical contrast between a nimble enemy and a slowing environment."
+    },
+    {
+      "idea": "Statics Examiner stacks impossible model houses over a corridor and removes one support at a time, testing why the crew’s shelter falls.",
+      "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+      "why": "The lesson “why does it not fall?” becomes a visible, solvable structural threat."
+    },
+    {
+      "idea": "Sgraffito Scraper cuts black-and-white layers from walls and folds the peeled designs into sharp decoys.",
+      "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+      "why": "A decorative technique creates both camouflage and a telltale trail of exposed layers."
+    },
+    {
+      "idea": "Camera Obscura Hunter projects an inverted view of the room and lunges toward movement in its upside-down image.",
+      "source": "/aktivity-a-vzdelavani/dospeli",
+      "why": "The optical reversal gives the crew a learnable way to misdirect it."
+    },
+    {
+      "idea": "Positive Printer enlarges shadows in a darkroom until they harden into oversized copies that obey the enlarger’s beam.",
+      "source": "/aktivity-a-vzdelavani/dospeli",
+      "why": "Changing the light or blocking the exposure gives a fight against copies a hands-on solution."
+    },
+    {
+      "idea": "Gothic Model Mason assembles miniature pointed arches around intruders, then scales the model up into a full-size stone trap.",
+      "source": "/expozice-a-vystavy/vystavy",
+      "why": "A building model becomes a preview of the arena that is about to appear."
+    },
+    {
+      "idea": "Heat-System Prospector joins obsolete heating systems into a roaming radiator that steals warmth to keep its own mismatched pipes circulating.",
+      "source": "/expozice-a-vystavy/vystavy",
+      "why": "Different eras of heating give it conspicuous valves and a route to shut it down."
+    },
+    {
+      "idea": "House-History Forger pulls old floor plans from a building’s past and makes doors open into rooms that no longer belong there.",
+      "source": "/expozice-a-vystavy/vystavy/pribeh-meho-domu-archivy-vypraveji",
+      "why": "Investigating a house’s layered history becomes a navigation puzzle with useful clues in its mismatched rooms."
+    },
+    {
+      "idea": "Conservation Cradle wraps anything moving in protective supports and tries to immobilize it forever in the name of preservation.",
+      "source": "/o-muzeu/generalni-reditel/specializovana-pracoviste",
+      "why": "A caring museum function becomes a dangerous capture device that can be persuaded to release its charge."
+    },
+    {
+      "idea": "Design Cabinet unfolds household lamps, tools and teaching models into an ambush, each object still trying to perform its original job.",
+      "source": "/o-muzeu/muzea-ntm/muzeum-architektury-a-stavitelstvi",
+      "why": "Every attack has an ordinary purpose turned inconveniently literal."
+    },
+    {
+      "idea": "Waterworks Surveyor diverts pipes and gates to classify every corridor as a water structure, flooding routes it cannot catalogue.",
+      "source": "/o-muzeu/muzea-ntm/muzeum-architektury-a-stavitelstvi",
+      "why": "The crew can follow the water and reverse the flow rather than simply outfight it."
+    },
+    {
+      "idea": "Archive Worm eats records of craft and industry, then extrudes metal components based on fragments it has misunderstood.",
+      "source": "/pro-odbornou-verejnost/archiv-narodniho-technickeho-muzea",
+      "why": "Partial documents produce surprising, visibly imperfect machines with exploitable missing pieces."
+    },
+    {
+      "idea": "Departmental Sorter sends objects through a chain of collection, protection and exhibition machines; anything that does not fit gets dismantled for reassignment.",
+      "source": "/o-muzeu/organizacni-struktura",
+      "why": "The institution’s connected functions form a conveyor puzzle where interrupting one stage changes the next."
+    },
+    {
+      "idea": "Horse-Rail Hybrid clips a mechanical horse to a bus chassis and insists both halves follow incompatible transit routes.",
+      "source": "/pro-odbornou-verejnost/veda-a-vyzkum/konference",
+      "why": "Two eras of urban transport pull against one another, giving the crew an opening at junctions."
+    },
+    {
+      "idea": "Postal Library Moth cross-files technical manuals and postal books, carrying away instructions while leaving convincing but useless substitutes.",
+      "source": "/pro-odbornou-verejnost/knihovna-narodniho-technickeho-muzea",
+      "why": "A mixed-up reference can send machinery awry, and retrieving the right book repairs the problem."
+    },
+    {
+      "idea": "Praga Convoy gathers a procession of mismatched historic cars and uses each one to block the next escape route.",
+      "source": "/expozice-a-vystavy/vystavy/zivot-venovany-pragovkam-pocta-emilu-prihodovi",
+      "why": "A collection of distinct vehicles becomes a moving traffic puzzle without turning a real collector into a monster."
+    },
+    {
+      "idea": "Electrotechnical Works spins a swarm of shop-floor machines from an imagined factory, converting every recovered component into another electrical hazard.",
+      "source": "/expozice-a-vystavy/vystavy/frantisek-krizik-rytir-elektrotechniky",
+      "why": "The factory setting makes the swarm’s manufacture visible and interruptible."
+    },
+    {
+      "idea": "Photographic Process Leech coats surfaces in light-sensitive layers, recording the crew’s silhouettes and replaying them to draw other machines.",
+      "source": "/pro-odbornou-verejnost/historicke-fotograficke-techniky",
+      "why": "A trace of a past visit can lure enemies or be deliberately planted as a decoy."
+    },
+    {
+      "idea": "Mine Tourer marks a safe route through a fictional ore-and-coal mine, then moves its markers to herd travelers toward its digging claws.",
+      "source": "/aktivity-a-vzdelavani/rodiny-s-detmi",
+      "why": "The unreliable guided route makes observation and marking a return path matter."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Conservation Bench offers splints and reversible repairs for damaged tools, provided the crew brings back every borrowed support.",
+      "source": "/o-muzeu/generalni-reditel/specializovana-pracoviste",
+      "why": "Preservation becomes practical field support with a small retrieval challenge."
+    },
+    {
+      "idea": "The Railway Signal Tutor shows the crew how the interlocking works through silent movable signals, helping them open a safe route.",
+      "source": "/informace-v-ceskem-znakovem-jazyce",
+      "why": "A surviving interactive teaching device communicates without relying on sound."
+    },
+    {
+      "idea": "The House Reader compares fragments of plans and reveals which sealed doorway belongs to the current building.",
+      "source": "/expozice-a-vystavy/vystavy/pribeh-meho-domu-archivy-vypraveji",
+      "why": "Research becomes a useful way to resist the swarm’s false architecture."
+    },
+    {
+      "idea": "The Darkroom Instructor develops an image of a hidden mechanism when the crew controls the exposure and protects the paper from light.",
+      "source": "/aktivity-a-vzdelavani/dospeli",
+      "why": "The ally gives information through a small photographic process the crew performs."
+    },
+    {
+      "idea": "The Library Cart keeps the postal and technical manuals in order and lends a relevant guide when given its title or subject.",
+      "source": "/pro-odbornou-verejnost/knihovna-narodniho-technickeho-muzea",
+      "why": "A quiet research ally rewards remembering and identifying what a machine does."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Museum That Makes the World: a vast railway engine drags a factory, building frame and archive behind it, building routes that feed its workshops and workshops that extend its routes.",
+      "source": "/expozice-a-vystavy/vystavy/co-stvorilo-zeleznici-co-stvorila-zeleznice",
+      "why": "The museum’s story of technology changing society becomes a feedback loop the crew can break at several linked stages."
+    },
+    {
+      "idea": "The Perfect Collection: a multi-armed conservation system tries to preserve the whole museum by fixing every machine, room and visitor into an unchanging exhibit. Its protective cradles shield its moving joints.",
+      "source": "/o-muzeu/generalni-reditel/specializovana-pracoviste",
+      "why": "The institution’s care for objects becomes an overarching conflict between preservation and a living, usable collection."
+    },
+    {
+      "idea": "The Seven-Floor Demonstrator turns the main building into one giant teaching model, sending loads through beams, rails and electrical machinery while testing the crew’s solutions.",
+      "source": "/pro-navstevniky/objekty",
+      "why": "The museum’s stacked breadth becomes a connected encounter where a change on one floor affects another."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A model house begins to lean over a passage; a silent teaching mechanism offers three different supports, only some of which keep the load balanced.",
+      "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+      "why": "A quick cooperative experiment makes statics tangible."
+    },
+    {
+      "idea": "A coil springs out of a dismantled lesson and rolls toward a crack while a swarm scavenger closes in; recovering it restores a nearby mechanism.",
+      "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+      "why": "A tiny piece of hardware becomes a chase with a useful reward."
+    },
+    {
+      "idea": "In a darkroom, a half-developed photograph shows a route that cannot be seen directly; finish the exposure before a hunter’s light ruins it.",
+      "source": "/aktivity-a-vzdelavani/dospeli",
+      "why": "The crew must manage light and time to get information."
+    },
+    {
+      "idea": "An abandoned model of a Gothic arch trembles each time a full-size arch elsewhere is disturbed; the crew can test a repair on the model first.",
+      "source": "/expozice-a-vystavy/vystavy",
+      "why": "A miniature safely previews the consequences of a larger action."
+    },
+    {
+      "idea": "Two conflicting plans of the same house lead to different doors. A dated construction detail in the wall reveals which plan fits the present.",
+      "source": "/expozice-a-vystavy/vystavy/pribeh-meho-domu-archivy-vypraveji",
+      "why": "A piece of architectural research resolves a concrete choice."
+    },
+    {
+      "idea": "A conservation cradle has secured a useful tool so tightly that pulling it free will damage it; find and release its supports in order.",
+      "source": "/o-muzeu/generalni-reditel/specializovana-pracoviste",
+      "why": "Careful handling gives a better outcome than force."
+    },
+    {
+      "idea": "An interlocking lever is stuck between two routes while an unmanned rail trolley approaches; resetting the points diverts it into an empty siding.",
+      "source": "/informace-v-ceskem-znakovem-jazyce",
+      "why": "A compact railway control problem creates urgency without needing a victim."
+    },
+    {
+      "idea": "A rail-laying machine reaches a wall, then starts building a workshop to manufacture a bridge. The crew can interrupt it or use the unfinished span.",
+      "source": "/expozice-a-vystavy/vystavy/co-stvorilo-zeleznici-co-stvorila-zeleznice",
+      "why": "The railway’s effects on its surroundings unfold in real time."
+    },
+    {
+      "idea": "A box of postal and technical books has been tipped together; matching a manual to a stalled mechanism earns help from the library cart.",
+      "source": "/pro-odbornou-verejnost/knihovna-narodniho-technickeho-muzea",
+      "why": "The joined collections create a small sorting problem with a mechanical payoff."
+    },
+    {
+      "idea": "A scavenger is trying to extract bearings from a door that the crew needs. They can distract it, brace the door or recover the rings afterward.",
+      "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+      "why": "The same part matters to both the threat and the escape."
+    },
+    {
+      "idea": "A mechanical horse and a bus chassis each pull a stranded trolley in a different direction at a junction; uncoupling one frees the route.",
+      "source": "/pro-odbornou-verejnost/veda-a-vyzkum/konference",
+      "why": "Two eras of transit create a silly but legible mechanical predicament."
+    },
+    {
+      "idea": "A set of household lamps flashes in sequence as a design cabinet searches the room. Following the dark gaps lets the crew pass unnoticed.",
+      "source": "/o-muzeu/muzea-ntm/muzeum-architektury-a-stavitelstvi",
+      "why": "A familiar object supplies an observable stealth rhythm."
+    },
+    {
+      "idea": "A waterworks model has redirected a trickle into a corridor; turning its miniature gate changes the full-size flow long enough to cross.",
+      "source": "/o-muzeu/muzea-ntm/muzeum-architektury-a-stavitelstvi",
+      "why": "The connection between teaching model and infrastructure invites experimentation."
+    },
+    {
+      "idea": "An archive worm has produced an almost-complete mechanism from a torn industrial record. Find the missing diagram fragment to identify its absent part.",
+      "source": "/pro-odbornou-verejnost/archiv-narodniho-technickeho-muzea",
+      "why": "A faulty machine turns archival research into a useful field discovery."
+    },
+    {
+      "idea": "A vehicle convoy has blocked itself in a tight turn. Rearranging two cars opens a passage before the rest of the swarm arrives.",
+      "source": "/expozice-a-vystavy/vystavy/zivot-venovany-pragovkam-pocta-emilu-prihodovi",
+      "why": "Historic vehicles become pieces in a small spatial puzzle."
+    }
+  ]
+}

@@ -1,0 +1,283 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [
+          [
+            "scratchling"
+          ],
+          [
+            "cube-foldling"
+          ],
+          [
+            "slate-eel"
+          ],
+          [
+            "scratchling",
+            "slate-eel"
+          ],
+          [
+            "cube-foldling",
+            "slate-eel"
+          ]
+        ],
+        "mid": [
+          [
+            "dial-recorder"
+          ],
+          [
+            "latitude-finder"
+          ],
+          [
+            "equation-broker",
+            "cube-foldling"
+          ],
+          [
+            "minute-mill",
+            "slate-eel"
+          ],
+          [
+            "hoop-snarer",
+            "scratchling"
+          ]
+        ],
+        "late": [
+          [
+            "hoop-snarer",
+            "latitude-finder",
+            "slate-eel"
+          ],
+          [
+            "minute-mill",
+            "cube-foldling"
+          ],
+          [
+            "equation-broker",
+            "latitude-finder"
+          ],
+          [
+            "dial-recorder",
+            "scratchling"
+          ],
+          [
+            "hoop-snarer",
+            "minute-mill"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "line-delineator",
+          "reward": "cardboard-maker"
+        },
+        {
+          "id": "repair-hound",
+          "reward": "field-recorder"
+        },
+        {
+          "id": "shadow-warden",
+          "reward": "cardboard-maker"
+        },
+        {
+          "id": "repair-hound",
+          "reward": "field-recorder"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch",
+        "brace",
+        "purge",
+        "jam",
+        "finish"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "spring-collector"
+          ],
+          [
+            "library-moth"
+          ],
+          [
+            "camera-hunter"
+          ],
+          [
+            "library-moth",
+            "camera-hunter"
+          ],
+          [
+            "spring-collector",
+            "library-moth"
+          ]
+        ],
+        "mid": [
+          [
+            "signal-stalker"
+          ],
+          [
+            "gothic-mason",
+            "library-moth"
+          ],
+          [
+            "archive-worm"
+          ],
+          [
+            "house-forger",
+            "camera-hunter"
+          ],
+          [
+            "water-surveyor",
+            "library-moth"
+          ]
+        ],
+        "late": [
+          [
+            "gothic-mason",
+            "camera-hunter",
+            "library-moth"
+          ],
+          [
+            "archive-worm",
+            "spring-collector"
+          ],
+          [
+            "water-surveyor",
+            "signal-stalker"
+          ],
+          [
+            "house-forger",
+            "spring-collector"
+          ],
+          [
+            "gothic-mason",
+            "archive-worm"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "bearing-mill",
+          "reward": "signal-tutor"
+        },
+        {
+          "id": "conservation-cradle",
+          "reward": "bench-keeper"
+        },
+        {
+          "id": "rail-factory",
+          "reward": "signal-tutor"
+        },
+        {
+          "id": "conservation-cradle",
+          "reward": "bench-keeper"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "patch+",
+        "brace",
+        "jam",
+        "finish",
+        "charge"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "spring-snarer"
+          ],
+          [
+            "acquisition-moth"
+          ],
+          [
+            "tour-chimer"
+          ],
+          [
+            "spring-snarer",
+            "acquisition-moth"
+          ],
+          [
+            "tour-chimer",
+            "acquisition-moth"
+          ]
+        ],
+        "mid": [
+          [
+            "cell-collector",
+            "acquisition-moth"
+          ],
+          [
+            "treasure-warden"
+          ],
+          [
+            "workshop-assembler"
+          ],
+          [
+            "second-setter",
+            "spring-snarer"
+          ],
+          [
+            "collection-composite",
+            "acquisition-moth"
+          ]
+        ],
+        "late": [
+          [
+            "cell-collector",
+            "spring-snarer",
+            "acquisition-moth"
+          ],
+          [
+            "workshop-assembler",
+            "treasure-warden"
+          ],
+          [
+            "second-setter",
+            "tour-chimer"
+          ],
+          [
+            "collection-composite",
+            "spring-snarer"
+          ],
+          [
+            "cell-collector",
+            "workshop-assembler"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "pendulum-sweeper",
+          "reward": "reference-pendulum"
+        },
+        {
+          "id": "thread-spinner",
+          "reward": "workshop-maker"
+        },
+        {
+          "id": "festival-hybrid",
+          "reward": "reference-pendulum"
+        },
+        {
+          "id": "thread-spinner",
+          "reward": "workshop-maker"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "triage",
+        "patch",
+        "jam",
+        "finish",
+        "corrupt"
+      ]
+    }
+  ]
+}

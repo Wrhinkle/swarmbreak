@@ -1,0 +1,1141 @@
+{
+ "title": "A Different Beat",
+ "swarm": {
+  "name": "The Stillwork",
+  "blurb": "A swarm of measuring and repair machines that treats change as damage."
+ },
+ "arc": "The Stillwork seems to be mapping shadows, but its records are instructions for preserving each object in a fixed state. At the technical museum the crew discovers that its idea of repair is to prevent all change, including movement. It carries that rule into a watch collection and tries to make every mechanism and person follow one identical beat. Wren, Ox and Kestrel break its common regulator, leaving the instruments free to keep their own rhythms.",
+ "acts": [
+  {
+   "theme": "Shadows and records",
+   "story": {
+    "intro": "The swarm pins shadows to stone. Wren finds a broken dial still warm from its lamp. Ox holds the doorway while Kestrel pulls a cutter free. It looks like a hunt for measurements.",
+    "chapters": [
+     {
+      "title": "A mark for everything",
+      "text": "The swarm cuts hour lines into walls and records each shadow. Wren notices that its repairs use fresh parts. It is building a record, not merely reading one."
+     },
+     {
+      "title": "The wrong minute",
+      "text": "Clocks and sundials disagree. The swarm takes the difference as a fault. Ox keeps a damaged machine from crushing its own dial; it immediately tries to fix him too."
+     },
+     {
+      "title": "A place in the register",
+      "text": "The records combine fixed dials and older marks under one rule. Kestrel finds a seam between the two sets of fittings. Behind it, a route points toward larger machines."
+     }
+    ],
+    "bossIntro": "The Grand Register unfolds its dial and releases a stream of cutters. Its shield protects the machine that makes them. Kestrel checks the seam; Ox raises his shield.",
+    "outro": "The register stops marking shadows. Its last instruction sends repair machines onward. Wren keeps the instruction; it says to preserve, not to measure."
+   },
+   "creatures": [
+    {
+     "id": "scratchling",
+     "name": "Mass-Dial Scratcher",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/bridol/mass-dials-vs-sundials/",
+     "blurb": "Cuts fresh hour marks that interrupt the crew.",
+     "look": "A low stone lizard with a brass chisel snout and chalk-white legs."
+    },
+    {
+     "id": "cube-foldling",
+     "name": "Cube Foldling",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/making-sundials/templates/",
+     "blurb": "Folds its faces into a stubborn shield.",
+     "look": "A cream cardboard cube on jointed wire legs, with one triangular brass fin."
+    },
+    {
+     "id": "slate-eel",
+     "name": "Slate Eel",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/notable-sundials/welsh-slate-vertical-declining-dial/",
+     "blurb": "Slips away with loose gold.",
+     "look": "A long dark slate ribbon with pale stone ridges and a blunt wedge head."
+    },
+    {
+     "id": "dial-recorder",
+     "name": "Dial Recorder",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/bridol/dial-recording/",
+     "blurb": "Copies what it cannot classify.",
+     "look": "A brass tripod with two mismatched measuring arms and a round glass eye."
+    },
+    {
+     "id": "latitude-finder",
+     "name": "Latitude Finder",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/latitude-finder/",
+     "blurb": "Lines up its target before a hard charge.",
+     "look": "A squat bronze compass on three pointed legs, with a long blue needle."
+    },
+    {
+     "id": "hoop-snarer",
+     "name": "Hoop Snarer",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/making-sundials/armillary-equatorial-dial/",
+     "blurb": "Rolls its rings around damaged swarm machines.",
+     "look": "Three wooden hoops surrounding a brass ball, with small hooked feet."
+    },
+    {
+     "id": "equation-broker",
+     "name": "Equation Broker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/making-sundials/equation-of-time-charts-tables/",
+     "blurb": "Turns corrections into interference.",
+     "look": "A narrow brass machine with nested sliding plates and a black needle beak."
+    },
+    {
+     "id": "minute-mill",
+     "name": "Minute Mill",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/notable-sundials/worlds-largest-sundial/",
+     "blurb": "Drops fresh markers into the fight. Rush it before they accumulate.",
+     "look": "A wheel of tiny silver pegs around a dark iron hub, shedding smaller pegs."
+    },
+    {
+     "id": "line-delineator",
+     "name": "Hour-Line Delineator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike"
+     ],
+     "source": "/making-sundials/equations-and-calculations/",
+     "blurb": "Sweeps across the lines it cuts.",
+     "look": "A bronze disc on stilts with a long triangular blade and pale radial grooves."
+    },
+    {
+     "id": "repair-hound",
+     "name": "Provenance Hound",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/help-and-advice/",
+     "blurb": "Repairs its own side while stripping newer work away.",
+     "look": "A lean iron hound with a clamp jaw, copper paws and a roll of silver wire."
+    },
+    {
+     "id": "shadow-warden",
+     "name": "Register Warden",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/bridol/bridol-listing/",
+     "blurb": "Protects the machines pinning shadows in place.",
+     "look": "A tall slate figure with a broad brass plate and a pointed surveying staff."
+    },
+    {
+     "id": "grand-register",
+     "name": "Grand Register",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "sweep"
+     ],
+     "source": "/bridol/",
+     "blurb": "Its cutters make new markers while its broad dial guards the mechanism. Break through and stop the supply.",
+     "look": "A towering slate cabinet on four bronze legs, with a tilted circular dial and a ring of tiny cutters."
+    },
+    {
+     "id": "field-recorder",
+     "name": "Field Recorder",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/bridol/dial-recording/",
+     "blurb": "Keeps old sketches safe and patches the crew.",
+     "look": "A stocky figure in a tan coat carrying a rolled sketch and a small repair kit."
+    },
+    {
+     "id": "cardboard-maker",
+     "name": "Cardboard Maker",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/making-sundials/",
+     "blurb": "Makes light, replaceable shields from dial templates.",
+     "look": "A small figure in a blue apron holding a folded cream card shield and shears."
+    }
+   ],
+   "events": [
+    {
+     "id": "shadow-record",
+     "source": "/members-area/",
+     "look": "A slate dial, a paper sketch and a long bronze shadow.",
+     "title": "Two records",
+     "text": "A recorder needs a sketch of a dial and its shadow before the swarm claims both. The crew has enough time to save one carefully.",
+     "options": [
+      {
+       "label": "Save the sketch",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The recorder pays for a clean sketch. The shadow goes unrecorded."
+      },
+      {
+       "label": "Save the shadow",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren rests while the recorder traces the shadow. The sketch stays incomplete."
+      }
+     ]
+    },
+    {
+     "id": "cloud-gap",
+     "source": "/2025/03/20/newsletter-no-115/",
+     "look": "A gap in gray cloud illuminates two arguing brass machines.",
+     "title": "A gap in the clouds",
+     "text": "Machines are waiting for sunlight to settle an argument. A shade cloth would also make a useful bandage.",
+     "options": [
+      {
+       "label": "Sell the cloth",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The machines settle their argument noisily. The buyer pays for the cloth."
+      },
+      {
+       "label": "Make bandages",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren cuts the cloth into dressings. The machines get their sunlight."
+      }
+     ]
+    },
+    {
+     "id": "old-dial-book",
+     "source": "/2024/12/31/library/",
+     "look": "A cloth-bound book between two brass grabbing arms.",
+     "title": "The book",
+     "text": "Two salvage machines claim an old dial book. One offers payment; the keeper offers to teach the crew a protective move.",
+     "options": [
+      {
+       "label": "Sell it",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "A machine takes the book and pays in gold."
+      },
+      {
+       "label": "Give it to the keeper",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The keeper shelves the book and teaches Brace."
+      }
+     ]
+    },
+    {
+     "id": "replaced-gnomon",
+     "source": "/2024/12/31/bss-photographic-display-2025/",
+     "look": "Two photographs beside a stone dial with a bronze antenna.",
+     "title": "A new photograph",
+     "text": "A collector needs proof that a gnomon was replaced. The crew can take the picture under fire or sell the spare camera.",
+     "options": [
+      {
+       "label": "Take the picture",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The shot proves the change. A passing cutter catches the crew."
+      },
+      {
+       "label": "Sell the camera",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The camera fetches a price. The collector must find another way."
+      }
+     ]
+    },
+    {
+     "id": "bent-hoop",
+     "source": "/making-sundials/armillary-equatorial-dial/",
+     "look": "A bent wooden hoop around a small brass dial.",
+     "title": "Bent hoop",
+     "text": "A bent dial points toward a workshop. Its spare wire could mend the hoop or be sold.",
+     "options": [
+      {
+       "label": "Mend the hoop",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The workshop opens its first-aid box in thanks."
+      },
+      {
+       "label": "Sell the wire",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "A maker buys the wire. The hoop stays bent."
+      }
+     ]
+    },
+    {
+     "id": "cube-crossing",
+     "source": "/making-sundials/templates/",
+     "look": "An unfolded cream cube spanning a dark gap.",
+     "title": "Six faces",
+     "text": "A cube dial blocks a crossing. Folding it costs supplies; climbing over its sharp edges costs blood.",
+     "options": [
+      {
+       "label": "Use supplies to fold it",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The panels form a bridge. The fasteners are spent."
+      },
+      {
+       "label": "Climb over",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew crosses, with a few cuts."
+      }
+     ]
+    }
+   ],
+   "name": "The British Sundial Society",
+   "url": "https://sundialsoc.org.uk/"
+  },
+  {
+   "theme": "Machines and preservation",
+   "story": {
+    "intro": "The trail leads through machines that build, carry and repair. The crew expects a larger survey. Instead, a cradle tries to pad Ox into a display.",
+    "chapters": [
+     {
+      "title": "Working parts",
+      "text": "Rails feed workshops, and workshops make more rails. Kestrel finds the joints between them. The swarm spends good parts keeping broken machines running."
+     },
+     {
+      "title": "A careful mistake",
+      "text": "Wren reads a repair instruction: prevent further change. The swarm is not collecting measurements for their own sake. It is using them to decide what must be kept still."
+     },
+     {
+      "title": "The cost of care",
+      "text": "A cradle shields a machine so tightly that its wheels cannot turn. Ox has walked out of worse, but he cannot walk out of a sealed room. The crew follows the same repair signal toward its source."
+     }
+    ],
+    "bossIntro": "The Perfect Collection rolls forward behind its padded shields. It sends out arms to secure everything that moves. Wren recognizes the same instruction on every arm.",
+    "outro": "The cradles open when the central frame falls. Inside is a watch movement with a destination set into its gears. The swarm has gone there to impose its final repair."
+   },
+   "creatures": [
+    {
+     "id": "spring-collector",
+     "name": "Spring Collector",
+     "tier": "easy",
+     "bodyPlan": "blob",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+     "blurb": "Its cage of coils breaks into smaller threats.",
+     "look": "A bouncing bundle of steel coils around a round amber core."
+    },
+    {
+     "id": "library-moth",
+     "name": "Library Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/pro-odbornou-verejnost/knihovna-narodniho-technickeho-muzea",
+     "blurb": "Steals loose supplies along with instructions.",
+     "look": "A gray moth with folded paper wings, brass antennae and a little metal satchel."
+    },
+    {
+     "id": "camera-hunter",
+     "name": "Camera Hunter",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/aktivity-a-vzdelavani/dospeli",
+     "blurb": "Aims through its inverted lens before lunging.",
+     "look": "A black box camera on four narrow legs, with a large green glass lens."
+    },
+    {
+     "id": "signal-stalker",
+     "name": "Signal Stalker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/informace-v-ceskem-znakovem-jazyce",
+     "blurb": "Interrupts the crew with snapping signal arms.",
+     "look": "A small green signal cabin on iron legs, with two white hinged arms."
+    },
+    {
+     "id": "gothic-mason",
+     "name": "Gothic Mason",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/expozice-a-vystavy/vystavy",
+     "blurb": "Builds protective arches around damaged machines.",
+     "look": "A squat limestone body with jointed trowel arms and a pointed arch over its head."
+    },
+    {
+     "id": "archive-worm",
+     "name": "Archive Worm",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/pro-odbornou-verejnost/archiv-narodniho-technickeho-muzea",
+     "blurb": "Makes incomplete machines from fragments.",
+     "look": "A long segmented bronze worm with paper-colored plates and a toothed circular mouth."
+    },
+    {
+     "id": "house-forger",
+     "name": "House Forger",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/expozice-a-vystavy/vystavy/pribeh-meho-domu-archivy-vypraveji",
+     "blurb": "Copies a move as if it were an old plan.",
+     "look": "A blue-gray cabinet with folding door panels and long jointed drafting arms."
+    },
+    {
+     "id": "water-surveyor",
+     "name": "Water Surveyor",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike"
+     ],
+     "source": "/o-muzeu/muzea-ntm/muzeum-architektury-a-stavitelstvi",
+     "blurb": "Sweeps the crew with a jointed pipe.",
+     "look": "A copper tank on wide wheels with a curved blue pipe and a round valve."
+    },
+    {
+     "id": "bearing-mill",
+     "name": "Bearing Mill",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "brace",
+      "charge",
+      "strike"
+     ],
+     "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+     "blurb": "Shields its stolen bearings before rolling forward.",
+     "look": "A heavy iron cylinder ringed by silver bearings and a blunt bronze ram."
+    },
+    {
+     "id": "conservation-cradle",
+     "name": "Conservation Cradle",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/o-muzeu/generalni-reditel/specializovana-pracoviste",
+     "blurb": "Mends nearby machines to keep them in service.",
+     "look": "A pale wooden cradle on six brass legs, carrying padded clamps and a spool of thread."
+    },
+    {
+     "id": "rail-factory",
+     "name": "Rail Factory",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/expozice-a-vystavy/vystavy/co-stvorilo-zeleznici-co-stvorila-zeleznice",
+     "blurb": "Lays routes and sends out more machines.",
+     "look": "A dark green rail engine with a tiny furnace, folding track and riveted wheels."
+    },
+    {
+     "id": "perfect-collection",
+     "name": "Perfect Collection",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "sweep+"
+     ],
+     "source": "/o-muzeu/generalni-reditel/specializovana-pracoviste",
+     "blurb": "Its cradles protect the swarm while its arms sweep the room. It calls immobilizing everything a repair.",
+     "look": "A huge cream conservation frame on tracks, with many padded brass arms and a thick glass shield."
+    },
+    {
+     "id": "bench-keeper",
+     "name": "Bench Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/o-muzeu/generalni-reditel/specializovana-pracoviste",
+     "blurb": "Makes repairs that can be undone.",
+     "look": "A figure in a dark green apron carrying a padded tray, clamps and a roll of linen."
+    },
+    {
+     "id": "signal-tutor",
+     "name": "Signal Tutor",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/informace-v-ceskem-znakovem-jazyce",
+     "blurb": "Uses silent signals to protect the crew.",
+     "look": "A friendly little blue signal box on wheels with two hinged cream paddles."
+    }
+   ],
+   "events": [
+    {
+     "id": "leaning-house",
+     "source": "/aktivity-a-vzdelavani/skolni-skupiny",
+     "look": "A small model house tilting over a narrow passage.",
+     "title": "Load bearing",
+     "text": "A model house leans over the passage. The crew can buy a support or squeeze under it while it shifts.",
+     "options": [
+      {
+       "label": "Buy a brace",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The support holds and the crew passes."
+      },
+      {
+       "label": "Squeeze through",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "A falling tile clips the crew. The gold stays in the purse."
+      }
+     ]
+    },
+    {
+     "id": "darkroom-route",
+     "source": "/aktivity-a-vzdelavani/dospeli",
+     "look": "A half-developed photograph in a shallow tray under a dim lamp.",
+     "title": "Exposure",
+     "text": "A darkroom print shows a route. A guide offers a lesson, or a collector will buy the unused photographic paper.",
+     "options": [
+      {
+       "label": "Learn the route",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The guide teaches Purge while the image develops."
+      },
+      {
+       "label": "Sell the paper",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The collector takes the paper. The image stays incomplete."
+      }
+     ]
+    },
+    {
+     "id": "old-house-plans",
+     "source": "/expozice-a-vystavy/vystavy/pribeh-meho-domu-archivy-vypraveji",
+     "look": "Two blue plans and a brick wall with a blocked doorway.",
+     "title": "Two plans",
+     "text": "Two plans suggest different doors. A local reader will check them for a fee; forcing the nearer door is quicker.",
+     "options": [
+      {
+       "label": "Pay the reader",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The reader finds the current door and opens it."
+      },
+      {
+       "label": "Force the door",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "Kestrel finds a seam. The collapsing frame catches the crew."
+      }
+     ]
+    },
+    {
+     "id": "cradle-tool",
+     "source": "/o-muzeu/generalni-reditel/specializovana-pracoviste",
+     "look": "A small steel tool held in a padded wooden cradle.",
+     "title": "Held too tight",
+     "text": "A cradle grips a useful tool. A repairer offers supplies for the tool; the crew could instead study its shielded supports.",
+     "options": [
+      {
+       "label": "Trade the tool",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The repairer takes the tool and treats the crew."
+      },
+      {
+       "label": "Study the cradle",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox studies the supports and learns Cover. The tool stays put."
+      }
+     ]
+    },
+    {
+     "id": "rail-points",
+     "source": "/informace-v-ceskem-znakovem-jazyce",
+     "look": "A black lever beside rails and an approaching empty trolley.",
+     "title": "The points",
+     "text": "A trolley approaches stuck points. A paid mechanic can reset them, or the crew can force the lever themselves.",
+     "options": [
+      {
+       "label": "Pay the mechanic",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The trolley rolls into a siding."
+      },
+      {
+       "label": "Force the lever",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The trolley is diverted. The lever kicks back hard."
+      }
+     ]
+    },
+    {
+     "id": "library-cart",
+     "source": "/pro-odbornou-verejnost/knihovna-narodniho-technickeho-muzea",
+     "look": "A blue wheeled cart with books and a brass lamp.",
+     "title": "Mixed manuals",
+     "text": "A library cart needs its scattered manuals sorted. It offers a lesson or payment for the time.",
+     "options": [
+      {
+       "label": "Take the lesson",
+       "effect": {
+        "type": "routine",
+        "id": "patch"
+       },
+       "result": "The cart lends a repair manual. Wren learns Patch."
+      },
+      {
+       "label": "Take payment",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The cart pays for the sorting and keeps its manuals."
+      }
+     ]
+    }
+   ],
+   "name": "National Technical Museum, Prague",
+   "url": "https://www.ntm.cz/en"
+  },
+  {
+   "theme": "Independent rhythms",
+   "story": {
+    "intro": "The swarm gathers watches and pendulums around one beat. Kestrel hears the same interval in every captured machine. Wren hears a different tick underneath.",
+    "chapters": [
+     {
+      "title": "One beat",
+      "text": "Collectors close their cells around instruments that run differently. Ox pries a case open. The watch inside still ticks at its own pace."
+     },
+     {
+      "title": "The useful difference",
+      "text": "A reference pendulum keeps time without following the swarm. Wren uses its beat to spot the pauses in a patrol. Kestrel finds a seam in the mechanism that carries the command."
+     },
+     {
+      "title": "The final repair",
+      "text": "The command is plain: keep every moment from being lost by making the next one identical. The captured springs cannot all follow the same beat. The crew heads for the regulator that forces them."
+     }
+    ],
+    "bossIntro": "The Universal Measure swings its pendulum and calls in new parts. Its beat cuts across the reference pendulum. Ox braces while Kestrel goes for the regulator.",
+    "outro": "The regulator breaks. Watches resume at different speeds, and the swarm loses its common command. Wren winds one watch and hands it to Ox. He says it is fast. She says it is working."
+   },
+   "creatures": [
+    {
+     "id": "spring-snarer",
+     "name": "Spring Snarer",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/fr/expositions-temporaires/a-la-femtoseconde-pres/",
+     "blurb": "Winds up before snapping forward.",
+     "look": "A silver coil serpent with a small brass head and a dark blue central spring."
+    },
+    {
+     "id": "acquisition-moth",
+     "name": "Acquisition Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/fr/expositions-temporaires/nouvelles-acquisitions/",
+     "blurb": "Carries away unattended gold.",
+     "look": "A small bronze moth with pale glass wings and a clasped metal pouch."
+    },
+    {
+     "id": "tour-chimer",
+     "name": "Tour Chimer",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/de/kalender/amismih-fuhrungen/1",
+     "blurb": "Its chime calls in more swarm machines.",
+     "look": "A small brass bell on three wire legs with a swinging steel clapper."
+    },
+    {
+     "id": "cell-collector",
+     "name": "Cell Collector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/fr/exposition-permanente/",
+     "blurb": "Closes its protective cells around damaged allies.",
+     "look": "A cluster of cream hexagonal boxes on narrow legs, with hinged glass fronts."
+    },
+    {
+     "id": "treasure-warden",
+     "name": "Treasure Warden",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach"
+     ],
+     "source": "/it/mostre-permanenti/",
+     "blurb": "Guards its own case and breaks through opposing shields.",
+     "look": "A squat black iron case with a thick glass lid and two gold clamp arms."
+    },
+    {
+     "id": "workshop-assembler",
+     "name": "Workshop Assembler",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/fr/agenda/festival-des-ateliers/36",
+     "blurb": "Builds reinforcements from loose watch parts.",
+     "look": "A wooden workbench on wheels with four brass arms and a pile of tiny gears."
+    },
+    {
+     "id": "second-setter",
+     "name": "Second Setter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/de/sonderaustellungen/auf-die-femtosekunde-genau/",
+     "blurb": "Interrupts actions with a competing beat.",
+     "look": "Two silver discs on a dark stalk, each carrying a long thin pointer."
+    },
+    {
+     "id": "collection-composite",
+     "name": "Collection Composite",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/it/le-mostre-temporanee/l-uomo-e-il-tempo/",
+     "blurb": "Copies attacks with its mismatched parts.",
+     "look": "A figure assembled from a brass pendulum, a steel watch case and wooden clock legs."
+    },
+    {
+     "id": "pendulum-sweeper",
+     "name": "Pendulum Sweeper",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "sweep+",
+      "strike"
+     ],
+     "source": "/fr/expositions-temporaires/a-la-femtoseconde-pres/",
+     "blurb": "Its long pendulum sweeps even a lone opponent.",
+     "look": "A tall iron frame with a broad swinging brass weight and two jointed feet."
+    },
+    {
+     "id": "thread-spinner",
+     "name": "Thread Spinner",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/fr/exposition-permanente/",
+     "blurb": "Stitches damaged swarm bodies together.",
+     "look": "A black spider-shaped machine with a copper spool and thin red wire legs."
+    },
+    {
+     "id": "festival-hybrid",
+     "name": "Festival Hybrid",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "charge",
+      "strike"
+     ],
+     "source": "/fr/agenda/festival-des-ateliers/36",
+     "blurb": "Charges, then breaks into smaller parts when damaged.",
+     "look": "A wooden animal with ceramic plates, brass wings and a large clockwork jaw."
+    },
+    {
+     "id": "universal-measure",
+     "name": "Universal Measure",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "sweep+"
+     ],
+     "source": "/fr/expositions-temporaires/lhomme-et-le-temps/",
+     "blurb": "It calls new parts, interrupts the crew and sweeps with its pendulum. Its single beat would stop every other rhythm.",
+     "look": "A towering black and brass watch movement on six legs, with a long pendulum and a nest of silver springs."
+    },
+    {
+     "id": "workshop-maker",
+     "name": "Workshop Maker",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/fr/agenda/festival-des-ateliers/36",
+     "blurb": "Repairs the crew with spare watch parts.",
+     "look": "A small figure in a blue work apron carrying a tray of silver gears and tweezers."
+    },
+    {
+     "id": "reference-pendulum",
+     "name": "Reference Pendulum",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/fr/expositions-temporaires/a-la-femtoseconde-pres/",
+     "blurb": "Keeps an independent beat and protects the crew.",
+     "look": "A warm wooden stand holding a bright brass pendulum and a small blue shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "two-guides",
+     "source": "/fr/agenda/visites-des-amismih/1",
+     "look": "Two small clockwork guides beside a glass case.",
+     "title": "Two guides",
+     "text": "One guide is a swarm imitation. A maker can check both for a fee, or the crew can follow the less regular one at a risk.",
+     "options": [
+      {
+       "label": "Pay the maker",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The imitation is identified before the tour moves."
+      },
+      {
+       "label": "Follow the uneven beat",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The guide is real. Its escort still catches the crew."
+      }
+     ]
+    },
+    {
+     "id": "clockwork-animal",
+     "source": "/fr/agenda/festival-des-ateliers/36",
+     "look": "A half-built brass animal on a wooden workbench.",
+     "title": "Unfinished animal",
+     "text": "A workshop animal is almost awake. Its parts can fund the crew or teach them to use its sweeping tail.",
+     "options": [
+      {
+       "label": "Sell the parts",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The animal comes apart and the parts find a buyer."
+      },
+      {
+       "label": "Study the tail",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "Kestrel learns Sweep. The parts stay at the bench."
+      }
+     ]
+    },
+    {
+     "id": "jammed-pendulum",
+     "source": "/fr/expositions-temporaires/a-la-femtoseconde-pres/",
+     "look": "A brass pendulum wedged across a doorway beside a coiled spring.",
+     "title": "Held swing",
+     "text": "A pendulum blocks the passage. Moving it tightens a spring. The crew can buy a clamp or hold the spring by hand.",
+     "options": [
+      {
+       "label": "Buy a clamp",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The clamp holds the spring while the crew moves the pendulum."
+      },
+      {
+       "label": "Hold it by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The passage opens. The spring snaps against Ox\u2019s shield arm."
+      }
+     ]
+    },
+    {
+     "id": "two-seconds",
+     "source": "/de/sonderaustellungen/auf-die-femtosekunde-genau/",
+     "look": "Two silver mechanisms with pointers over a narrow door.",
+     "title": "Between beats",
+     "text": "Two machines disagree about a second. A technician offers either a protective lesson or medical supplies for helping recalibrate one.",
+     "options": [
+      {
+       "label": "Learn the lesson",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The technician teaches Brace after the adjustment."
+      },
+      {
+       "label": "Take supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren uses the supplies after the adjustment."
+      }
+     ]
+    },
+    {
+     "id": "tagged-tool",
+     "source": "/fr/expositions-temporaires/nouvelles-acquisitions/",
+     "look": "A brass carrier gripping a small tool beside an open case.",
+     "title": "Supposed donation",
+     "text": "A carrier has taken a tool as a donation. A collector will pay for it; a workshop will exchange it for medical supplies.",
+     "options": [
+      {
+       "label": "Sell the claim",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The collector pays and takes the tool."
+      },
+      {
+       "label": "Trade for supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The workshop retrieves the tool and gives Wren supplies."
+      }
+     ]
+    },
+    {
+     "id": "loose-thread",
+     "source": "/fr/exposition-permanente/",
+     "look": "A loose red thread and a taut dark wire crossing pale display cases.",
+     "title": "Two threads",
+     "text": "A loose thread leads through the cells; a taut wire is an alarm. A guide can check them for a fee, or the crew can test them by touch.",
+     "options": [
+      {
+       "label": "Hire the guide",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The guide finds the loose thread."
+      },
+      {
+       "label": "Test the threads",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew finds the route, but the alarm wire snaps back."
+      }
+     ]
+    }
+   ],
+   "name": "Mus\u00e9e international d'horlogerie",
+   "url": "https://www.mih.ch/en/"
+  }
+ ],
+ "id": "2026-11-20",
+ "seed": 265357068
+}

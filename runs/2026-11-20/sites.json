@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "sundialsoc.org.uk",
+   "name": "The British Sundial Society",
+   "url": "https://sundialsoc.org.uk/",
+   "file": "runs/2026-11-20/sites/sundialsoc.org.uk.json"
+  },
+  {
+   "host": "www.ntm.cz",
+   "name": "National Technical Museum, Prague",
+   "url": "https://www.ntm.cz/en",
+   "file": "runs/2026-11-20/sites/www.ntm.cz.json"
+  },
+  {
+   "host": "www.mih.ch",
+   "name": "Mus\u00e9e international d'horlogerie",
+   "url": "https://www.mih.ch/en/",
+   "file": "runs/2026-11-20/sites/www.mih.ch.json"
+  }
+ ]
+}

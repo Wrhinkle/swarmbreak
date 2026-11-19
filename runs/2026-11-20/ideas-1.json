@@ -1,0 +1,216 @@
+{
+  "reading": "The British Sundial Society is a community and charity devoted to telling time by the sun, joining astronomy and mathematics with craft, art, history, conservation and public education. It records fixed and medieval mass dials, shares research through a long-running Bulletin and encyclopaedia, helps identify and restore old instruments, and invites people to make their own from simple materials. Its vocabulary is practical and precise: gnomon, hour lines, declination, latitude, longitude, Sun Time, clock time, Equation of Time, mass dials and delineation. Its character comes from the tension between celestial geometry and local particulars: a dial must suit its place, a shadow needs interpreting, and an ordinary wall, embroidery frame or piece of slate can become an instrument. The crawl also shows a sociable network of meetings, photographs, field recording and shared expertise, alongside remarkable individual dials.",
+  "enemies": [
+    {
+      "idea": "Register Wardens assign every moving shadow a county and town, then pin it in place until its owner can prove the record is correct.",
+      "source": "/bridol/bridol-listing/",
+      "why": "A chase becomes a fight over location: crossing a boundary can break the pin or attract another warden."
+    },
+    {
+      "idea": "Mass-dial Scratchers creep along south-facing stone and incise new hour marks around doorways, turning any exit into a timed trap.",
+      "source": "/bridol/mass-dials-vs-sundials/",
+      "why": "The crew can read the marks to predict the safe opening, or make shade to confuse the cutters."
+    },
+    {
+      "idea": "Dial Recorders carry two incompatible measuring kits; they seize anything they cannot classify as either a mass or fixed dial and keep remeasuring it.",
+      "source": "/bridol/dial-recording/",
+      "why": "Disguising an object as the other type sends the machine into a visible and exploitable dispute with itself."
+    },
+    {
+      "idea": "Latitude Finders triangulate a traveller by place, device and map, then drag the ground beneath them toward the coordinates the three methods agree on.",
+      "source": "/latitude-finder/",
+      "why": "Conflicting location clues make the terrain tug in different directions."
+    },
+    {
+      "idea": "Hour-Line Delineators calculate perfect angles for their own location and cut those lines across the floor; crossing one triggers a sweep of their gnomon blades.",
+      "source": "/making-sundials/equations-and-calculations/",
+      "why": "Changing their position makes their carefully laid pattern wrong."
+    },
+    {
+      "idea": "Reclining-Declining Surveyors tilt walls and floors until every surface matches the angle their calculator expects.",
+      "source": "/making-sundials/sundial-angle-finder/",
+      "why": "A fight turns into a shifting geometry puzzle with cover that will not stay level."
+    },
+    {
+      "idea": "Correction Collectors read Sun Time on a victim’s shadow and demand the missing minutes needed to reach clock time, slowing their movements until paid.",
+      "source": "/all-about-sundials/reading-a-sundial/",
+      "why": "A crew can trade a few minutes of delay for passage or find the right correction to get them back."
+    },
+    {
+      "idea": "North-Seekers spin compass needles and rotate anything with a gnomon until it points the way they insist is true north.",
+      "source": "/all-about-sundials/setting-up-a-sundial/",
+      "why": "Magnetic distractions and a known-time alignment offer rival ways to mislead them."
+    },
+    {
+      "idea": "Fifteen-Degree Sweepers cast a stiff shadow across evenly spaced equatorial hour lines; each line wakes a different tool in their rotating body.",
+      "source": "/all-about-sundials/how-sundials-work/",
+      "why": "Their attack sequence is legible from the shadow and can be interrupted by blocking the light."
+    },
+    {
+      "idea": "Cube Dial Foldlings unfold into six measuring faces, then fold around a target to take readings from every side at once.",
+      "source": "/making-sundials/templates/",
+      "why": "A harmless-looking craft project turns into a spatial puzzle; separating a face spoils the enclosure."
+    },
+    {
+      "idea": "Armillary Hoop Snarers made from embroidery-frame rings roll around prey and align their circles into a cage.",
+      "source": "/making-sundials/armillary-equatorial-dial/",
+      "why": "The rings can be tilted out of alignment or rolled back at their maker."
+    },
+    {
+      "idea": "Equation Brokers add or subtract the minutes in their tables from every signal they relay, so warnings arrive at the wrong time.",
+      "source": "/making-sundials/equation-of-time-charts-tables/",
+      "why": "The crew can calculate a counter-delay and use the enemy’s own correction against it."
+    },
+    {
+      "idea": "Spherical Triangle Spiders stretch three curved measuring threads between ceiling, horizon and target, tightening when the angles agree.",
+      "source": "/making-sundials/sundial-technicalities/",
+      "why": "Cutting one thread changes the whole trap; moving a light source makes the geometry visible."
+    },
+    {
+      "idea": "The Minute-Marker Mill sheds thousands of tiny steel ticks from a giant solar clock, each one trying to subdivide a patch of ground into smaller forbidden intervals.",
+      "source": "/notable-sundials/worlds-largest-sundial/",
+      "why": "The swarm starts as a readable scale and becomes a creeping maze the crew can erase or redirect."
+    },
+    {
+      "idea": "Slate Numeral Eels peel the upright Roman hours off a vertical dial and stream downhill like a river, carrying loose equipment away.",
+      "source": "/notable-sundials/welsh-slate-vertical-declining-dial/",
+      "why": "The hour symbols become stepping stones if caught and set back in order."
+    },
+    {
+      "idea": "Linkage Lurchers use articulated mechanical arms to turn a small push into a long reach, snatching tools from apparently safe distances.",
+      "source": "/notable-sundials/peaucellier-dial/",
+      "why": "Their exposed joints let the crew jam or redirect a reach without smashing the entire machine."
+    },
+    {
+      "idea": "The Double-Axis Skimmer uses polar and equatorial shadows over a pond to bracket anything reflected in the water.",
+      "source": "/notable-sundials/axis-of-the-sky/",
+      "why": "Ripples scramble one aim while a screen blocks the other, encouraging two coordinated actions."
+    },
+    {
+      "idea": "Archive Sorters force scavenged objects into construction, DIY and other dialling categories; anything that fits two categories is torn between their conveyor claws.",
+      "source": "/sundial-encyclopaedia/categories.html",
+      "why": "An intentionally ambiguous object can jam the sorting line and free its other captives."
+    },
+    {
+      "idea": "Provenance Hounds sniff old stone and bronze, then strip away later repairs to expose what they think is an original dial.",
+      "source": "/help-and-advice/",
+      "why": "Protecting a repaired instrument means convincing a hunter that the repair belongs to its history."
+    },
+    {
+      "idea": "Benefit Auditors measure public usefulness by the number of visible shadows and confiscate anything they deem insufficiently beneficial.",
+      "source": "/2024/12/31/treasurer/",
+      "why": "A predatory administrative rule can be defeated with a convincing demonstration or a carefully placed lamp."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A stubborn field recorder keeps a paper sketch of each dial before the swarm can alter it, and can identify a false hour line from the original.",
+      "source": "/bridol/dial-recording/",
+      "why": "Their records provide concrete clues rather than a universal solution."
+    },
+    {
+      "idea": "A little repair workshop can replace a broken gnomon with a makeshift one, restoring a safe dial if the crew brings suitable material.",
+      "source": "/2024/12/31/the-bss-help-and-advice-service/",
+      "why": "A specific restoration task turns scrap into a useful navigational anchor."
+    },
+    {
+      "idea": "The cut-and-glue dial collective distributes simple cardboard instruments that still work when the swarm has captured the metal ones.",
+      "source": "/making-sundials/",
+      "why": "Anyone can help build the resistance from modest materials."
+    },
+    {
+      "idea": "A keeper of the old sundial book compares current marks with historical sketches and points out where the swarm has overwritten a dial.",
+      "source": "/2024/12/31/library/",
+      "why": "An anonymous donated volume becomes a source of evidence and a reason to protect fragile knowledge."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Register is an amalgam of fixed-dial surveyors and mass-dial cutters that tries to catalogue the whole landscape by making every surface into a dial and every shadow into a registered object.",
+      "source": "/bridol/",
+      "why": "The crew must exploit the different recording rules for its two dial types while protecting unrecorded places."
+    },
+    {
+      "idea": "The Equation Engine wears nested rings and an immense correction table. It tries to force the sun, clocks and every local dial to agree by borrowing minutes from everyone nearby.",
+      "source": "/publications/the-equation-of-time-aequatio-dierum/",
+      "why": "Its mechanical correction methods create distinct moving weaknesses, and returning stolen minutes changes the tempo of the encounter."
+    },
+    {
+      "idea": "The Encyclopaedist has consumed decades of dialling articles and assembles a new instrument for each problem; it considers all living movement a measurement error.",
+      "source": "/sundial-encyclopaedia/",
+      "why": "A cumulative boss can recombine earlier devices, while the surviving knowledge helps the crew anticipate its inventions."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A fixed dial needs a field visit, but a recorder drone is about to catalogue its shadow as a separate dial. Help the recorder document both before sunset.",
+      "source": "/members-area/",
+      "why": "A small race rewards observation and protects a useful record."
+    },
+    {
+      "idea": "A patch of overcast sky leaves a cluster of machines unable to agree on the hour; a brief gap in the cloud will settle their argument violently.",
+      "source": "/2025/03/20/newsletter-no-115/",
+      "why": "The crew can create artificial shade, wait, or use the disagreement as cover."
+    },
+    {
+      "idea": "A package containing an old dialling book has arrived with no sender, and two salvage machines both claim it for different collections.",
+      "source": "/2024/12/31/library/",
+      "why": "The crew can investigate its destination and choose how to keep its knowledge accessible."
+    },
+    {
+      "idea": "Photographs of the same dial from different years show its gnomon has been replaced by a swarm antenna; the collector needs a new image before the evidence is erased.",
+      "source": "/2024/12/31/bss-photographic-display-2025/",
+      "why": "Comparing images supplies a clue and makes taking a photograph an active objective."
+    },
+    {
+      "idea": "A handmade embroidery-frame dial rolls into camp with one hoop bent; its moving shadow points toward a trapped workshop.",
+      "source": "/making-sundials/armillary-equatorial-dial/",
+      "why": "Repairing a humble object reveals a direction without a quest marker."
+    },
+    {
+      "idea": "A cube dial has unfolded across a narrow crossing, and each face insists that a different side is uppermost.",
+      "source": "/making-sundials/templates/",
+      "why": "The crew can fold it into a stable bridge or find a way around while it rearranges itself."
+    },
+    {
+      "idea": "A visitor tries to set a rescued dial using a compass while nearby machinery pulls the needle away from true north.",
+      "source": "/all-about-sundials/setting-up-a-sundial/",
+      "why": "A map or a known time offers another way to orient it."
+    },
+    {
+      "idea": "An old sundial and a clock disagree; a swarm collector arrives to seize the clock for being wrong.",
+      "source": "/all-about-sundials/reading-a-sundial/",
+      "why": "Explaining and applying the local time correction can resolve the confrontation."
+    },
+    {
+      "idea": "A doorway has fresh radial scratches among old mass-dial marks, and a cutter returns whenever sunlight reaches the newest line.",
+      "source": "/bridol/mass-dials-vs-sundials/",
+      "why": "Reading the wall lets the crew time a quiet crossing or cover the line."
+    },
+    {
+      "idea": "Three location devices disagree at a crossroads, and each is summoning a different surveyor to claim the ground.",
+      "source": "/latitude-finder/",
+      "why": "Choosing which location to establish changes where the machines converge."
+    },
+    {
+      "idea": "A giant minute scale has lost several markings; little marker machines are filling the gaps with anything they can carry.",
+      "source": "/notable-sundials/worlds-largest-sundial/",
+      "why": "The crew can recover stolen supplies by supplying substitute markers or blocking the mechanism."
+    },
+    {
+      "idea": "At a pond, a polar shadow and an equatorial shadow briefly cross over a submerged cache, but ripples keep moving the apparent crossing.",
+      "source": "/notable-sundials/axis-of-the-sky/",
+      "why": "A physical observation challenge uses the two dials and water together."
+    },
+    {
+      "idea": "A mechanism of jointed arms has caught its own linkage while trying to straighten a bent beam; a useful tool is trapped inside its reach.",
+      "source": "/notable-sundials/peaucellier-dial/",
+      "why": "The crew can trace the motion and release the joint instead of fighting the machine."
+    },
+    {
+      "idea": "A collection of paper dial templates is about to be recycled by the swarm; a group of makers needs a few minutes to assemble one as a guide.",
+      "source": "/making-sundials/",
+      "why": "Defending a modest craft project produces a tangible aid for later travel."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "thread": "Follow the passage of time from a shadow on a sundial to the moving parts of a clock, then into a watch small enough to carry. The swarm meets gnomons and hour lines, pendulums and escapements, and tiny mechanisms made to keep their own rhythm.",
+  "candidates": [
+    {
+      "name": "The British Sundial Society",
+      "url": "https://sundialsoc.org.uk/",
+      "why": "Sundial designs, equations, and a register of fixed and mass dials offer shadow-casting gnomons, tilted faces, and curious hour lines."
+    },
+    {
+      "name": "National Technical Museum, Prague",
+      "url": "https://www.ntm.cz/en",
+      "why": "Its timekeeping collection spans water clocks, sand timers, mechanical clocks, and models of clock escapements, giving the swarm an assortment of ways to measure a moment."
+    },
+    {
+      "name": "Musée international d'horlogerie",
+      "url": "https://www.mih.ch/en/",
+      "why": "Watches, clocks, watchmaking tools, machines, and automata invite the swarm inside intricate portable mechanisms."
+    },
+    {
+      "name": "Museum of Timekeeping",
+      "url": "https://www.museumoftimekeeping.org.uk/",
+      "why": "Its collections and exhibitions bring together speaking clocks, watches, clocking-in machines, and horological tools."
+    },
+    {
+      "name": "Antiquarian Horological Society",
+      "url": "https://www.ahsoc.org/",
+      "why": "Its articles and specialist groups explore wristwatches, electrical timekeeping, and the large mechanisms of turret clocks."
+    },
+    {
+      "name": "National Association of Watch & Clock Collectors",
+      "url": "https://www.nawcc.org/",
+      "why": "The museum's galleries introduce pocket watches, public clocks, Asian timekeepers, and the tools and skills of clockmaking."
+    },
+    {
+      "name": "History of Science Museum, Oxford",
+      "url": "https://mhs.web.ox.ac.uk/",
+      "why": "Portable sundials, early pendulum clocks, and other scientific instruments make timekeeping into a cabinet of ingenious shapes."
+    },
+    {
+      "name": "The Worshipful Company of Clockmakers",
+      "url": "https://www.clockmakers.org/",
+      "why": "Its museum and archive contain watches, clocks, marine chronometers, sundials, and tools connected to the craft of making timekeepers."
+    }
+  ]
+}
