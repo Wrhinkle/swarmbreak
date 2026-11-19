@@ -94,7 +94,18 @@ def bot(name, workdir, extra, effort='medium', report=False):
 
 
 def findings(url):
-    return json.loads(sh(QODO, 'pr-review-session', 'findings', '--pr-url', url, '--json').stdout)
+    cmd = (QODO, 'pr-review-session', 'findings', '--pr-url', url, '--json')
+    result = sh(*cmd, check=False)
+    if result.returncode:
+        try:
+            error = json.loads(result.stdout).get('error', {})
+        except (ValueError, AttributeError):
+            error = {}
+        if isinstance(error, dict) and error.get('code') == 'MT-UPSTREAM-DOWN':
+            print('Qodo findings service is unavailable; the foreman will check again later.', flush=True)
+            sys.exit(WAITING)
+        sys.exit(f'{" ".join(map(str, cmd))[:200]} failed:\n{(result.stdout + result.stderr)[-1500:]}')
+    return json.loads(result.stdout)
 
 
 def is_open(f):
