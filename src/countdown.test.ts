@@ -202,3 +202,38 @@ it('presents a recruited ally as a free reward card and keeps the chosen ally', 
     expect(chosen).toBe(true);
   } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
 });
+
+it('shows shop availability and updates gold and offers after a purchase', async () => {
+  class Element {
+    textContent = ''; className = ''; children: Element[] = []; disabled = false; type = ''; click?: () => void;
+    append(...children: Element[]) { this.children.push(...children); }
+    setAttribute() {}
+    addEventListener(_name: string, handler: () => void) { this.click = handler; }
+    focus() {}
+  }
+  const oldDocument = globalThis.document, oldFetch = globalThis.fetch;
+  globalThis.document = { querySelector: () => null, createElement: () => new Element() } as unknown as Document;
+  globalThis.fetch = (() => new Promise(() => {})) as typeof fetch;
+  try {
+    const { shopOffers } = await import('./main');
+    const state = { gold: 50, deck: [] as string[] };
+    let saved = 0, message = '';
+    const shop = shopOffers(['strike', 'brace', 'spawn'], state, () => { saved++; }, s => { message = s; }, () => {}) as unknown as Element;
+    const [gold, strike, brace, spawn] = shop.children;
+    expect(gold.textContent).toContain('50 gold');
+    expect(strike.children[1].children[1].textContent).toBe('20g');
+    expect(strike.children[1].children[3].textContent).toBe('Available');
+    expect(spawn.children[1].children[3].textContent).toBe('Not for sale');
+    strike.children[2].click?.();
+    expect(state).toEqual({ gold: 30, deck: ['strike'] });
+    expect(saved).toBe(1);
+    expect(message).toContain('Strike');
+    expect(gold.textContent).toContain('30 gold');
+    expect(brace.children[2].disabled).toBe(true);
+    expect(brace.children[1].children[3].textContent).toBe('Not enough gold');
+    brace.children[2].click?.();
+    spawn.children[2].click?.();
+    expect(state).toEqual({ gold: 30, deck: ['strike'] });
+    expect(saved).toBe(1);
+  } finally { globalThis.document = oldDocument; globalThis.fetch = oldFetch; }
+});
