@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.davidrumsey.com",
+   "name": "David Rumsey Map Collection",
+   "url": "https://www.davidrumsey.com/",
+   "file": "runs/2026-11-21/sites/www.davidrumsey.com.json"
+  },
+  {
+   "host": "northcountrytrail.org",
+   "name": "North Country Trail Association",
+   "url": "https://northcountrytrail.org/",
+   "file": "runs/2026-11-21/sites/northcountrytrail.org.json"
+  },
+  {
+   "host": "www.unsw.edu.au",
+   "name": "UNSW Surveying and Geospatial Engineering",
+   "url": "https://www.unsw.edu.au/engineering/sage/about-us/museum",
+   "file": "runs/2026-11-21/sites/www.unsw.edu.au.json"
+  }
+ ]
+}

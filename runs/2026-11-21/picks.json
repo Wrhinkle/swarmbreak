@@ -1,0 +1,45 @@
+{
+  "thread": "Follow the swarm from surveying the land to drawing it on a map, then set out along a marked trail. Measuring instruments become creatures, maps unfold into landscapes, and trail blazes lead the way through real places.",
+  "candidates": [
+    {
+      "name": "Science Museum Group Collection",
+      "url": "https://collection.sciencemuseumgroup.org.uk/",
+      "why": "Surveying chains, theodolites, levels and stereoscopes offer jointed, sighting, measuring creatures, with individual collection records to explore."
+    },
+    {
+      "name": "David Rumsey Map Collection",
+      "url": "https://www.davidrumsey.com/",
+      "why": "Historical atlases, globes, pictorial maps and unusual projections can unfold into patterned bodies, imagined terrain and networks of routes."
+    },
+    {
+      "name": "North Country Trail Association",
+      "url": "https://northcountrytrail.org/",
+      "why": "A long marked trail crosses eight states; its route, blue blazes, bridges, trail-building skills and varied landscapes give the map a journey to follow."
+    },
+    {
+      "name": "USGS National Geospatial Program",
+      "url": "https://www.usgs.gov/programs/national-geospatial-program",
+      "why": "Topographic maps, elevation data, waterways and geographic names turn contours, ridges and branching streams into a vocabulary of terrain."
+    },
+    {
+      "name": "UNSW Surveying and Geospatial Engineering",
+      "url": "https://www.unsw.edu.au/engineering/sage/about-us/museum",
+      "why": "The virtual instrument museum describes theodolites, leveling instruments and electronic distance meters, including a bridge-setting instrument and an early Geodimeter."
+    },
+    {
+      "name": "Ice Age Trail Alliance",
+      "url": "https://www.iceagetrail.org/",
+      "why": "Wisconsin trail segments pass glacial landforms, while yellow blazes and the work of making and maintaining a path offer creatures a route across the landscape."
+    },
+    {
+      "name": "Appalachian Trail Conservancy",
+      "url": "https://appalachiantrail.org/",
+      "why": "White blazes, shelters, trail corridors and the communities that care for a long footpath give the swarm a ground-level way to travel."
+    },
+    {
+      "name": "Royal Geographical Society",
+      "url": "https://www.rgs.org/",
+      "why": "Map collections, fieldwork resources and geographical expeditions offer more ways to measure, represent and explore a landscape."
+    }
+  ]
+}
