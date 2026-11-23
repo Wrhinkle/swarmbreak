@@ -1,0 +1,72 @@
+{
+  "scale": 0.6,
+  "rates": [
+    {
+      "policy": "novice",
+      "winRate": 0,
+      "avgFloor": 46.995,
+      "fightSeconds": 39.90708299655422,
+      "killers": {
+        "progress-engine": 799,
+        "qualification-stack+semester-clock": 1
+      }
+    },
+    {
+      "policy": "typical, random route",
+      "winRate": 0,
+      "avgFloor": 46.9475,
+      "fightSeconds": 39.06687879173561,
+      "killers": {
+        "progress-engine": 795,
+        "qualification-stack+semester-clock": 2,
+        "trail-map-stitcher+prairie-stitchback": 1,
+        "research-prototype": 1,
+        "qualification-stack+battery-examiner": 1
+      }
+    },
+    {
+      "policy": "typical, no routine edits",
+      "winRate": 0,
+      "avgFloor": 46.99125,
+      "fightSeconds": 41.78155157039532,
+      "killers": {
+        "progress-engine": 799,
+        "qualification-stack+battery-examiner": 1
+      }
+    },
+    {
+      "policy": "typical",
+      "winRate": 0,
+      "avgFloor": 46.94125,
+      "fightSeconds": 40.5621547097346,
+      "killers": {
+        "progress-engine": 796,
+        "atomic-printer+solar-auditor": 1,
+        "boundary-keeper+prairie-stitchback": 1,
+        "translation-engine+solar-auditor": 1,
+        "solar-auditor": 1
+      }
+    },
+    {
+      "policy": "expert",
+      "winRate": 0,
+      "avgFloor": 47,
+      "fightSeconds": 39.713031550068585,
+      "killers": {
+        "progress-engine": 60
+      }
+    }
+  ],
+  "witnesses": [],
+  "problems": [
+    "No winning game found starting from first-floor column 0: the run may be impossible from there",
+    "No winning game found starting from first-floor column 1: the run may be impossible from there",
+    "No winning game found starting from first-floor column 2: the run may be impossible from there",
+    "Typical player clears 0%; the target is 40%-60%",
+    "Expert 0% is too close to typical 0%: playing well doesn't pay enough",
+    "Novice 0% is too close to typical 0%: decisions don't matter enough",
+    "Route choice changes the clear rate by only 0%",
+    "Routine edits change the clear rate by only 0%",
+    "progress-engine causes 100% of typical losses"
+  ]
+}

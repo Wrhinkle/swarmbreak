@@ -1,0 +1,1135 @@
+{
+ "title": "The Route Home",
+ "swarm": {
+  "name": "The Waykeepers",
+  "blurb": "A swarm of measuring, mapping and maintenance machines that keeps extending a route after losing its return signal."
+ },
+ "arc": "The Waykeepers first appear to be claiming places as they splice historical maps into a single road. On the trail, their repairs reveal that they are trying to keep a passage open, though their rigid protection is driving people away. At the research workshops, the crew discovers the route was built for a repair capsule whose damaged beacon never reported its return. The capsule is lodged in the Progress Engine itself. Wren repairs the beacon after Ox and Kestrel help open the machine, and the swarm finally stops extending the route.",
+ "acts": [
+  {
+   "theme": "Maps that will not stay folded",
+   "story": {
+    "intro": "Maps are slipping from their cases and joining at the edges. Wren finds a clean strip cut from each sheet. Ox holds a door while Kestrel pries one loose. The swarm seems to be collecting territory.",
+    "chapters": [
+     {
+      "title": "Loose Edges",
+      "text": "Paper scouts carry strips toward the same distant edge. Wren keeps a sample dry. Its ink marks a route, not a border."
+     },
+     {
+      "title": "Conflicting Ground",
+      "text": "Old roads press against newer ones. Ox braces the shifting sheets while Kestrel finds the seams. The swarm pulls hard whenever a route is interrupted."
+     },
+     {
+      "title": "A Road Through Time",
+      "text": "Different maps are being forced to agree on one passage. Wren notices gaps where bridges and paths should be. Something beyond the collection is receiving the joined strips."
+     }
+    ],
+    "bossIntro": "The Grand Georeferencer plants anchors through maps from different years. Its arms drag each road toward a single line. Kestrel points to the joints; Ox raises his shield.",
+    "outro": "The anchors give way. A strip slips from the machine and points toward a marked trail. The swarm follows it out. Wren takes the sample along."
+   },
+   "creatures": [
+    {
+     "id": "map-tick",
+     "name": "Anchor Tick",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/view/georeferencer",
+     "blurb": "Pins old and new ground together. Interrupt it before its next pull.",
+     "look": "A brass tick with six pin legs and a glass sighting lens."
+    },
+    {
+     "id": "coverage-hound",
+     "name": "Coverage Hound",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/view/maprank-search",
+     "blurb": "Follows the edge of a chosen search area and runs down anything inside.",
+     "look": "A low slate-blue hound with a folding paper collar and a wheel for a tail."
+    },
+    {
+     "id": "crater-drone",
+     "name": "Crater Drone",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/globes/moon-bw",
+     "blurb": "Its shell breaks into smaller matching circles when damaged.",
+     "look": "A pale gray flying disc with crater dimples and four thin rotor fins."
+    },
+    {
+     "id": "sheet-stitcher",
+     "name": "Sheet Stitcher",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/blog/2017/11/26/largest-early-world-map-monte-s-10-ft-planisphere-of-1587",
+     "blurb": "Sews loose sheets around other swarm units. Break its cover before chasing them.",
+     "look": "A many-legged brass sewing frame trailing overlapping cream map panels."
+    },
+    {
+     "id": "rail-distance-engine",
+     "name": "Distance Engine",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach"
+     ],
+     "source": "/maps-up-close/2012/8/13/railroad-mapping-in-1871",
+     "blurb": "Lays a short track and charges along it, even through a shield.",
+     "look": "A squat black locomotive on jointed legs with a large brass measuring wheel."
+    },
+    {
+     "id": "cetus-plotter",
+     "name": "Cetus Plotter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/maps-up-close/2012/8/9/pardies-constellations-1693",
+     "blurb": "Connects lights into a sea beast. Rush it before the drawing gains company.",
+     "look": "A navy tripod with a glass star lamp and curling silver wire jaws."
+    },
+    {
+     "id": "relief-engraver",
+     "name": "Relief Engraver",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover"
+     ],
+     "source": "/maps-up-close/2017/12/23/landscape-of-southern-italy-1808",
+     "blurb": "Folds ridges up around itself and its neighbors.",
+     "look": "A blocky tan press with layered paper mountains rising from its back."
+    },
+    {
+     "id": "river-dredger",
+     "name": "River Dredger",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike"
+     ],
+     "source": "/maps-up-close/2017/12/23/mississippi-river-1858",
+     "blurb": "Unrolls an old channel across the floor and sweeps along it.",
+     "look": "A long blue-green mechanical eel with a rolled chart for a tail and a toothed scoop."
+    },
+    {
+     "id": "catalog-bailiff",
+     "name": "Catalog Bailiff",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike+"
+     ],
+     "source": "/help/media-information",
+     "blurb": "Locks travelers in place while its drawers sort the maps they carry.",
+     "look": "A tall oak drawer cabinet on iron legs with two clamp arms and a brass lens."
+    },
+    {
+     "id": "moon-mosaic",
+     "name": "Moon Mosaic",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/globes/moon-bw",
+     "blurb": "Shields its crater shell while it releases more discs.",
+     "look": "A gray cratered globe in a black ring, with small round hatches opening across its surface."
+    },
+    {
+     "id": "sheet-roller",
+     "name": "World Sheet Roller",
+     "tier": "elite",
+     "bodyPlan": "colossus",
+     "role": "bruiser",
+     "routines": [
+      "sweep+",
+      "brace"
+     ],
+     "source": "/blog/2017/11/26/largest-early-world-map-monte-s-10-ft-planisphere-of-1587",
+     "blurb": "Rolls a stitched map over the fight and shields its central spindle.",
+     "look": "A broad cylinder of cream paper on bronze wheels, with many overlapping pointed panels."
+    },
+    {
+     "id": "grand-georeferencer",
+     "name": "Grand Georeferencer",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike+"
+     ],
+     "source": "/view/georeferencer",
+     "blurb": "Anchors conflicting roads to one route. Its shielding buys time for the swarm to carry the strip away.",
+     "look": "A towering stack of wooden map cases within brass globe rings, with four long survey arms and pin feet."
+    },
+    {
+     "id": "map-keeper",
+     "name": "Map Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/help/faq",
+     "blurb": "Shares spare maps and patches torn equipment.",
+     "look": "A small figure in a blue canvas coat carrying rolled cream sheets and a repair satchel."
+    },
+    {
+     "id": "anchor-volunteer",
+     "name": "Anchor Volunteer",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/view/georeferencer",
+     "blurb": "Places loose pins to keep a safe route steady.",
+     "look": "A figure in an ochre coat with a box of brass pins and a round wooden shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "backward-seam",
+     "source": "/blog/2017/11/26/largest-early-world-map-monte-s-10-ft-planisphere-of-1587",
+     "look": "Two cream map sheets caught in the jaws of a brass sewing frame.",
+     "title": "Backward Seam",
+     "text": "Two sheets are being sewn together backward. A supply pouch is caught in the seam.",
+     "options": [
+      {
+       "label": "Pull out the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "You recover the coins. The sheets stay crooked."
+      },
+      {
+       "label": "Hold the sheets straight",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "A keeper patches the crew while you hold the seam. The pouch vanishes into the stitching."
+      }
+     ]
+    },
+    {
+     "id": "rail-detour",
+     "source": "/maps-up-close/2012/8/13/railroad-mapping-in-1871",
+     "look": "A black measuring wheel beside two diverging miniature rails.",
+     "title": "Long Way Round",
+     "text": "A distance engine has trapped a cart on a false route. Its driver offers a lesson or the cart\u2019s spare coins.",
+     "options": [
+      {
+       "label": "Learn the wheel trick",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The driver shows you how to force a locked joint. The coins stay with the cart."
+      },
+      {
+       "label": "Take the spare coins",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The driver pays you and keeps the lesson for another day."
+      }
+     ]
+    },
+    {
+     "id": "missing-star",
+     "source": "/maps-up-close/2012/8/9/pardies-constellations-1693",
+     "look": "A small brass lamp rolling toward a drain under a dark star plate.",
+     "title": "Missing Star",
+     "text": "A loose lamp is about to fall. Catching it will put a hand near the plotter\u2019s teeth.",
+     "options": [
+      {
+       "label": "Catch the lamp",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The lamp is safe. The teeth catch your hand."
+      },
+      {
+       "label": "Salvage the loose fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "You collect brass fittings as the lamp falls through the grate."
+      }
+     ]
+    },
+    {
+     "id": "floating-road",
+     "source": "/view/georeferencer",
+     "look": "Two paper roads suspended one above the other with a tiny cart between them.",
+     "title": "Two Roads",
+     "text": "An old road hangs above a new one. A stranded cart has medicine and a box of parts, but time to pass over only one.",
+     "options": [
+      {
+       "label": "Take medicine",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The cart passes over a packet of medicine before the roads separate."
+      },
+      {
+       "label": "Take the parts",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The cart passes over its spare parts before the roads separate."
+      }
+     ]
+    },
+    {
+     "id": "mountain-views",
+     "source": "/maps-up-close/2012/8/8/pico-de-orizaba-1807",
+     "look": "Two folded mountain pictures facing a brass sight on a tripod.",
+     "title": "Two Views",
+     "text": "A surveyor offers to teach you after you align two views. A buyer offers coins for the same sight.",
+     "options": [
+      {
+       "label": "Learn to aim",
+       "effect": {
+        "type": "routine",
+        "id": "strike+"
+       },
+       "result": "The surveyor adjusts your stance and keeps the sight."
+      },
+      {
+       "label": "Sell the sight",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The buyer takes the sight. The surveyor packs up."
+      }
+     ]
+    },
+    {
+     "id": "game-board",
+     "source": "/japan/",
+     "look": "A winding board of cream squares and a wooden die on a tiled floor.",
+     "title": "Last Square",
+     "text": "A moving board offers a short rest at the first square or a coin cache at the last. It will fold before you can reach both.",
+     "options": [
+      {
+       "label": "Rest here",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "You catch your breath as the far squares fold away."
+      },
+      {
+       "label": "Race for the cache",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "You reach the coins before the first square closes."
+      }
+     ]
+    }
+   ],
+   "name": "David Rumsey Map Collection",
+   "url": "https://www.davidrumsey.com/"
+  },
+  {
+   "theme": "The maintained trail",
+   "story": {
+    "intro": "Blue marks lead away from the maps and onto a trail. The swarm is clearing fallen branches and repairing bridges. Ox says that would be more reassuring if it stopped blocking hikers.",
+    "chapters": [
+     {
+      "title": "Fresh Marks",
+      "text": "Some blue marks point to safe ground. Others turn on metal plates and send walkers in circles. Kestrel checks the fastenings before the crew follows any of them."
+     },
+     {
+      "title": "The Turn",
+      "text": "Local crews describe swarm machines mending the same route they defend. Wren compares her map strip with their reports. The swarm is trying to keep a passage open, not claim land."
+     },
+     {
+      "title": "Too Much Protection",
+      "text": "The machines are removing people and plants they consider obstacles. Ox helps a trail crew through a gate. A signal from the far end keeps the machines working past every safe stopping point."
+     }
+    ],
+    "bossIntro": "The Stewardship Engine closes its gates around the route. It calls in workers and raises a shield. Behind it, a signal travels onward toward a place of experiments and instruments.",
+    "outro": "The gates stop moving. Local crews reopen the path by hand. The signal continues beyond the trail. Wren follows it, carrying the strip and a fresh set of directions."
+   },
+   "creatures": [
+    {
+     "id": "blaze-counterfeiter",
+     "name": "Blaze Counterfeiter",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/the-trail/report-trail-conditions/",
+     "blurb": "Turns its painted plates to confuse travelers and interrupt their advance.",
+     "look": "A narrow iron post on insect legs with rotating bark-colored plates and bright blue rectangles."
+    },
+    {
+     "id": "near-miss-moth",
+     "name": "Near-Miss Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/volunteer-resources/skills-training/",
+     "blurb": "Dislodges loose branches while crews are distracted.",
+     "look": "A small pale tan moth with metal wings shaped like crossed hand saws."
+    },
+    {
+     "id": "prairie-stitchback",
+     "name": "Prairie Stitchback",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/support/mmc/",
+     "blurb": "Reels its cable tight, then rushes along it.",
+     "look": "A sand-colored mechanical badger with a cable spool on its back and pointed steel feet."
+    },
+    {
+     "id": "reroute-engine",
+     "name": "Reroute Engine",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/the-trail/trail-alerts/",
+     "blurb": "Closes one route and guards its own looping detour.",
+     "look": "A boxy orange machine on treads with folding barriers and a blue arrow-shaped fin."
+    },
+    {
+     "id": "trail-map-stitcher",
+     "name": "Trail Map Stitcher",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/the-trail/trail-maps/",
+     "blurb": "Joins mismatched segments and sends scouts down each seam.",
+     "look": "A green wheeled sewing machine with long jointed arms and overlapping paper strips."
+    },
+    {
+     "id": "moraine-roller",
+     "name": "Moraine Roller",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike"
+     ],
+     "source": "/trail/minnesota/itm/",
+     "blurb": "Pushes stones into a ridge and sweeps through anyone beside it.",
+     "look": "A round gray armadillo of stacked stones with steel claws and a broad roller tail."
+    },
+    {
+     "id": "boundary-keeper",
+     "name": "Boundary Keeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/contact/chapters-affiliates/",
+     "blurb": "Protects nearby machines at the seam between sections.",
+     "look": "A tall timber gate on four metal legs, carrying a round blue shield."
+    },
+    {
+     "id": "lake-looper",
+     "name": "Lake Looper",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/trail/minnesota/llc/",
+     "blurb": "Uses mirrored lake plates to turn an opponent\u2019s move back on them.",
+     "look": "A dark green turtle with a polished silver shell and flat blue glass fins."
+    },
+    {
+     "id": "mile-maker",
+     "name": "Mile Maker",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "charge"
+     ],
+     "source": "/support/mmc/",
+     "blurb": "Builds more workers while charging down the path it has laid.",
+     "look": "A large brass measuring wheel on six legs towing a narrow conveyor and tiny wheel housings."
+    },
+    {
+     "id": "town-designator",
+     "name": "Town Designator",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike+"
+     ],
+     "source": "/our-work/trail-towns/",
+     "blurb": "Locks its gates and shields its workers from anyone trying to enter town.",
+     "look": "A tall brown gatehouse on wheels with hinged walls, iron shutters and a blue glass lamp."
+    },
+    {
+     "id": "work-hours-spool",
+     "name": "Hours Spool",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "sweep+"
+     ],
+     "source": "/volunteer-resources/skills-training/",
+     "blurb": "Tangling cables slow the crew while its rotating arms sweep the work site.",
+     "look": "A broad iron spool wound with tan cord, carried by four articulated tool arms."
+    },
+    {
+     "id": "stewardship-engine",
+     "name": "Stewardship Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "sweep+"
+     ],
+     "source": "/our-work/",
+     "blurb": "Keeps summoning workers to clear the trail. Its shield and sweeping tools make its misplaced protection dangerous.",
+     "look": "A vast timber and iron trail machine with a blue lamp, folding gates, shovel arms and a nest of small worker hatches."
+    },
+    {
+     "id": "blaze-keeper",
+     "name": "Blaze Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/the-trail/report-trail-conditions/",
+     "blurb": "Mends gear and refreshes reliable marks.",
+     "look": "A figure in a green raincoat with a paint tin, brush and canvas medical pouch."
+    },
+    {
+     "id": "trail-town-host",
+     "name": "Trail Town Host",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/our-work/trail-towns/",
+     "blurb": "Offers shelter and guards visitors while they pass.",
+     "look": "A stocky figure in a brown apron carrying a broad wooden door as a shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "conflicting-alerts",
+     "source": "/the-trail/trail-alerts/",
+     "look": "Two wooden signs at a fork beside a heap of cut metal.",
+     "title": "Conflicting Alerts",
+     "text": "One sign points to a closure and one to a detour. A local offers medicine for help removing the false sign, or coins for its metal.",
+     "options": [
+      {
+       "label": "Help the local",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The local shares a bandage and carries the false sign away."
+      },
+      {
+       "label": "Take the metal",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "You take the metal. The local removes the sign alone."
+      }
+     ]
+    },
+    {
+     "id": "downed-tree",
+     "source": "/the-trail/report-trail-conditions/",
+     "look": "A branch-covered machine beside a fallen tree and a blue trail mark.",
+     "title": "Downed Tree",
+     "text": "A volunteer needs the tree moved. The branch-covered machine beside it is offering salvage if left alone.",
+     "options": [
+      {
+       "label": "Move the tree",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The volunteer shows you how to brace a load. The machine slips away."
+      },
+      {
+       "label": "Strip the machine",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "You recover its fittings. The volunteer starts on the tree alone."
+      }
+     ]
+    },
+    {
+     "id": "two-chapters",
+     "source": "/contact/chapters-affiliates/",
+     "look": "Two groups of tools across a broken footbridge and a taut measuring line.",
+     "title": "Across the Gap",
+     "text": "Two trail crews need their measuring line back. You can pull it through sharp metal or sell the abandoned spool beside it.",
+     "options": [
+      {
+       "label": "Pull the line free",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crews recover their line. The sharp edge cuts your hand."
+      },
+      {
+       "label": "Take the spool",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "You take the spool. The crews find another way to measure."
+      }
+     ]
+    },
+    {
+     "id": "potluck-table",
+     "source": "/events/",
+     "look": "A wooden table of food beside a small machine with shovel arms.",
+     "title": "Work-Day Table",
+     "text": "A machine is dismantling a potluck table. The volunteers can share their meal or show you a repair technique, but they need the other supplies for their work.",
+     "options": [
+      {
+       "label": "Share the meal",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The crew eats while the volunteers reclaim the table."
+      },
+      {
+       "label": "Learn the repair",
+       "effect": {
+        "type": "routine",
+        "id": "patch"
+       },
+       "result": "A volunteer shows you how to stitch a torn strap. The meal goes to the work crew."
+      }
+     ]
+    },
+    {
+     "id": "mile-counter",
+     "source": "/hike-100/",
+     "look": "A brass counter on a boot beside a fork in a woodland path.",
+     "title": "The Extra Mile",
+     "text": "A counter offers a pile of coins for its battery. A hiker offers a drink if you use that battery to free the counter from her boot.",
+     "options": [
+      {
+       "label": "Free the hiker",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The hiker shares her drink and takes back her boot."
+      },
+      {
+       "label": "Sell the battery",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The counter pays out and goes quiet. The hiker works the strap loose herself."
+      }
+     ]
+    },
+    {
+     "id": "town-workshop",
+     "source": "/our-work/trail-towns/",
+     "look": "An open workshop door behind a folding iron gate.",
+     "title": "Workshop Gate",
+     "text": "A town host can open the gate with your spare parts, or buy them to repair the workshop later.",
+     "options": [
+      {
+       "label": "Trade for passage lessons",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The host shows you how to clear a fouled mechanism and uses the parts on the gate."
+      },
+      {
+       "label": "Sell the parts",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The host buys the parts. You take the longer way around."
+      }
+     ]
+    }
+   ],
+   "name": "North Country Trail Association",
+   "url": "https://northcountrytrail.org/"
+  },
+  {
+   "theme": "The measure of a journey",
+   "story": {
+    "intro": "The signal ends among workshops and research instruments. The swarm is feeding maps, trail reports and measurements into one machine. Kestrel finds the seam in its casing. It is still growing.",
+    "chapters": [
+     {
+      "title": "Tests in Motion",
+      "text": "Prototypes copy tools and measure every surface. Wren finds the same route strip inside a testing rack. The machines have been gathering evidence from the whole journey."
+     },
+     {
+      "title": "A Missing Return",
+      "text": "The records describe a delivery route for a repair capsule. Its return signal never arrived, so the swarm keeps widening and protecting the route. Ox finds an empty capsule cradle beneath the instruments."
+     },
+     {
+      "title": "A Route That Ends",
+      "text": "The capsule is lodged in the central machine. The signal is its own damaged return beacon. Wren prepares to mend it while Kestrel looks for a way through the machine\u2019s armor."
+     }
+    ],
+    "bossIntro": "The Progress Engine seals the cradle and starts another route calculation. It raises a shield, releases prototypes and sweeps the floor clear. Wren needs the beacon intact; Kestrel takes aim at the casing.",
+    "outro": "The casing opens. Wren solders the beacon and seats the capsule in its cradle. Its return signal reaches the swarm. The machines stop extending the route. Ox holds the door for the workshop crew, and Kestrel finally puts down the crowbar."
+   },
+   "creatures": [
+    {
+     "id": "solar-auditor",
+     "name": "Solar Auditor",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/research/research-strengths/clean-energy",
+     "blurb": "Dives at anything casting a shadow over its mirrored panels.",
+     "look": "A small gold and black mechanical bird with rectangular mirrored wings and a pointed beak."
+    },
+    {
+     "id": "road-roller",
+     "name": "Cup Road Roller",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/research/research-strengths/climate-adaptation-and-built-environment",
+     "blurb": "Rolls a strip of dark paving under its own feet.",
+     "look": "A squat gray beetle with a black roller and a shell made of flattened cream cups."
+    },
+    {
+     "id": "battery-examiner",
+     "name": "Battery Examiner",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/science",
+     "blurb": "Drains a little charge from every device it inspects.",
+     "look": "A compact teal cart with a circular gauge, cable claws and four black wheels."
+    },
+    {
+     "id": "atomic-printer",
+     "name": "Atomic Printer",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/research/research-strengths/tech-for-good",
+     "blurb": "Prints duplicate parts until they surround the original.",
+     "look": "A white box on delicate silver legs with a fine nozzle and a stack of tiny tool-shaped pieces."
+    },
+    {
+     "id": "qualification-stack",
+     "name": "Qualification Stack",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover"
+     ],
+     "source": "/study/study-options",
+     "blurb": "Adds another plate whenever the fight reaches its neighbors.",
+     "look": "A walking stack of cream plates in a dark blue frame, with two broad hinged arms."
+    },
+    {
+     "id": "silver-scavenger",
+     "name": "Silver Scavenger",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/engineering",
+     "blurb": "Strips conductors from working equipment.",
+     "look": "A lean charcoal mechanical ferret with silver jaws and a coil of wire on its back."
+    },
+    {
+     "id": "semester-clock",
+     "name": "Semester Clock",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/academic-calendar-transition",
+     "blurb": "Interrupts the crew at regular intervals as its hands turn.",
+     "look": "A large ivory clock face on spindly black legs with brass hands and a swinging pendulum."
+    },
+    {
+     "id": "translation-engine",
+     "name": "Translation Engine",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/research",
+     "blurb": "Turns unfinished designs into a stream of impatient prototypes.",
+     "look": "A blue steel press with three funnels, jointed arms and small machines emerging from a hatch."
+    },
+    {
+     "id": "partnership-assembler",
+     "name": "Partnership Assembler",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike+"
+     ],
+     "source": "/progress-partners",
+     "blurb": "Clamps separate units together and shields the joint.",
+     "look": "A broad orange crane on six wheels, with four clamp arms joining mismatched metal frames."
+    },
+    {
+     "id": "precision-press",
+     "name": "Precision Press",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "sweep+"
+     ],
+     "source": "/research/research-strengths/tech-for-good",
+     "blurb": "Builds copies of itself and sweeps the space around its print bed.",
+     "look": "A silver and black ring press with a glowing blue center and two wide rotating arms."
+    },
+    {
+     "id": "research-prototype",
+     "name": "Research Prototype",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike+"
+     ],
+     "source": "/research",
+     "blurb": "Repairs neighboring prototypes before pressing its own attack.",
+     "look": "A tall white frame with a blue glass reservoir, three soldering arms and a heavy steel foot."
+    },
+    {
+     "id": "progress-engine",
+     "name": "Progress Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "bruiser",
+     "routines": [
+      "spawn",
+      "brace",
+      "sweep+"
+     ],
+     "source": "/strategy",
+     "blurb": "Protects the damaged return beacon while producing prototypes and clearing the route again. Stop its production and open the cradle.",
+     "look": "A towering blue and brass machine of solar panels, instrument rings and folding arms, surrounding a small silver capsule in a glass cradle."
+    },
+    {
+     "id": "workshop-mechanic",
+     "name": "Workshop Mechanic",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/student/student-life",
+     "blurb": "Runs a hand-powered bench and repairs damaged gear.",
+     "look": "A figure in a dark blue apron with a tool belt, soldering iron and copper repair box."
+    },
+    {
+     "id": "access-guide",
+     "name": "Access Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/accessibility",
+     "blurb": "Sets out ramps and guards a clear passage through moving walls.",
+     "look": "A figure in a mustard coat carrying a folding gray ramp and a round blue shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "solar-cart",
+     "source": "/research/research-strengths/clean-energy",
+     "look": "A tilted black solar panel on a cart in a bright courtyard.",
+     "title": "Turning Panel",
+     "text": "Two students need to move a panel. They can teach you to guard a load or share their packed lunch, but the cart is leaving.",
+     "options": [
+      {
+       "label": "Learn to guard",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "A student shows you how to protect the cart as it moves. The students keep their lunch."
+      },
+      {
+       "label": "Share lunch",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The students share lunch before taking the cart away."
+      }
+     ]
+    },
+    {
+     "id": "looping-road",
+     "source": "/research/research-strengths/climate-adaptation-and-built-environment",
+     "look": "A dark looping strip of pavement with a loose seam beside a bicycle.",
+     "title": "Road Seam",
+     "text": "A cyclist points out a loose seam in a road that loops back on itself. She offers her repair kit or her spare coins for help.",
+     "options": [
+      {
+       "label": "Take the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "You open the seam and use the repair kit. The cyclist keeps her coins."
+      },
+      {
+       "label": "Take the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "You open the seam and take the coins. The cyclist keeps her kit."
+      }
+     ]
+    },
+    {
+     "id": "workshop-messenger",
+     "source": "/student/student-life",
+     "look": "A small wind-up messenger on a wooden bench with one brass spring.",
+     "title": "One Trip",
+     "text": "A messenger has power for one trip. Send it for a repair lesson or a box of valuable spare parts.",
+     "options": [
+      {
+       "label": "Ask for a lesson",
+       "effect": {
+        "type": "routine",
+        "id": "triage"
+       },
+       "result": "The messenger returns with a mechanic who shows you how to tend the group."
+      },
+      {
+       "label": "Ask for parts",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The messenger returns with spare parts worth a handful of coins."
+      }
+     ]
+    },
+    {
+     "id": "mentor-compass",
+     "source": "/alumni/get-involved",
+     "look": "A broken brass compass between two hands on a workbench.",
+     "title": "Compass Lesson",
+     "text": "A mentor offers a technique if you help teach a novice. A collector offers coins for the broken compass.",
+     "options": [
+      {
+       "label": "Teach the novice",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The novice repairs the compass. The mentor shows you how to interrupt a mechanism."
+      },
+      {
+       "label": "Sell the compass",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The collector takes the compass. The mentor finds another for the lesson."
+      }
+     ]
+    },
+    {
+     "id": "divided-kitchen",
+     "source": "/accommodation",
+     "look": "A kettle and cups separated by three sliding walls.",
+     "title": "Divided Kitchen",
+     "text": "Moving walls have separated a kettle from its water. A resident offers a hot drink for help, or the loose fittings from a wall.",
+     "options": [
+      {
+       "label": "Make the drink",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "You reunite the kettle and water. The resident shares a hot drink."
+      },
+      {
+       "label": "Take the fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "You remove the fittings. The resident carries the water around the wall."
+      }
+     ]
+    },
+    {
+     "id": "step-free-route",
+     "source": "/accessibility",
+     "look": "A hand-drawn route on a plain sheet beside a folded gray ramp.",
+     "title": "Moving Wall",
+     "text": "A guide needs to mark a new step-free route. She can give you a spare ramp fitting or show you a way to clear a fouled joint.",
+     "options": [
+      {
+       "label": "Learn the joint trick",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The guide demonstrates the trick and keeps the fitting for the ramp."
+      },
+      {
+       "label": "Take the fitting",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The guide gives you the spare fitting and marks the route herself."
+      }
+     ]
+    }
+   ],
+   "name": "UNSW Surveying and Geospatial Engineering",
+   "url": "https://www.unsw.edu.au/engineering/sage/about-us/museum"
+  }
+ ],
+ "id": "2026-11-21",
+ "seed": 196804240
+}
