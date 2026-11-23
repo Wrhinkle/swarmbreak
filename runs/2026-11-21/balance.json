@@ -5,53 +5,46 @@
       "policy": "novice",
       "winRate": 0,
       "avgFloor": 46.995,
-      "fightSeconds": 39.90708299655422,
+      "fightSeconds": 39.417382056408734,
       "killers": {
         "progress-engine": 799,
-        "qualification-stack+semester-clock": 1
+        "qualification-stack+battery-examiner": 1
       }
     },
     {
       "policy": "typical, random route",
       "winRate": 0,
-      "avgFloor": 46.9475,
-      "fightSeconds": 39.06687879173561,
+      "avgFloor": 47,
+      "fightSeconds": 38.12847417241086,
       "killers": {
-        "progress-engine": 795,
-        "qualification-stack+semester-clock": 2,
-        "trail-map-stitcher+prairie-stitchback": 1,
-        "research-prototype": 1,
-        "qualification-stack+battery-examiner": 1
+        "progress-engine": 800
       }
     },
     {
       "policy": "typical, no routine edits",
       "winRate": 0,
-      "avgFloor": 46.99125,
-      "fightSeconds": 41.78155157039532,
+      "avgFloor": 47,
+      "fightSeconds": 40.71761977599053,
       "killers": {
-        "progress-engine": 799,
-        "qualification-stack+battery-examiner": 1
+        "progress-engine": 800
       }
     },
     {
       "policy": "typical",
       "winRate": 0,
-      "avgFloor": 46.94125,
-      "fightSeconds": 40.5621547097346,
+      "avgFloor": 46.95625,
+      "fightSeconds": 40.36775687124421,
       "killers": {
         "progress-engine": 796,
-        "atomic-printer+solar-auditor": 1,
-        "boundary-keeper+prairie-stitchback": 1,
-        "translation-engine+solar-auditor": 1,
-        "solar-auditor": 1
+        "research-prototype": 3,
+        "semester-clock+battery-examiner": 1
       }
     },
     {
       "policy": "expert",
       "winRate": 0,
       "avgFloor": 47,
-      "fightSeconds": 39.713031550068585,
+      "fightSeconds": 37.755124653739614,
       "killers": {
         "progress-engine": 60
       }
