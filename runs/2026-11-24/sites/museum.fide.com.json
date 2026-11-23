@@ -1,0 +1,796 @@
+{
+  "host": "museum.fide.com",
+  "url": "https://museum.fide.com/",
+  "crawledAt": "2026-11-23T22:04:55.496Z",
+  "pages": [
+    {
+      "path": "/",
+      "title": "Open Chess Museum",
+      "section": "home",
+      "excerpt": "Perhaps the most famous European chess pieces dating back to the Middle Ages were found by pure chance and under still unexplained circumstances This style of chessmen, appeared unusual and even provo",
+      "headings": [
+        "Open chess Museum",
+        "Viking chess set",
+        "Staunton chess set",
+        "Fattorini chess clock",
+        "Chess table",
+        "The Hamilton-Russell Cup",
+        "Welcome to the Open",
+        "Chess Museum!",
+        "Here you can discover the fascinating world",
+        "of chess through our diverse",
+        "our diverse",
+        "Here you can discover the",
+        "fascinating",
+        "world of chess",
+        "through our diverse",
+        "collection of exhibits",
+        "Explore the game’s history",
+        "and learn about",
+        "the 100-year path",
+        "of the International",
+        "Chess Federation",
+        "of the",
+        "International Chess Federation",
+        "which celebrated",
+        "its centenary in 2024.",
+        "its",
+        "centenary in 2024.",
+        "The game is just",
+        "beginning!",
+        "Collection",
+        "History of chess",
+        "Kannauj, North India",
+        "Champions",
+        "Wilhelm Steinitz",
+        "Emanuel Lasker",
+        "Jose Raul Capablanca",
+        "Alexander Alekhine",
+        "Max Euwe",
+        "Mikhail Botvinnik",
+        "Vasily Smyslov",
+        "Mikhail Tal",
+        "Tigran Petrosian",
+        "Boris Spassky",
+        "Robert Fischer",
+        "Anatoly Karpov",
+        "Garry Kasparov",
+        "Vladimir Kramnik",
+        "Viswanathan Anand",
+        "Magnus Carlsen",
+        "Ding Liren",
+        "Gukesh Dommaraju",
+        "FIDE history",
+        "Thematic Collections",
+        "5 chess sets you definitely haven't seen",
+        "Chess before the 20th century",
+        "Chess sets that belonged to famous chess players",
+        "10 Scoresheets from World Championship matches",
+        "1948 World Championship Tournament memorabilia",
+        "Alexander Alekhine in photographs",
+        "World Championship Medals",
+        "World Championship Trophies",
+        "World Championship Posters",
+        "50 facts about chess"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/viking-chess-set",
+        "/exhibits/staunton-chess-set",
+        "/exhibits/fattorini-chess-clock",
+        "/exhibits/chess-table-designed-by-alexander-rodchenko",
+        "/exhibits/the-hamilton-russell-cup",
+        "/champions/wilhelm-steinitz",
+        "/champions/emanuel-lasker",
+        "/champions/jose-raul-capablanca",
+        "/champions/alexander-alekhin",
+        "/champions/max-euwe",
+        "/champions/michael-botvinnik",
+        "/champions/vasily-smyslov",
+        "/champions/mikhail-tal",
+        "/champions/tigran-petrosian",
+        "/champions/boris-spassky",
+        "/champions/robert-bobby-fischer",
+        "/champions/anatoly-karpov",
+        "/champions/garry-kasparov",
+        "/champions/vladimir-kramnik",
+        "/champions/viswanathan-anand",
+        "/champions/magnus-carlsen",
+        "/champions/ding-liren",
+        "/champions/gukesh-dommaraju",
+        "/thematic_collections/5-chess-sets-you-definitely-havent-seen",
+        "/thematic_collections/chess-before-the-20th-century",
+        "/thematic_collections/chess-sets-that-belonged-to-famous-chess-players",
+        "/thematic_collections/10-scoresheets-from-world-championship-matches",
+        "/thematic_collections/1948-world-championship-tournament-memorabilia",
+        "/thematic_collections/alexander-alekhine-in-photographs",
+        "/thematic_collections/world-championship-medals",
+        "/thematic_collections/world-championship-trophies",
+        "/thematic_collections/world-championship-posters"
+      ]
+    },
+    {
+      "path": "/history",
+      "title": "/history",
+      "section": "history",
+      "excerpt": "",
+      "headings": [],
+      "links": []
+    },
+    {
+      "path": "/fide-history",
+      "title": "FIDE History - Open Chess Museum",
+      "section": "fide-history",
+      "excerpt": "The British Chess Federation, and shortly thereafter, the Chess Organizations of Russia and Germany, initiated the creation of an international chess federation (the initiative was not realized due to",
+      "headings": [
+        "fide history"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes"
+      ]
+    },
+    {
+      "path": "/quizzes",
+      "title": "Quizzes - Open Chess Museum",
+      "section": "quizzes",
+      "excerpt": "Collection History Champions FIDE history Quizzes Collection History Champions FIDE history Quizzes quizzes Take the Quiz Which world champion are you? Take the Quiz What do you know about chess?",
+      "headings": [
+        "quizzes"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/quizzes/which-world-champion-are-you",
+        "/quizzes/what-do-you-know-about-chess"
+      ]
+    },
+    {
+      "path": "/exhibits/viking-chess-set",
+      "title": "Viking chess set - Open Chess Museum",
+      "section": "exhibits",
+      "excerpt": "The “Lewis chessmen” remain a symbol of medieval chess and are often featured in film adaptations of the period. Perhaps the most famous European chess pieces from the Middle Ages were found by pure c",
+      "headings": [
+        "Viking chess set"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/thematic_collections/chess-before-the-20th-century",
+        "/exhibits/red-and-white-chess-set",
+        "/exhibits/invincible-chess-set"
+      ]
+    },
+    {
+      "path": "/exhibits/staunton-chess-set",
+      "title": "Staunton chess set - Open Chess Museum",
+      "section": "exhibits",
+      "excerpt": "Russia, Moscow, Chess Museum of the Central Chess Club The knight, represented by a horse’s head and hand-carved, was copied from the ancient Parthenon frieze showcased at the British Museum This styl",
+      "headings": [
+        "Staunton chess set"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/wire-chess-set",
+        "/exhibits/tuvan-chess-set"
+      ]
+    },
+    {
+      "path": "/exhibits/fattorini-chess-clock",
+      "title": "Fattorini chess clock - Open Chess Museum",
+      "section": "exhibits",
+      "excerpt": "The time control at the London tournament was 15 moves per hour. For the first time, a player exceeding his time limit forfeited the game The Fattorini & Sons chess clock is a pendular mechanical cloc",
+      "headings": [
+        "Fattorini chess clock"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/thematic_collections/chess-before-the-20th-century",
+        "/exhibits/tuvan-chess-set",
+        "/exhibits/victrix-a-militarized-chess-game"
+      ]
+    },
+    {
+      "path": "/exhibits/chess-table-designed-by-alexander-rodchenko",
+      "title": "Chess table designed by Alexander Rodchenko - Open Chess Museum",
+      "section": "exhibits",
+      "excerpt": "This chess table, crafted by the renowned Russian and Soviet artist Alexander Rodchenko, stands as a testament to the principles of constructivism. It was built for the Soviet Pavilion at the Paris Wo",
+      "headings": [
+        "Chess table designed by Alexander Rodchenko"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/chess-based-on-manas-a-kyrgyz-traditional-epic-poem",
+        "/exhibits/staunton-chess-set"
+      ]
+    },
+    {
+      "path": "/exhibits/the-hamilton-russell-cup",
+      "title": "The Hamilton-Russell Cup - Open Chess Museum",
+      "section": "exhibits",
+      "excerpt": "Unlike the Rimet Cup for soccer, the Hamilton-Russell Cup may never become the property of a team winning several editions The Hamilton-Russel Cup is a trophy for the winning team in the open section ",
+      "headings": [
+        "The Hamilton-Russell Cup"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/gold-medal-of-the-1952-chess-olympiad",
+        "/exhibits/ju-wenjuns-trophy-for-winning-the-world-championship-match-against-lei-tingjie"
+      ]
+    },
+    {
+      "path": "/champions/wilhelm-steinitz",
+      "title": "Wilhelm Steinitz - Open Chess Museum",
+      "section": "champions",
+      "excerpt": "The first world champion in chess history (1886–1894). Wilhelm Steinitz, a native of Prague, gained recognition in the Vienna Chess Society, becoming champion of the Austrian Empire. He represented Au",
+      "headings": [
+        "Wilhelm Steinitz",
+        "Biography (1836 – 1900)",
+        "Notable game",
+        "Want chess advice?",
+        "On Steinitz",
+        "Want more?",
+        "Other champions See all",
+        "Boris Spassky",
+        "Ding Liren",
+        "Magnus Carlsen"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/champions/boris-spassky",
+        "/champions/ding-liren",
+        "/champions/magnus-carlsen"
+      ]
+    },
+    {
+      "path": "/champions/emanuel-lasker",
+      "title": "Emanuel Lasker - Open Chess Museum",
+      "section": "champions",
+      "excerpt": "The chess long-liver, who hold the title of world champion the longest time in chess history: 27 years (1894–1921). Doctor of Philosophy and Mathematics. Born in Germany in 1868, Emanuel Lasker began ",
+      "headings": [
+        "Emanuel Lasker",
+        "Biography (1868 – 1941)",
+        "Notable game",
+        "Want chess advice?",
+        "On Lasker",
+        "Want more?",
+        "Related exhibits",
+        "Other champions See all",
+        "Jose Raul Capablanca",
+        "Alexander Alekhine",
+        "Max Euwe"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/champions/jose-raul-capablanca",
+        "/champions/alexander-alekhin",
+        "/champions/max-euwe"
+      ]
+    },
+    {
+      "path": "/champions/jose-raul-capablanca",
+      "title": "Jose Raul Capablanca - Open Chess Museum",
+      "section": "champions",
+      "excerpt": "José Raúl Capablanca y Graupera (1888–1942) was a Cuban chess prodigy. At the age of 12, he defeated the Cuban chess champion, and at 21, he beat the U.S. champion and World Chess title challenger, Fr",
+      "headings": [
+        "Jose Raul Capablanca",
+        "Biography (1888 – 1942)",
+        "Notable game",
+        "Want chess advice?",
+        "On Capablanca",
+        "Want more?",
+        "Related exhibits",
+        "Other champions See all",
+        "Mikhail Tal",
+        "Garry Kasparov",
+        "Ding Liren"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/champions/mikhail-tal",
+        "/champions/garry-kasparov",
+        "/champions/ding-liren"
+      ]
+    },
+    {
+      "path": "/champions/alexander-alekhin",
+      "title": "Alexander Alekhine - Open Chess Museum",
+      "section": "champions",
+      "excerpt": "Alexander Alekhine held the chess crown from 1927–1935 and 1937–1946, and was the only world champion to die undefeated. Alekhine (1892–1946) came from a wealthy noble family. On the eve of the First ",
+      "headings": [
+        "Alexander Alekhine",
+        "Biography (1892 – 1946)",
+        "Notable game",
+        "Want chess advice?",
+        "On Alekhine",
+        "Want more?",
+        "Related exhibits",
+        "Other champions See all",
+        "Wilhelm Steinitz",
+        "Mikhail Tal",
+        "Anatoly Karpov"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/champions/wilhelm-steinitz",
+        "/champions/mikhail-tal",
+        "/champions/anatoly-karpov"
+      ]
+    },
+    {
+      "path": "/champions/max-euwe",
+      "title": "Max Euwe - Open Chess Museum",
+      "section": "champions",
+      "excerpt": "Machgielis \"Max\" Euwe (1901–1981) was the fifth World Chess Champion (1935–1937). A chess amateur, Doctor of Mathematics, and teacher, Euwe led the Dutch team at seven Chess Olympiads, becoming the wo",
+      "headings": [
+        "Max Euwe",
+        "Biography (1901 – 1981)",
+        "Notable game",
+        "Want chess advice?",
+        "On Euwe",
+        "Want more?",
+        "Related exhibits",
+        "Other champions See all",
+        "Anatoly Karpov",
+        "Tigran Petrosian",
+        "Vasily Smyslov"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/champions/anatoly-karpov",
+        "/champions/tigran-petrosian",
+        "/champions/vasily-smyslov"
+      ]
+    },
+    {
+      "path": "/champions/michael-botvinnik",
+      "title": "Mikhail Botvinnik - Open Chess Museum",
+      "section": "champions",
+      "excerpt": "Mikhail Botvinnik (1911–1994) was the sixth World Chess Champion (1948–1957; 1958–1960; 1961–1963) and the founder, the \"Patriarch,\" of the Soviet Chess School. He played for the Soviet Olympiad team ",
+      "headings": [
+        "Mikhail Botvinnik",
+        "Biography (1911 – 1994)",
+        "Notable game",
+        "Want chess advice?",
+        "On Botvinnik",
+        "Want more?",
+        "Related exhibits",
+        "Other champions See all",
+        "Anatoly Karpov",
+        "Garry Kasparov",
+        "Robert Fischer"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/champions/anatoly-karpov",
+        "/champions/garry-kasparov",
+        "/champions/robert-bobby-fischer"
+      ]
+    },
+    {
+      "path": "/champions/vasily-smyslov",
+      "title": "Vasily Smyslov - Open Chess Museum",
+      "section": "champions",
+      "excerpt": "Vasily Smyslov (1921–2010) became acquainted with chess at the age of six and started playing competitively at 14. Although he faced a significant decline in his chess performance immediately after th",
+      "headings": [
+        "Vasily Smyslov",
+        "Biography (1921 – 2010)",
+        "Notable game",
+        "Want chess advice?",
+        "On Smyslov",
+        "Want more?",
+        "Related exhibits",
+        "Other champions See all",
+        "Mikhail Tal",
+        "Max Euwe",
+        "Jose Raul Capablanca"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/champions/mikhail-tal",
+        "/champions/max-euwe",
+        "/champions/jose-raul-capablanca"
+      ]
+    },
+    {
+      "path": "/champions/mikhail-tal",
+      "title": "Mikhail Tal - Open Chess Museum",
+      "section": "champions",
+      "excerpt": "The meteoric rise of Mikhail Tal (1936–1992) staggers the imagination. He rose from a mere master to World Champion in just three years. After winning the Candidates Tournament in Yugoslavia in 1959, ",
+      "headings": [
+        "Mikhail Tal",
+        "Biography (1936 – 1992)",
+        "Notable game",
+        "Want chess advice?",
+        "On Tal",
+        "Want more?",
+        "Related exhibits",
+        "Other champions See all",
+        "Mikhail Botvinnik",
+        "Ding Liren",
+        "Vladimir Kramnik"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/champions/michael-botvinnik",
+        "/champions/ding-liren",
+        "/champions/vladimir-kramnik"
+      ]
+    },
+    {
+      "path": "/thematic_collections/5-chess-sets-you-definitely-havent-seen",
+      "title": "5 chess sets you definitely haven't seen - FIDE Chess Museum",
+      "section": "thematic_collections",
+      "excerpt": "Chess sets come in all shapes and forms! Some are historical, some artistic, some practical to play, and others not so much. You’ve surely seen your share of chess sets in your life and probably even ",
+      "headings": [
+        "5 chess sets you definitely haven't seen",
+        "African Masks chess set",
+        "The first-ever chess set to have traveled to outer space",
+        "Victrix, a militarized chess game",
+        "Animals of the North vs. Animals of the South chess set"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/african-masks-chess-set",
+        "/exhibits/the-first-ever-chess-set-to-have-traveled-to-outer-space",
+        "/exhibits/victrix-a-militarized-chess-game",
+        "/exhibits/animals-of-the-north-vs-animals-of-the-south-chess-set",
+        "/thematic_collections/10-scoresheets-from-world-championship-matches",
+        "/thematic_collections/alexander-alekhine-in-photographs"
+      ]
+    },
+    {
+      "path": "/thematic_collections/chess-before-the-20th-century",
+      "title": "Chess before the 20th century - FIDE Chess Museum",
+      "section": "thematic_collections",
+      "excerpt": "Chess is as old as the hills. These ten exhibits will take you on a journey from the 12th century to the end of the 19th century In 1976, the famous grandmaster and rarity enthusiast David Bronstein r",
+      "headings": [
+        "Chess before the 20th century",
+        "Shatranj",
+        "Viking chess set",
+        "Ludus latrunculorum : Stein oder schachspiel",
+        "Das Schach- oder König-Spiel",
+        "L'Analyse des Échecs",
+        "Le jeu des échecs. Selon la methode",
+        "Mosaic chessboard",
+        "Barleycorn chess set",
+        "Travel chess set with metal chessboard box",
+        "Fattorini chess clock"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/shatranj",
+        "/exhibits/viking-chess-set",
+        "/exhibits/ludus-latrunculorum-stein-oder-schachspiel",
+        "/exhibits/das-schach-oder-konig-spiel",
+        "/exhibits/lanalyse-des-echecs",
+        "/exhibits/le-jeu-des-echecs-selon-la-methode",
+        "/exhibits/mosaic-chessboard",
+        "/exhibits/barleycorn-chess-set",
+        "/exhibits/travel-chess-set-with-metal-chessboard-box",
+        "/exhibits/fattorini-chess-clock",
+        "/thematic_collections/chess-sets-that-belonged-to-famous-chess-players",
+        "/thematic_collections/5-chess-sets-you-definitely-havent-seen"
+      ]
+    },
+    {
+      "path": "/thematic_collections/chess-sets-that-belonged-to-famous-chess-players",
+      "title": "Chess sets that belonged to famous chess players - FIDE Chess Museum",
+      "section": "thematic_collections",
+      "excerpt": "Chess sets that belonged to famous grandmasters before they made their way into museums The Regence Chess Set, which was Chigorin’s favorite, is inspired by the romantic 19th century. Similar chess pi",
+      "headings": [
+        "Chess sets that belonged to famous chess players",
+        "Mikhail Chigorin’s Regence Chess Set",
+        "Alekhine's chess set",
+        "Shatranj",
+        "\"Chess suitcase\" of Alexandra Kosteniuk"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/mikhail-chigorins-regence-chess-set",
+        "/exhibits/alekhines-chess-set",
+        "/exhibits/shatranj",
+        "/exhibits/chess-suitcase-of-alexandra-kosteniuk",
+        "/thematic_collections/alexander-alekhine-in-photographs",
+        "/thematic_collections/1948-world-championship-tournament-memorabilia"
+      ]
+    },
+    {
+      "path": "/thematic_collections/10-scoresheets-from-world-championship-matches",
+      "title": "10 Scoresheets from World Championship matches - FIDE Chess Museum",
+      "section": "thematic_collections",
+      "excerpt": "These are the authentic scoresheets from iconic World Chess Championship matches. The handwriting of the grandmasters can reveal intriguing insights into their personality and their mental state durin",
+      "headings": [
+        "10 Scoresheets from World Championship matches",
+        "Scoresheet of Game 7 of 1927 World Championship Match Capablanca - Alekhine, Capablanca's handwriting",
+        "Scoresheet of Game 20 of 1935 World Championship Match Euwe - Alekhine",
+        "Scoresheet of Game 6 of 1954 World Championship Match Botvinnik - Smyslov. Botvinnik's handwriting",
+        "Scoresheet of Game 4 of the 1981 World Championship Match Karpov - Korchnoi, Korchnoi's handwriting",
+        "Scoresheet of Game 2 of the 1990 World Championship Match between Kasparov and Karpov. Karpov's handwriting",
+        "Scoresheet of Game 23 of the 1990 World Championship Match between Kasparov and Karpov. Kasparov's handwriting",
+        "Scoresheets of Game 3 of 2008 World Championship Match Kramnik - Anand",
+        "Scoresheet of Game 6 of 2014 World Championship Match Anand - Carlsen. Carlsen's handwriting",
+        "Scoresheet of Game 11 of the 2021 World Championship Match between Magnus Carlsen and Ian Nepomniachtchi. Carlsen's handwriting",
+        "Scoresheet of Game 1 of the 2023 World Championship Match between Ding Liren and Ian Nepomniachtchi"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/scoresheet-of-game-7-of-1927-world-championship-match-capablanca-alekhine-capablancas-handwriting",
+        "/exhibits/scoresheet-of-game-20-of-1935-world-championship-match-euwe-alekhine",
+        "/exhibits/scoresheet-of-game-6-of-1954-world-championship-match-botvinnik-smyslov-botvinniks-handwriting",
+        "/exhibits/scoresheet-of-game-4-of-the-1981-world-championship-match-karpov-korchnoi-korchnois-handwriting",
+        "/exhibits/scoresheet-of-game-2-of-the-1990-world-championship-match-between-kasparov-and-karpov-karpovs-handwriting",
+        "/exhibits/scoresheet-of-game-23-of-the-1990-world-championship-match-between-kasparov-and-karpov-kasparovs-handwriting",
+        "/exhibits/scoresheets-of-game-3-of-2008-world-championship-match-kramnik-anand",
+        "/exhibits/scoresheet-of-game-6-of-2014-world-championship-match-anand-carlsen-carlsens-handwriting",
+        "/exhibits/scoresheet-of-game-11-of-the-2021-world-championship-match-between-magnus-carlsen-and-ian-nepomniachtchi-carlsens-handwriting",
+        "/exhibits/scoresheet-of-game-1-of-the-2023-world-championship-match-between-ding-liren-and-ian-nepomniachtchi",
+        "/thematic_collections/world-championship-posters",
+        "/thematic_collections/alexander-alekhine-in-photographs"
+      ]
+    },
+    {
+      "path": "/thematic_collections/1948-world-championship-tournament-memorabilia",
+      "title": "1948 World Championship Tournament memorabilia - FIDE Chess Museum",
+      "section": "thematic_collections",
+      "excerpt": "The 1948 World Chess Championship was a pivotal event in the history of chess, marking the transition of control over the championship title to FIDE. After the death of the previous champion, Alexande",
+      "headings": [
+        "1948 World Championship Tournament memorabilia",
+        "Related exhibits",
+        "World Championship Tournament 1948 program",
+        "World Championship Tournament 1948 caricature",
+        "Bulletin of the 1948 World Championship Tournament",
+        "World Championship Tournament 1948 stamp",
+        "Postcard with the Soviet participants of the 1948 World Championship Tournament",
+        "The final arbiter protocol of the 1948 World Championship Tournament"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/world-championship-tournament-1948-program",
+        "/exhibits/world-championship-tournament-1948-caricature",
+        "/exhibits/bulletin-of-the-1948-world-championship-tournament",
+        "/exhibits/stamp-dedicated-to-1948-world-championship-tournament",
+        "/exhibits/postcard-with-the-soviet-participants-of-the-1948-world-championship-tournament",
+        "/exhibits/the-final-arbiter-protocol-of-the-1948-world-championship-tournament",
+        "/thematic_collections/world-championship-medals",
+        "/thematic_collections/alexander-alekhine-in-photographs"
+      ]
+    },
+    {
+      "path": "/thematic_collections/alexander-alekhine-in-photographs",
+      "title": "Alexander Alekhine in photographs - FIDE Chess Museum",
+      "section": "thematic_collections",
+      "excerpt": "A selection of photographs, known and less so, chronicles the chess journey of Alexander Alekhine, the fourth World Chess Champion The fourth World Chess Champion, Alexander Alekhine, was almost insep",
+      "headings": [
+        "Alexander Alekhine in photographs",
+        "Alexander Alekhine and his cat Chess",
+        "Unveiling Alekhine's tomb at Montparnasse cemetery, 1956",
+        "Stahlberg vs Alekhine 1931",
+        "Alekhine and Bogoljubow at the start of their 1929 World Championship Match",
+        "The start of the first game Alekhine-Euwe of the 1935 World Championship Match",
+        "Aelxander Alekhine during 1937 World Championship Match",
+        "Alexander Alekhine crowned World Champion upon winning 1937 World Championship Match",
+        "Alexander Alekhine, Emanuel Lasker, and Efim Bogoljubov, Berlin 1929"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/alexander-alekhine-and-his-cat-chess",
+        "/exhibits/unveiling-alekhines-tomb-at-montparnasse-cemetery-1956",
+        "/exhibits/stahlberg-vs-alekhine-1931",
+        "/exhibits/alekhine-and-bogoljubow-at-the-start-of-their-1929-world-championship-match",
+        "/exhibits/the-start-of-the-first-game-alekhine-euwe-of-the-1935-world-championship-match",
+        "/exhibits/aelxander-alekhine-during-1937-world-championship-match",
+        "/exhibits/alexander-alekhine-crowned-world-champion-upon-winning-1937-world-championship-match",
+        "/exhibits/alexander-alekhine-emanuel-lasker-and-efim-bogoljubov-berlin-1929",
+        "/thematic_collections/chess-before-the-20th-century",
+        "/thematic_collections/1948-world-championship-tournament-memorabilia"
+      ]
+    },
+    {
+      "path": "/thematic_collections/world-championship-medals",
+      "title": "World Championship Medals - FIDE Chess Museum",
+      "section": "thematic_collections",
+      "excerpt": "These medals symbolize the pinnacle of achievement in chess—winning the World Championship. They carry the legacy of some of the most important World Chess Championship matches in history. The 1978 Wo",
+      "headings": [
+        "World Championship Medals",
+        "Medal of the 1978 World Championship Match",
+        "Medal of the 1981 World Championship Match",
+        "Medal of the 1984 World Championship Match",
+        "Gold medal of the 2006 World Championship Match",
+        "Medal of the 2012 World Championship Match",
+        "Gold medal of the 2021 FIDE World Championship Match",
+        "Medal of the 2023 FIDE World Championship Match",
+        "Medals of the 2024 FIDE World Championship Match"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/medal-of-the-world-chess-championship-match-karpov-vs-korchnoi-in-1978",
+        "/exhibits/1981-world-chess-championship-match-medal",
+        "/exhibits/medal-from-the-1984-world-championship-match",
+        "/exhibits/kramniks-medal-from-the-world-chess-championship-2006",
+        "/exhibits/medal-of-the-2012-world-championship-match",
+        "/exhibits/gold-medal-of-the-2021-world-chess-championship",
+        "/exhibits/medal-of-the-2023-world-chess-championship",
+        "/exhibits/medals-of-the-2024-world-chess-championship-match",
+        "/thematic_collections/world-championship-posters",
+        "/thematic_collections/alexander-alekhine-in-photographs"
+      ]
+    },
+    {
+      "path": "/thematic_collections/world-championship-trophies",
+      "title": "World Championship Trophies - FIDE Chess Museum",
+      "section": "thematic_collections",
+      "excerpt": "The trophies for the World Chess Championships come in all sizes and forms. However, they all share a common trait: they are incredibly beautiful and bear the deepest significance—their owner is the W",
+      "headings": [
+        "World Championship Trophies",
+        "Trophy of the FIDE World Championship Match 2006",
+        "Trophy of the World Championship Match 2013",
+        "Trophy of the FIDE World Championship Match 2021",
+        "Trophy of the FIDE Women's World Championship Match 2023",
+        "Trophy of the FIDE World Championship 2023",
+        "Trophy of the FIDE World Championship Match 2024"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/kramniks-trophy-for-winning-the-2006-world-championship-match",
+        "/exhibits/2013-world-championship-match-trophy",
+        "/exhibits/carlsens-trophy-for-winning-the-2021-world-championship-match",
+        "/exhibits/ju-wenjuns-trophy-for-winning-the-world-championship-match-against-lei-tingjie",
+        "/exhibits/trophy-of-the-fide-world-championship-2023",
+        "/exhibits/trophy-of-the-2024-world-chess-championship-match",
+        "/thematic_collections/alexander-alekhine-in-photographs",
+        "/thematic_collections/5-chess-sets-you-definitely-havent-seen"
+      ]
+    },
+    {
+      "path": "/quizzes/which-world-champion-are-you",
+      "title": "What World Champion Are You?",
+      "section": "quizzes",
+      "excerpt": "And what do you think about the chess crown? I offer a draw! The position is equal, you see… By the way, what do you think about money? And what does your wife think about your lifestyle? And finally:",
+      "headings": [
+        "What World Champion Are You?"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes"
+      ]
+    },
+    {
+      "path": "/quizzes/what-do-you-know-about-chess",
+      "title": "What do you know about chess? - Open Chess Museum",
+      "section": "quizzes",
+      "excerpt": "What was the longest decisive game ever played at an Olympiad? How many moves long is the longest theoretically possible chess game? Who were the opponents in the famous “Immortal game” played in 1851",
+      "headings": [
+        "What do you know about chess?"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes"
+      ]
+    },
+    {
+      "path": "/exhibits/red-and-white-chess-set",
+      "title": "Red and White chess set - Open Chess Museum",
+      "section": "exhibits",
+      "excerpt": "Russia, Moscow, Chess Museum of the Central Chess Club The most famous chess set of the Russian avant-garde era, a symbol of the early 1920s This chess set was created by renowned Soviet porcelain mas",
+      "headings": [
+        "Red and White chess set"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/tuvan-chess-set",
+        "/exhibits/electronica-im-01"
+      ]
+    },
+    {
+      "path": "/exhibits/invincible-chess-set",
+      "title": "Invincible chess set - Open Chess Museum",
+      "section": "exhibits",
+      "excerpt": "Russia, Moscow, Chess Museum of the Central Chess Club A chessboard designed by 12th World Chess Champion Anatoly Karpov A chessboard designed by 12th World Chess Champion Anatoly Karpov. The chess se",
+      "headings": [
+        "Invincible chess set"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/chess-set-commemorating-200th-anniversary-of-the-war-of-1812",
+        "/exhibits/viking-chess-set"
+      ]
+    },
+    {
+      "path": "/exhibits/wire-chess-set",
+      "title": "Wire chess set - Open Chess Museum",
+      "section": "exhibits",
+      "excerpt": "Russia, Moscow, Chess Museum of the Central Chess Club One of the darker chapters in chess history involves chess sets made in prisons and labor camps. In the Vorkuta camps of the USSR, prisoners craf",
+      "headings": [
+        "Wire chess set"
+      ],
+      "links": [
+        "/",
+        "/history",
+        "/fide-history",
+        "/quizzes",
+        "/exhibits/viking-chess-set",
+        "/exhibits/selenus-chess-set"
+      ]
+    }
+  ]
+}

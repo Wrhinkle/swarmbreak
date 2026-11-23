@@ -1,0 +1,246 @@
+{
+  "reading": "The Strong National Museum of Play in Rochester treats play as both a living activity and a subject worthy of preservation and scholarship. It brings together hands-on exhibits, a maker lab, a preschool, intergenerational volunteering, school programs, camps, a research library, archives, and an interdisciplinary journal. Its language moves easily between learning through play, curiosity, creativity, discovery, collections, preservation, inductees, makers, and access. What makes it distinctive is the collision of scholarly care for toys, electronic games and game-show history with a place where visitors can actually build, climb, ride, imagine and play across generations. The crawl gives only short excerpts for many pages, so the ideas invent fictional mechanisms from the subjects and headings rather than claiming further details about the real exhibits.",
+  "enemies": [
+    {
+      "idea": "The Induction Jury: a swarm of alphabet blocks votes toys into a mechanical hall of fame, then captures anything it declares too important to touch.",
+      "source": "/exhibits/toy-hall-of-fame/",
+      "why": "Players can rearrange its letters to change the verdict and free its prisoners."
+    },
+    {
+      "idea": "Slide Snatchers unfold into chutes beneath moving feet, returning riders to the start of a hunting circuit.",
+      "source": "/exhibits/toy-hall-of-fame/",
+      "why": "A familiar playground motion becomes a moving terrain puzzle."
+    },
+    {
+      "idea": "High-Score Reapers steal points for every repeated maneuver and spend them on increasingly elaborate obstacles.",
+      "source": "/exhibits/world-video-game-hall-of-fame/",
+      "why": "Experimentation weakens an enemy built to punish predictable play."
+    },
+    {
+      "idea": "Timeline Stitchers pull eras of video-game history out of order, equipping primitive game pieces with futuristic swarm parts.",
+      "source": "/exhibits/online-exhibits/",
+      "why": "Mixed eras produce surprising combinations that can be untangled."
+    },
+    {
+      "idea": "Balance Beam Crawlers travel along suspended beams, tipping their perch whenever a climber tries to stand still.",
+      "source": "/exhibit/skyline-climb/",
+      "why": "The crew must manage balance and timing instead of simply attacking."
+    },
+    {
+      "idea": "Scrap Assemblers build themselves from whatever the crew drops, treating every broken machine as raw material.",
+      "source": "/exhibit/play-lab/",
+      "why": "Improvised construction makes the consequences of a fight visible."
+    },
+    {
+      "idea": "Chrysalis Drones wrap themselves in leaf-shaped armor and emerge with mirrored wings that redirect light toward the swarm.",
+      "source": "/exhibit/dancing-wings-butterfly-garden/",
+      "why": "Interrupting metamorphosis or changing the light changes the encounter."
+    },
+    {
+      "idea": "The Runaway Chariot circles on a carousel track and scoops loose objects into its whirling tub.",
+      "source": "/exhibit/carousel-and-train/",
+      "why": "Riders can exploit its repeated route to recover stolen gear."
+    },
+    {
+      "idea": "The Shuffle Dealer deals oversized mechanical cards that rearrange the floor into a new game-show challenge each round.",
+      "source": "/collections/national-archives-of-game-show-history/",
+      "why": "The crew can read the shuffle and interfere with the next layout."
+    },
+    {
+      "idea": "The Pyramid Prompter fires clues that try to make crew members describe one another as objects to be collected.",
+      "source": "/collections/national-archives-of-game-show-history/",
+      "why": "A word game creates a playful challenge without copying any real presenter."
+    },
+    {
+      "idea": "The Preservation Shell sprays a hard clear coating on moving things to keep them forever unchanged.",
+      "source": "/collections/preservation/",
+      "why": "Its protective purpose has become a trap; heat and motion can crack its work."
+    },
+    {
+      "idea": "The Save-State Centipede records a few seconds of a room and loops them until someone changes an object outside its view.",
+      "source": "/collections/icheg/",
+      "why": "Players can notice and break a physical time loop."
+    },
+    {
+      "idea": "Keyword Mites demand five to seven labels for everything they find, binding each target to the labels it receives.",
+      "source": "/journalofplay/authors/",
+      "why": "Unexpected descriptions become tools for escaping the swarm’s categories."
+    },
+    {
+      "idea": "The Curriculum Sorter separates a group into math, science, language arts and social studies lanes and blocks cooperation.",
+      "source": "/educators/field-trips/",
+      "why": "The way through is to combine subjects the machine insists on separating."
+    },
+    {
+      "idea": "The Custom Lesson Tailor observes a crew’s favorite tactic and stitches a personalized obstacle designed to counter it.",
+      "source": "/educators/programs-for-grades-7-to-12/",
+      "why": "It rewards swapping roles and surprising a learning opponent."
+    },
+    {
+      "idea": "Backpack Mimics unfold into equipment that offers exactly the wrong tool for the task, then scuttles away with the right one.",
+      "source": "/visit/hours-and-admissions/scouts/",
+      "why": "Players can bait them with decoy tools and recover useful supplies."
+    },
+    {
+      "idea": "The Exploration Pen fences off every new object as soon as anyone shows curiosity about it.",
+      "source": "/woodbury-school/",
+      "why": "A space meant for hands-on exploration becomes a puzzle about making openings."
+    },
+    {
+      "idea": "The Museum Maker appropriates creations from the workshop and curates them into a marching exhibit of mismatched inventions.",
+      "source": "/visit/camps-at-the-strong/",
+      "why": "Taking apart its formations yields the components to build counters."
+    },
+    {
+      "idea": "The Constellation Copier links glowing points into a rigid, preapproved story and erases any star that suggests a different ending.",
+      "source": "/events/",
+      "why": "Rearranging the stars changes the threat and restores an open-ended story."
+    },
+    {
+      "idea": "The Rocket Pad Hopper launches tiny handmade rockets that stick to surfaces and propel the surfaces across the room.",
+      "source": "/events/",
+      "why": "A craft activity becomes a lively problem of shifting cover and improvised launch angles."
+    },
+    {
+      "idea": "The Acquisitions Claw insists that every carried object belongs in the collection and tags it for removal.",
+      "source": "/collections/donate-an-artifact/",
+      "why": "Players can distract it with invented artifacts or retrieve tagged gear before collection."
+    },
+    {
+      "idea": "The Expansion Engine bolts new playrooms onto itself faster than it can fill them, extending walls into surrounding corridors.",
+      "source": "/support/expansion-campaign/",
+      "why": "Its construction creates a changing maze with seams the crew can use."
+    },
+    {
+      "idea": "Bingo Callers stamp a grid onto the floor and mark occupied squares; a completed line summons a net.",
+      "source": "/blog/",
+      "why": "The visible grid lets a crew cooperate to break a line before it closes."
+    },
+    {
+      "idea": "The Level-Up Lifter turns each successful dodge into a higher platform, eventually lifting targets away from their companions.",
+      "source": "/exhibits/museum-exhibits/",
+      "why": "Success changes the arena, so the team must choose when to advance."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Listening Pair, two fictional volunteer-guides, follow a child-sized toy’s lead to find paths the swarm overlooks.",
+      "source": "/g2/about/",
+      "why": "Their patient, child-led play reveals routes without making the crew solve everything by force."
+    },
+    {
+      "idea": "A free preservation drone makes removable protective sleeves for vulnerable artifacts and teaches the crew how to carry them safely.",
+      "source": "/collections/preservation/",
+      "why": "Its care directly counters the swarm’s destructive collecting."
+    },
+    {
+      "idea": "A pocket-sized maker bot invites the crew to combine spare parts into one-use tools, accepting silly prototypes as readily as practical ones.",
+      "source": "/exhibit/play-lab/",
+      "why": "It turns found materials into creative options."
+    },
+    {
+      "idea": "A fictional access guide keeps several routes open and offers quiet signals and alternate ways to navigate a disrupted exhibit.",
+      "source": "/visit/accessibility/",
+      "why": "The crew can approach the same obstacle in different ways."
+    },
+    {
+      "idea": "A resourceful archive assistant finds records of a machine’s original purpose and shares clues to undo its corrupted behavior.",
+      "source": "/collections/research-access/",
+      "why": "Research becomes an active way to help rather than a lore dump."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Endless Collector is a composite vault of toys, game machinery and archival drawers that believes preserving play means imprisoning every player. Each freed object removes one of its defenses.",
+      "source": "/collections/",
+      "why": "The museum’s collections and preservation mission become a coherent final encounter with a rescue-driven solution."
+    },
+    {
+      "idea": "The Perfect Play Director tries to optimize learning, creativity and discovery into a single compulsory game. Its rules grow brittle when the crew invents an activity it cannot score.",
+      "source": "/about/",
+      "why": "The whole museum’s philosophy returns as a conflict between prescribed outcomes and open-ended play."
+    },
+    {
+      "idea": "The Powered-by-Play Engine consumes the energy of every game to build a bigger museum around itself, trapping play inside its expanding rooms.",
+      "source": "/support/expansion-campaign/",
+      "why": "Players can redirect its power by connecting separate rooms into a shared, cooperative game."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A half-finished fearsome friend wakes at a craft table and asks the crew to choose its final parts before the swarm claims it.",
+      "source": "/events/",
+      "why": "A small act of making can produce an ally, distraction or unexpected complication."
+    },
+    {
+      "idea": "A scattered constellation will only shine when the crew invents a story linking its stars; a Copier keeps proposing the same ending.",
+      "source": "/events/",
+      "why": "A quick collaborative storytelling challenge has a visible result."
+    },
+    {
+      "idea": "A homemade rocket is stuck on its launch pad while swarm drones argue over which way is up.",
+      "source": "/events/",
+      "why": "The crew can alter the launch angle and use the launch as a diversion."
+    },
+    {
+      "idea": "A sci-fi puppet has tangled its own strings around a drone and needs a partner to finish its performance without freeing the machine.",
+      "source": "/events/",
+      "why": "A tiny rescue doubles as a coordination puzzle."
+    },
+    {
+      "idea": "A carousel’s leaping horses have stopped at different heights, leaving a lost toy stranded on the chariot.",
+      "source": "/exhibit/carousel-and-train/",
+      "why": "The crew can time a slow rotation to retrieve it."
+    },
+    {
+      "idea": "A mechanical wing casts a false shadow over a quiet garden path, attracting hostile drones to anything moving beneath it.",
+      "source": "/exhibit/dancing-wings-butterfly-garden/",
+      "why": "Changing the light gives a noncombat way through."
+    },
+    {
+      "idea": "A game-making workshop is mid-prototype: its pieces disagree on the rules, and each rule changes the room.",
+      "source": "/visit/camps-at-the-strong/",
+      "why": "Trying rules in combination offers a playful route through the space."
+    },
+    {
+      "idea": "A game-show archive machine offers a mystery prize for a clue chain, but its shuffle has mixed up the categories.",
+      "source": "/collections/national-archives-of-game-show-history/",
+      "why": "The crew can restore the order or invent a new connection."
+    },
+    {
+      "idea": "A self-guided route splits into math, science, language arts and social studies, with one clue visible from each branch.",
+      "source": "/educators/field-trips/",
+      "why": "Sharing observations across branches rewards cooperation."
+    },
+    {
+      "idea": "An abandoned exploration backpack contains an assortment of tools and a sketch of a route that has since changed.",
+      "source": "/visit/hours-and-admissions/scouts/",
+      "why": "The crew must adapt the tools to the present room rather than follow directions blindly."
+    },
+    {
+      "idea": "Two generations of fictional toy figures are trying to play together but have incompatible pieces; the swarm keeps sorting them apart.",
+      "source": "/g2/",
+      "why": "A simple shared game can reconnect them and open a safe passage."
+    },
+    {
+      "idea": "An alphabet-block jury is about to induct a cardboard box while the box quietly helps other toys escape.",
+      "source": "/exhibits/toy-hall-of-fame/",
+      "why": "The crew can influence the vote or use the ceremony as cover."
+    },
+    {
+      "idea": "A damaged game keeps replaying its opening moments while a free preservation drone tries to capture a stable copy.",
+      "source": "/collections/icheg/",
+      "why": "Holding the room steady for a short interval saves a fragment of game history."
+    },
+    {
+      "idea": "A disrupted route has left a quiet rest area isolated behind moving obstacles; a guide is mapping a second way in.",
+      "source": "/visit/accessibility/",
+      "why": "Helping reconnect it creates a useful refuge for later."
+    },
+    {
+      "idea": "Pieces of a video-game history timeline have been scattered across a corridor, and each misplaced era changes the behavior of nearby machines.",
+      "source": "/exhibits/online-exhibits/",
+      "why": "Restoring an order, or experimenting with a different one, changes the local hazards."
+    }
+  ]
+}

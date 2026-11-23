@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "museum.fide.com",
+   "name": "Open Chess Museum",
+   "url": "https://museum.fide.com/",
+   "file": "runs/2026-11-24/sites/museum.fide.com.json"
+  },
+  {
+   "host": "www.museumofplay.org",
+   "name": "The Strong National Museum of Play",
+   "url": "https://www.museumofplay.org/",
+   "file": "runs/2026-11-24/sites/www.museumofplay.org.json"
+  },
+  {
+   "host": "museedujeu.ch",
+   "name": "Swiss Museum of Games",
+   "url": "https://museedujeu.ch/en/",
+   "file": "runs/2026-11-24/sites/museedujeu.ch.json"
+  }
+ ]
+}

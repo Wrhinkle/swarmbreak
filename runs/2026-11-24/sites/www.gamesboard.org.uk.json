@@ -1,0 +1,225 @@
+{
+  "host": "www.gamesboard.org.uk",
+  "url": "https://www.gamesboard.org.uk/",
+  "crawledAt": "2026-11-23T22:04:09.033Z",
+  "pages": [
+    {
+      "path": "/",
+      "title": "The Games Board - Games History and Collections",
+      "section": "home",
+      "excerpt": "Welcome. We are a group of game historians. Our members' interests spans a diverse pantheon of gaming subjects from playing cards to pub games, ancient board games to Ludo, gaming counters to Ping Pon",
+      "headings": [
+        "The Games Board",
+        "For the General Public",
+        "For GARD Participants"
+      ],
+      "links": [
+        "/",
+        "/game-articles.htm",
+        "/bagatelle-pinball-game-history.htm",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/game-articles.htm",
+      "title": "Articles and Academic Papers on Games History (Games Board)",
+      "section": "game-articles.htm",
+      "excerpt": "Occasionally, one of our members or contributors may publish an article of research about games here. Papers will be accepted on almost any serious subject pertaining to games as long as it has someth",
+      "headings": [
+        "Game Articles"
+      ],
+      "links": [
+        "/",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/bagatelle-pinball-game-history.htm",
+      "title": "Bagatelle and Early Pinball Origins and History",
+      "section": "bagatelle-pinball-game-history.htm",
+      "excerpt": "This page is for those interested in the history, collecting, and any anything else to do with game of bagatelle from 'Rocks of Scilly', first recorded in 1799 through to early pinball machines as lat",
+      "headings": [
+        "Bagatelle and Early Pinball History",
+        "Mailing List",
+        "Discord Group",
+        "Other Information",
+        "Footnotes"
+      ],
+      "links": [
+        "/",
+        "/bagatelle-pinball-game-history.htm",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/GARD-intro.htm",
+      "title": "An Introduction to GARD - The GAmes Research Database",
+      "section": "GARD-intro.htm",
+      "excerpt": "GARD is intended to be primarily a resource for game researchers. However, many of the games are extremely aesthetic or artistic and some of the historical information fascinating - so it can be enjoy",
+      "headings": [
+        "GARD - The GAmes Research Database",
+        "Information about GARD"
+      ],
+      "links": [
+        "/",
+        "/GARD-contributors.htm",
+        "/GARD-using.htm",
+        "/GARD-dates.htm",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/about.htm",
+      "title": "The Games Board - members and background info",
+      "section": "about.htm",
+      "excerpt": "The Games Board is a group of more than 20 games collectors and enthusiasts who meet occasionally and research the history of games. The Games Board website hosts the Games Research Database but not a",
+      "headings": [
+        "About The Games Board Members"
+      ],
+      "links": [
+        "/",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/links.htm",
+      "title": "The Games Board - Games history & collection websites\"",
+      "section": "links.htm",
+      "excerpt": "Jocari - Aa huge database of games from ancient times to 1800 including archeological and iconographic information. It's in French (use an online translator) and is a great resource. Digital Ludeme Pr",
+      "headings": [
+        "Games Links Page",
+        "Serious Online Databases for Games Researchers",
+        "Interesting Informational websites",
+        "Interesting Commercial Websites",
+        "Games Organisations and People"
+      ],
+      "links": [
+        "/",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/contact.htm",
+      "title": "Contact The Games Board",
+      "section": "contact.htm",
+      "excerpt": "Take the above string, replace ' at-sign ' with '@' and you have our email address.",
+      "headings": [
+        "Contact The Games Board",
+        "thegamesboard at-sign googlegroups.com"
+      ],
+      "links": [
+        "/",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/GARD-contributors.htm",
+      "title": "The Games Board - How to Participate in GARD",
+      "section": "GARD-contributors.htm",
+      "excerpt": "If you have an interesting collection of Games or other game data and you would consider entering all the details and submitting them into GARD, please get in touch. Researchers who contribute signifi",
+      "headings": [
+        "GARD - How to Participate",
+        "GARD Participant Agreement",
+        "Additional Notes"
+      ],
+      "links": [
+        "/",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/GARD-using.htm",
+      "title": "The Games Board - Notes on GARD and using GARD",
+      "section": "GARD-using.htm",
+      "excerpt": "Each individual table can be searched by entering search criteria in the fields shown when you click on the table link. Searches are case-insensitive. An 'OR' facility exists - use the pipe symbol \"|\"",
+      "headings": [
+        "Notes on Using GARD",
+        "Searching GARD",
+        "Scanning GARD",
+        "Repositories"
+      ],
+      "links": [
+        "/",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/GARD-dates.htm",
+      "title": "The Games Board - About GARD (Games Research Database) dates",
+      "section": "GARD-dates.htm",
+      "excerpt": "Dates will be displayed in GARD in one of the following ways: For table-specific information on dates and earliest reference date value calculation, see Date Technical Details . Make best guess of whe",
+      "headings": [
+        "About GARD Dates",
+        "Richard Ballam's Notes on Date Entry"
+      ],
+      "links": [
+        "/",
+        "/GARD-dates-detail.htm",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    },
+    {
+      "path": "/GARD-dates-detail.htm",
+      "title": "Technical Info on Games Research Database (GARD) dates",
+      "section": "GARD-dates-detail.htm",
+      "excerpt": "Only the Year is held. A second 'accuracy' field specifies whether the year is 'circa', 'assumed' or 'direct ref'. Default accuracy is 'circa'. Where 'accuracy' is circa or assumed, a range can be ent",
+      "headings": [
+        "Technical Information on GARD Dates",
+        "Display Date",
+        "Dates held by each table",
+        "Examples/Adverts/Registrations",
+        "Books",
+        "Copyright",
+        "Earliest Reference Date"
+      ],
+      "links": [
+        "/",
+        "/GARD-dates.htm",
+        "/GARD-intro.htm",
+        "/about.htm",
+        "/game-articles.htm",
+        "/links.htm",
+        "/contact.htm"
+      ]
+    }
+  ]
+}

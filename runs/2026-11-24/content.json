@@ -1,0 +1,1177 @@
+{
+ "title": "The Game That Would Not End",
+ "swarm": {
+  "name": "The Keepers",
+  "blurb": "A swarm of clockwork pieces and collecting machines that repairs games, gathers players, and refuses to let a match finish."
+ },
+ "arc": "The crew first mistakes the swarm\u2019s chess match for a campaign of conquest. In the toy museum they learn it is trying to preserve play, but its protective cabinets imprison players and prevent change. At the games museum they discover the original instruction: preserve games for people to play. The swarm has treated every ending as a loss. Wren, Ox and Kestrel stop its keeper, and free players show that a game can end, change and begin again.",
+ "acts": [
+  {
+   "theme": "A match with no end",
+   "story": {
+    "intro": "The swarm has filled the chess collection with pieces that seize every open square. Kestrel calls it a takeover. Ox raises his shield and follows the moving line.",
+    "chapters": [
+     {
+      "title": "First moves",
+      "text": "The pieces gather objects into ranks. Their clocks keep running, even when no one is playing. Wren notices that damaged pieces are repaired before they are sent back."
+     },
+     {
+      "title": "The record",
+      "text": "The swarm records each interruption as a move. It sends collectors after anything removed from the board. Kestrel finds a seam in the machinery, but the record continues elsewhere."
+     },
+     {
+      "title": "No resignation",
+      "text": "The clockwork pieces refuse to let the match end. Ox holds the line while Wren examines their repair work. The same mechanism powers both the menders and the arbiter."
+     }
+    ],
+    "bossIntro": "The Centenary Arbiter blocks the way. Its shield covers the clock and its stamp counts every objection as a move. Kestrel looks for the hinge.",
+    "outro": "The arbiter falls and its clock stops. Inside is a record of unfinished games, not a list of conquered places. A trail of spare parts leads onward."
+   },
+   "creatures": [
+    {
+     "id": "clock-tick",
+     "name": "Clock Tick",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/exhibits/fattorini-chess-clock",
+     "blurb": "It interrupts a turn with a sharp chime.",
+     "look": "A squat brass clock on four jointed legs, with two round dials and a swinging pendulum."
+    },
+    {
+     "id": "carved-jumper",
+     "name": "Carved Jumper",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/exhibits/staunton-chess-set",
+     "blurb": "The wooden knight winds up before it leaps.",
+     "look": "A cream wooden horse head on a square base, with a hinged neck and blunt hooves."
+    },
+    {
+     "id": "buried-pawn",
+     "name": "Buried Pawn",
+     "tier": "easy",
+     "bodyPlan": "humanoid",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/exhibits/viking-chess-set",
+     "blurb": "A dug-up piece shoulders its way into the line.",
+     "look": "A squat gray stone pawn with mitten hands, a chipped round head, and a heavy circular foot."
+    },
+    {
+     "id": "cup-lifter",
+     "name": "Cup Lifter",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/exhibits/the-hamilton-russell-cup",
+     "blurb": "Its handles reach for loose gold.",
+     "look": "A small silver cup with three spindly arms and a rolling black pedestal."
+    },
+    {
+     "id": "tile-mender",
+     "name": "Tile Mender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/thematic_collections/chess-before-the-20th-century",
+     "blurb": "It repairs damaged pieces. Break its pattern before the others recover.",
+     "look": "A low cart of cream and charcoal tiles, with a square head and two trowel arms."
+    },
+    {
+     "id": "folding-table",
+     "name": "Folding Table",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/exhibits/chess-table-designed-by-alexander-rodchenko",
+     "blurb": "Its hinged panels cover wounded pieces.",
+     "look": "A black and cream tabletop folded into a tall angular frame, with flat panel arms and four thin legs."
+    },
+    {
+     "id": "porcelain-recruiter",
+     "name": "Porcelain Recruiter",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/exhibits/red-and-white-chess-set",
+     "blurb": "It calls fresh pieces into the match.",
+     "look": "A white porcelain chess queen with a hollow crown and small jointed arms carrying loose pawns."
+    },
+    {
+     "id": "orbit-bishop",
+     "name": "Orbit Bishop",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/thematic_collections/5-chess-sets-you-definitely-havent-seen",
+     "blurb": "Its drifting course spoils the crew\u2019s footing.",
+     "look": "A pale blue bishop with a split oval head, floating inside three thin metal rings."
+    },
+    {
+     "id": "pen-interpreter",
+     "name": "Pen Interpreter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/thematic_collections/10-scoresheets-from-world-championship-matches",
+     "blurb": "It copies an opponent\u2019s move as if recording it.",
+     "look": "A cream paper roll on brass wheels with a long black nib arm and a round ink reservoir; no writing."
+    },
+    {
+     "id": "invincible-auditor",
+     "name": "Invincible Auditor",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/exhibits/invincible-chess-set",
+     "blurb": "It shields itself and breaks through opposing cover.",
+     "look": "A broad checkerboard shell on blocky legs, with a slotted steel face and a square ram."
+    },
+    {
+     "id": "trophy-nest",
+     "name": "Trophy Nest",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/thematic_collections/world-championship-trophies",
+     "blurb": "A stack of cups feeds more pieces into the fight.",
+     "look": "Three silver cups stacked crookedly on a wheeled base, each with hinged handles and small hollow openings."
+    },
+    {
+     "id": "protocol-bailiff",
+     "name": "Protocol Bailiff",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike+"
+     ],
+     "source": "/thematic_collections/1948-world-championship-tournament-memorabilia",
+     "blurb": "Its stamp interrupts the crew while its heavy arm comes down.",
+     "look": "A tall brass stamping press with a square black head, thick piston arms and a wheeled base."
+    },
+    {
+     "id": "centenary-arbiter",
+     "name": "Centenary Arbiter",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "jam",
+      "strike+"
+     ],
+     "source": "/thematic_collections/1948-world-championship-tournament-memorabilia",
+     "blurb": "The clockwork arbiter shields its record and stamps every refusal as another move.",
+     "look": "A towering brass chess clock with a trophy crown, checkerboard shield, pendulum belly and a huge square stamping arm."
+    },
+    {
+     "id": "free-pendulum",
+     "name": "Free Pendulum",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/exhibits/fattorini-chess-clock",
+     "blurb": "A loose pendulum keeps time for the crew and guards a wounded companion.",
+     "look": "A polished brass pendulum on two wire legs, holding a small round shield."
+    },
+    {
+     "id": "carved-knight",
+     "name": "Carved Knight",
+     "tier": "ally",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/exhibits/staunton-chess-set",
+     "blurb": "This knight chose to leave its assigned square.",
+     "look": "A warm brown carved wooden horse with a notched mane and four short jointed legs."
+    }
+   ],
+   "events": [
+    {
+     "id": "clock-crossing",
+     "source": "/exhibits/fattorini-chess-clock",
+     "look": "A brass clock hangs over a narrow gap beside a coil of rope.",
+     "title": "The clock is running",
+     "text": "A stranded piece needs a way across. The clock will strike soon.",
+     "options": [
+      {
+       "label": "Brace the rope and cross carefully",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren tends the crew while the piece crosses."
+      },
+      {
+       "label": "Cut the weight loose and follow it",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The falling weight cracks open a purse below."
+      }
+     ]
+    },
+    {
+     "id": "knight-square",
+     "source": "/exhibits/staunton-chess-set",
+     "look": "A wooden knight stands on a high shelf above a missing floor tile.",
+     "title": "Missing square",
+     "text": "A knight needs a landing square. The spare tile would also sell well.",
+     "options": [
+      {
+       "label": "Set the tile in place",
+       "effect": {
+        "type": "routine",
+        "id": "charge"
+       },
+       "result": "The knight demonstrates its long windup."
+      },
+      {
+       "label": "Sell the spare tile",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The knight finds another way down later."
+      }
+     ]
+    },
+    {
+     "id": "buried-cache",
+     "source": "/exhibits/viking-chess-set",
+     "look": "Small stone pieces lie beside an open wooden chest in dark soil.",
+     "title": "Freshly uncovered",
+     "text": "A collector is returning for the pieces. Its chest is open.",
+     "options": [
+      {
+       "label": "Hide the pieces under the soil",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "Wren takes a quiet moment to patch the crew."
+      },
+      {
+       "label": "Empty the chest first",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew leaves with the loose coins."
+      }
+     ]
+    },
+    {
+     "id": "cup-return",
+     "source": "/exhibits/the-hamilton-russell-cup",
+     "look": "A silver cup rolls toward a pedestal along a sloping stone passage.",
+     "title": "Return to sender",
+     "text": "The cup keeps rolling home. Its path passes a supply shelf.",
+     "options": [
+      {
+       "label": "Ride the cup to the shelf",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew grabs coins before the cup returns."
+      },
+      {
+       "label": "Stop it and use the pause to rest",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Ox holds the cup while Wren works."
+      }
+     ]
+    },
+    {
+     "id": "mosaic-route",
+     "source": "/thematic_collections/chess-before-the-20th-century",
+     "look": "A checkerboard corridor has one pale tile among dark tiles and a box of tools.",
+     "title": "Wrong square",
+     "text": "A repair machine keeps moving the floor. The tools could repair the floor or help the crew.",
+     "options": [
+      {
+       "label": "Repair the floor",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The machine demonstrates how to lock a panel in place."
+      },
+      {
+       "label": "Keep the tools for repairs",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren uses the tools on the crew."
+      }
+     ]
+    },
+    {
+     "id": "scoresheet-dispute",
+     "source": "/thematic_collections/10-scoresheets-from-world-championship-matches",
+     "look": "Two blank cream sheets hang beside an inkpot and a locked brass gate.",
+     "title": "Two accounts",
+     "text": "The records disagree. Checking them takes supplies; forcing the gate takes a toll.",
+     "options": [
+      {
+       "label": "Spend supplies comparing the sheets",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The gate accepts the corrected account."
+      },
+      {
+       "label": "Force the gate",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Kestrel opens it, but the swinging frame catches the crew."
+      }
+     ]
+    }
+   ],
+   "name": "Open Chess Museum",
+   "url": "https://museum.fide.com/"
+  },
+  {
+   "theme": "Preservation without play",
+   "story": {
+    "intro": "The trail reaches a museum full of toys and workbenches. The swarm packs moving toys into cabinets. Ox assumes it is taking prisoners.",
+    "chapters": [
+     {
+      "title": "Keep still",
+      "text": "The machines coat broken toys and carry them to storage. Wren recognizes the same careful repairs she saw among the chess pieces. The cabinets have no handles on the inside."
+     },
+     {
+      "title": "The turn",
+      "text": "A swarm record explains the repairs: it is trying to save games from being lost. It has confused keeping pieces safe with keeping games alive. Kestrel points out that a sealed box makes a poor opponent."
+     },
+     {
+      "title": "Room to play",
+      "text": "Free toys make new games with spare parts. The collector gathers those games too, afraid they will end. Ox holds a route open while Wren follows its instructions to the vault."
+     }
+    ],
+    "bossIntro": "The Endless Collector rolls out with its drawers open. It sends guardians to retrieve the loose toys and shields them when they break. The crew must get past the arms to stop it.",
+    "outro": "The collector stops. Its drawers contain records of games that ended, changed, and were played again. One final instruction points toward a place where people make and share rules."
+   },
+   "creatures": [
+    {
+     "id": "block-juror",
+     "name": "Block Juror",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/exhibits/toy-hall-of-fame/",
+     "blurb": "It interrupts play to pass judgment.",
+     "look": "A stack of blue and yellow wooden cubes with round wooden arms and blank faces; no lettering."
+    },
+    {
+     "id": "beam-crawler",
+     "name": "Beam Crawler",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/exhibit/play-lab/",
+     "blurb": "It rushes along a narrow line.",
+     "look": "A low orange wooden crawler with six peg legs and a long balancing bar across its back."
+    },
+    {
+     "id": "carousel-horse",
+     "name": "Carousel Horse",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/exhibit/carousel-and-train/",
+     "blurb": "A loose carousel mount strikes from its pole.",
+     "look": "A small cream wooden horse on a brass pole, with a teal saddle and wheeled circular base."
+    },
+    {
+     "id": "maker-assembler",
+     "name": "Maker Assembler",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/exhibit/play-lab/",
+     "blurb": "It builds more machines from workshop scraps.",
+     "look": "A squat teal toolbox on wheels with a claw, a funnel and loose wooden blocks in its open lid."
+    },
+    {
+     "id": "preservation-shell",
+     "name": "Preservation Shell",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/collections/preservation/",
+     "blurb": "It coats damaged machines in protective layers.",
+     "look": "A translucent amber dome on six thin legs, with a short spray nozzle and a round glass tank."
+    },
+    {
+     "id": "archive-dealer",
+     "name": "Archive Dealer",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/collections/national-archives-of-game-show-history/",
+     "blurb": "It interrupts the crew with a shuffled set of panels.",
+     "look": "A tall cream cabinet with a fan of blank oversized cards for a head and two hinged wooden arms."
+    },
+    {
+     "id": "save-centipede",
+     "name": "Save Centipede",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/collections/icheg/",
+     "blurb": "It repeats the crew\u2019s actions from its segmented body.",
+     "look": "A segmented black and cyan mechanical centipede with a round lens on each segment."
+    },
+    {
+     "id": "acquisition-claw",
+     "name": "Acquisition Claw",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/collections/donate-an-artifact/",
+     "blurb": "The claw pockets anything it can reach.",
+     "look": "A brass claw on a boxy rolling cart with a canvas sack and a dangling blank tag."
+    },
+    {
+     "id": "chrysalis-mender",
+     "name": "Chrysalis Mender",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/exhibit/dancing-wings-butterfly-garden/",
+     "blurb": "It repairs damaged machines with threads from its cocoon.",
+     "look": "A pale green moth-shaped drone with leaf wings, a round amber body and two thread spools."
+    },
+    {
+     "id": "lesson-sorter",
+     "name": "Lesson Sorter",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "jam",
+      "strike"
+     ],
+     "source": "/educators/field-trips/",
+     "blurb": "It disrupts the crew and makes separation easier for its allies.",
+     "look": "A tall wooden sorting frame with four colored chutes, narrow wheels and a sliding metal arm."
+    },
+    {
+     "id": "workshop-maker",
+     "name": "Workshop Maker",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/visit/camps-at-the-strong/",
+     "blurb": "It shields its workshop and assembles reinforcements.",
+     "look": "A broad workbench on treads with a hinged vise, a yellow tool rack and a hopper full of wooden shapes."
+    },
+    {
+     "id": "high-score-reaper",
+     "name": "High Score Reaper",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "finish",
+      "strike"
+     ],
+     "source": "/collections/icheg/",
+     "blurb": "It winds up a charge, then punishes an injured target.",
+     "look": "A black arcade cabinet on jointed legs with cyan screen glow, a curved steel arm and a blank display."
+    },
+    {
+     "id": "endless-collector",
+     "name": "Endless Collector",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "sweep+"
+     ],
+     "source": "/collections/",
+     "blurb": "It sends out toy guardians and covers the wounded. Its wide arms keep the collection together.",
+     "look": "A huge rolling cabinet of amber drawers, wooden wheels and clear domes, with long jointed arms and loose toy shapes inside."
+    },
+    {
+     "id": "pocket-maker",
+     "name": "Pocket Maker",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/exhibit/play-lab/",
+     "blurb": "A small maker bot repairs the crew with whatever is at hand.",
+     "look": "A palm-sized blue tin robot with a spool belly, square pincers and tiny wheels."
+    },
+    {
+     "id": "route-guide",
+     "name": "Route Guide",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/visit/accessibility/",
+     "blurb": "It keeps a route open and shields anyone falling behind.",
+     "look": "A compact cream cart with a teal canopy, a round shield and two wide rubber wheels."
+    }
+   ],
+   "events": [
+    {
+     "id": "maker-table",
+     "source": "/exhibit/play-lab/",
+     "look": "A small workbench holds spare gears, a blue tin robot and a coil of thread.",
+     "title": "Spare parts",
+     "text": "A maker bot can assemble a tool or use the parts to mend the crew.",
+     "options": [
+      {
+       "label": "Build a guard plate",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The bot shows Ox how to fit the plate."
+      },
+      {
+       "label": "Use the parts for repairs",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren and the bot make quick repairs."
+      }
+     ]
+    },
+    {
+     "id": "carousel-rescue",
+     "source": "/exhibit/carousel-and-train/",
+     "look": "A cream carousel horse hangs over a stalled wooden chariot with a small toy inside.",
+     "title": "Stopped carousel",
+     "text": "A toy is stuck in the chariot. Its coin box has spilled beneath it.",
+     "options": [
+      {
+       "label": "Lift the chariot first",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The toy shares its repair kit."
+      },
+      {
+       "label": "Gather the scattered coins first",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The toy climbs out while Ox holds the chariot steady."
+      }
+     ]
+    },
+    {
+     "id": "archive-choice",
+     "source": "/collections/national-archives-of-game-show-history/",
+     "look": "A cabinet holds a fan of blank cards and a small brass cash box.",
+     "title": "Mystery prize",
+     "text": "The archive machine offers a lesson or the contents of its cash box.",
+     "options": [
+      {
+       "label": "Study its card trick",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "Kestrel learns when to interrupt the mechanism."
+      },
+      {
+       "label": "Take the cash box",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The box contains a modest prize."
+      }
+     ]
+    },
+    {
+     "id": "preservation-sleeve",
+     "source": "/collections/preservation/",
+     "look": "A clear dome, a roll of fabric and a small tin of solder sit on a bench.",
+     "title": "Removable cover",
+     "text": "A free drone offers materials for the journey. There is enough for one job.",
+     "options": [
+      {
+       "label": "Make a protective sleeve",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The drone shows the crew how to brace it."
+      },
+      {
+       "label": "Use the solder for repairs",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren closes several loose joints."
+      }
+     ]
+    },
+    {
+     "id": "toy-box",
+     "source": "/exhibits/toy-hall-of-fame/",
+     "look": "A plain cardboard box sits among painted wooden blocks and loose coins.",
+     "title": "The box gets a vote",
+     "text": "The blocks want to lock the box away. The box has been helping toys escape.",
+     "options": [
+      {
+       "label": "Buy the box time to leave",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The blocks accept the coins while the box slips away."
+      },
+      {
+       "label": "Pull the blocks apart",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The box escapes. Several blocks fall on the crew."
+      }
+     ]
+    },
+    {
+     "id": "quiet-route",
+     "source": "/visit/accessibility/",
+     "look": "A teal canopy marks a quiet alcove behind a row of tilted wooden panels.",
+     "title": "A way through",
+     "text": "The route guide can open a quiet rest area or lead the crew to a supply cache.",
+     "options": [
+      {
+       "label": "Rest in the alcove",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren has room to work."
+      },
+      {
+       "label": "Take the cache route",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The guide points out a tin of coins."
+      }
+     ]
+    }
+   ],
+   "name": "The Strong National Museum of Play",
+   "url": "https://www.museumofplay.org/"
+  },
+  {
+   "theme": "Games that can change",
+   "story": {
+    "intro": "The trail ends among cards, old boards and new prototypes. The swarm is collecting rules as well as pieces. Wren finds that its instructions still say to keep games alive.",
+    "chapters": [
+     {
+      "title": "Parts of a game",
+      "text": "The swarm stores each rule as if it were a fragile object. It sends pieces between stations to keep one enormous game running. Kestrel notices that the stations use different rules anyway."
+     },
+     {
+      "title": "A rule can change",
+      "text": "Players make new rules from old fragments. The swarm collects those too, but cannot account for a game that ends by agreement. Ox stays at the table while Wren records what the players choose."
+     },
+     {
+      "title": "The missing instruction",
+      "text": "The swarm was asked to preserve games for people to play. It treated every ending as a loss and kept gathering more players to prevent one. Kestrel finds the keeper controlling the relay."
+     }
+    ],
+    "bossIntro": "The Great Game Keeper sends pieces into its last game. It sweeps the table and charges anyone who tries to stop it. The crew moves in while the free players prepare a different ending.",
+    "outro": "The keeper stops. The players finish a short game, change a rule, and start another. Wren leaves the record open on the table. Ox asks if there is a chair big enough for him."
+   },
+   "creatures": [
+    {
+     "id": "suit-runner",
+     "name": "Suit Runner",
+     "tier": "easy",
+     "bodyPlan": "humanoid",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/exposition/cartes-a-jouer/",
+     "blurb": "It winds up behind a long baton.",
+     "look": "A cream card-shaped figure with thin wooden limbs and a long dark blue baton; no lettering."
+    },
+    {
+     "id": "pixel-burrower",
+     "name": "Pixel Burrower",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/exposition/de-la-case-au-pixel/",
+     "blurb": "When damaged, its square body divides.",
+     "look": "A cluster of cyan and black cubes with short jointed legs and a single round white eye."
+    },
+    {
+     "id": "mask-mimic",
+     "name": "Mask Mimic",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/activite/anniversaire/",
+     "blurb": "It copies a move from behind its animal mask.",
+     "look": "A small tan wooden animal with a broad fox-shaped orange mask and a hinged tail."
+    },
+    {
+     "id": "lottery-archivist",
+     "name": "Lottery Archivist",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/exposition/salle-loterie-romande/",
+     "blurb": "It opens drawers to release more pieces.",
+     "look": "A dark green cabinet on wheels with many small drawers, brass knobs and two jointed arms; no numbers."
+    },
+    {
+     "id": "resource-steward",
+     "name": "Resource Steward",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/exposition/planete-jeux/",
+     "blurb": "It uses stored pieces to protect itself and wounded allies.",
+     "look": "A low brown wooden cart carrying green disks, with a broad leaf-shaped shield and a metal claw."
+    },
+    {
+     "id": "memory-matcher",
+     "name": "Memory Matcher",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/activite/ateliers-et-visites-guidees-scolaires/",
+     "blurb": "It copies a crew member\u2019s action.",
+     "look": "Two thick cream tiles joined by a hinge, each with a blue circular inset and tiny wheels."
+    },
+    {
+     "id": "prototype-taster",
+     "name": "Prototype Taster",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "corrupt",
+      "strike"
+     ],
+     "source": "/evenement/playclette/",
+     "blurb": "It interrupts the crew while testing a disruptive new rule.",
+     "look": "A small blue tabletop machine with three mismatched wooden arms and a round rotating dial."
+    },
+    {
+     "id": "escape-box-crab",
+     "name": "Escape Box Crab",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/actualite/une-croisiere-ludique-sur-le-leman-avec-le-msj-et-la-cgn/",
+     "blurb": "Its locked shell resists attack while its claw breaks cover.",
+     "look": "A boxy brown crab with interlocking brass latches, six thin legs and one broad square claw."
+    },
+    {
+     "id": "card-factory-cutter",
+     "name": "Card Factory Cutter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/evenement/en-famille-aux-musees-2026/",
+     "blurb": "It cuts patches for damaged machines.",
+     "look": "A cream paper cutter on four wheels with a hinged blade arm, a spool and a stack of blank cards."
+    },
+    {
+     "id": "terrace-thrower",
+     "name": "Terrace Thrower",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "sweep+",
+      "strike"
+     ],
+     "source": "/actualite/les-dimanches-du-msj-jeux-terrasse-et-gourmandise/",
+     "blurb": "It winds up and throws broad wooden pieces through the crew.",
+     "look": "A large timber frame with two wheels, a sling arm and a basket of round yellow wooden disks."
+    },
+    {
+     "id": "festival-relay",
+     "name": "Festival Relay",
+     "tier": "elite",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/evenement/festival-des-jeux-de-la-tour-de-peilz-2026/",
+     "blurb": "It sends out runners and interrupts anyone trying to stop them.",
+     "look": "A ring of small blue and gold wheeled game pieces around a taller central bell on a wooden base."
+    },
+    {
+     "id": "landscape-framer",
+     "name": "Landscape Framer",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "jam",
+      "strike+"
+     ],
+     "source": "/exposition/nature-numerique/",
+     "blurb": "Its lens disrupts the crew while a heavy shutter strikes.",
+     "look": "A hovering charcoal camera box with a large glass lens, four pale green wings and a thick shutter arm."
+    },
+    {
+     "id": "great-game-keeper",
+     "name": "Great Game Keeper",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "charge"
+     ],
+     "source": "/exposition/de-la-case-au-pixel/",
+     "blurb": "The keeper gathers new pieces and attacks across the whole crew. Its charged blows protect the one game it refuses to let end.",
+     "look": "A towering wooden castle on wheels, with a checkerboard chest, cyan cube joints, a fan of blank cream cards and two long hinged arms."
+    },
+    {
+     "id": "open-table",
+     "name": "Open Table",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/salle-de-jeux/",
+     "blurb": "A free table shelters players while they try a different rule.",
+     "look": "A round honey-colored wooden table on four sturdy jointed legs, with a small blue shield."
+    },
+    {
+     "id": "rule-keeper",
+     "name": "Rule Keeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/association-amis-du-musee/",
+     "blurb": "It helps the crew piece together a playable rule and repairs damaged allies.",
+     "look": "A small tan wooden case with hinged arms, a spool of thread and blank cream cards tucked into its lid."
+    }
+   ],
+   "events": [
+    {
+     "id": "blank-suits",
+     "source": "/evenement/en-famille-aux-musees-2026/",
+     "look": "Blank cream cards and four colored wooden shapes lie on a worktable.",
+     "title": "Two blank suits",
+     "text": "A deck needs new symbols. The remaining materials could also mend the crew.",
+     "options": [
+      {
+       "label": "Invent a suit",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The new symbol helps the crew clear a bad mark."
+      },
+      {
+       "label": "Use the materials for repairs",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren makes bandages from the spare card and cloth."
+      }
+     ]
+    },
+    {
+     "id": "giant-throw",
+     "source": "/actualite/les-dimanches-du-msj-jeux-terrasse-et-gourmandise/",
+     "look": "Oversized wooden disks block a stone gate beside a short throwing lane.",
+     "title": "One good throw",
+     "text": "The gate is jammed. A careful throw could win a prize; dismantling the pile is safer.",
+     "options": [
+      {
+       "label": "Try the throw",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The disk lands cleanly and the prize box opens."
+      },
+      {
+       "label": "Dismantle the pile",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The crew clears the gate and rests behind it."
+      }
+     ]
+    },
+    {
+     "id": "escape-box",
+     "source": "/actualite/une-croisiere-ludique-sur-le-leman-avec-le-msj-et-la-cgn/",
+     "look": "A wooden puzzle box with brass latches floats beside a stone landing.",
+     "title": "Drifting box",
+     "text": "The box is moving away. A quick grab risks a knock; a rope costs supplies.",
+     "options": [
+      {
+       "label": "Grab it now",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The box bumps the crew, but the latches come free."
+      },
+      {
+       "label": "Secure it with a new rope",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The crew opens the box from the landing."
+      }
+     ]
+    },
+    {
+     "id": "prototype-rule",
+     "source": "/evenement/playclette/",
+     "look": "A small wooden table holds mismatched dice, blank cards and a metal spring.",
+     "title": "A simpler rule",
+     "text": "A prototype keeps adding rules. The pieces offer a lesson or their spare spring.",
+     "options": [
+      {
+       "label": "Try a simpler rule",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The pieces show the crew a wide passing move."
+      },
+      {
+       "label": "Keep the spring for repairs",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren fits the spring to a damaged joint."
+      }
+     ]
+    },
+    {
+     "id": "resource-landscape",
+     "source": "/exposition/planete-jeux/",
+     "look": "Green wooden hills surround an empty tray and a pile of gold-colored disks.",
+     "title": "Leave something growing",
+     "text": "The landscape needs its disks back. They are also useful on the road.",
+     "options": [
+      {
+       "label": "Return the disks",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The restored landscape yields a small repair kit."
+      },
+      {
+       "label": "Keep the disks",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew takes the disks and leaves the hills standing."
+      }
+     ]
+    },
+    {
+     "id": "vanished-game",
+     "source": "/activite/ateliers-et-visites-guidees-scolaires/",
+     "look": "Blank cards and mismatched wooden pawns surround a round table.",
+     "title": "A game with gaps",
+     "text": "Several players have fragments of an old rule. They can teach a move or share their supplies.",
+     "options": [
+      {
+       "label": "Rebuild the rule together",
+       "effect": {
+        "type": "routine",
+        "id": "triage"
+       },
+       "result": "The players demonstrate how to help the whole group."
+      },
+      {
+       "label": "Share the supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren distributes the repair materials."
+      }
+     ]
+    }
+   ],
+   "name": "Swiss Museum of Games",
+   "url": "https://museedujeu.ch/en/"
+  }
+ ],
+ "id": "2026-11-24",
+ "seed": 754857146
+}

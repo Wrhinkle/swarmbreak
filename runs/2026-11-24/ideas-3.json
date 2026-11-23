@@ -1,0 +1,241 @@
+{
+  "reading": "The Musée Suisse du Jeu is a games museum in the Château de La Tour-de-Peilz, treating play as a universal cultural heritage to preserve, research, teach and enjoy together. Its vocabulary moves between patrimoine ludique, the great epic of play, cards and suits, rules, prototypes, workshops, exhibitions and discovery. Its interests run from early playing cards and ancient games to video-game archaeology, digital nature and ecological resource management; the lottery archives are part of that story too. What distinguishes it is the combination of a castle museum and an active, welcoming play culture: a freely accessible games room, family card-making, school workshops, outdoor giant games, prototype testing with raclette, a town-wide festival and games afloat on Lake Geneva. Friends and a foundation sustain the heritage while visitors make and share new games. The crawl is multilingual and often gives only short excerpts, so the ideas build on those specific glimpses rather than claiming the full exhibits contain more than they say.",
+  "enemies": [
+    {
+      "idea": "Latin Suit Quartets: four linked machines wear a baton, cup, coin and sword. Each changes the arena in a different way; separating one disrupts the others’ formation.",
+      "source": "/exposition/cartes-a-jouer/",
+      "why": "The early suits become a readable cooperative puzzle with four distinct threats."
+    },
+    {
+      "idea": "The Reinvention Dealer sheds an old card face for a new illustrated or collectible form whenever its current trick is countered, carrying one learned move forward.",
+      "source": "/actualite/cartes-a-jouer-la-nouvelle-exposition-du-musee-suisse-du-jeu/",
+      "why": "Six centuries of travelling and changing cards becomes an adaptive duel."
+    },
+    {
+      "idea": "The Lottery Archivist sorts everyone into numbered drawers and pulls a winning number; the chosen drawer opens to reveal a swarm ambush rather than a prize.",
+      "source": "/exposition/salle-loterie-romande/",
+      "why": "Historic lottery archives twist chance into an audible, avoidable trap."
+    },
+    {
+      "idea": "The Resource Steward strips a miniature ecosystem for game tokens, then builds defenses from whatever it has exhausted. Leave one resource untouched and its defenses remain incomplete.",
+      "source": "/exposition/planete-jeux/",
+      "why": "Resource management makes the crew’s route and restraint matter."
+    },
+    {
+      "idea": "Square-to-Pixel Burrowers travel through the floor as board spaces, then emerge as flickering pixel clusters; they can cross gaps only in their digital phase.",
+      "source": "/exposition/de-la-case-au-pixel/",
+      "why": "The exhibition’s archaeology of rules and video games produces a two-phase pursuit."
+    },
+    {
+      "idea": "A digital landscape photographer drone frames the crew in its viewfinder; anything held in its composition becomes rigid scenery until it changes angle.",
+      "source": "/exposition/nature-numerique/",
+      "why": "Framing and cover become the counterplay in a landscape made from game imagery."
+    },
+    {
+      "idea": "The Western Pawn drives a little mechanical frontier across the floor, laying rails of board squares and challenging anyone who crosses them to a duel.",
+      "source": "/exposition/nouveau-western/",
+      "why": "A genre crossing from screen to games becomes a moving positional hazard."
+    },
+    {
+      "idea": "Memory Matchers flip over in pairs. An unmatched pair copies a crew member’s last move; revealing their matching symbols disables both briefly.",
+      "source": "/activite/ateliers-et-visites-guidees-scolaires/",
+      "why": "A classroom memory game turns observation into a way to interrupt an attack."
+    },
+    {
+      "idea": "Unusual Dice Rollers reconfigure their faces before each tumble; the visible upper face tells the crew whether the next roll pushes, splits or rebounds.",
+      "source": "/activite/ateliers-et-visites-guidees-scolaires/",
+      "why": "Odd dice create a chance encounter players can read and manipulate."
+    },
+    {
+      "idea": "The Vanished Game Keeper steals one rule at a time from a local game, leaving pieces that move in unpredictable ways until the rule is recovered.",
+      "source": "/activite/ateliers-et-visites-guidees-scolaires/",
+      "why": "Lost games become a mystery about reconstructing rules, not just collecting pieces."
+    },
+    {
+      "idea": "Animal Mask Mimics pass from one mechanical body to another; identify the mask rather than the body to track the real attacker.",
+      "source": "/activite/anniversaire/",
+      "why": "A birthday mask workshop becomes a lively shell game."
+    },
+    {
+      "idea": "The Prototype Taster changes its own rules after every exchange and asks for feedback in the form of a move; repeating the move teaches it, improvising confuses it.",
+      "source": "/evenement/playclette/",
+      "why": "Playtesting becomes a fight against a machine that learns from the players."
+    },
+    {
+      "idea": "The Oversized Thrower lobs giant wooden game pieces across the terrace. The pieces stick where they land and create useful cover as well as obstacles.",
+      "source": "/actualite/les-dimanches-du-msj-jeux-terrasse-et-gourmandise/",
+      "why": "Giant outdoor throwing games reshape the space in both sides’ favor."
+    },
+    {
+      "idea": "The Story Conductor assigns each intruder a role in a mechanical adventure; it can only target someone while they act according to the role it announced.",
+      "source": "/actualite/jeux-de-role-au-chateau-une-journee-daventures-a-partager/",
+      "why": "Roleplay itself gives players a rule to exploit."
+    },
+    {
+      "idea": "Escape-Box Crabs scuttle across a listing boat with interlocking boxes for shells; opening one latch locks another crab in place.",
+      "source": "/actualite/une-croisiere-ludique-sur-le-leman-avec-le-msj-et-la-cgn/",
+      "why": "The cruise and escape boxes make a mobile cooperative lock puzzle."
+    },
+    {
+      "idea": "Card-Factory Cutters punch custom symbols into blank cards and attach them to nearby machines, granting each the power of its new suit until the card is removed.",
+      "source": "/evenement/en-famille-aux-musees-2026/",
+      "why": "Handmade decks become a visible enemy buff system the crew can dismantle."
+    },
+    {
+      "idea": "The Castle Market Broker insists on a trial game before every exchange, but tries to swap away the crew’s useful pieces while they play.",
+      "source": "/evenement/marche-du-jeu-au-chateau-douchy/",
+      "why": "Trying games at the market becomes a negotiation with a mechanical cheat."
+    },
+    {
+      "idea": "The Capacity Counter folds the reception room smaller around anyone inside until the number of occupied spaces matches its imagined guest list.",
+      "source": "/location-de-salles/",
+      "why": "Room capacity becomes a spatial puzzle with a clear pressure point."
+    },
+    {
+      "idea": "The Joker Room Shifter changes a doorway into a different room whenever it is watched; mark the floor to find which door stayed put.",
+      "source": "/en/room-rental/",
+      "why": "The named Joker room inspires a mischievous navigation challenge."
+    },
+    {
+      "idea": "The Festival Relay sends tiny game pieces between fifteen imagined stations; stop a runner and its unfinished local rules spill into the next station.",
+      "source": "/evenement/festival-des-jeux-de-la-tour-de-peilz-2026/",
+      "why": "A town-wide festival becomes a chase through overlapping game zones."
+    },
+    {
+      "idea": "The Guided Tour Automaton leads a perfectly timed circuit, turning anyone who follows its pointing hand into a game piece until they break formation.",
+      "source": "/evenement/visites-guidees-publiques-exposition-cartes-a-jouer/",
+      "why": "A scheduled public tour becomes a formation puzzle with an obvious tell."
+    },
+    {
+      "idea": "The Haunted Inheritance Sorter searches a toy house for an heir, rearranging furniture into false clues whenever the crew jumps to a conclusion.",
+      "source": "/evenement/halloween-2026/",
+      "why": "The fictional haunted-house investigation becomes a small deduction encounter."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Friends’ Circle preserves scraps of rules and connects isolated players; bring them two fragments and they reconstruct a usable counter-rule.",
+      "source": "/association-amis-du-musee/",
+      "why": "The association’s research and heritage mission gives recovery a social payoff."
+    },
+    {
+      "idea": "The Open Table shelters anyone willing to play, offering a safe round in which the crew can experiment with a recovered game without the swarm listening.",
+      "source": "/salle-de-jeux/",
+      "why": "The freely accessible games room becomes a welcoming place to learn by doing."
+    },
+    {
+      "idea": "The Card Makers print improvised suits chosen by the crew, making one-use cards that spoof a swarm machine’s recognition system.",
+      "source": "/evenement/en-famille-aux-musees-2026/",
+      "why": "The family workshop turns personal creativity into a flexible tool."
+    },
+    {
+      "idea": "Terrace Game Guides teach the trajectories of giant wooden pieces and help the crew aim one across a blocked courtyard.",
+      "source": "/actualite/les-dimanches-du-msj-jeux-terrasse-et-gourmandise/",
+      "why": "The outdoor facilitators turn the environment into a shared solution."
+    },
+    {
+      "idea": "Prototype Playtesters help revise a broken rule between encounters, trading a risky first version for a better one after the crew tries it.",
+      "source": "/evenement/playclette/",
+      "why": "Feedback and iteration make allies active collaborators."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Great Game Epic: a castle-sized swarm curator cycles through ancient rules, card suits and pixel worlds, forcing every game into one compulsory way to win. The crew frees trapped pieces by combining rules from different eras.",
+      "source": "/exposition/de-la-case-au-pixel/",
+      "why": "The museum’s long history becomes a multi-stage confrontation about preserving variety."
+    },
+    {
+      "idea": "The Universal Collector: a foundation-like machine intends to preserve play forever by sealing every game and player into its collection. Its armor opens when the crew gives away or invents rules it cannot catalogue.",
+      "source": "/la-fondation/",
+      "why": "The mission of cultural preservation becomes a conflict between a living heritage and a frozen one."
+    },
+    {
+      "idea": "The Festival Engine links a town full of games into one enormous tournament, converting each local activity into fuel for the next. Crews can break its circuit by restoring independent games at several stations.",
+      "source": "/evenement/festival-des-jeux-de-la-tour-de-peilz-2026/",
+      "why": "The festival’s many places and activities become a sprawling cooperative finale."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A half-finished handmade deck has two blank suits. The crew can invent symbols that fool a nearby card-machine patrol, but must agree what each symbol means.",
+      "source": "/evenement/en-famille-aux-musees-2026/",
+      "why": "Quick creative choices make a useful, unique tool."
+    },
+    {
+      "idea": "Two Memory tiles lie on opposite sides of a room full of face-down decoys. Turn the matching pair together to open a shortcut; mismatches wake a small swarm.",
+      "source": "/activite/ateliers-et-visites-guidees-scolaires/",
+      "why": "A familiar classroom game turns into a low-stakes cooperative challenge."
+    },
+    {
+      "idea": "A giant wooden throwing game has jammed a courtyard gate. The crew can win back the missing piece by landing a throw, or carefully dismantle the obstacle.",
+      "source": "/actualite/les-dimanches-du-msj-jeux-terrasse-et-gourmandise/",
+      "why": "A physical game offers both a skillful and a practical solution."
+    },
+    {
+      "idea": "A drifting escape box bumps against the shore. Solve its linked latches before it floats away to recover a map to another game table.",
+      "source": "/actualite/une-croisiere-ludique-sur-le-leman-avec-le-msj-et-la-cgn/",
+      "why": "The lake and escape-box combination makes a compact timed puzzle."
+    },
+    {
+      "idea": "At a prototype table, a machine keeps adding rules after every turn. Offer a simpler rule that everyone can play to persuade its test pieces to abandon it.",
+      "source": "/evenement/playclette/",
+      "why": "A playtest becomes a chance to invent and negotiate."
+    },
+    {
+      "idea": "An old lottery drawer ticks through numbers while loose game pieces gather around it. Predict the next draw or divert the pieces to retrieve the archive inside.",
+      "source": "/exposition/salle-loterie-romande/",
+      "why": "A chance mechanism gives a small rescue scene tension."
+    },
+    {
+      "idea": "Four suit-shaped tracks diverge through the castle: baton, cup, coin and sword. Each leads past a different hazard, and the discarded suits hint at a safer way back.",
+      "source": "/exposition/cartes-a-jouer/",
+      "why": "Historical suit symbols become memorable navigation cues."
+    },
+    {
+      "idea": "A game landscape is being harvested into resource tokens by a machine. The crew can restore one habitat by returning tokens, leaving fewer for its own repairs.",
+      "source": "/exposition/planete-jeux/",
+      "why": "An ecological game asks for a concrete trade-off without a single forced answer."
+    },
+    {
+      "idea": "An unfinished western board has its last square projected as a pixel landscape. Move a pawn across the join to reveal a bridge neither world shows alone.",
+      "source": "/exposition/de-la-case-au-pixel/",
+      "why": "The link between board space and video game becomes a discovery."
+    },
+    {
+      "idea": "A fictional haunted house has three rearranged rooms and a handful of clues. The crew can deduce which object the swarm keeps moving and follow it to a hidden cache.",
+      "source": "/evenement/halloween-2026/",
+      "why": "The Halloween investigation offers a small mystery instead of another fight."
+    },
+    {
+      "idea": "A small trade gathering has stalled because a machine insists every card has the same value. Propose a fair three-way exchange to get the players trading again.",
+      "source": "/evenement/echange-de-cartes-pokemon/",
+      "why": "Trading cards become a social puzzle without reproducing branded characters."
+    },
+    {
+      "idea": "A birthday workshop’s animal masks have been mixed up. Match each mask to its owner’s invented gesture before the roaming mimics copy the celebration.",
+      "source": "/activite/anniversaire/",
+      "why": "A playful observation task lets the crew protect a gathering."
+    },
+    {
+      "idea": "A scheduled card tour continues without a guide: a pointing machine pauses at four exhibits. Follow just far enough to learn the route, then slip away before it counts the crew as pieces.",
+      "source": "/evenement/visites-guidees-publiques-exposition-cartes-a-jouer/",
+      "why": "The tour’s rhythm provides a stealth window and useful information."
+    },
+    {
+      "idea": "The old exhibition is being packed away as a new card exhibition arrives. Help sort mixed crates before a swarm reuses the pieces to build a hybrid guard.",
+      "source": "/actualite/planete-jeux-tire-sa-reverence-le-msj-prepare-sa-prochaine-exposition/",
+      "why": "An exhibition changeover gives the crew a short, tangible rescue task."
+    },
+    {
+      "idea": "A traveling games market has one untested game left on the table. Play a round to learn its rule and use the pieces to distract a nearby patrol.",
+      "source": "/evenement/marche-du-jeu-au-chateau-douchy/",
+      "why": "Trying a game creates its own practical reward."
+    },
+    {
+      "idea": "A group of stranded players has only fragments of a vanished game’s rules. Reconstruct a playable version with them; the resulting rule opens a path the swarm cannot predict.",
+      "source": "/activite/ateliers-et-visites-guidees-scolaires/",
+      "why": "Lost games become an invitation to collaborate and invent."
+    }
+  ]
+}

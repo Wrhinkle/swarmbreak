@@ -1,0 +1,45 @@
+{
+  "thread": "Follow the swarm from the boards and counters of traditional games into a world of chess pieces, then onward to a museum full of toys and games. Along the way it can become a carved playing piece, a rolling die, or a contraption invented for play.",
+  "candidates": [
+    {
+      "name": "The Games Board",
+      "url": "https://www.gamesboard.org.uk/",
+      "why": "Historic board and pub games, illustrated game examples, counters, patents and bagatelle tables offer boards, pieces and unusual mechanisms."
+    },
+    {
+      "name": "Open Chess Museum",
+      "url": "https://museum.fide.com/",
+      "why": "Chess sets, carved pieces, boards, mechanical clocks and tournament artifacts give the swarm an array of miniature characters and equipment."
+    },
+    {
+      "name": "The Strong National Museum of Play",
+      "url": "https://www.museumofplay.org/",
+      "why": "Online exhibits and collections explore board games, puzzles, construction sets, mechanical banks and toys, with plenty of strange forms and ways to play."
+    },
+    {
+      "name": "Swiss Museum of Games",
+      "url": "https://museedujeu.ch/en/",
+      "why": "Exhibitions on games and playing cards introduce illustrated suits, gaming objects and playful inventions from different places and periods."
+    },
+    {
+      "name": "Deutsches SPIELEmuseum",
+      "url": "https://www.deutsches-spielemuseum.de/",
+      "why": "A museum devoted to historical and modern games, with exhibitions on board games, their components and the many ways people play."
+    },
+    {
+      "name": "Hudson Museum",
+      "url": "https://umaine.edu/hudsonmuseum/",
+      "why": "Its games and artforms resources include traditional games such as waltes, alongside collections and exhibits full of crafted objects."
+    },
+    {
+      "name": "Victoria and Albert Museum",
+      "url": "https://www.vam.ac.uk/",
+      "why": "The childhood collections include toys, games, dolls and miniature furnishings, while collection stories reveal how playful objects were made and used."
+    },
+    {
+      "name": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/",
+      "why": "Ancient game boards and pieces include the coiled serpent of Mehen, senet counters and the animal-headed pins of Hounds and Jackals."
+    }
+  ]
+}

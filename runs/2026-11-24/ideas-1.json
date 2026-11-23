@@ -1,0 +1,216 @@
+{
+  "reading": "The Open Chess Museum presents chess as a worldwide history told through objects, games, champions, and the century-long development of FIDE. It cares about provenance, preservation, invention, competition and the human traces left on artifacts: a hand-carved knight, a handwritten scoresheet, a clock or a trophy. Its vocabulary is that of exhibits, collections, champions, matches, moves, arbiters, Olympiads, scoresheets and the chess crown. What distinguishes it is the breadth of its material culture: ancient and unconventional sets, practical instruments, personal belongings and tournament ephemera sit alongside biographies and quizzes. The crawl’s history page contains no substantive text, so the surviving details come from the other pages.",
+  "enemies": [
+    {
+      "idea": "Pendulum Forfeiter: a clock-bodied hunter counts every footstep as a move; after fifteen, it declares the slowest crew member forfeited and tries to remove them from the board.",
+      "source": "/exhibits/fattorini-chess-clock",
+      "why": "Its visible countdown turns movement into a tactical resource."
+    },
+    {
+      "idea": "Frieze Knight: a carved horse head jumps in rigid L-shapes, chipping stone from the floor to manufacture new landing squares.",
+      "source": "/exhibits/staunton-chess-set",
+      "why": "Predictable jumps and changing terrain invite clever positioning."
+    },
+    {
+      "idea": "Lost Chessmen: a patrol of medieval pieces burrows out of the ground at random, then drags anything it finds underground as another mysterious discovery.",
+      "source": "/exhibits/viking-chess-set",
+      "why": "Their uncertain emergence makes the floor itself an encounter."
+    },
+    {
+      "idea": "Constructivist Table: a machine of planes and braces folds the room into intersecting chessboard surfaces, pinning intruders between newly assembled angles.",
+      "source": "/exhibits/chess-table-designed-by-alexander-rodchenko",
+      "why": "The arena transforms according to a readable geometry."
+    },
+    {
+      "idea": "Cup Reclaimer: a trophy-shaped collector permits a crew to carry it, then dispatches grasping arms to repossess everything they claim as their own.",
+      "source": "/exhibits/the-hamilton-russell-cup",
+      "why": "A prize becomes a tempting trap with a rule to exploit."
+    },
+    {
+      "idea": "Invincibility Auditor: this board-armored engine refuses to register a direct hit and rearranges nearby squares to maintain its perfect record.",
+      "source": "/exhibits/invincible-chess-set",
+      "why": "Players must disrupt the board instead of simply attacking armor."
+    },
+    {
+      "idea": "Porcelain Factions: red and white ceramic machines recruit loose objects to their opposing ranks, shattering anything that refuses a side.",
+      "source": "/exhibits/red-and-white-chess-set",
+      "why": "A crew can provoke the factions into fighting each other."
+    },
+    {
+      "idea": "Orbit Set: weightless chess pieces from the space-traveled set drift through the hall, pushing their targets along straight lines until a collision changes their course.",
+      "source": "/thematic_collections/5-chess-sets-you-definitely-havent-seen",
+      "why": "Momentum turns a chess encounter into a floating billiards puzzle."
+    },
+    {
+      "idea": "North-South Menagerie: animal pieces split the room into rival climates and try to herd everyone across their preferred boundary.",
+      "source": "/thematic_collections/5-chess-sets-you-definitely-havent-seen",
+      "why": "The two competing herds create moving safe routes."
+    },
+    {
+      "idea": "Mosaic Mender: a tiled board-machine pulls individual floor squares loose and restores them in a pattern that traps trespassers.",
+      "source": "/thematic_collections/chess-before-the-20th-century",
+      "why": "Its repair routine telegraphs the next dangerous square."
+    },
+    {
+      "idea": "Suitcase Ambusher: a portable set snaps shut around useful equipment, then unfolds into a tiny board full of defensive pieces.",
+      "source": "/thematic_collections/chess-sets-that-belonged-to-famous-chess-players",
+      "why": "Recovering gear becomes a compact rescue puzzle."
+    },
+    {
+      "idea": "Scoresheet Interpreter: a pen-limbed machine reads hesitation as a move and writes the crew’s next action in ink that pulls them toward it.",
+      "source": "/thematic_collections/10-scoresheets-from-world-championship-matches",
+      "why": "Crew members can exploit mismatched handwriting or interrupt the pen."
+    },
+    {
+      "idea": "Protocol Bailiff: the final arbiter protocol has become a stamping engine that declares every disputed square occupied and ejects whoever stands there.",
+      "source": "/thematic_collections/1948-world-championship-tournament-memorabilia",
+      "why": "Arguments over territory become physical hazards with visible stamps."
+    },
+    {
+      "idea": "Medal Press: a rolling machine awards heavy medals to whoever performs best, piling on more each time they repeat a successful tactic.",
+      "source": "/thematic_collections/world-championship-medals",
+      "why": "Success creates a burden and rewards changing tactics."
+    },
+    {
+      "idea": "Trophy Nest: ornate championship trophies stack themselves into a climbing tower, each cup releasing smaller collectors when disturbed.",
+      "source": "/thematic_collections/world-championship-trophies",
+      "why": "The crew can choose which level to tackle and risk waking the rest."
+    },
+    {
+      "idea": "Endless-Game Examiner: a calculating drone insists that every encounter continue toward the longest theoretically possible game, undoing exits whenever a turn is skipped.",
+      "source": "/quizzes/what-do-you-know-about-chess",
+      "why": "A puzzle about ending a game drives an escalating chase."
+    },
+    {
+      "idea": "Draw Broker: a machine offers an apparently equal draw, then locks both parties in place while its hidden pieces keep moving.",
+      "source": "/quizzes/which-world-champion-are-you",
+      "why": "The proposal is useful bait, but its asymmetry can be exposed."
+    },
+    {
+      "idea": "Schoolmaster Engine: a corrupted chess school manufactures identical trainees in batches; each learns the last route the crew used.",
+      "source": "/champions/michael-botvinnik",
+      "why": "The crew has a reason to improvise instead of repeating a solution."
+    },
+    {
+      "idea": "Three-Year Meteor: a machine climbs through three ranks in a single encounter, sacrificing its own smaller pieces to reach each promotion.",
+      "source": "/champions/mikhail-tal",
+      "why": "Its rapid rise gives the crew clear windows to interrupt it."
+    },
+    {
+      "idea": "Federation Assembler: rival mechanical delegates attempt to merge independent chess sets into one compulsory organization, bolting dissenters to the conference table.",
+      "source": "/fide-history",
+      "why": "Interrupting the assembly can free pieces that then disrupt the swarm."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A free pendulum from a damaged Fattorini clock taps out the swarm’s turn intervals and can hold a door open for exactly fifteen crew moves.",
+      "source": "/exhibits/fattorini-chess-clock",
+      "why": "Its limited, legible help lets the crew plan a risky crossing."
+    },
+    {
+      "idea": "A hand-carved knight remembers how to leap over occupied squares and carries a small item across a blockade in an L-shaped route.",
+      "source": "/exhibits/staunton-chess-set",
+      "why": "A distinctive chess move becomes a practical rescue tool."
+    },
+    {
+      "idea": "A preserved scoresheet records what actually happened, exposing a swarm machine that has rewritten a previous move.",
+      "source": "/thematic_collections/10-scoresheets-from-world-championship-matches",
+      "why": "Historical evidence gives the crew a way to challenge a false ruling."
+    },
+    {
+      "idea": "A battered travel chess set unfolds into a temporary safe board; its box closes around one endangered artifact for transport.",
+      "source": "/thematic_collections/chess-before-the-20th-century",
+      "why": "Portable protection creates a meaningful choice about what to save."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Centenary Arbiter: an immense federation machine made from clockwork, trophy fittings and scoresheets tries to put every object and visitor into a single sanctioned match. Its clock, record and ruling mechanisms can be disabled in different orders.",
+      "source": "/",
+      "why": "It combines the museum’s history, objects and governing ambition into a multi-stage encounter."
+    },
+    {
+      "idea": "The Crown of Collections: a walking tower of mismatched historic and artistic chess sets declares itself the only legitimate champion; each damaged layer changes the movement rules of the room.",
+      "source": "/thematic_collections/world-championship-trophies",
+      "why": "The collection’s variety becomes a succession of distinct tactical phases."
+    },
+    {
+      "idea": "The Succession Engine: built around the 1948 transfer of championship control, it continually appoints a new mechanical champion whenever its current defender falls; the crew must interrupt the protocol that certifies each replacement.",
+      "source": "/thematic_collections/1948-world-championship-tournament-memorabilia",
+      "why": "A boss fight becomes a race to stop an institution from renewing itself."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A pendulum ticks toward a forfeit while a trapped ally needs sixteen careful steps to cross the room; the crew can find a shortcut or reset the clock.",
+      "source": "/exhibits/fattorini-chess-clock",
+      "why": "A simple numerical constraint creates a small rescue problem."
+    },
+    {
+      "idea": "A knight has leapt onto a shelf but cannot return because its landing square is missing; replace a tile and it will retrieve a key.",
+      "source": "/exhibits/staunton-chess-set",
+      "why": "The solution follows the piece’s familiar movement."
+    },
+    {
+      "idea": "Freshly unearthed medieval pieces are being gathered by a swarm collector; the crew can hide the pieces or follow the collector to its cache.",
+      "source": "/exhibits/viking-chess-set",
+      "why": "A chance discovery offers a rescue or an investigation."
+    },
+    {
+      "idea": "A cup keeps returning to its pedestal no matter who carries it; the crew must use its brief journey to reach a sealed passage.",
+      "source": "/exhibits/the-hamilton-russell-cup",
+      "why": "A trophy’s temporary custody becomes a moving opportunity."
+    },
+    {
+      "idea": "A mosaic board has one square replaced by the wrong color, causing a maintenance machine to endlessly rearrange the corridor.",
+      "source": "/thematic_collections/chess-before-the-20th-century",
+      "why": "A visual mismatch reveals how to calm a dangerous room."
+    },
+    {
+      "idea": "A suitcase opens to reveal a half-played game and a captured tool; completing one legal exchange releases it.",
+      "source": "/thematic_collections/chess-sets-that-belonged-to-famous-chess-players",
+      "why": "The crew gets a quick, tangible chess puzzle."
+    },
+    {
+      "idea": "Two handwritten records disagree about a move; a gate will open only when the crew finds the altered notation.",
+      "source": "/thematic_collections/10-scoresheets-from-world-championship-matches",
+      "why": "Close observation matters more than force."
+    },
+    {
+      "idea": "An arbiter machine is about to stamp an empty chair as the tournament winner; move the chair or supply a corrected protocol before the stamp falls.",
+      "source": "/thematic_collections/1948-world-championship-tournament-memorabilia",
+      "why": "A bureaucratic mistake has a clear timer and multiple solutions."
+    },
+    {
+      "idea": "A medal press offers a medal for carrying a heavy load, then adds its own weight to the load; the crew can redirect the award onto a pressure plate.",
+      "source": "/thematic_collections/world-championship-medals",
+      "why": "A comic reward doubles as useful equipment."
+    },
+    {
+      "idea": "Two animal armies refuse to let each other cross a narrow bridge; carry a neutral piece between them to arrange a temporary passage.",
+      "source": "/thematic_collections/5-chess-sets-you-definitely-havent-seen",
+      "why": "Negotiating rival sides gives the crew a noncombat option."
+    },
+    {
+      "idea": "A quiz engine asks for the longest possible game while its corridor keeps extending; a crew member can distract it with a question about the longest decisive game instead.",
+      "source": "/quizzes/what-do-you-know-about-chess",
+      "why": "A distinction between two questions turns trivia into an escape."
+    },
+    {
+      "idea": "A stack of championship trophies wobbles above a trapped artifact; remove cups in the right order or brace the tower to reach it.",
+      "source": "/thematic_collections/world-championship-trophies",
+      "why": "The collection becomes a physical balancing puzzle."
+    },
+    {
+      "idea": "A constructivist table has folded into a barricade; its braces still form a stable bridge if rearranged before the swarm returns.",
+      "source": "/exhibits/chess-table-designed-by-alexander-rodchenko",
+      "why": "The same geometry that blocks the crew can carry them forward."
+    },
+    {
+      "idea": "A damaged federation assembler invites two independent sets to a conference; the crew can help them agree to share a route without surrendering their pieces.",
+      "source": "/fide-history",
+      "why": "A miniature alliance offers an alternative to a fight."
+    }
+  ]
+}
