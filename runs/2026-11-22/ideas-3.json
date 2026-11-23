@@ -1,0 +1,236 @@
+{
+  "reading": "Enpaku is Waseda University’s theatre museum, founded in 1928 in connection with a completed forty-volume Shakespeare translation. It collects, researches, exhibits and shares theatre and moving-image history, from ancient performance, Noh, joruri and kabuki to modern theatre, film and television, in Japan and across borders. Its vocabulary moves between collections, exhibits, catalogues, archives, performance, puppetry, costume, translation and the people who keep a production alive. It treats performances as fleeting events worth preserving through many kinds of evidence, and also as living practices to demonstrate, discuss and reinterpret. Its unusual texture comes from the meeting of a nearly century-old institutional memory and hands-on performance: three-person Bunraku, Taiwanese glove puppetry, bugaku costumes, actor prints, research libraries, international exchanges and digital mirrors of fragile collections.",
+  "enemies": [
+    {
+      "idea": "The Three-Handed Usher: three swarm operators animate a single Bunraku body; one steers its head, one its arm and one its feet. Separate them and the puppet loses coordination.",
+      "source": "/collection/3052/",
+      "why": "A fight becomes a puzzle about interrupting a shared performance."
+    },
+    {
+      "idea": "Tsume Extras: comic-faced, single-operator puppet heads travel in crowds, each pretending to be background until a lone traveler passes; they overwhelm by multiplying minor roles.",
+      "source": "/collection/3052/",
+      "why": "The contrast with three-person puppetry makes a disposable crowd suddenly dangerous."
+    },
+    {
+      "idea": "Twin-Dragon Dancers wear the cloud-patterned robes and bird-embroidered layers of Nasori. They circle as a pair, weaving a tightening spiral that breaks when their choreography is interrupted.",
+      "source": "/collection/2678/",
+      "why": "Recognizable costume details turn a dance formation into a spatial threat."
+    },
+    {
+      "idea": "The Breath Gate: a pair of oversized gigaku guardian masks alternately inhale and exhale, pulling intruders toward one and blasting them at the other.",
+      "source": "/collection/2670/",
+      "why": "The paired guardian masks create a readable rhythm to exploit."
+    },
+    {
+      "idea": "Spring Garden Quartet: four machines with cherry-blossom headpieces perform the left-side Shunteika dance; each completed figure plants a wall of metal blossoms.",
+      "source": "/collection/3349/",
+      "why": "A bright ceremonial dance becomes a growing maze with four interruptible performers."
+    },
+    {
+      "idea": "Palm-Stage Raiders: glove-puppet shells conceal small swarm hands that dart out of miniature stages; their accompanying mechanical band changes the tempo of their attacks.",
+      "source": "/ex/22004/",
+      "why": "The scale shifts between a tiny stage and the hand operating it, with music telegraphing danger."
+    },
+    {
+      "idea": "The Repertoire Stitcher splices a single puppet character across multiple joruri and kabuki plots, changing its tactics when the crew tears away a scene.",
+      "source": "/publication/15999/",
+      "why": "A repertoire of shared plays gives the enemy surprising but legible phases."
+    },
+    {
+      "idea": "The Realism Rival begins with stylized kabuki poses, watches the crew, then copies their practical movements in the hybrid spirit of Shinpa.",
+      "source": "/publication/14780/",
+      "why": "Its transition from theatrical pose to imitation makes observation itself a threat."
+    },
+    {
+      "idea": "The Translation Mill devours an instruction and spits out forty subtly different stage directions; nearby machines obey different versions at once.",
+      "source": "/ex/21788/",
+      "why": "A monumental translation becomes a chaotic multi-machine coordination problem."
+    },
+    {
+      "idea": "The Print-Season Moth wears seven actor prints and flips to a new seasonal scene every two beats, changing the terrain around it.",
+      "source": "/goods/21074/",
+      "why": "The calendar’s changing prints provide a visible cycle that players can learn."
+    },
+    {
+      "idea": "The Costume Taxonomist strips colors and patterns from surroundings to build a stage costume, leaving camouflaged hazards wherever it has collected material.",
+      "source": "/ex/ex_cat/special/",
+      "why": "A costume exhibition becomes a scavenger that changes both its outfit and the battlefield."
+    },
+    {
+      "idea": "The Timeline Binder drags loose scenes from Edo and Tokyo into chronological order, pinning anything out of sequence under heavy date markers.",
+      "source": "/publication/18378/",
+      "why": "A research chronology becomes an ordering hazard that rewards deliberate misdirection."
+    },
+    {
+      "idea": "The Projection Archaeologist unearths old magic-lantern slides and projects solid silhouettes; rotate its light source and the shadows turn on their maker.",
+      "source": "/publication/",
+      "why": "An exhibition about projection media creates a tactile light-and-shadow puzzle."
+    },
+    {
+      "idea": "The Paired-Genre Matchmaker casts strangers in a romantic comedy, manufacturing missed encounters and slamming doors until they perform its chosen ending.",
+      "source": "/publication/21532/",
+      "why": "Romantic-comedy conventions become obstacles that can be broken by improvisation."
+    },
+    {
+      "idea": "The Cross-Culture Bridgekeeper builds a bridge from exchanged theatre scripts, then demands every traveler repeat a scene identically in two languages before crossing.",
+      "source": "/publication/21093/",
+      "why": "A bridge meant to connect traditions becomes a playful test of rigid interpretation."
+    },
+    {
+      "idea": "The Mirror Archivist copies prints and playbills into a second vault, but marks the original as an intruder and sends copies after it.",
+      "source": "/info/21998/",
+      "why": "Backup and original swap roles, letting the crew trick copies into chasing each other."
+    },
+    {
+      "idea": "The Image-Lending Examiner stamps shadows with a return date; when the date comes due it tries to repossess the shadow along with its owner.",
+      "source": "/visitor/digital-imaging/",
+      "why": "A real sequence of permission and return becomes a visible countdown."
+    },
+    {
+      "idea": "The Stage Photograph Stalker freezes at each flash and moves only in the gaps, arranging captured silhouettes as if documenting a production.",
+      "source": "/info/21905/",
+      "why": "A stage-photo collection inspires a stop-motion pursuit with a clear counterplay."
+    },
+    {
+      "idea": "The Curtain of Many Yokai rolls across a room on unseen machinery; the figures in its painted procession step out one at a time, then retreat when the curtain reverses.",
+      "source": "/goods/",
+      "why": "The Shintomiza yokai curtain supplies both the enemy procession and its vulnerable mechanism."
+    },
+    {
+      "idea": "The Dressing-Mirror Double rehearses a traveler’s next gesture a moment early, trying to lead them into an elaborate stage entrance they did not choose.",
+      "source": "/collection/315/",
+      "why": "A performer’s protective dressing table becomes a prediction-and-improvisation duel."
+    },
+    {
+      "idea": "The Chorus of Applause imitates audience calls and uses the echo to locate anyone who answers; an unexpected rhythm sends it after its own machines.",
+      "source": "/ex/21809/",
+      "why": "A specific audience practice becomes both a detection system and a tool for deception."
+    },
+    {
+      "idea": "The Film-in-a-Novel Reel slips a projected film scene inside an ordinary conversation, trapping listeners in a story nested inside a story.",
+      "source": "/publication/16812/",
+      "why": "The encounter plays with the page’s film references embedded in fiction without portraying a real author."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Mirror Keepers maintain a separate refuge of playbills, ukiyo-e and joruri books; they can compare a corrupted record against its surviving counterpart.",
+      "source": "/info/21998/",
+      "why": "A real mirror collection becomes a practical way to recover clues and identify false copies."
+    },
+    {
+      "idea": "The Volunteer Interpreter explains the movements and materials of a damaged exhibit, helping a crew read the tells of the machines wearing it.",
+      "source": "/visitor/",
+      "why": "Exhibition interpretation becomes useful field intelligence rather than a combat ability."
+    },
+    {
+      "idea": "The Friends of Two Persimmons organize small circles where strangers exchange performance skills and smuggle one another through occupied galleries.",
+      "source": "/join/",
+      "why": "A supporters’ club becomes a social resistance network open to newcomers."
+    },
+    {
+      "idea": "The Hand-and-Band Workshop teaches a crew a short glove-puppet gesture and rhythm that can divert a swarm patrol onto a miniature stage.",
+      "source": "/ex/22004/",
+      "why": "The workshop’s hands-on teaching turns art into an improvised escape tool."
+    },
+    {
+      "idea": "The Unclosed Container is a small free archive whose keepers welcome new stories instead of sealing them away; they can shelter evidence the swarm has overlooked.",
+      "source": "/about/",
+      "why": "The founding image of an initially empty container becomes an ally that grows through sharing."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Million-Role Curator: a towering assemblage of puppet heads, costumes, prints and film reels insists every visitor become a permanently catalogued role. Freeing distinct artifacts strips away its ability to cast the room.",
+      "source": "/support/",
+      "why": "The museum’s vast cross-era collection becomes a final battle about preserving variety without imprisoning it."
+    },
+    {
+      "idea": "The Forty-Volume Stage: a building-sized translation engine restages every room in a single prescribed interpretation. Its acts combine puppet movement, projected scenery and recited cues; the crew can defeat it by making different versions coexist.",
+      "source": "/ex/21788/",
+      "why": "The museum’s founding link to a completed translation grows into a site-wide struggle over performance and interpretation."
+    },
+    {
+      "idea": "The Theatre of All Eras rotates ancient, early modern and contemporary stages like stacked scenery, trying to force every crew member into a fixed place in its history.",
+      "source": "/ex/ex_cat/permanent/",
+      "why": "The permanent galleries’ historical sweep becomes a multi-stage arena with changing rules."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A pair of dragon dancers have tangled their embroidered robes around a doorway. Freeing one lets it help unravel the other, but their automated dance resumes when the music starts.",
+      "source": "/collection/2678/",
+      "why": "A brief rescue turns the paired choreography into a timing challenge."
+    },
+    {
+      "idea": "Four blossom-crowned figures are trying to complete a dance with one place empty. A crew member can step into the formation to open a path through the metal flowers.",
+      "source": "/collection/3349/",
+      "why": "Participation, rather than destruction, resolves an obstacle."
+    },
+    {
+      "idea": "A comic puppet head keeps losing its lone operator and asking passersby to complete a crowd scene. Find the operator or improvise a replacement before the main puppet arrives.",
+      "source": "/collection/3052/",
+      "why": "The distinction between solo extras and principal puppets sets up a small theatrical problem."
+    },
+    {
+      "idea": "Two guardian masks are stuck in the same breath phase, making a passage alternately vacuum and blast. Re-timing the pair creates a safe pause.",
+      "source": "/collection/2670/",
+      "why": "A simple environmental puzzle follows from the complementary mask pair."
+    },
+    {
+      "idea": "A puppet workshop’s tiny band is playing too fast for its glove puppets to keep up. Slowing the rhythm lets the puppets carry a message through a narrow gap.",
+      "source": "/ex/22004/",
+      "why": "Music, hand movement and scale give the crew an inventive delivery option."
+    },
+    {
+      "idea": "A mirror archive holds two versions of a playbill, one altered by the swarm. Comparing them reveals a safe route hidden in the original performance order.",
+      "source": "/info/21998/",
+      "why": "The mirrored playbill collection makes careful comparison useful in the field."
+    },
+    {
+      "idea": "A mechanical volunteer offers a tour of three galleries but has mixed up their eras. Put the exhibits in order and it opens a shortcut through the permanent collection.",
+      "source": "/ex/ex_cat/permanent/",
+      "why": "The chronological galleries turn into an approachable sequencing challenge."
+    },
+    {
+      "idea": "An actor print changes with each turn of a seasonal calendar; the same doorway leads to different scenery in each image. Choose the season whose stage contains the exit.",
+      "source": "/goods/21074/",
+      "why": "The alternating prints make navigation feel like turning theatrical scenery."
+    },
+    {
+      "idea": "An image-lending machine demands the return of a borrowed silhouette. Offer it a cut-paper substitute long enough for the owner to escape.",
+      "source": "/visitor/digital-imaging/",
+      "why": "A bureaucratic return procedure invites a low-stakes trick."
+    },
+    {
+      "idea": "Two performers on opposite sides of a script bridge cannot agree on a line. The crew can offer a gesture both understand, allowing them to finish the crossing together.",
+      "source": "/publication/21093/",
+      "why": "The exchange between theatre traditions becomes a cooperative translation problem."
+    },
+    {
+      "idea": "A projectionist has lost the light that makes its lantern slide visible. Redirect a beam to reveal a painted route, while avoiding the solid shadow it casts.",
+      "source": "/publication/",
+      "why": "The history of projection turns a light source into both solution and hazard."
+    },
+    {
+      "idea": "A dressing mirror shows the room as it will be after the next scene change. Move a prop in the present to change the reflected escape route.",
+      "source": "/collection/315/",
+      "why": "The dressing table becomes a compact experiment with staging and anticipation."
+    },
+    {
+      "idea": "A forgotten stage photograph shows a door hidden behind scenery. Recreate the arrangement of props to uncover it in the present.",
+      "source": "/info/21905/",
+      "why": "An archival photograph becomes evidence for reconstructing an ephemeral stage."
+    },
+    {
+      "idea": "A club of theatre friends has gathered to trade stories, but a swarm listener repeats each ending before its speaker can finish. Give the listener an improvised role to distract it.",
+      "source": "/join/",
+      "why": "A friendly cultural gathering becomes a social encounter about sharing the stage."
+    },
+    {
+      "idea": "A tiny paper theatre is trying to stage the same joruri story as a full-size kabuki set across the hall. Synchronize one cue between them and both sets reveal a hidden compartment.",
+      "source": "/publication/15999/",
+      "why": "The same repertoire appearing in puppet theatre and kabuki becomes a cross-scale coordination puzzle."
+    }
+  ]
+}

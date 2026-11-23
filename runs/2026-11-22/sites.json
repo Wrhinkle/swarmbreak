@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.museudamarioneta.pt",
+   "name": "Museu da Marioneta",
+   "url": "https://www.museudamarioneta.pt/",
+   "file": "runs/2026-11-22/sites/www.museudamarioneta.pt.json"
+  },
+  {
+   "host": "scenkonstmuseet.se",
+   "name": "Swedish Museum of Performing Arts",
+   "url": "https://scenkonstmuseet.se/en/",
+   "file": "runs/2026-11-22/sites/scenkonstmuseet.se.json"
+  },
+  {
+   "host": "enpaku.w.waseda.jp",
+   "name": "Tsubouchi Memorial Theatre Museum",
+   "url": "https://enpaku.w.waseda.jp/en/",
+   "file": "runs/2026-11-22/sites/enpaku.w.waseda.jp.json"
+  }
+ ]
+}

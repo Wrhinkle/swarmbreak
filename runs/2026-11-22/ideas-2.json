@@ -1,0 +1,221 @@
+{
+  "reading": "Scenkonstmuseet is Sweden's national museum of music, theatre and dance: it preserves performing-arts history while inviting visitors to make and experience performance in the present. Its collection spans roughly 50,000 objects, including instruments, costumes, stage designs, puppets and manuscripts; its central question is how to preserve an art of the moment. It values playful, multisensory learning, access for different visitors, and encounters across ages and languages. Its vocabulary moves between På scen (On Stage), behind the scenes, craft, workshops, collections, donation and loans. The unusually rich collision is a hands-on performance museum inside the historic Kronobageriet, a former bakery, with exhibitions ranging from costume-making and electronic music to dance and jazz photography.",
+  "enemies": [
+    {
+      "idea": "The Moment Collector catches the last second of every gesture in a glass frame, leaving its target unable to finish moving until someone performs a different ending.",
+      "source": "/scenkonstmuseets-samling/",
+      "why": "Preservation of ephemeral performance becomes a tactical puzzle about interruption and improvisation."
+    },
+    {
+      "idea": "A costume cutter sketches a role around a visitor, then stitches the drawing into a wearable disguise that compels its wearer to act the part.",
+      "source": "/utstallningar/teaterkostym-illusionernas-abecedarium/",
+      "why": "The route from sketch to stage turns costume craft into a changing identity trap."
+    },
+    {
+      "idea": "Alphabetical wardrobe drones attack in sequence: each new letter changes their fabric, silhouette and trick; break the sequence and they must start again.",
+      "source": "/utstallningar/teaterkostym-illusionernas-abecedarium/",
+      "why": "The costume abecedarium gives the crew a readable pattern to disrupt."
+    },
+    {
+      "idea": "A reel-to-reel scavenger records footsteps and plays them back ahead of its prey, drawing other machines toward the wrong corridor.",
+      "source": "/utstallningar/elektronmusikstudion-konst-teknik-och-politik/",
+      "why": "Analog tape makes both the threat and its misleading clues tangible."
+    },
+    {
+      "idea": "A utopian synthesizer claims it can perfect every sound; it hunts any unplanned note and retunes the room until speech becomes a single droning pitch.",
+      "source": "/utstallningar/elektronmusikstudion-konst-teknik-och-politik/",
+      "why": "The promise of a new technological future becomes a contest between controlled sound and messy expression."
+    },
+    {
+      "idea": "A jazz-photo shutter freezes anything caught in its beam into a silent pose; the longer the pose holds, the louder its unheard music becomes to nearby hunters.",
+      "source": "/utstallningar/foto-christer-landergren/",
+      "why": "Photographs you can hear become a risk that builds while the crew works to free a companion."
+    },
+    {
+      "idea": "A puppet ensemble has cut its own strings and now casts them onto passing machines, making a single captured drone perform several roles at once.",
+      "source": "/scenkonstmuseets-samling/",
+      "why": "The collection of puppets supplies a visible control network that can be severed or redirected."
+    },
+    {
+      "idea": "The donation assessor demands an object’s history before accepting it; when a crew member cannot provide one, it tries to remove their equipment for permanent preservation.",
+      "source": "/scenkonstmuseets-samling/donera-till-scenkonstmuseet/",
+      "why": "A familiar collections question becomes a negotiation with a confiscating machine."
+    },
+    {
+      "idea": "Loan couriers pack living instruments into traveling crates and pursue anyone who breaks the seal, treating rescue as an overdue return.",
+      "source": "/scenkonstmuseets-samling/utlan-av-foremal-fran-samlingen/",
+      "why": "The museum loan becomes a moving heist with a choice between stealth and interception."
+    },
+    {
+      "idea": "The bakery kiln kneads scrap into warm, loaf-shaped patrols that harden as they cool and crumble if lured back into the heat.",
+      "source": "/om-scenkonstmuseet/kronobageriet/",
+      "why": "The building’s former life gives a swarm factory a distinctive vulnerability."
+    },
+    {
+      "idea": "A stagehand swarm moves scenery between the audience and backstage until its quarry is stranded in a role under the lights.",
+      "source": "/utstallningar/pa-scen/",
+      "why": "The boundary between performance and backstage becomes a shifting arena."
+    },
+    {
+      "idea": "A drum-workshop drill sergeant repeats a rhythm through the floor; each machine that joins the beat makes its next pulse harder to escape.",
+      "source": "/besok-med-grupp/",
+      "why": "A group workshop becomes a rhythm encounter the crew can break by playing against it."
+    },
+    {
+      "idea": "The music-box examiner distributes little instruments and marks anyone who plays the same exercise twice as ready for collection.",
+      "source": "/skola/klajnkladan/",
+      "why": "Songs and exercises invite players to experiment rather than repeat a safe solution."
+    },
+    {
+      "idea": "Tail-workshop machines attach articulated scrap tails to each other for a disco, using the swinging appendages to fence off the dance floor.",
+      "source": "/evenemang/",
+      "why": "A specific family activity becomes a kinetic obstacle with a beat to exploit."
+    },
+    {
+      "idea": "A twenty-minute guide counts down a tour while rearranging its exhibits; anyone still on the route at the final chime is incorporated into the next tour.",
+      "source": "/evenemang/pa-scen-introduktion/",
+      "why": "A short guided visit supplies a clear clock and a route-planning challenge."
+    },
+    {
+      "idea": "An instrument builder scavenges loose objects and assembles them into a clattering creature whose sound changes whenever the crew removes a part.",
+      "source": "/besok-oss-med-barn/",
+      "why": "The invitation to build an instrument becomes a modular opponent with audible feedback."
+    },
+    {
+      "idea": "An impossible choreographer folds jointed machine bodies into seemingly unpassable shapes, then makes a corridor follow the same movement.",
+      "source": "/utstallningar/att-gora-det-omojliga-fem-decennier-med-efva-lilja/",
+      "why": "Inventive choreography turns the whole passage into a movement puzzle without impersonating an artist."
+    },
+    {
+      "idea": "The family-tour menagerie mimics the gestures of its visitors a beat late; copied gestures spread from puppet to puppet until the room moves as one.",
+      "source": "/evenemang/familjevisning-mars-2/",
+      "why": "Playful exploration of puppets becomes a chain reaction that can be led astray."
+    },
+    {
+      "idea": "A set-model surveyor unfolds miniature scenery into full-sized partitions and shrinks escape routes back into its model.",
+      "source": "/scenkonstmuseets-samling/donera-till-scenkonstmuseet/",
+      "why": "Set design models make scale and terrain into the enemy’s tools."
+    },
+    {
+      "idea": "A critic machine listens for a sound it considers beautiful and tags everything else for removal; a strange duet can make its judgment oscillate.",
+      "source": "/utstallningar/elektronmusikstudion-konst-teknik-och-politik/",
+      "why": "The exhibition’s question about beauty becomes an exploitable argument rather than a simple volume attack."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Quiet Route is a surviving sensory-walk guide: it signals by movement, sound or touch and leads crews through pockets where swarm noise is damped.",
+      "source": "/skola/anpassad-skola/",
+      "why": "A calm, multisensory visit becomes a flexible refuge and navigation aid."
+    },
+    {
+      "idea": "Klåjnklådan’s uninfected music box shares simple instruments and exercises; an improvised rhythm lets nearby allies coordinate without speaking.",
+      "source": "/skola/klajnkladan/",
+      "why": "A box meant to get people playing gives a crew a practical, playful communication tool."
+    },
+    {
+      "idea": "A stubborn backstage craftsperson automaton repairs torn costumes and builds decoys, but asks the crew to bring back its scattered sketch tools.",
+      "source": "/utstallningar/pa-scen/",
+      "why": "The invisible work behind a performance becomes a helpful relationship and a small retrieval goal."
+    },
+    {
+      "idea": "The loan registrar still tracks where objects belong and can identify a courier’s destination from its crate, helping crews rescue the contents.",
+      "source": "/scenkonstmuseets-samling/utlan-av-foremal-fran-samlingen/",
+      "why": "Collection stewardship supplies useful intelligence without making all bureaucracy hostile."
+    },
+    {
+      "idea": "A pause keeper shelters anyone who chooses to rest; its stillness lets the crew plan while the rhythm-hunting machines pass.",
+      "source": "/utstallningar/paus/",
+      "why": "The exhibition’s exploration of pause and strength gives the crew a gentle place to regroup."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Archivist of the Last Applause is a vast assemblage of instruments, costumes, puppets and scenery that tries to preserve every performance by stopping it forever. Each recovered improvisation loosens one of its collections until the crew can give it an ending it cannot predict.",
+      "source": "/scenkonstmuseets-samling/",
+      "why": "It embodies the museum-wide tension between preserving an object and keeping a fleeting art alive."
+    },
+    {
+      "idea": "The Total Production is a mobile theatre made from backstage machinery, costume frames and instruments. It casts the crew, moves the scenery and scores every action; refusing a role or swapping roles exposes the machinery that controls the show.",
+      "source": "/utstallningar/pa-scen/",
+      "why": "Music, theatre, dance and backstage craft combine in a boss whose rules players can perform against."
+    },
+    {
+      "idea": "The Future Orchestra is an enormous analog synthesizer woven through bakery machinery, endlessly converting objects into a single perfect note. Its reels can be spliced with different rhythms to make its synchronized swarm fall out of step.",
+      "source": "/utstallningar/elektronmusikstudion-konst-teknik-och-politik/",
+      "why": "The museum’s setting and its electronic-music history become a physical finale about orchestration and invention."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A sealed instrument crate knocks from inside while a loan courier checks its route. The crew can divert the courier, open the crate, or help it reach a safer destination.",
+      "source": "/scenkonstmuseets-samling/utlan-av-foremal-fran-samlingen/",
+      "why": "A routine loan becomes a portable dilemma with several approaches."
+    },
+    {
+      "idea": "A half-finished costume keeps trying to dress a mannequin according to a sketch that has blown across the room. Reuniting them produces a convincing disguise.",
+      "source": "/utstallningar/teaterkostym-illusionernas-abecedarium/",
+      "why": "A small act of costume craft gives the crew a useful reward."
+    },
+    {
+      "idea": "A guided tour begins with no guide present: scenery advances every few minutes, revealing a route through the old bakery if the crew keeps up.",
+      "source": "/evenemang/pa-scen-introduktion/",
+      "why": "A timed introduction becomes a moving route through two layers of the building."
+    },
+    {
+      "idea": "A reel of recorded footsteps loops at a junction and keeps attracting patrols. Splicing in a different sound may clear one passage while endangering another.",
+      "source": "/utstallningar/elektronmusikstudion-konst-teknik-och-politik/",
+      "why": "Tape editing changes patrol behavior and creates a meaningful tradeoff."
+    },
+    {
+      "idea": "A puppet begs the crew to untangle its strings from a captured machine; pull the wrong strand and the machine performs an alarming but harmless bow.",
+      "source": "/scenkonstmuseets-samling/",
+      "why": "Puppetry offers a low-stakes physical puzzle with an expressive payoff."
+    },
+    {
+      "idea": "A homemade instrument is missing a sounding piece. The crew can try found materials, each producing a different call that attracts or distracts nearby machines.",
+      "source": "/besok-oss-med-barn/",
+      "why": "Building an instrument makes experimentation immediately useful."
+    },
+    {
+      "idea": "A silent jazz photograph vibrates in its frame. Match its imagined rhythm on nearby objects and a concealed compartment opens; play too loudly and a patrol hears.",
+      "source": "/utstallningar/foto-christer-landergren/",
+      "why": "The crossover between seeing music and hearing photographs becomes a sound puzzle."
+    },
+    {
+      "idea": "A sensory-walk guide waits at a fork, offering a quiet route by touch or a quicker route marked by sound. The crew chooses how to cross based on the patrols nearby.",
+      "source": "/skola/anpassad-skola/",
+      "why": "Different ways of sensing the route produce a genuine navigation choice."
+    },
+    {
+      "idea": "A drum circle of dormant machines wakes one by one as a leaking pipe taps a beat. Altering the drip can send the circle back to sleep or set it marching elsewhere.",
+      "source": "/besok-med-grupp/",
+      "why": "A workshop rhythm turns an ordinary leak into a controllable situation."
+    },
+    {
+      "idea": "A model stage displays the room one scene ahead. Moving a tiny backdrop changes where the next full-sized partition lands, but only once.",
+      "source": "/scenkonstmuseets-samling/donera-till-scenkonstmuseet/",
+      "why": "A set model lets the crew rearrange a real encounter from a miniature vantage point."
+    },
+    {
+      "idea": "A small music box offers several exercises; machines outside copy the first one they hear. A crew can teach them a rhythm that sends them away from the exit.",
+      "source": "/skola/klajnkladan/",
+      "why": "A preschool activity becomes an accessible way to manipulate the swarm."
+    },
+    {
+      "idea": "The lights fall on an empty stage and two machines wait for a performer. A brief improvised scene earns passage backstage before the next cue.",
+      "source": "/utstallningar/pa-scen/",
+      "why": "Performance is a social solution to a physical obstacle."
+    },
+    {
+      "idea": "An abandoned tail-making station contains jointed scrap and fabric. A crew can finish a tail as a distraction, a tool for reaching around corners, or a disguise for a machine.",
+      "source": "/evenemang/",
+      "why": "A workshop and disco inspire a flexible piece of improvised equipment."
+    },
+    {
+      "idea": "A protected patch of quiet interrupts the swarm’s synchronized noise. The crew can rest there, but a damaged sound-damping prop must be repaired before the refuge travels onward.",
+      "source": "/utstallningar/paus/",
+      "why": "A pause becomes an active, temporary sanctuary rather than a threat."
+    }
+  ]
+}

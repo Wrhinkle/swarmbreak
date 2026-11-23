@@ -1,0 +1,15 @@
+{
+  "thread": "Follow a puppet from the workshop to the stage and into the worlds a performance can conjure. The swarm meets jointed figures and their strings, costumes and scenery, then the masks and characters of theatre.",
+  "candidates": [
+    {"name": "Museu da Marioneta", "url": "https://www.museudamarioneta.pt/", "why": "Portuguese Robertos, shadow figures, rod puppets and stop-motion characters offer a menagerie of bodies and ways to move."},
+    {"name": "Swedish Museum of Performing Arts", "url": "https://scenkonstmuseet.se/en/", "why": "Hand puppets and marionettes share the collection with stage models, theatrical props and costumes that can become a whole miniature production."},
+    {"name": "Tsubouchi Memorial Theatre Museum", "url": "https://enpaku.w.waseda.jp/en/", "why": "Japanese and world theatre collections open onto kabuki characters, stage costumes, theatrical prints and the expressive worlds of noh and bunraku."},
+    {"name": "Antonio Pasqualino International Puppet Museum", "url": "https://www.museodellemarionette.it/en/", "why": "Sicilian pupi, international puppets, theatrical machines and scenery suggest armored figures and imaginative stage creatures."},
+    {"name": "Gadagne Museums", "url": "https://www.gadagne-lyon.fr/en", "why": "Lyon's puppetry museum brings Guignol and puppets from around the world into a setting of characters, stories and performance spaces."},
+    {"name": "Theatre Museum Finland", "url": "https://teatterimuseo.fi/en/", "why": "Puppet theatre materials, costumes, props, stage models and theatre technology provide parts for a backstage swarm."},
+    {"name": "Scottish Mask and Puppet Centre", "url": "https://www.maskandpuppet.co.uk/", "why": "Masks and puppets include shadow figures from several traditions and giant theatrical characters, with exhibitions and productions to explore."},
+    {"name": "Victoria and Albert Museum", "url": "https://www.vam.ac.uk/", "why": "Its theatre and performance material includes puppets, stage costumes, set designs and props, from shadow figures to a life-sized horse puppet."},
+    {"name": "Harry Ransom Center", "url": "https://www.hrc.utexas.edu/", "why": "Performing arts collections hold rod and shadow puppets alongside scenic designs, models and the tools of stagecraft."},
+    {"name": "Columbia University Libraries Online Exhibitions", "url": "https://exhibitions.library.columbia.edu/", "why": "The Dramatic Museum exhibition contains shadow puppets, masks, model theatres and stage sets for a small world of performers."}
+  ]
+}

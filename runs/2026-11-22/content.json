@@ -1,0 +1,1186 @@
+{
+ "title": "The Unfinished Cue",
+ "swarm": {
+  "name": "The Fixed Cue",
+  "blurb": "A swarm of stage machinery that assigns every performer a part and tries to keep the ending from changing."
+ },
+ "arc": "The Fixed Cue first appears to be collecting puppets and forcing them through one ending. At the next site its machinery reveals a different aim: it is trying to save performances from disappearing, but mistakes a frozen performance for a preserved one. The crew follows its copied cues to a translation stage, where the swarm insists that every version must agree. Wren, Ox, and Kestrel break the stage\u2019s control and let different performers finish the scene in their own ways. The answer is that a performance can be remembered in many records and retold without locking its performers into one version.",
+ "acts": [
+  {
+   "theme": "Strings and stolen endings",
+   "story": {
+    "intro": "Puppets move without their handlers. Each stops at the same final pose. Wren checks a joint; the thread is new. Ox keeps watch while Kestrel follows it.",
+    "chapters": [
+     {
+      "title": "Tight joints",
+      "text": "The swarm has stitched moving joints stiff. Wren loosens a knot and finds that the puppet can still choose its next step. Ox suggests keeping the needle."
+     },
+     {
+      "title": "One ending",
+      "text": "Different stages reach the same ending. Kestrel finds identical threads on their frames. The swarm seems to be collecting stories so it can take their endings."
+     },
+     {
+      "title": "The joined figure",
+      "text": "Small stages have been fastened into a larger puppet. Its panels pull against one another whenever a performer changes a line. Wren thinks the seams can be opened without cutting the figures apart."
+     }
+    ],
+    "bossIntro": "The Thousand-Story Figure raises its panels. Every scene is forced toward the same pose. Ox sets his shield; Kestrel looks for the seams.",
+    "outro": "The panels come loose. Their performers give the stories different endings. Among the threads is a cue for another stage, marked to hold the final moment still. The crew follows it."
+   },
+   "creatures": [
+    {
+     "id": "bottle-scavenger",
+     "name": "Bottle Scavenger",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/oficinas/page/7/",
+     "blurb": "Its loose limbs come apart when it is hurt.",
+     "look": "A squat clear bottle body with cork joints, tin hands, and mismatched wooden feet."
+    },
+    {
+     "id": "sponge-listener",
+     "name": "Sponge Listener",
+     "tier": "easy",
+     "bodyPlan": "blob",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/oficinas/page/2/",
+     "blurb": "It squeezes stolen sounds into a distracting pulse.",
+     "look": "A yellow sponge oval with black button eyes and a wide bellows mouth."
+    },
+    {
+     "id": "glove-usurper",
+     "name": "Glove Usurper",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/oficinas/",
+     "blurb": "It slips into reach and takes what it can carry.",
+     "look": "A blue cloth glove with wooden teeth and five long fingers walking like legs."
+    },
+    {
+     "id": "over-restorer",
+     "name": "Over-Restorer",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/conservacao-e-restauro/",
+     "blurb": "It mends the swarm with stitches pulled too tight.",
+     "look": "A tan wooden puppet with a spool backpack, bent needle arms, and white thread."
+    },
+    {
+     "id": "storage-theatre",
+     "name": "Storage Theatre",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/reservas/",
+     "blurb": "Its folding panels shelter the puppets behind them.",
+     "look": "A small ochre wooden theatre on hinged legs, with blue folding scenery and a curved roof."
+    },
+    {
+     "id": "face-maker",
+     "name": "Face Maker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/programacao/quem-ve-caras-ve-emocoes/",
+     "blurb": "It fits the same expression to every face it catches.",
+     "look": "A brass box on thin legs with a stack of ivory masks and two clamp arms."
+    },
+    {
+     "id": "shadow-hunter",
+     "name": "Shadow Hunter",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/programacao/sera-que-uma-sombra-pode-ter-cor/",
+     "blurb": "Its colored shadows separate when the light breaks.",
+     "look": "A black paper bird with two blue lamps and overlapping cyan and amber wings."
+    },
+    {
+     "id": "thread-router",
+     "name": "Thread Router",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/oficinas/page/6/",
+     "blurb": "It reels distant puppets into the same formation.",
+     "look": "A wooden spider-shaped frame with eight spool legs and taut white strings."
+    },
+    {
+     "id": "catalogue-keeper",
+     "name": "Catalogue Keeper",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/publicacoes/catalogo-do-museu-da-marioneta/",
+     "blurb": "It keeps its assigned performers behind a wall of wooden hands.",
+     "look": "A tall brown puppet with a square cabinet torso and a fan of pale wooden hands."
+    },
+    {
+     "id": "crank-repairer",
+     "name": "Crank Repairer",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "brace",
+      "strike"
+     ],
+     "source": "/oficinas/page/3/",
+     "blurb": "Its turning crank repairs any puppet still within reach.",
+     "look": "A brass barrel with a large side crank, four jointed legs, and a tray of spare limbs."
+    },
+    {
+     "id": "flat-dragon",
+     "name": "Flat Dragon",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/oficinas/page/4/",
+     "blurb": "It turns edge-on, then charges from its painted face.",
+     "look": "A long flat cardboard dragon with teal scales, a cream belly, and narrow hinged legs."
+    },
+    {
+     "id": "chapel-chorus",
+     "name": "Chapel Chorus",
+     "tier": "elite",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/programacao/marionetas-a-capela-temporada-de-espetaculos-26/",
+     "blurb": "Its shared cue calls more performers and interrupts dissent.",
+     "look": "A cluster of small wooden singers beneath a black crossbar and a web of white strings."
+    },
+    {
+     "id": "thousand-story-figure",
+     "name": "Thousand-Story Figure",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "brace",
+      "strike"
+     ],
+     "source": "/programacao/numa-marioneta-mil-historias-manha-criativa/",
+     "blurb": "The swarm pins separate stories into one repeated ending. Its broad panels sweep the stage while its frame braces against the crew.",
+     "look": "A towering flat puppet of hinged cream and blue panels, with small painted figures and a broad wooden frame."
+    },
+    {
+     "id": "gentle-mender",
+     "name": "Gentle Mender",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/conservacao-e-restauro/",
+     "blurb": "It splints a joint without stopping it from moving.",
+     "look": "A small wooden puppet in a beige apron carrying a curved needle and cloth strips."
+    },
+    {
+     "id": "shadow-tutor",
+     "name": "Shadow Tutor",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/servico-educativo/",
+     "blurb": "It teaches the crew to make a distracting shadow.",
+     "look": "A slim cloth puppet with a round lantern, black paper hands, and a pale blue coat."
+    }
+   ],
+   "events": [
+    {
+     "id": "colored-light",
+     "source": "/programacao/sera-que-uma-sombra-pode-ter-cor/",
+     "look": "A black paper silhouette between an amber lamp and a blue lamp.",
+     "title": "Two lamps",
+     "text": "A shadow puppet needs one lamp. The other still works. Which do you give it?",
+     "options": [
+      {
+       "label": "Give the blue lamp; rest by the amber",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The shadow returns. The warm light lets the crew rest."
+      },
+      {
+       "label": "Give the amber lamp; take the blue lens",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The shadow returns. Ox fits the lens to a guard."
+      }
+     ]
+    },
+    {
+     "id": "cabinet-stage",
+     "source": "/reservas/",
+     "look": "A tiny wooden stage beside a closed cabinet and a hinged blue door.",
+     "title": "Cabinet scene",
+     "text": "A miniature rescue matches the cabinet beside it. There is time to move one prop.",
+     "options": [
+      {
+       "label": "Open the cabinet for supplies",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The cabinet opens. The crew pockets the supplies."
+      },
+      {
+       "label": "Open the little stage for a lesson",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The puppet shows Ox how to cover another performer."
+      }
+     ]
+    },
+    {
+     "id": "two-faces",
+     "source": "/programacao/quem-ve-caras-ve-emocoes/",
+     "look": "Two ivory puppet faces, one smiling and one frowning, on a wooden workbench.",
+     "title": "A face for each door",
+     "text": "Two doors answer to different faces. The puppets can make only one before the press cools.",
+     "options": [
+      {
+       "label": "Make the smile for the supply door",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The smile opens a drawer of supplies."
+      },
+      {
+       "label": "Make the frown for the quiet room",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The frown opens a room where Wren can work."
+      }
+     ]
+    },
+    {
+     "id": "bottle-cap",
+     "source": "/oficinas/page/7/",
+     "look": "A clear bottle puppet trailing pale beads across a stone floor.",
+     "title": "A trail of beads",
+     "text": "A bottle puppet has lost its cap. The beads lead to a cache before they run out.",
+     "options": [
+      {
+       "label": "Return the cap and learn its trick",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The puppet shows the crew how to shake a bad influence loose."
+      },
+      {
+       "label": "Follow the beads to the cache",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The trail ends at a small stash. The puppet finds its own cap."
+      }
+     ]
+    },
+    {
+     "id": "tilted-mobile",
+     "source": "/oficinas/page/19/",
+     "look": "A wooden mobile of tiny figures hanging crooked over a doorway.",
+     "title": "Counterweight",
+     "text": "The mobile blocks a passage. A tool or a bag of supplies will balance it.",
+     "options": [
+      {
+       "label": "Use supplies as the weight",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The passage opens. The bag stays on the mobile."
+      },
+      {
+       "label": "Hold it up by hand",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew squeezes through. The frame catches a shoulder."
+      }
+     ]
+    },
+    {
+     "id": "glove-latch",
+     "source": "/oficinas/",
+     "look": "An unfinished blue glove puppet reaching toward a brass latch.",
+     "title": "A hand inside",
+     "text": "The glove can open the latch. It also knows a useful motion, but the latch will close again.",
+     "options": [
+      {
+       "label": "Open the supply chest",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The glove opens the chest before the spring snaps shut."
+      },
+      {
+       "label": "Practice the motion",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel learns where to press through a guard."
+      }
+     ]
+    }
+   ],
+   "name": "Museu da Marioneta",
+   "url": "https://www.museudamarioneta.pt/"
+  },
+  {
+   "theme": "The performance held still",
+   "story": {
+    "intro": "The cue leads to a theater full of costumes, instruments, and moving scenery. A machine stops a gesture just before it ends. Wren recognizes the same careful stitching.",
+    "chapters": [
+     {
+      "title": "Assigned parts",
+      "text": "The scenery shifts around anyone who enters. Ox is offered a shield and a place to stand forever. He declines the place."
+     },
+     {
+      "title": "A better look",
+      "text": "The swarm is saving the last moment of each performance. It is not collecting endings for itself; it fears they will disappear. Wren points out that a held note is not much of a song."
+     },
+     {
+      "title": "Behind the scene",
+      "text": "Backstage frames feed costumes and cues into a mobile theater. Kestrel finds that a changed part jams its timing. Ox offers to change parts with anyone who needs it."
+     }
+    ],
+    "bossIntro": "The Total Production rolls forward and casts the crew in a final scene. Stagehands gather around its guarded frame. The crew refuses the parts and moves in.",
+    "outro": "The theater stops casting. Performers finish their own gestures, and some start again differently. A surviving cue points to a machine that translates every version into one. The crew follows."
+   },
+   "creatures": [
+    {
+     "id": "loaf-patrol",
+     "name": "Loaf Patrol",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/om-scenkonstmuseet/kronobageriet/",
+     "blurb": "A kiln-made patrol with a surprisingly hard crust.",
+     "look": "A brown loaf-shaped metal body on four stubby iron legs, with a split crust."
+    },
+    {
+     "id": "reel-scavenger",
+     "name": "Reel Scavenger",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/utstallningar/elektronmusikstudion-konst-teknik-och-politik/",
+     "blurb": "It steals supplies while its recorded footsteps lead elsewhere.",
+     "look": "A small gray tape deck on wheels with twin black reels and a wire tail."
+    },
+    {
+     "id": "tail-dancer",
+     "name": "Tail Dancer",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/evenemang/",
+     "blurb": "It winds up its scrap tail before rushing.",
+     "look": "A squat brass dancer with a long jointed blue cloth tail and round feet."
+    },
+    {
+     "id": "costume-cutter",
+     "name": "Costume Cutter",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/utstallningar/teaterkostym-illusionernas-abecedarium/",
+     "blurb": "It dresses a target for a part the target did not choose.",
+     "look": "A thin wooden mannequin with scissors for hands and a fan of green fabric."
+    },
+    {
+     "id": "stagehand-swarm",
+     "name": "Stagehand Swarm",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/utstallningar/pa-scen/",
+     "blurb": "It calls more hands to shift the scenery into place.",
+     "look": "A group of small black glove hands carrying blue and cream scenery flats."
+    },
+    {
+     "id": "loan-courier",
+     "name": "Loan Courier",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/scenkonstmuseets-samling/utlan-av-foremal-fran-samlingen/",
+     "blurb": "It shields its sealed cargo and whatever stands beside it.",
+     "look": "A wheeled wooden crate with brass clasps, two narrow arms, and a domed lid."
+    },
+    {
+     "id": "moment-collector",
+     "name": "Moment Collector",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/scenkonstmuseets-samling/",
+     "blurb": "Its glass frame holds a gesture just before it finishes.",
+     "look": "A tall oval glass frame on brass legs with a jointed hand suspended inside."
+    },
+    {
+     "id": "drum-drill",
+     "name": "Drum Drill",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/besok-med-grupp/",
+     "blurb": "It gathers a beat before striking the floor.",
+     "look": "A round blue drum with two mechanical arms, wooden sticks, and spring legs."
+    },
+    {
+     "id": "gesture-menagerie",
+     "name": "Gesture Menagerie",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/evenemang/familjevisning-mars-2/",
+     "blurb": "Its little figures copy the crew a beat late.",
+     "look": "Three jointed wooden animal figures in ochre and blue, linked by thin rods."
+    },
+    {
+     "id": "wardrobe-drone",
+     "name": "Wardrobe Drone",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/utstallningar/teaterkostym-illusionernas-abecedarium/",
+     "blurb": "It wraps the production in layers that protect the other machines.",
+     "look": "A tall dress form with overlapping green fabric plates and a brass hoop skirt."
+    },
+    {
+     "id": "sound-critic",
+     "name": "Sound Critic",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/utstallningar/elektronmusikstudion-konst-teknik-och-politik/",
+     "blurb": "It retunes damaged machines until the whole group sounds alike.",
+     "look": "A black speaker cabinet with a brass horn, tuning forks, and six narrow legs."
+    },
+    {
+     "id": "model-surveyor",
+     "name": "Model Surveyor",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/scenkonstmuseets-samling/donera-till-scenkonstmuseet/",
+     "blurb": "Its miniature set produces a stream of full-sized obstructions.",
+     "look": "A wooden stage model on wheels, with folding blue walls and tiny hinged figures."
+    },
+    {
+     "id": "total-production",
+     "name": "Total Production",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "brace"
+     ],
+     "source": "/utstallningar/pa-scen/",
+     "blurb": "It casts every visitor and summons stagehands to hold the scene. Its broad sweep and guarded frame make refusing the part expensive.",
+     "look": "A mobile theater of dark timber, brass wheels, blue curtains, costume frames, and a wide drum."
+    },
+    {
+     "id": "quiet-guide",
+     "name": "Quiet Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/skola/anpassad-skola/",
+     "blurb": "It guides by touch when the room grows too loud.",
+     "look": "A small gray wooden guide with a padded square shield and a blue ribbon."
+    },
+    {
+     "id": "backstage-mender",
+     "name": "Backstage Mender",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/utstallningar/pa-scen/",
+     "blurb": "It repairs costumes and leaves their wearers room to move.",
+     "look": "A compact brass sewing machine with wooden arms, a canvas apron, and a thread spool."
+    }
+   ],
+   "events": [
+    {
+     "id": "sealed-crate",
+     "source": "/scenkonstmuseets-samling/utlan-av-foremal-fran-samlingen/",
+     "look": "A wooden crate with brass clasps beside a small wheeled cart.",
+     "title": "Knocking cargo",
+     "text": "An instrument knocks inside a sealed crate. The cart has room for the crate or the spare supplies.",
+     "options": [
+      {
+       "label": "Carry the instrument to a safe room",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The grateful instrument plays while Wren tends the crew."
+      },
+      {
+       "label": "Carry the spare supplies",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The registrar takes the crate by another route. The crew keeps the supplies."
+      }
+     ]
+    },
+    {
+     "id": "costume-sketch",
+     "source": "/utstallningar/teaterkostym-illusionernas-abecedarium/",
+     "look": "A cream dress form, green cloth, and a charcoal sketch on a worktable.",
+     "title": "One costume",
+     "text": "There is enough cloth for a disguise or a set of fresh bandages.",
+     "options": [
+      {
+       "label": "Sew the disguise",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The disguise shows how to slip an imposed role."
+      },
+      {
+       "label": "Cut bandages",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren makes neat bandages from the cloth."
+      }
+     ]
+    },
+    {
+     "id": "spliced-footsteps",
+     "source": "/utstallningar/elektronmusikstudion-konst-teknik-och-politik/",
+     "look": "An open tape reel beside a pair of brass scissors.",
+     "title": "A different sound",
+     "text": "Recorded footsteps draw patrols. The reel can teach a trick or be traded for supplies.",
+     "options": [
+      {
+       "label": "Study the splice",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The crew learns to break a rhythm at the right beat."
+      },
+      {
+       "label": "Trade the reel",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "A collector pays for the recording and takes it away."
+      }
+     ]
+    },
+    {
+     "id": "jazz-frame",
+     "source": "/utstallningar/foto-christer-landergren/",
+     "look": "A black frame vibrating on a shelf beside two wooden drumsticks.",
+     "title": "A quiet beat",
+     "text": "A frame hums against its shelf. A gentle rhythm may help the crew rest; a loud one may open its compartment.",
+     "options": [
+      {
+       "label": "Play gently",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The hum settles. The crew rests in the quiet."
+      },
+      {
+       "label": "Play loudly",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The frame opens and reveals a small cache."
+      }
+     ]
+    },
+    {
+     "id": "sensory-fork",
+     "source": "/skola/anpassad-skola/",
+     "look": "A forked passage with a padded handrail and a hanging brass bell.",
+     "title": "Two routes",
+     "text": "The guide offers a slow route by touch or a quick route marked by sound. Both have a price.",
+     "options": [
+      {
+       "label": "Take the padded route; leave a supply bundle",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The guide uses the bundle to repair the handrail."
+      },
+      {
+       "label": "Take the noisy route; hurry through",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew gets through before the patrol, with a few bruises."
+      }
+     ]
+    },
+    {
+     "id": "pause-prop",
+     "source": "/utstallningar/paus/",
+     "look": "A folded blue padded screen beside a small tool kit.",
+     "title": "The quiet prop",
+     "text": "A damaged screen can make a quiet place. Its parts could instead reinforce a shield.",
+     "options": [
+      {
+       "label": "Repair the screen and rest",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The screen dampens the noise while Wren works."
+      },
+      {
+       "label": "Use the parts on a shield",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox makes a wider guard from the padded panels."
+      }
+     ]
+    }
+   ],
+   "name": "Swedish Museum of Performing Arts",
+   "url": "https://scenkonstmuseet.se/en/"
+  },
+  {
+   "theme": "Many versions, one stage",
+   "story": {
+    "intro": "Copies, puppets, and folded scenes fill the next theater. The swarm turns each version toward the same cue. Wren compares two records and finds they disagree without either being broken.",
+    "chapters": [
+     {
+      "title": "Hands and copies",
+      "text": "Several hands can move one puppet. Several records can remember one performance. Ox keeps the copies safe while Kestrel looks for the machine that orders them."
+     },
+     {
+      "title": "One translation",
+      "text": "The machine accepts different versions, then forces them into one. Its copies crowd the stage whenever a line changes. Wren finds the same tight stitch in every script."
+     },
+     {
+      "title": "Room to finish",
+      "text": "The crew can hear different cues coming from the stage. Kestrel finds a seam between its rollers. Ox braces for the sweep while Wren prepares to free the pages."
+     }
+    ],
+    "bossIntro": "The Forty-Volume Stage calls out one final cue. Copies pour from its rollers. It will guard a single version with every hand it has.",
+    "outro": "The rollers stop. The performers give the scene several endings, and the records keep their differences. The swarm wanted to stop a performance from vanishing. Wren files the loose pages together, without stitching them shut. Ox gives Kestrel back the needle."
+   },
+   "creatures": [
+    {
+     "id": "tsume-extra",
+     "name": "Tsume Extra",
+     "tier": "easy",
+     "bodyPlan": "humanoid",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/collection/3052/",
+     "blurb": "One background face becomes several when pressed.",
+     "look": "A small wooden puppet with a round ivory face, dark hair, and a plain blue robe."
+    },
+    {
+     "id": "print-moth",
+     "name": "Print Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/goods/21074/",
+     "blurb": "Its turning wings interrupt the crew with changing scenes.",
+     "look": "A moth with broad cream paper wings, black brushlike marks, and a charcoal body."
+    },
+    {
+     "id": "palm-raider",
+     "name": "Palm Raider",
+     "tier": "easy",
+     "bodyPlan": "humanoid",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/ex/22004/",
+     "blurb": "A small glove-puppet hand darts out to take supplies.",
+     "look": "A small blue cloth puppet with a carved wooden head and oversized grasping hands."
+    },
+    {
+     "id": "three-handed-usher",
+     "name": "Three-Handed Usher",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/collection/3052/",
+     "blurb": "Its operators call more hands to keep the puppet moving.",
+     "look": "A large jointed wooden puppet in a blue robe with three smaller dark wooden hands at its joints."
+    },
+    {
+     "id": "breath-gate",
+     "name": "Breath Gate",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/collection/2670/",
+     "blurb": "Two masks shield each other between gusts.",
+     "look": "Two large ivory and brown guardian masks on a shared wheeled bellows."
+    },
+    {
+     "id": "translation-mill",
+     "name": "Translation Mill",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/ex/21788/",
+     "blurb": "It turns one cue into a crowd of competing instructions.",
+     "look": "A brass mill with a wide paper feed, wooden rollers, and folded cream strips spilling out."
+    },
+    {
+     "id": "mirror-archivist",
+     "name": "Mirror Archivist",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike"
+     ],
+     "source": "/info/21998/",
+     "blurb": "It copies an action and sends it back at its source.",
+     "look": "A tall dark wooden cabinet with a round silver mirror and two jointed arms."
+    },
+    {
+     "id": "timeline-binder",
+     "name": "Timeline Binder",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/publication/18378/",
+     "blurb": "It pins scenes in a single sequence and stops anything out of place.",
+     "look": "A brass frame with heavy wooden bars, stacked paper panels, and narrow wheels."
+    },
+    {
+     "id": "bridgekeeper",
+     "name": "Bridgekeeper",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/publication/21093/",
+     "blurb": "It guards the script bridge and the machines crossing it.",
+     "look": "A broad wooden figure in a cream coat holding a shield made from folded paper."
+    },
+    {
+     "id": "dragon-dancers",
+     "name": "Dragon Dancers",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "sweep"
+     ],
+     "source": "/collection/2678/",
+     "blurb": "Their paired bodies build momentum for a sweeping rush.",
+     "look": "Two long teal dragon heads above interwoven cream robes with dark cloud shapes."
+    },
+    {
+     "id": "repertoire-stitcher",
+     "name": "Repertoire Stitcher",
+     "tier": "elite",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "triage",
+      "strike"
+     ],
+     "source": "/publication/15999/",
+     "blurb": "It stitches damaged characters back into the same prescribed plot.",
+     "look": "A tall wooden puppet with a blue patchwork coat, brass needles, and many cream thread spools."
+    },
+    {
+     "id": "curtain-procession",
+     "name": "Curtain Procession",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "strike"
+     ],
+     "source": "/goods/",
+     "blurb": "Figures step from its painted curtain while its wide roller sweeps the floor.",
+     "look": "A dark blue rolling curtain with cream and gold creature silhouettes, mounted on brass wheels."
+    },
+    {
+     "id": "forty-volume-stage",
+     "name": "Forty-Volume Stage",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "charge"
+     ],
+     "source": "/ex/21788/",
+     "blurb": "The swarm finally gives its reason: it fears a performance will vanish unless every version agrees. The stage summons conflicting copies, sweeps the company, and charges on a single cue.",
+     "look": "A towering black timber stage with forty cream booklike blocks, brass rollers, blue screens, and a wide jointed puppet arm."
+    },
+    {
+     "id": "mirror-keeper",
+     "name": "Mirror Keeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/info/21998/",
+     "blurb": "It compares damaged records with their surviving copies and mends what it can.",
+     "look": "A small wooden cabinet with a silver mirror, gentle brass hands, and a stack of cream sheets."
+    },
+    {
+     "id": "hand-and-band",
+     "name": "Hand and Band",
+     "tier": "ally",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/ex/22004/",
+     "blurb": "A puppet and its tiny band can break a patrol\u2019s rhythm.",
+     "look": "A blue glove puppet beside two small brass drums and jointed wooden beaters."
+    }
+   ],
+   "events": [
+    {
+     "id": "dragon-robes",
+     "source": "/collection/2678/",
+     "look": "Two teal dragon heads with tangled cream cloth around a wooden doorway.",
+     "title": "Tangled dancers",
+     "text": "Two dancers are caught in each other\u2019s robes. A quick cut costs cloth; patient untangling costs time and strain.",
+     "options": [
+      {
+       "label": "Pay for replacement cloth",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The dancers are freed and accept the replacement cloth."
+      },
+      {
+       "label": "Untangle the heavy folds",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The dancers are freed. The effort leaves the crew sore."
+      }
+     ]
+    },
+    {
+     "id": "paired-masks",
+     "source": "/collection/2670/",
+     "look": "Two large guardian masks facing one another above a brass bellows.",
+     "title": "Breath timing",
+     "text": "The masks breathe together. Adjusting the bellows could make a safe rest or teach a strong push.",
+     "options": [
+      {
+       "label": "Tune a quiet pause",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The masks fall silent long enough for Wren to work."
+      },
+      {
+       "label": "Study the outward breath",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The crew learns a wide pushing stroke."
+      }
+     ]
+    },
+    {
+     "id": "mirror-playbill",
+     "source": "/info/21998/",
+     "look": "Two cream paper sheets under a silver hand mirror on a desk.",
+     "title": "Two versions",
+     "text": "One record has been altered. The keeper offers a lesson in comparing copies or a pouch for returning the original.",
+     "options": [
+      {
+       "label": "Compare the copies",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The keeper shows how to recognize and shake an imposed cue."
+      },
+      {
+       "label": "Return the original",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The keeper pays for the original and files it beside the copy."
+      }
+     ]
+    },
+    {
+     "id": "puppet-band",
+     "source": "/ex/22004/",
+     "look": "A blue glove puppet beside a tiny brass drum and a wooden stage.",
+     "title": "Too fast",
+     "text": "The band is too fast for its puppet. The crew can slow the beat or take the spare drum to trade.",
+     "options": [
+      {
+       "label": "Slow the beat and practice",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The puppet teaches a beat that interrupts a cue."
+      },
+      {
+       "label": "Trade the spare drum",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The band finds a slower rhythm on its own. The spare drum buys supplies."
+      }
+     ]
+    },
+    {
+     "id": "script-bridge",
+     "source": "/publication/21093/",
+     "look": "A narrow bridge made from folded cream pages over a dark gap.",
+     "title": "A shared gesture",
+     "text": "Two performers disagree over a line. They offer either a lesson or a safe place to rest for a gesture both understand.",
+     "options": [
+      {
+       "label": "Learn their crossing step",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel learns to find an opening in a guarded stance."
+      },
+      {
+       "label": "Rest with the performers",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The performers make space while Wren repairs the crew."
+      }
+     ]
+    },
+    {
+     "id": "lantern-slide",
+     "source": "/publication/",
+     "look": "A brass lantern aimed at a painted glass slide and a dark wall.",
+     "title": "The lantern",
+     "text": "One beam can reveal a cache or illuminate a route to a quiet room.",
+     "options": [
+      {
+       "label": "Turn the beam toward the cache",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The painted outline points to a hidden pouch."
+      },
+      {
+       "label": "Turn the beam toward the quiet room",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The crew follows the lit route and rests."
+      }
+     ]
+    }
+   ],
+   "name": "Tsubouchi Memorial Theatre Museum",
+   "url": "https://enpaku.w.waseda.jp/en/"
+  }
+ ],
+ "id": "2026-11-22",
+ "seed": 1750637864
+}
