@@ -139,6 +139,23 @@ function mapSheet(a:RunAct,cleared:string[],legal:string[],current:string|null,p
 function routineText(r: Routine | undefined) { if (!r) return 'Unknown routine'; const pct=Math.round((r.arg ?? 0)*100); const cond: Record<string,string>={always:'Always',self_hp_below:`If self is under ${pct}% HP`,ally_hp_below:`If an ally is under ${pct}% HP`,ally_down:'If an ally is down',self_unshielded:'If self has no shield',foe_shielded:'If a foe has a shield',foe_hp_below:`If a foe is under ${pct}% HP`,foes_at_least:`If there are at least ${r.arg} foes`,self_corrupted:'If self is corrupted'}; const action: Record<string,string>={strike:'Strike',heavy:'Heavy strike',sweep:'Sweep',overflow:'Break shield and strike',patch:'Patch',mend_all:'Mend all',guard_self:'Guard self',guard_ally:'Guard ally',corrupt:'Corrupt',purge:'Purge',stun:'Stun',summon:'Summon',split:'Split',steal:'Steal',mirror:'Mirror',charge:'Charge'}; return `${cond[r.condition]}: ${action[r.action]}`; }
 export function restUpgradeChoice(name: string, current: Routine, onChoose: () => void) { const upgraded = ROUTINES[current.upgradesTo!]; return btn(`Upgrade ${name}: ${current.name} (${routineText(current)}) → ${upgraded.name} (${routineText(upgraded)})`, onChoose, false, 'rest-upgrade'); }
 export function routineOffer(r: Routine, action: string, onChoose: () => void, disabled: boolean, cost = `${r.price}g`) { const card=renderCard({name:r.name,effect:routineText(r),cost}); card.append(btn(`${action} ${r.name}`,onChoose,disabled)); return card; }
+export function treasureChoices(routine: Routine | undefined, takeGold: () => void, takeRoutine: () => void) {
+  const group=el('div');
+  const options=[{name:'40 gold',effect:'Add 40 gold to your supply.',action:takeGold}, ...(routine ? [{name:routine.name,effect:routineText(routine),action:takeRoutine}] : [])];
+  const buttons: HTMLButtonElement[]=[];
+  let selected=-1;
+  const confirm=btn('Confirm reward',()=>{ if(selected>=0) { confirm.disabled=true; options[selected].action(); } },true);
+  options.forEach((option,i)=>{
+    const card=renderCard({name:option.name,effect:option.effect,cost:'Free',icon:i===0?'¤':undefined});
+    const choice=btn(`Select ${option.name}`,()=>{
+      selected=i;
+      buttons.forEach((button,j)=>{ button.setAttribute('aria-pressed',String(j===i)); button.textContent=`${j===i?'Selected':'Select'} ${options[j].name}`; });
+      confirm.disabled=false; confirm.textContent=`Confirm ${option.name}`;
+    },false,'option');
+    choice.setAttribute('aria-pressed','false'); buttons.push(choice); card.append(choice); group.append(card);
+  });
+  group.append(confirm); return group;
+}
 export function routinePicker(label: string, ids: string[], value: string, onChange: (value: string) => void) {
   const picker=el('details',undefined,'routine-picker');
   const current=ROUTINES[value];
@@ -162,7 +179,7 @@ function enterRoom(n:MapNode, resumed=false) { room=n; if(['fight','elite','boss
  if(n.kind==='rest'){ panel.append(el('p','A quiet corner. Choose one way to prepare.')); panel.append(btn('Heal crew by 30%',()=>{for(const c of today().crew)c.hp=Math.min(maxHp(c.creature),c.hp+Math.round(maxHp(c.creature)*.3));completeRoom();})); const eligible=today().crew.flatMap((c,i)=>c.routines.map((r,j)=>({i,j,r}))).filter(x=>ROUTINES[x.r]?.upgradesTo); for(const x of eligible) panel.append(restUpgradeChoice(today().crew[x.i].creature.name, ROUTINES[x.r],()=>{ const c=today().crew[x.i],up=ROUTINES[x.r].upgradesTo!; c.routines[x.j]=up; const k=today().deck.indexOf(x.r); if(k>=0)today().deck[k]=up; completeRoom(); })); }
  if(n.kind==='event'){ const e=act().events.find(e=>e.id===n.eventId)!; if(e.art){const img=new Image();img.src=e.art;img.alt='';img.className='event-art';img.onerror=()=>img.remove();panel.append(img);} append(panel,stageLabel(e.title),el('p',e.text)); for(const o of e.options) panel.append(btn(o.label,()=>{applyEffect(o.effect);notice=o.result;completeRoom();},o.effect.type==='gold'&&today().gold+o.effect.amount<0)); }
  if(n.kind==='shop'){ panel.append(el('p',`Browse the shelf · ${today().gold} gold`)); for(const id of act().shop){ const r=ROUTINES[id]; panel.append(routineOffer(r,'Buy',()=>{today().gold-=r.price;today().deck.push(id);persist();enterRoom(n,true);},!r.price||today().gold<r.price)); } panel.append(btn('Leave shop',completeRoom)); }
- if(n.kind==='treasure'){ panel.append(el('p','Choose what to carry from the drawer.')); const gold=renderCard({name:'40 gold',effect:'Add gold to your supply.',cost:'Free',icon:'¤'}); gold.append(btn('Take 40 gold',()=>{today().gold+=40;completeRoom();})); panel.append(gold); const id=act().shop[0]; if(id)panel.append(routineOffer(ROUTINES[id],'Take',()=>{today().deck.push(id);completeRoom();},false,'Free')); }
+ if(n.kind==='treasure'){ panel.append(el('p','Choose what to carry from the drawer.')); const id=act().shop[0]; panel.append(treasureChoices(id ? ROUTINES[id] : undefined,()=>{today().gold+=40;completeRoom();},()=>{if(id){today().deck.push(id);completeRoom();}})); }
  if(resumed) root.append(el('p','Your room is ready to continue.','muted')); }
 function applyEffect(e:EventEffect){ const t=today(); switch(e.type){case 'gold':t.gold=Math.max(0,t.gold+e.amount);break;case 'routine':t.deck.push(e.id);break;case 'heal':case 'damage':for(const c of t.crew)c.hp=Math.max(0,Math.min(maxHp(c.creature),c.hp+Math.round(maxHp(c.creature)*e.amount*(e.type==='heal'?1:-1))));break;} }
 function completeRoom(){ if(!room)return; const n=room,t=today(); if(n.reward){const c=creature(act(),n.reward); if(c){t.crew.push(member(c,true,t.crew.filter(x=>x.active).length<CREW_MAX)); t.deck.push(...c.routines); notice=`${c.name} joined the crew. ${notice}`;}} t.cleared.push(n.id);t.node=n.id;t.pending=null; if(n.kind==='boss'){ if((t.act??0)<run.acts.length-1){t.act=(t.act??0)+1;t.node=null;loadArt(act());notice=`${act().story?run.acts[(t.act??1)-1].story?.outro??'':'The act is clear. A new site awaits.'}`;}else{t.pending='win';persist();showEndChoice();return;} } persist();showMap(); }
