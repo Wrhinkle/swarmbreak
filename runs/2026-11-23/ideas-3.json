@@ -1,0 +1,221 @@
+{
+  "reading": "Athens' Numismatic Museum is a long-established Greek state museum devoted to collecting, conserving, researching and interpreting money and related objects. Its holdings span coins, medals, lead seals, sealstones, weights, spits and talents from antiquity to the present; its specialised library and conservation laboratory support that work. The site speaks in the vocabulary of issues, obverse and reverse, mints, iconography, donors, acquisitions, collections and cultural heritage. It treats coins as evidence of political authority, exchange, art and social life, not merely as valuables. What makes this place distinctive is the meeting of those small portable histories with the rooms of the Iliou Melathron, a former residence, and a garden used for music and education. Greek and English routes, thematic exhibitions, 3D objects and 'In the Sanctuary' stories connect the collection to contemporary questions and events.",
+  "enemies": [
+    {
+      "idea": "Weight adjudicators balance a crew member against a stack of ancient weights, then pin them down with whichever side the machine calls deficient.",
+      "source": "/%ce%bc%cf%8c%ce%bd%ce%b9%ce%bc%ce%b5%cf%82-%cf%83%cf%85%ce%bb%ce%bb%ce%bf%ce%b3%ce%ad%cf%82/",
+      "why": "The scale creates a visible puzzle: shift the weights without becoming the next counterweight."
+    },
+    {
+      "idea": "Lead-seal mites clamp doors, packs and machines shut, stamping every surface with a false claim of ownership.",
+      "source": "/%ce%bc%cf%8c%ce%bd%ce%b9%ce%bc%ce%b5%cf%82-%cf%83%cf%85%ce%bb%ce%bb%ce%bf%ce%b3%ce%ad%cf%82/",
+      "why": "Their seals can be broken or turned against the swarm to barricade a pursuit."
+    },
+    {
+      "idea": "A conservation automaton polishes away patina, markings and eventually the identities of anything it deems insufficiently clean.",
+      "source": "/%ce%b5%cf%81%ce%b3%ce%b1%cf%83%cf%84%ce%ae%cf%81%ce%b9%ce%bf-%cf%83%cf%85%ce%bd%cf%84%ce%ae%cf%81%ce%b7%cf%83%ce%b7%cf%82/",
+      "why": "Its slow, precise cleaning beam threatens information as well as equipment."
+    },
+    {
+      "idea": "A library collation engine tears through shelves searching for a perfect match to each coin impression, binding mismatched things together as errata.",
+      "source": "/%ce%b2%ce%b9%ce%b2%ce%bb%ce%b9%ce%bf%ce%b8%ce%ae%ce%ba%ce%b7/",
+      "why": "Mismatched bindings make mobile cover and can be unpicked to free useful records."
+    },
+    {
+      "idea": "The palace floor unfolds into moving architectural plans, trapping intruders in rooms that keep changing their intended use.",
+      "source": "/%ce%b9%ce%bb%ce%af%ce%bf%cf%85-%ce%bc%ce%ad%ce%bb%ce%b1%ce%b8%cf%81%ce%bf%ce%bd/",
+      "why": "A former residence becomes a shifting route puzzle with recognizable rooms."
+    },
+    {
+      "idea": "Restoration scaffold walkers keep rebuilding a vanished version of the palace over whatever currently occupies the space.",
+      "source": "/%ce%b5%cf%81%ce%b3%ce%b1%cf%83%ce%af%ce%b5%cf%82-%cf%83%cf%85%ce%bd%cf%84%ce%ae%cf%81%ce%b7%cf%83%ce%b7%cf%82/",
+      "why": "Their predictable construction cycle lets a crew ride, redirect or narrowly escape the works."
+    },
+    {
+      "idea": "Replica coin pressers stamp identical decoys from scavenged metal and hide their vulnerable machinery among the copies.",
+      "source": "/%cf%80%cf%89%ce%bb%ce%b7%cf%84%ce%ae%cf%81%ce%b9%ce%bf/",
+      "why": "Spotting the tiny manufacturing flaw turns an apparent crowd into a deduction challenge."
+    },
+    {
+      "idea": "Garden grafting machines splice Greek plants to metal stalks that spread roots through cracks and pull loose coins underground.",
+      "source": "/%ce%b1%ce%bd%ce%b1%cf%88%cf%85%ce%ba%cf%84%ce%ae%cf%81%ce%b9%ce%bf/",
+      "why": "The roots reveal hidden hoards while changing the terrain underfoot."
+    },
+    {
+      "idea": "A teaching apparatus insists every passerby complete a coin-history exercise, deploying stamping arms when an answer is wrong.",
+      "source": "/%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ac-%cf%80%cf%81%ce%bf%ce%b3%cf%81%ce%ac%ce%bc%ce%bc%ce%b1%cf%84%ce%b1/",
+      "why": "The questions can be solved, spoofed or interrupted for different routes through the encounter."
+    },
+    {
+      "idea": "An archaeobotanical sampler mistakes living garden plants for evidence of the past and harvests them into specimen cages.",
+      "source": "/%ce%b4%ce%b9%ce%b1%ce%bb%ce%ad%ce%be%ce%b5%ce%b9%cf%82/",
+      "why": "Following the samples leads to its collection point and a chance to rescue the garden."
+    },
+    {
+      "idea": "Two-sided sentries flip between an armored obverse that advances and a reverse that projects misleading stories about the room.",
+      "source": "/two-sides/",
+      "why": "Watching which face is up gives a clear opening to move or act."
+    },
+    {
+      "idea": "Medal engravers compress every passing event into a metal disc, stealing sounds and gestures to reproduce them as lures.",
+      "source": "/project/%ce%bf-%ce%ba%cf%8c%cf%83%ce%bc%ce%bf%cf%82-%cf%84%cf%89%ce%bd-%ce%bc%ce%b5%cf%84%ce%b1%ce%bb%ce%bb%ce%af%cf%89%ce%bd/",
+      "why": "A crew can recognize its own recorded footsteps coming from the wrong direction."
+    },
+    {
+      "idea": "Issuer masks print recognizable coin imagery onto drones and demand that anything bearing a different mark surrender its territory.",
+      "source": "/project/to-nomisma-ston-archaio-elliniko-kosmo-parastaseis-kai-ideologia/",
+      "why": "Changing or covering a mark can turn rival patrols against each other."
+    },
+    {
+      "idea": "A Roman circulation train rolls coin-like shields down corridors, extending its claimed territory wherever a shield comes to rest.",
+      "source": "/project/to-nomisma-sto-romaiko-kosmo/",
+      "why": "Each stopped shield becomes both an obstacle and a foothold for dismantling the line."
+    },
+    {
+      "idea": "A transition mint takes in old-pattern drones and gradually restrikes them into new ones, attacking with both patterns during the changeover.",
+      "source": "/project/to-nomisma-sto-vyzantino-kosmo/",
+      "why": "Interrupting the process leaves a hybrid with conflicting commands."
+    },
+    {
+      "idea": "Medieval pattern copiers imitate the nearest coin-shaped machine but get one detail wrong, and pursue anyone who spots the error.",
+      "source": "/project/to-nomisma-sto-dytiko-kai-anatoliko-mesaioniko-kosmo/",
+      "why": "Observation exposes disguised units and creates an entertaining bluff."
+    },
+    {
+      "idea": "A precious-metal convoy grows by magnetically stripping loose metal from its surroundings, issuing oversized discs as rolling shields.",
+      "source": "/project/to-nomisma-sto-neotero-kai-synchrono-kosmo/",
+      "why": "Removing its cargo changes its size and defenses in real time."
+    },
+    {
+      "idea": "A phoenix-to-drachma exchange machine repeatedly melts its own fallen scouts and returns them in a different denomination.",
+      "source": "/project/to-nomisma-sto-neo-elliniko-kratos/",
+      "why": "Breaking the exchange cycle matters more than defeating the same units twice."
+    },
+    {
+      "idea": "A scarce Rhodian bronze scout flashes a false sun to summon copies, but each copy has a slightly different worn edge.",
+      "source": "/%ce%b7-%cf%80%cf%81%cf%8e%cf%84%ce%b7-%cf%81%ce%bf%ce%b4%ce%b9%ce%b1%ce%ba%ce%ae-%ce%ad%ce%ba%ce%b4%ce%bf%cf%83%ce%b7-%cf%80%ce%bf%cf%85-%cf%83%cf%85%ce%bd%ce%b4%ce%ad%ce%b5%cf%84%ce%b1%ce%b9-%ce%bc/",
+      "why": "A close inspection can identify the original directing the swarm."
+    },
+    {
+      "idea": "A victory-medal racer marks the first thing to cross its finish line and chases it with a heavy award die.",
+      "source": "/%cf%84%ce%bf-%ce%bc%ce%b5%cf%84%ce%ac%ce%bb%ce%bb%ce%b9%ce%bf-%cf%84%cf%89%ce%bd-%cf%80%cf%81%cf%8e%cf%84%cf%89%ce%bd-%ce%b4%ce%b9%ce%b5%ce%b8%ce%bd%cf%8e%ce%bd-%ce%bf%ce%bb%cf%85%ce%bc%cf%80%ce%b9/",
+      "why": "The crew can improvise a race and trick the die into striking an obstacle."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A surviving conservator rig stabilizes damaged artifacts and temporarily neutralizes the swarm’s corrosive residue with careful, reversible treatment.",
+      "source": "/%ce%b5%cf%81%ce%b3%ce%b1%cf%83%cf%84%ce%ae%cf%81%ce%b9%ce%bf-%cf%83%cf%85%ce%bd%cf%84%ce%ae%cf%81%ce%b7%cf%83%ce%b7%cf%82/",
+      "why": "Protecting its delicate work area earns the crew a safe repair station."
+    },
+    {
+      "idea": "An independent library index identifies motifs and compares catalog records to expose the swarm’s false attributions.",
+      "source": "/%ce%b2%ce%b9%ce%b2%ce%bb%ce%b9%ce%bf%ce%b8%ce%ae%ce%ba%ce%b7/",
+      "why": "Research becomes practical reconnaissance without requiring a fight."
+    },
+    {
+      "idea": "The Friends of the Museum survive as a fictional mutual-aid network carrying supplies and safeguarding dispersed collections.",
+      "source": "/%ce%bf%ce%b9-%cf%86%ce%af%ce%bb%ce%bf%ce%b9-%cf%84%ce%bf%cf%85-%ce%bd%ce%bf%ce%bc%ce%b9%cf%83%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%bf%cf%8d-%ce%bc%ce%bf%cf%85%cf%83%ce%b5%ce%af%ce%bf%cf%85/",
+      "why": "Their distributed caches give the crew reasons to connect isolated safe places."
+    },
+    {
+      "idea": "A resilient education kit teaches the crew to read a coin’s two faces and spot altered symbols.",
+      "source": "/%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ac-%cf%80%cf%81%ce%bf%ce%b3%cf%81%ce%ac%ce%bc%ce%bc%ce%b1%cf%84%ce%b1/",
+      "why": "A lesson becomes a useful countermeasure against deceptive sentries."
+    },
+    {
+      "idea": "The garden’s surviving plants shelter a small seed-saving station that conceals people and equipment from aerial scouts.",
+      "source": "/%ce%b1%ce%bd%ce%b1%cf%88%cf%85%ce%ba%cf%84%ce%ae%cf%81%ce%b9%ce%bf/",
+      "why": "A quiet living refuge contrasts with the swarm’s appetite for metal."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Collection is a rotating mass of coins, seals, weights and medals that catalogues anything it captures as another acquisition; its 3D-scanning eye continually rebuilds lost parts.",
+      "source": "/%ce%b7-%ce%ad%ce%ba%ce%b8%ce%b5%cf%83%ce%b7/",
+      "why": "The crew must interrupt scanning and free captured objects while navigating several distinct artifact-based attack patterns."
+    },
+    {
+      "idea": "The Many-Storied Mint is a two-faced machine that casts the museum’s history into a single official version, restriking every dissenting object into identical coinage.",
+      "source": "/two-sides/",
+      "why": "Each face changes the rules of the arena; restoring conflicting stories weakens the mint’s authority."
+    },
+    {
+      "idea": "The Palace of Troy has become a roaming mint-house: its rooms rearrange around a furnace that turns centuries of portable heritage into a single immense coin.",
+      "source": "/%ce%b9%ce%bb%ce%af%ce%bf%cf%85-%ce%bc%ce%ad%ce%bb%ce%b1%ce%b8%cf%81%ce%bf%ce%bd/",
+      "why": "A climax spans the building’s domestic rooms and makes saving the collection part of the battle."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A silver medal racer challenges a delivery cart to an accidental sprint; a crew can divert the finish line before the prize die lands.",
+      "source": "/%cf%84%ce%bf-%ce%bc%ce%b5%cf%84%ce%ac%ce%bb%ce%bb%ce%b9%ce%bf-%cf%84%cf%89%ce%bd-%cf%80%cf%81%cf%8e%cf%84%cf%89%ce%bd-%ce%b4%ce%b9%ce%b5%ce%b8%ce%bd%cf%8e%ce%bd-%ce%bf%ce%bb%cf%85%ce%bc%cf%80%ce%b9/",
+      "why": "A small race turns an enemy’s own rule into a rescue."
+    },
+    {
+      "idea": "At a full-moon garden concert, a swarm conductor mistakes moonlight for a cue and starts moving metal seats in rhythm.",
+      "source": "/%cf%80%ce%b1%ce%bd%cf%83%ce%b5%ce%bb%ce%b7%ce%bd%ce%bf%cf%83-%ce%b1%cf%85%ce%b3%ce%bf%cf%85%cf%83%cf%84%ce%bf%cf%85-2026/",
+      "why": "Timing movement to the music opens a safe path through a changing garden."
+    },
+    {
+      "idea": "A postponed garden performance has left a silent instrument case among the plants; a scout responds to each note played near it.",
+      "source": "/%ce%b7-%ce%bc%ce%bf%cf%85%cf%83%ce%b9%ce%ba%ce%ae-%ce%b1%ce%bd%ce%b8%ce%af%ce%b6%ce%b5%ce%b9-%cf%83%cf%84%ce%bf%ce%bd-%ce%ba%ce%ae%cf%80%ce%bf-2/",
+      "why": "Experimenting with sound can lure the scout away or call it closer."
+    },
+    {
+      "idea": "A batch of replica coins spills across a floor, one concealing a tiny tracker; a scavenger asks the crew to find it before collection.",
+      "source": "/%cf%80%cf%89%ce%bb%ce%b7%cf%84%ce%ae%cf%81%ce%b9%ce%bf/",
+      "why": "A tactile spot-the-difference problem has an immediate consequence."
+    },
+    {
+      "idea": "A sampler drone carries a living sprig toward its specimen cage while a seed keeper tries to follow without being seen.",
+      "source": "/%ce%b4%ce%b9%ce%b1%ce%bb%ce%ad%ce%be%ce%b5%ce%b9%cf%82/",
+      "why": "The crew can intercept, trail or distract the machine."
+    },
+    {
+      "idea": "Two patrols wearing different issuer marks meet at a doorway and each insists the other’s mark is counterfeit.",
+      "source": "/project/to-nomisma-ston-archaio-elliniko-kosmo-parastaseis-kai-ideologia/",
+      "why": "A crew can exploit the dispute by swapping a loose emblem."
+    },
+    {
+      "idea": "A sealed collection case has been separated from its donor record, and the swarm is about to sort it into the wrong hoard.",
+      "source": "/project/oi-megaloi-dorites-tou-nomismatikou-mouseiou/",
+      "why": "Matching evidence preserves a collection and earns the aid of its protectors."
+    },
+    {
+      "idea": "A restoration walker is rebuilding a corridor around a trapped supply cart, one scaffold section at a time.",
+      "source": "/%ce%b5%cf%81%ce%b3%ce%b1%cf%83%ce%af%ce%b5%cf%82-%cf%83%cf%85%ce%bd%cf%84%ce%ae%cf%81%ce%b7%cf%83%ce%b7%cf%82/",
+      "why": "Its steady rhythm makes the rescue a timing challenge."
+    },
+    {
+      "idea": "An exchange machine offers a fresh phoenix for an old drachma-shaped token, but the returned token contains a tracking mite.",
+      "source": "/project/to-nomisma-sto-neo-elliniko-kratos/",
+      "why": "The tempting trade invites inspection and a chance to plant misinformation."
+    },
+    {
+      "idea": "A small flotilla of coin-shaped drones navigates the garden as if it were a sea, carrying a sealed object between fountains.",
+      "source": "/%cf%80%ce%b1%ce%b3%ce%ba%ce%bf%cf%83%ce%bc%ce%b9%ce%b1-%ce%b7%ce%bc%ce%b5%cf%81%ce%b1-%ce%bd%ce%b1%cf%85%cf%84%ce%b9%ce%bb%ce%b9%ce%b1%cf%82/",
+      "why": "A passing crew can follow its route or stage a tiny harbor interception."
+    },
+    {
+      "idea": "A mobile heritage case rolls itself between rooms while an acquisition recorder pursues it, trying to assign it to the wrong collection.",
+      "source": "/%ce%b7%ce%bc%ce%b5%cf%81%ce%af%ce%b4%ce%b1-%cf%84%ce%bf-%ce%bd%cf%8c%ce%bc%ce%b9%cf%83%ce%bc%ce%b1-%cf%89%cf%82-%ce%ba%ce%b9%ce%bd%ce%b7%cf%84%ce%ae-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%cf%84/",
+      "why": "The crew must decide where to guide a moving object and how to preserve its record."
+    },
+    {
+      "idea": "A half-restruck drone alternates between two incompatible patrol routes and keeps opening then closing the same passage.",
+      "source": "/project/to-nomisma-sto-vyzantino-kosmo/",
+      "why": "Observing its transition gives the crew a brief, repeatable crossing window."
+    },
+    {
+      "idea": "A pile of weights tips a balance whenever a sealed pouch is removed; something useful lies beneath the pan.",
+      "source": "/%ce%bc%cf%8c%ce%bd%ce%b9%ce%bc%ce%b5%cf%82-%cf%83%cf%85%ce%bb%ce%bb%ce%bf%ce%b3%ce%ad%cf%82/",
+      "why": "The crew can substitute an equal mass and retrieve the pouch without triggering the alarm."
+    },
+    {
+      "idea": "A freshly struck medal replays a sound from a nearby room, but its recording includes the rhythm of a hidden machine.",
+      "source": "/project/%ce%bf-%ce%ba%cf%8c%cf%83%ce%bc%ce%bf%cf%82-%cf%84%cf%89%ce%bd-%ce%bc%ce%b5%cf%84%ce%b1%ce%bb%ce%bb%ce%af%cf%89%ce%bd/",
+      "why": "Listening turns a collectible into a clue to a concealed threat."
+    }
+  ]
+}

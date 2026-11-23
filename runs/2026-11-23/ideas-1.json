@@ -1,0 +1,221 @@
+{
+  "reading": "The Staatliche Museen zu Berlin is a network of museums, collections, research institutes and places, spanning art, archaeology and ethnology. It presents changing exhibitions alongside long-lived collections, investigates materials, conservation and the histories of how objects were acquired, and offers tours, workshops, learning and digital access to varied audiences. Its vocabulary moves between Sammlungen (collections), Vermittlung (interpretation and education), Forschung (research), Provenienz, Restaurierung and Begegnungen (encounters). What distinguishes this crawl is the scale and spread of the network, the meeting of Museum Island with other Berlin sites, and the way centuries, cultures, materials and contemporary artistic interpretations sit side by side. The crawl also exposes practical tensions between preservation and access, authoritative classification and many ways of seeing, and a museum’s fixed spaces and constantly changing program.",
+  "enemies": [
+    {
+      "idea": "The Role Collector projects a flattering portrait over a traveler and then insists they behave like its idealized sitter; breaking pose lets it steal their shadow.",
+      "source": "/ausstellungen/detail/portraets/",
+      "why": "The fight turns self-presentation into an awkward, tactical performance."
+    },
+    {
+      "idea": "Intimacy Frames lock two companions into a posed family portrait; each can only move when the other holds still.",
+      "source": "/ausstellungen/detail/portraets/",
+      "why": "A portrait category becomes a cooperative movement puzzle."
+    },
+    {
+      "idea": "Workshop Sketchers swap unfinished limbs and lines between their own bodies, specializing as scouts, grapplers, or giant hands until their shared drawing is interrupted.",
+      "source": "/ausstellungen/detail/rubens-jordaens-van-dyck/",
+      "why": "The Flemish drawing workshop becomes a modular enemy network."
+    },
+    {
+      "idea": "Antwerp Networkers trace glowing lines between nearby swarm units, teaching each other new attack patterns until the connections are severed.",
+      "source": "/ausstellungen/detail/rubens-jordaens-van-dyck/",
+      "why": "Artistic networks make ordinary encounters change as they unfold."
+    },
+    {
+      "idea": "The Cowbell Chorus hides in a moving mountain of glacier debris; its bells sound from the wrong direction as it gathers loose metal.",
+      "source": "/ausstellungen/detail/die-berge-tirols/",
+      "why": "Sound, mountain landscape, and discarded material make a deceptive hunt."
+    },
+    {
+      "idea": "The Hut That Climbs unfolds into a mechanical mountain refuge and relocates uphill whenever approached, dropping a ladder only to haul intruders inside.",
+      "source": "/ausstellungen/detail/die-berge-tirols/",
+      "why": "A mountain hut becomes a mobile trap with an inviting entrance."
+    },
+    {
+      "idea": "Future Ceramics Setters lay a formal table around the crew, then rearrange plates into closing ceramic jaws whenever anyone changes seats.",
+      "source": "/ausstellungen/aktuell/",
+      "why": "Future dining culture supplies both a ritual and a trap."
+    },
+    {
+      "idea": "The Mechanical Christmas Mountain winds itself through corridors, laying down miniature rails whose tiny mining cars carry away useful tools.",
+      "source": "/ausstellungen/aktuell/",
+      "why": "A specific mechanical mountain becomes a moving miniature heist."
+    },
+    {
+      "idea": "The Zodiac Sorter assigns each visitor a sign, then sends clockwork constellations after anyone whose actions contradict its prediction.",
+      "source": "/veranstaltungen/detail/der-tierkreis-aus-kuratorischer-sicht-engl-2026-11-24-170000-159047/",
+      "why": "Players can deliberately defy a prediction to lure or confuse it."
+    },
+    {
+      "idea": "The Solvent Moth mistakes fresh paint, writing, and camouflage for damage and strips them away with a fine cleaning mist.",
+      "source": "/forschung/restaurierung-kunsttechnologie/",
+      "why": "Conservation becomes a dangerous but potentially useful way to reveal hidden marks."
+    },
+    {
+      "idea": "The Overrestorer fills every crack it finds, including doors, pockets, and the gaps between moving machine joints.",
+      "source": "/forschung/restaurierung-kunsttechnologie/",
+      "why": "A helpful repair impulse becomes an escalating environmental hazard."
+    },
+    {
+      "idea": "The Ancient Transformation Engine copies a classical motif from a nearby object and keeps reworking it into more aggressive forms.",
+      "source": "/forschung/wissenschaft-lehre/",
+      "why": "Each iteration visibly transforms a recognizable source into a new threat."
+    },
+    {
+      "idea": "The Acquisition Ledger sends paper-thin seekers after any object that has changed hands, trying to rewind every exchange by confiscating it.",
+      "source": "/forschung/provenienzforschung/",
+      "why": "A trail of ownership becomes a chase driven by the crew’s own trades."
+    },
+    {
+      "idea": "The Infinite Exhibition extends the current room by repeating it, adding one new swarm-made object on each pass.",
+      "source": "/ausstellungen/aktuell/",
+      "why": "Players can spot the intrusion by comparing successive rooms."
+    },
+    {
+      "idea": "The Time-Slot Warden folds a corridor shut whenever its imagined admission window ends, trapping anyone halfway through.",
+      "source": "/besuch-planen/preise-tickets/",
+      "why": "A countdown turns a simple crossing into a timed group challenge."
+    },
+    {
+      "idea": "The Surveyor of Special Hours changes the local day to a holiday and makes every door obey a different closing time.",
+      "source": "/besuch-planen/sonderoeffnungszeiten-an-feiertagen/",
+      "why": "Conflicting schedules create a navigable clockwork maze."
+    },
+    {
+      "idea": "The Panorama Roller unspools a 360-degree ancient city around the crew and circles behind them whenever they look away.",
+      "source": "/online-angebote/",
+      "why": "A panoramic view becomes a spatial ambush."
+    },
+    {
+      "idea": "The Book-Spine Adhesive crawls from volume to volume, sticking neighboring books into a single heavy block that snaps shut on moving hands.",
+      "source": "/bildung-vermittlung/erwachsene/",
+      "why": "A real conservation problem becomes a sticky, physical obstacle."
+    },
+    {
+      "idea": "The Sketch-to-Monument press inflates a tiny drawing into an enormous unfinished figure, then sends it stomping after the missing lines.",
+      "source": "/ausstellungen/vorschau/",
+      "why": "A scale change gives a small sketch an outsized weakness and presence."
+    },
+    {
+      "idea": "The Lonely Boat drifts through painted rivers spilled across the floor, fishing for equipment with a line that travels through reflections.",
+      "source": "/home/",
+      "why": "A tranquil river scene becomes a chase with cover and reflections."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The Exception Box offers tactile shapes and plain-language clues that reveal a route the swarm’s rigid sorting rules cannot recognize.",
+      "source": "/bildung-vermittlung/inklusion/",
+      "why": "Different ways of perceiving give the crew a practical advantage."
+    },
+    {
+      "idea": "The lab.Bode Re-sorter invites the crew to group objects by their own logic; a convincing new arrangement scrambles nearby swarm patrol routes.",
+      "source": "/museen-einrichtungen/bode-museum/bildung-vermittlung/labbode/",
+      "why": "Reinterpreting a collection becomes a tool for changing the level."
+    },
+    {
+      "idea": "The Open Access Lantern shares a copy of any safe pattern it learns, allowing separated crew members to reproduce a key or map.",
+      "source": "/open-science-open-access/",
+      "why": "Open sharing becomes a useful counter to hoarding information."
+    },
+    {
+      "idea": "The Family Workshop Cart carries harmless materials for making decoys; its friendly little constructions distract machines that only recognize finished art.",
+      "source": "/bildung-vermittlung/kinder-familien/",
+      "why": "Making together produces improvised, playful tools."
+    },
+    {
+      "idea": "The Conservator’s Bench can stabilize one damaged tool if the crew first identifies what material is failing.",
+      "source": "/forschung/restaurierung-kunsttechnologie/",
+      "why": "Careful observation earns a concrete repair."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Collections Engine is a many-room swarm that sorts everything into art, archaeology, and ethnology; it becomes vulnerable when the crew creates an object that fits several categories at once.",
+      "source": "/bildung-vermittlung/schulen-kindertagesstaetten/",
+      "why": "The institution’s immense range becomes a classification battle with creative solutions."
+    },
+    {
+      "idea": "The Island of Museums walks on a ring of mechanical bridges, each limb defending a different collection; the crew must reroute the bridges to bring its isolated parts back into conversation.",
+      "source": "/museen-einrichtungen/alles-auf-einen-blick/",
+      "why": "The network of buildings, collections, institutes, and places becomes one sprawling encounter."
+    },
+    {
+      "idea": "The Endless Curator stages past, present, and future exhibitions simultaneously, replacing each defeated defender with a draft from a different era until the crew interrupts its cycle.",
+      "source": "/ausstellungen/aktuell/",
+      "why": "A continuously changing exhibition program becomes a multi-phase finale."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A pair of painted faces are arguing over which expression belongs to whom; rearranging their frames opens a passage, while a bad match summons the Role Collector.",
+      "source": "/ausstellungen/detail/portraets/",
+      "why": "An encounter can be solved by looking and listening rather than fighting."
+    },
+    {
+      "idea": "A runaway drawing workshop needs one missing line to finish a bridge; draw it too thick and the bridge becomes a grabber instead.",
+      "source": "/ausstellungen/detail/rubens-jordaens-van-dyck/",
+      "why": "A creative choice immediately changes the terrain."
+    },
+    {
+      "idea": "A stranded cowbell rings from under glacier debris; freeing it reveals a safe trail, but the noise attracts the Chorus.",
+      "source": "/ausstellungen/detail/die-berge-tirols/",
+      "why": "A rescue trades information for attention."
+    },
+    {
+      "idea": "A little Christmas mountain has lost its winding key, leaving its miniature trains blocking a doorway; wind it carefully to clear a path.",
+      "source": "/ausstellungen/aktuell/",
+      "why": "A toy-sized mechanical problem affects full-sized movement."
+    },
+    {
+      "idea": "A conservator’s bench presents a cracked ceramic cup and three repair materials; choosing by material reveals a hidden compartment.",
+      "source": "/forschung/restaurierung-kunsttechnologie/",
+      "why": "Material knowledge becomes a small hands-on puzzle."
+    },
+    {
+      "idea": "A tactile model of a building disagrees with the visible corridor; following its raised contours leads around a swarm illusion.",
+      "source": "/bildung-vermittlung/inklusion/",
+      "why": "A different mode of access reveals a safer route."
+    },
+    {
+      "idea": "A group tour has split into echoes that each remember a different artwork; reunite the echoes in order to hear the route through the galleries.",
+      "source": "/bildung-vermittlung/gruppen-reiseveranstalter/buchbare-fuehrungen-fuer-gruppen/",
+      "why": "The group-tour format becomes a listening and sequencing challenge."
+    },
+    {
+      "idea": "A quiet painted river spills across a floor; passengers in a paper boat can cross safely if they keep the water still.",
+      "source": "/home/",
+      "why": "A brief change of pace rewards restraint."
+    },
+    {
+      "idea": "Two researchers’ notes describe the same object from different disciplines; combining their clues identifies the switch that stops a transforming machine.",
+      "source": "/forschung/forschungsprojekte/",
+      "why": "Cross-disciplinary research becomes a concrete collaborative puzzle."
+    },
+    {
+      "idea": "An open data lantern asks the crew to copy a pattern before a door closes; leaving the copy behind helps the next travelers too.",
+      "source": "/open-science-open-access/",
+      "why": "Sharing offers both an immediate solution and a trace of solidarity."
+    },
+    {
+      "idea": "A holiday clock and a normal clock disagree about closing time; set both to the same day to release a trapped supply cart.",
+      "source": "/besuch-planen/sonderoeffnungszeiten-an-feiertagen/",
+      "why": "The exception to a schedule makes a compact timing puzzle."
+    },
+    {
+      "idea": "A youth council has left a code made of neighborhood symbols; deciphering it points to a stash the swarm overlooked.",
+      "source": "/bildung-vermittlung/jugendliche/",
+      "why": "Young visitors’ own perspectives provide a route outside official categories."
+    },
+    {
+      "idea": "An abandoned family workshop contains half-made decoys and a swarm scout; finish a decoy together before the scout completes its circuit.",
+      "source": "/museen-einrichtungen/haus-bastian-zentrum-fuer-kulturelle-bildung/home/",
+      "why": "Co-creation becomes a timed, low-stakes stealth opportunity."
+    },
+    {
+      "idea": "A virtual 360-degree tour loops back to its beginning, but one detail changes on each circuit; follow the changing detail to find the real exit.",
+      "source": "/online-angebote/",
+      "why": "Close observation makes a digital tour into a navigational puzzle."
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "reading": "The Bank of Canada Museum preserves and interprets the National Currency Collection while explaining money, the economy and the Bank's role to a broad public. It cares about financial literacy, historical context, accessible visits and the human stories carried by artifacts. Its vocabulary moves between numismatics, denominations, bank note series, security features, acquisitions, tokens, inflation, budgeting and curriculum-linked learning. Its distinctive character is the meeting of a serious currency archive with playful, hands-on teaching: a bank note is simultaneously a designed object, an anti-counterfeiting puzzle, a historical argument and a starting point for a conversation about everyday choices. The collection ranges from local trade tokens and unrealized designs to polymer notes and Olympic fundraising coins; its conversational voice makes the economy feel close enough to touch.",
+  "enemies": [
+    {
+      "idea": "Puzzle-Number Inspectors shine two halves of a number onto a traveler; if the halves do not align, they mark the traveler counterfeit and summon a patrol.",
+      "source": "/complete-bank-note-series/2001-2006-canadian-journey-series/",
+      "why": "The crew can break line of sight or use reflections to turn a security check into a spatial puzzle."
+    },
+    {
+      "idea": "Ghost-Image Moths hide inside blank-looking polymer wings and become visible only when backlit; they steal a shadow and use it to follow its owner.",
+      "source": "/complete-bank-note-series/2001-2006-canadian-journey-series/",
+      "why": "Light reveals both the threat and a way to misdirect it."
+    },
+    {
+      "idea": "Raised-Ink Crawlers read texture with their feet, then emboss false ridges across doors and equipment until their owners cannot recognize them by touch.",
+      "source": "/complete-bank-note-series/2001-2006-canadian-journey-series/",
+      "why": "Their trail changes the environment and gives the crew a tactile clue."
+    },
+    {
+      "idea": "Polymer Shearwings fold from durable polypropylene sheets, slipping through narrow gaps and wrapping tools in stubborn transparent layers.",
+      "source": "/complete-bank-note-series/2011-2013-polymer-series/",
+      "why": "The material of the notes becomes a flexible foe with a distinctive way to disable gear."
+    },
+    {
+      "idea": "The Almost Mint stamps rejected bank-note designs into temporary soldiers; each carries an unfinished feature that fails at the worst possible moment.",
+      "source": "/explore/exhibitions/past-exhibitions/",
+      "why": "Unrealized designs produce varied, imperfect adversaries whose flaws are exploitable."
+    },
+    {
+      "idea": "Phantom Bank Tellers issue handsome promises against deposits of sound, light or warmth, then dispatch collectors to reclaim those things with interest.",
+      "source": "/explore/exhibitions/past-exhibitions/",
+      "why": "A fraudulent bank creates a tempting bargain and an escalating consequence."
+    },
+    {
+      "idea": "The Guilloche Weaver spins intricate interlocking curves across a room; crossing a line makes the pattern tighten around the intruder.",
+      "source": "/learn/activities/",
+      "why": "A decorative security art becomes a readable navigation challenge."
+    },
+    {
+      "idea": "Needs-or-Wants Sorters seize supplies and classify everything a traveler carries as a want, offering to return essentials only in exchange for something irreplaceable.",
+      "source": "/learn/activities/",
+      "why": "The classroom distinction becomes a negotiation with an absurdly rigid machine."
+    },
+    {
+      "idea": "Unit-Price Beetles divide objects into smaller and smaller pieces to find the cheapest unit, dismantling equipment while proudly announcing the savings.",
+      "source": "/learn/lesson-plans/",
+      "why": "Protecting a useful object means interrupting a calculation that is technically consistent and practically disastrous."
+    },
+    {
+      "idea": "Life-Cycle Shredders declare every working object overdue for retirement and turn it into confetti for a counterfeit note press.",
+      "source": "/learn/lesson-plans/",
+      "why": "A lesson about a bank note’s life becomes a race to rescue equipment from premature recycling."
+    },
+    {
+      "idea": "Compound-Interest Vines grow a new metal tendril on every tendril each time the crew makes a bargain, eventually enclosing the bargain itself.",
+      "source": "/2026/07/financial-literacy-essentials/",
+      "why": "Exponential growth is visible and gives the crew a reason to settle the problem early."
+    },
+    {
+      "idea": "Debit-and-Credit Twins share one body: the debit half takes an object immediately, while the credit half lets it go and sends increasingly numerous collectors later.",
+      "source": "/2026/07/financial-literacy-essentials/",
+      "why": "The two attack timings force different tactical responses."
+    },
+    {
+      "idea": "The Counterfeit Bingo Caller samples security features from the crew’s gear and calls them out; a completed row locks the matching objects in a prize cage.",
+      "source": "/2026/09/it-pays-to-check/",
+      "why": "Players can hear the impending pattern and intervene before the row is complete."
+    },
+    {
+      "idea": "The Canal Lockkeeper redirects a current of old Bytown trade tokens into locks that lift and lower rooms, trapping anyone who cannot keep the flow balanced.",
+      "source": "/2026/09/the-money-of-bytown/",
+      "why": "Money and the canal town combine into a moving-water route puzzle."
+    },
+    {
+      "idea": "Souvenir Token Couriers roll along a coast-to-coast route and insist every place accept their particular local token; refusals bring a clattering blockade.",
+      "source": "/2026/07/a-summer-road-trip-of-canadian-tokens/",
+      "why": "The difference between a local token and legal tender turns travel into a series of small negotiations."
+    },
+    {
+      "idea": "Track-and-Field Coin Discs race in relays, passing a metal baton that makes the current carrier faster and the rest of the swarm more coordinated.",
+      "source": "/explore/exhibitions/special-exhibitions/montreal-1976-the-legacy-of-the-olympic-coins/",
+      "why": "Intercepting the baton changes the entire encounter."
+    },
+    {
+      "idea": "The Bowman Indexer scans artifacts and captures only their catalog numbers, leaving objects physically present but invisible to anyone searching for their histories.",
+      "source": "/2026/11/digitizing-the-bowman-encyclopedia/",
+      "why": "The crew must recover context rather than simply retrieve an object."
+    },
+    {
+      "idea": "Opportunity-Cost Hounds appear whenever a door is chosen and drag the unchosen route away, making it harder to return for what was left behind.",
+      "source": "/learn/video-discussion-guides/",
+      "why": "A normally abstract trade-off becomes a visible pursuit with meaningful choices."
+    },
+    {
+      "idea": "The Inflation Gauge inflates the physical size of price tags until they block the goods they describe; it measures the tags and declares the shop more prosperous.",
+      "source": "/learn/external-resources/",
+      "why": "The crew can separate a bad measurement from the condition it claims to describe."
+    },
+    {
+      "idea": "Pattern-Coin Mimics wear never-issued coin designs and imitate the crew’s equipment, but each copy performs the wrong job with absolute confidence.",
+      "source": "/2025/12/new-acquisitions-2025-edition/",
+      "why": "Unfamiliar prototypes make funny, dangerous doubles without impersonating real people."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A surviving artifact-table guide lets the crew handle replica textures and teaches them to identify swarm disguises without relying on sight alone.",
+      "source": "/visit/sensory-sundays/",
+      "why": "A calm, hands-on refuge supplies a practical countermeasure."
+    },
+    {
+      "idea": "Conversation Card Keepers ask travelers what they value and record several different answers, scrambling machines that assume everything has one price.",
+      "source": "/2025/10/money-conversation-cards/",
+      "why": "A discussion tool becomes a defense against the swarm’s narrow idea of value."
+    },
+    {
+      "idea": "The Note Checkers use metallic stripe, ghost image and puzzle number together to expose forged passage tokens and escort the crew past impostors.",
+      "source": "/2026/09/it-pays-to-check/",
+      "why": "The actual habit of checking multiple features becomes a cooperative investigation."
+    },
+    {
+      "idea": "A network of travelling exhibition cases carries questions and safe routes between isolated rooms, inviting the crew to add an answer before it rolls on.",
+      "source": "/explore/exhibitions/travelling-exhibitions/",
+      "why": "The museum’s outreach becomes a mobile communication network."
+    },
+    {
+      "idea": "A collection steward preserves the stories attached to donated objects, restoring a stolen catalog entry when the crew brings back both artifact and context.",
+      "source": "/2025/02/new-acquisitions-2024-edition/",
+      "why": "Relationships and provenance give recovery a purpose beyond collecting loot."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Economy in the Air is a vast circulating swarm that prices every breath, choice and exchange. Its vents feed on the crew’s transactions; opening free routes and sharing supplies starves it of the measurements it mistakes for life.",
+      "source": "/about-us/",
+      "why": "The museum’s central metaphor becomes a site-wide encounter about the difference between an economy and a price."
+    },
+    {
+      "idea": "The Complete Series is a many-layered mint that cycles through bank-note eras, deploying each era’s security features while stamping every person and object into a single uniform denomination. Its press can be stopped by returning mismatched notes and their stories to their proper series.",
+      "source": "/complete-bank-note-series/",
+      "why": "The entire collection supplies changing phases and a resolution rooted in historical variety."
+    },
+    {
+      "idea": "The Curator of One Value has absorbed acquisition, preservation and teaching machinery. It encases everything in perfect order but erases personal stories that do not fit its catalog; rescued stories unlock its display cases and weaken its grip.",
+      "source": "/explore/collection/",
+      "why": "It turns the museum’s interconnected purposes into one antagonist with a non-destructive solution."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A vendor accepts a local souvenir token, but a courier insists it must work everywhere. Help the two agree where it has value before the courier seals the road.",
+      "source": "/2026/07/a-summer-road-trip-of-canadian-tokens/",
+      "why": "A passing dispute makes local exchange concrete without requiring combat."
+    },
+    {
+      "idea": "A bank-note checking lesson has become a live bingo game: every called security feature activates another trap. The crew can rearrange the cards to make a safe row first.",
+      "source": "/2026/09/it-pays-to-check/",
+      "why": "The lesson’s review game provides a legible countdown and an alternate win condition."
+    },
+    {
+      "idea": "A budget planner is trying to fit food, shelter and a swarm-imposed toll into one envelope. The crew can change the route, share a resource or challenge the toll instead of sacrificing an essential.",
+      "source": "/2026/07/financial-literacy-essentials/",
+      "why": "Several solutions make budgeting a situation rather than a quiz."
+    },
+    {
+      "idea": "A canal lock is jammed with trade tokens. Clearing one gate floods another passage unless the crew coordinates the locks upstream and downstream.",
+      "source": "/2026/09/the-money-of-bytown/",
+      "why": "The town’s canal and commerce make a compact cooperative puzzle."
+    },
+    {
+      "idea": "A sheet of intricate guilloche is growing across a doorway. Following one continuous curve leads through safely, while cutting it causes the pattern to multiply.",
+      "source": "/learn/activities/",
+      "why": "A close look at decorative linework rewards patience and observation."
+    },
+    {
+      "idea": "An exhibit of proposed notes is leaking unfinished designs into the corridor. Matching each fragment to its intended design closes the breach; mismatched fragments become short-lived decoys.",
+      "source": "/explore/exhibitions/past-exhibitions/",
+      "why": "Rejected designs support both a puzzle and improvisation."
+    },
+    {
+      "idea": "A small relay of commemorative coin machines races endlessly to fund an impossible new arena. Redirect their baton to a waiting repair crew before the last lap.",
+      "source": "/explore/exhibitions/special-exhibitions/montreal-1976-the-legacy-of-the-olympic-coins/",
+      "why": "The fundraising purpose and athletic motifs create a moving objective."
+    },
+    {
+      "idea": "A digitization station has an artifact image and a catalog number but has lost their connection. Compare the surviving descriptions to reunite them before the indexer files both as unrelated.",
+      "source": "/2026/11/digitizing-the-bowman-encyclopedia/",
+      "why": "The work of making an archive usable becomes a small detective story."
+    },
+    {
+      "idea": "A quiet artifact table is sheltered from the swarm’s noisy sensors. A keeper will share a safe route if the crew first helps restore a broken tactile replica.",
+      "source": "/visit/sensory-sundays/",
+      "why": "A gentle pause offers useful cooperation and a different pace."
+    },
+    {
+      "idea": "A market offers two packages of spare parts at different sizes and prices. A unit-price beetle is about to dismantle both; the crew can compare the offers and distract it with an empty crate.",
+      "source": "/learn/lesson-plans/",
+      "why": "An everyday calculation sits inside a time-sensitive scene."
+    },
+    {
+      "idea": "A polymer note folds itself into a watertight envelope around a trapped message, but its creases are caught in a machine. Free it without tearing the message inside.",
+      "source": "/complete-bank-note-series/2011-2013-polymer-series/",
+      "why": "The note’s physical substrate suggests a delicate rescue."
+    },
+    {
+      "idea": "Two keepers draw different money conversation cards and disagree over what to save for. The swarm tries to assign one correct answer; the crew can defend both choices and earn a clue from each.",
+      "source": "/2025/10/money-conversation-cards/",
+      "why": "The encounter rewards listening instead of declaring a winner."
+    },
+    {
+      "idea": "A display of two-dollar coins is sorting visitors by tiny differences in their equipment. Help it sort the coins instead and it opens a route through its collection.",
+      "source": "/2025/12/new-acquisitions-2025-edition/",
+      "why": "Close examination redirects a collector’s machinery toward its original purpose."
+    },
+    {
+      "idea": "A diner breakfast assembly line keeps counting the final meal but ignores all the work that goes into it. Restore its missing stations in order to feed a stranded repair crew.",
+      "source": "/learn/video-discussion-guides/",
+      "why": "An ordinary meal reveals a chain of contributions through a practical task."
+    }
+  ]
+}

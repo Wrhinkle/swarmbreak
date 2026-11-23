@@ -1,0 +1,45 @@
+{
+  "thread": "Follow a coin from the tools that strike its design into the many forms money takes in people's hands, then into a museum cabinet where its images and history can be rediscovered. The swarm meets engraved dies, curious tokens, animal emblems and tiny portraits along the way.",
+  "candidates": [
+    {
+      "name": "Berlin Münzkabinett",
+      "url": "https://www.smb.museum/en/museums-institutions/muenzkabinett/home/",
+      "why": "A coin cabinet with thousands of minting tools and dies, alongside coins, medals and casts: a workshop full of little stamps and the shapes they leave behind."
+    },
+    {
+      "name": "Bank of Canada Museum",
+      "url": "https://www.bankofcanadamuseum.ca/",
+      "why": "Its currency collection and online exhibits bring together coins, tokens, banknotes and unconventional forms of money, with stories about how they were made and used."
+    },
+    {
+      "name": "Numismatic Museum of Athens",
+      "url": "https://www.nummus.gr/en/",
+      "why": "Ancient and later coins share the collection with seals, weights and medals; miniature animals, gods and geometric marks can emerge from the museum's exhibitions."
+    },
+    {
+      "name": "American Numismatic Association Money Museum",
+      "url": "https://www.money.org/",
+      "why": "Virtual exhibitions and collection stories trace coins, tokens and other money across places and periods, with a mini mint and unusual coin designs to explore."
+    },
+    {
+      "name": "Currency Museum, Bank of Japan",
+      "url": "https://www.imes.boj.or.jp/cm/english/",
+      "why": "Japanese currency ranges from large oval gold pieces to small copper coins and early notes, with exhibits and guides that connect their forms to everyday use."
+    },
+    {
+      "name": "Museums Victoria",
+      "url": "https://museumsvictoria.com.au/",
+      "why": "Its collections include Australian coins, trade tokens and banknotes, giving the swarm stamped creatures and objects from the places where money circulated."
+    },
+    {
+      "name": "The Fitzwilliam Museum",
+      "url": "https://fitzmuseum.cam.ac.uk/",
+      "why": "The museum's coins and medals sit among a broad collection of art and historical objects, offering miniature designs and the larger visual worlds around them."
+    },
+    {
+      "name": "Heberden Coin Room",
+      "url": "https://hcr.ashmus.ox.ac.uk/",
+      "why": "Oxford's coin collection spans Greek, Roman, Celtic, Byzantine, Islamic and Chinese money, a cabinet of tiny portraits, symbols and changing shapes."
+    }
+  ]
+}

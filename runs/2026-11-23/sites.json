@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.smb.museum",
+   "name": "Berlin M\u00fcnzkabinett",
+   "url": "https://www.smb.museum/en/museums-institutions/muenzkabinett/home/",
+   "file": "runs/2026-11-23/sites/www.smb.museum.json"
+  },
+  {
+   "host": "www.bankofcanadamuseum.ca",
+   "name": "Bank of Canada Museum",
+   "url": "https://www.bankofcanadamuseum.ca/",
+   "file": "runs/2026-11-23/sites/www.bankofcanadamuseum.ca.json"
+  },
+  {
+   "host": "www.nummus.gr",
+   "name": "Numismatic Museum of Athens",
+   "url": "https://www.nummus.gr/en/",
+   "file": "runs/2026-11-23/sites/www.nummus.gr.json"
+  }
+ ]
+}

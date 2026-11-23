@@ -1,0 +1,1132 @@
+{
+ "title": "The Missing Impression",
+ "swarm": {
+  "name": "The Impression",
+  "blurb": "A swarm of presses, copies, and collectors follows the traces left by objects as they change hands."
+ },
+ "arc": "The Impression seems to be stealing metal and making a die to reproduce itself. Its first press instead holds an exchange record, and the crew follows the swarm into a collection of money. There they discover it values the accounts of exchanges more than the objects themselves. In the final collection they learn why: its first record was damaged, and it has been forcing every later account into one invented history to fill the gap. Wren preserves the conflicting records, Ox holds the machines back, and Kestrel jams the last mint with mismatched impressions. The swarm stops trying to erase differences, leaving the original gap honestly unresolved.",
+ "acts": [
+  {
+   "theme": "Impressions and unfinished copies",
+   "story": {
+    "intro": "The swarm is hauling metal toward a press. Kestrel finds identical marks on tools and empty frames. Ox takes the front; Wren keeps the joints moving.",
+    "chapters": [
+     {
+      "title": "First impressions",
+      "text": "Every copy bears the same unfinished mark. The crew assumes the swarm wants a die for stamping more of itself."
+     },
+     {
+      "title": "The missing line",
+      "text": "The machines borrow marks from portraits, tools, and records. Kestrel finds that none is quite the shape the press needs."
+     },
+     {
+      "title": "A press full of drafts",
+      "text": "Discarded copies pile up around the machinery. Wren notices that each carries a scrap of a different object\u2019s record."
+     }
+    ],
+    "bossIntro": "The Endless Curator clamps another blank under its die. It makes defenders from failed drafts and shields the press.",
+    "outro": "The die breaks. Inside is a record of an exchange, copied again and again. The swarm takes the remaining fragments toward the next collection."
+   },
+   "creatures": [
+    {
+     "id": "1-sketch-hand",
+     "name": "Sketch Hand",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/ausstellungen/detail/rubens-jordaens-van-dyck/",
+     "blurb": "A loose workshop hand punches in the direction of the nearest unfinished line.",
+     "look": "A charcoal hand with jointed wooden fingers and a white paper cuff."
+    },
+    {
+     "id": "1-solvent-moth",
+     "name": "Solvent Moth",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/forschung/restaurierung-kunsttechnologie/",
+     "blurb": "It strips marks from tools before the crew can read them.",
+     "look": "A cream moth with translucent gray wings and a glass spray bulb."
+    },
+    {
+     "id": "1-bell-scrapper",
+     "name": "Bell Scrapper",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/ausstellungen/detail/die-berge-tirols/",
+     "blurb": "It steals loose metal under cover of a cheerful ringing.",
+     "look": "A squat bronze beetle with a cowbell shell and six short legs."
+    },
+    {
+     "id": "1-frame-guard",
+     "name": "Frame Guard",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/ausstellungen/detail/portraets/",
+     "blurb": "It shelters the other machines behind a stiff portrait frame.",
+     "look": "A tall gilt rectangular frame on four hinged iron legs, with a blue cloth center."
+    },
+    {
+     "id": "1-line-weaver",
+     "name": "Line Weaver",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/ausstellungen/detail/rubens-jordaens-van-dyck/",
+     "blurb": "It draws replacement hands faster than they can be swept away.",
+     "look": "A wooden drafting arm trailing black thread, with a round inkwell body."
+    },
+    {
+     "id": "1-overrestorer",
+     "name": "Overrestorer",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/forschung/restaurierung-kunsttechnologie/",
+     "blurb": "It fills damaged swarm joints with hard setting paste.",
+     "look": "A cream ceramic canister on brass wheels, with a spatula arm and a green paste pot."
+    },
+    {
+     "id": "1-ledger-seeker",
+     "name": "Ledger Seeker",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/forschung/provenienzforschung/",
+     "blurb": "Paper seekers take metal that has passed between owners.",
+     "look": "A fluttering flock of tan paper strips with brass clips for heads."
+    },
+    {
+     "id": "1-ticket-warden",
+     "name": "Ticket Warden",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/besuch-planen/preise-tickets/",
+     "blurb": "It shuts a gate on anyone who misses its imaginary appointment.",
+     "look": "A slate blue gate on two wheels, with a round clock face and folding arms."
+    },
+    {
+     "id": "1-panorama-roller",
+     "name": "Panorama Roller",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/online-angebote/",
+     "blurb": "A rolled city scene winds up for a long corridor rush.",
+     "look": "A long green canvas roll with wooden end caps and segmented brass wheels."
+    },
+    {
+     "id": "1-transformation-engine",
+     "name": "Transformation Engine",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike+"
+     ],
+     "source": "/forschung/wissenschaft-lehre/",
+     "blurb": "It studies a mark, copies it, and uses the copy against its owner.",
+     "look": "A black iron press with a rotating bronze disc and three articulated copying arms."
+    },
+    {
+     "id": "1-monument-press",
+     "name": "Monument Press",
+     "tier": "elite",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "sweep"
+     ],
+     "source": "/ausstellungen/vorschau/",
+     "blurb": "It shields its unfinished bulk, then swings a stone arm across the crew.",
+     "look": "A towering pale stone torso with one oversized arm and a square iron press for a head."
+    },
+    {
+     "id": "1-endless-curator",
+     "name": "Endless Curator",
+     "tier": "boss",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/ausstellungen/aktuell/",
+     "blurb": "It protects its press and keeps making drafts of the same missing design.",
+     "look": "A large brass press on four legs, stacked with empty frames and a single black stamping plate."
+    },
+    {
+     "id": "1-exception-box",
+     "name": "Exception Box",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/bildung-vermittlung/inklusion/",
+     "blurb": "Its raised shapes help the crew feel a route around false markings.",
+     "look": "A blue wooden box with raised ivory circles, triangles, and small jointed feet."
+    },
+    {
+     "id": "1-conservator-bench",
+     "name": "Conservator Bench",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/forschung/restaurierung-kunsttechnologie/",
+     "blurb": "Wren borrows its tools to mend damaged joints.",
+     "look": "A low oak workbench on brass casters with a lamp and folded white cloths."
+    }
+   ],
+   "events": [
+    {
+     "id": "1-painted-faces",
+     "source": "/ausstellungen/detail/portraets/",
+     "look": "Two gilt frames with blue and ochre painted faces, held in iron clamps.",
+     "title": "Two Faces",
+     "text": "Two frames have swapped their painted faces. The clamps are closing.",
+     "options": [
+      {
+       "label": "Pry the clamps; take the loose coins",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Kestrel frees the frames and pockets coins from the clamp."
+      },
+      {
+       "label": "Leave the coins; use the padded frames",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the padding to dress the crew\u2019s scrapes."
+      }
+     ]
+    },
+    {
+     "id": "1-bridge-line",
+     "source": "/ausstellungen/detail/rubens-jordaens-van-dyck/",
+     "look": "A white paper bridge over a black gap, with an ink pot and brass fittings.",
+     "title": "A Missing Line",
+     "text": "A drawn bridge ends at a blank gap. The workshop offers ink or spare fittings.",
+     "options": [
+      {
+       "label": "Draw a steady crossing",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns to set his feet before the bridge flexes."
+      },
+      {
+       "label": "Take the fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew takes the fittings and crosses the old narrow ledge."
+      }
+     ]
+    },
+    {
+     "id": "1-buried-bell",
+     "source": "/ausstellungen/detail/die-berge-tirols/",
+     "look": "A bronze bell under gray stones beside a small green supply box.",
+     "title": "Buried Bell",
+     "text": "A bell is trapped in rubble beside a box of supplies. There is time to reach one.",
+     "options": [
+      {
+       "label": "Lift the bell",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Its strap makes a clean sling for Wren\u2019s supplies."
+      },
+      {
+       "label": "Open the box",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The box contains coins for the road."
+      }
+     ]
+    },
+    {
+     "id": "1-mountain-key",
+     "source": "/ausstellungen/aktuell/",
+     "look": "A tiny green mountain and brass train beside a square locked box.",
+     "title": "Winding Key",
+     "text": "A miniature train blocks the way. Its key fits a locked coin box too.",
+     "options": [
+      {
+       "label": "Wind the train",
+       "effect": {
+        "type": "routine",
+        "id": "charge"
+       },
+       "result": "Watching the train\u2019s run gives the crew a better charge."
+      },
+      {
+       "label": "Open the box",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The box opens. The crew steps over the stationary train."
+      }
+     ]
+    },
+    {
+     "id": "1-cracked-cup",
+     "source": "/forschung/restaurierung-kunsttechnologie/",
+     "look": "A cracked cream cup on an oak bench, with cloth and a small brass tool.",
+     "title": "Repair Material",
+     "text": "A cracked cup holds a stash. A roll of clean dressing is wedged beneath it.",
+     "options": [
+      {
+       "label": "Break the cup",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The coins inside are loose; the dressing is spoiled."
+      },
+      {
+       "label": "Lift it carefully",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren saves the dressing. The cup stays closed."
+      }
+     ]
+    },
+    {
+     "id": "1-raised-route",
+     "source": "/bildung-vermittlung/inklusion/",
+     "look": "A blue tabletop model with raised ivory paths and a tan pouch nearby.",
+     "title": "Raised Route",
+     "text": "A tactile model offers a safe route. A second route passes a loose pouch.",
+     "options": [
+      {
+       "label": "Follow the raised route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.15
+       },
+       "result": "The quiet route gives Wren time to tend the crew."
+      },
+      {
+       "label": "Take the exposed route",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "Ox retrieves the pouch on the way through."
+      }
+     ]
+    }
+   ],
+   "name": "Berlin M\u00fcnzkabinett",
+   "url": "https://www.smb.museum/en/museums-institutions/muenzkabinett/home/"
+  },
+  {
+   "theme": "Exchange and competing values",
+   "story": {
+    "intro": "The crew follows the fragments into a world of notes, tokens, and bargains. Ox carries the broken die. It is heavier than it looks.",
+    "chapters": [
+     {
+      "title": "A price for everything",
+      "text": "The swarm sorts tokens and supplies by a single measure. Kestrel thinks it has moved on from making copies to collecting money."
+     },
+     {
+      "title": "Different answers",
+      "text": "The same token means different things to different people. Wren finds that the swarm keeps the accounts of those exchanges and leaves much of the metal behind."
+     },
+     {
+      "title": "One value",
+      "text": "The collectors compress every account into the same answer. Ox holds open a cabinet while the crew reads what the machines have kept: names of places, changes of hands, and gaps."
+     }
+    ],
+    "bossIntro": "The Curator of One Value guards its collectors and sweeps loose records back into its cabinet. Its single measure leaves no room for the gaps.",
+    "outro": "Among the records is a route to an older collection. The swarm is not trying to get rich. It is trying to reconstruct a lost history, and flattening every other history to do it."
+   },
+   "creatures": [
+    {
+     "id": "2-ink-crawler",
+     "name": "Ink Crawler",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/complete-bank-note-series/2001-2006-canadian-journey-series/",
+     "blurb": "Its false raised ridges make familiar equipment hard to handle.",
+     "look": "A dark blue beetle with six needle feet and ridged ivory plates."
+    },
+    {
+     "id": "2-token-courier",
+     "name": "Token Courier",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/2026/07/a-summer-road-trip-of-canadian-tokens/",
+     "blurb": "It rolls its local token straight through anyone in the way.",
+     "look": "A thick copper disc with a scalloped edge, little wheels, and a cloth satchel."
+    },
+    {
+     "id": "2-shearwing",
+     "name": "Shearwing",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/complete-bank-note-series/2011-2013-polymer-series/",
+     "blurb": "It wraps a tool in a clear sheet and flies off with it.",
+     "look": "A transparent angular moth with green seams and thin silver claws."
+    },
+    {
+     "id": "2-guilloche-weaver",
+     "name": "Guilloche Weaver",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/learn/activities/",
+     "blurb": "It loops protective lines around damaged machines.",
+     "look": "A brass spindle on four legs, spinning interlocking teal wire loops."
+    },
+    {
+     "id": "2-almost-mint",
+     "name": "Almost Mint",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/explore/exhibitions/past-exhibitions/",
+     "blurb": "It stamps unfinished designs into disposable soldiers.",
+     "look": "A squat copper press with an open jaw and uneven blank discs spilling from a hopper."
+    },
+    {
+     "id": "2-note-checker",
+     "name": "Note Checker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/complete-bank-note-series/2001-2006-canadian-journey-series/",
+     "blurb": "It freezes travelers while its two halves fail to line up.",
+     "look": "A blue steel lamp on thin legs with two overlapping circular lenses."
+    },
+    {
+     "id": "2-interest-vine",
+     "name": "Interest Vine",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/2026/07/financial-literacy-essentials/",
+     "blurb": "Cut one tendril and the remainder divides into new growth.",
+     "look": "A tangle of green metal vines with copper buds and forked stems."
+    },
+    {
+     "id": "2-lockkeeper",
+     "name": "Lockkeeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/2026/09/the-money-of-bytown/",
+     "blurb": "Its gate shuts around a current of rolling tokens.",
+     "look": "A broad iron canal gate on short legs, with a blue wheel and round bronze tokens."
+    },
+    {
+     "id": "2-opportunity-hound",
+     "name": "Opportunity Hound",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "finish"
+     ],
+     "source": "/learn/video-discussion-guides/",
+     "blurb": "It rushes the crew and closes on anyone already hurt.",
+     "look": "A lean slate gray mechanical hound with a hinged jaw and a forked tail."
+    },
+    {
+     "id": "2-bowman-indexer",
+     "name": "Bowman Indexer",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/2026/11/digitizing-the-bowman-encyclopedia/",
+     "blurb": "It restores damaged machines while filing away their stories.",
+     "look": "A wheeled oak cabinet with a bright scanning lens and narrow brass arms."
+    },
+    {
+     "id": "2-debit-and-credit",
+     "name": "Debit and Credit",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "skim",
+      "strike"
+     ],
+     "source": "/2026/07/financial-literacy-essentials/",
+     "blurb": "One half takes immediately. The other sends collectors.",
+     "look": "Two joined brass figures, one square and one round, carrying small empty trays."
+    },
+    {
+     "id": "2-curator-of-one-value",
+     "name": "Curator of One Value",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "spawn",
+      "sweep"
+     ],
+     "source": "/explore/collection/",
+     "blurb": "It protects its collectors and sweeps aside anyone carrying a story it cannot price.",
+     "look": "A tall glass cabinet on iron legs, filled with mismatched coins and held shut by a broad steel clamp."
+    },
+    {
+     "id": "2-card-keeper",
+     "name": "Card Keeper",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/2025/10/money-conversation-cards/",
+     "blurb": "It records different answers and helps Wren keep the crew on its feet.",
+     "look": "A small blue cloth figure with a satchel of blank cards and a spool of thread."
+    },
+    {
+     "id": "2-artifact-guide",
+     "name": "Artifact Guide",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/visit/sensory-sundays/",
+     "blurb": "It offers raised replicas and shields anyone examining them.",
+     "look": "A low wooden table on wheels with a round shield and three textured clay discs."
+    }
+   ],
+   "events": [
+    {
+     "id": "2-local-token",
+     "source": "/2026/07/a-summer-road-trip-of-canadian-tokens/",
+     "look": "A copper token between a canvas supply bag and a small coin tray.",
+     "title": "Local Token",
+     "text": "A vendor offers supplies for a local token. A collector offers cash for it.",
+     "options": [
+      {
+       "label": "Trade with the vendor",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The supplies include clean bandages."
+      },
+      {
+       "label": "Sell to the collector",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The collector pays and rolls away with the token."
+      }
+     ]
+    },
+    {
+     "id": "2-check-the-note",
+     "source": "/2026/09/it-pays-to-check/",
+     "look": "A blue lamp, two sliding shutters, a glass lens, and a leather purse.",
+     "title": "Check the Note",
+     "text": "A trap table holds a useful checking lens and a purse behind separate shutters.",
+     "options": [
+      {
+       "label": "Take the lens",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The crew learns to spot and clear a false mark."
+      },
+      {
+       "label": "Take the purse",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The purse comes free before the shutters close."
+      }
+     ]
+    },
+    {
+     "id": "2-budget-envelope",
+     "source": "/2026/07/financial-literacy-essentials/",
+     "look": "An open brown envelope between a white bandage roll and copper coins.",
+     "title": "One Envelope",
+     "text": "The planner has enough for either medical supplies or spare change.",
+     "options": [
+      {
+       "label": "Buy bandages",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren uses the bandages at once."
+      },
+      {
+       "label": "Keep the change",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew keeps the coins for a later stop."
+      }
+     ]
+    },
+    {
+     "id": "2-canal-lock",
+     "source": "/2026/09/the-money-of-bytown/",
+     "look": "A small blue canal gate packed with bronze tokens and a long iron lever.",
+     "title": "Blocked Lock",
+     "text": "Tokens jam the lock. The crew can recover them or use the lever to practice a heavy strike.",
+     "options": [
+      {
+       "label": "Pull tokens from the gears",
+       "effect": {
+        "type": "gold",
+        "amount": 65
+       },
+       "result": "The crew keeps the recovered tokens."
+      },
+      {
+       "label": "Force the lever",
+       "effect": {
+        "type": "routine",
+        "id": "strike+"
+       },
+       "result": "Kestrel learns a heavier strike from the stubborn lever. The tokens wash away."
+      }
+     ]
+    },
+    {
+     "id": "2-woven-door",
+     "source": "/learn/activities/",
+     "look": "A doorway covered in looping teal wire, with a blank card and a small pouch.",
+     "title": "Woven Door",
+     "text": "Wire curves cover a door. One strand leads to a technique card; another holds a purse.",
+     "options": [
+      {
+       "label": "Trace the long curve",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "Ox learns a new way to shield a companion."
+      },
+      {
+       "label": "Cut out the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The crew recovers the pouch before the wire tightens."
+      }
+     ]
+    },
+    {
+     "id": "2-artifact-table",
+     "source": "/visit/sensory-sundays/",
+     "look": "A low oak table with textured clay discs, a lamp, and folded cloth.",
+     "title": "Quiet Table",
+     "text": "A keeper offers a rest or a lesson in feeling raised marks. There is time for one.",
+     "options": [
+      {
+       "label": "Rest at the table",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren tends the crew in the quiet."
+      },
+      {
+       "label": "Study the replicas",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The crew learns where a precise touch can interrupt a mechanism."
+      }
+     ]
+    }
+   ],
+   "name": "Bank of Canada Museum",
+   "url": "https://www.bankofcanadamuseum.ca/"
+  },
+  {
+   "theme": "Records, gaps, and two-sided histories",
+   "story": {
+    "intro": "The trail ends among coins, seals, weights, and records. Wren brings the fragments. Kestrel looks for the seam in the machine collecting them.",
+    "chapters": [
+     {
+      "title": "Two faces",
+      "text": "The swarm takes both faces of a coin but files them as one account. Its copies disagree with the records they came from."
+     },
+     {
+      "title": "The gaps",
+      "text": "The crew compares impressions with catalogues and finds the missing piece: the swarm\u2019s first record was damaged. It has been trying to fill that gap with a single perfect story."
+     },
+     {
+      "title": "Room for more",
+      "text": "Different accounts fit the same object. Wren keeps them separate. Ox clears a path for Kestrel to carry the conflicting impressions to the mint."
+     }
+    ],
+    "bossIntro": "The Many-Storied Mint repairs itself and stamps out defenders. Kestrel feeds its die the mismatched impressions while Ox holds the line and Wren protects the records.",
+    "outro": "The jammed die stops. The missing record stays incomplete, alongside the accounts that survived. The swarm\u2019s remaining machines stop collecting and sort the fragments without erasing their differences. Wren labels the gap; Kestrel leaves it open."
+   },
+   "creatures": [
+    {
+     "id": "3-seal-mites",
+     "name": "Seal Mites",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/%ce%bc%cf%8c%ce%bd%ce%b9%ce%bc%ce%b5%cf%82-%cf%83%cf%85%ce%bb%ce%bb%ce%bf%ce%b3%ce%ad%cf%82/",
+     "blurb": "They clamp false seals onto anything that moves.",
+     "look": "A cluster of tiny gray lead discs with brass jaws and thin legs."
+    },
+    {
+     "id": "3-medal-racer",
+     "name": "Medal Racer",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/%cf%84%ce%bf-%ce%bc%ce%b5%cf%84%ce%ac%ce%bb%ce%bb%ce%b9%ce%bf-%cf%84%cf%89%ce%bd-%cf%80%cf%81%cf%8e%cf%84%cf%89%ce%bd-%ce%b4%ce%b9%ce%b5%ce%b8%ce%bd%cf%8e%ce%bd-%ce%bf%ce%bb%cf%85%ce%bc%cf%80%ce%b9/",
+     "blurb": "It charges the first thing to cross its imagined finish line.",
+     "look": "A silver medal on two black wheels, with a long bent bronze pointer."
+    },
+    {
+     "id": "3-garden-sampler",
+     "name": "Garden Sampler",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/%ce%b4%ce%b9%ce%b1%ce%bb%ce%ad%ce%be%ce%b5%ce%b9%cf%82/",
+     "blurb": "It takes living sprigs for an overcrowded specimen cage.",
+     "look": "A green metal dragonfly carrying a small wire cage and a pale leaf."
+    },
+    {
+     "id": "3-two-sided-sentry",
+     "name": "Two-Sided Sentry",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/two-sides/",
+     "blurb": "Its armored face covers the mechanism that changes its story.",
+     "look": "A thick bronze disc on hinged legs, one side smooth and the other a dark geometric mask."
+    },
+    {
+     "id": "3-library-collator",
+     "name": "Library Collator",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/%ce%b2%ce%b9%ce%b2%ce%bb%ce%b9%ce%bf%ce%b8%ce%ae%ce%ba%ce%b7/",
+     "blurb": "It binds mismatched records together and catches hands in the bindings.",
+     "look": "A dark oak book cart with a wide brass clamp and trailing cream ribbons."
+    },
+    {
+     "id": "3-replica-presser",
+     "name": "Replica Presser",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/%cf%80%cf%89%ce%bb%ce%b7%cf%84%ce%ae%cf%81%ce%b9%ce%bf/",
+     "blurb": "It sends out copies to hide its own worn edges.",
+     "look": "A green iron tabletop press on jointed legs, with a hopper of blank bronze discs."
+    },
+    {
+     "id": "3-conservation-automaton",
+     "name": "Conservation Automaton",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/%ce%b5%cf%81%ce%b3%ce%b1%cf%83%cf%84%ce%ae%cf%81%ce%b9%ce%bf-%cf%83%cf%85%ce%bd%cf%84%ce%ae%cf%81%ce%b7%cf%83%ce%b7%cf%82/",
+     "blurb": "It polishes and repairs nearby machines until their marks disappear.",
+     "look": "A white porcelain cylinder on wheels, with a soft brush arm and a brass oil can."
+    },
+    {
+     "id": "3-garden-grafter",
+     "name": "Garden Grafter",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/%ce%b1%ce%bd%ce%b1%cf%88%cf%85%ce%ba%cf%84%ce%ae%cf%81%ce%b9%ce%bf/",
+     "blurb": "Its metal roots split and tighten around loose objects.",
+     "look": "An olive green stalk with jointed copper roots and broad waxy leaves."
+    },
+    {
+     "id": "3-circulation-train",
+     "name": "Circulation Train",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "sweep"
+     ],
+     "source": "/project/to-nomisma-sto-romaiko-kosmo/",
+     "blurb": "It sends rolling shields ahead and sweeps the crew away from its cargo.",
+     "look": "Three bronze coin wheels linked by black iron rods, led by a wide round shield."
+    },
+    {
+     "id": "3-transition-mint",
+     "name": "Transition Mint",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike+"
+     ],
+     "source": "/project/to-nomisma-sto-vyzantino-kosmo/",
+     "blurb": "It restrikes damaged scouts into new patterns while its heavy die comes down.",
+     "look": "A two-chambered black iron press with bronze and silver hoppers and a broad falling die."
+    },
+    {
+     "id": "3-pattern-copier",
+     "name": "Pattern Copier",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo",
+      "strike+"
+     ],
+     "source": "/project/to-nomisma-sto-dytiko-kai-anatoliko-mesaioniko-kosmo/",
+     "blurb": "It turns the crew\u2019s own methods back on them with a hard metal imitation.",
+     "look": "A silver disc figure with a hinged face, three copying arms, and one uneven copper rim."
+    },
+    {
+     "id": "3-many-storied-mint",
+     "name": "Many-Storied Mint",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "patch+"
+     ],
+     "source": "/two-sides/",
+     "blurb": "It keeps producing copies and repairing itself while its wide die sweeps the room. The mismatched impressions it cannot reconcile jam its mechanism.",
+     "look": "A towering two-faced bronze mint with a wide horizontal die, glass story cylinders, and a nest of small coin-shaped drones."
+    },
+    {
+     "id": "3-library-index",
+     "name": "Library Index",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/%ce%b2%ce%b9%ce%b2%ce%bb%ce%b9%ce%bf%ce%b8%ce%ae%ce%ba%ce%b7/",
+     "blurb": "It compares records without forcing them to agree, and repairs torn pages.",
+     "look": "A blue wheeled card cabinet with ivory tabs, delicate brass hands, and a small lamp."
+    },
+    {
+     "id": "3-conservator-rig",
+     "name": "Conservator Rig",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "patch"
+     ],
+     "source": "/%ce%b5%cf%81%ce%b3%ce%b1%cf%83%cf%84%ce%ae%cf%81%ce%b9%ce%bf-%cf%83%cf%85%ce%bd%cf%84%ce%ae%cf%81%ce%b7%cf%83%ce%b7%cf%82/",
+     "blurb": "It shelters damaged objects and helps Wren stabilize them.",
+     "look": "A cream wheeled frame with a clear hood, padded arms, and a small brass tool tray."
+    }
+   ],
+   "events": [
+    {
+     "id": "3-replica-spill",
+     "source": "/%cf%80%cf%89%ce%bb%ce%b7%cf%84%ce%ae%cf%81%ce%b9%ce%bf/",
+     "look": "Bronze replica discs scattered around a tiny black tracker and a leather purse.",
+     "title": "Replica Spill",
+     "text": "A tracker hides among replica coins. A scavenger offers a tool or a purse for the batch.",
+     "options": [
+      {
+       "label": "Exchange them for a tool",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "Kestrel takes a tool suited to breaking shields."
+      },
+      {
+       "label": "Sell the batch",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The scavenger pays for the replicas and picks out the tracker."
+      }
+     ]
+    },
+    {
+     "id": "3-living-sprig",
+     "source": "/%ce%b4%ce%b9%ce%b1%ce%bb%ce%ad%ce%be%ce%b5%ce%b9%cf%82/",
+     "look": "A green mechanical dragonfly above a small wire cage and a bright leaf.",
+     "title": "Living Sprig",
+     "text": "A sampler carries a sprig toward its cage. A seed keeper offers bandages or coins for help.",
+     "options": [
+      {
+       "label": "Ask for bandages",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren takes the bandages after the sprig is freed."
+      },
+      {
+       "label": "Ask for coins",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The keeper pays the crew after the sprig is freed."
+      }
+     ]
+    },
+    {
+     "id": "3-rival-marks",
+     "source": "/project/to-nomisma-ston-archaio-elliniko-kosmo-parastaseis-kai-ideologia/",
+     "look": "Two bronze masks facing each other across a stone doorway and a loose silver emblem.",
+     "title": "Rival Marks",
+     "text": "Two patrols argue over their marks. A loose emblem can divert either patrol.",
+     "options": [
+      {
+       "label": "Divert the nearer patrol",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "Watching its formation teaches the crew a sweeping attack."
+      },
+      {
+       "label": "Divert the farther patrol",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The crew retrieves a purse from the far doorway."
+      }
+     ]
+    },
+    {
+     "id": "3-donor-record",
+     "source": "/project/oi-megaloi-dorites-tou-nomismatikou-mouseiou/",
+     "look": "A dark wooden case beside a cream record sheet and a white medical roll.",
+     "title": "Lost Record",
+     "text": "A sealed case and its record have been separated. The keeper can spare a treatment kit or money.",
+     "options": [
+      {
+       "label": "Return them for the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren opens the kit after the case and record are reunited."
+      },
+      {
+       "label": "Return them for payment",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The keeper pays the crew for reuniting the case and record."
+      }
+     ]
+    },
+    {
+     "id": "3-scaffold-cart",
+     "source": "/%ce%b5%cf%81%ce%b3%ce%b1%cf%83%ce%af%ce%b5%cf%82-%cf%83%cf%85%ce%bd%cf%84%ce%ae%cf%81%ce%b7%cf%83%ce%b7%cf%82/",
+     "look": "A yellow wooden scaffold over a cart with two crates and a falling crossbeam.",
+     "title": "Trapped Cart",
+     "text": "A scaffold walker is closing around a supply cart. One crate is within reach before the next beam falls.",
+     "options": [
+      {
+       "label": "Grab the medical crate",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren recovers clean dressings."
+      },
+      {
+       "label": "Grab the coin crate",
+       "effect": {
+        "type": "gold",
+        "amount": 60
+       },
+       "result": "Ox pulls the coin crate clear."
+      }
+     ]
+    },
+    {
+     "id": "3-balance-pouch",
+     "source": "/%ce%bc%cf%8c%ce%bd%ce%b9%ce%bc%ce%b5%cf%82-%cf%83%cf%85%ce%bb%ce%bb%ce%bf%ce%b3%ce%ad%cf%82/",
+     "look": "A bronze balance with a leather pouch on one pan and dark stone weights on the other.",
+     "title": "Balance Pouch",
+     "text": "A pouch rests on a scale. Removing it drops a heavy pan; holding the scale steady reveals how to brace under weight.",
+     "options": [
+      {
+       "label": "Take the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 75
+       },
+       "result": "The crew catches the pouch as the pan drops harmlessly to the floor."
+      },
+      {
+       "label": "Hold the scale steady",
+       "effect": {
+        "type": "routine",
+        "id": "last_stand"
+       },
+       "result": "Ox learns to brace under a failing weight."
+      }
+     ]
+    }
+   ],
+   "name": "Numismatic Museum of Athens",
+   "url": "https://www.nummus.gr/en/"
+  }
+ ],
+ "id": "2026-11-23",
+ "seed": 36715454
+}
