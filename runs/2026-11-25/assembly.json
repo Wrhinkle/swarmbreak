@@ -1,0 +1,274 @@
+{
+  "acts": [
+    {
+      "packs": {
+        "early": [
+          [
+            "dynamo-mite"
+          ],
+          [
+            "pelton-skitter"
+          ],
+          [
+            "capacitor-tick"
+          ],
+          [
+            "dynamo-mite",
+            "pelton-skitter"
+          ],
+          [
+            "capacitor-tick",
+            "pelton-skitter"
+          ]
+        ],
+        "mid": [
+          [
+            "phase-hound"
+          ],
+          [
+            "step-up-stalker",
+            "dynamo-mite"
+          ],
+          [
+            "recloser-beetle",
+            "pelton-skitter"
+          ],
+          [
+            "insulation-inspector",
+            "capacitor-tick"
+          ],
+          [
+            "wire-eel",
+            "pelton-skitter"
+          ]
+        ],
+        "late": [
+          [
+            "recloser-beetle",
+            "dynamo-mite"
+          ],
+          [
+            "insulation-inspector",
+            "wire-eel",
+            "capacitor-tick"
+          ],
+          [
+            "phase-hound",
+            "pelton-skitter"
+          ],
+          [
+            "step-up-stalker",
+            "capacitor-tick"
+          ],
+          [
+            "wire-eel",
+            "recloser-beetle"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "rectifier-ray",
+          "reward": "fusekeeper"
+        },
+        {
+          "id": "copper-vine",
+          "reward": "dry-cell-courier"
+        },
+        {
+          "id": "gas-turbine-hunter",
+          "reward": "fusekeeper"
+        }
+      ],
+      "shop": [
+        "breach",
+        "finish",
+        "sweep",
+        "patch+",
+        "cover",
+        "jam",
+        "charge"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "sewing-crawler"
+          ],
+          [
+            "crystal-whisperer"
+          ],
+          [
+            "lamp-scavenger"
+          ],
+          [
+            "sewing-crawler",
+            "lamp-scavenger"
+          ],
+          [
+            "crystal-whisperer",
+            "lamp-scavenger"
+          ]
+        ],
+        "mid": [
+          [
+            "circuit-swarm"
+          ],
+          [
+            "shadow-projector",
+            "lamp-scavenger"
+          ],
+          [
+            "vacuum-pump",
+            "sewing-crawler"
+          ],
+          [
+            "glass-menagerie",
+            "lamp-scavenger"
+          ],
+          [
+            "theremin-sentinel",
+            "crystal-whisperer"
+          ]
+        ],
+        "late": [
+          [
+            "glass-menagerie",
+            "vacuum-pump"
+          ],
+          [
+            "theremin-sentinel",
+            "lamp-scavenger"
+          ],
+          [
+            "circuit-swarm",
+            "crystal-whisperer"
+          ],
+          [
+            "shadow-projector",
+            "vacuum-pump"
+          ],
+          [
+            "glass-menagerie",
+            "lamp-scavenger",
+            "sewing-crawler"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "timeline-centipede",
+          "reward": "crystal-receiver"
+        },
+        {
+          "id": "stage-rig",
+          "reward": "show-guide"
+        },
+        {
+          "id": "discovery-mimic",
+          "reward": "crystal-receiver"
+        }
+      ],
+      "shop": [
+        "purge",
+        "breach",
+        "sweep",
+        "finish",
+        "patch",
+        "brace",
+        "jam"
+      ]
+    },
+    {
+      "packs": {
+        "early": [
+          [
+            "camera-scout"
+          ],
+          [
+            "glider-hunter"
+          ],
+          [
+            "catalogue-crawler"
+          ],
+          [
+            "camera-scout",
+            "glider-hunter"
+          ],
+          [
+            "catalogue-crawler",
+            "glider-hunter"
+          ]
+        ],
+        "mid": [
+          [
+            "archive-swarm"
+          ],
+          [
+            "conservation-shell",
+            "catalogue-crawler"
+          ],
+          [
+            "digital-loom",
+            "glider-hunter"
+          ],
+          [
+            "penny-outrider",
+            "camera-scout"
+          ],
+          [
+            "future-prototype",
+            "catalogue-crawler"
+          ]
+        ],
+        "late": [
+          [
+            "conservation-shell",
+            "catalogue-crawler",
+            "glider-hunter"
+          ],
+          [
+            "digital-loom",
+            "catalogue-crawler"
+          ],
+          [
+            "archive-swarm",
+            "camera-scout"
+          ],
+          [
+            "future-prototype",
+            "glider-hunter"
+          ],
+          [
+            "conservation-shell",
+            "camera-scout"
+          ]
+        ]
+      },
+      "elites": [
+        {
+          "id": "antenna-scavenger",
+          "reward": "workshop-conservator"
+        },
+        {
+          "id": "object-collector",
+          "reward": "future-host"
+        },
+        {
+          "id": "restoration-rig",
+          "reward": "workshop-conservator"
+        }
+      ],
+      "shop": [
+        "breach",
+        "sweep",
+        "finish",
+        "patch+",
+        "triage",
+        "cover",
+        "jam"
+      ]
+    }
+  ]
+}

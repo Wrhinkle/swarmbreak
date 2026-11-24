@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "edisontechcenter.org",
+   "name": "Edison Tech Center",
+   "url": "https://edisontechcenter.org/",
+   "file": "runs/2026-11-25/sites/edisontechcenter.org.json"
+  },
+  {
+   "host": "www.sparkmuseum.org",
+   "name": "SPARK Museum of Electrical Invention",
+   "url": "https://www.sparkmuseum.org/",
+   "file": "runs/2026-11-25/sites/www.sparkmuseum.org.json"
+  },
+  {
+   "host": "www.deutsches-museum.de",
+   "name": "Deutsches Museum",
+   "url": "https://www.deutsches-museum.de/en/",
+   "file": "runs/2026-11-25/sites/www.deutsches-museum.de.json"
+  }
+ ]
+}

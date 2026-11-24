@@ -1,0 +1,216 @@
+{
+  "reading": "The Deutsches Museum preserves and researches the history of science and technology while inviting people to try it themselves. Its vocabulary joins original masterpieces, collections, exhibitions, experiments, workshops and research with access, participation and the future. It is a network of places: an island museum, transport halls, a historic airfield, an AI forum and a future museum. Its distinctive tension is between protecting authentic objects and putting ideas into motion: archives and conservation sit alongside hands-on demonstrations, mobility, flight and debate over emerging technologies.",
+  "enemies": [
+    {
+      "idea": "A horn-antenna scavenger mistakes every warm body for cosmic background radiation and swivels to drown it in amplified static.",
+      "source": "/museum/sammlung/highlights/apparatur-von-penzias-und-wilson-und-die-entdeckung-der-kosmischen-hintergrundstrahlung",
+      "why": "Its huge listening horn can be lured away with a competing signal."
+    },
+    {
+      "idea": "A penny-farthing outrider uses its giant front wheel to vault obstacles while its tiny rear wheel lays a trail of swarm parts.",
+      "source": "/verkehrszentrum",
+      "why": "Its uneven wheels make its pursuit fast in one direction and awkward in another."
+    },
+    {
+      "idea": "A steam-locomotive centipede lays its own rails through the halls, then follows them at increasing speed.",
+      "source": "/verkehrszentrum",
+      "why": "A crew can reroute its track before it completes a circuit."
+    },
+    {
+      "idea": "A glider-shaped hunter rides thermals from hot machinery and drops silently when the heat goes out.",
+      "source": "/flugwerft-schleissheim",
+      "why": "Changing the room temperature changes the chase."
+    },
+    {
+      "idea": "A flying-boat swarm skims flooded floors, then unfolds wings to clear dry obstacles.",
+      "source": "/flugwerft-schleissheim",
+      "why": "It forces a choice between draining its runway and crossing its wake."
+    },
+    {
+      "idea": "An object collector staples mismatched machine parts into a first automobile and an electron microscope, examining prey before adding them to its collection.",
+      "source": "/museum/sammlung",
+      "why": "Its magnified inspection reveals a vulnerable joint as well as the crew."
+    },
+    {
+      "idea": "A provenance examiner follows the ownership trail of every tool and tries to confiscate anything whose history has a gap.",
+      "source": "/museum/sammlung",
+      "why": "Improvised histories and recovered records can distract a persistent pursuer."
+    },
+    {
+      "idea": "A catalogue crawler sorts living things by subject and reshelves anyone it cannot classify.",
+      "source": "/forschung/bibliothek",
+      "why": "Changing the evidence of what a crew is doing can scramble its classification."
+    },
+    {
+      "idea": "An archival finding-aid swarm follows references between boxes, dragging the referenced machines along behind it.",
+      "source": "/forschung/archiv",
+      "why": "Breaking a chain of references can strand part of the swarm."
+    },
+    {
+      "idea": "A piano-roll reader punches new holes into passing metal, turning each strike into a command for nearby machines.",
+      "source": "/forschung/forschungsinstitut",
+      "why": "The crew can hear a pattern before the machine finishes issuing it."
+    },
+    {
+      "idea": "A digital loom weaves sensor cables into a moving net, repairing each cut by changing its pattern.",
+      "source": "/forschung/forschungsinstitut",
+      "why": "The loom must be interrupted at its shuttle rather than simply cut free."
+    },
+    {
+      "idea": "A quantum sensor pack treats uncertainty as a target, converging wherever a measurement gives conflicting results.",
+      "source": "/quantentraeume",
+      "why": "Decoys that produce ambiguous readings can draw the pack away."
+    },
+    {
+      "idea": "A future host presents branching technological futures, then deploys a different tool for each choice the crew makes.",
+      "source": "/forum-der-zukunft/ausstellung/future-box",
+      "why": "The crew can study the consequences and deliberately choose a manageable branch."
+    },
+    {
+      "idea": "A humanoid prototype borrows the gestures of the person it is watching, lagging just long enough to copy the wrong move.",
+      "source": "/forum-der-zukunft/ausstellung/future-box",
+      "why": "A feint can turn mimicry into a weakness."
+    },
+    {
+      "idea": "A music generator assembles an endless mechanical accompaniment and recruits nearby motors as its orchestra.",
+      "source": "/bonn/aktuell/ki-und-musik-chance-oder-gefahr",
+      "why": "Silencing one motor changes the rhythm and exposes the conductor."
+    },
+    {
+      "idea": "A fourteen-gram camera scout squeezes through tiny gaps and relays close-up images that guide heavier machines.",
+      "source": "/museum/aktuell/kleines-ding-grossartige-bilder",
+      "why": "Its tiny size makes it hard to hit, but an obstructed view blinds its escorts."
+    },
+    {
+      "idea": "A conservation machine seals moving mechanisms in protective layers, including equipment the crew still needs to use.",
+      "source": "/forschung",
+      "why": "Its protective coating can become useful cover if applied in the right place."
+    },
+    {
+      "idea": "A restoration rig salvaged from the historic airfield fits any loose component it finds onto its own growing airframe.",
+      "source": "/flugwerft-schleissheim/besuch/das-museum",
+      "why": "Scattering incompatible parts can jam its repair routine."
+    },
+    {
+      "idea": "An experiment station repeats the last demonstration at increasing scale, driven by a swarm that cannot tell curiosity from a command.",
+      "source": "/",
+      "why": "A small harmless input lets the crew steer a large effect."
+    },
+    {
+      "idea": "A future-planning machine predicts mobility by rearranging every vehicle into a single constantly moving procession.",
+      "source": "/verkehrszentrum/besuch",
+      "why": "Crossing the parade becomes a timing puzzle rather than a straight fight."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "A conservation workshop keeps a damaged original mechanism running and teaches the crew how to repair its own gear.",
+      "source": "/museum/sammlung",
+      "why": "Preserving an old object becomes practical resistance."
+    },
+    {
+      "idea": "A public research librarian traces a machine’s odd behavior through historical technical literature and suggests a countermeasure.",
+      "source": "/forschung/bibliothek",
+      "why": "Knowledge offers an alternative to fighting every machine."
+    },
+    {
+      "idea": "An intact hands-on experiment station lets the crew safely test a signal before using it against the swarm.",
+      "source": "/",
+      "why": "Experimentation turns the museum’s teaching mission into a tool."
+    },
+    {
+      "idea": "A future host still invites debate, helping the crew compare the risks of two possible routes.",
+      "source": "/forum-der-zukunft/ausstellung/future-box",
+      "why": "An ally built around questions can help without pretending to know the future."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Demonstrator fuses the museum’s original mechanisms and hands-on experiments into a vast machine that insists on demonstrating everything at once. Its separate experiment modules must be shut down in an order the crew discovers by watching their effects.",
+      "source": "/",
+      "why": "The whole museum’s delight in making science tangible becomes a spectacular interlocking encounter."
+    },
+    {
+      "idea": "The Curator of Tomorrow joins an archive of past inventions to a future-predicting engine, collecting every possible outcome as if it were an object. The crew can disrupt its predictions by changing the historical inputs it uses.",
+      "source": "/forschung",
+      "why": "Preservation, research and imagined futures collide in one opponent."
+    },
+    {
+      "idea": "The Mobility Engine combines locomotive wheels, aircraft wings and racing-car drive into a machine that keeps rebuilding itself to cross any terrain. Each new configuration leaves a different route open to its core.",
+      "source": "/verkehrszentrum",
+      "why": "A museum-wide history of movement becomes a changing chase."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A horn antenna swings between a real faint signal and swarm chatter; align a reflector to give the crew a quiet crossing.",
+      "source": "/museum/sammlung/highlights/apparatur-von-penzias-und-wilson-und-die-entdeckung-der-kosmischen-hintergrundstrahlung",
+      "why": "Listening and positioning resolve the encounter."
+    },
+    {
+      "idea": "A runaway piano roll is making workshop tools play in sequence; patch the missing notes before the tune reaches the heavy press.",
+      "source": "/forschung/forschungsinstitut",
+      "why": "The audible countdown makes an ordinary repair tense."
+    },
+    {
+      "idea": "An archive trolley has mixed two collections; sorting the boxes by their finding aids reveals a safe route hidden in the records.",
+      "source": "/forschung/archiv",
+      "why": "A small act of archival care pays off in navigation."
+    },
+    {
+      "idea": "A glider hangs above a hot machine, unable to land while the updraft runs; cool the machine or guide the glider to a clear patch.",
+      "source": "/flugwerft-schleissheim",
+      "why": "Airflow turns the room itself into a puzzle."
+    },
+    {
+      "idea": "A steam engine is laying rails toward a stalled bicycle; switch a loose rail to divert it without damaging either exhibit.",
+      "source": "/verkehrszentrum",
+      "why": "A quick track switch saves two different generations of transport."
+    },
+    {
+      "idea": "A tiny camera scout is filming a working repair station through a crack; cover its view long enough for the repair to finish.",
+      "source": "/museum/aktuell/kleines-ding-grossartige-bilder",
+      "why": "A small object creates a stealth problem with a clear objective."
+    },
+    {
+      "idea": "A future host offers two simulations of a route, each omitting a different risk; inspect both before choosing where to go.",
+      "source": "/forum-der-zukunft/ausstellung/future-box",
+      "why": "Comparing futures rewards curiosity instead of blind trust."
+    },
+    {
+      "idea": "A quantum sensor keeps sounding an alarm over two inconsistent readings; move a metal object and see which reading changes.",
+      "source": "/quantentraeume",
+      "why": "A simple experiment identifies the cause of a confusing signal."
+    },
+    {
+      "idea": "A music generator has recruited three motors into a chorus; alter their tempo to open a quiet interval for crossing.",
+      "source": "/bonn/aktuell/ki-und-musik-chance-oder-gefahr",
+      "why": "The crew can solve the encounter by listening to a rhythm."
+    },
+    {
+      "idea": "A collection workshop needs a missing gear to stabilize an original mechanism; a scavenger offers a similar-looking but ill-fitting substitute.",
+      "source": "/museum/sammlung",
+      "why": "Choosing the correct part makes authenticity a hands-on problem."
+    },
+    {
+      "idea": "A crew finds an unattended experiment repeating itself; adjust one input and watch which nearby swarm machines respond.",
+      "source": "/",
+      "why": "A safe trial reveals a useful relationship before a later encounter."
+    },
+    {
+      "idea": "A library shelf robot is filing a repair manual under several competing subjects; follow its trail and retrieve the volume before it is reshelved.",
+      "source": "/forschung/bibliothek",
+      "why": "A chase through classifications ends in a useful discovery."
+    },
+    {
+      "idea": "An old airfield building shelters a repair rig that is using its own door as spare material; brace the doorway to let trapped equipment out.",
+      "source": "/flugwerft-schleissheim/besuch/das-museum",
+      "why": "The preservation of a building becomes a concrete rescue."
+    },
+    {
+      "idea": "A winter craft table is assembling little machines from scraps; redirect the harmless builders to make a temporary bridge.",
+      "source": "/bonn/aktuell/im-winterwunderland",
+      "why": "A playful making activity can become an improvised solution."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "thread": "Follow electricity from sparks caught in glass jars, through machines that generate and carry power, to the lamps that turn it into light. The swarm meets crackling experimental instruments, spinning dynamos, insulators, glowing filaments and strange discharge tubes.",
+  "candidates": [
+    {
+      "name": "Urbino Museum of Science and Technology",
+      "url": "https://physlab.uniurb.it/Nuovo.html",
+      "why": "Electric carillons, luminous Leyden jars, spark gaps and electrostatic machines give the first sparks a cabinet of peculiar bodies."
+    },
+    {
+      "name": "Edison Tech Center",
+      "url": "https://edisontechcenter.org/",
+      "why": "Generators, turbines, transformers, insulators and mercury arc rectifiers show electricity being made and sent on its way."
+    },
+    {
+      "name": "Science Museum Group Collection",
+      "url": "https://collection.sciencemuseumgroup.org.uk/",
+      "why": "Its lighting collection contains carbon filaments, arc lamps, neon tubes and street lights for electricity to become visible."
+    },
+    {
+      "name": "SPARK Museum of Electrical Invention",
+      "url": "https://www.sparkmuseum.org/",
+      "why": "Early batteries, electrical apparatus and large Tesla coils offer another beginning in experiments and sparks."
+    },
+    {
+      "name": "Deutsches Museum",
+      "url": "https://www.deutsches-museum.de/en/",
+      "why": "The electric power exhibition brings the journey through turbines, generators and high-voltage transmission equipment."
+    },
+    {
+      "name": "Aberystwyth University Physics Museum",
+      "url": "https://www.aber.ac.uk/en/phys/outreach/physics-museum/",
+      "why": "Voltaic piles, Leyden jars, galvanometers and arc lamps connect the laboratory spark to electric light."
+    },
+    {
+      "name": "Royal Institution",
+      "url": "https://www.rigb.org/",
+      "why": "The Faraday Museum and science resources introduce early batteries, an electric motor and the apparatus behind electrical discoveries."
+    },
+    {
+      "name": "Science Museum",
+      "url": "https://www.sciencemuseum.org.uk/",
+      "why": "Objects and stories about electrical invention and power offer another route through machines and the things they illuminate."
+    }
+  ]
+}

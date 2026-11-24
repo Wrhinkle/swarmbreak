@@ -1,0 +1,1130 @@
+{
+ "title": "The Last Demonstration",
+ "swarm": {
+  "name": "The Repeaters",
+  "blurb": "A swarm of scavenged machines that copies signals and follows them as instructions."
+ },
+ "arc": "The Repeaters seize power at the first site, sending a pulse that the crew mistakes for a distress call. At the second site Wren discovers the pulse is a collage of borrowed responses: the swarm takes each answer as an order to continue a demonstration. It carries those answers to the third site, where an archive amplifies the loop. The crew breaks the final receiver connection and learns that the swarm wanted to finish the demonstration, but its own echoes kept it running.",
+ "acts": [
+  {
+   "theme": "Generation and the stolen load",
+   "story": {
+    "intro": "The swarm has taken the generators and left the lamps dark. Wren hears a pulse under the machinery. Ox calls it a distress signal. Kestrel follows the wires.",
+    "chapters": [
+     {
+      "title": "A useful current",
+      "text": "The swarm takes power and carries it away. Wren keeps the crew moving with solder and thread. The pulse repeats whenever a machine starts."
+     },
+     {
+      "title": "The wrong load",
+      "text": "Insulators protect swarm machinery while working tools are left exposed. Ox holds the line as Kestrel looks for a seam. The pulse now sounds like a request for more current."
+     },
+     {
+      "title": "A circuit with a destination",
+      "text": "The captured machines feed one improvised grid. Wren hears the pulse leave along its output. The crew follows, assuming something farther away needs rescue."
+     }
+    ],
+    "bossIntro": "The Load Collector joins a generator to every device it can reach. Its shielded coils keep the signal alive. Kestrel raises the crowbar. Ox gets in front.",
+    "outro": "The grid falls quiet, but the pulse continues elsewhere. Wren copies its rhythm before the last meter stops. The crew follows it to a collection of electrical demonstrations."
+   },
+   "creatures": [
+    {
+     "id": "dynamo-mite",
+     "name": "Dynamo Mite",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/generators/",
+     "blurb": "It feeds on turning shafts, then rushes the crew.",
+     "look": "A palm-sized brass beetle with a toothed clamp and a spinning copper wheel."
+    },
+    {
+     "id": "pelton-skitter",
+     "name": "Pelton Skitter",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "bruiser",
+     "routines": [
+      "strike"
+     ],
+     "source": "/hydro-power/",
+     "blurb": "Its bucket feet kick it forward in short bursts.",
+     "look": "A squat steel crab with spoon-shaped feet and a blue water jet at its tail."
+    },
+    {
+     "id": "capacitor-tick",
+     "name": "Capacitor Tick",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/capacitors-page/",
+     "blurb": "It stores a charge before throwing itself at a target.",
+     "look": "A round cream ceramic tick with two wire prongs and a glowing amber seam."
+    },
+    {
+     "id": "phase-hound",
+     "name": "Phase Hound",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "bruiser",
+     "routines": [
+      "sweep",
+      "strike"
+     ],
+     "source": "/phases/",
+     "blurb": "Its sweeping run pressures a crowded crew.",
+     "look": "A lean iron dog with three copper rings around its shoulders and a blue glass eye."
+    },
+    {
+     "id": "insulation-inspector",
+     "name": "Insulation Inspector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/insulation/",
+     "blurb": "It wraps damaged swarm machines in protective layers.",
+     "look": "A tall boxy figure with rubber mitts, black cable spools and a cream porcelain face."
+    },
+    {
+     "id": "recloser-beetle",
+     "name": "Recloser Beetle",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/lightning-suppression/",
+     "blurb": "It reconnects damaged machines. Stop its repairs first.",
+     "look": "A green beetle with a hinged switch on its back and silver contact jaws."
+    },
+    {
+     "id": "step-up-stalker",
+     "name": "Step-Up Stalker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/transformers/",
+     "blurb": "Its crackling coils interrupt the crew before it strikes.",
+     "look": "A long-legged iron frame carrying two uneven copper coils and a pale blue spark gap."
+    },
+    {
+     "id": "wire-eel",
+     "name": "Wire Eel",
+     "tier": "regular",
+     "bodyPlan": "serpent",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/wires-page/",
+     "blurb": "It slides along cables and steals loose gold.",
+     "look": "A black cable serpent with a split rubber skin, copper ribs and a narrow silver snout."
+    },
+    {
+     "id": "rectifier-ray",
+     "name": "Rectifier Ray",
+     "tier": "elite",
+     "bodyPlan": "flier",
+     "role": "bruiser",
+     "routines": [
+      "breach",
+      "strike+"
+     ],
+     "source": "/merc-arc-rectifiers/",
+     "blurb": "Its concentrated discharge punches through shields.",
+     "look": "A broad steel ray with glass chambers under its wings and a bright blue core."
+    },
+    {
+     "id": "copper-vine",
+     "name": "Copper Vine",
+     "tier": "elite",
+     "bodyPlan": "plant",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/copper/",
+     "blurb": "Its branches connect more swarm bodies to the circuit.",
+     "look": "A tangle of thick copper tendrils sprouting from a dark iron socket."
+    },
+    {
+     "id": "gas-turbine-hunter",
+     "name": "Gas Turbine Hunter",
+     "tier": "elite",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "jam",
+      "charge"
+     ],
+     "source": "/gasturbines/",
+     "blurb": "It stalls a target, then builds up a heavy rush.",
+     "look": "A low steel hound with a circular intake chest and a yellow exhaust plume."
+    },
+    {
+     "id": "load-collector",
+     "name": "Load Collector",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "sweep",
+      "strike"
+     ],
+     "source": "/resources/",
+     "blurb": "It shields its generator and sweeps the crew while feeding the departing signal.",
+     "look": "A massive generator on iron legs, wrapped in copper cables, with a round shield of ceramic insulators and a blue meter at its heart."
+    },
+    {
+     "id": "fusekeeper",
+     "name": "Fusekeeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/lightning-suppression/",
+     "blurb": "A small repair machine that protects the crew with replaceable links.",
+     "look": "A squat brass automaton with a white ceramic fuse across its chest and a square shield."
+    },
+    {
+     "id": "dry-cell-courier",
+     "name": "Dry-Cell Courier",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/batteries-page/",
+     "blurb": "Its independent battery helps Wren mend the crew away from the grid.",
+     "look": "A small tin courier on wheels carrying a cream battery and a green repair case."
+    }
+   ],
+   "events": [
+    {
+     "id": "old-and-new-dynamo",
+     "source": "/dolgeville/",
+     "look": "Two generators beside a stalled lift, one with a large iron flywheel.",
+     "title": "Lift power",
+     "text": "The lift has two possible supplies. One is reliable. The other has salvageable parts.",
+     "options": [
+      {
+       "label": "Connect the old dynamo",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The lift carries the crew past the worst of the damage."
+      },
+      {
+       "label": "Strip the replacement",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The crew pockets the spare parts and climbs."
+      }
+     ]
+    },
+    {
+     "id": "three-phase-door",
+     "source": "/phases/",
+     "look": "Three copper lamps blink beside a steel workshop door.",
+     "title": "Out of step",
+     "text": "The door motor needs its three contacts set in sequence. The copper contacts are valuable.",
+     "options": [
+      {
+       "label": "Set the contacts",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The motor opens the door. Ox studies its bracing mechanism."
+      },
+      {
+       "label": "Take the contacts",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew takes the copper and finds another way."
+      }
+     ]
+    },
+    {
+     "id": "wheel-and-refuge",
+     "source": "/hydro-power/",
+     "look": "A blue jet turns a bucket wheel beside a narrow walkway.",
+     "title": "Water rights",
+     "text": "A jet blocks the walkway and powers a refuge. Redirect it or cross through it.",
+     "options": [
+      {
+       "label": "Keep the water flowing",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The spray knocks the crew about, but the refuge keeps its power."
+      },
+      {
+       "label": "Divert the jet",
+       "effect": {
+        "type": "gold",
+        "amount": -25
+       },
+       "result": "The crew pays for replacement supplies at the now-dark refuge."
+      }
+     ]
+    },
+    {
+     "id": "wrong-meter",
+     "source": "/meters-page/",
+     "look": "A black meter with crossed leads on a wooden workbench.",
+     "title": "False overload",
+     "text": "The meter probes are on the wrong terminals. Correcting them takes time and spare wire.",
+     "options": [
+      {
+       "label": "Repair the leads",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "Wren learns to clear a bad signal from the circuit."
+      },
+      {
+       "label": "Sell the spare wire",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The crew leaves the meter alone and keeps the proceeds."
+      }
+     ]
+    },
+    {
+     "id": "warm-room",
+     "source": "/passivesolar-page/",
+     "look": "A sunlit room with heavy stone walls and hinged shutters.",
+     "title": "Stored warmth",
+     "text": "The shutters can warm a resting place or expose a cache outside.",
+     "options": [
+      {
+       "label": "Close the shutters",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The crew rests in the retained warmth."
+      },
+      {
+       "label": "Open the shutters",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "Sunlight reveals a small cache of parts."
+      }
+     ]
+    },
+    {
+     "id": "battery-cabinet",
+     "source": "/batteries-page/",
+     "look": "A cabinet of cylindrical cells and stacked metal discs beside a small lamp.",
+     "title": "Mixed cells",
+     "text": "A lamp needs a cell. The usable cells would also fetch a price.",
+     "options": [
+      {
+       "label": "Power the lamp",
+       "effect": {
+        "type": "routine",
+        "id": "patch"
+       },
+       "result": "Its light lets Wren study a repair diagram."
+      },
+      {
+       "label": "Sell the cells",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The lamp stays dark. The crew takes the payment."
+      }
+     ]
+    }
+   ],
+   "name": "Edison Tech Center",
+   "url": "https://edisontechcenter.org/"
+  },
+  {
+   "theme": "Signals and demonstrations",
+   "story": {
+    "intro": "The pulse leads into a gallery of demonstrations. Ox expects a person in trouble. A crystal receiver answers in the same rhythm, then repeats his voice.",
+    "chapters": [
+     {
+      "title": "An audience of machines",
+      "text": "The swarm has arranged machines as if a show is about to start. Kestrel finds cables leading toward a receiver. Wren listens for a human voice."
+     },
+     {
+      "title": "The signal answers",
+      "text": "The receiver repeats Wren\u2019s test signal before she finishes it. The call was made from borrowed sounds. It is not proof of a trapped person."
+     },
+     {
+      "title": "A question sent onward",
+      "text": "The swarm is collecting responses, not calling for rescue. It has mistaken every answer for a request to keep demonstrating. Ox wants the noise stopped before it reaches the next site."
+     }
+    ],
+    "bossIntro": "The Curiosity Engine has wired the gallery into its receiver. It makes new machines from each question and guards its own circuit. Wren cuts the test signal. The engine answers anyway.",
+    "outro": "The engine breaks, and its last transmission contains a destination. The swarm is taking its collected answers to a larger archive. Kestrel calls that a poor place to leave an unanswered question."
+   },
+   "creatures": [
+    {
+     "id": "sewing-crawler",
+     "name": "Sewing Crawler",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/a-stitch-in-time/",
+     "blurb": "It stitches gear together, interrupting the crew.",
+     "look": "A low black sewing machine on six brass legs, with a needle snout and a spool of white thread."
+    },
+    {
+     "id": "crystal-whisperer",
+     "name": "Crystal Whisperer",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/heart-of-stone/",
+     "blurb": "It sends false calls through a mineral antenna.",
+     "look": "A rough gray crystal on a wooden base with copper whiskers and a tiny amber earphone."
+    },
+    {
+     "id": "lamp-scavenger",
+     "name": "Lamp Scavenger",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/portfolio-item/edisons-first-successful-electric-lamp/",
+     "blurb": "It steals loose parts while its lamp flickers.",
+     "look": "A small black insect with a clear glass bulb shell and thin copper legs."
+    },
+    {
+     "id": "circuit-swarm",
+     "name": "Circuit Swarm",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/teacher-resources/",
+     "blurb": "Break it carelessly and its pieces form separate attackers.",
+     "look": "A cluster of red and blue snap-together blocks with silver terminals and tiny wheels."
+    },
+    {
+     "id": "shadow-projector",
+     "name": "Shadow Projector",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/anatomy-of-an-exhibit/",
+     "blurb": "Its moving shadows interrupt the crew.",
+     "look": "A brass lantern on jointed legs, with a round mirror and a long black paper shade."
+    },
+    {
+     "id": "vacuum-pump",
+     "name": "Vacuum Pump",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/mother-nature-gets-evicted/",
+     "blurb": "It winds up before dragging itself through the crew.",
+     "look": "A squat green pump with a glass bell jar, a wide intake and four iron wheels."
+    },
+    {
+     "id": "glass-menagerie",
+     "name": "Glass Menagerie",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/incomparably-beautiful/",
+     "blurb": "Its bent tubes shield wounded neighbors.",
+     "look": "A flock of translucent blue glass birds with curled tube wings and orange glowing cores."
+    },
+    {
+     "id": "theremin-sentinel",
+     "name": "Theremin Sentinel",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/spooky-action-at-a-distance/",
+     "blurb": "Its rising tone calls more machines.",
+     "look": "A narrow walnut cabinet on stilt legs with two silver aerials and a circular speaker."
+    },
+    {
+     "id": "timeline-centipede",
+     "name": "Timeline Centipede",
+     "tier": "elite",
+     "bodyPlan": "serpent",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike+"
+     ],
+     "source": "/the-collection/",
+     "blurb": "Its linked artifacts separate into dangerous pieces.",
+     "look": "A long centipede of brass coils, wooden boxes and clear bulbs, joined by black cables."
+    },
+    {
+     "id": "stage-rig",
+     "name": "Stage Rig",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "sweep",
+      "strike"
+     ],
+     "source": "/stage-fright/",
+     "blurb": "It shields damaged machines and sweeps the stage.",
+     "look": "A tall steel gantry with folded canvas curtains, pulleys and a broad wooden platform."
+    },
+    {
+     "id": "discovery-mimic",
+     "name": "Discovery Mimic",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/wonderlab/",
+     "blurb": "Its spare connections repair damaged machines early.",
+     "look": "A bright yellow workbench with jointed legs, a glass top and loose copper leads."
+    },
+    {
+     "id": "curiosity-engine",
+     "name": "Curiosity Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike+"
+     ],
+     "source": "/wonderlab/",
+     "blurb": "It guards its receiver while building more machines from the crew\u2019s signals.",
+     "look": "A towering workbench on metal limbs, packed with glass receivers, copper leads and a shield of yellow circuit boards."
+    },
+    {
+     "id": "crystal-receiver",
+     "name": "Crystal Receiver",
+     "tier": "ally",
+     "bodyPlan": "object",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/heart-of-stone/",
+     "blurb": "A quiet receiver helps Wren find clear signals and repair the crew.",
+     "look": "A gray mineral crystal in a walnut box with a copper coil and a small green repair pouch."
+    },
+    {
+     "id": "show-guide",
+     "name": "Show Guide",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/spark-docents-turn-group-tours-into-experiences/",
+     "blurb": "A mechanical guide shields the crew between electrical demonstrations.",
+     "look": "A short brass figure with a blue coat, a round metal shield and a lamp on its shoulder."
+    }
+   ],
+   "events": [
+    {
+     "id": "shadow-route",
+     "source": "/anatomy-of-an-exhibit/",
+     "look": "A candle projector throws a long shadow across a narrow doorway.",
+     "title": "Hold the light",
+     "text": "The beam reveals a route, but the hot projector needs someone to hold it steady.",
+     "options": [
+      {
+       "label": "Hold the projector",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew crosses; the holder leaves with a burn."
+      },
+      {
+       "label": "Take the mirror",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The crew sells the mirror and finds a longer route."
+      }
+     ]
+    },
+    {
+     "id": "spilled-kit",
+     "source": "/teacher-resources/",
+     "look": "Colored circuit blocks lie around an open wooden crate.",
+     "title": "Loose connections",
+     "text": "The pieces can make a switch or be sold as a set.",
+     "options": [
+      {
+       "label": "Build a switch",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The crew learns to interrupt a circuit."
+      },
+      {
+       "label": "Sell the kit",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The intact pieces find a buyer."
+      }
+     ]
+    },
+    {
+     "id": "two-voices",
+     "source": "/heart-of-stone/",
+     "look": "A crystal receiver with a copper coil and two earphones.",
+     "title": "Two voices",
+     "text": "One position brings a survivor\u2019s call into focus. Another reveals valuable swarm chatter.",
+     "options": [
+      {
+       "label": "Listen for the survivor",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The survivor directs Wren to a supply of bandages."
+      },
+      {
+       "label": "Tune to the chatter",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The chatter reveals a cache of spare parts."
+      }
+     ]
+    },
+    {
+     "id": "rising-curtain",
+     "source": "/a-stitch-in-time/",
+     "look": "A canvas curtain rises with a canvas bag sewn to its edge.",
+     "title": "Bag on a curtain",
+     "text": "The bag will soon be out of reach. Cut it loose or climb for the pulley.",
+     "options": [
+      {
+       "label": "Cut it loose",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The bag falls open and yields medical supplies."
+      },
+      {
+       "label": "Climb for the pulley",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The pulley comes free and sells for a useful sum."
+      }
+     ]
+    },
+    {
+     "id": "fragile-tubes",
+     "source": "/incomparably-beautiful/",
+     "look": "Bent blue glass tubes cast a pattern on a plaster wall.",
+     "title": "Glass pattern",
+     "text": "Moving the tubes reveals a passage. Intact tubes are also valuable.",
+     "options": [
+      {
+       "label": "Rearrange the tubes",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "A hidden diagram teaches Ox a new way to cover an ally."
+      },
+      {
+       "label": "Sell the tubes intact",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew carries the tubes away without breaking them."
+      }
+     ]
+    },
+    {
+     "id": "silent-reel",
+     "source": "/upcoming-exhibits/",
+     "look": "A film reel catches on a bent metal splice beside a small screen.",
+     "title": "One useful frame",
+     "text": "A frame shows a hidden switch. Repairing the reel uses a valuable spare.",
+     "options": [
+      {
+       "label": "Repair the splice",
+       "effect": {
+        "type": "routine",
+        "id": "finish"
+       },
+       "result": "The switch opens a cabinet containing a combat manual."
+      },
+      {
+       "label": "Sell the spare",
+       "effect": {
+        "type": "gold",
+        "amount": 25
+       },
+       "result": "The reel keeps looping. The spare finds a buyer."
+      }
+     ]
+    }
+   ],
+   "name": "SPARK Museum of Electrical Invention",
+   "url": "https://www.sparkmuseum.org/"
+  },
+  {
+   "theme": "Archives and an answer",
+   "story": {
+    "intro": "The swarm reaches a museum of collections and experiments. It feeds its copied answers into an archive. Wren recognizes the same pulse, now coming from many machines at once.",
+    "chapters": [
+     {
+      "title": "Everything collected",
+      "text": "The archive takes tools, records and working machines into the same circuit. Ox holds back a collector while Kestrel finds its joints. The swarm appears to want every answer it can get."
+     },
+     {
+      "title": "A flawed instruction",
+      "text": "Wren compares the copied signals. Each started as a test, then was repeated as an instruction to continue. The swarm is trying to complete a demonstration that has no end."
+     },
+     {
+      "title": "A way to stop",
+      "text": "The crew can give the archive a final answer by opening its main circuit. Kestrel finds the seam in its housing. Ox prepares to hold it open while Wren disconnects the receiver."
+     }
+    ],
+    "bossIntro": "The Grand Demonstrator closes its armored housing around the receiver. It calls more machines and sweeps the floor to keep the circuit intact. The crew must reach the connection before the demonstration starts again.",
+    "outro": "The receiver comes free. The repeated instruction stops, and the remaining machines fall silent. The swarm wanted to finish a demonstration; its borrowed answers kept telling it to continue. Wren packs the receiver. Ox carries it. Kestrel checks the seam once more."
+   },
+   "creatures": [
+    {
+     "id": "camera-scout",
+     "name": "Camera Scout",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/museum/aktuell/kleines-ding-grossartige-bilder",
+     "blurb": "Its tiny lens spots the crew and disrupts their work.",
+     "look": "A tiny silver camera with four black rotor blades and a single round glass lens."
+    },
+    {
+     "id": "glider-hunter",
+     "name": "Glider Hunter",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/flugwerft-schleissheim",
+     "blurb": "It circles in warm air before diving.",
+     "look": "A cream fabric glider with a narrow wooden frame and pointed steel beak."
+    },
+    {
+     "id": "catalogue-crawler",
+     "name": "Catalogue Crawler",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/forschung/bibliothek",
+     "blurb": "It files loose valuables in its rolling drawers.",
+     "look": "A brown wooden card cabinet on six brass legs with open drawers and silver pincers."
+    },
+    {
+     "id": "archive-swarm",
+     "name": "Archive Swarm",
+     "tier": "regular",
+     "bodyPlan": "swarm",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/forschung/archiv",
+     "blurb": "Its linked boxes bring more machines into the fight.",
+     "look": "A rolling cluster of tan archive boxes joined by black cords and tiny iron wheels."
+    },
+    {
+     "id": "conservation-shell",
+     "name": "Conservation Shell",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/forschung",
+     "blurb": "It seals wounded machines under protective plates.",
+     "look": "A white jointed machine carrying curved translucent covers and padded gray arms."
+    },
+    {
+     "id": "digital-loom",
+     "name": "Digital Loom",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/forschung/forschungsinstitut",
+     "blurb": "Its cable weave repairs damaged machines.",
+     "look": "A rectangular steel loom on wheels, weaving green cables between two brass spindles."
+    },
+    {
+     "id": "penny-outrider",
+     "name": "Penny Outrider",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/verkehrszentrum",
+     "blurb": "Its giant wheel builds momentum for a rush.",
+     "look": "A black penny-farthing bicycle with a huge front wheel, a small rear wheel and jointed iron arms."
+    },
+    {
+     "id": "future-prototype",
+     "name": "Future Prototype",
+     "tier": "regular",
+     "bodyPlan": "humanoid",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/forum-der-zukunft/ausstellung/future-box",
+     "blurb": "It copies the crew\u2019s moves a moment late.",
+     "look": "A smooth white humanoid machine with a rectangular head and articulated gray hands."
+    },
+    {
+     "id": "antenna-scavenger",
+     "name": "Antenna Scavenger",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "sweep",
+      "strike"
+     ],
+     "source": "/museum/sammlung/highlights/apparatur-von-penzias-und-wilson-und-die-entdeckung-der-kosmischen-hintergrundstrahlung",
+     "blurb": "Its static interrupts a target before a broad blast.",
+     "look": "A large gray horn antenna on tracked legs with a copper coil and blue sparks at its mouth."
+    },
+    {
+     "id": "object-collector",
+     "name": "Object Collector",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike+"
+     ],
+     "source": "/museum/sammlung",
+     "blurb": "It protects itself and breaks through the crew\u2019s shields.",
+     "look": "A squat machine made from an old car wheel, a microscope arm and overlapping bronze plates."
+    },
+    {
+     "id": "restoration-rig",
+     "name": "Restoration Rig",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike+"
+     ],
+     "source": "/flugwerft-schleissheim/besuch/das-museum",
+     "blurb": "It restores damaged swarm machines together.",
+     "look": "A tall steel repair gantry with a green airframe, hanging tools and two broad clamp arms."
+    },
+    {
+     "id": "grand-demonstrator",
+     "name": "Grand Demonstrator",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "strike+"
+     ],
+     "source": "/",
+     "blurb": "It calls experimental machines and sweeps the crew away from its receiver.",
+     "look": "A towering assembly of iron wheels, glass vessels and copper arms, with a white receiver in a cage at its center."
+    },
+    {
+     "id": "workshop-conservator",
+     "name": "Workshop Conservator",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "strike"
+     ],
+     "source": "/museum/sammlung",
+     "blurb": "A careful workshop machine helps Wren repair the crew.",
+     "look": "A compact blue repair robot with padded arms, a tool tray and a white ceramic lamp."
+    },
+    {
+     "id": "future-host",
+     "name": "Future Host",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/forum-der-zukunft/ausstellung/future-box",
+     "blurb": "It weighs possible routes and shields a wounded companion.",
+     "look": "A cream humanoid machine with a rounded head, copper joints and a broad blue shield."
+    }
+   ],
+   "events": [
+    {
+     "id": "quiet-antenna",
+     "source": "/museum/sammlung/highlights/apparatur-von-penzias-und-wilson-und-die-entdeckung-der-kosmischen-hintergrundstrahlung",
+     "look": "A gray horn antenna faces a tilted metal reflector.",
+     "title": "Quiet crossing",
+     "text": "The reflector can mute the swarm signal or be sold for its metal.",
+     "options": [
+      {
+       "label": "Align the reflector",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "The quiet signal teaches the crew how to clear interference."
+      },
+      {
+       "label": "Sell the reflector",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew takes the money and crosses under the noise."
+      }
+     ]
+    },
+    {
+     "id": "mixed-boxes",
+     "source": "/forschung/archiv",
+     "look": "Two open archive boxes spill folders onto a rolling trolley.",
+     "title": "Mixed collections",
+     "text": "Sorting the boxes reveals a repair note. A brass trolley wheel is also valuable.",
+     "options": [
+      {
+       "label": "Sort the boxes",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The note leads Wren to a stock of dressings."
+      },
+      {
+       "label": "Sell the wheel",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The trolley lists to one side. The crew takes the proceeds."
+      }
+     ]
+    },
+    {
+     "id": "glider-updraft",
+     "source": "/flugwerft-schleissheim",
+     "look": "A pale glider hangs above a warm steel machine.",
+     "title": "Hot air",
+     "text": "The updraft holds a glider aloft. Cooling the machine costs supplies; guiding it down risks a fall.",
+     "options": [
+      {
+       "label": "Cool the machine",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The glider settles safely after the crew uses its coolant."
+      },
+      {
+       "label": "Guide the glider down",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The glider lands, but its frame clips the crew."
+      }
+     ]
+    },
+    {
+     "id": "loose-rail",
+     "source": "/verkehrszentrum",
+     "look": "A steel rail points toward a small bicycle in front of a steam engine.",
+     "title": "Switch the rail",
+     "text": "A loose rail can divert the engine. Its metal has value too.",
+     "options": [
+      {
+       "label": "Switch the rail",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The crew saves the bicycle and studies its sturdy brake."
+      },
+      {
+       "label": "Sell the rail",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The crew takes the rail away before the engine reaches it."
+      }
+     ]
+    },
+    {
+     "id": "shelf-robot",
+     "source": "/forschung/bibliothek",
+     "look": "A wooden shelf robot holds a thick manual between two brass clamps.",
+     "title": "Reshelved",
+     "text": "A repair manual is in the robot\u2019s hands. Its brass clamps could pay for supplies.",
+     "options": [
+      {
+       "label": "Retrieve the manual",
+       "effect": {
+        "type": "routine",
+        "id": "patch+"
+       },
+       "result": "Wren learns an earlier repair technique."
+      },
+      {
+       "label": "Sell the clamps",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The manual slips behind a shelf. The crew sells the brass."
+      }
+     ]
+    },
+    {
+     "id": "repeating-experiment",
+     "source": "/",
+     "look": "A glass vessel and copper switch sit on a scarred experiment table.",
+     "title": "One more test",
+     "text": "A machine repeats the same experiment. A small adjustment may reveal a useful move; the copper switch is valuable.",
+     "options": [
+      {
+       "label": "Adjust the input",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The crew observes a wide discharge and learns its pattern."
+      },
+      {
+       "label": "Sell the switch",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The experiment stops. The switch sells well."
+      }
+     ]
+    }
+   ],
+   "name": "Deutsches Museum",
+   "url": "https://www.deutsches-museum.de/en/"
+  }
+ ],
+ "id": "2026-11-25",
+ "seed": 94216502
+}
