@@ -137,6 +137,20 @@ function mapSheet(a:RunAct,cleared:string[],legal:string[],current:string|null,p
   const token=el('div','●','map-token'); token.setAttribute('aria-label',current?'Your position':'Your position: start'); token.setAttribute('role','img'); const pos=current?positions.get(current):undefined; token.style.left=`${pos?.x ?? 50}%`; token.style.top=`${pos?.y ?? 98}%`; sheet.append(token); return sheet; }
 
 function routineText(r: Routine | undefined) { if (!r) return 'Unknown routine'; const pct=Math.round((r.arg ?? 0)*100); const cond: Record<string,string>={always:'Always',self_hp_below:`If self is under ${pct}% HP`,ally_hp_below:`If an ally is under ${pct}% HP`,ally_down:'If an ally is down',self_unshielded:'If self has no shield',foe_shielded:'If a foe has a shield',foe_hp_below:`If a foe is under ${pct}% HP`,foes_at_least:`If there are at least ${r.arg} foes`,self_corrupted:'If self is corrupted'}; const action: Record<string,string>={strike:'Strike',heavy:'Heavy strike',sweep:'Sweep',overflow:'Break shield and strike',patch:'Patch',mend_all:'Mend all',guard_self:'Guard self',guard_ally:'Guard ally',corrupt:'Corrupt',purge:'Purge',stun:'Stun',summon:'Summon',split:'Split',steal:'Steal',mirror:'Mirror',charge:'Charge'}; return `${cond[r.condition]}: ${action[r.action]}`; }
+export function eventChoice(label: string, effect: EventEffect, gold: number, onChoose: () => void) {
+  let description: string;
+  switch (effect.type) {
+    case 'heal': description = `Heal each crew member by ${effect.amount * 100}% of max HP`; break;
+    case 'damage': description = `Damage each crew member by ${effect.amount * 100}% of max HP`; break;
+    case 'gold': description = effect.amount < 0 ? `Spend ${-effect.amount} gold` : `Gain ${effect.amount} gold`; break;
+    case 'routine': description = `Gain routine: ${ROUTINES[effect.id].name} (${routineText(ROUTINES[effect.id])})`; break;
+    case 'nothing': description = 'No effect'; break;
+  }
+  const unavailable = effect.type === 'gold' && gold + effect.amount < 0;
+  const choice = btn(`${label} · ${description}${unavailable ? ' · Not enough gold' : ''}`, () => { if (!unavailable) onChoose(); }, false, 'event-choice');
+  if (unavailable) choice.setAttribute('aria-disabled', 'true');
+  return choice;
+}
 export function restUpgradeChoice(name: string, current: Routine, onChoose: () => void) { const upgraded = ROUTINES[current.upgradesTo!]; return btn(`Upgrade ${name}: ${current.name} (${routineText(current)}) → ${upgraded.name} (${routineText(upgraded)})`, onChoose, false, 'rest-upgrade'); }
 export function routineOffer(r: Routine, action: string, onChoose: () => void, disabled: boolean, cost = `${r.price}g`) { const card=renderCard({name:r.name,effect:routineText(r),cost}); card.append(btn(`${action} ${r.name}`,onChoose,disabled)); return card; }
 export function routinePicker(label: string, ids: string[], value: string, onChange: (value: string) => void) {
@@ -160,7 +174,7 @@ function showCrew() { screen='crew'; clear(); stageHeading('Between fights','Cre
 function upgrade(i:number,j:number,free=false){ const t=today(),c=t.crew[i],old=c.routines[j],up=ROUTINES[old]?.upgradesTo; if(!up||(!free&&t.gold<ROUTINES[up].price))return; if(!free)t.gold-=ROUTINES[up].price; c.routines[j]=up; const pos=t.deck.indexOf(old); if(pos>=0)t.deck[pos]=up; persist(); showCrew(); }
 function enterRoom(n:MapNode, resumed=false) { room=n; if(['fight','elite','boss'].includes(n.kind)){startFight(n);return;} screen='room'; clear(); stageHeading(`${icons[n.kind]} ${n.kind} · Floor ${n.floor+1}`,n.label); const panel=el('section',undefined,'paper'); root.append(panel);
  if(n.kind==='rest'){ panel.append(el('p','A quiet corner. Choose one way to prepare.')); panel.append(btn('Heal crew by 30%',()=>{for(const c of today().crew)c.hp=Math.min(maxHp(c.creature),c.hp+Math.round(maxHp(c.creature)*.3));completeRoom();})); const eligible=today().crew.flatMap((c,i)=>c.routines.map((r,j)=>({i,j,r}))).filter(x=>ROUTINES[x.r]?.upgradesTo); for(const x of eligible) panel.append(restUpgradeChoice(today().crew[x.i].creature.name, ROUTINES[x.r],()=>{ const c=today().crew[x.i],up=ROUTINES[x.r].upgradesTo!; c.routines[x.j]=up; const k=today().deck.indexOf(x.r); if(k>=0)today().deck[k]=up; completeRoom(); })); }
- if(n.kind==='event'){ const e=act().events.find(e=>e.id===n.eventId)!; if(e.art){const img=new Image();img.src=e.art;img.alt='';img.className='event-art';img.onerror=()=>img.remove();panel.append(img);} append(panel,stageLabel(e.title),el('p',e.text)); for(const o of e.options) panel.append(btn(o.label,()=>{applyEffect(o.effect);notice=o.result;completeRoom();},o.effect.type==='gold'&&today().gold+o.effect.amount<0)); }
+ if(n.kind==='event'){ const e=act().events.find(e=>e.id===n.eventId)!; if(e.art){const img=new Image();img.src=e.art;img.alt='';img.className='event-art';img.onerror=()=>img.remove();panel.append(img);} append(panel,stageLabel(e.title),el('p',e.text)); for(const o of e.options) panel.append(eventChoice(o.label,o.effect,today().gold,()=>{applyEffect(o.effect);notice=o.result;completeRoom();})); }
  if(n.kind==='shop'){ panel.append(el('p',`Browse the shelf · ${today().gold} gold`)); for(const id of act().shop){ const r=ROUTINES[id]; panel.append(routineOffer(r,'Buy',()=>{today().gold-=r.price;today().deck.push(id);persist();enterRoom(n,true);},!r.price||today().gold<r.price)); } panel.append(btn('Leave shop',completeRoom)); }
  if(n.kind==='treasure'){ panel.append(el('p','Choose what to carry from the drawer.')); const gold=renderCard({name:'40 gold',effect:'Add gold to your supply.',cost:'Free',icon:'¤'}); gold.append(btn('Take 40 gold',()=>{today().gold+=40;completeRoom();})); panel.append(gold); const id=act().shop[0]; if(id)panel.append(routineOffer(ROUTINES[id],'Take',()=>{today().deck.push(id);completeRoom();},false,'Free')); }
  if(resumed) root.append(el('p','Your room is ready to continue.','muted')); }
