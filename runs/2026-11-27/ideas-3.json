@@ -1,0 +1,231 @@
+{
+  "reading": "The Finnish Aviation Museum in Vantaa preserves and shares Finland’s aviation history across civil, military, official and recreational flying. Aircraft are only the most visible layer: engines, travel objects, photographs, film, sound, personal archives and a substantial aviation library give machines their human and social context. Its language moves between hangars, collections, conservation, restoration, flight simulators, guided tours and research; it also treats timetables and changing travel as historical evidence. Volunteers are foundational, and learning, accessibility, community and responsible tourism matter alongside technical expertise. Particularly distinctive is the museum in transition: the existing halls remain active while a new neighbor is built and collections are prepared for relocation. A real flying hot-air balloon will eventually join the collection, while virtual interiors let visitors explore aircraft beyond the limits of physical access. The place holds flight as both lived experience and something carefully documented for the future.",
+  "enemies": [
+    {
+      "idea": "The Timetable Interceptor reads historic departure times as orders. It swoops down precisely when an obsolete flight was due and tries to herd anything moving onto its vanished route.",
+      "source": "/verkkoaineistot/",
+      "why": "Players can predict its attacks from archival schedules and turn a missed departure into an escape window."
+    },
+    {
+      "idea": "A Hansa seaplane scavenger uses its floats as grappling jaws, dragging loose equipment across the hangar floor as though it were a lake.",
+      "source": "/nayttelyt/",
+      "why": "The ground becomes a false waterway, and jamming a float changes how the encounter moves."
+    },
+    {
+      "idea": "The Draken Shedder breaks into darting wing sections, then reassembles around the loudest engine it can hear.",
+      "source": "/nayttelyt/",
+      "why": "Noise control and separating the pieces give the crew choices beyond a straight fight."
+    },
+    {
+      "idea": "A DC-3 cabin double flips between civil and military interiors whenever the lights change; every switch moves its doors and seats around intruders.",
+      "source": "/virtuaalinayttelyt/",
+      "why": "A familiar space becomes a two-state maze that players can deliberately switch."
+    },
+    {
+      "idea": "The Restoration Mimic strips a damaged aircraft for authentic parts, then raids anything nearby for replacements that never quite fit.",
+      "source": "/erikoisnayttelyt/",
+      "why": "It telegraphs its next ability through the part it steals, and returning the right part can disarm it."
+    },
+    {
+      "idea": "A bilingual audio-guide drone offers a helpful narration in Finnish or English, but its directions synchronize nearby machines to surround listeners.",
+      "source": "/aaniopastus/",
+      "why": "The crew can listen for useful clues while risking a coordinated ambush."
+    },
+    {
+      "idea": "The Deep-View Probe crawls through aircraft interiors normally inaccessible to visitors, unfolding into a many-jointed trap when someone follows it inside.",
+      "source": "/virtuaaliopastukset/",
+      "why": "A tight cockpit encounter rewards scouting and careful extraction."
+    },
+    {
+      "idea": "A glider-frame hunter derived from the SG-38 rides air currents silently and drops a mesh of bracing wires across open paths.",
+      "source": "/ilma-alukset/",
+      "why": "Its lack of an engine makes airflow and ceiling fans more useful clues than sound."
+    },
+    {
+      "idea": "The Evidence Polisher scours aviation objects until their traces of use disappear, then treats any marked tool or worn boot as a defect to erase.",
+      "source": "/esineet/",
+      "why": "Protecting a battered object is a tactical objective and a statement about why evidence matters."
+    },
+    {
+      "idea": "A film-and-sound splicer projects a moving historical scene on hanging sheets while playing engine noise from the wrong direction to conceal its approach.",
+      "source": "/valokuvat-av/",
+      "why": "Players can compare image and sound to spot the deception."
+    },
+    {
+      "idea": "The Shelf-Meter measures every newcomer as archive material and extends segmented shelves to fit them into an ever-growing storage bay.",
+      "source": "/henkiloarkisto/",
+      "why": "Its measuring arm reveals the space it needs, so cramped terrain can defeat it."
+    },
+    {
+      "idea": "The Collection Loan Retriever latches onto any object taken across its invisible boundary and reels it back, ignoring who actually owns it.",
+      "source": "/kokoelmalainat/",
+      "why": "A tug-of-war over a needed tool can become a moving obstacle or a way to tow something heavy."
+    },
+    {
+      "idea": "The Donation Sorter accepts any offered object, folds it into a crate, and demands a matching replacement from the donor before releasing its grip.",
+      "source": "/lahjoitukset/",
+      "why": "A tempting bargain can be broken by offering something the machine cannot classify."
+    },
+    {
+      "idea": "The Simulator Examiner runs a captain’s workday on the hangar itself, tilting platforms and issuing checklists for a flight that never leaves the ground.",
+      "source": "/simulaattorit/",
+      "why": "Following, interrupting or exploiting the checklist each creates a different route through the room."
+    },
+    {
+      "idea": "The Full-Flight Stomper wears a motion platform as legs and reproduces turbulence around itself, jolting the floor in escalating waves.",
+      "source": "/full-flight-simulaattorit/",
+      "why": "Its repeatable motion cycle gives players a rhythm to cross or a chance to overload its actuators."
+    },
+    {
+      "idea": "A balloon-envelope gatherer inflates itself with hot air and scoops up loose objects in a dangling basket, trying to become a complete lighter-than-air exhibit.",
+      "source": "/pallo/",
+      "why": "Vent its envelope to bring the basket down, or ride the updraft to reach a high gantry."
+    },
+    {
+      "idea": "The Model-Multiplier builds a swarm of tiny aircraft from model kits and makes them fly in the same formation as a much larger phantom aircraft.",
+      "source": "/museokauppa/",
+      "why": "A small formation casts an enormous misleading threat; disturbing its formation exposes the individual machines."
+    },
+    {
+      "idea": "The Moving Crate marches between old and new halls, packing whatever it encounters because it can no longer tell collections from visitors.",
+      "source": "/uusi-ilmailumuseo/",
+      "why": "Its scheduled route creates a moving hiding place as well as a hazard."
+    },
+    {
+      "idea": "The Detour Warden continually redirects traffic around imaginary tram works, laying barriers until every available route loops back to it.",
+      "source": "/saapuminen-ilmailumuseolle-muuttuu-18-5-alkaen/",
+      "why": "A navigation puzzle with physical barriers lets the crew create a shortcut by redirecting the redirector."
+    },
+    {
+      "idea": "A model-aircraft research swarm tests successive wing shapes against anything in its path, keeping the shape that best slips through a crew’s defenses.",
+      "source": "/tutkimushankkeet/",
+      "why": "Players see the swarm learn and can bait it into adopting a shape unsuited to the next obstacle."
+    },
+    {
+      "idea": "The Photo-License Lantern freezes a subject in a hard beam, then produces duplicate silhouettes that patrol while the original is pinned.",
+      "source": "/valokuva-palvelu/",
+      "why": "Breaking line of sight frees the target and turns the copies into an identification puzzle."
+    },
+    {
+      "idea": "The One-Tenth Scale Raider is a tiny fighter model that commands full-size shadows on the wall; the shadows attack only where a light can cast them.",
+      "source": "/f-35-havittaja-saapui-vantaalle-nakoismallina/",
+      "why": "The crew can shrink or misdirect its apparent reach by moving lights rather than chasing the model."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "The volunteer restoration crew maintains a hand-powered repair bench beyond the swarm’s control. They can stabilize a damaged tool if the crew brings a compatible part.",
+      "source": "/vapaaehtoistoiminta/",
+      "why": "A practical refuge turns scavenged parts into meaningful choices."
+    },
+    {
+      "idea": "A surviving guide knows the stories behind aircraft and can distinguish an original object from the swarm’s convincing replica.",
+      "source": "/opastukset/",
+      "why": "Knowledge, not firepower, opens routes through deceptive exhibits."
+    },
+    {
+      "idea": "A remote archive listener compares surviving sound recordings with the noises in the halls and warns the crew when a machine is imitating an engine.",
+      "source": "/valokuvat-av/",
+      "why": "A distant ally provides actionable clues without solving the encounter for the players."
+    },
+    {
+      "idea": "The balloon team can send a tethered basket over blocked ground, but needs help keeping the line free from scavengers.",
+      "source": "/pallo/",
+      "why": "An escort task becomes a flexible route across the site."
+    },
+    {
+      "idea": "A workshop mentor shows the crew how to fold and trim a simple glider that carries a lightweight line across a gap.",
+      "source": "/tyopajat/",
+      "why": "An accessible small craft becomes a hands-on tool for traversal."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Grand Curator of Flight is a swarm-built hangar-scale collector with propeller arms, archive-shelf ribs and a cabin for a heart. It tries to preserve every era at once by immobilizing anything that moves; each recovered object gives it a different flight behavior.",
+      "source": "/kokoelmat/",
+      "why": "The whole museum’s tension between flight and preservation becomes a multi-stage fight in which freeing exhibits removes its abilities."
+    },
+    {
+      "idea": "The Migration Engine spans the old museum and its unfinished neighbor. It lays tracks, packs aircraft and builds new walls around the crew, insisting the move can never be complete while anything remains outside its inventory.",
+      "source": "/uusi-ilmailumuseo/",
+      "why": "The setting’s real transition becomes a shifting arena; the crew wins space by disrupting packing, transport and construction in sequence."
+    },
+    {
+      "idea": "The Flight of Every Era is a simulator intelligence that stitches a glider, passenger cabin, jet and balloon into one impossible journey, making the hangar imitate each phase in turn.",
+      "source": "/simulaattorit/",
+      "why": "Each phase changes the rules of movement and asks players to use something learned from another kind of flight."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A crate carrying a fragile propeller is rolling toward the new building while a scavenger cuts its straps. The crew can secure the load, divert the crate or retrieve the propeller before it reaches the packing machine.",
+      "source": "/info/",
+      "why": "A brief rescue uses the collection move as a ticking clock."
+    },
+    {
+      "idea": "An old timetable predicts a departure in two minutes; a swarm of interceptors is already lining up along its former route. A crew can cross during the departure or alter the displayed time to draw them away.",
+      "source": "/verkkoaineistot/",
+      "why": "A historical source becomes a usable schedule for stealth."
+    },
+    {
+      "idea": "Inside a virtual DC-3, the exit appears in a different position in the civil and military versions. A stranded visitor needs someone outside to switch the view at the right moment.",
+      "source": "/virtuaalinayttelyt/",
+      "why": "Two people must coordinate across different versions of the same cabin."
+    },
+    {
+      "idea": "A volunteer has the correct replacement part for a restoration but the swarm has carried it into a pile of near-identical fragments. The crew can compare wear marks before the sorter returns.",
+      "source": "/vapaaehtoistoiminta/",
+      "why": "A quiet observation challenge gives the rescue a tangible payoff."
+    },
+    {
+      "idea": "A loose balloon tether is lifting a basket of supplies out of reach. A burst of hot air can raise the basket over a barrier, but the crew must catch the rope before it drifts away.",
+      "source": "/pallo/",
+      "why": "The same hazard offers a shortcut if handled carefully."
+    },
+    {
+      "idea": "An audio guide describes an aircraft in one language while a corrupted drone translates it into directions for an ambush. Comparing both tracks reveals a safe aisle.",
+      "source": "/aaniopastus/",
+      "why": "Listening closely turns the swarm’s communication against it."
+    },
+    {
+      "idea": "A shelf-meter has trapped a toolbox because it fits an empty archive space exactly. The crew can replace it with an equally sized harmless block or wedge the shelf open.",
+      "source": "/henkiloarkisto/",
+      "why": "A small spatial puzzle offers multiple low-risk solutions."
+    },
+    {
+      "idea": "A simulator is repeating a Helsinki-to-Tallinn exercise while its platform blocks a corridor. The crew can wait for the simulated landing or work the controls to level it early.",
+      "source": "/simulaattorit/",
+      "why": "A flight scenario becomes a timing and control puzzle on the ground."
+    },
+    {
+      "idea": "A tiny fighter model casts a huge silhouette across the hall. Someone has left a portable lamp nearby, and moving it reveals the model’s actual position.",
+      "source": "/f-35-havittaja-saapui-vantaalle-nakoismallina/",
+      "why": "A moment of apparent danger resolves through an experiment with scale and light."
+    },
+    {
+      "idea": "A collection-loan retriever is tugging a borrowed instrument back through a doorway while its owner holds on. The crew can anchor the instrument or open a route to follow the machine to its store.",
+      "source": "/kokoelmalainat/",
+      "why": "A short tug-of-war can lead to a useful new location."
+    },
+    {
+      "idea": "A model-glider research swarm is testing wings in a ventilation current. A paper glider sent through the current reveals the safest path across before the machines notice.",
+      "source": "/tutkimushankkeet/",
+      "why": "A playful experiment gives the crew useful information about an invisible hazard."
+    },
+    {
+      "idea": "A photographic projection shows a clear aisle, but the real aisle is blocked by a recently moved aircraft. Matching a distinctive propeller in the image to the hall reveals where the projection was made.",
+      "source": "/valokuvat-av/",
+      "why": "The crew uses a historical image as evidence instead of treating it as a map."
+    },
+    {
+      "idea": "Two detour barriers have boxed a delivery cart into a loop between old and new museum routes. Shifting one barrier frees the cart but briefly exposes the crew to the warden.",
+      "source": "/saapuminen-ilmailumuseolle-muuttuu-18-5-alkaen/",
+      "why": "A modest route choice creates an immediate tradeoff."
+    },
+    {
+      "idea": "A guide is gathering scattered visitors near the Convair cabin while a swarm component sweeps the aisle. The crew can shield the group or distract the machine long enough for the guide to lead them out.",
+      "source": "/nayttelyt/",
+      "why": "A human-scale rescue makes the exhibit’s passenger cabin matter."
+    }
+  ]
+}

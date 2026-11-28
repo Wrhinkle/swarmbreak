@@ -1,0 +1,14 @@
+{
+  "thread": "Follow the swarm into human-made flight: first ride the air in a motorless glider, then add an engine and wings, and finally lift off on spinning rotors. Along the way, sailplanes, propellers, cockpits, and curious flying machines become creatures of their own.",
+  "candidates": [
+    {"name": "National Soaring Museum", "url": "https://www.soaringmuseum.org/", "why": "A collection of sailplanes from the 1890s onward offers long wings, flying planks, and ingenious motorless shapes, alongside soaring landmarks and the history of gliding."},
+    {"name": "Polish Aviation Museum in Kraków", "url": "https://muzeumlotnictwa.pl/en/", "why": "Aircraft, gliders, and a whole engine hall offer radial cylinders, propellers, experimental airframes, and agricultural aircraft with distinctive working parts."},
+    {"name": "The Helicopter Museum", "url": "https://www.helimuseum.com/", "why": "Helicopters and autogyros from around the world provide whirling rotors, improbable tails, open cockpits, and many different ways to rise vertically."},
+    {"name": "Finnish Aviation Museum", "url": "https://ilmailumuseo.fi/en/", "why": "Finnish sailplanes and seaplanes sit alongside airliners, aviation objects, photographs, and recordings: a collection of wings, floats, instruments, and cabins."},
+    {"name": "South Australian Aviation Museum", "url": "https://saam.org.au/", "why": "Historic aircraft, wooden propellers, and unusual early engines offer a menagerie of spinning blades, piston arrangements, and airframes."},
+    {"name": "The Museum of Flight", "url": "https://www.museumofflight.org/", "why": "Its aircraft collection, restoration work, and technical archives offer flying machines and the parts, tools, and drawings that keep them aloft."},
+    {"name": "Aeroflight", "url": "https://www.aeroflight.co.uk/", "why": "Aircraft types, manufacturers, civil aviation, and public-service operators give the swarm many wing shapes and specialized flying jobs to explore."},
+    {"name": "Gliding Heritage Centre", "url": "https://www.glidingheritage.org.uk/", "why": "A volunteer-run collection of historic British gliders reveals the slim wings, light structures, and restoration craft behind silent flight."},
+    {"name": "Queensland Air Museum", "url": "https://www.qldair.museum/", "why": "Civilian and utility aircraft, aero-engines, and restoration projects offer another collection of cockpits, moving parts, and working flying machines."}
+  ]
+}

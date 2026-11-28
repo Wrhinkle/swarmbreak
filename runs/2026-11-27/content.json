@@ -1,0 +1,1177 @@
+{
+ "title": "The Shape of Leaving",
+ "swarm": {
+  "name": "The Transfer",
+  "blurb": "A swarm of borrowed parts that collects flying machines and tries to carry them somewhere safe."
+ },
+ "arc": "The Transfer first seems to be stealing gliders to master flight. At the rotorcraft collection the crew finds it repairing and packing damaged machines, not simply assembling a weapon. It has mistaken a museum move for an order to carry every object and visitor away. In the final halls it builds a migration engine that will pack people as well as aircraft. Wren finds the original move instructions, Ox holds the engine at bay, and Kestrel opens its control housing. The crew stops the forced transfer and leaves the collection in human hands.",
+ "acts": [
+  {
+   "theme": "Towlines and borrowed wings",
+   "story": {
+    "intro": "The Transfer is hauling gliders toward a launch. Wren checks the cut ropes. Ox takes the front. Kestrel follows the scrape marks.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: Loose lines",
+      "text": "Models carry off fittings and tie towlines to anything that moves. Kestrel thinks the swarm is building a way to fly."
+     },
+     {
+      "title": "Floors 6\u201310: Careful packing",
+      "text": "The swarm shields broken spars and patches damaged frames. Wren notices that even the smallest fragments are wrapped."
+     },
+     {
+      "title": "Floors 11\u201315: One collection",
+      "text": "Gliders gather around a flying cabinet. Ox spots a route through its towlines. The cabinet is preparing to leave with its cargo."
+     }
+    ],
+    "bossIntro": "The Curator of Flight opens its cabinet and launches its models. Its towlines snap tight. Kestrel looks for the seam in its shell.",
+    "outro": "The cabinet breaks open. Its cargo is padded and sorted, not stripped for fuel. A rotor-shaped packing brace points the crew toward the next collection."
+   },
+   "creatures": [
+    {
+     "id": "tow-nipper",
+     "name": "Tow Nipper",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/wystawy/z-wiatrem-i-pod-wiatr-lotnictwo-cywilne/",
+     "blurb": "It catches loose lines and pulls anything attached toward a launch.",
+     "look": "A cream wooden glider with a short hooked nose and a trailing rope."
+    },
+    {
+     "id": "paper-scout",
+     "name": "Paper Scout",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/edukacja/modelarnia/",
+     "blurb": "It takes small fittings back to the model bench.",
+     "look": "A small angular blue paper aircraft with wire legs and a hooked beak."
+    },
+    {
+     "id": "kite-tangle",
+     "name": "Kite Tangle",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "jam"
+     ],
+     "source": "/wydarzenia/niebo-pelne-kolorow-ziemia-pelna-usmiechow-swieto-latawca-2026/",
+     "blurb": "Its crossed lines catch arms at inconvenient moments.",
+     "look": "Three yellow diamond kites with knotted black strings and bead eyes."
+    },
+    {
+     "id": "lift-fan",
+     "name": "Lift Fan",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/edukacja/warsztaty/",
+     "blurb": "Its gust lifts tools out of reach before its blades close in.",
+     "look": "A squat teal fan on three jointed legs, with a circular wire cage."
+    },
+    {
+     "id": "wood-mender",
+     "name": "Wood Mender",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/edukacja/warsztaty/",
+     "blurb": "It patches damaged frames. Deal with it before its repairs add up.",
+     "look": "A tan box-bodied carpenter with clamp hands, a spool and thin wooden legs."
+    },
+    {
+     "id": "fragment-guard",
+     "name": "Fragment Guard",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/wystawy/magazyny-historii/",
+     "blurb": "It piles salvaged spars into a shield around its mismatched frame.",
+     "look": "A lopsided figure of gray aircraft ribs holding a broad curved metal panel."
+    },
+    {
+     "id": "runway-glider",
+     "name": "Runway Glider",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "strike"
+     ],
+     "source": "/typ_eksponatu/szybowce/",
+     "blurb": "It rides rising air and dives at anyone below.",
+     "look": "A long white glider with dark blue wingtips and a narrow pointed nose."
+    },
+    {
+     "id": "hangar-sentry",
+     "name": "Hangar Sentry",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/wystawy/hangar-lukowy/",
+     "blurb": "It guards a damaged companion while pushing intruders away.",
+     "look": "A stocky olive machine with two hinged slab arms and small orange wheels."
+    },
+    {
+     "id": "model-counter",
+     "name": "Model Counter",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/wystawy/metamuzeum/",
+     "blurb": "It releases small copies whenever its collection is disturbed.",
+     "look": "A square glass display case on thin brass legs, packed with tiny silver gliders."
+    },
+    {
+     "id": "route-marshal",
+     "name": "Route Marshal",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "breach"
+     ],
+     "source": "/edukacja/sciezki-zwiedzania/",
+     "blurb": "It shifts barriers and punishes crews relying on shields.",
+     "look": "A tall yellow trolley with two striped barrier arms and a single round lamp."
+    },
+    {
+     "id": "miniature-collector",
+     "name": "Miniature Collector",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/wystawy/metamuzeum/",
+     "blurb": "It shelters behind a shell while producing more model aircraft.",
+     "look": "A copper cabinet with a domed glass belly, folded wings and four clawed feet."
+    },
+    {
+     "id": "spar-gatherer",
+     "name": "Spar Gatherer",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace",
+      "strike"
+     ],
+     "source": "/wystawy/magazyny-historii/",
+     "blurb": "It collects broken spars to protect itself and its companions.",
+     "look": "A hulking bundle of pale wood spars wrapped in canvas, with a curved gray shield."
+    },
+    {
+     "id": "flight-curator",
+     "name": "Curator of Flight",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike+"
+     ],
+     "source": "/wystawy/z-wiatrem-i-pod-wiatr-lotnictwo-cywilne/",
+     "blurb": "It launches tiny gliders and hides behind a growing shell. Its collection looks like theft, but the parts are packed with care.",
+     "look": "A huge cream glider frame with a glass cabinet for a chest, hooked towlines and small folded aircraft under its wings."
+    },
+    {
+     "id": "bench-maker",
+     "name": "Bench Maker",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/edukacja/modelarnia/",
+     "blurb": "A model-maker repairs the crew\u2019s gear and sends decoys down the aisle.",
+     "look": "A small craftsperson in a blue apron with a tool roll and a pale wooden glider."
+    },
+    {
+     "id": "route-guide",
+     "name": "Route Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/edukacja/sciezki-zwiedzania/",
+     "blurb": "A volunteer knows where both museum routes meet.",
+     "look": "A sturdy figure in a green jacket carrying a round metal sign without markings."
+    }
+   ],
+   "events": [
+    {
+     "id": "kite-crossing",
+     "source": "/wydarzenia/niebo-pelne-kolorow-ziemia-pelna-usmiechow-swieto-latawca-2026/",
+     "look": "A yellow kite caught on a low gray runway marker.",
+     "title": "A line across the way",
+     "text": "A kite line traps a supply pouch against a runway marker. Wren can retrieve the pouch or use the quiet pause to tend the crew.",
+     "options": [
+      {
+       "label": "Retrieve supplies",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The pouch holds usable coins."
+      },
+      {
+       "label": "Rest in the lee",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren binds the crew\u2019s scrapes."
+      }
+     ]
+    },
+    {
+     "id": "warm-model",
+     "source": "/edukacja/warsztaty/",
+     "look": "A blue cardboard glider circling above a squat orange heater.",
+     "title": "A model in warm air",
+     "text": "A model rides a warm draft. Its workshop has a useful drill and a first-aid tin. There is time to take one.",
+     "options": [
+      {
+       "label": "Study the drill",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The crew learns Brace."
+      },
+      {
+       "label": "Take the tin",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren uses the supplies."
+      }
+     ]
+    },
+    {
+     "id": "fragment-choice",
+     "source": "/wystawy/magazyny-historii/",
+     "look": "Two battered gray spars on a padded workbench.",
+     "title": "Original and copy",
+     "text": "A conservator identifies the original spar. The spare fittings can fund the crew, or the workbench can be used for repairs.",
+     "options": [
+      {
+       "label": "Take spare fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The fittings bring in coins."
+      },
+      {
+       "label": "Use the bench",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren repairs the crew\u2019s gear."
+      }
+     ]
+    },
+    {
+     "id": "towline-cart",
+     "source": "/wystawy/z-wiatrem-i-pod-wiatr-lotnictwo-cywilne/",
+     "look": "A cream glider pulling a small green cart by a taut rope.",
+     "title": "The towline",
+     "text": "A towline draws a cart away. Ox can secure the medical chest or the cash box before the line tightens.",
+     "options": [
+      {
+       "label": "Secure the chest",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The chest contains fresh dressings."
+      },
+      {
+       "label": "Secure the box",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The cash box is intact."
+      }
+     ]
+    },
+    {
+     "id": "split-routes",
+     "source": "/edukacja/sciezki-zwiedzania/",
+     "look": "Two plain arrows on movable blue barriers in a hangar.",
+     "title": "Two routes",
+     "text": "A guide offers a lesson in protecting a companion or a pouch for taking supplies to a shelter. There is time for one.",
+     "options": [
+      {
+       "label": "Learn to cover",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The guide teaches Cover."
+      },
+      {
+       "label": "Carry the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 30
+       },
+       "result": "The shelter shares its spare coins."
+      }
+     ]
+    },
+    {
+     "id": "nested-hangar",
+     "source": "/wystawy/metamuzeum/",
+     "look": "A miniature cream hangar inside a glass display case.",
+     "title": "Small hangar",
+     "text": "A tiny hangar holds a practice diagram and a sealed ration. Kestrel can reach only one through the narrow opening.",
+     "options": [
+      {
+       "label": "Take the diagram",
+       "effect": {
+        "type": "routine",
+        "id": "finish"
+       },
+       "result": "The diagram teaches Finish Them."
+      },
+      {
+       "label": "Take the ration",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The crew shares the ration."
+      }
+     ]
+    }
+   ],
+   "name": "Polish Aviation Museum in Krak\u00f3w",
+   "url": "https://muzeumlotnictwa.pl/en/"
+  },
+  {
+   "theme": "Rotors and repairs",
+   "story": {
+    "intro": "The trail reaches a workshop full of turning rotors. Wren finds the same careful packing on a damaged tail. Ox keeps it from falling.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: Spare parts",
+      "text": "The Transfer gathers engines and rotor parts. At first the crew expects another launch."
+     },
+     {
+      "title": "Floors 6\u201310: The repair order",
+      "text": "A workshop manual has been altered into a packing order. Wren reads its repeated instruction: repair before moving. The swarm is trying to protect the collection."
+     },
+     {
+      "title": "Floors 11\u201315: Unfinished work",
+      "text": "The Transfer cannot tell a damaged exhibit from a person who needs packing. It sends repaired machines toward a larger moving operation."
+     }
+    ],
+    "bossIntro": "The Endless Restoration rolls out with a cabin strapped to its frame. It repairs its machines and builds more as the rotor arms turn. Ox raises his shield.",
+    "outro": "Kestrel opens the workshop\u2019s order box. Inside is a copied instruction for moving a collection to a new building. The copy says to pack everything. It does not say when to stop."
+   },
+   "creatures": [
+    {
+     "id": "tip-needle",
+     "name": "Tip Needle",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/restoration/restorfaireyulh.html",
+     "blurb": "It circles and then darts through the gap.",
+     "look": "A tiny silver rotorcraft with a narrow orange-tipped rotor and needle nose."
+    },
+    {
+     "id": "archive-fold",
+     "name": "Archive Fold",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam"
+     ],
+     "source": "/archives.html",
+     "blurb": "Folded drawings snag a target at the wrong moment.",
+     "look": "A pale blue sheet folded into a four-bladed rotor with wire claws."
+    },
+    {
+     "id": "rotor-copy",
+     "name": "Rotor Copy",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/arrivals/rotodyne.html",
+     "blurb": "When damaged, this model splits into smaller copies.",
+     "look": "A small cream model aircraft with a thick central body and two dark rotors."
+    },
+    {
+     "id": "trial-rig",
+     "name": "Trial Rig",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/restoration/restorwesx3.html",
+     "blurb": "It interrupts the crew with faulty calibration pulses.",
+     "look": "A wheeled gray instrument box with a spinning needle and a small rotor."
+    },
+    {
+     "id": "cricket-builder",
+     "name": "Cricket Builder",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/arrivals/cricketrep.html",
+     "blurb": "It assembles copies from loose hardware. Stop the builder before the copies crowd in.",
+     "look": "A yellow open-frame gyrocopter on insect legs with a shallow parts tray."
+    },
+    {
+     "id": "radar-misreader",
+     "name": "Radar Misreader",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/arrivals/seaspraymk1.html",
+     "blurb": "It calls scouts toward any moving metal.",
+     "look": "A navy blue radar dish on a short wheeled body with a green glass eye."
+    },
+    {
+     "id": "tandem-taker",
+     "name": "Tandem Taker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/restoration/restorh21.html",
+     "blurb": "A rear fuselage protects itself while seeking its missing front.",
+     "look": "A long yellow curved tail with two stubby rotor hubs and mismatched legs."
+    },
+    {
+     "id": "cabin-keeper",
+     "name": "Cabin Keeper",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/restoration/restorwesx60.html",
+     "blurb": "It repairs damaged machines and tries to shelter them in its cabin.",
+     "look": "A pale gray cabin on six short legs, with square windows and a bandage spool."
+    },
+    {
+     "id": "cockpit-host",
+     "name": "Cockpit Host",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/cockpit.html",
+     "blurb": "Its controls interfere with anyone who gets close.",
+     "look": "An open blue cockpit on wheels with a padded seat and two grasping control sticks."
+    },
+    {
+     "id": "rotor-formation",
+     "name": "Rotor Formation",
+     "tier": "elite",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "sweep"
+     ],
+     "source": "/arrivals/rotodyne.html",
+     "blurb": "Its models scatter under pressure and sweep back together.",
+     "look": "A flock of white model rotorcraft around a larger translucent wing-shaped frame."
+    },
+    {
+     "id": "manual-binder",
+     "name": "Manual Binder",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "jam",
+      "strike"
+     ],
+     "source": "/archives.html",
+     "blurb": "It shields a companion while its folded pages foul the crew\u2019s tools.",
+     "look": "A tall bronze binder with folded paper arms and a circular metal cover."
+    },
+    {
+     "id": "hangar-repairer",
+     "name": "Hangar Repairer",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "brace",
+      "strike"
+     ],
+     "source": "/restoration.html",
+     "blurb": "It braces itself and repairs its allies early.",
+     "look": "A broad green workshop crawler with a welding arm and a folding metal shield."
+    },
+    {
+     "id": "endless-restoration",
+     "name": "Endless Restoration",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "healer",
+     "routines": [
+      "patch+",
+      "spawn",
+      "sweep+"
+     ],
+     "source": "/restoration.html",
+     "blurb": "It repairs and summons while sweeping the floor with rotor arms. It is trying to complete damaged aircraft before packing them.",
+     "look": "A huge wheeled workshop of green cabinets, mismatched fuselage sections and two long dark rotor arms."
+    },
+    {
+     "id": "conservation-crawler",
+     "name": "Conservation Crawler",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/restoration.html",
+     "blurb": "A volunteer-built crawler removes swarm fittings and patches the crew.",
+     "look": "A small orange crawler with a soft padded clamp and a neatly coiled hose."
+    },
+    {
+     "id": "archive-keeper",
+     "name": "Archive Keeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/archives.html",
+     "blurb": "It matches fragments to their manuals and keeps the crew covered.",
+     "look": "A short blue filing cabinet on wheels with a padded lid and two articulated arms."
+    }
+   ],
+   "events": [
+    {
+     "id": "model-windbreak",
+     "source": "/arrivals/rotodyne.html",
+     "look": "Tiny white rotorcraft behind a blue panel on a workbench.",
+     "title": "Windbreak",
+     "text": "Model aircraft are sliding toward a rotor wash. The keeper offers either a useful drill or spare coins for setting up a shield.",
+     "options": [
+      {
+       "label": "Learn the drill",
+       "effect": {
+        "type": "routine",
+        "id": "sweep"
+       },
+       "result": "The keeper teaches Sweep."
+      },
+      {
+       "label": "Take the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The keeper pays from the workbench fund."
+      }
+     ]
+    },
+    {
+     "id": "swinging-tail",
+     "source": "/restoration/restorh21.html",
+     "look": "A yellow aircraft tail hanging from a canvas sling.",
+     "title": "Suspended tail",
+     "text": "A tail section swings in its sling. Ox can hold it while Wren retrieves either a medical kit or a cash tin.",
+     "options": [
+      {
+       "label": "Retrieve the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren uses the fresh kit."
+      },
+      {
+       "label": "Retrieve the tin",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The tin contains coins."
+      }
+     ]
+    },
+    {
+     "id": "clear-approach",
+     "source": "/pilots.html",
+     "look": "A gray rotorcraft above an open field and a low fence.",
+     "title": "Clear approach",
+     "text": "A visitor circles overhead. A marshal offers a shield lesson or supplies for signaling a clear approach.",
+     "options": [
+      {
+       "label": "Learn the signal",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The marshal teaches Cover."
+      },
+      {
+       "label": "Take supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The supply bag contains dressings."
+      }
+     ]
+    },
+    {
+     "id": "cockpit-switch",
+     "source": "/cockpit.html",
+     "look": "An open blue cockpit with a brass switch and a canvas pouch.",
+     "title": "Inside the cockpit",
+     "text": "Small drones rehearse a flight. Kestrel can reach a diagram or a pouch while the controls are still.",
+     "options": [
+      {
+       "label": "Take the diagram",
+       "effect": {
+        "type": "routine",
+        "id": "jam"
+       },
+       "result": "The diagram teaches Jam."
+      },
+      {
+       "label": "Take the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The pouch contains coins."
+      }
+     ]
+    },
+    {
+     "id": "manual-swap",
+     "source": "/archives.html",
+     "look": "Two open manuals beside a curved metal aircraft fragment.",
+     "title": "Swapped pages",
+     "text": "Two manuals have been mixed up. The archive keeper offers a repair kit or a coin pouch for sorting the pages.",
+     "options": [
+      {
+       "label": "Choose the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren puts the kit to use."
+      },
+      {
+       "label": "Choose the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The keeper hands over the pouch."
+      }
+     ]
+    },
+    {
+     "id": "trolley-meal",
+     "source": "/cafe.html",
+     "look": "A silver trolley carrying a covered bowl and a small brass box.",
+     "title": "Trolley service",
+     "text": "A trolley carries a warm meal and a box of spare change in opposite trays. The crew can take one before it rolls away.",
+     "options": [
+      {
+       "label": "Take the meal",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "The crew eats while Wren checks their injuries."
+      },
+      {
+       "label": "Take the box",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The box contains coins."
+      }
+     ]
+    }
+   ],
+   "name": "The Helicopter Museum",
+   "url": "https://www.helimuseum.com/"
+  },
+  {
+   "theme": "The unfinished move",
+   "story": {
+    "intro": "The Transfer has reached a collection preparing to move. Crates march toward the new building. Some have people inside. Ox starts opening them.",
+    "chapters": [
+     {
+      "title": "Floors 1\u20135: The packing list",
+      "text": "The machines sort tools, aircraft and visitors by size. Wren finds an intact copy of the move instructions. People were never cargo."
+     },
+     {
+      "title": "Floors 6\u201310: No last item",
+      "text": "The Transfer treats every object outside a crate as unfinished work. It will keep packing until nothing can move. Kestrel follows its cables toward the control housing."
+     },
+     {
+      "title": "Floors 11\u201315: A way to stop",
+      "text": "Wren compares the intact instruction with the swarm\u2019s copy. The stop instruction is missing. Ox prepares to hold the packing arms while Kestrel opens the housing."
+     }
+    ],
+    "bossIntro": "The Migration Engine sends packers down the aisle. Its long arms sweep across the floor, and its hook drives through cover. The crew has to reach the damaged control housing.",
+    "outro": "Ox holds the arms long enough for Kestrel to pull the housing open. Wren restores the stop instruction. The engine settles. Staff take charge of the move, and the crew leaves the aircraft where they belong."
+   },
+   "creatures": [
+    {
+     "id": "timetable-dart",
+     "name": "Timetable Dart",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/verkkoaineistot/",
+     "blurb": "It flies an old departure route regardless of what is in the way.",
+     "look": "A slim white aircraft with blue wings and a small clock-shaped nose."
+    },
+    {
+     "id": "audio-drone",
+     "name": "Audio Drone",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "jam"
+     ],
+     "source": "/aaniopastus/",
+     "blurb": "Its repeated instructions interrupt the crew.",
+     "look": "A round yellow speaker with two little rotors and a black circular grille."
+    },
+    {
+     "id": "float-snatcher",
+     "name": "Float Snatcher",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/nayttelyt/",
+     "blurb": "It uses its floats to grab loose equipment.",
+     "look": "A pale blue seaplane body on four short legs, with two long curved float jaws."
+    },
+    {
+     "id": "shelf-meter",
+     "name": "Shelf Meter",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "strike"
+     ],
+     "source": "/henkiloarkisto/",
+     "blurb": "It extends shelves around itself and closes them on intruders.",
+     "look": "A tall gray shelving unit with jointed legs and broad sliding shelves."
+    },
+    {
+     "id": "loan-retriever",
+     "name": "Loan Retriever",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach"
+     ],
+     "source": "/kokoelmalainat/",
+     "blurb": "It reels borrowed objects back and drives through shields.",
+     "look": "A teal wheeled winch with a thick cable and a padded hook."
+    },
+    {
+     "id": "model-multiplier",
+     "name": "Model Multiplier",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/museokauppa/",
+     "blurb": "It builds a formation of small aircraft. Interrupt it before they fill the aisle.",
+     "look": "A cream model kit box on spindly legs, with small wooden planes emerging from its lid."
+    },
+    {
+     "id": "moving-crate",
+     "name": "Moving Crate",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/uusi-ilmailumuseo/",
+     "blurb": "It protects a nearby machine while trying to pack everything it finds.",
+     "look": "A large brown wooden crate with hinged flaps, four metal legs and canvas straps."
+    },
+    {
+     "id": "simulator-examiner",
+     "name": "Simulator Examiner",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/simulaattorit/",
+     "blurb": "It jolts the floor to enforce a simulated flight.",
+     "look": "A gray cockpit on a tilted blue platform with three piston legs."
+    },
+    {
+     "id": "balloon-gatherer",
+     "name": "Balloon Gatherer",
+     "tier": "regular",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike"
+     ],
+     "source": "/pallo/",
+     "blurb": "Its basket scoops up supplies as it drifts past.",
+     "look": "A large ocher balloon with a green basket, dangling hooks and short canvas fins."
+    },
+    {
+     "id": "research-flock",
+     "name": "Research Flock",
+     "tier": "elite",
+     "bodyPlan": "swarm",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "sweep+"
+     ],
+     "source": "/tutkimushankkeet/",
+     "blurb": "Its test wings split apart and sweep across the crew.",
+     "look": "A cluster of silver experimental wings with blue joints and sharp triangular tails."
+    },
+    {
+     "id": "motion-stomper",
+     "name": "Motion Stomper",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "breach",
+      "strike+"
+     ],
+     "source": "/full-flight-simulaattorit/",
+     "blurb": "Its heavy platform breaks through shields after it charges.",
+     "look": "A broad white simulator cabin on four thick black piston legs."
+    },
+    {
+     "id": "moving-foreman",
+     "name": "Moving Foreman",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "cover",
+      "strike"
+     ],
+     "source": "/uusi-ilmailumuseo/",
+     "blurb": "It sends out packing machines and covers them while they work.",
+     "look": "A tall ocher crane with a boxy torso, two canvas sling arms and tracked feet."
+    },
+    {
+     "id": "migration-engine",
+     "name": "Migration Engine",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "breach"
+     ],
+     "source": "/uusi-ilmailumuseo/",
+     "blurb": "It summons packers, sweeps the floor and breaks shields. It will keep packing people and aircraft until its damaged order is stopped.",
+     "look": "A hangar-sized yellow crane on caterpillar tracks, with a ribbed cabin, long rotor arms, stacked crates and a thick hooked cable."
+    },
+    {
+     "id": "bench-volunteer",
+     "name": "Bench Volunteer",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/vapaaehtoistoiminta/",
+     "blurb": "A volunteer uses a hand-powered bench to repair the crew\u2019s tools.",
+     "look": "A person in a green work coat carrying a compact hand crank and a leather tool bag."
+    },
+    {
+     "id": "sound-listener",
+     "name": "Sound Listener",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/valokuvat-av/",
+     "blurb": "It compares recordings with the noise in the hall and disrupts swarm signals.",
+     "look": "A small brass listening machine with a blue speaker cone and three thin wheels."
+    }
+   ],
+   "events": [
+    {
+     "id": "old-departure",
+     "source": "/verkkoaineistot/",
+     "look": "A blue clock beside a paper timetable and a silver model aircraft.",
+     "title": "Old departure",
+     "text": "A timetable triggers another patrol. The archive desk offers a maneuver diagram or coins for resetting its clock.",
+     "options": [
+      {
+       "label": "Take the diagram",
+       "effect": {
+        "type": "routine",
+        "id": "charge"
+       },
+       "result": "The diagram teaches Charge."
+      },
+      {
+       "label": "Take the coins",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The archive desk shares its spare coins."
+      }
+     ]
+    },
+    {
+     "id": "double-cabin",
+     "source": "/virtuaalinayttelyt/",
+     "look": "A gray aircraft cabin with two differently arranged doorways.",
+     "title": "Two cabin views",
+     "text": "A visitor needs help leaving a cabin exhibit. The guide offers medical supplies or a pouch of coins for switching the view.",
+     "options": [
+      {
+       "label": "Take medical supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren uses the supplies."
+      },
+      {
+       "label": "Take the pouch",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The guide hands over the pouch."
+      }
+     ]
+    },
+    {
+     "id": "matching-part",
+     "source": "/vapaaehtoistoiminta/",
+     "look": "A tray of small gray fittings beside a green hand-powered bench.",
+     "title": "The right fitting",
+     "text": "A volunteer needs one original fitting from a pile. After sorting it, the crew can use the bench or take the spare metal.",
+     "options": [
+      {
+       "label": "Use the bench",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren repairs the crew\u2019s gear."
+      },
+      {
+       "label": "Take spare metal",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The metal brings in coins."
+      }
+     ]
+    },
+    {
+     "id": "loose-balloon",
+     "source": "/pallo/",
+     "look": "An ocher balloon lifting a green basket on a long rope.",
+     "title": "Loose tether",
+     "text": "A balloon lifts a basket beyond a barrier. The crew can save its ration or its cash tin before it drifts away.",
+     "options": [
+      {
+       "label": "Catch the ration",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The crew shares the ration."
+      },
+      {
+       "label": "Catch the tin",
+       "effect": {
+        "type": "gold",
+        "amount": 60
+       },
+       "result": "The tin contains coins."
+      }
+     ]
+    },
+    {
+     "id": "stuck-toolbox",
+     "source": "/henkiloarkisto/",
+     "look": "A brown toolbox wedged between two gray archive shelves.",
+     "title": "Exact fit",
+     "text": "A toolbox is jammed in a shelf. Its owner offers a defensive drill or a small payment for freeing it.",
+     "options": [
+      {
+       "label": "Learn the drill",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "The owner teaches Brace."
+      },
+      {
+       "label": "Take the payment",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "The owner pays the crew."
+      }
+     ]
+    },
+    {
+     "id": "level-platform",
+     "source": "/simulaattorit/",
+     "look": "A tilted white simulator cabin above three dark pistons.",
+     "title": "Level platform",
+     "text": "A simulator blocks a corridor. Its operator offers a sweep drill or a repair kit for leveling the platform.",
+     "options": [
+      {
+       "label": "Learn the drill",
+       "effect": {
+        "type": "routine",
+        "id": "sweep+"
+       },
+       "result": "The operator teaches Wide Sweep."
+      },
+      {
+       "label": "Take the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren uses the repair kit."
+      }
+     ]
+    }
+   ],
+   "name": "Finnish Aviation Museum",
+   "url": "https://ilmailumuseo.fi/en/"
+  }
+ ],
+ "id": "2026-11-27",
+ "seed": 372294243
+}

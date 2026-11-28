@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "muzeumlotnictwa.pl",
+   "name": "Polish Aviation Museum in Krak\u00f3w",
+   "url": "https://muzeumlotnictwa.pl/en/",
+   "file": "runs/2026-11-27/sites/muzeumlotnictwa.pl.json"
+  },
+  {
+   "host": "www.helimuseum.com",
+   "name": "The Helicopter Museum",
+   "url": "https://www.helimuseum.com/",
+   "file": "runs/2026-11-27/sites/www.helimuseum.com.json"
+  },
+  {
+   "host": "ilmailumuseo.fi",
+   "name": "Finnish Aviation Museum",
+   "url": "https://ilmailumuseo.fi/en/",
+   "file": "runs/2026-11-27/sites/ilmailumuseo.fi.json"
+  }
+ ]
+}
