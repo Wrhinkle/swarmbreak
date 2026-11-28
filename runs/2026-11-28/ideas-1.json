@@ -1,0 +1,231 @@
+{
+  "reading": "Chemguide teaches chemistry from introductory 14–16 courses through advanced school syllabuses, with support for international GCSE study. It values understanding how and why, building from simple models toward their limitations and more detailed explanations. Its vocabulary is that of particles, orbitals, bonding, reaction mechanisms, equilibria, spectra and experimental evidence. What distinguishes it is its patient, topic-by-topic teaching: atomic structure connects to organic mechanisms, periodic trends to reactions, and analytical instruments to identification. It also acknowledges that courses differ and that calculations receive less attention on the site.",
+  "enemies": [
+    {
+      "idea": "Orbital Shepherd: a cloud of machines rearranges its lobed orbitals around intruders, trapping them in successively higher energy states.",
+      "source": "/atoms/propsmenu.html",
+      "why": "The changing shapes make safe routes shift visibly."
+    },
+    {
+      "idea": "Bond Broker: a many-clawed machine offers to share a tool, then turns the shared bond into a tether and pulls both owners together.",
+      "source": "/atoms/bondingmenu.html",
+      "why": "A useful bargain becomes a positioning puzzle."
+    },
+    {
+      "idea": "Lattice Mason: it builds alternating ranks of stolen metal and ceramic parts into a giant ionic wall, leaving a repeating gap where a piece is missing.",
+      "source": "/14to16/structuremenu.html",
+      "why": "Players can read the pattern and exploit the defect."
+    },
+    {
+      "idea": "Redox Auditor: paired drones seize electrons from batteries and deliver them to their armored partners, swapping which drone is vulnerable.",
+      "source": "/inorganic/redoxmenu.html",
+      "why": "The transfer gives the encounter a visible rhythm."
+    },
+    {
+      "idea": "Period Three Procession: a line of machines changes from conducting metal armor to brittle nonmetal shells as its members march across the room.",
+      "source": "/inorganic/period3menu.html",
+      "why": "The same formation demands changing tactics from left to right."
+    },
+    {
+      "idea": "Flame-Test Hounds: scavengers mark claimed territory with different colored flames and converge on anything that changes their assigned color.",
+      "source": "/inorganic/group1menu.html",
+      "why": "Color becomes both a warning and a way to misdirect a pack."
+    },
+    {
+      "idea": "Ligand Collector: a central metal machine trades its detachable arms for equipment it captures; each new attachment changes its shape and reach.",
+      "source": "/inorganic/complexmenu.html",
+      "why": "The crew can see and influence its loadout."
+    },
+    {
+      "idea": "Ideal Gas Enforcer: it compresses everything into a measured chamber and treats any real object that takes up space as an error to be crushed.",
+      "source": "/physical/ktmenu.html",
+      "why": "Its flawed model creates a pressure puzzle with an obvious escape condition."
+    },
+    {
+      "idea": "Activation Gatekeeper: a heap of collision drones repeatedly bounces off a barrier until one gains enough speed to trigger a swarm surge.",
+      "source": "/physical/basicratesmenu.html",
+      "why": "The crew can interrupt the buildup or use the gate against pursuers."
+    },
+    {
+      "idea": "Catalyst Hitchhiker: a small machine attaches to other swarm units and accelerates their transformations while emerging unchanged.",
+      "source": "/physical/catalysismenu.html",
+      "why": "Removing the supporting unit changes the whole fight."
+    },
+    {
+      "idea": "Equilibrium Custodian: in a sealed chamber it counters every disturbance by reversing conveyors, vents or doors until the balance shifts again.",
+      "source": "/physical/equilibmenu.html",
+      "why": "A push-and-pull encounter rewards coordinated disturbances."
+    },
+    {
+      "idea": "Conjugate Pair: two linked machines pass a glowing token between them; whichever holds it becomes aggressive while the other blocks passage.",
+      "source": "/physical/acideqiamenu.html",
+      "why": "Their alternating roles make a mobile two-part puzzle."
+    },
+    {
+      "idea": "Fragmentation Engine: it breaks captured equipment into pieces and arranges them as a mass spectrum, then rebuilds a hostile imitation from the pattern.",
+      "source": "/analysis/masspecmenu.html",
+      "why": "The crew must rescue recognizable parts before a copy assembles."
+    },
+    {
+      "idea": "Fingerprint Scanner: an infrared machine reads the spectral signatures of gear and deploys clamps tuned to its functional groups.",
+      "source": "/analysis/irmenu.html",
+      "why": "Changing equipment or decoying its reading creates counterplay."
+    },
+    {
+      "idea": "Double-Beam Examiner: it compares a searchlight sweeping the crew with a reference beam and attacks anything that absorbs the wrong colors.",
+      "source": "/analysis/uvvisiblemenu.html",
+      "why": "Moving colored screens can fool its comparison."
+    },
+    {
+      "idea": "Chromatography Stalker: it paints a trail through a porous floor that separates a group into bands according to how strongly their boots stick.",
+      "source": "/analysis/chromatogrmenu.html",
+      "why": "The pursuit splits a team without making separation random."
+    },
+    {
+      "idea": "Isomer Twins: two machines carry the same parts in different arrangements; one squeezes through gaps while the other forms a barricade.",
+      "source": "/basicorg/isomermenu.html",
+      "why": "Identical inventories produce contrasting threats."
+    },
+    {
+      "idea": "Polymer Chain: alkene-shaped drones link into an ever longer mechanical cable, each new link extending its reach around corners.",
+      "source": "/organicprops/alkenemenu.html",
+      "why": "A growing formation can be severed or redirected before it closes a loop."
+    },
+    {
+      "idea": "Incomplete Combustor: an alkane-burning furnace drone loses power when starved of air and leaves a concealing soot cloud as it retreats.",
+      "source": "/organicprops/alkanemenu.html",
+      "why": "Airflow changes both its strength and visibility."
+    },
+    {
+      "idea": "Electrolysis Splitter: it herds charged salvage toward opposite electrodes, pulling metal tools one way and charged swarm fragments the other.",
+      "source": "/inorganic/electrolysismenu.html",
+      "why": "The polarized room turns the crew’s equipment into moving obstacles."
+    },
+    {
+      "idea": "Crystallisation Sifter: a filtration machine strains a mixed pile of supplies and grows a rigid crystal cage around anything it judges pure.",
+      "source": "/14to16/separatingmenu.html",
+      "why": "The crew can contaminate the batch to disrupt its sorting."
+    },
+    {
+      "idea": "Naming Snare: a mechanical nomenclature clerk tags branched structures and sends grabbers along the longest apparent chain, including a line of linked crew equipment.",
+      "source": "/basicorg/convmenu.html",
+      "why": "Rearranging the chain sends the grabbers down a different route."
+    }
+  ],
+  "allies": [
+    {
+      "idea": "Buffer Keepers: paired repair drones absorb small swings in a room’s conditions, maintaining a safe corridor until their limited reserves run out.",
+      "source": "/physical/acideqiamenu.html",
+      "why": "Their capacity gives the crew a clear window to cross."
+    },
+    {
+      "idea": "Separation Crew: uninfected filtration and crystallisation apparatus sorts useful supplies from swarm debris if the crew protects its slow cycle.",
+      "source": "/14to16/separatingmenu.html",
+      "why": "A rescue becomes a defend-and-recover mission."
+    },
+    {
+      "idea": "Spectral Interpreter: a surviving analyzer compares fragment patterns and identifies the weak component in a captured machine.",
+      "source": "/analysis/masspecmenu.html",
+      "why": "It turns recovered evidence into a concrete advantage."
+    },
+    {
+      "idea": "Real-Gas Corrections: tiny independent drones flag when the swarm’s ideal-gas predictions fail near crowded obstacles.",
+      "source": "/physical/ktmenu.html",
+      "why": "Their corrections reveal routes the enforcer overlooks."
+    },
+    {
+      "idea": "Bonding Tutors: free orbiting repair units temporarily link broken tools together, sharing strength until the bond is deliberately released.",
+      "source": "/atoms/bondingmenu.html",
+      "why": "A fragile bridge or improvised tool can be made from scavenged parts."
+    }
+  ],
+  "bosses": [
+    {
+      "idea": "The Examiner of Matter: a huge analytical machine separates, fragments and identifies everything it encounters, then manufactures hostile versions from the resulting spectra.",
+      "source": "/analysismenu.html",
+      "why": "Each stage exposes a different part of the boss and lets rescued samples become decoys."
+    },
+    {
+      "idea": "The Great Equilibrium: a factory-sized swarm maintains a closed cycle of building and dismantling machines, shifting production whenever the crew attacks one side.",
+      "source": "/physical/equilibmenu.html",
+      "why": "The crew must coordinate changes across the cycle rather than simply destroy a single target."
+    },
+    {
+      "idea": "The Mechanism: an assembly of chain-reaction machines uses substitution, addition and elimination to convert the room and its own parts into successive attack forms.",
+      "source": "/mechmenu.html",
+      "why": "Its transformations telegraph the next phase and offer chances to interrupt the chain."
+    }
+  ],
+  "events": [
+    {
+      "idea": "A lattice mason has sealed a supply crate inside an alternating crystal wall; a missing unit leaves a narrow, repeatable route through it.",
+      "source": "/14to16/structuremenu.html",
+      "why": "Reading the structure offers a non-destructive rescue."
+    },
+    {
+      "idea": "A pair of isomer machines argue over a doorway: the long one fits through, while the branched one keeps jamming it.",
+      "source": "/basicorg/isomermenu.html",
+      "why": "A small spatial problem can distract both guards."
+    },
+    {
+      "idea": "A chromatograph has separated mixed salvage into colored bands along a long strip; the useful part is drifting toward a swarm collector.",
+      "source": "/analysis/chromatogrmenu.html",
+      "why": "The crew must choose when to snatch a moving target."
+    },
+    {
+      "idea": "A sealed room’s equilibrium custodian reverses its fans whenever the crew opens a hatch, pushing a floating key back and forth.",
+      "source": "/physical/equilibmenu.html",
+      "why": "A synchronized opening can steer the key into reach."
+    },
+    {
+      "idea": "A buffer keeper has nearly exhausted its reserve holding a corridor steady while stranded repair drones cross.",
+      "source": "/physical/acideqiamenu.html",
+      "why": "The crew can carry the last drones or replenish the keeper."
+    },
+    {
+      "idea": "A flame-test hound patrols a junction of differently colored beacons, returning each beacon to its preferred color.",
+      "source": "/inorganic/group1menu.html",
+      "why": "Changing a beacon draws it away from the junction."
+    },
+    {
+      "idea": "A fragmentation engine has disassembled a working repair kit; its pieces are arranged in a recognizable pattern on a conveyor.",
+      "source": "/analysis/masspecmenu.html",
+      "why": "The crew can retrieve the pieces before they disappear into the machine."
+    },
+    {
+      "idea": "A catalyst hitchhiker rides a slow conveyor that assembles hostile drones unusually quickly; the hitchhiker is exposed at every turn.",
+      "source": "/physical/catalysismenu.html",
+      "why": "Timing a grab can slow production without wrecking the conveyor."
+    },
+    {
+      "idea": "An ideal-gas enforcer is stuck predicting that a crowded pile of crates occupies no space, repeatedly sending patrols into it.",
+      "source": "/physical/ktmenu.html",
+      "why": "The mistaken prediction conceals an improvised passage."
+    },
+    {
+      "idea": "Two electrolysis electrodes tug loose metal supplies in opposite directions across a flooded workshop.",
+      "source": "/inorganic/electrolysismenu.html",
+      "why": "Cutting power at the right moment drops the supplies within reach."
+    },
+    {
+      "idea": "A polymer chain is growing across a bridge one link at a time, leaving a shrinking opening for a supply cart.",
+      "source": "/organicprops/alkenemenu.html",
+      "why": "A timed dash or a severed link changes the crossing."
+    },
+    {
+      "idea": "A double-beam examiner keeps comparing a stained window to a clear reference pane and locking a door whenever the colors differ.",
+      "source": "/analysis/uvvisiblemenu.html",
+      "why": "Matching the two light paths offers a visual door puzzle."
+    },
+    {
+      "idea": "A reaction-rate drone scrapes a block into fine fragments, exposing more surface as its furnace speeds up.",
+      "source": "/physical/basicratesmenu.html",
+      "why": "Stopping the scraping prevents a later swarm surge."
+    },
+    {
+      "idea": "A ligand collector has swapped one of its arms for a stranded repair drone, which keeps trying to pull the collector toward safety.",
+      "source": "/inorganic/complexmenu.html",
+      "why": "The crew can exploit the tug to free an ally."
+    }
+  ]
+}

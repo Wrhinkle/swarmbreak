@@ -1,0 +1,22 @@
+{
+ "sites": [
+  {
+   "host": "www.chemguide.co.uk",
+   "name": "Chemguide",
+   "url": "https://www.chemguide.co.uk/",
+   "file": "runs/2026-11-28/sites/www.chemguide.co.uk.json"
+  },
+  {
+   "host": "pdb101.rcsb.org",
+   "name": "PDB-101",
+   "url": "https://pdb101.rcsb.org/",
+   "file": "runs/2026-11-28/sites/pdb101.rcsb.org.json"
+  },
+  {
+   "host": "www.sciencehistory.org",
+   "name": "Science History Institute",
+   "url": "https://www.sciencehistory.org/",
+   "file": "runs/2026-11-28/sites/www.sciencehistory.org.json"
+  }
+ ]
+}

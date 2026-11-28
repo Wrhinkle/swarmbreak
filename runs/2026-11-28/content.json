@@ -1,0 +1,1178 @@
+{
+ "title": "The Missing Observation",
+ "swarm": {
+  "name": "The Collation",
+  "blurb": "A swarm of scavenging machines that sorts, copies and recombines everything it finds."
+ },
+ "arc": "The Collation strips matter into samples, leading the crew to suspect it wants raw materials. In the molecular workshops Wren discovers it is rebuilding a damaged recorder, producing hostile copies as it experiments. At the collection it tries to preserve records by locking them into one account. The crew restores the recorder and learns its actual instruction: preserve the evidence, including failed and conflicting observations, so others can use it. The swarm releases the records.",
+ "acts": [
+  {
+   "theme": "Elements and bonds",
+   "story": {
+    "intro": "The swarm has been taking metal, glass and anything else it can carry. Ox expects a barricade. Wren checks the abandoned equipment for survivors.",
+    "chapters": [
+     {
+      "title": "Collected",
+      "text": "The machines sort parts by substance and strip useful tools. Kestrel finds clean cuts where a crowbar would have been quicker."
+     },
+     {
+      "title": "Joined",
+      "text": "The sorted pieces return as bonds, walls and moving frames. Ox holds the line while Wren notes that some frames are being repaired, not discarded."
+     },
+     {
+      "title": "Taken apart",
+      "text": "Analyzers break samples into patterns and build copies. Each copy contains the same incomplete arrangement. Kestrel looks for its missing seam."
+     }
+    ],
+    "bossIntro": "The Examiner of Matter guards the largest set of fragments. Its trays repeat the same unfinished pattern. It raises a shield and starts building more copies.",
+    "outro": "The Examiner falls. Wren finds a broken frame among its samples, carefully packed rather than consumed. Its missing joint matches a trail of folded machines leading onward."
+   },
+   "creatures": [
+    {
+     "id": "orbital-shepherd",
+     "name": "Orbital Shepherd",
+     "tier": "easy",
+     "bodyPlan": "swarm",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/atoms/propsmenu.html",
+     "blurb": "Its orbiting lobes mark targets for the rest of the pack.",
+     "look": "A cluster of silver balls inside two pale blue, figure-eight wire loops."
+    },
+    {
+     "id": "flame-hound",
+     "name": "Flame Hound",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/inorganic/group1menu.html",
+     "blurb": "It charges behind a bright warning flame.",
+     "look": "A low copper hound with thin legs and a yellow flame above its back."
+    },
+    {
+     "id": "redox-auditor",
+     "name": "Redox Auditor",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/inorganic/redoxmenu.html",
+     "blurb": "It strips resources while the crew handles heavier machines.",
+     "look": "A pair of small bronze discs joined by a flexible black cable."
+    },
+    {
+     "id": "lattice-mason",
+     "name": "Lattice Mason",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/14to16/structuremenu.html",
+     "blurb": "It shields damaged allies with stacked lattice blocks.",
+     "look": "A squat blue stone machine with square arms and alternating white and charcoal blocks."
+    },
+    {
+     "id": "bond-broker",
+     "name": "Bond Broker",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/atoms/bondingmenu.html",
+     "blurb": "It binds useful parts together and leaves them hard to separate.",
+     "look": "A brass sphere with six jointed claws holding loops of blue wire."
+    },
+    {
+     "id": "catalyst-hitchhiker",
+     "name": "Catalyst Hitchhiker",
+     "tier": "regular",
+     "bodyPlan": "beast",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/physical/catalysismenu.html",
+     "blurb": "It repairs other machines. Remove it before the repairs add up.",
+     "look": "A small green beetle with a silver spool and two long needle legs."
+    },
+    {
+     "id": "activation-gatekeeper",
+     "name": "Activation Gatekeeper",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/physical/basicratesmenu.html",
+     "blurb": "Its barrier releases more collision drones until the gatekeeper falls.",
+     "look": "A black arch on wheels with an orange ball jammed beneath its crossbar."
+    },
+    {
+     "id": "isomer-twins",
+     "name": "Isomer Twins",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/basicorg/isomermenu.html",
+     "blurb": "One frame separates into two differently shaped attackers when damaged.",
+     "look": "A silver bar folded into a branching shape with two round black eyes."
+    },
+    {
+     "id": "gas-enforcer",
+     "name": "Gas Enforcer",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "brace"
+     ],
+     "source": "/physical/ktmenu.html",
+     "blurb": "It braces, then drives its piston into the crew.",
+     "look": "A squat steel cylinder on four wheels with a broad yellow piston."
+    },
+    {
+     "id": "ligand-collector",
+     "name": "Ligand Collector",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "thief",
+     "routines": [
+      "skim",
+      "strike+"
+     ],
+     "source": "/inorganic/complexmenu.html",
+     "blurb": "Its detachable arms take supplies while its central body hits hard.",
+     "look": "A dark blue sphere ringed by six mismatched copper tool arms."
+    },
+    {
+     "id": "equilibrium-custodian",
+     "name": "Equilibrium Custodian",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover",
+      "strike"
+     ],
+     "source": "/physical/equilibmenu.html",
+     "blurb": "It reinforces itself and injured machines, prolonging the fight.",
+     "look": "Two balanced steel pans on a walking bronze frame with a blue counterweight."
+    },
+    {
+     "id": "fragmentation-engine",
+     "name": "Fragmentation Engine",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike+"
+     ],
+     "source": "/analysis/masspecmenu.html",
+     "blurb": "It breaks parts down and assembles hostile copies.",
+     "look": "A tall black hopper with a toothed mouth and a row of silver fragments."
+    },
+    {
+     "id": "matter-examiner",
+     "name": "Examiner of Matter",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike",
+      "brace"
+     ],
+     "source": "/analysismenu.html",
+     "blurb": "It breaks samples apart, shields its core and makes copies from the fragments. Its trays hold a repeated pattern, not a stockpile.",
+     "look": "A towering steel analyzer with a funnel head, a ring of sample trays and a glowing blue central chamber."
+    },
+    {
+     "id": "buffer-keepers",
+     "name": "Buffer Keepers",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/physical/acideqiamenu.html",
+     "blurb": "These independent drones steady and repair the crew.",
+     "look": "Two small cream canisters on wheels joined by a flexible green tube."
+    },
+    {
+     "id": "bonding-tutor",
+     "name": "Bonding Tutor",
+     "tier": "ally",
+     "bodyPlan": "flier",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/atoms/bondingmenu.html",
+     "blurb": "It joins damaged gear with temporary metal clips.",
+     "look": "A white hovering sphere with three brass pincers and a coil of blue wire."
+    }
+   ],
+   "events": [
+    {
+     "id": "lattice-crate",
+     "source": "/14to16/structuremenu.html",
+     "look": "A crate behind a wall of alternating white and black cubes.",
+     "title": "The missing block",
+     "text": "A gap in the lattice reaches a supply crate. The wall shifts when weight touches it.",
+     "options": [
+      {
+       "label": "Squeeze through for bandages",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren collects the bandages and patches the crew."
+      },
+      {
+       "label": "Pull out the metal braces",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "Kestrel strips the braces before the wall settles."
+      }
+     ]
+    },
+    {
+     "id": "isomer-door",
+     "source": "/basicorg/isomermenu.html",
+     "look": "Two silver frames, one long and one branched, jam a narrow door.",
+     "title": "Same parts",
+     "text": "Two frames jam the doorway. The straight one holds a useful manual; the branched one has a purse caught in its joints.",
+     "options": [
+      {
+       "label": "Open the straight frame",
+       "effect": {
+        "type": "routine",
+        "id": "brace"
+       },
+       "result": "Ox learns to brace from its folding joint."
+      },
+      {
+       "label": "Free the branched frame",
+       "effect": {
+        "type": "gold",
+        "amount": 35
+       },
+       "result": "The purse drops free with the frame."
+      }
+     ]
+    },
+    {
+     "id": "chromatograph-strip",
+     "source": "/analysis/chromatogrmenu.html",
+     "look": "A long white strip carries blue and yellow bands toward a copper collector.",
+     "title": "Moving bands",
+     "text": "A collector draws two bands of salvage away. There is time to grab only one.",
+     "options": [
+      {
+       "label": "Catch the medical band",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren finds sealed dressings."
+      },
+      {
+       "label": "Catch the metal band",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "Kestrel pockets the clean metal."
+      }
+     ]
+    },
+    {
+     "id": "buffer-crossing",
+     "source": "/physical/acideqiamenu.html",
+     "look": "Two cream canisters support a narrow bridge over a dark gap.",
+     "title": "Last reserve",
+     "text": "A buffer keeper is holding a crossing steady. Its repair supplies and its spare fittings are both within reach.",
+     "options": [
+      {
+       "label": "Take the repair supplies",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren uses the supplies to mend the crew."
+      },
+      {
+       "label": "Take the spare fittings",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "Ox removes the fittings without disturbing the crossing."
+      }
+     ]
+    },
+    {
+     "id": "flame-beacons",
+     "source": "/inorganic/group1menu.html",
+     "look": "A copper hound watches yellow and blue beacons at a junction.",
+     "title": "Changing lights",
+     "text": "A hound follows the brighter beacon. One route leads to a training plate; the other to a cache.",
+     "options": [
+      {
+       "label": "Light the yellow beacon",
+       "effect": {
+        "type": "routine",
+        "id": "breach"
+       },
+       "result": "The hound leaves a plate that teaches Kestrel a shield-breaking blow."
+      },
+      {
+       "label": "Light the blue beacon",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The hound leaves the cache unguarded."
+      }
+     ]
+    },
+    {
+     "id": "masspec-kit",
+     "source": "/analysis/masspecmenu.html",
+     "look": "A conveyor carries a needle, thread and silver scrap in separate trays.",
+     "title": "Parts of a kit",
+     "text": "A machine has separated a repair kit from a pile of valuable scrap. The belt is about to carry both away.",
+     "options": [
+      {
+       "label": "Recover the kit",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren threads the needle and sets to work."
+      },
+      {
+       "label": "Recover the scrap",
+       "effect": {
+        "type": "gold",
+        "amount": 60
+       },
+       "result": "Ox lifts the scrap clear of the belt."
+      }
+     ]
+    }
+   ],
+   "name": "Chemguide",
+   "url": "https://www.chemguide.co.uk/"
+  },
+  {
+   "theme": "Molecular machines",
+   "story": {
+    "intro": "The trail leads through folded frames and molecular machinery. Kestrel expects a factory. Wren finds careful repairs on parts the swarm could have melted down.",
+    "chapters": [
+     {
+      "title": "Folds",
+      "text": "The machines fit metal cores into elaborate frames. Some folds work. Others collapse and are rebuilt with small changes."
+     },
+     {
+      "title": "A repair",
+      "text": "Wren recognizes the broken frame from the Examiner. The swarm is trying to rebuild a mechanism, not simply collect material. Its experiments keep making dangerous copies."
+     },
+     {
+      "title": "Missing function",
+      "text": "Pumps, motors and cutters are fitted together in different orders. Ox protects the crew while Kestrel follows the repeated empty socket toward the largest assembly."
+     }
+    ],
+    "bossIntro": "The Molecular Curator has filled its empty sockets with scavenged motors and scissors. It sends out frames and swings its cutters to protect the unfinished mechanism.",
+    "outro": "The Curator breaks apart. Inside is a recorder with a damaged spindle. It carries an old address and a partial instruction: preserve the observations. The swarm moves on before Wren can mend it."
+   },
+   "creatures": [
+    {
+     "id": "helix-spring",
+     "name": "Helix Spring",
+     "tier": "easy",
+     "bodyPlan": "serpent",
+     "role": "charger",
+     "routines": [
+      "charge"
+     ],
+     "source": "/learn/paper-models",
+     "blurb": "It compresses before launching its coiled body.",
+     "look": "A pale blue paper spiral with a blunt steel head and a tightly wound tail."
+    },
+    {
+     "id": "carbene-courier",
+     "name": "Carbene Courier",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/motm/323",
+     "blurb": "It tags targets for the forge.",
+     "look": "A silver dart with two green jaws and a tiny glowing orange cargo sphere."
+    },
+    {
+     "id": "signal-recycler",
+     "name": "Signal Recycler",
+     "tier": "easy",
+     "bodyPlan": "object",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/events/video-challenge/2021-awards",
+     "blurb": "It returns old actions to the fight.",
+     "look": "A round brass receiver with a coiled antenna and a blue glass disc."
+    },
+    {
+     "id": "velcro-forge",
+     "name": "Velcro Forge",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/motm/323",
+     "blurb": "It fits metal cores into frames and sends the frames after the crew.",
+     "look": "A squat green protein-shaped frame with a copper core and two welding arms."
+    },
+    {
+     "id": "vessel-weaver",
+     "name": "Vessel Weaver",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/events/video-challenge/2023-awards",
+     "blurb": "Its branching lines repair damaged machines. Cut it down early.",
+     "look": "A pale green trunk on wheels with branching transparent tubes and silver tips."
+    },
+    {
+     "id": "paper-capsid",
+     "name": "Paper Capsid",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "cover"
+     ],
+     "source": "/learn/paper-models",
+     "blurb": "Its folded shell guards itself and nearby machinery.",
+     "look": "A white twenty-sided folded shell with blue seams and a single brass eye."
+    },
+    {
+     "id": "cooperative-hauler",
+     "name": "Cooperative Hauler",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "bruiser",
+     "routines": [
+      "strike",
+      "breach"
+     ],
+     "source": "/motm/41",
+     "blurb": "Its four clamps punish a shielded target.",
+     "look": "Four dark steel globes with copper clamps arranged around a blue hub."
+    },
+    {
+     "id": "runaway-switch",
+     "name": "Runaway Switch",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/events/video-challenge/2022-awards",
+     "blurb": "Its stuck signal keeps bringing in new frames.",
+     "look": "A green box with a large fixed lever and three small mechanical arms."
+    },
+    {
+     "id": "breath-exchanger",
+     "name": "Breath Exchanger",
+     "tier": "regular",
+     "bodyPlan": "blob",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/motm/49",
+     "blurb": "It obscures the crew with a cloud of fine droplets.",
+     "look": "A translucent blue bulb with a brass nozzle and a trailing gray mist."
+    },
+    {
+     "id": "ferritin-vault",
+     "name": "Ferritin Vault",
+     "tier": "elite",
+     "bodyPlan": "object",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "brace",
+      "strike"
+     ],
+     "source": "/learn/3d-printing",
+     "blurb": "Its hollow shell shelters a supply of repair machines.",
+     "look": "A hollow ivory sphere made of repeating curved panels, with an orange opening."
+    },
+    {
+     "id": "efflux-bouncer",
+     "name": "Efflux Bouncer",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike"
+     ],
+     "source": "/events/video-challenge/2019-awards",
+     "blurb": "It guards its pump and drives attacks through shields.",
+     "look": "A dark teal pump on thick legs with a wide intake and a narrow silver outlet."
+    },
+    {
+     "id": "molecular-scissors",
+     "name": "Molecular Scissors",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "charger",
+     "routines": [
+      "charge",
+      "finish"
+     ],
+     "source": "/news/6a26b26f0fba48755e86063c",
+     "blurb": "Its long blades wind up before closing on weakened targets.",
+     "look": "Two long silver blades hinged to a compact black body with four feet."
+    },
+    {
+     "id": "molecular-curator",
+     "name": "Molecular Curator",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "strike+"
+     ],
+     "source": "/news/6a26b26f0fba48755e86063c",
+     "blurb": "It assembles frames and sweeps the crew with stolen scissors. Its careful repairs reveal a search for a working mechanism.",
+     "look": "A towering knot of blue tubes and silver motors with a rotary core, open sockets and two long scissor arms."
+    },
+    {
+     "id": "foldkeeper",
+     "name": "Foldkeeper",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/learn/paper-models",
+     "blurb": "It folds a shield around damaged companions.",
+     "look": "A small white folded figure with a blue triangular shield and brass pin joints."
+    },
+    {
+     "id": "validation-lantern",
+     "name": "Validation Lantern",
+     "tier": "ally",
+     "bodyPlan": "flier",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/train/training-events",
+     "blurb": "It illuminates uncertain joints and patches damaged gear.",
+     "look": "A hovering amber lamp with a silver cage and two fine repair needles."
+    }
+   ],
+   "events": [
+    {
+     "id": "capsid-fold",
+     "source": "/learn/paper-models",
+     "look": "A white folded shell grips a small machine beside two loose flaps.",
+     "title": "A tight fold",
+     "text": "A folded shell traps a friendly machine. Its two release flaps expose different supplies, and the other flap will close.",
+     "options": [
+      {
+       "label": "Open the repair flap",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The freed machine shares its repair supplies."
+      },
+      {
+       "label": "Open the instruction flap",
+       "effect": {
+        "type": "routine",
+        "id": "cover"
+       },
+       "result": "The machine shows Ox how to cover an ally."
+      }
+     ]
+    },
+    {
+     "id": "ferritin-shell",
+     "source": "/learn/3d-printing",
+     "look": "An ivory hollow sphere contains metal pieces and a small repair tool.",
+     "title": "Hollow shell",
+     "text": "A shell contains a repair tool and metal parts. Its opening is too narrow to take both before it rolls away.",
+     "options": [
+      {
+       "label": "Take the repair tool",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "Wren puts the tool to immediate use."
+      },
+      {
+       "label": "Take the metal parts",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "Kestrel catches the parts in a pouch."
+      }
+     ]
+    },
+    {
+     "id": "hauler-cargo",
+     "source": "/motm/41",
+     "look": "Four steel globes spill two bundles down a gray slope.",
+     "title": "Loose grip",
+     "text": "A hauler drops its load. A medical bundle and a valuable metal bundle slide in opposite directions.",
+     "options": [
+      {
+       "label": "Catch the medical bundle",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "Wren catches the dressings."
+      },
+      {
+       "label": "Catch the metal bundle",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "Ox stops the metal bundle with his shield."
+      }
+     ]
+    },
+    {
+     "id": "fog-junction",
+     "source": "/motm/49",
+     "look": "A glass bulb exhales pale fog over a fork and two shining objects.",
+     "title": "Clear interval",
+     "text": "The fog clears for a moment. A training plate lies on one side of the junction and a cache on the other.",
+     "options": [
+      {
+       "label": "Reach the plate",
+       "effect": {
+        "type": "routine",
+        "id": "purge"
+       },
+       "result": "Wren reads how to clear a contaminant."
+      },
+      {
+       "label": "Reach the cache",
+       "effect": {
+        "type": "gold",
+        "amount": 45
+       },
+       "result": "Kestrel retrieves the cache before the fog returns."
+      }
+     ]
+    },
+    {
+     "id": "scissor-bridge",
+     "source": "/news/6a26b26f0fba48755e86063c",
+     "look": "Two silver cutting machines work at opposite ends of a cable bridge.",
+     "title": "Cutting ends",
+     "text": "Two cutters are working on the bridge. Redirecting one will cost time; crossing now will cost some skin.",
+     "options": [
+      {
+       "label": "Divert a cutter with spare parts",
+       "effect": {
+        "type": "gold",
+        "amount": -35
+       },
+       "result": "The machine follows the parts away from the cable."
+      },
+      {
+       "label": "Cross while the cable holds",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew crosses under the closing blades."
+      }
+     ]
+    },
+    {
+     "id": "pore-package",
+     "source": "/learn/interactive-animations",
+     "look": "A silver ring rejects a small package beside two shaped metal tags.",
+     "title": "Wrong tag",
+     "text": "A gate returns a package each time it fails to match the tag. Two replacement tags fit; each sends it to a different recipient.",
+     "options": [
+      {
+       "label": "Send it to the medic",
+       "effect": {
+        "type": "heal",
+        "amount": 0.2
+       },
+       "result": "The package opens to reveal repair supplies."
+      },
+      {
+       "label": "Send it to the trader",
+       "effect": {
+        "type": "gold",
+        "amount": 40
+       },
+       "result": "The trader pays for the delivered parts."
+      }
+     ]
+    }
+   ],
+   "name": "PDB-101",
+   "url": "https://pdb101.rcsb.org/"
+  },
+  {
+   "theme": "Laboratory histories",
+   "story": {
+    "intro": "The address leads to a collection of instruments and records. The swarm is already taking them apart. Ox keeps a path open while Wren carries the damaged recorder.",
+    "chapters": [
+     {
+      "title": "The record",
+      "text": "The swarm copies notebooks, recordings and instruments. Kestrel finds that failed trials are being thrown away as eagerly as successful ones are kept."
+     },
+     {
+      "title": "One account",
+      "text": "The copies are being forced into a single story. Wren compares the fragments and finds the recorder was meant to preserve conflicting observations, not resolve them."
+     },
+     {
+      "title": "A missing spindle",
+      "text": "An old apparatus has the spindle the recorder needs. Ox carries it toward the Curator. The swarm treats the crew and the original records as items to lock away."
+     }
+    ],
+    "bossIntro": "The Grand Curator guards the records inside its moving cabinets. It makes copies, sweeps witnesses aside and breaks through shields. The recorder sits in its chest.",
+    "outro": "Kestrel opens the chest. Wren fits the spindle and plays the complete instruction: keep the evidence, including the mistakes, available to others. The swarm stops collecting and releases the records. Ox holds the door while the crew carries them out."
+   },
+   "creatures": [
+    {
+     "id": "tape-scavenger",
+     "name": "Tape Scavenger",
+     "tier": "easy",
+     "bodyPlan": "construct",
+     "role": "mirror",
+     "routines": [
+      "echo"
+     ],
+     "source": "/collections/blog/tales-from-the-tape/",
+     "blurb": "It plays the crew\u2019s moves back through its projector.",
+     "look": "A black tape reel on spindly brass legs with a square glass projector lens."
+    },
+    {
+     "id": "catalog-hound",
+     "name": "Catalog Hound",
+     "tier": "easy",
+     "bodyPlan": "beast",
+     "role": "thief",
+     "routines": [
+      "skim"
+     ],
+     "source": "/collections/search-our-collections/",
+     "blurb": "It sniffs out loose supplies and carries them away.",
+     "look": "A low gray metal hound with four differently shaped brass noses."
+    },
+    {
+     "id": "color-separator",
+     "name": "Color Separator",
+     "tier": "easy",
+     "bodyPlan": "flier",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/library-resource-guides/",
+     "blurb": "It marks the crew with clouds of pigment.",
+     "look": "A white flying funnel with three tubes trailing blue, yellow and green dust."
+    },
+    {
+     "id": "notebook-examiner",
+     "name": "Notebook Examiner",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/collections/blog/between-the-lines-beyond-the-bench/",
+     "blurb": "It builds dangerous apparatus from abandoned diagrams.",
+     "look": "A brass drawing arm on wheels holding a black frame and a coiled silver spring."
+    },
+    {
+     "id": "nylon-loom",
+     "name": "Nylon Loom",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "debuffer",
+     "routines": [
+      "corrupt",
+      "strike"
+     ],
+     "source": "/visit/events/",
+     "blurb": "Its thread catches and hinders the crew.",
+     "look": "A low wooden loom with a rotating steel shuttle and tangled white fibers."
+    },
+    {
+     "id": "flora-press",
+     "name": "Flora Press",
+     "tier": "regular",
+     "bodyPlan": "plant",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "strike"
+     ],
+     "source": "/visit/exhibitions/",
+     "blurb": "It stamps out thorny paper plants to crowd the fight.",
+     "look": "A dark green press with a flat brass plate and curled paper leaves."
+    },
+    {
+     "id": "plastics-debater",
+     "name": "Plastics Debater",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "brace"
+     ],
+     "source": "/education/classroom-activities/",
+     "blurb": "It keeps shielding allies with layers of reclaimed plastic.",
+     "look": "A cream machine with two opposing arms, each holding a clear curved shield."
+    },
+    {
+     "id": "distillation-column",
+     "name": "Distillation Column",
+     "tier": "regular",
+     "bodyPlan": "object",
+     "role": "debuffer",
+     "routines": [
+      "jam",
+      "strike"
+     ],
+     "source": "/stories/",
+     "blurb": "Its vapor interrupts the crew while it reduces every account to one.",
+     "look": "A tall glass column with brass rings and a cloud of pale yellow vapor."
+    },
+    {
+     "id": "reproduction-press",
+     "name": "Reproduction Press",
+     "tier": "regular",
+     "bodyPlan": "construct",
+     "role": "splitter",
+     "routines": [
+      "divide",
+      "strike"
+     ],
+     "source": "/research/rights-and-reproductions/",
+     "blurb": "Its damaged frame divides into imperfect copies.",
+     "look": "A heavy black printing press with silver rollers and two jointed legs."
+    },
+    {
+     "id": "transmutation-engine",
+     "name": "Transmutation Engine",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "shielder",
+     "routines": [
+      "brace",
+      "breach",
+      "strike+"
+     ],
+     "source": "/visit/exhibitions/",
+     "blurb": "Its brittle gold shell protects a powerful hammer that breaks shields.",
+     "look": "A broad iron furnace on wheels with a rough gold shell and a large black hammer."
+    },
+    {
+     "id": "reference-automaton",
+     "name": "Reference Automaton",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "triage",
+      "strike"
+     ],
+     "source": "/research/othmer-library/ask-reference-question/",
+     "blurb": "It restores several damaged machines at once.",
+     "look": "A tall walnut cabinet on brass legs with four articulated arms and a green lamp."
+    },
+    {
+     "id": "symposium-speaker",
+     "name": "Symposium Speaker",
+     "tier": "elite",
+     "bodyPlan": "construct",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "jam",
+      "strike"
+     ],
+     "source": "/visit/conferences-symposia/",
+     "blurb": "It calls assistants and interrupts the crew with a striking bell.",
+     "look": "A tall blue lectern on metal legs with a brass bell and three small hinged arms."
+    },
+    {
+     "id": "grand-curator",
+     "name": "Grand Curator",
+     "tier": "boss",
+     "bodyPlan": "colossus",
+     "role": "summoner",
+     "routines": [
+      "spawn",
+      "sweep+",
+      "breach"
+     ],
+     "source": "/",
+     "blurb": "It traps records in a single account, summons copies and sweeps aside witnesses. Break its guard to reach the original recorder.",
+     "look": "A walking museum of black cabinets, brass furnace tubes and glass reels, with a broad steel arm and a glowing blue recorder in its chest."
+    },
+    {
+     "id": "reference-guide",
+     "name": "Reference Guide",
+     "tier": "ally",
+     "bodyPlan": "humanoid",
+     "role": "shielder",
+     "routines": [
+      "cover",
+      "strike"
+     ],
+     "source": "/research/othmer-library/ask-reference-question/",
+     "blurb": "It finds routes between collections and shields the crew.",
+     "look": "A small wooden figure with a brass lamp and a broad blue folding screen."
+    },
+    {
+     "id": "tape-conservator",
+     "name": "Tape Conservator",
+     "tier": "ally",
+     "bodyPlan": "construct",
+     "role": "healer",
+     "routines": [
+      "patch",
+      "strike"
+     ],
+     "source": "/collections/blog/tales-from-the-tape/",
+     "blurb": "It repairs equipment while preserving old recordings.",
+     "look": "A cream hand-cranked player on wheels with two silver repair arms."
+    }
+   ],
+   "events": [
+    {
+     "id": "notebook-vent",
+     "source": "/collections/blog/between-the-lines-beyond-the-bench/",
+     "look": "A brass apparatus and a sketched page sit beside a sealed glass chamber.",
+     "title": "The crossed-out line",
+     "text": "A notebook shows how to vent a chamber. Reconnecting the pipes requires either a spare fitting or a risky reach.",
+     "options": [
+      {
+       "label": "Spend a fitting",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The vent opens without a leak."
+      },
+      {
+       "label": "Reach past the hot pipe",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "Ox opens the vent and singes his glove."
+      }
+     ]
+    },
+    {
+     "id": "tape-wheel",
+     "source": "/collections/blog/tales-from-the-tape/",
+     "look": "A black tape player lacks one wheel beside a pile of spare parts.",
+     "title": "Missing wheel",
+     "text": "A recording shows a safe route to one of two caches. The player will run only once on its borrowed wheel.",
+     "options": [
+      {
+       "label": "Watch the medical route",
+       "effect": {
+        "type": "heal",
+        "amount": 0.25
+       },
+       "result": "The recording leads Wren to clean supplies."
+      },
+      {
+       "label": "Watch the salvage route",
+       "effect": {
+        "type": "gold",
+        "amount": 55
+       },
+       "result": "The recording leads Kestrel to stored metal."
+      }
+     ]
+    },
+    {
+     "id": "alchemical-tools",
+     "source": "/visit/exhibitions/",
+     "look": "A gilded shell covers a hammer beside a plain steel case.",
+     "title": "Gold shell",
+     "text": "A gilding machine is about to seal two tools away. There is time to recover only one.",
+     "options": [
+      {
+       "label": "Take the medical case",
+       "effect": {
+        "type": "heal",
+        "amount": 0.3
+       },
+       "result": "Wren retrieves the case before the shell closes."
+      },
+      {
+       "label": "Take the gilded hammer",
+       "effect": {
+        "type": "gold",
+        "amount": 60
+       },
+       "result": "Ox pulls the hammer free by its handle."
+      }
+     ]
+    },
+    {
+     "id": "two-projections",
+     "source": "/about/news/new-research-challenges-misconceptions-about-photo-51/",
+     "look": "Two overlapping blue diffraction patterns fall across a corridor.",
+     "title": "Two images",
+     "text": "Two projections disagree about the route. Comparing them takes either spare lens parts or a painful dash between the beams.",
+     "options": [
+      {
+       "label": "Fit a spare lens",
+       "effect": {
+        "type": "gold",
+        "amount": -30
+       },
+       "result": "The combined image shows a safe gap."
+      },
+      {
+       "label": "Run between flashes",
+       "effect": {
+        "type": "damage",
+        "amount": 0.1
+       },
+       "result": "The crew crosses with spots in their eyes."
+      }
+     ]
+    },
+    {
+     "id": "fragile-reproduction",
+     "source": "/research/rights-and-reproductions/",
+     "look": "A glass scanner faces a delicate ivory object and a brass lamp.",
+     "title": "A careful copy",
+     "text": "A scanner can record a fragile object. A replacement lamp will protect it, while a quick pass risks burns from the old lamp.",
+     "options": [
+      {
+       "label": "Replace the lamp",
+       "effect": {
+        "type": "gold",
+        "amount": -40
+       },
+       "result": "The object and its copy both survive."
+      },
+      {
+       "label": "Make the quick pass",
+       "effect": {
+        "type": "damage",
+        "amount": 0.15
+       },
+       "result": "The crew saves the object, but the old lamp burns hot."
+      }
+     ]
+    },
+    {
+     "id": "history-fragments",
+     "source": "/voices-of-science/",
+     "look": "Two reels of black tape sit beside a brass listening horn.",
+     "title": "Before and after",
+     "text": "Two recordings describe the same room at different times. Each points to a different useful cache.",
+     "options": [
+      {
+       "label": "Follow the earlier account",
+       "effect": {
+        "type": "routine",
+        "id": "triage"
+       },
+       "result": "Wren finds instructions for tending several injuries."
+      },
+      {
+       "label": "Follow the later account",
+       "effect": {
+        "type": "gold",
+        "amount": 50
+       },
+       "result": "The later account leads to a box of metal fittings."
+      }
+     ]
+    }
+   ],
+   "name": "Science History Institute",
+   "url": "https://www.sciencehistory.org/"
+  }
+ ],
+ "id": "2026-11-28",
+ "seed": 1275945340
+}

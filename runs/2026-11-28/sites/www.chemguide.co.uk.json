@@ -1,0 +1,1040 @@
+{
+  "host": "www.chemguide.co.uk",
+  "url": "https://www.chemguide.co.uk/",
+  "crawledAt": "2026-11-28T13:26:32.005Z",
+  "pages": [
+    {
+      "path": "/",
+      "title": "chemguide: helping you to understand Chemistry - Main Menu",
+      "section": "home",
+      "excerpt": "© Jim Clark 2009 (last modified August 2017)",
+      "headings": [],
+      "links": [
+        "/keywordsearch.html",
+        "/14to16menu.html",
+        "/atommenu.html",
+        "/inorgmenu.html",
+        "/physmenu.html",
+        "/analysismenu.html",
+        "/orgmenu.html",
+        "/orgpropsmenu.html",
+        "/mechmenu.html",
+        "/about.html",
+        "/qandclist.html",
+        "/book.html",
+        "/suggestions.html",
+        "/syllabuses.html",
+        "/links.html",
+        "/igcse/index.html"
+      ]
+    },
+    {
+      "path": "/keywordsearch.html",
+      "title": "Understanding Chemistry - keyword searching",
+      "section": "keywordsearch.html",
+      "excerpt": "Why has the Google search box disappeared from Chemguide's front page? The Google search box suddenly started giving problems outside my control. Even if the current problem is solved, it could obviou",
+      "headings": [],
+      "links": [
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16menu.html",
+      "title": "Chemguide: core chemistry 14-16: Main Menu",
+      "section": "14to16menu.html",
+      "excerpt": "Chemguide: Core Chemistry 14 - 16 Main Menu for Core Chemistry 14 - 16 About this section A brief description of what this section is aimed at, and how it is organised. Solids, liquids and gases A par",
+      "headings": [],
+      "links": [
+        "/about14to16.html",
+        "/14to16/slgmenu.html",
+        "/14to16/separatingmenu.html",
+        "/14to16/atommenu.html",
+        "/14to16/structuremenu.html",
+        "/14to16/equationmenu.html",
+        "/14to16/airmenu.html",
+        "/14to16/rsmenu.html",
+        "/14to16/acidmenu.html",
+        "/14to16/ptmenu.html",
+        "/14to16/electrolysismenu.html",
+        "/14to16/analysismenu.html",
+        "/14to16/energymenu.html",
+        "/14to16/ratesmenu.html",
+        "/14to16/reversiblemenu.html",
+        "/14to16/largescalemenu.html",
+        "/14to16/organicmenu.html",
+        "/14to16/calculationsmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/atommenu.html",
+      "title": "Understanding Chemistry - Atomic Structure and Bonding Menu",
+      "section": "atommenu.html",
+      "excerpt": "Includes a discussion of orbitals, electronic structures of atoms and ions, ionisation energies, electron affinities, atomic and ionic radii, and the atomic hydrogen emission spectrum. Includes ionic,",
+      "headings": [],
+      "links": [
+        "/atoms/propsmenu.html",
+        "/atoms/bondingmenu.html",
+        "/atoms/structsmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorgmenu.html",
+      "title": "Understanding Chemistry - Inorganic Chemistry Menu",
+      "section": "inorgmenu.html",
+      "excerpt": "Basic ideas about oxidation and reduction . . . Covers oxidation states (oxidation numbers), definitions of oxidation and reduction, and how you work out equations for redox reactions. Covers the elec",
+      "headings": [],
+      "links": [
+        "/inorganic/redoxmenu.html",
+        "/inorganic/electrolysismenu.html",
+        "/inorganic/period3menu.html",
+        "/inorganic/group1menu.html",
+        "/inorganic/group2menu.html",
+        "/inorganic/group4menu.html",
+        "/inorganic/group7menu.html",
+        "/inorganic/complexmenu.html",
+        "/inorganic/transitionmenu.html",
+        "/inorganic/extractionmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physmenu.html",
+      "title": "Understanding Chemistry - Physical Chemistry Menu",
+      "section": "physmenu.html",
+      "excerpt": "Basic kinetic theory ideas about solids, liquids and gases, and changes of state. Ideal and real gases. The ideal gas equation. Boyle's Law and Charles' Law. An explanation of the various important ki",
+      "headings": [],
+      "links": [
+        "/physical/ktmenu.html",
+        "/physical/energeticsmenu.html",
+        "/physical/entropymenu.html",
+        "/physical/basicratesmenu.html",
+        "/physical/catalysismenu.html",
+        "/physical/equilibmenu.html",
+        "/physical/redoxeqiamenu.html",
+        "/physical/acideqiamenu.html",
+        "/physical/kspmenu.html",
+        "/physical/phaseeqiamenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/analysismenu.html",
+      "title": "Understanding Chemistry - Instrumental Analysis Menu",
+      "section": "analysismenu.html",
+      "excerpt": "Includes an explanation of how the mass spectrometer works and how it can be used both to find relative atomic masses of elements and to help to identify organic compounds. Explains how infra-red spec",
+      "headings": [],
+      "links": [
+        "/analysis/masspecmenu.html",
+        "/analysis/irmenu.html",
+        "/analysis/nmrmenu.html",
+        "/analysis/uvvisiblemenu.html",
+        "/analysis/chromatogrmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/orgmenu.html",
+      "title": "Understanding Chemistry - Basic Organic Chemistry Menu",
+      "section": "orgmenu.html",
+      "excerpt": "Includes basic electronic structure, bonding in methane, ethene, benzene and carbonyl compounds, and ideas about electronegativity and bond polarity. Includes how to name and draw organic compounds, a",
+      "headings": [],
+      "links": [
+        "/basicorg/bondmenu.html",
+        "/basicorg/convmenu.html",
+        "/basicorg/isomermenu.html",
+        "/basicorg/acidmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/orgpropsmenu.html",
+      "title": "properties of organic compounds menu",
+      "section": "orgpropsmenu.html",
+      "excerpt": "You can find details of the physical and chemical properties for each of these types of compound: These are compounds where the functional group is not attached directly to a benzene ring. halogenoalk",
+      "headings": [],
+      "links": [
+        "/organicprops/alkanemenu.html",
+        "/organicprops/alkenemenu.html",
+        "/organicprops/haloalkanemenu.html",
+        "/organicprops/alcoholmenu.html",
+        "/organicprops/carbonylmenu.html",
+        "/organicprops/acidmenu.html",
+        "/organicprops/acylclmenu.html",
+        "/organicprops/anhydridemenu.html",
+        "/organicprops/estermenu.html",
+        "/organicprops/amidemenu.html",
+        "/organicprops/nitrilemenu.html",
+        "/organicprops/aminemenu.html",
+        "/organicprops/aminoacidmenu.html",
+        "/organicprops/arenesmenu.html",
+        "/organicprops/arylhalidesmenu.html",
+        "/organicprops/phenolmenu.html",
+        "/organicprops/anilinemenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/mechmenu.html",
+      "title": "Understanding Chemistry - Organic Mechanisms Menu",
+      "section": "mechmenu.html",
+      "excerpt": "Free radical substitution reactions in alkanes and alkyl groups. Free radical addition during the polymerisation of ethene and the reaction between HBr and alkenes in the presence of organic peroxides",
+      "headings": [],
+      "links": [
+        "/mechanisms/frmenu.html",
+        "/mechanisms/eladdmenu.html",
+        "/mechanisms/elsubmenu.html",
+        "/mechanisms/nucsubmenu.html",
+        "/mechanisms/elimmenu.html",
+        "/mechanisms/nucaddmenu.html",
+        "/mechanisms/addelimmenu.html",
+        "/physical/catalysis/hydrate.html",
+        "/physical/catalysis/esterify.html",
+        "/physical/catalysis/hydrolyse.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/about.html",
+      "title": "Understanding Chemistry - About this site",
+      "section": "about.html",
+      "excerpt": "The site was originally intended to meet the needs of UK A level chemistry students, but it has been widened over the years to cover material on all the UK-based syllabuses including A level, IB, Scot",
+      "headings": [],
+      "links": [
+        "/book.html",
+        "/igcse/menuold.html",
+        "/igcse/menunew.html",
+        "/errors.html",
+        "/qandclist.html",
+        "/qandc/linkrequests.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/qandclist.html",
+      "title": "Understanding Chemistry - Questions and Comments List",
+      "section": "qandclist.html",
+      "excerpt": "In the past, I have found myself answering the same questions from students about the site over and over again. This page gives you links to answers to some of these questions - plus some general comm",
+      "headings": [],
+      "links": [
+        "/about.html",
+        "/qandc/noquestions.html",
+        "/qandc/limitations.html",
+        "/qandc/printing.html",
+        "/qandc/asbook.html",
+        "/qandc/flagging.html",
+        "/qandc/hardexam.html",
+        "/qandc/physbio.html",
+        "/qandc/coursework.html",
+        "/qandc/calculations.html",
+        "/qandc/groupnumbers.html",
+        "/qandc/redesign.html",
+        "/qandc/linkrequests.html",
+        "/qandc/translations.html",
+        "/qandc/transition1.html",
+        "/qandc/ptfe.html",
+        "/qandc/tcp.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/book.html",
+      "title": "chemistry calculations",
+      "section": "book.html",
+      "excerpt": "There are relatively few calculations on this site, but you might be interested in my chemistry calculations book. If you have found this site helpful, you should find the book will help you as well. ",
+      "headings": [],
+      "links": [
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/suggestions.html",
+      "title": "chemistry a level textbook suggestions",
+      "section": "suggestions.html",
+      "excerpt": "You can get all the books on this page quickly and easily from Amazon.co.uk. You can, of course, also buy the books from normal bookshops. However, these days few bookshops keep much beyond the standa",
+      "headings": [],
+      "links": [
+        "/book.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/syllabuses.html",
+      "title": "Understanding Chemistry - A' level syllabuses",
+      "section": "syllabuses.html",
+      "excerpt": "I assume that you want to get the best grade you possibly can with the minimum of effort! Getting a good grade is rather like playing a game with your examiners - in which they make up the rules (and ",
+      "headings": [],
+      "links": [
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/links.html",
+      "title": "Understanding Chemistry - interesting links",
+      "section": "links.html",
+      "excerpt": "This page contains an miscellaneous assortment of links that I have found useful or interesting. It isn't meant to be all-inclusive or in any way systematic and I will add to it from time to time as I",
+      "headings": [],
+      "links": [
+        "/qandc/physbio.html",
+        "/about.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/igcse/index.html",
+      "title": "chemguide: edexcel international gcse chemistry support",
+      "section": "igcse",
+      "excerpt": "Support for Edexcel International GCSE Chemistry This part of Chemguide provides support for the Edexcel Chemistry for International GCSE books of which I am either the author or joint author. It is i",
+      "headings": [],
+      "links": [
+        "/igcse/menuold.html",
+        "/igcse/menunew.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/index.html",
+      "title": "chemguide: helping you to understand Chemistry - Main Menu",
+      "section": "index.html",
+      "excerpt": "© Jim Clark 2009 (last modified August 2017)",
+      "headings": [],
+      "links": [
+        "/keywordsearch.html",
+        "/14to16menu.html",
+        "/atommenu.html",
+        "/inorgmenu.html",
+        "/physmenu.html",
+        "/analysismenu.html",
+        "/orgmenu.html",
+        "/orgpropsmenu.html",
+        "/mechmenu.html",
+        "/about.html",
+        "/qandclist.html",
+        "/book.html",
+        "/suggestions.html",
+        "/syllabuses.html",
+        "/links.html",
+        "/igcse/index.html"
+      ]
+    },
+    {
+      "path": "/about14to16.html",
+      "title": "Chemguide: about core chemistry 14-16",
+      "section": "about14to16.html",
+      "excerpt": "Most of Chemguide covers chemistry for 16 - 18 year old students. This part of Chemguide is aimed at helping students on introductory chemistry courses, typically taught to 14 - 16 year olds. It isn't",
+      "headings": [],
+      "links": [
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16/slgmenu.html",
+      "title": "Chemguide: core chemistry 14-16: Solids, liquids and gases menu",
+      "section": "14to16",
+      "excerpt": "A simple view of the arrangement of the particles in solids, liquids and gases. What happens to the particles as you change between solids, liquids and gases. Simple examples of diffusion in gases and",
+      "headings": [],
+      "links": [
+        "/14to16/slg/slg.html",
+        "/14to16/slg/changestate.html",
+        "/14to16/slg/diffusion.html",
+        "/14to16/slg/elementsetc.html",
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16/separatingmenu.html",
+      "title": "Chemguide: core chemistry 14-16: Separating menu",
+      "section": "14to16",
+      "excerpt": "Using filtration and crystallisation . . . Separating a mixture of a solid and a liquid, and getting a pure sample of solid from the mixture. A quick look at a simple bit of apparatus to separate two ",
+      "headings": [],
+      "links": [
+        "/14to16/separating/filtration.html",
+        "/14to16/separating/immiscible.html",
+        "/14to16/separating/distil.html",
+        "/14to16/separating/fractdistil.html",
+        "/14to16/separating/chromatography.html",
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16/atommenu.html",
+      "title": "Chemguide: core chemistry 14-16: Atomic structure and bonding menu",
+      "section": "14to16",
+      "excerpt": "Subatomic particles. The nucleus of the atom. Isotopes. Working out the number of electrons in an atom and their arrangement. The relationships between those arrangements and the Periodic Table. Bondi",
+      "headings": [],
+      "links": [
+        "/14to16/atoms/nucleus.html",
+        "/14to16/atoms/electrons.html",
+        "/14to16/atoms/covalent1.html",
+        "/14to16/atoms/covalent2.html",
+        "/14to16/atoms/covalent3.html",
+        "/14to16/atoms/covalent4.html",
+        "/14to16/atoms/ionic.html",
+        "/14to16/atoms/metallic.html",
+        "/14to16/atoms/intermolecular.html",
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16/structuremenu.html",
+      "title": "Chemguide: core chemistry 14-16: Structure menu",
+      "section": "14to16",
+      "excerpt": "What is a giant structure? The structure and properties of sodium chloride as a typical example of a giant ionic structure. The structures and properties of diamond, graphite and silicon dioxide as ty",
+      "headings": [],
+      "links": [
+        "/14to16/structure/giantionic.html",
+        "/14to16/structure/giantcovalent.html",
+        "/14to16/structure/metallic.html",
+        "/14to16/structure/molecular.html",
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16/equationmenu.html",
+      "title": "Chemguide: core chemistry 14-16: Formulae and equations menu",
+      "section": "14to16",
+      "excerpt": "How to work out formulae for covalent compounds . . . A brief explanation, with examples, of how to work out the formulae of covalent compounds - should you ever need to. How to work out formulae for ",
+      "headings": [],
+      "links": [
+        "/14to16/equations/formulaecovalent.html",
+        "/14to16/equations/formulaeionic.html",
+        "/14to16/equations/equations.html",
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16/airmenu.html",
+      "title": "Chemguide: core chemistry 14-16: Oxygen and the air menu",
+      "section": "14to16",
+      "excerpt": "The proportions of gases in the air, and how to find the percentage of oxygen. Using hydrogen peroxide solution to make oxygen in the lab, and testing for oxygen. What happens when you burn a selectio",
+      "headings": [],
+      "links": [
+        "/14to16/air/intro.html",
+        "/14to16/air/making.html",
+        "/14to16/air/burning.html",
+        "/14to16/air/acidrain.html",
+        "/14to16/air/warming.html",
+        "/14to16/air/ozone.html",
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16/rsmenu.html",
+      "title": "Chemguide: core chemistry 14-16: Reactivity Series menu",
+      "section": "14to16",
+      "excerpt": "A look at what happens when you burn various metals in air or oxygen. An introduction to the Reactivity Series . . . A very brief summary of what the Reactivity Series consists of. The reactions betwe",
+      "headings": [],
+      "links": [
+        "/14to16/rs/burning.html",
+        "/14to16/rs/intro.html",
+        "/14to16/rs/mandmo.html",
+        "/14to16/rs/redox.html",
+        "/14to16/rs/mandmsalt.html",
+        "/14to16/rs/mandwater.html",
+        "/14to16/rs/mandacids.html",
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/14to16/acidmenu.html",
+      "title": "Chemguide: core chemistry 14-16: Acids, bases and salts menu",
+      "section": "14to16",
+      "excerpt": "An introduction to what a salt is, and a summary of which common ionic compounds (including salts) are soluble in water. This expands on the section on acids and metals that you may have read about in",
+      "headings": [],
+      "links": [
+        "/14to16/acids/ph.html",
+        "/14to16/acids/salts.html",
+        "/14to16/acids/metals.html",
+        "/14to16/acids/bases.html",
+        "/14to16/acids/saltpreps1.html",
+        "/14to16/acids/saltpreps2.html",
+        "/14to16/acids/carbonates.html",
+        "/14to16/acids/ammonia.html",
+        "/14to16/acids/theories.html",
+        "/14to16menu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/atoms/propsmenu.html",
+      "title": "Atomic properties menu",
+      "section": "atoms",
+      "excerpt": "Revises the simple knowledge you should already have about the structure of atoms from introductory courses (e.g. GCSE). Explains what atomic orbitals are and discusses their shapes and relative energ",
+      "headings": [],
+      "links": [
+        "/atoms/properties/gcse.html",
+        "/atoms/properties/atomorbs.html",
+        "/atoms/properties/elstructs.html",
+        "/atoms/properties/ies.html",
+        "/atoms/properties/hspectrum.html",
+        "/atoms/properties/eas.html",
+        "/atoms/properties/atradius.html",
+        "/atommenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/atoms/bondingmenu.html",
+      "title": "Bonding menu",
+      "section": "atoms",
+      "excerpt": "Includes a simple view of ionic bonding and the way you need to modify this for A'level purposes. Includes a simple view of covalent bonding (single and double) and the modifications needed for A'leve",
+      "headings": [],
+      "links": [
+        "/atoms/bonding/ionic.html",
+        "/atoms/bonding/covalent.html",
+        "/atoms/bonding/dative.html",
+        "/atoms/bonding/electroneg.html",
+        "/atoms/bonding/shapes.html",
+        "/atoms/bonding/metallic.html",
+        "/atoms/bonding/vdw.html",
+        "/atoms/bonding/hbond.html",
+        "/basicorg/bondmenu.html",
+        "/atommenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/atoms/structsmenu.html",
+      "title": "Structures menu",
+      "section": "atoms",
+      "excerpt": "Takes NaCl as a typical example to show the relationship between the physical properties of an ionic compound and its structure. Also compares the structures of NaCl and CsCl. Looks at diamond, graphi",
+      "headings": [],
+      "links": [
+        "/atoms/structures/ionicstruct.html",
+        "/atoms/structures/giantcov.html",
+        "/atoms/structures/metals.html",
+        "/atoms/structures/molecular.html",
+        "/atoms/structures/whichsort.html",
+        "/atoms/structures/period3.html",
+        "/atommenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorganic/redoxmenu.html",
+      "title": "Redox menu",
+      "section": "inorganic",
+      "excerpt": "Definitions of oxidation and reduction . . . Covers definitions of oxidation and reduction in terms of transfer of oxygen, hydrogen and electrons. Writing equations for redox reactions . . . How to co",
+      "headings": [],
+      "links": [
+        "/inorganic/redox/definitions.html",
+        "/inorganic/redox/equations.html",
+        "/inorganic/redox/oxidnstates.html",
+        "/inorgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorganic/electrolysismenu.html",
+      "title": "Electrolysis menu",
+      "section": "inorganic",
+      "excerpt": "Introduction: The electrolysis of melts . . . A basic introduction to electrolysis illustrated by the electrolysis of some simple molten compounds. Looking at electrolysis where the presence of water ",
+      "headings": [],
+      "links": [
+        "/inorganic/electrolysis/melts.html",
+        "/inorganic/electrolysis/solutions.html",
+        "/inorganic/electrolysis/basiccalcs.html",
+        "/inorganic/electrolysis/morecalcs.html",
+        "/inorgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorganic/period3menu.html",
+      "title": "Period 3 menu",
+      "section": "inorganic",
+      "excerpt": "Physical and atomic properties of the elements . . . Discusses the trends in first ionisation energy, atomic radius, electronegativity, conductivity, melting point and boiling point as you go across t",
+      "headings": [],
+      "links": [
+        "/inorganic/period3/elementsphys.html",
+        "/inorganic/period3/elementsreact.html",
+        "/inorganic/period3/oxidesphys.html",
+        "/inorganic/period3/oxidesh2o.html",
+        "/inorganic/period3/chlorides.html",
+        "/inorganic/period3/hydroxides.html",
+        "/inorgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorganic/group1menu.html",
+      "title": "Periodic Table Group 1 menu",
+      "section": "inorganic",
+      "excerpt": "Discusses trends in atomic radius, ionisation energy, electronegativity, melting and boiling points, and densities of the Group 1 elements. Looks at the trends in the reactions between the Group 1 ele",
+      "headings": [],
+      "links": [
+        "/inorganic/group1/properties.html",
+        "/inorganic/group1/reacth2o.html",
+        "/inorganic/group1/reacto2.html",
+        "/inorganic/group1/compounds.html",
+        "/inorganic/group1/flametests.html",
+        "/inorgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorganic/group2menu.html",
+      "title": "Periodic Table Group 2 menu",
+      "section": "inorganic",
+      "excerpt": "Discusses trends in atomic radius, ionisation energy, electronegativity and melting point of the Group 2 elements. Looks at the trends in the reactions between the Group 2 elements and water. Looks at",
+      "headings": [],
+      "links": [
+        "/inorganic/group2/properties.html",
+        "/inorganic/group2/reacth2o.html",
+        "/inorganic/group2/reacto2.html",
+        "/inorganic/group2/reactacids.html",
+        "/inorganic/group2/solubility.html",
+        "/inorganic/group2/thermstab.html",
+        "/inorganic/group2/beryllium.html",
+        "/inorgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorganic/group4menu.html",
+      "title": "Periodic Table Group 4 menu",
+      "section": "inorganic",
+      "excerpt": "Discusses the trend from non-metallic to metallic behaviour as you go down Group 4. Describes the structures and physical properties of the elements, and some important atomic properties. Looks at the",
+      "headings": [],
+      "links": [
+        "/qandc/groupnumbers.html",
+        "/inorganic/group4/properties.html",
+        "/inorganic/group4/oxstates.html",
+        "/inorganic/group4/chlorides.html",
+        "/inorganic/group4/oxides.html",
+        "/inorganic/group4/lead.html",
+        "/inorgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorganic/group7menu.html",
+      "title": "Periodic Table Group 7 menu",
+      "section": "inorganic",
+      "excerpt": "Discusses trends in atomic radius, electronegativity, electron affinity and melting and boiling points of the Group 7 elements. It also looks at the bond strengths of halogen-halogen bonds and of hydr",
+      "headings": [],
+      "links": [
+        "/qandc/groupnumbers.html",
+        "/inorganic/group7/properties.html",
+        "/inorganic/group7/halogensasoas.html",
+        "/inorganic/group7/otherreactions.html",
+        "/inorganic/group7/acidityhx.html",
+        "/inorganic/group7/halideions.html",
+        "/inorganic/group7/testing.html",
+        "/inorganic/group7/diaphragmcell.html",
+        "/inorgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/inorganic/complexmenu.html",
+      "title": "Complex ions menu",
+      "section": "inorganic",
+      "excerpt": "An introduction to complex ions with an explanation of what ligands are and how they bond to the central metal ion. An introduction to the naming of common complex ions. An introduction to the shapes ",
+      "headings": [],
+      "links": [
+        "/inorganic/complexions/whatis.html",
+        "/inorganic/complexions/names.html",
+        "/inorganic/complexions/shapes.html",
+        "/inorganic/complexions/colour.html",
+        "/inorganic/complexions/ligandexch.html",
+        "/inorganic/complexions/stabconst.html",
+        "/inorganic/complexions/acidity.html",
+        "/inorganic/complexions/aquaoh.html",
+        "/inorganic/complexions/aquanh3.html",
+        "/inorganic/complexions/aquaco3.html",
+        "/inorgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physical/ktmenu.html",
+      "title": "Kinetic theory menu",
+      "section": "physical",
+      "excerpt": "Looks at the kinetic theory of solids, liquids and gases, including changes of state. The features of an ideal gas, and the ideal gas equation. Describes how and why real gases differ from ideal gases",
+      "headings": [],
+      "links": [
+        "/physical/kt/basic.html",
+        "/physical/kt/idealgases.html",
+        "/physical/kt/realgases.html",
+        "/physical/kt/otherlaws.html",
+        "/physmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physical/energeticsmenu.html",
+      "title": "Energetics menu",
+      "section": "physical",
+      "excerpt": "Deals with the basic ideas about energy changes during chemical reactions, including simple energy diagrams and the terms exothermic and endothermic. Explains what enthalpy changes are and gives defin",
+      "headings": [],
+      "links": [
+        "/physical/energetics/basic.html",
+        "/physical/energetics/definitions.html",
+        "/physical/energetics/sums.html",
+        "/physical/energetics/bondenthalpies.html",
+        "/physical/energetics/lattice.html",
+        "/physical/energetics/solution.html",
+        "/physical/energetics/neutralisation.html",
+        "/physical/energetics/practical.html",
+        "/physmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physical/entropymenu.html",
+      "title": "Entropy and free energy menu",
+      "section": "physical",
+      "excerpt": "A simple, non-mathematical introduction to entropy. Calculating entropy changes during reactions . . . Using data book values for entropy to calculate the entropy change during a reaction. Looks at th",
+      "headings": [],
+      "links": [
+        "/physical/entropy/introduction.html",
+        "/physical/entropy/entropychange.html",
+        "/physical/entropy/moreadvanced.html",
+        "/physical/entropy/deltag.html",
+        "/physical/entropy/deltagandk.html",
+        "/physmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physical/basicratesmenu.html",
+      "title": "Rates of reaction menu",
+      "section": "physical",
+      "excerpt": "Discusses the collision theory of reaction rates, including the importance of activation energy and the Maxwell-Boltzmann distribution. The effect of surface area on rate of reaction . . . Describes a",
+      "headings": [],
+      "links": [
+        "/physical/basicrates/introduction.html",
+        "/physical/basicrates/surfacearea.html",
+        "/physical/basicrates/concentration.html",
+        "/physical/basicrates/pressure.html",
+        "/physical/basicrates/temperature.html",
+        "/physical/basicrates/catalyst.html",
+        "/physical/basicrates/orders.html",
+        "/physical/basicrates/ordermech.html",
+        "/physical/basicrates/energyprofiles.html",
+        "/physical/basicrates/experimental.html",
+        "/physical/basicrates/arrhenius.html",
+        "/physmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physical/catalysismenu.html",
+      "title": "Catalysis menu",
+      "section": "physical",
+      "excerpt": "An introduction to types of catalysis . . . Explains the difference between heterogeneous and homogeneous catalysis with examples of each. (Heterogeneous: hydrogenation of carbon-carbon double bonds, ",
+      "headings": [],
+      "links": [
+        "/physical/catalysis/introduction.html",
+        "/physical/catalysis/inorganic.html",
+        "/physical/catalysis/petrochem.html",
+        "/physical/catalysis/acidcat.html",
+        "/physical/catalysis/organic.html",
+        "/physmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physical/equilibmenu.html",
+      "title": "Chemical equilibria menu",
+      "section": "physical",
+      "excerpt": "Explains some basic concepts: reversible reactions, closed systems, dynamic equilibrium, and position of equilibrium. Explains the use of Le Chatelier's Principle in working out what happens to an equ",
+      "headings": [],
+      "links": [
+        "/physical/equilibria/introduction.html",
+        "/physical/equilibria/lechatelier.html",
+        "/physical/equilibria/haber.html",
+        "/physical/equilibria/contact.html",
+        "/physical/equilibria/ethanol.html",
+        "/physical/equilibria/kc.html",
+        "/physical/equilibria/kp.html",
+        "/physical/equilibria/change.html",
+        "/physmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physical/redoxeqiamenu.html",
+      "title": "Redox equilibria menu",
+      "section": "physical",
+      "excerpt": "These pages are designed to be read in sequence. In order to understand the topic fully, you really ought to read them through in this order. At the bottom of each page you will find a link to the nex",
+      "headings": [],
+      "links": [
+        "/physical/redoxeqia/introduction.html",
+        "/physical/redoxeqia/ecs.html",
+        "/physical/redoxeqia/nonmetal.html",
+        "/physical/redoxeqia/combinations.html",
+        "/physical/redoxeqia/predict.html",
+        "/physmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/physical/acideqiamenu.html",
+      "title": "Acid-base equilibria menu",
+      "section": "physical",
+      "excerpt": "Describes the Arrhenius, Bronsted-Lowry, and Lewis theories of acids and bases, and explains the relationship between them. Includes the meaning of the term conjugate as applied to acid-base pairs. Ex",
+      "headings": [],
+      "links": [
+        "/physical/acidbaseeqia/theories.html",
+        "/physical/acidbaseeqia/acids.html",
+        "/physical/acidbaseeqia/kw.html",
+        "/physical/acidbaseeqia/bases.html",
+        "/physical/acidbaseeqia/phcurves.html",
+        "/physical/acidbaseeqia/indicators.html",
+        "/physical/acidbaseeqia/buffers.html",
+        "/physmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/analysis/masspecmenu.html",
+      "title": "Mass spectrometry menu",
+      "section": "analysis",
+      "excerpt": "An explanation of how a mass spectrum is produced How the mass spectrum of an element can be used to find its relative atomic mass. The formation of fragmentation patterns . . . What the mass spectra ",
+      "headings": [],
+      "links": [
+        "/analysis/masspec/howitworks.html",
+        "/analysis/masspec/elements.html",
+        "/analysis/masspec/fragment.html",
+        "/analysis/masspec/mplus.html",
+        "/analysis/masspec/mplus1.html",
+        "/analysis/masspec/mplus2.html",
+        "/analysismenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/analysis/irmenu.html",
+      "title": "infra-red spectroscopy menu",
+      "section": "analysis",
+      "excerpt": "An explanation of how an infra-red spectrum arises. How an infra-red spectrum can be used to identify a compound. Identifying the presence of particular groups . . . How you can use an infra-red spect",
+      "headings": [],
+      "links": [
+        "/analysis/ir/background.html",
+        "/analysis/ir/fingerprint.html",
+        "/analysis/ir/interpret.html",
+        "/analysismenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/analysis/nmrmenu.html",
+      "title": "nuclear magnetic resonance (nmr) menu",
+      "section": "analysis",
+      "excerpt": "The sections on C-13 NMR and proton NMR are written so that they are entirely independent of each other. Obviously I have no way of telling whether you need one of these or both - and if both, what or",
+      "headings": [],
+      "links": [
+        "/analysis/nmr/backgroundc13.html",
+        "/analysis/nmr/interpretc13.html",
+        "/analysis/nmr/background.html",
+        "/analysis/nmr/lowres.html",
+        "/analysis/nmr/highres.html",
+        "/analysis/nmr/integration.html",
+        "/analysismenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/analysis/uvvisiblemenu.html",
+      "title": "uv-visible spectroscopy menu",
+      "section": "analysis",
+      "excerpt": "A simple introduction to the electromagnetic spectrum, and the place of ultra-violet and visible light in it. A double beam absorption spectrometer . . . Explains how a UV-visible absorption spectrum ",
+      "headings": [],
+      "links": [
+        "/analysis/uvvisible/radiation.html",
+        "/analysis/uvvisible/spectrometer.html",
+        "/analysis/uvvisible/bonding.html",
+        "/analysis/uvvisible/theory.html",
+        "/analysis/uvvisible/beerlambert.html",
+        "/analysis/uvvisible/analysis.html",
+        "/analysismenu.html",
+        "/index.html",
+        "/inorganic/complexions/colour.html"
+      ]
+    },
+    {
+      "path": "/analysis/chromatogrmenu.html",
+      "title": "chromatography menu",
+      "section": "analysis",
+      "excerpt": "Introducing chromatography: Thin layer chromatography . . . An introduction to chromatography using thin layer chromatography as an example. Even if you aren't interested in thin layer chromatography ",
+      "headings": [],
+      "links": [
+        "/analysis/chromatography/thinlayer.html",
+        "/analysis/chromatography/column.html",
+        "/analysis/chromatography/hplc.html",
+        "/analysis/chromatography/gas.html",
+        "/analysis/chromatography/paper.html",
+        "/analysismenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/basicorg/bondmenu.html",
+      "title": "Organic Bonding Menu",
+      "section": "basicorg",
+      "excerpt": "An introduction to the arrangement of electrons in atoms - leading to the modern electronic structures of carbon and hydrogen. Covers bonding in methane and ethane, including a simple look at hybridis",
+      "headings": [],
+      "links": [
+        "/basicorg/bonding/orbitals.html",
+        "/basicorg/bonding/methane.html",
+        "/basicorg/bonding/ethene.html",
+        "/basicorg/bonding/ethyne.html",
+        "/basicorg/bonding/benzene1.html",
+        "/basicorg/bonding/benzene2.html",
+        "/basicorg/bonding/carbonyl.html",
+        "/basicorg/bonding/eneg.html",
+        "/orgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/basicorg/convmenu.html",
+      "title": "Organic Conventions Menu",
+      "section": "basicorg",
+      "excerpt": "Explains the various conventions used in drawing organic molecules. An introduction to naming organic molecules . . . A guide to understanding the names of organic compounds, including alkanes, cycloa",
+      "headings": [],
+      "links": [
+        "/basicorg/conventions/draw.html",
+        "/basicorg/conventions/names.html",
+        "/basicorg/conventions/names2.html",
+        "/basicorg/conventions/names3.html",
+        "/basicorg/conventions/curlies.html",
+        "/orgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/basicorg/isomermenu.html",
+      "title": "Isomerism Menu",
+      "section": "basicorg",
+      "excerpt": "Explains what structural isomerism is, together with examples of the various ways that these isomers can arise. Explains how geometric (cis/trans) isomerism arises in simple organic compounds containi",
+      "headings": [],
+      "links": [
+        "/basicorg/isomerism/structural.html",
+        "/basicorg/isomerism/geometric.html",
+        "/basicorg/isomerism/optical.html",
+        "/orgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/basicorg/acidmenu.html",
+      "title": "Organic acids and bases menu",
+      "section": "basicorg",
+      "excerpt": "Explains why organic acids are acidic, and what affects their strengths. Explains why primary amines are basic, and what affects their strengths. Go to menu of basic organic chemistry. . .",
+      "headings": [],
+      "links": [
+        "/basicorg/acidbase/acids.html",
+        "/basicorg/acidbase/bases.html",
+        "/orgmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/organicprops/alkanemenu.html",
+      "title": "Alkanes Menu",
+      "section": "organicprops",
+      "excerpt": "An introduction to the alkanes (including cycloalkanes) and their physical properties. The combustion of alkanes, including incomplete combustion. The reaction between alkanes and chlorine or bromine.",
+      "headings": [],
+      "links": [
+        "/organicprops/alkanes/background.html",
+        "/organicprops/alkanes/oxygen.html",
+        "/organicprops/alkanes/halogenation.html",
+        "/organicprops/alkanes/cracking.html",
+        "/orgpropsmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/organicprops/alkenemenu.html",
+      "title": "Alkenes Menu",
+      "section": "organicprops",
+      "excerpt": "An introduction to the alkenes, their reactivity and their physical properties. The reaction between alkenes and hydrogen. The reactions with chlorine and bromine, including the test using bromine wat",
+      "headings": [],
+      "links": [
+        "/organicprops/alkenes/background.html",
+        "/organicprops/alkenes/making.html",
+        "/organicprops/alkenes/hydrogenation.html",
+        "/organicprops/alkenes/halogenation.html",
+        "/organicprops/alkenes/hhal.html",
+        "/organicprops/alkenes/h2so4.html",
+        "/organicprops/alkenes/kmno4.html",
+        "/organicprops/alkenes/hydration.html",
+        "/organicprops/alkenes/polymerisation.html",
+        "/organicprops/alkenes/epoxyethane.html",
+        "/orgpropsmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/organicprops/haloalkanemenu.html",
+      "title": "Halogenoalkanes (haloalkanes) Menu",
+      "section": "organicprops",
+      "excerpt": "(Also known as haloalkanes or alkyl halides ) An introduction to the halogenoalkanes, their reactivity and their physical properties. Making halogenoalkanes in the lab from alcohols. The reaction with",
+      "headings": [],
+      "links": [
+        "/organicprops/haloalkanes/background.html",
+        "/organicprops/haloalkanes/making.html",
+        "/organicprops/haloalkanes/hydroxide.html",
+        "/organicprops/haloalkanes/cyanide.html",
+        "/organicprops/haloalkanes/nh3.html",
+        "/organicprops/haloalkanes/agno3.html",
+        "/organicprops/haloalkanes/grignard.html",
+        "/organicprops/haloalkanes/uses.html",
+        "/orgpropsmenu.html",
+        "/index.html",
+        "/organicprops/arylhalidesmenu.html"
+      ]
+    },
+    {
+      "path": "/organicprops/alcoholmenu.html",
+      "title": "Alcohols Menu",
+      "section": "organicprops",
+      "excerpt": "An introduction to the alcohols and their physical properties. The manufacture of alcohols from alkenes, and the production of ethanol by fermentation. Dehydrating alcohols to make alkenes . . . Vario",
+      "headings": [],
+      "links": [
+        "/organicprops/alcohols/background.html",
+        "/organicprops/alcohols/manufacture.html",
+        "/organicprops/alcohols/dehydration.html",
+        "/organicprops/alcohols/sodium.html",
+        "/organicprops/alcohols/halogen.html",
+        "/organicprops/alcohols/oxidation.html",
+        "/organicprops/alcohols/esterification.html",
+        "/organicprops/alcohols/iodoform.html",
+        "/organicprops/alcohols/uses.html",
+        "/orgpropsmenu.html",
+        "/index.html"
+      ]
+    },
+    {
+      "path": "/organicprops/carbonylmenu.html",
+      "title": "Aldehydes and Ketones Menu",
+      "section": "organicprops",
+      "excerpt": "An introduction to aldehydes and ketones, their reactivity and their physical properties. Preparation of aldehydes and ketones . . . Their preparation by the oxidation of primary or secondary alcohols",
+      "headings": [],
+      "links": [
+        "/organicprops/carbonyls/background.html",
+        "/organicprops/carbonyls/preparation.html",
+        "/organicprops/carbonyls/addition.html",
+        "/organicprops/carbonyls/reduction.html",
+        "/organicprops/carbonyls/grignard.html",
+        "/organicprops/carbonyls/oxidation.html",
+        "/organicprops/carbonyls/addelim.html",
+        "/organicprops/carbonyls/iodoform.html",
+        "/orgpropsmenu.html",
+        "/index.html"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "thread": "Follow matter from individual elements into molecules that join and transform, then step into the laboratories where people explore them. The swarm can become a reactive metal, a folded molecular machine, or a curious piece of glassware.",
+  "candidates": [
+    {
+      "name": "Chemguide",
+      "url": "https://www.chemguide.co.uk/",
+      "why": "Element groups, chemical bonds, transition-metal colors and organic reactions offer a cast of atoms that join, separate and change character."
+    },
+    {
+      "name": "PDB-101",
+      "url": "https://pdb101.rcsb.org/",
+      "why": "Illustrated molecules include enzymes, molecular motors and light-catching proteins, with intricate folds and moving parts that suggest whole families of creatures."
+    },
+    {
+      "name": "Science History Institute",
+      "url": "https://www.sciencehistory.org/",
+      "why": "Its collections and exhibitions bring chemistry into the laboratory through alchemical imagery, historical apparatus, dyes and other material discoveries."
+    },
+    {
+      "name": "Chemistry LibreTexts",
+      "url": "https://chem.libretexts.org/",
+      "why": "Open chemistry books range from atomic structure and inorganic compounds to reactions, molecular shapes and experimental techniques."
+    },
+    {
+      "name": "Chemistry Explained",
+      "url": "https://www.chemistryexplained.com/",
+      "why": "An alphabetical chemistry encyclopedia links elements with compounds, bonds, polymers and the reactions that give materials their properties."
+    },
+    {
+      "name": "American Chemical Society",
+      "url": "https://www.acs.org/",
+      "why": "Its education and history sections explore chemical elements, notable discoveries, molecular structures and hands-on demonstrations."
+    },
+    {
+      "name": "Italian Chemical Society",
+      "url": "https://www.societachimica.it/",
+      "why": "Its chemistry museum and historical instrument resources introduce old laboratory apparatus, samples and analytical devices."
+    },
+    {
+      "name": "National Informal STEM Education Network",
+      "url": "https://www.nisenet.org/",
+      "why": "Hands-on chemistry and nanoscale science activities turn molecular structures, surprising materials and changes in matter into things to explore."
+    }
+  ]
+}
