@@ -8,7 +8,7 @@ You have `content.json` and `library.json`. After a failed attempt you also have
 - Each act has three bands: `early` (floors 1-5, easy only, packs of 1-2), `mid` (6-10), `late` (11-15, packs of 1-3, easy and regular).
 - 3-8 packs per band. Every non-boss creature must appear.
 - `elites`: each is `{ "id": elite, "reward": ally }`. Clearing it recruits that ally. Use every ally. There are four elite rooms per act. List every elite and every ally reward, with at most four entries total; entries are shuffled before assignment. With three elites, you may duplicate one entry; with four, list each once.
-- `shop`: 5-12 routines with a price from `library.json`.
+- `shop`: 5-12 routine ids from `library.json` whose `price` is greater than zero. A zero price means swarm-only, not free to sell; for example, `spawn` cannot go in a shop. Check every selected routine's price before submitting, including after a balance retry.
 
 ## What makes a good run
 - The target is about half of attempts clearing, every run winnable, and a player's decisions deciding which half they're in.
